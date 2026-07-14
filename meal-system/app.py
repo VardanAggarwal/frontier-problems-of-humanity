@@ -20,11 +20,22 @@ Env:
 API:
   GET  /api/data            -> {ingredients, targets, recipes}
   GET  /api/plates          -> [{id, date, meal, items:[{id, qty}]}]
-  POST /api/plates          -> save a plate     {date, meal, items}
-  POST /api/plates/delete   -> {id}
+  POST /api/plates          -> save a plate     {date, meal, items}   (decrements stock)
+  POST /api/plates/delete   -> {id}                                   (restores stock)
   POST /api/recipes         -> save a recipe    {name, meals[], core[], opt[], method}
   POST /api/recipes/delete  -> {id}   (user recipes only)
   POST /api/import          -> one-time localStorage migration {plates[], recipes[]}
+  GET  /api/stock           -> {ing_id: {qty, bought}}  kitchen contents + freshness clock
+  POST /api/stock           -> {id, qty}              set absolute
+  POST /api/stock/add       -> {id, delta}            tick a shopping line (delta = packs bought)
+  POST /api/stock/seed      -> assume one full pack of every pantry=1 ingredient
+  GET  /api/pins            -> {recipe_id: perweek}   dishes you want to stay able to make
+  POST /api/pins            -> {id, perweek}          perweek = 0 unpins
+  GET  /api/menu            -> the planned menu (plates with planned=1 — intended, not eaten)
+  POST /api/menu            -> {slots:[...]}          replace the menu over the range they span
+  POST /api/menu/slot       -> save/edit one slot
+  POST /api/menu/cook       -> {id}   slot -> real plate; NOW it consumes stock
+  POST /api/menu/clear      -> {from, to}
 """
 import csv
 import http.server
@@ -40,20 +51,55 @@ DB_PATH = os.environ.get('MEALS_DB', os.path.join(DIR, 'data', 'meals.db'))
 PORT = int(os.environ.get('PORT', 8200))
 HOST = os.environ.get('HOST', '127.0.0.1')
 
-# ingredient nutrient columns, in CSV order
+# ingredient nutrient columns, in CSV order. Adding one here + in both CSVs is all it takes:
+# it flows into the planner's gap engine, the shop list and the menu scorer automatically.
 NUTRIENTS = ['kcal', 'protein', 'carbs', 'fibre', 'iron', 'calcium',
-             'vitc', 'folate', 'omega3', 'zinc', 'vita']
-FLAGS = ['pantry', 'base', 'green', 'probiotic']
+             'vitc', 'folate', 'omega3', 'zinc', 'vita', 'magnesium', 'potassium']
+FLAGS = ['pantry', 'base', 'green', 'probiotic', 'topper']
+# shopping columns — shelf life (days) decides the run, pack converts need -> what you buy
+SHOP = ['shelf', 'pack', 'packname']
+# lead-time columns — hours of ahead-work (soak/sprout) before an ingredient is cookable
+PREP = ['lead', 'prep']
+# prep-output columns — a row you MAKE (soaked rajma, bhuna base) rather than buy.
+#   makes = space-sep raw input ids it's produced from ('' = a normal ingredient, not a prep output)
+#   keep  = 1 = a standing prep you always want a batch of ready on hand
+MADE = ['makes', 'keep']
+# columns added after a release — ALTERed onto the existing tables by _migrate()
+MIGRATIONS = {
+    'ingredients': {'shelf': 'INT DEFAULT 30', 'pack': 'REAL DEFAULT 1', 'packname': "TEXT DEFAULT ''",
+                    'topper': 'INT DEFAULT 0',
+                    'magnesium': 'REAL DEFAULT 0', 'potassium': 'REAL DEFAULT 0',
+                    'lead': 'REAL DEFAULT 0', 'prep': "TEXT DEFAULT ''",
+                    'makes': "TEXT DEFAULT ''", 'keep': 'INT DEFAULT 0'},
+    'plates': {'planned': 'INT DEFAULT 0', 'recipe_id': "TEXT DEFAULT ''"},
+    'recipes': {'cuisine': "TEXT DEFAULT 'neutral'", 'effort': 'INT DEFAULT 15'},
+    # bought_at, NOT updated_at: freshness is measured from the last PURCHASE. updated_at moves
+    # every time you cook, so using it would silently reset the clock each time you ate some.
+    'stock': {'bought_at': "TEXT DEFAULT ''"},
+}
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS ingredients(
   id TEXT PRIMARY KEY, name TEXT NOT NULL, unit TEXT, default_qty REAL DEFAULT 1,
   role TEXT, pantry INT DEFAULT 0, base INT DEFAULT 0, green INT DEFAULT 0,
-  probiotic INT DEFAULT 0, note TEXT DEFAULT '',
+  probiotic INT DEFAULT 0, topper INT DEFAULT 0, note TEXT DEFAULT '',
   kcal REAL DEFAULT 0, protein REAL DEFAULT 0, carbs REAL DEFAULT 0, fibre REAL DEFAULT 0,
   iron REAL DEFAULT 0, calcium REAL DEFAULT 0, vitc REAL DEFAULT 0, folate REAL DEFAULT 0,
   omega3 REAL DEFAULT 0, zinc REAL DEFAULT 0, vita REAL DEFAULT 0,
+  magnesium REAL DEFAULT 0, potassium REAL DEFAULT 0,
+  shelf INT DEFAULT 30, pack REAL DEFAULT 1, packname TEXT DEFAULT '',
+  lead REAL DEFAULT 0,           -- hours of ahead-work (soak/sprout) before it can be cooked
+  prep TEXT DEFAULT '',
+  makes TEXT DEFAULT '',         -- prep OUTPUT: space-sep raw input ids it's made from ('' = normal ingredient)
+  keep INT DEFAULT 0,            -- 1 = standing prep, always want a batch ready
   sort INT DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS stock(
+  ing_id TEXT PRIMARY KEY, qty REAL DEFAULT 0, updated_at TEXT,
+  bought_at TEXT DEFAULT ''      -- last time this was BOUGHT. Freshness clock; cooking never resets it.
+);
+CREATE TABLE IF NOT EXISTS pins(
+  recipe_id TEXT PRIMARY KEY, perweek REAL DEFAULT 1
 );
 CREATE TABLE IF NOT EXISTS targets(
   fname TEXT PRIMARY KEY, nkey TEXT NOT NULL, name TEXT, unit TEXT, cadence TEXT,
@@ -61,10 +107,14 @@ CREATE TABLE IF NOT EXISTS targets(
 );
 CREATE TABLE IF NOT EXISTS recipes(
   id TEXT PRIMARY KEY, name TEXT NOT NULL, meals TEXT DEFAULT '', core TEXT DEFAULT '',
-  opt TEXT DEFAULT '', method TEXT DEFAULT '', is_user INT DEFAULT 0
+  opt TEXT DEFAULT '', method TEXT DEFAULT '', is_user INT DEFAULT 0,
+  cuisine TEXT DEFAULT 'neutral',
+  effort INT DEFAULT 15          -- ACTIVE minutes. The axis the generator optimises against.
 );
 CREATE TABLE IF NOT EXISTS plates(
-  id TEXT PRIMARY KEY, date TEXT NOT NULL, meal TEXT NOT NULL, created_at TEXT
+  id TEXT PRIMARY KEY, date TEXT NOT NULL, meal TEXT NOT NULL, created_at TEXT,
+  planned INT DEFAULT 0,      -- 1 = a menu slot (intended), 0 = a plate (eaten)
+  recipe_id TEXT DEFAULT ''   -- the dish this slot was generated from, for display
 );
 CREATE TABLE IF NOT EXISTS plate_items(
   plate_id TEXT NOT NULL REFERENCES plates(id) ON DELETE CASCADE,
@@ -84,9 +134,19 @@ def db():
     return c
 
 
+def _migrate(c):
+    """Add columns introduced after a table was first created (CREATE IF NOT EXISTS won't)."""
+    for tbl, cols in MIGRATIONS.items():
+        have = {r['name'] for r in c.execute(f'PRAGMA table_info({tbl})')}
+        for k, decl in cols.items():
+            if k not in have:
+                c.execute(f'ALTER TABLE {tbl} ADD COLUMN {k} {decl}')
+
+
 def init_db():
     with db() as c:
         c.executescript(SCHEMA)
+        _migrate(c)
 
 
 # ---------- CSV seed / import ----------
@@ -118,7 +178,8 @@ def import_csv(verbose=True):
     tgt = _rows(os.path.join(DIR, 'targets.csv'))
     rec = _rows(os.path.join(DIR, 'recipes.csv'))
     with db() as c:
-        cols = ['id', 'name', 'unit', 'default_qty', 'role'] + FLAGS + ['note'] + NUTRIENTS + ['sort']
+        cols = (['id', 'name', 'unit', 'default_qty', 'role'] + FLAGS + ['note']
+                + NUTRIENTS + SHOP + PREP + MADE + ['sort'])
         ph = ','.join('?' * len(cols))
         upd = ', '.join(f'{k}=excluded.{k}' for k in cols if k != 'id')
         sql = (f'INSERT INTO ingredients ({",".join(cols)}) VALUES ({ph}) '
@@ -127,7 +188,10 @@ def import_csv(verbose=True):
             c.execute(sql, [
                 r['id'], r['name'], r.get('unit', ''), _num(r.get('default'), 1), r.get('role', ''),
                 *[int(_num(r.get(k))) for k in FLAGS], r.get('note', '') or '',
-                *[_num(r.get(k)) for k in NUTRIENTS], i])
+                *[_num(r.get(k)) for k in NUTRIENTS],
+                int(_num(r.get('shelf'), 30)), _num(r.get('pack'), 1), r.get('packname', '') or '',
+                _num(r.get('lead'), 0), r.get('prep', '') or '',
+                r.get('makes', '') or '', int(_num(r.get('keep'))), i])
 
         tcols = ['fname', 'nkey', 'name', 'unit', 'cadence', 'daily', 'meal', 'permeal', 'sort']
         tph = ','.join('?' * len(tcols))
@@ -141,12 +205,15 @@ def import_csv(verbose=True):
 
         for r in rec:
             c.execute(
-                'INSERT INTO recipes (id,name,meals,core,opt,method,is_user) VALUES (?,?,?,?,?,?,0) '
+                'INSERT INTO recipes (id,name,meals,core,opt,method,cuisine,effort,is_user) '
+                'VALUES (?,?,?,?,?,?,?,?,0) '
                 'ON CONFLICT(id) DO UPDATE SET name=excluded.name, meals=excluded.meals, '
-                'core=excluded.core, opt=excluded.opt, method=excluded.method '
+                'core=excluded.core, opt=excluded.opt, method=excluded.method, '
+                'cuisine=excluded.cuisine, effort=excluded.effort '
                 'WHERE recipes.is_user = 0',
                 [r['id'], r['name'], r.get('meals', ''), r.get('core', ''),
-                 r.get('opt', ''), r.get('method', '')])
+                 r.get('opt', ''), r.get('method', ''),
+                 r.get('cuisine', 'neutral') or 'neutral', int(_num(r.get('effort'), 15))])
     if verbose:
         print(f'imported: {len(ing)} ingredients, {len(tgt)} targets, {len(rec)} seed recipes -> {DB_PATH}')
 
@@ -155,16 +222,18 @@ def export_csv():
     """Write the DB back out to the CSVs (round-trips user recipes into recipes.csv)."""
     init_db()
     with db() as c:
-        rec = c.execute('SELECT id,name,meals,core,opt,method FROM recipes ORDER BY is_user, id').fetchall()
+        rec = c.execute('SELECT id,name,meals,core,opt,method,cuisine,effort FROM recipes '
+                        'ORDER BY is_user, id').fetchall()
     path = os.path.join(DIR, 'recipes.csv')
     with open(path, encoding='utf-8') as f:
         header = [ln for ln in f if ln.lstrip().startswith('#')]
     with open(path, 'w', encoding='utf-8', newline='') as f:
         f.writelines(header)
         w = csv.writer(f)
-        w.writerow(['id', 'name', 'meals', 'core', 'opt', 'method'])
+        w.writerow(['id', 'name', 'meals', 'core', 'opt', 'method', 'cuisine', 'effort'])
         for r in rec:
-            w.writerow([r['id'], r['name'], r['meals'], r['core'], r['opt'], r['method']])
+            w.writerow([r['id'], r['name'], r['meals'], r['core'], r['opt'], r['method'],
+                        r['cuisine'], r['effort']])
     print(f'exported {len(rec)} recipes -> {path}')
 
 
@@ -175,6 +244,9 @@ def get_data():
         ing = [{
             'id': r['id'], 'name': r['name'], 'unit': r['unit'], 'default': r['default_qty'],
             'role': r['role'], 'note': r['note'] or '',
+            'shelf': r['shelf'] or 30, 'pack': r['pack'] or 1, 'packname': r['packname'] or '',
+            'lead': r['lead'] or 0, 'prep': r['prep'] or '',
+            'makes': r['makes'] or '', 'keep': bool(r['keep']),
             **{k: bool(r[k]) for k in FLAGS},
             **{k: r[k] for k in NUTRIENTS},
         } for r in c.execute('SELECT * FROM ingredients ORDER BY sort, id')]
@@ -187,19 +259,33 @@ def get_data():
             'id': r['id'], 'name': r['name'],
             'meals': (r['meals'] or '').split(), 'core': (r['core'] or '').split(),
             'opt': (r['opt'] or '').split(), 'method': r['method'] or '',
+            'cuisine': r['cuisine'] or '', 'effort': r['effort'] or 0,   # 0/'' = unknown, UI hides it
             'user': bool(r['is_user']),
         } for r in c.execute('SELECT * FROM recipes ORDER BY is_user, id')]
     return {'ingredients': ing, 'targets': tgt, 'recipes': rec}
 
 
-def get_plates():
+def get_plates(planned=0):
+    """planned=0 -> what you ate (history). planned=1 -> the menu (what you intend to eat)."""
     with db() as c:
         items = {}
         for r in c.execute('SELECT * FROM plate_items'):
             items.setdefault(r['plate_id'], []).append({'id': r['ing_id'], 'qty': r['qty']})
         return [{'id': r['id'], 'date': r['date'], 'meal': r['meal'],
-                 'items': items.get(r['id'], [])}
-                for r in c.execute('SELECT * FROM plates ORDER BY date, created_at')]
+                 'recipe': r['recipe_id'] or '', 'items': items.get(r['id'], [])}
+                for r in c.execute('SELECT * FROM plates WHERE planned = ? ORDER BY date, created_at',
+                                   [planned])]
+
+
+def get_stock():
+    with db() as c:
+        return {r['ing_id']: {'qty': r['qty'], 'bought': r['bought_at'] or r['updated_at'] or ''}
+                for r in c.execute('SELECT * FROM stock')}
+
+
+def get_pins():
+    with db() as c:
+        return {r['recipe_id']: r['perweek'] for r in c.execute('SELECT * FROM pins')}
 
 
 # ---------- writes ----------
@@ -208,17 +294,59 @@ def _sid(prefix):
     return f'{prefix}{int(time.time() * 1000)}'
 
 
-def save_plate(d, conn=None):
-    pid = str(d.get('id') or _sid('p'))
+def _now():
+    return time.strftime('%Y-%m-%dT%H:%M:%S')
+
+
+def _bump(c, iid, delta):
+    """Move one ingredient's stock by delta, floored at 0.
+
+    Floored, not signed: cooking something the DB thought you didn't have means the
+    count was wrong, not that you owe a negative cup of dal. Letting it go negative
+    would silently inflate the next buy list.
+    """
+    now = _now()
+    c.execute('INSERT INTO stock (ing_id,qty,updated_at,bought_at) VALUES (?,?,?,?) '
+              'ON CONFLICT(ing_id) DO UPDATE SET qty=max(0, stock.qty + ?), updated_at=?, '
+              "  bought_at=CASE WHEN ? > 0 THEN ? ELSE stock.bought_at END",
+              [iid, max(0.0, delta), now, now, delta, now, delta, now])
+
+
+def _bump_items(c, items, sign):
+    for it in items:
+        _bump(c, it['id'], sign * _num(it.get('qty'), 1))
+
+
+def _plate_items(c, pid):
+    return [{'id': r['ing_id'], 'qty': r['qty']}
+            for r in c.execute('SELECT * FROM plate_items WHERE plate_id = ?', [pid])]
+
+
+def save_plate(d, conn=None, stock=True, planned=0):
+    """Save a plate (planned=0, eaten) or a menu slot (planned=1, intended).
+
+    Only eaten plates move stock — a menu is a plan, not a consumption. Overwriting an
+    existing eaten plate returns the old items to stock first, so a re-save is not a
+    double-consume.
+    """
+    pid = str(d.get('id') or _sid('m' if planned else 'p'))
     own = conn is None
     c = conn or db()
+    move = stock and not planned
     try:
-        c.execute('INSERT OR REPLACE INTO plates (id,date,meal,created_at) VALUES (?,?,?,?)',
-                  [pid, d['date'], d['meal'], d.get('created_at') or time.strftime('%Y-%m-%dT%H:%M:%S')])
+        if move:
+            _bump_items(c, _plate_items(c, pid), +1)     # undo the previous version, if any
+        c.execute('INSERT OR REPLACE INTO plates (id,date,meal,created_at,planned,recipe_id) '
+                  'VALUES (?,?,?,?,?,?)',
+                  [pid, d['date'], d['meal'], d.get('created_at') or _now(),
+                   planned, d.get('recipe', '')])
         c.execute('DELETE FROM plate_items WHERE plate_id = ?', [pid])
-        for it in d.get('items', []):
+        items = d.get('items', [])
+        for it in items:
             c.execute('INSERT INTO plate_items (plate_id,ing_id,qty) VALUES (?,?,?)',
                       [pid, it['id'], _num(it.get('qty'), 1)])
+        if move:
+            _bump_items(c, items, -1)                    # eating it takes it out of the kitchen
         if own:
             c.commit()
     finally:
@@ -229,8 +357,90 @@ def save_plate(d, conn=None):
 
 def del_plate(pid):
     with db() as c:
+        r = c.execute('SELECT planned FROM plates WHERE id = ?', [pid]).fetchone()
+        if r and not r['planned']:
+            _bump_items(c, _plate_items(c, pid), +1)     # un-eaten — put it back
         c.execute('DELETE FROM plate_items WHERE plate_id = ?', [pid])
         c.execute('DELETE FROM plates WHERE id = ?', [pid])
+
+
+def cook_slot(mid):
+    """Menu slot -> you actually cooked it. Flips planned 1->0 and consumes the stock."""
+    with db() as c:
+        r = c.execute('SELECT * FROM plates WHERE id = ? AND planned = 1', [mid]).fetchone()
+        if not r:
+            return {'ok': False, 'error': 'no such menu slot'}
+        _bump_items(c, _plate_items(c, mid), -1)
+        c.execute('UPDATE plates SET planned = 0 WHERE id = ?', [mid])
+    return {'ok': True, 'id': mid}
+
+
+def save_menu(slots):
+    """Replace the menu over the date range the slots span. One write for a whole week."""
+    if not slots:
+        return {'saved': 0}
+    lo = min(s['date'] for s in slots)
+    hi = max(s['date'] for s in slots)
+    with db() as c:
+        old = [r['id'] for r in c.execute(
+            'SELECT id FROM plates WHERE planned = 1 AND date BETWEEN ? AND ?', [lo, hi])]
+        for pid in old:                                  # planned rows never touched stock
+            c.execute('DELETE FROM plate_items WHERE plate_id = ?', [pid])
+            c.execute('DELETE FROM plates WHERE id = ?', [pid])
+        for i, s in enumerate(slots):
+            s = {**s, 'id': s.get('id') or f'm{int(time.time() * 1000)}_{i}'}
+            save_plate(s, conn=c, planned=1)
+        c.commit()
+    return {'saved': len(slots), 'from': lo, 'to': hi}
+
+
+def clear_menu(lo, hi):
+    with db() as c:
+        for r in c.execute('SELECT id FROM plates WHERE planned = 1 AND date BETWEEN ? AND ?',
+                           [lo, hi]).fetchall():
+            c.execute('DELETE FROM plate_items WHERE plate_id = ?', [r['id']])
+            c.execute('DELETE FROM plates WHERE id = ?', [r['id']])
+    return {'ok': True}
+
+
+def set_stock(iid, qty, bought=None):
+    """Correct a count. Does NOT restart the freshness clock unless we've never had one —
+    editing 'spinach: 4 -> 2 cups' is you telling us what's left, not that you just shopped."""
+    now = _now()
+    with db() as c:
+        c.execute('INSERT INTO stock (ing_id,qty,updated_at,bought_at) VALUES (?,?,?,?) '
+                  'ON CONFLICT(ing_id) DO UPDATE SET qty=excluded.qty, updated_at=excluded.updated_at, '
+                  "  bought_at=COALESCE(NULLIF(?, ''), NULLIF(stock.bought_at, ''), ?)",
+                  [iid, max(0.0, _num(qty)), now, bought or now, bought or '', now])
+    return get_stock()
+
+
+def add_stock(iid, delta):
+    with db() as c:
+        _bump(c, iid, _num(delta))
+    return get_stock()
+
+
+def seed_stock():
+    """Bootstrap: assume one full pack of everything flagged pantry=1, for rows not yet counted."""
+    with db() as c:
+        rows = c.execute('SELECT id, pack FROM ingredients WHERE pantry = 1').fetchall()
+        for r in rows:
+            c.execute('INSERT INTO stock (ing_id,qty,updated_at,bought_at) VALUES (?,?,?,?) '
+                      'ON CONFLICT(ing_id) DO NOTHING',
+                      [r['id'], r['pack'] or 1, _now(), _now()])
+    return get_stock()
+
+
+def set_pin(rid, perweek):
+    with db() as c:
+        if _num(perweek) <= 0:
+            c.execute('DELETE FROM pins WHERE recipe_id = ?', [rid])
+        else:
+            c.execute('INSERT INTO pins (recipe_id,perweek) VALUES (?,?) '
+                      'ON CONFLICT(recipe_id) DO UPDATE SET perweek=excluded.perweek',
+                      [rid, _num(perweek)])
+    return get_pins()
 
 
 def save_recipe(d, conn=None):
@@ -239,10 +449,13 @@ def save_recipe(d, conn=None):
     own = conn is None
     c = conn or db()
     try:
-        c.execute('INSERT OR REPLACE INTO recipes (id,name,meals,core,opt,method,is_user) '
-                  'VALUES (?,?,?,?,?,?,1)',
+        # cuisine/effort are unknown for a recipe you built by hand — store them empty rather than
+        # defaulting to a guess. The UI hides what it doesn't know instead of printing "15m · neutral".
+        c.execute('INSERT OR REPLACE INTO recipes (id,name,meals,core,opt,method,cuisine,effort,is_user) '
+                  'VALUES (?,?,?,?,?,?,?,?,1)',
                   [rid, d.get('name') or 'Recipe', j(d.get('meals')), j(d.get('core')),
-                   j(d.get('opt')), d.get('method') or 'Your saved recipe'])
+                   j(d.get('opt')), d.get('method') or 'Your saved recipe',
+                   d.get('cuisine', '') or '', int(_num(d.get('effort'), 0))])
         if own:
             c.commit()
     finally:
@@ -261,7 +474,7 @@ def import_local(d):
     with db() as c:
         for p in d.get('plates', []):
             if p.get('date') and p.get('meal'):
-                save_plate(p, conn=c)
+                save_plate(p, conn=c, stock=False)   # history — already eaten, don't consume stock
         for r in d.get('recipes', []):
             save_recipe(r, conn=c)
         c.commit()
@@ -300,7 +513,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             if self.path.startswith('/api/data'):
                 return self._json(200, get_data())
             if self.path.startswith('/api/plates'):
-                return self._json(200, get_plates())
+                return self._json(200, get_plates(0))
+            if self.path.startswith('/api/menu'):
+                return self._json(200, get_plates(1))
+            if self.path.startswith('/api/stock'):
+                return self._json(200, get_stock())
+            if self.path.startswith('/api/pins'):
+                return self._json(200, get_pins())
             if self.path.startswith('/api/health'):
                 return self._json(200, {'status': 'ok', 'db': DB_PATH})
             if self.path.startswith('/api/'):
@@ -324,6 +543,22 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 return self._json(200, {'ok': True})
             if p == '/api/import':
                 return self._json(200, {'ok': True, **import_local(d)})
+            if p == '/api/stock':
+                return self._json(200, set_stock(str(d.get('id', '')), d.get('qty'), d.get('bought')))
+            if p == '/api/stock/add':
+                return self._json(200, add_stock(str(d.get('id', '')), d.get('delta')))
+            if p == '/api/stock/seed':
+                return self._json(200, seed_stock())
+            if p == '/api/pins':
+                return self._json(200, set_pin(str(d.get('id', '')), d.get('perweek')))
+            if p == '/api/menu':
+                return self._json(200, {'ok': True, **save_menu(d.get('slots', []))})
+            if p == '/api/menu/slot':
+                return self._json(200, {'ok': True, 'id': save_plate(d, planned=1)})
+            if p == '/api/menu/cook':
+                return self._json(200, cook_slot(str(d.get('id', ''))))
+            if p == '/api/menu/clear':
+                return self._json(200, clear_menu(str(d.get('from', '')), str(d.get('to', ''))))
             return self._json(404, {'error': 'not found'})
         except Exception as e:                       # noqa: BLE001
             return self._json(500, {'error': str(e)})

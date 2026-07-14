@@ -1,27 +1,87 @@
-# Recipes — matched against the plate. core = ingredients that DEFINE the dish; opt = go-well-with add-ons.
+# Recipes — matched against the plate AND used by the menu generator.
+# core = ingredients that DEFINE the dish; opt = the garnish/micro layer (flax, lemon, seeds, moringa).
+#   The MATCHER treats opt as optional; the MENU GENERATOR places it anyway — that layer is where
+#   omega-3, calcium, zinc and the iron-absorption partner live. See menu.html.
 # ids are space-separated (ingredient ids from ingredients.csv). meals = space-separated meal types it fits.
+#
+# effort = ACTIVE minutes, assuming the §6 prep blocks are done (dal cooked, eggs boiled, base bhuna'd).
+#   This is the axis that actually matters. Indian home cooking is structurally expensive — a tadka,
+#   a bhuna, a gravy, then rice, then a sabzi. The global one-pan and assembly formats hit the same
+#   nutrition in a third of the time, which is exactly what §8 "Beyond Indian" says.
+#   Tier 0 = 0-6 min  (no cooking, pure assembly — the highest-leverage dishes here)
+#   Tier 1 = 8-15 min (one pan)
+#   Tier 2 = 20-30 min (multi-step — kept, but the generator knows they cost more)
+# cuisine: global | greek | med | levant | italian | mexican | asian | north | south | west | chaat | neutral
 # No commas inside any field.
-id,name,meals,core,opt,method
-egg_bhurji,Egg bhurji,breakfast lunch dinner,egg onion tomato,gchilli coriander ginger garlic curryleaf flax,Scramble eggs into sauteed onion-tomato with spices
-egg_curry,Egg curry,lunch dinner,egg onion tomato garlic ginger,coriander gchilli lemon,Boil eggs then simmer in an onion-tomato gravy
-egg_poriyal,Egg poriyal,breakfast lunch,egg onion curryleaf,gchilli coriander,Dry-fry eggs South-style with curry leaf and chilli
-besan_chilla,Besan chilla,breakfast snack,besan onion,tomato coriander gchilli pchutney flax,Whisk besan batter and pan-fry then top with chutney
-dal_tadka,Dal tadka,lunch dinner,dal onion tomato garlic,moringa ginger curryleaf lemon coriander,Temper cooked dal with garlic and spices
-dal_rice,Dal and rice,lunch dinner,dal rice,lemon curd moringa,Ladle tempered dal over rice with a squeeze of lemon
-dal_khichdi,Dal khichdi,lunch dinner,dal rice,carrot fbeans curd ginger,One-pot dal and rice cooked soft with cumin and hing
-millet_khichdi,Millet-veg khichdi,lunch dinner,millet dal,carrot fbeans curd lemon,One-pot millet and moong dal with mixed veg
-rajma_rice,Rajma rice,lunch dinner,rajma rice onion tomato,lemon curd coriander,Simmer rajma in onion-tomato gravy and serve over rice
-chana_masala,Kala chana masala,lunch dinner,kala onion tomato garlic ginger,lemon coriander,Cook kala chana in a tangy onion-tomato masala
-sprout_chaat,Sprout chaat,snack breakfast,sprout onion tomato lemon,peanut gchilli coriander pumpkin,Toss sprouts raw with onion-tomato-lemon and a crunch
-palak_dal,Spinach dal,lunch dinner,dal spinach garlic,lemon tomato onion,Cook moong dal with spinach and a garlic tadka
-curd_rice,Curd rice,lunch snack,curd rice,curryleaf ginger gchilli,Mix rice into curd with a mustard-curry-leaf tempering
-poha_veg,Poha,breakfast,poha onion,peanut curryleaf gchilli lemon carrot,Sizzle poha with onion peanuts and curry leaf
-suji_upma,Suji upma,breakfast,suji onion,carrot fbeans curryleaf gchilli peanut,Roast suji then cook with veg and tempering
-egg_dosa,Egg dosa,breakfast dinner,batter egg,pchutney coriander,Spread batter and crack an egg over the dosa
-dosa_chutney,Dosa and chutney,breakfast dinner,batter,pchutney,Crisp dosa served with peanut chutney
-tofu_bhurji,Tofu bhurji,breakfast dinner,tofu onion tomato,gchilli coriander,Crumble tofu into onion-tomato and spice like bhurji
-soya_curry,Soya curry,lunch dinner,soya onion tomato garlic ginger,coriander lemon,Simmer soaked soya chunks in an onion-tomato gravy
-veg_poriyal,Beans-carrot poriyal,lunch dinner,fbeans carrot onion,curryleaf gchilli coriander,Quick stir-fry of beans and carrot with tempering
-curd_fruit_bowl,Curd fruit bowl,breakfast snack,curd banana,flax pumpkin guava,Stir fruit and seeds into curd for a 2-min bowl
-whey_shake,Whey shake,snack,whey banana,pb,Blend whey with banana and water
-egg_toast,Egg toast,breakfast,bread egg,pb,Boiled or fried egg on multigrain toast
+id,name,meals,core,opt,method,cuisine,effort
+# --- TIER 0 · assembly, no cooking (0-6 min). The highest-leverage dishes in the whole set:
+# --- global formats where nutrition comes from ASSEMBLY, not technique.
+overnight_oats,Overnight oats,breakfast,oats curd banana,flax pumpkin til guava papaya,Stir oats into curd with fruit and seeds the night before - zero morning effort,global,3
+greek_bowl,Greek curd bowl,breakfast snack,curd cucumber tomato egg,lemon til pumpkin coriander,Thick curd with cucumber-tomato boiled egg and a seed scatter,greek,5
+chickpea_salad,Chickpea salad,lunch snack,kabuli cucumber tomato onion lemon,coriander gchilli pumpkin til,Toss boiled chickpeas raw with cucumber-tomato-lemon,med,6
+egg_salad,Egg and cucumber salad,lunch snack,egg cucumber curd onion lemon,coriander gchilli pumpkin,Chop boiled eggs into curd with cucumber and onion,global,5
+caprese,Tomato-paneer salad,snack lunch,paneer tomato lemon,coriander pumpkin til cucumber,Sliced paneer and tomato with lemon - caprese without the basil,italian,4
+buddha_bowl,Grain and sprout bowl,lunch dinner,rice sprout carrot beet pb lemon,coriander pumpkin til cucumber,Cooled grain topped with sprouts raw veg and a peanut-lemon dressing,global,8
+levant_chana,Lemon-til chana bowl,lunch snack,kala til lemon garlic,onion tomato coriander cucumber,Chana loosened with til-lemon-water - tahini-less and bright,levant,6
+rajma_chaat,Rajma chaat,snack lunch,rajma onion tomato lemon,coriander gchilli pumpkin,Cold rajma tossed raw with onion-tomato-lime,chaat,5
+egg_chaat,Boiled-egg chaat,snack,egg onion tomato lemon,coriander gchilli pumpkin peanut,Halve boiled eggs and toss with raw onion-tomato-lemon,chaat,5
+sprout_chaat,Sprout chaat,snack breakfast,sprout onion tomato lemon,peanut gchilli coriander pumpkin,Toss sprouts raw with onion-tomato-lemon and a crunch,chaat,5
+curd_fruit_bowl,Curd fruit bowl,breakfast snack,curd banana,flax pumpkin guava papaya,Stir fruit and seeds into curd for a 2-min bowl,global,3
+papaya_curd_bowl,Papaya curd bowl,breakfast snack,curd papaya,flax pumpkin til guava,Stir papaya and seeds into curd,global,3
+pb_banana_toast,Peanut-butter banana toast,breakfast snack,bread pb banana,flax,Peanut butter and banana on multigrain toast,global,3
+whey_shake,Whey shake,snack,whey banana,pb flax,Blend whey with banana and water,global,2
+peanut_jar,Roasted peanut and seed jar,snack,peanut,pumpkin til,Dry-roast a jar and keep it on the counter,global,1
+egg_toast,Egg toast,breakfast,bread egg,pb,Boiled or fried egg on multigrain toast,global,5
+curd_rice,Curd rice,lunch snack,curd rice,curryleaf ginger gchilli,Mix rice into curd with a mustard-curry-leaf tempering,south,5
+# --- TIER 1 · one pan (8-15 min)
+shakshuka,Shakshuka,breakfast lunch dinner,egg tomato onion garlic,gchilli coriander lemon spinach,Poach eggs straight into a spiced tomato pan - one pan one wash,levant,12
+mexican_scramble,Mexican scramble,breakfast lunch,egg onion tomato gchilli lemon,coriander,Eggs scrambled with raw tomato-onion-chilli and a lime finish,mexican,8
+masala_omelette,Masala omelette,breakfast,egg onion tomato gchilli,coriander lemon,Beat eggs with raw onion-tomato-chilli and fry,north,8
+italian_greens_eggs,Garlic greens and eggs,breakfast dinner,egg spinach garlic,tomato lemon,Eggs over greens sauteed in garlic - masala spices skipped,italian,8
+frittata,Veg frittata,breakfast lunch,egg onion carrot spinach,tomato gchilli coriander paneer,Everything into the pan then eggs over the top and cover,italian,14
+tofu_stirfry,Tofu stir-fry,lunch dinner,tofu fbeans carrot onion garlic ginger,gchilli coriander lemon til,High-heat stir-fry - one pan no gravy,asian,12
+peanut_tofu_bowl,Peanut-sauce tofu bowl,lunch dinner,tofu pb garlic lemon,fbeans carrot coriander gchilli,Thin peanut butter with lemon-water and toss through tofu and veg,asian,12
+satay_tofu,Sesame-peanut satay tofu,lunch dinner,tofu pb til garlic lemon,gchilli coriander fbeans,Thin peanut butter with til and lemon then glaze seared tofu,asian,12
+fried_rice,Egg fried rice,lunch dinner,rice egg carrot onion ginger,fbeans garlic coriander lemon,Day-old rice tossed with egg and veg over high heat,asian,12
+gingery_dal_soup,Gingery dal soup,lunch dinner,dal ginger garlic lemon,moringa coriander spinach,Thin dal cooked soupy with ginger - sip it no rice needed,asian,12
+moong_soup,Tomato-moong soup,lunch dinner,dal tomato garlic,lemon coriander ginger moringa,Cook moong dal soupy with tomato then finish with lemon,global,14
+italian_bean_stew,Tomato bean stew,lunch dinner,rajma tomato garlic onion,coriander lemon amaranth,Beans simmered with garlic and tomato - no tadka ribollita-style,italian,15
+rajma_bowl,Rajma bean bowl,lunch dinner,rajma rice tomato onion lemon,coriander gchilli curd,Mexican bean bowl with a raw tomato-onion-lime salsa,mexican,10
+mexican_wrap,Bean wrap,lunch snack,besan rajma tomato onion lemon,coriander gchilli curd,Besan chilla as the tortilla filled with mashed beans and salsa,mexican,12
+egg_bhurji,Egg bhurji,breakfast lunch dinner,egg onion tomato,gchilli coriander ginger garlic curryleaf flax,Scramble eggs into sauteed onion-tomato with spices,north,10
+tofu_bhurji,Tofu bhurji,breakfast dinner,tofu onion tomato,gchilli coriander,Crumble tofu into onion-tomato and spice like bhurji,north,10
+paneer_bhurji,Paneer bhurji,breakfast dinner,paneer onion tomato,gchilli coriander lemon,Crumble paneer into onion-tomato and spice like bhurji,north,10
+besan_chilla,Besan chilla,breakfast snack,besan onion,tomato coriander gchilli pchutney flax,Whisk besan batter and pan-fry then top with chutney,north,10
+sprout_chilla,Sprout-besan chilla,breakfast snack,sprout besan onion,coriander gchilli pchutney flax,Blend sprouts into besan batter and pan-fry,north,12
+egg_dosa,Egg dosa,breakfast dinner,batter egg,pchutney coriander,Spread batter and crack an egg over the dosa,south,8
+dosa_chutney,Dosa and chutney,breakfast dinner,batter,pchutney,Crisp dosa served with peanut chutney,south,8
+idli_chutney,Idli and chutney,breakfast,batter,pchutney coriander,Steam the batter - fermented plus steamed is the easiest-digest meal on the list,south,10
+poha_veg,Poha,breakfast,poha onion,peanut curryleaf gchilli lemon carrot,Sizzle poha with onion peanuts and curry leaf,west,12
+suji_upma,Suji upma,breakfast,suji onion,carrot fbeans curryleaf gchilli peanut,Roast suji then cook with veg and tempering,south,12
+vermicelli_upma,Vermicelli upma,breakfast,vermicelli onion carrot,fbeans curryleaf gchilli peanut lemon,Roast vermicelli then cook with veg and a tempering,south,12
+millet_upma,Millet upma,breakfast,millet onion carrot,fbeans curryleaf gchilli peanut lemon,Cook little millet like upma with veg and tempering,south,12
+ragi_porridge,Ragi porridge,breakfast,ragi banana,flax til pumpkin curd,Whisk ragi flour into water and simmer then top with fruit and seeds,south,8
+dal_rice,Dal and rice,lunch dinner,dal rice,lemon curd moringa,Ladle tempered dal over rice with a squeeze of lemon,neutral,10
+dal_tadka,Dal tadka,lunch dinner,dal onion tomato garlic,moringa ginger curryleaf lemon coriander,Temper cooked dal with garlic and spices,north,12
+kala_sundal,Kala chana sundal,snack lunch,kala curryleaf,lemon coriander gchilli onion,Toss boiled kala chana with a mustard-curry-leaf tempering,south,10
+besan_dhokla,Besan dhokla,snack,besan curd,gchilli coriander curryleaf til,Steam a besan-curd batter then temper - baked not fried,west,20
+paneer_tikka,Pan paneer tikka,snack dinner,paneer curd onion,gchilli coriander lemon ginger,Marinate paneer in spiced curd then sear dry in a pan,north,15
+veg_poriyal,Beans-carrot poriyal,lunch dinner,fbeans carrot onion,curryleaf gchilli coriander,Quick stir-fry of beans and carrot with tempering,south,15
+cocc_poriyal,Coccinia poriyal,lunch dinner,cocc onion curryleaf,gchilli coriander til lemon,Dry stir-fry coccinia till it squeaks then temper,south,15
+beet_poriyal,Beetroot poriyal,lunch dinner,beet onion curryleaf,coriander gchilli til lemon,Grate beetroot and stir-fry with a coconut-free tempering,south,15
+# --- TIER 2 · multi-step (20-30 min). Kept, but the generator now knows they cost more.
+dal_khichdi,Dal khichdi,lunch dinner,dal rice,carrot fbeans curd ginger,One-pot dal and rice cooked soft with cumin and hing,north,20
+millet_khichdi,Millet-veg khichdi,lunch dinner,millet dal,carrot fbeans curd lemon,One-pot millet and moong dal with mixed veg,neutral,20
+palak_dal,Spinach dal,lunch dinner,dal spinach garlic,lemon tomato onion,Cook moong dal with spinach and a garlic tadka,north,20
+amaranth_dal,Amaranth keerai dal,lunch dinner,dal amaranth garlic,lemon tomato onion curryleaf moringa,Cook dal soft with amaranth and a garlic tadka,south,20
+spinach_soya,Spinach soya bhurji,lunch dinner,soya spinach onion tomato,garlic ginger gchilli coriander lemon,Crumble soaked soya into spinach and onion-tomato,north,20
+soya_keema,Soya keema,lunch dinner,soya onion tomato garlic,ginger coriander gchilli lemon,Cook soya granules dry like a keema,north,20
+egg_curry,Egg curry,lunch dinner,egg onion tomato garlic ginger,coriander gchilli lemon,Boil eggs then simmer in an onion-tomato gravy,north,25
+egg_poriyal,Egg poriyal,breakfast lunch,egg onion curryleaf,gchilli coriander,Dry-fry eggs South-style with curry leaf and chilli,south,12
+rajma_rice,Rajma rice,lunch dinner,rajma rice onion tomato,lemon curd coriander,Simmer rajma in onion-tomato gravy and serve over rice,north,25
+chana_masala,Kala chana masala,lunch dinner,kala onion tomato garlic ginger,lemon coriander,Cook kala chana in a tangy onion-tomato masala,north,25
+soya_curry,Soya curry,lunch dinner,soya onion tomato garlic ginger,coriander lemon,Simmer soaked soya chunks in an onion-tomato gravy,north,25
+tofu_curry,Tofu curry,lunch dinner,tofu onion tomato garlic ginger,coriander lemon gchilli,Simmer cubed tofu in an onion-tomato gravy,north,25
+palak_paneer,Palak paneer,lunch dinner,paneer spinach onion tomato garlic,ginger gchilli coriander lemon,Simmer paneer in a garlicky spinach gravy,north,25
+besan_kadhi,Besan kadhi,lunch dinner,besan curd onion rice,gchilli curryleaf ginger coriander,Whisk besan into curd and simmer to a tangy kadhi,north,20
+veg_pulao,Veg-egg pulao,lunch dinner,rice egg carrot onion,fbeans ginger garlic coriander lemon,One-pot rice with egg and veg in a light garam masala,north,25

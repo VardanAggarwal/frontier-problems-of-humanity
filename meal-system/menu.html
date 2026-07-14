@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Generates the week's menu from your own eating history, under the daily contract, then scores it against every nutrient target.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗓️</text></svg>">
+<title>Menu — Meal System</title>
+<style>
+  :root{
+    --bg:#faf9f6; --panel:#fff; --ink:#1c1b19; --muted:#6b6a66; --line:#e7e5df;
+    --accent:#3a7d44; --accent-soft:#e6f0e8; --warn:#b5651d; --bar-bg:#eceae4;
+    --chip:#f1efe9; --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--bg:#16171a;--panel:#1f2125;--ink:#e9e7e2;--muted:#9a988f;--line:#2e3136;
+      --accent:#6fbf7a;--accent-soft:#22302493;--warn:#d9944a;--bar-bg:#2a2c30;--chip:#26282c;
+      --shadow:0 1px 3px rgba(0,0,0,.4);}
+  }
+  :root[data-theme=dark]{--bg:#16171a;--panel:#1f2125;--ink:#e9e7e2;--muted:#9a988f;--line:#2e3136;
+    --accent:#6fbf7a;--accent-soft:#22302493;--warn:#d9944a;--bar-bg:#2a2c30;--chip:#26282c;--shadow:0 1px 3px rgba(0,0,0,.4);}
+  :root[data-theme=light]{--bg:#faf9f6;--panel:#fff;--ink:#1c1b19;--muted:#6b6a66;--line:#e7e5df;
+    --accent:#3a7d44;--accent-soft:#e6f0e8;--warn:#b5651d;--bar-bg:#eceae4;--chip:#f1efe9;--shadow:0 1px 3px rgba(0,0,0,.06);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+  .wrap{max-width:1240px;margin:0 auto;padding:20px 16px 80px}
+  h1{font-size:20px;margin:0 0 2px}
+  .sub{color:var(--muted);font-size:13px;margin:0 0 18px}
+  .topbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .navlink{font-size:13px;color:var(--muted);background:none;border:1px solid var(--line);
+    border-radius:8px;padding:6px 12px;cursor:pointer;text-decoration:none}
+  .navlink:hover{border-color:var(--accent);color:var(--accent)}
+  .navlink.first{margin-left:auto}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow);margin-bottom:16px}
+  .panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:0 0 12px}
+  .cols{display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start}
+  @media(max-width:900px){.cols{grid-template-columns:1fr}}
+  .add{border:0;background:var(--accent);color:#fff;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer}
+  .add.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+  .add.ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .add:disabled{opacity:.4;cursor:default}
+  .empty{color:var(--muted);font-size:13px;font-style:italic}
+  .note{font-size:12px;color:var(--muted);line-height:1.6}
+  /* the menu grid */
+  .day{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden}
+  .dhead{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--chip);flex-wrap:wrap}
+  .dhead b{font-size:13px}
+  .dhead .dk{font-size:12px;color:var(--muted);margin-left:auto}
+  .slots{display:grid;grid-template-columns:repeat(4,1fr)}
+  @media(max-width:760px){.slots{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.slots{grid-template-columns:1fr}}
+  .slot{border-right:1px solid var(--line);border-top:1px solid var(--line);padding:10px;min-height:96px;
+    display:flex;flex-direction:column;gap:4px}
+  .slot:last-child{border-right:0}
+  .slot .sm{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .slot .sd{font-weight:600;font-size:13px;line-height:1.3}
+  .slot .si{font-size:11.5px;color:var(--muted);line-height:1.45}
+  .slot .sp{font-size:11.5px;margin-top:auto;padding-top:4px}
+  .slot .sp b{color:var(--accent)}
+  .slot .sp b.low{color:var(--warn)}
+  .slot select{width:100%;font:inherit;font-size:12.5px;padding:4px 6px;border:1px solid var(--line);
+    border-radius:6px;background:var(--panel);color:var(--ink);margin-top:2px}
+  .eff{font-size:10px;padding:1px 6px;border-radius:999px;background:var(--chip);color:var(--muted);
+    margin-left:4px;text-transform:none;letter-spacing:0}
+  .eff.t0{background:var(--accent-soft);color:var(--accent);font-weight:600}
+  .eff.t2{color:var(--warn)}
+  .topper{display:inline-block;font-size:10.5px;padding:1px 6px;border-radius:999px;background:var(--accent-soft);
+    color:var(--accent);margin:1px 2px 0 0;font-weight:600}
+  .rrow{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .rrow:last-child{border-bottom:0}
+  .rrow .rn{flex:1;min-width:0}
+  .rrow .rn small{color:var(--muted);display:block}
+  .rrow .rn small.miss{color:var(--warn)}
+  .pill{font-size:11px;padding:3px 9px;border-radius:999px;background:var(--chip);color:var(--warn)}
+  .pill.ok{background:var(--accent-soft);color:var(--accent);font-weight:600}
+  .flag{font-size:10.5px;padding:2px 7px;border-radius:999px;background:var(--panel);color:var(--muted);border:1px solid var(--line)}
+  .flag.miss{color:var(--warn);border-color:var(--warn)}
+  .flag.ok{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+  /* scorecard */
+  .bar{height:7px;background:var(--bar-bg);border-radius:6px;overflow:hidden;margin:4px 0 9px}
+  .bar > i{display:block;height:100%;background:var(--accent);border-radius:6px}
+  .bar > i.short{background:var(--warn)}
+  .prog-lbl{display:flex;justify-content:space-between;font-size:12.5px}
+  .prog-lbl b{font-weight:600}
+  .prog-lbl .risk{color:var(--warn);font-size:10.5px;text-transform:uppercase;letter-spacing:.03em}
+  .banner{background:var(--accent-soft);border:1px solid var(--accent);border-radius:10px;padding:12px;font-size:13px;margin-bottom:14px}
+  .banner.warn{background:transparent;border-color:var(--warn);color:var(--warn)}
+  .ctrl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  select.big{font:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)}
+  @media print{ .navlink,.add,.ctrl,select{display:none!important} .panel{box-shadow:none;break-inside:avoid} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1>Menu</h1>
+      <p class="sub">Built from what you actually eat · held to the daily contract · scored against every target</p>
+    </div>
+    <a class="navlink first" href="index.html">← Planner</a>
+    <a class="navlink" href="shop.html">🧺 Shopping list</a>
+  </div>
+
+  <div class="panel">
+    <h2>1 · Generate</h2>
+    <div class="ctrl">
+      <label class="note">From <input type="date" id="from" class="big" style="font-size:13px"></label>
+      <select id="days" class="big">
+        <option value="7">7 days</option>
+        <option value="3">3 days</option>
+        <option value="14">14 days</option>
+        <option value="30">30 days</option>
+      </select>
+      <select id="effort" class="big">
+        <option value="low">Low effort · ≤8 min/meal</option>
+        <option value="balanced">Balanced · ≤15 min/meal</option>
+        <option value="any">Anything · gravies allowed</option>
+      </select>
+      <button class="add" id="gen">✨ Suggest a menu</button>
+      <button class="add ghost" id="save">Save menu</button>
+      <button class="add ghost" id="clear">Clear</button>
+      <span class="note" id="genNote"></span>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div>
+      <div class="panel">
+        <h2>2 · Review &amp; edit — swap any slot</h2>
+        <div id="grid"></div>
+      </div>
+    </div>
+    <div>
+      <div class="panel">
+        <h2>Nutrition — daily average</h2>
+        <div id="score"></div>
+      </div>
+      <div class="panel">
+        <h2>🌱 Prep ahead</h2>
+        <div id="prep"></div>
+      </div>
+      <div class="panel">
+        <h2>🥬 Use it up</h2>
+        <div id="fresh"></div>
+      </div>
+      <div class="panel">
+        <h2>The daily contract</h2>
+        <div id="contract"></div>
+      </div>
+      <div class="panel">
+        <h2>How this is built</h2>
+        <p class="note" style="margin:0">
+          <b>Dish choice</b> is weighted by what you already eat — dishes whose ingredients show up in your
+          logged plates score higher, so the menu looks like your life, not a textbook.<br><br>
+          <b>The micro layer is not optional.</b> Flax, seeds, moringa, a green and a sour are placed into
+          slots as real items — never dropped as "garnish". They carry omega-3, calcium, zinc, magnesium
+          and the iron-absorption partner.<br><br>
+          <b>Repairs can only add toppers</b>, one serving per day. That is why a shortfall gets fixed with
+          a spoon of pumpkin seeds and not four kilos of soya.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ DATA ============ */
+let ING=[], RECIPES=[], FOCUS=[], PLATES=[], PINS={}, STOCK={};
+const MEALS = {
+  breakfast:{label:'Breakfast', p:30},
+  lunch:    {label:'Lunch',     p:32},
+  snack:    {label:'Snack',     p:20},
+  dinner:   {label:'Dinner',    p:28},
+};
+const SLOTS = ['breakfast','lunch','snack','dinner'];
+const KCAL = 1775;                                    // the deficit. A ceiling, not a target.
+const KCAL_TOL = 1.05;                                // 5% grace before a day counts as over
+// A target counts as met at 95%. The underlying nutrient values are estimates, several targets
+// are ranges not floors (§1 gives carbs as 180-220, so 196/200 is fine), and the planner already
+// works to a 90% tolerance. Demanding 98% just manufactures false shortfalls.
+const MET = 0.95;
+// per-slot calorie budget — sums to KCAL. Drives WHERE a repair topper lands: the slot with
+// the most headroom, never just the first one (that is what turned snack into a 771 kcal dump).
+const KCAL_SLOT = {breakfast:450, lunch:550, snack:250, dinner:525};
+// what the trim pass is allowed to shrink: the carb/fat filler, never a contract item
+const TRIMMABLE = i => i.role==='base' || i.role==='condiment' || i.id==='peanut';
+/* EFFORT — the axis that actually decides whether a plan survives contact with a Tuesday.
+   Indian home cooking is structurally expensive: a tadka, a bhuna, a gravy, then rice, then a
+   sabzi. The global one-pan and assembly formats (§8 "Beyond Indian") hit the same nutrition in
+   a third of the active time. `effort` (minutes) is a column in recipes.csv; this caps it. */
+const EFFORT_MODES = {
+  low:      {label:'Low effort', cap:8,  note:'assembly + fast one-pan only — no gravies'},
+  balanced: {label:'Balanced',   cap:15, note:'one-pan cooking; multi-step only where nothing else fits'},
+  any:      {label:'Anything',   cap:99, note:'full curries and gravies allowed'},
+};
+// The daily contract (meal-plan.md §8). These are gates, not preferences.
+const EGGS_MIN   = 3;    // eggs/day — a hard quota across the day's slots
+const LEGUMES    = ['dal','rajma','kala','sprout','soya','besan'];
+const IRON_PLATE = 2;    // mg of iron on a plate that obliges a vit-C partner
+
+let state = { from:todayStr(), days:7, effort:'low', menu:[], dirty:false };
+
+/* ---- api ---- */
+const API = new URL('api/', location.href.replace(/[^/]*$/, '')).href;
+async function api(path, body){
+  const opt = body===undefined ? {} :
+    {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)};
+  const res = await fetch(API+path, opt);
+  if(!res.ok) throw new Error(`${path} → ${res.status}`);
+  return res.json();
+}
+function apiFail(what, e){
+  console.error(what, e);
+  const b=document.createElement('div');
+  b.style.cssText='position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--warn);color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;z-index:99';
+  b.textContent=`⚠ Couldn't ${what}. ${e.message||''}`;
+  document.body.appendChild(b); setTimeout(()=>b.remove(), 5000);
+}
+
+/* ============ HELPERS ============ */
+const $ = s => document.querySelector(s);
+const round1 = x => Math.round(x*10)/10;
+const ing = id => ING.find(i=>i.id===id);
+const rec = id => RECIPES.find(r=>r.id===id);
+// prep outputs = things you MAKE not buy (rajma_soaked, base_paste, sprout). `makes` links to raw ids.
+const prepOutputs = () => ING.filter(i=>i.makes);
+const outputForRaw = raw => prepOutputs().find(o=>o.makes.split(/\s+/).includes(raw));
+function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function addDays(s,n){ const d=new Date(s+'T00:00'); d.setDate(d.getDate()+n);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function dayName(s){ return new Date(s+'T00:00').toLocaleDateString(undefined,{weekday:'short'}); }
+
+// nutrient totals for a list of {id, qty}
+function tot(items, key){
+  return items.reduce((s,it)=>{ const i=ing(it.id); return s + (i ? (i.n[key]||0) : 0)*it.qty; }, 0);
+}
+const dates = () => Array.from({length:state.days}, (_,k)=>addDays(state.from,k));
+const slotsOn = d => state.menu.filter(s=>s.date===d);
+const dayItems = d => slotsOn(d).flatMap(s=>s.items);
+
+/* ============ FRESHNESS — stop the fridge rotting while we chase easy dishes ============
+   Shelf life was only ever used for BUYING. The generator had no idea what was in the fridge or
+   when it died, so it would happily plan a week of curd bowls while Monday's spinach expired on
+   Thursday. Low-effort mode makes this worse: assembly dishes lean on curd, nuts and seeds (all
+   shelf-stable) rather than the greens and gourds that actually spoil.
+   So: every stocked item gets a deadline, and dishes that consume an at-risk item score higher. */
+const stockQty  = id => (STOCK[id]||{}).qty || 0;
+const boughtOn  = id => (STOCK[id]||{}).bought || '';
+function daysLeft(id){
+  const i = ing(id), b = boughtOn(id);
+  if(!i || !b) return 99;
+  const age = Math.floor((new Date(todayStr()+'T00:00') - new Date(b.slice(0,10)+'T00:00')) / 86400000);
+  return (i.shelf||30) - age;
+}
+// perishable, actually in the fridge, and on the clock
+const PERISHABLE = 14;               // shelf <= this = something that can rot on you
+function atRisk(){
+  return ING.filter(i=>stockQty(i.id) > 0 && (i.shelf||30) <= PERISHABLE)
+            .map(i=>({i, left: daysLeft(i.id), qty: stockQty(i.id)}))
+            .filter(x=>x.left <= 5)                       // inside the window where it matters
+            .sort((a,b)=>a.left-b.left);
+}
+// how badly a dish is *wanted* because of what it uses up. Tighter deadline = stronger pull.
+function rescueScore(r){
+  const ids = new Set([...r.core, ...r.opt]);
+  return atRisk().reduce((s,x)=>{
+    if(!ids.has(x.i.id)) return s;
+    const urgency = x.left <= 0 ? 0 : x.left <= 1 ? 1.6 : x.left <= 2 ? 1.1 : x.left <= 3 ? 0.7 : 0.3;
+    return s + urgency;
+  }, 0);
+}
+/* What will actually rot, given the menu as planned. This is the honest output: walk the menu in
+   date order, spend each item's stock, and see what's still sitting there past its deadline. */
+function spoilage(){
+  const used = {};
+  dates().forEach((d, di)=>{
+    dayItems(d).forEach(it=>{
+      const left = daysLeft(it.id);
+      if(di <= left) used[it.id] = (used[it.id]||0) + it.qty;   // consumed while still good
+    });
+  });
+  return atRisk().map(x=>({...x, used: used[x.i.id]||0, waste: Math.max(0, x.qty - (used[x.i.id]||0))}))
+                 .filter(x=>x.waste > 0.05);
+}
+
+/* ============ PREP QUEUE — the thing `effort` misses ============
+   A 12-minute rajma bowl is a fiction if nobody soaked the rajma last night. `lead` (hours) is
+   the ahead-work an ingredient needs before it is even cookable: sprouts 24h, rajma/chana 8h,
+   millet 6h. Walk the plan forward, work backwards from when each dish gets eaten, and say what
+   has to start now. Without this, "low effort" quietly means "the dish silently doesn't happen." */
+const MEAL_HOUR = {breakfast:8, lunch:13, snack:17, dinner:20};
+/* Stock of a lead-time ingredient means different things depending on what form it keeps in, and
+   SHELF LIFE is what tells them apart:
+     rajma  · shelf 365 · stock = DRY BEANS in a jar   -> every single use still needs the 8h soak
+     sprout · shelf 3   · stock = a SPROUTED jar       -> already done; no lead until the jar runs out
+   Miss this and the queue nags you to soak moong you sprouted three days ago. */
+function prepQueue(){
+  const now = new Date();
+  const q = [];
+  const ready = {};                              // remaining ready-to-eat stock of a prep output
+  const slots = [...state.menu].sort((a,b)=>
+    (a.date+String(MEAL_HOUR[a.meal]).padStart(2,'0')).localeCompare(b.date+String(MEAL_HOUR[b.meal]).padStart(2,'0')));
+  slots.forEach(slot=>{
+    const cookAt = new Date(`${slot.date}T${String(MEAL_HOUR[slot.meal]||12).padStart(2,'0')}:00`);
+    slot.items.forEach(it=>{
+      const i = ing(it.id); if(!i) return;
+      const o = i.makes ? i : outputForRaw(i.id);   // the prepped form this item needs (rajma -> rajma_soaked)
+      const lead = o ? o.lead : i.lead;             // no output row (e.g. millet) -> nag off the raw's own lead
+      if(!lead) return;
+      if(o){                                        // a ready batch of the output cancels the prep
+        const have = ready[o.id] ?? stockQty(o.id);
+        if(have >= it.qty){ ready[o.id] = have - it.qty; return; }
+        ready[o.id] = Math.max(0, (o.pack||4) - it.qty);            // we'll make a fresh batch
+      }
+      const startBy = new Date(cookAt.getTime() - lead*3600e3);
+      const hrs = (startBy - now)/3600e3;
+      if(hrs > 40) return;                          // too far out to act on yet
+      q.push({o, i, lead, slot, startBy, hrs, dish:(rec(slot.recipe)||{}).name || slot.meal});
+    });
+  });
+  const byKey = {};                               // one row per output/raw — earliest deadline binds
+  q.sort((a,b)=>a.startBy-b.startBy).forEach(x=>{ const k=x.o?x.o.id:x.i.id; if(!byKey[k]) byKey[k]=x; });
+  const list = Object.values(byKey);
+  const queued = new Set(list.map(x=>x.o&&x.o.id));
+  prepOutputs().filter(o=>o.keep && stockQty(o.id)<=0 && !queued.has(o.id))   // standing preps that ran out
+    .forEach(o=>list.push({o, i:o, lead:o.lead, standing:true}));
+  return list.sort((a,b)=>(a.startBy?0:1)-(b.startBy?0:1) || (a.startBy - b.startBy));
+}
+function whenLabel(hrs){
+  if(hrs < 0)  return {t:'overdue — start now', cls:'miss'};
+  if(hrs < 3)  return {t:'start now', cls:'miss'};
+  if(hrs < 14) return {t:'start tonight', cls:''};
+  return {t:'start tomorrow', cls:''};
+}
+
+/* ---- the history prior: which dishes look like YOUR eating? ---- */
+function affinity(){
+  const days = new Set(PLATES.map(p=>p.date)).size || 1;
+  const freq = {};                                        // how many logged days contained this ingredient
+  const seen = {};
+  PLATES.forEach(p=>{ p.items.forEach(it=>{
+    const k=p.date+'|'+it.id; if(seen[k]) return; seen[k]=1;
+    freq[it.id]=(freq[it.id]||0)+1;
+  });});
+  const cooked = {};                                      // a plate whose items cover a recipe's core = you cooked it
+  PLATES.forEach(p=>{ const ids=p.items.map(x=>x.id);
+    RECIPES.forEach(r=>{ if(r.core.length && r.core.every(id=>ids.includes(id))) cooked[r.id]=(cooked[r.id]||0)+1; });
+  });
+  const maxC = Math.max(1, ...Object.values(cooked));
+  const a = {};
+  RECIPES.forEach(r=>{
+    const fam = r.core.length ? r.core.reduce((s,id)=>s+(freq[id]||0)/days, 0)/r.core.length : 0;
+    const ck  = (cooked[r.id]||0)/maxC;
+    const pin = PINS[r.id] ? 0.5 : 0;                     // pinned = you said you want this
+    a[r.id] = 0.45*ck + 0.35*fam + pin + 0.2;            // +0.2 floor so unseen dishes stay reachable
+  });
+  return a;
+}
+
+/* ============ THE GENERATOR ============ */
+function generate(){
+  const AFF = affinity();
+  const ds = dates();
+  const menu = [];
+  const lastUse = {};                                     // recipe id -> day index it was last used
+  const uses = {};
+  const GAP = 3;                                          // no dish twice inside 3 days
+  const MAXUSE = Math.max(2, Math.ceil(state.days/3));    // and no dish more than a third of the horizon
+
+  ds.forEach((date, di)=>{
+    const chosen = {};
+    SLOTS.forEach(meal=>{
+      const cap = EFFORT_MODES[state.effort].cap;
+      let all = RECIPES.filter(r=>r.meals.includes(meal) && (r.effort||15) <= cap);
+      if(!all.length) all = RECIPES.filter(r=>r.meals.includes(meal));   // nothing that cheap fits — relax
+      if(!all.length) return;
+      // HARD variety, not a soft penalty — a penalty just loses to a high affinity score,
+      // which is how every lunch became dal khichdi. Relax the rule only if nothing survives it.
+      let cands = all.filter(r=> di - (lastUse[r.id] ?? -99) >= GAP && (uses[r.id]||0) < MAXUSE);
+      if(!cands.length) cands = all.filter(r=> lastUse[r.id] !== di-1);
+      if(!cands.length) cands = all;
+      // cheaper dishes win ties: a 3-min bowl beats a 25-min gravy at equal affinity.
+      // rescueScore pulls hard toward dishes that use up what's about to rot — and it's weighted
+      // to beat the effort bonus, because a spoiled bunch of spinach costs more than 10 minutes.
+      const r = cands.map(r=>({r, s: AFF[r.id] - (r.effort||15)/60 + rescueScore(r) + Math.random()*0.25}))
+                     .sort((a,b)=>b.s-a.s)[0].r;
+      lastUse[r.id]=di; uses[r.id]=(uses[r.id]||0)+1;
+      chosen[meal] = {date, meal, recipe:r.id, items: slotItems(r)};
+    });
+    SLOTS.forEach(m=>{ if(chosen[m]) menu.push(chosen[m]); });
+  });
+
+  state.menu = menu;
+  rebuild(ds);
+  state.dirty = true;
+  render();
+}
+
+/* The passes, in the order that makes them compose:
+   contract -> trim -> PROTEIN -> micros -> trim.
+
+   Protein goes before micros, not after. Calories are the scarce resource and protein is the
+   anchor (§1) — the one target that food genuinely struggles to hit inside a deficit. Micros
+   ride along for free once the plate has an egg, a dal and a green. Running repair() first
+   let toppers spend the headroom on nutrients that were ALREADY 2x over (magnesium 766/350,
+   potassium 5905/3500) — including roasted peanuts at 170 kcal for 7 g of protein — and left
+   nothing for whey. Order matters more than any single rule here. */
+function rebuild(ds){
+  ds.forEach(enforceContract);
+  ds.forEach(trimDay);
+  ds.forEach(fixProtein);
+  ds.forEach(fixCarbs);
+  repair();
+  ds.forEach(trimDay);
+}
+
+/* Carbs, like protein, are structurally unfixable by toppers — seeds and greens carry none.
+   Low-effort mode makes this bite: assembly dishes (curd bowls, salads, chaats) have no cooked
+   grain in them, so a no-cook week drifts carb-light and fat-heavy. A base closes it. */
+function fixCarbs(d){
+  const f = FOCUS.find(x=>x.key==='c'); if(!f) return;
+  const bases = ING.filter(i=>i.role==='base').sort((a,b)=>(b.n.c/b.n.kcal)-(a.n.c/a.n.kcal));
+  for(let g=0; g<6; g++){
+    if(tot(dayItems(d),'c') >= f.daily*MET) return;
+    const b = bases.find(i=>!dayHas(d, i.id));            // one base per day per kind
+    if(!b) return;
+    if(headroom(d) < b.n.kcal && !freeKcal(d, b.n.kcal)) return;
+    const meal = SLOTS.filter(m=>state.menu.some(s=>s.date===d && s.meal===m))
+      .sort((a,b2)=>(KCAL_SLOT[b2]-slotKcal(d,b2)) - (KCAL_SLOT[a]-slotKcal(d,a)))[0];
+    if(!meal || !put(d, meal, b.id)) return;
+  }
+}
+
+/* Protein needs its OWN pass. repair() is deliberately restricted to toppers (seeds, greens,
+   sours) — which is what keeps a repair edible, but it also means toppers carry almost no
+   protein, so protein is structurally unfixable there. Both moves below are the ones the plan
+   itself designates: a 4th egg (§8 allows 3-4) and whey ("closes the protein gap", §9). */
+function fixProtein(d){
+  const target = (FOCUS.find(f=>f.key==='p')||{}).daily || 120;
+  const EGG_KCAL = 72, WHEY_KCAL = 120;
+  const addEgg = () => {                              // 6 g — for a small gap; real food beats powder
+    if(dayQty(d,'egg') >= 4) return false;            // §8 allows 3-4/day, no more
+    if(headroom(d) < EGG_KCAL && !freeKcal(d, EGG_KCAL)) return false;
+    const s = slotsOn(d).find(x=>x.items.some(y=>y.id==='egg'));
+    if(!s) return false;
+    s.items.find(y=>y.id==='egg').qty += 1;
+    return true;
+  };
+  const addWhey = () => {                             // 24 g / 120 kcal — the designated gap-filler (§9)
+    if(dayQty(d,'whey') >= 2) return false;           // 2 scoops a day, max
+    if(headroom(d) < WHEY_KCAL && !freeKcal(d, WHEY_KCAL)) return false;
+    const open = SLOTS.filter(m=>{                     // one scoop per slot — spread it. Two scoops
+      const s = state.menu.find(x=>x.date===d && x.meal===m);   // beside a dal tadka is not a meal
+      return s && !s.items.some(y=>y.id==='whey');
+    }).sort((a,b)=>(KCAL_SLOT[b]-slotKcal(d,b)) - (KCAL_SLOT[a]-slotKcal(d,a)));
+    if(!open.length) return false;
+    const s = state.menu.find(x=>x.date===d && x.meal===open[0]);
+    s.items.push({id:'whey', qty:1});
+    return true;
+  };
+  for(let g=0; g<12; g++){
+    const gap = target*0.98 - tot(dayItems(d),'p');
+    if(gap <= 0) return;
+    // pick the smallest sufficient move, so we don't spend 120 kcal to close an 5 g gap
+    const moved = (gap <= 8) ? (addEgg() || addWhey()) : (addWhey() || addEgg());
+    if(!moved) return;                                // genuinely out of legal moves — the scorecard flags it
+  }
+}
+
+/* The calorie ceiling. Everything above only ADDS; without this a "balanced" week lands
+   500 kcal/day over and the whole point (a deficit) is lost. Trims filler carbs/fats only —
+   it will never shave an egg, a green, the legume, the probiotic or a seed. */
+/* deep=false: shave filler but never below half a serving — half a cup of rice is still a meal.
+   deep=true:  allowed to drop that last half serving entirely. Only the protein trade uses this:
+               a 0.5-cup base sitting at the floor would otherwise block the swap outright, and
+               100 kcal of rice for 24 g of whey protein is a trade worth losing the rice over. */
+function cutOnce(d, deep){
+  // Cut the biggest FAT contributor, not the biggest calorie contributor. Going by calories
+  // alone picks rice — which carries zero fat and all the carbs — so trimming made the carb
+  // shortfall worse while the peanut butter sat there. Fat first; fall back to kcal only when
+  // there's no fat left to take (i.e. everything trimmable is a pure starch).
+  const over = dayFat(d) > FAT_TARGET;
+  let best=null;
+  slotsOn(d).forEach(s=>s.items.forEach(x=>{
+    const i=ing(x.id);
+    if(!i || !TRIMMABLE(i)) return;
+    if(x.qty <= 0.5 && !deep) return;
+    const kc = (over ? fatOf(i)*9 : i.n.kcal) * x.qty;
+    if(kc <= 0) return;
+    if(!best || kc > best.kc) best = {s, x, kc};
+  }));
+  if(!best && over){                                       // nothing fatty left — go by calories
+    slotsOn(d).forEach(s=>s.items.forEach(x=>{
+      const i=ing(x.id);
+      if(!i || !TRIMMABLE(i) || (x.qty <= 0.5 && !deep)) return;
+      const kc = i.n.kcal * x.qty;
+      if(!best || kc > best.kc) best = {s, x, kc};
+    }));
+  }
+  if(!best) return false;                                 // nothing left to cut — report it, don't fake it
+  best.x.qty = round1(best.x.qty - 0.5);
+  if(best.x.qty < 0.5) best.s.items = best.s.items.filter(y=>y!==best.x);
+  return true;
+}
+function trimDay(d){ for(let g=0; g<40 && dayKcal(d) > KCAL*KCAL_TOL; g++) if(!cutOnce(d, false)) break; }
+
+/* Place the dish's core + its micro layer — but CAP the layer. Placing every `opt` id was too
+   greedy: a curd bowl carries flax AND pumpkin AND til AND guava AND papaya in its opt list, so
+   the slot picked up ~300 kcal of toppers, blew the calorie ceiling and crowded out the carbs.
+   Three, ranked by what the plan actually needs: the sour (iron partner) first, then a green,
+   then a seed. repair() can still add more later if a nutrient genuinely comes up short. */
+/* FAT, derived — not a column, and it doesn't need to be. Atwater: kcal = 4P + 4C + 9F, so
+   fat falls straight out of data we already have. Worth surfacing because low-effort mode is
+   structurally fat-heavy (nuts, seeds, peanut butter, curd, paneer), and that surplus fat is
+   what silently squeezes the carbs out of the calorie budget. */
+const FAT_TARGET = 50;
+const fatOf  = i => Math.max(0, (i.n.kcal - 4*i.n.p - 4*i.n.c) / 9);
+const dayFat = d => Math.max(0, (dayKcal(d) - 4*tot(dayItems(d),'p') - 4*tot(dayItems(d),'c')) / 9);
+
+const OPT_CAP = 3;
+function slotItems(r){
+  const core = r.core.filter(id=>ing(id));
+  const rank = id => { const i=ing(id); if(!i) return 9;
+    return i.role==='sour' ? 0 : i.green ? 1 : i.role==='seed' ? 2 : i.topper ? 3 : 4; };
+  const opt = r.opt.filter(id=>ing(id) && !core.includes(id))
+                   .sort((a,b)=>rank(a)-rank(b)).slice(0, OPT_CAP);
+  return [...core, ...opt].map(id=>({id, qty:(ing(id)||{}).default||1}));
+}
+const dayKcal   = d => tot(dayItems(d), 'kcal');
+const slotEffort = s => { const r=rec(s.recipe); return r ? (r.effort||15) : 0; };
+const dayEffort  = d => slotsOn(d).reduce((n,s)=>n+slotEffort(s), 0);
+const headroom  = d => KCAL*KCAL_TOL - dayKcal(d);
+const slotKcal  = (d,m) => { const s=state.menu.find(x=>x.date===d && x.meal===m); return s?tot(s.items,'kcal'):0; };
+/* Buy calorie headroom by shaving filler. This is what turns the calorie ceiling and the protein
+   target from a deadlock into a TRADE: half a cup of rice is ~100 kcal for 2 g of protein, a whey
+   scoop is 120 kcal for 24 g. Swapping one for the other is free calorically and +20 g of protein —
+   the move any human would make, and the generator should be allowed to make it too. */
+function freeKcal(d, amount){
+  for(let g=0; g<20 && headroom(d) < amount; g++) if(!cutOnce(d, true)) return false;
+  return headroom(d) >= amount;
+}
+
+// add one serving of an ingredient to a slot (never duplicates within the slot)
+function put(date, meal, id, qty){
+  const slot = state.menu.find(s=>s.date===date && s.meal===meal);
+  const i = ing(id); if(!slot || !i) return false;
+  const ex = slot.items.find(x=>x.id===id);
+  if(ex){ if(qty && qty>ex.qty){ ex.qty=qty; return true; } return false; }
+  slot.items.push({id, qty: qty || i.default || 1});
+  return true;
+}
+const dayHas = (d, id) => dayItems(d).some(x=>x.id===id);
+const dayQty = (d, id) => dayItems(d).filter(x=>x.id===id).reduce((s,x)=>s+x.qty,0);
+const dayFlag = (d, flag) => dayItems(d).some(x=>{const i=ing(x.id); return i && i[flag];});
+
+/* The daily contract — every line here is a gate from §8, applied to each day. */
+function enforceContract(d){
+  const has = m => state.menu.some(s=>s.date===d && s.meal===m);
+
+  // 1. EGGS — at least 3/day, spread across the day, not stacked on one plate
+  let need = EGGS_MIN - dayQty(d,'egg');
+  for(const m of ['breakfast','dinner','lunch','snack']){
+    if(need<=0) break;
+    if(!has(m)) continue;
+    const slot = state.menu.find(s=>s.date===d && s.meal===m);
+    const ex = slot.items.find(x=>x.id==='egg');
+    const add = Math.min(need, 2);
+    if(ex) ex.qty += add; else slot.items.push({id:'egg', qty:add});
+    need -= add;
+  }
+
+  // 2. A LEGUME every day — the protein backbone
+  if(!LEGUMES.some(id=>dayHas(d,id))) put(d, has('lunch')?'lunch':'dinner', 'dal');
+
+  // 3. A GREEN at lunch AND at dinner
+  // pick the green that dies soonest (and that we actually have), not a random one
+  const greens = ING.filter(i=>i.green)
+    .sort((a,b)=>(stockQty(b.id)>0) - (stockQty(a.id)>0) || daysLeft(a.id) - daysLeft(b.id));
+  ['lunch','dinner'].forEach(m=>{
+    if(!has(m)) return;
+    const slot = state.menu.find(s=>s.date===d && s.meal===m);
+    if(!slot.items.some(x=>{const i=ing(x.id); return i&&i.green;})){
+      const pick = greens.find(g=>!dayHas(d, g.id)) || greens[0];
+      put(d, m, pick ? pick.id : 'spinach');
+    }
+  });
+
+  // 4. A PROBIOTIC every day — curd / buttermilk / idli batter
+  if(!dayFlag(d,'probiotic')) put(d, has('lunch')?'lunch':'snack', 'curd');
+
+  // 5. SEEDS — flax daily (the omega-3 source) + a second, rotating seed
+  if(!dayHas(d,'flax')) put(d, has('breakfast')?'breakfast':SLOTS.find(has), 'flax');
+  const second = ['pumpkin','til','peanut'];
+  if(!second.some(id=>dayHas(d,id))){
+    const pick = second[Math.abs(hash(d)) % second.length];   // rotates by date, deterministic
+    put(d, has('snack')?'snack':'breakfast', pick);
+  }
+
+  // 6. A SOUR on any iron-heavy plate — plant iron needs vitamin C to absorb (§9)
+  slotsOn(d).forEach(s=>{
+    if(tot(s.items,'fe') < IRON_PLATE) return;
+    const hasC = tot(s.items,'vc') >= 15 || s.items.some(x=>{const i=ing(x.id); return i && i.role==='sour';});
+    if(!hasC) put(d, s.meal, 'lemon');
+  });
+
+  // 7. PROTEIN floor per slot — top up with an egg, then whey
+  slotsOn(d).forEach(s=>{
+    let gap = MEALS[s.meal].p - tot(s.items,'p');
+    if(gap > 6 && s.meal!=='snack'){ const e=s.items.find(x=>x.id==='egg');
+      if(e){ e.qty += 1; gap -= 6; } else { s.items.push({id:'egg', qty:1}); gap -= 6; } }
+    if(gap > 10) put(d, s.meal, 'whey');
+  });
+}
+function hash(s){ let h=0; for(const c of s) h=(h*31 + c.charCodeAt(0))|0; return h; }
+
+/* Repair the horizon's nutrient gaps — TOPPERS ONLY, one serving per ingredient per day.
+   This bound is the whole reason the result stays edible: the optimiser physically cannot
+   reach for 398 cloves of garlic, only for a spoon of seeds or a green. */
+function repair(){
+  const ds = dates();
+  const toppers = ING.filter(i=>i.topper);
+  for(let pass=0; pass<40; pass++){
+    const short = FOCUS.map(f=>{
+      const got = ds.reduce((s,d)=>s+tot(dayItems(d), f.key), 0);
+      const want = f.daily * ds.length;
+      return {f, deficit:(want-got)/want};
+    }).filter(x=>x.deficit > 1-MET).sort((a,b)=>b.deficit-a.deficit);
+    if(!short.length) return;
+
+    const f = short[0].f;
+    // best topper for this nutrient, on a day that hasn't already got it and has calories to spare
+    let best=null;
+    ds.forEach(d=>{
+      if(dayKcal(d) >= KCAL*KCAL_TOL) return;             // this day is full — don't make it worse
+      toppers.forEach(i=>{
+        if((i.n[f.key]||0) <= 0) return;
+        if(dayHas(d, i.id)) return;                       // one serving per ingredient per day. Hard.
+        // nudge toward toppers already in the fridge and near their deadline
+        const eff = (i.n[f.key]||0) / Math.max(i.n.kcal, 5) * (1 + rescueScore({core:[i.id], opt:[]}));
+        if(!best || eff > best.eff) best={d, i, eff};
+      });
+    });
+    if(!best) return;                                     // nothing legal left — report the gap honestly
+    // land it in the slot with the most calorie headroom, not the first one we find
+    const meal = SLOTS.filter(m=>state.menu.some(s=>s.date===best.d && s.meal===m))
+      .sort((a,b)=>(KCAL_SLOT[b]-slotKcal(best.d,b)) - (KCAL_SLOT[a]-slotKcal(best.d,a)))[0];
+    if(!meal || !put(best.d, meal, best.i.id)) return;
+  }
+}
+
+/* ============ SCORING ============ */
+function score(){
+  const ds = dates();
+  return FOCUS.map(f=>{
+    const got = ds.reduce((s,d)=>s+tot(dayItems(d), f.key), 0) / ds.length;
+    return {f, got, want:f.daily, pct: f.daily? got/f.daily*100 : 0};
+  });
+}
+function contractOf(d){
+  const items = dayItems(d);
+  const sours = slotsOn(d).filter(s=>tot(s.items,'fe')>=IRON_PLATE)
+    .every(s=>tot(s.items,'vc')>=15 || s.items.some(x=>{const i=ing(x.id); return i&&i.role==='sour';}));
+  const greenAt = m => { const s=state.menu.find(x=>x.date===d&&x.meal===m);
+    return !s || s.items.some(x=>{const i=ing(x.id); return i&&i.green;}); };
+  return [
+    {k:`${round1(dayQty(d,'egg'))} eggs`, ok: dayQty(d,'egg') >= EGGS_MIN},
+    {k:'legume',    ok: LEGUMES.some(id=>dayHas(d,id))},
+    {k:'greens ×2', ok: greenAt('lunch') && greenAt('dinner')},
+    {k:'probiotic', ok: dayFlag(d,'probiotic')},
+    {k:'flax',      ok: dayHas(d,'flax')},
+    {k:'sour on iron', ok: sours},
+    {k:`${Math.round(tot(items,'p'))}g P`, ok: tot(items,'p') >= ((FOCUS.find(f=>f.key==='p')||{}).daily||120)*0.95},
+    {k:`${Math.round(tot(items,'kcal'))} kcal`, ok: tot(items,'kcal') <= KCAL*1.08},
+  ];
+}
+
+/* ============ RENDER ============ */
+function render(){ renderGrid(); renderScore(); renderPrep(); renderFresh(); renderContract(); renderNote(); }
+
+function renderNote(){
+  $('#genNote').innerHTML = state.menu.length
+    ? `${state.menu.length} slots · ${state.dirty?'<b style="color:var(--warn)">unsaved</b>':'saved'}`
+    : '';
+  $('#save').disabled = !state.menu.length;
+}
+
+function renderGrid(){
+  if(!state.menu.length){
+    $('#grid').innerHTML = `<div class="empty">No menu yet — hit <b>Suggest a menu</b>. It reads your logged plates first, so the more you've tracked, the more it looks like your own cooking.</div>`;
+    return;
+  }
+  $('#grid').innerHTML = dates().map(d=>{
+    const c = contractOf(d);
+    const flags = c.map(x=>`<span class="flag ${x.ok?'ok':'miss'}">${x.ok?'✓':'⚠'} ${x.k}</span>`).join(' ');
+    return `<div class="day">
+      <div class="dhead"><b>${dayName(d)} ${d.slice(5)}</b> ${flags}
+        <span class="dk">⏱ ${dayEffort(d)} min active</span></div>
+      <div class="slots">${SLOTS.map(m=>{
+        const s = state.menu.find(x=>x.date===d && x.meal===m);
+        if(!s) return `<div class="slot"><div class="sm">${MEALS[m].label}</div><div class="empty">—</div></div>`;
+        const r = rec(s.recipe);
+        const core = new Set(r ? [...r.core, ...r.opt] : []);
+        const extras = s.items.filter(x=>!core.has(x.id) || (ing(x.id)||{}).topper);
+        const p = tot(s.items,'p'), low = p < MEALS[m].p*0.85;
+        const opts = RECIPES.filter(x=>x.meals.includes(m))
+          .sort((a,b)=>(a.effort||15)-(b.effort||15))
+          .map(x=>`<option value="${x.id}" ${x.id===s.recipe?'selected':''}>${x.name}${x.effort?` · ${x.effort}m`:''}</option>`).join('');
+        const bits = r ? [r.effort?`${r.effort} min`:'', r.cuisine||''].filter(Boolean) : [];
+        const cost = bits.length ? `<span class="eff ${r.effort&&r.effort<=6?'t0':r.effort&&r.effort<=15?'t1':'t2'}">${bits.join(' · ')}</span>` : '';
+        return `<div class="slot">
+          <div class="sm">${MEALS[m].label} ${cost}</div>
+          <select data-swap="${d}|${m}">${opts}</select>
+          <div class="si">${s.items.map(x=>{const i=ing(x.id); if(!i) return '';
+            return i.topper && !core.has(x.id) ? '' : `${i.name}${x.qty!==i.default?` ×${round1(x.qty)}`:''}`;})
+            .filter(Boolean).join(', ')}</div>
+          <div>${extras.map(x=>{const i=ing(x.id); return i?`<span class="topper">+ ${i.name}</span>`:''}).join('')}</div>
+          <div class="sp"><b class="${low?'low':''}">${round1(p)}g P</b> <span style="color:var(--muted)">· ${Math.round(tot(s.items,'kcal'))} kcal</span></div>
+        </div>`;
+      }).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderScore(){
+  if(!state.menu.length){ $('#score').innerHTML = `<div class="empty">Generate a menu to score it.</div>`; return; }
+  const rows = score();
+  const ds = dates();
+  const kcal = ds.reduce((s,d)=>s+dayKcal(d),0)/state.days;
+  const over = ds.filter(d=>dayKcal(d) > KCAL*KCAL_TOL).length;
+  const worst = rows.filter(r=>r.pct < MET*100);
+
+  // calories are a CEILING, not a target — a menu that hits every nutrient by eating 500 kcal
+  // too much is a failed menu on a fat-loss plan. Say so plainly instead of flashing all-green.
+  let head = '';
+  if(over) head += `<div class="banner warn"><b>${over} day${over===1?'':'s'} over the calorie ceiling</b>
+    — averaging ${Math.round(kcal)} kcal against ${KCAL}. The trim pass cut what filler it could
+    without touching eggs, greens, the legume or the seeds. Swap a heavy dish, or accept the surplus.</div>`;
+  if(worst.length) head += `<div class="banner warn"><b>${worst.length} target${worst.length===1?'':'s'} short:</b>
+    ${worst.map(r=>r.f.name).join(', ')} — toppers alone couldn't close ${worst.length===1?'it':'them'}.
+    Swap a slot for a dish that carries ${worst[0].f.name.toLowerCase()}.</div>`;
+  if(!over && !worst.length) head = `<div class="banner">✓ Every tracked target met, on daily average, and every day inside the ${KCAL} kcal ceiling.</div>`;
+
+  $('#score').innerHTML = head + rows.map(r=>{
+    const pct = Math.min(100, r.pct), short = r.pct < MET*100;
+    return `<div class="prog-lbl"><span>${r.f.name} <span style="color:var(--muted)">/ ${r.want}${r.f.unit}</span></span>
+      <b>${round1(r.got)}${r.f.unit}</b></div>
+      <div class="bar"><i class="${short?'short':''}" style="width:${pct}%"></i></div>`;
+  }).join('') +
+  `<div class="prog-lbl" style="margin-top:10px"><span>Fat <span style="color:var(--muted)">/ ~${FAT_TARGET}g · derived</span></span>
+     <b style="color:${ds.reduce((s,d)=>s+dayFat(d),0)/state.days > FAT_TARGET*1.2 ? 'var(--warn)':'var(--accent)'}">${Math.round(ds.reduce((s,d)=>s+dayFat(d),0)/state.days)}g</b></div>
+   <div class="bar"><i class="${ds.reduce((s,d)=>s+dayFat(d),0)/state.days > FAT_TARGET*1.2?'short':''}" style="width:${Math.min(100, ds.reduce((s,d)=>s+dayFat(d),0)/state.days/FAT_TARGET*100)}%"></i></div>
+   <div class="prog-lbl" style="margin-top:10px"><span>Active cooking <span style="color:var(--muted)">/ ${EFFORT_MODES[state.effort].label.toLowerCase()}</span></span>
+     <b>${Math.round(ds.reduce((s,d)=>s+dayEffort(d),0)/state.days)} min/day</b></div>
+   <div class="bar"><i style="width:${Math.min(100, ds.reduce((s,d)=>s+dayEffort(d),0)/state.days/60*100)}%"></i></div>
+   <div class="prog-lbl" style="margin-top:10px"><span>Calories <span style="color:var(--muted)">/ ${KCAL} kcal ceiling</span></span>
+     <b style="color:${kcal>KCAL*KCAL_TOL?'var(--warn)':'var(--accent)'}">${Math.round(kcal)} kcal</b></div>
+   <div class="bar"><i class="${kcal>KCAL*KCAL_TOL?'short':''}" style="width:${Math.min(100,kcal/KCAL*100)}%"></i></div>`;
+}
+
+function renderPrep(){
+  const q = prepQueue();
+  if(!q.length){
+    $('#prep').innerHTML = `<div class="banner">${state.menu.length
+      ? `✓ Nothing needs soaking or sprouting in the next 2 days.`
+      : `Generate a menu and I'll tell you what to soak tonight.`}</div>`;
+    return;
+  }
+  $('#prep').innerHTML = q.map(x=>{
+    const o = x.o, name = (o||x.i).name, prep = ((o||x.i).prep)||'';
+    const w = x.standing ? {t:'keep a batch ready', cls:''} : whenLabel(x.hrs);
+    const line = x.standing
+      ? `<small><b>${w.t}</b>${x.lead?` — a ${x.lead}h job`:''}</small>`
+      : `<small class="${w.cls}"><b>${w.t}</b> · by ${x.startBy.toLocaleString(undefined,{weekday:'short',hour:'numeric',minute:'2-digit'})} — needs ${x.lead}h</small>`;
+    const forr = x.standing
+      ? `<small style="color:var(--muted)">always keep on hand</small>`
+      : `<small style="color:var(--muted)">for ${x.dish} · ${dayName(x.slot.date)}</small>`;
+    const btn = o ? `<button class="add" data-prepdone="${o.id}" style="padding:6px 10px">✓ Done</button>` : '';
+    return `<div class="rrow">
+      <div class="rn"><b>${name}</b>
+        ${line}
+        ${prep?`<small>${prep}</small>`:''}
+        ${forr}
+      </div>
+      ${btn}
+    </div>`;
+  }).join('') +
+  `<p class="note" style="margin:10px 0 0">Cook time is <b>effort</b>; this is <b>lead</b>. Marking a prep
+   <b>Done</b> stocks the ready form (soaked rajma keeps ~2 days sprouts ~3) so the next cook skips the wait.</p>`;
+}
+
+function renderFresh(){
+  const risk = atRisk();
+  if(!risk.length){
+    $('#fresh').innerHTML = `<div class="empty">Nothing perishable is close to turning${Object.keys(STOCK).length?'':' — count your stock on the shopping page first'}.</div>`;
+    return;
+  }
+  const waste = state.menu.length ? spoilage() : [];
+  const wasteIds = new Set(waste.map(w=>w.i.id));
+  const head = !state.menu.length
+    ? `<p class="note" style="margin:-4px 0 10px">Generate a menu and I'll show what it rescues and what still rots.</p>`
+    : waste.length
+      ? `<div class="banner warn" style="margin-bottom:12px"><b>${waste.length} item${waste.length===1?'':'s'} will still spoil</b>
+         — the menu doesn't use ${waste.length===1?'it':'them'} up in time. Swap a slot for a dish that does, or plan to give ${waste.length===1?'it':'them'} away.</div>`
+      : `<div class="banner" style="margin-bottom:12px">✓ This menu uses up everything before it turns.</div>`;
+
+  $('#fresh').innerHTML = head + risk.map(x=>{
+    const w = waste.find(y=>y.i.id===x.i.id);
+    const dead = x.left <= 0;
+    const uses = state.menu.length ? RECIPES.filter(r=>[...r.core,...r.opt].includes(x.i.id))
+                                            .slice(0,2).map(r=>r.name) : [];
+    return `<div class="rrow">
+      <div class="rn"><b>${x.i.name}</b>
+        <small class="${dead||w?'miss':''}">${round1(x.qty)} ${x.i.unit} ·
+          ${dead ? 'past its shelf life' : `${x.left} day${x.left===1?'':'s'} left`}
+          ${w ? ` · <b>${round1(w.waste)} ${x.i.unit} will spoil</b>` : state.menu.length ? ' · used in time ✓' : ''}</small>
+        ${w && uses.length ? `<small style="color:var(--muted)">try: ${uses.join(' · ')}</small>` : ''}
+      </div>
+      <span class="pill ${dead||w?'':'ok'}">${dead?'⚠':x.left<=2?'soon':'ok'}</span>
+    </div>`;
+  }).join('') +
+  `<p class="note" style="margin:10px 0 0">The generator already pulls hard toward dishes that use these — a
+   bunch of spinach costs more than the 10 minutes it takes to cook properly, so freshness outranks effort.</p>`;
+}
+
+function renderContract(){
+  if(!state.menu.length){ $('#contract').innerHTML = `<div class="empty">—</div>`; return; }
+  const ds = dates();
+  const lines = [
+    ['≥3 eggs every day',        ds.every(d=>dayQty(d,'egg')>=EGGS_MIN)],
+    ['A legume every day',       ds.every(d=>LEGUMES.some(id=>dayHas(d,id)))],
+    ['A green at lunch + dinner',ds.every(d=>contractOf(d)[2].ok)],
+    ['A probiotic every day',    ds.every(d=>dayFlag(d,'probiotic'))],
+    ['Flax every day',           ds.every(d=>dayHas(d,'flax'))],
+    ['A sour on every iron meal',ds.every(d=>contractOf(d)[5].ok)],
+  ];
+  $('#contract').innerHTML = lines.map(([t,ok])=>
+    `<div style="display:flex;gap:8px;align-items:baseline;font-size:13px;padding:3px 0">
+      <span style="color:${ok?'var(--accent)':'var(--warn)'};font-weight:700">${ok?'✓':'⚠'}</span>
+      <span style="color:${ok?'var(--ink)':'var(--warn)'}">${t}</span></div>`).join('') +
+    `<p class="note" style="margin:10px 0 0">Gates, not preferences. A day that fails one of these is not a balanced day — the generator will not knowingly ship it.</p>`;
+}
+
+/* ============ EVENTS ============ */
+document.addEventListener('click', async e=>{
+  const t=e.target;
+  if(t.id==='gen'){ generate(); }
+  else if(t.id==='save'){
+    try{ await api('menu', {slots: state.menu}); state.dirty=false; render(); }
+    catch(err){ apiFail('save the menu', err); }
+  }
+  else if(t.id==='clear'){
+    const ds=dates();
+    try{ await api('menu/clear', {from:ds[0], to:ds[ds.length-1]}); state.menu=[]; state.dirty=false; render(); }
+    catch(err){ apiFail('clear the menu', err); }
+  }
+  else if(t.dataset.prepdone){                          // prep done -> stock the ready form; shelf life expires it
+    const o = ing(t.dataset.prepdone); if(!o) return;
+    try{ STOCK = await api('stock/add', {id:o.id, delta:(o.pack||1)}); render(); }
+    catch(err){ apiFail('log the prep', err); }
+  }
+});
+document.addEventListener('change', e=>{
+  const t=e.target;
+  if(t.dataset.swap){                                  // swap a dish -> rebuild that slot, re-run the gates
+    const [d,m] = t.dataset.swap.split('|');
+    const r = rec(t.value); if(!r) return;
+    const slot = state.menu.find(s=>s.date===d && s.meal===m);
+    slot.recipe = r.id;
+    slot.items = slotItems(r);
+    rebuild(dates());
+    state.dirty=true; render();
+  }
+  if(t.id==='from'){ state.from = t.value || todayStr(); render(); }
+  if(t.id==='days'){ state.days = +t.value; render(); }
+  if(t.id==='effort'){ state.effort = t.value; render(); }
+});
+
+/* ============ INIT ============ */
+async function init(){
+  try{
+    const [data, plates, menu, pins, stock] = await Promise.all([
+      api('data'), api('plates'), api('menu'), api('pins'), api('stock')]);
+    ING = (data.ingredients||[]).map(r=>({
+      id:r.id, name:r.name, unit:r.unit, default:+r.default||1, role:r.role||'',
+      green:!!r.green, probiotic:!!r.probiotic, topper:!!r.topper, shelf:+r.shelf||30,
+      lead:+r.lead||0, prep:r.prep||'', makes:r.makes||'', keep:!!r.keep, pack:+r.pack||1,
+      n:{ kcal:+r.kcal||0, p:+r.protein||0, c:+r.carbs||0, fib:+r.fibre||0, fe:+r.iron||0, ca:+r.calcium||0,
+          vc:+r.vitc||0, fo:+r.folate||0, o3:+r.omega3||0, zn:+r.zinc||0, va:+r.vita||0,
+          mg:+r.magnesium||0, k:+r.potassium||0 } }));
+    RECIPES = data.recipes||[];
+    FOCUS = (data.targets||[]).map(t=>({key:t.key, name:t.name, unit:t.unit, daily:+t.daily||0}));
+    PLATES = plates; PINS = pins; STOCK = stock;
+    state.menu = menu.map(s=>({date:s.date, meal:s.meal, recipe:s.recipe, items:s.items}));
+    if(state.menu.length){ state.from = state.menu[0].date;
+      state.days = new Set(state.menu.map(s=>s.date)).size; }
+    $('#from').value = state.from; $('#days').value = String(state.days);
+    $('#effort').value = state.effort;
+    render();
+  }catch(e){
+    document.querySelector('.wrap').innerHTML =
+      `<div class="panel"><h2>Can't reach the planner API</h2>
+       <pre style="background:var(--chip);padding:12px;border-radius:8px">cd meal-system
+python3 app.py serve</pre><p style="color:var(--warn);font-size:13px">(${e.message})</p></div>`;
+  }
+}
+init();
+</script>
+</body>
+</html>

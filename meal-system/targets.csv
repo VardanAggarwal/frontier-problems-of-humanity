@@ -9,6 +9,8 @@ iron,fe,Iron,mg,day,17,5,1
 fibre,fib,Fibre,g,day,35,10,1
 vitc,vc,Vitamin C,mg,day,85,24,1
 calcium,ca,Calcium,mg,day,1000,285,0
+magnesium,mg,Magnesium,mg,day,350,100,0
+potassium,k,Potassium,mg,day,3500,1000,0
 folate,fo,Folate,ug,day,400,114,0
 omega3,o3,Omega-3,g,day,1.6,0.5,0
 zinc,zn,Zinc,mg,week,11,3,0

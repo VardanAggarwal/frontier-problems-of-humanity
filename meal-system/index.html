@@ -130,7 +130,9 @@
       <h1>Balanced Meal Planner</h1>
       <p class="sub">Pantry-driven · protein-gated · build a plate and watch the nutrient gaps fill</p>
     </div>
-    <button class="reset" id="reset">Reset plate</button>
+    <a class="reset" href="menu.html" style="margin-left:auto;text-decoration:none">🗓️ Menu</a>
+    <a class="reset" href="shop.html" style="margin-left:0;text-decoration:none">🧺 Shopping list</a>
+    <button class="reset" id="reset" style="margin-left:0">Reset plate</button>
   </div>
 
   <!-- meal picker -->
@@ -140,14 +142,24 @@
     <div id="dayBar" style="margin-top:12px;display:flex;align-items:center;flex-wrap:wrap;gap:6px"></div>
   </div>
 
+  <!-- prep queue — soak/sprout/bhuna ahead-work; done → becomes ready stock -->
+  <div class="panel">
+    <h2>🌱 Prep pending</h2>
+    <div id="prep"></div>
+  </div>
+
   <div class="cols">
     <!-- LEFT: suggestion loop -->
     <div>
       <div class="panel">
         <h2>2 · Build the plate</h2>
-        <input class="search" id="search" placeholder="🔍 Search any ingredient — egg, ragi, spinach…" autocomplete="off">
+        <input class="search" id="search" placeholder="🔍 Search a dish or an ingredient — shakshuka, tofu, greek, ragi…" autocomplete="off">
         <div id="builder"></div>
         <div class="flags" id="flags"></div>
+      </div>
+      <div class="panel">
+        <h2>🗓️ Planned for this day</h2>
+        <div id="planned"></div>
       </div>
       <div class="panel">
         <h2>🍳 Recipes from your plate</h2>
@@ -190,7 +202,7 @@
 <script>
 /* ============ DATA — loaded from ingredients.csv + targets.csv ============ */
 // Populated by buildData() after fetch. Edit the CSVs (not this file) to change data.
-let ING = [], FOCUS = {}, DAILY = {}, BASES = [], SEQ_MAIN = [], RECIPES = [];
+let ING = [], FOCUS = {}, DAILY = {}, BASES = [], SEQ_MAIN = [], RECIPES = [], MENU = [], STOCK = {};
 const SEQ_SNACK = ['protein','vitc'];
 const CAD_LABEL = {meal:'Per meal', day:'Daily', week:'Weekly (average)'};
 const KCAL = 1775; // deficit midpoint
@@ -212,6 +224,8 @@ const BLURBS = {
   omega3:'1 tbsp ground flax replaces the capsule. Egg yolk adds a little DHA.',
   zinc:'Bank it across the week — pumpkin seeds, sprouted dals, til, millets.',
   vita:'Fat-soluble, stores — average across the week via carrot / greens / papaya.',
+  magnesium:'Millets carry it, rice does not — the base you pick decides this one.',
+  potassium:'Banana, greens, beetroot, coconut water. Low-risk if the veg layer is real.',
 };
 const NONFOOD = [
   {nm:'B12', cad:'day', how:'supplement — no plant source'},
@@ -224,18 +238,21 @@ const NONFOOD = [
 /* ---- API JSON → data structures (source of truth is meals.db, served by app.py) ---- */
 function buildData(d){
   ING = (d.ingredients||[]).map(r=>({
-    id:r.id, nm:r.name, unit:r.unit, def:+r.default||1, role:r.role||'',
+    id:r.id, nm:r.name, unit:r.unit, def:+r.default||1, pack:+r.pack||1, role:r.role||'',
     pantry:!!r.pantry, base:!!r.base, green:!!r.green, probiotic:!!r.probiotic,
-    note:r.note||'',
+    note:r.note||'', shelf:+r.shelf||30, lead:+r.lead||0, prep:r.prep||'',
+    makes:r.makes||'', keep:!!r.keep,
     n:{ kcal:+r.kcal||0, p:+r.protein||0, c:+r.carbs||0, fib:+r.fibre||0, fe:+r.iron||0, ca:+r.calcium||0,
-        vc:+r.vitc||0, fo:+r.folate||0, o3:+r.omega3||0, zn:+r.zinc||0, va:+r.vita||0 } }));
+        vc:+r.vitc||0, fo:+r.folate||0, o3:+r.omega3||0, zn:+r.zinc||0, va:+r.vita||0,
+        mg:+r.magnesium||0, k:+r.potassium||0 } }));
   BASES = ING.filter(i=>i.base).map(i=>i.id);
   FOCUS = {}; DAILY = {}; SEQ_MAIN = [];
   (d.targets||[]).forEach(r=>{
     FOCUS[r.fname] = {key:r.key, nm:r.name, unit:r.unit, cad:r.cadence, daily:+r.daily||0, meal:+r.meal||0, permeal:!!r.permeal, blurb:BLURBS[r.fname]||''};
     DAILY[r.key] = +r.daily||0; SEQ_MAIN.push(r.fname);
   });
-  RECIPES = (d.recipes||[]).map(r=>({ id:r.id, name:r.name, meals:r.meals||[], core:r.core||[], opt:r.opt||[], method:r.method||'', user:!!r.user }));
+  RECIPES = (d.recipes||[]).map(r=>({ id:r.id, name:r.name, meals:r.meals||[], core:r.core||[], opt:r.opt||[],
+    method:r.method||'', cuisine:r.cuisine||'', effort:+r.effort||0, user:!!r.user }));
 }
 
 /* ---- API helpers ---- */
@@ -284,6 +301,16 @@ function activeFocus(){
   if(req.includes(state.focus)) return state.focus;
   return req[0] || null;
 }
+
+/* ---- freshness: what's about to turn, so the planner steers you at it ---- */
+const stockQty = id => (STOCK[id]||{}).qty || 0;
+function daysLeft(id){
+  const i = ING.find(x=>x.id===id), b = (STOCK[id]||{}).bought;
+  if(!i || !b) return 99;
+  const age = Math.floor((new Date(todayStr()+'T00:00') - new Date(b.slice(0,10)+'T00:00'))/86400000);
+  return (i.shelf||30) - age;
+}
+const isDying = id => stockQty(id) > 0 && daysLeft(id) <= 3;
 
 /* ============ HELPERS ============ */
 const $ = s => document.querySelector(s);
@@ -347,7 +374,7 @@ async function saveAsRecipe(name){
     meals:[state.meal], core:ids.filter(id=>!isOpt(id)), opt:ids.filter(isOpt), method:'Your saved recipe' };
   try{
     const {id} = await api('recipes', r);
-    RECIPES.push({...r, id, user:true});
+    RECIPES.push({...r, id, user:true, cuisine:'', effort:0});   // unknown for a hand-saved recipe
     state.savingRecipe=false; render();
   }catch(e){ apiFail('save this recipe', e); }
 }
@@ -359,7 +386,7 @@ async function delRecipe(id){
 }
 
 /* ============ RENDER ============ */
-function render(){ renderMeals(); renderDayBar(); renderBuilder(); renderRecipes(); renderPlate(); renderRecipeSave(); renderTotals();
+function render(){ renderMeals(); renderDayBar(); renderPrep(); renderBuilder(); renderPlanned(); renderRecipes(); renderPlate(); renderRecipeSave(); renderTotals();
   renderDayTotals(); renderWeekTotals(); renderFlags(); renderReminders(); renderSaved(); }
 
 function renderRecipeSave(){
@@ -399,6 +426,117 @@ function composePlate(ids, meal){
   finish.forEach(i=>covered.add(i.id));
   const leftover=ids.filter(id=>!covered.has(id)).map(ing).filter(Boolean);
   return {chosen, bases, finish, leftover};
+}
+
+/* ============ PREP QUEUE — the ahead-work `effort` misses ============
+   Some things can't be cooked on demand: rajma needs an 8h soak, moong a 24h sprout, and a gravy
+   wants a bhuna base made once and kept. Those are PREP OUTPUTS (ingredients with a `makes` link).
+   This queue is fed from two sides:
+     · menu-driven — an upcoming planned dish needs a soak/sprout that isn't ready yet
+     · standing (keep=1) — a batch you always want on hand (base paste, a sprout jar) has run out
+   Marking one Done bumps that output's stock (POST /api/stock/add); shelf life then expires it. */
+const MEAL_HOUR = {breakfast:8, lunch:13, snack:17, dinner:20};
+const prepOutputs = () => ING.filter(i=>i.makes);
+const outputForRaw = raw => prepOutputs().find(o=>o.makes.split(/\s+/).includes(raw));
+function prepWhen(hrs){
+  if(hrs < 0)  return {t:'overdue — start now', urgent:true};
+  if(hrs < 3)  return {t:'start now',           urgent:true};
+  if(hrs < 14) return {t:'start tonight',       urgent:false};
+  return {t:'start tomorrow', urgent:false};
+}
+function prepPending(){
+  const now = new Date();
+  const rows = [], ready = {};
+  const slots = MENU.filter(s=>s.date>=state.day).sort((a,b)=>
+    (a.date+String(MEAL_HOUR[a.meal]||12).padStart(2,'0')).localeCompare(b.date+String(MEAL_HOUR[b.meal]||12).padStart(2,'0')));
+  slots.forEach(sl=>{
+    const cookAt = new Date(`${sl.date}T${String(MEAL_HOUR[sl.meal]||12).padStart(2,'0')}:00`);
+    sl.items.forEach(it=>{
+      const i = ING.find(x=>x.id===it.id); if(!i) return;
+      const o = i.makes ? i : outputForRaw(i.id);   // the prepped form this item needs
+      const lead = o ? o.lead : i.lead;             // no output row (e.g. millet) → nag off the raw
+      if(!lead) return;
+      if(o){                                        // a ready batch of the output cancels the prep
+        const have = ready[o.id] ?? stockQty(o.id);
+        if(have >= it.qty){ ready[o.id] = have - it.qty; return; }
+        ready[o.id] = Math.max(0, (o.pack||4) - it.qty);
+      }
+      const startBy = new Date(cookAt.getTime() - lead*3600e3);
+      const hrs = (startBy - now)/3600e3;
+      if(hrs > 40) return;                          // too far out to act on yet
+      const r = RECIPES.find(x=>x.id===sl.recipe);
+      rows.push({o, raw:i, lead, startBy, hrs, dish:r?r.name:MEALS[sl.meal].label});
+    });
+  });
+  const byKey = {};                                 // one row per output/raw — earliest deadline binds
+  rows.sort((a,b)=>a.startBy-b.startBy).forEach(x=>{ const k=x.o?x.o.id:x.raw.id; if(!byKey[k]) byKey[k]=x; });
+  const list = Object.values(byKey);
+  const queued = new Set(list.map(x=>x.o&&x.o.id));
+  prepOutputs().filter(o=>o.keep && stockQty(o.id)<=0 && !queued.has(o.id))  // standing preps that ran out
+    .forEach(o=>list.push({o, standing:true, lead:o.lead}));
+  return list.sort((a,b)=>(a.startBy?0:1)-(b.startBy?0:1) || (a.startBy - b.startBy));
+}
+function renderPrep(){
+  const el=$('#prep'); if(!el) return;
+  const list = prepPending();
+  if(!list.length){ el.innerHTML = `<div class="empty">✓ Nothing to prep — everything you'll need is ready.</div>`; return; }
+  el.innerHTML = list.map(x=>{
+    const o = x.o, title = (o||x.raw).nm, doing = ((o||x.raw).prep)||'';
+    const w = x.standing ? {t:'keep a batch ready', urgent:false} : prepWhen(x.hrs);
+    const meta = x.standing ? 'always keep on hand'
+      : `${w.t} · by ${x.startBy.toLocaleString(undefined,{weekday:'short',hour:'numeric',minute:'2-digit'})}${x.lead?` — needs ${x.lead}h`:''}`;
+    const forr = x.standing ? '' : ` · for ${x.dish}`;
+    const btn = o ? `<button class="add" data-prepdone="${o.id}" style="padding:6px 10px">✓ Done</button>` : '';
+    return `<div class="plate-item">
+      <div class="pn"><b>${title}</b>
+        <small style="color:${w.urgent?'var(--warn)':'var(--muted)'}">${meta}${forr}</small>
+        ${doing?`<small style="color:var(--muted)">${doing}</small>`:''}</div>
+      ${btn}</div>`;
+  }).join('');
+}
+// Prep done → the output becomes ready stock (its shelf-life clock starts now). Reuses /api/stock/add.
+async function prepDone(oid){
+  const o = ING.find(i=>i.id===oid); if(!o) return;
+  try{ STOCK = await api('stock/add', {id:oid, delta:(o.pack||1)}); render(); }
+  catch(e){ apiFail('log the prep', e); }
+}
+
+// The menu page plans; the planner cooks. This is the bridge — load the planned slot, tweak it,
+// save it. Saving marks it eaten and consumes stock, exactly like any other plate.
+function renderPlanned(){
+  const el=$('#planned'); if(!el) return;
+  const today = MENU.filter(s=>s.date===state.day);
+  if(!today.length){
+    el.innerHTML = `<div class="empty">Nothing planned for ${state.day}. <a href="menu.html">Generate a menu →</a></div>`;
+    return;
+  }
+  const prep = []; // anything on today's plan that needed starting yesterday
+  el.innerHTML = today.sort((a,b)=>Object.keys(MEALS).indexOf(a.meal)-Object.keys(MEALS).indexOf(b.meal))
+    .map(sl=>{
+      const r = RECIPES.find(x=>x.id===sl.recipe);
+      const p = itemsTotal(sl.items,'p'), kc = itemsTotal(sl.items,'kcal');
+      const names = sl.items.map(it=>{const i=ING.find(x=>x.id===it.id); return i?i.nm:'';}).filter(Boolean).join(', ');
+      // only nag for prep we actually owe. A dry staple (rajma, shelf 365) needs its soak every
+      // time; an already-prepped perishable (a sprout jar, shelf 3) doesn't while stock covers it.
+      sl.items.forEach(it=>{ const i=ING.find(x=>x.id===it.id);
+        if(!i || !i.lead || prep.some(x=>x.id===i.id)) return;
+        const alreadyDone = (i.shelf||30) <= 3 && stockQty(i.id) >= it.qty;
+        if(!alreadyDone) prep.push(i); });
+      const on = sl.meal===state.meal;
+      return `<div class="plate-item">
+        <div class="pn"><b>${MEALS[sl.meal].label}</b>${r?` · ${r.name}`:''}${r&&r.effort?` <span class="buy" style="color:var(--muted);border-color:var(--line)">${r.effort}m</span>`:''}
+          <small>${round1(p)}g P · ${Math.round(kc)} kcal · ${names}</small></div>
+        <button class="add ${on?'':'rm'}" data-loadslot="${sl.id}" style="padding:5px 10px">${on?'Load':'Load'}</button>
+      </div>`;
+    }).join('') +
+    (prep.length ? `<div class="flags" style="margin-top:10px"><span class="flag miss">🌱 needs prep ahead: ${prep.map(i=>`${i.nm} (${i.prep})`).join(' · ')}</span></div>` : '');
+}
+function loadSlot(id){
+  const sl = MENU.find(x=>x.id===id); if(!sl) return;
+  state.meal = sl.meal;
+  state.plate = sl.items.map(x=>({...x}));
+  state.focus='protein'; state.query=''; const si=$('#search'); if(si) si.value='';
+  window.scrollTo(0,0); render();
 }
 
 function renderRecipes(){
@@ -455,7 +593,8 @@ function renderDayBar(){
 function renderDayTotals(){
   const plates = platesFor(state.day);
   const rows = [['Protein','p','g',DAILY.p],['Carbs','c','g',DAILY.c],['Iron','fe','mg',DAILY.fe],
-    ['Calcium','ca','mg',DAILY.ca],['Fibre','fib','g',DAILY.fib],['Vitamin C','vc','mg',DAILY.vc],
+    ['Calcium','ca','mg',DAILY.ca],['Magnesium','mg','mg',DAILY.mg],['Potassium','k','mg',DAILY.k],
+    ['Fibre','fib','g',DAILY.fib],['Vitamin C','vc','mg',DAILY.vc],
     ['Folate','fo','µg',DAILY.fo],['Omega-3','o3','g',DAILY.o3]];
   const meals = plates.map(p=>MEALS[p.meal].label).join(', ') || 'nothing saved yet';
   $('#dayTotals').innerHTML =
@@ -508,9 +647,12 @@ function suggRow(i, key, remaining){
   bits.push(`${Math.round(i.n.kcal*qty)} kcal`);
   if(closeN) bits.push(`≈${closeN} ${i.unit}${closeN>1?'s':''} to finish`);
   if(i.note) bits.push(i.note);
+  const dl = daysLeft(i.id);
+  const dying = isDying(i.id)
+    ? `<span class="buy" style="color:var(--accent);border-color:var(--accent)">${dl<=0?'use today':dl+'d left'}</span>` : '';
   return `<div class="srow ${ip?'inplate':''}">
     <div class="si">
-      <div class="nm">${i.nm}${!i.pantry?'<span class="buy">buy</span>':''}</div>
+      <div class="nm">${i.nm}${!i.pantry?'<span class="buy">buy</span>':''}${dying}</div>
       <div class="meta">${bits.join(' · ')}</div>
     </div>
     <div class="stepper" data-id="${i.id}">
@@ -524,16 +666,86 @@ function suggRow(i, key, remaining){
   </div>`;
 }
 
+/* ---- dish search: name, cuisine, method, and the ingredients it's made of ----
+   Matching on ingredients too means typing "tofu" surfaces the tofu dishes, not just the block
+   of tofu — which is usually what you actually wanted. Dishes you can make from what's on hand
+   rank first, then cheap ones, then ones that fit the meal you're on. */
+function searchRecipes(q){
+  const scored = RECIPES.map(r=>{
+    const names = r.core.map(id=>{const i=ING.find(x=>x.id===id); return i?i.nm.toLowerCase():'';}).join(' ');
+    const hitName = r.name.toLowerCase().includes(q);
+    const hit = hitName || (r.cuisine||'').includes(q) || (r.method||'').toLowerCase().includes(q) || names.includes(q);
+    if(!hit) return null;
+    const have = r.core.filter(id=>{const i=ING.find(x=>x.id===id); return i && i.pantry;}).length;
+    return {r, s: (hitName?4:0) + have/Math.max(1,r.core.length)*2
+                 + (r.meals.includes(state.meal)?1:0) - r.effort/60};
+  }).filter(Boolean).sort((a,b)=>b.s-a.s).slice(0,5);
+  return scored.map(x=>x.r);
+}
+// what a dish puts on the plate: its core, plus the load-bearing part of its micro layer
+// (sour → green → seed, max 3) — same rule the menu generator uses. Plain aromatics are skipped.
+function dishItems(r){
+  const core = r.core.filter(id=>ING.find(x=>x.id===id));
+  const rank = id => { const i=ING.find(x=>x.id===id); if(!i) return 9;
+    return i.role==='sour' ? 0 : i.green ? 1 : i.role==='seed' ? 2 : 4; };
+  const opt = r.opt.filter(id=>{ const i=ING.find(x=>x.id===id); return i && rank(id) < 4 && !core.includes(id); })
+                   .sort((a,b)=>rank(a)-rank(b)).slice(0,3);
+  return [...core, ...opt];
+}
+function dishRow(r){
+  const ids = dishItems(r);
+  const p = ids.reduce((s,id)=>{const i=ING.find(x=>x.id===id); return s + (i?i.n.p*i.def:0);},0);
+  const kc= ids.reduce((s,id)=>{const i=ING.find(x=>x.id===id); return s + (i?i.n.kcal*i.def:0);},0);
+  const nm = id=>{const i=ING.find(x=>x.id===id); return i?i.nm:id;};
+  const missing = ids.filter(id=>{const i=ING.find(x=>x.id===id); return i && !i.pantry;});   // ids, not objects
+  // only render what we actually know — a hand-saved recipe has no effort/cuisine, and
+  // "undefinedm · undefined" is worse than showing nothing
+  const tags = [];
+  if(r.effort)  tags.push(`${r.effort}m`);
+  if(r.cuisine) tags.push(r.cuisine);
+  const chips = (tags.length?`<span class="cap">${tags.join(' · ')}</span>`:'')
+              + (r.user?`<span class="cap">yours</span>`:'');
+  return `<div class="srow">
+    <div class="si">
+      <div class="nm">${r.name} ${chips}</div>
+      <div class="meta"><b style="color:var(--accent)">+${round1(p)}g protein</b> · ${Math.round(kc)} kcal${r.method?` · ${r.method}`:''}</div>
+      <div class="meta" style="margin-top:2px">adds: ${ids.map(nm).join(', ')}</div>
+      ${missing.length?`<div class="meta" style="color:var(--warn)">not in pantry: ${missing.map(nm).join(', ')}</div>`:''}
+    </div>
+    <button class="add" data-adddish="${r.id}">Add dish</button>
+  </div>`;
+}
+function addDish(id){
+  const r = RECIPES.find(x=>x.id===id); if(!r) return;
+  dishItems(r).forEach(iid=>{
+    if(inPlate(iid)) return;                       // already there — don't stack a second portion
+    const i = ING.find(x=>x.id===iid);
+    if(i) state.plate.push({id:iid, qty:i.def});
+  });
+  state.expand=false; state.query=''; const si=$('#search'); if(si) si.value='';
+  render();
+}
+
 function renderBuilder(){
   const el=$('#builder'), q=(state.query||'').trim().toLowerCase();
 
-  // --- SEARCH mode: type to add anything directly (contribution shown for the current gap) ---
+  // --- SEARCH mode: matches DISHES and ingredients. Typing "shakshuka" or "greek" or even
+  //     "tofu" should find the dish, not just the raw item — one tap drops the whole plate in.
   if(q){
     const ag=activeGap();
+    const dishes = searchRecipes(q);
     const m=ING.filter(i=>i.nm.toLowerCase().includes(q) && (i.pantry||state.showBuy))
       .sort((a,b)=> Math.abs((a.n[ag.key]||0)*a.def - ag.remaining) - Math.abs((b.n[ag.key]||0)*b.def - ag.remaining));
-    el.innerHTML = m.length ? m.map(i=>suggRow(i,ag.key,ag.remaining)).join('')
-      : `<div class="empty">No ingredient matches “${q}”. ${!state.showBuy?'<a href="#" id="searchBuy">Include buy-list?</a>':''}</div>`;
+
+    let html='';
+    if(dishes.length){
+      html += `<div class="rlbl">Dishes</div>` + dishes.map(dishRow).join('');
+    }
+    if(m.length){
+      html += `<div class="rlbl" style="margin-top:${dishes.length?'14px':'0'}">Ingredients</div>`
+            + m.map(i=>suggRow(i,ag.key,ag.remaining)).join('');
+    }
+    el.innerHTML = html || `<div class="empty">Nothing matches “${q}”. ${!state.showBuy?'<a href="#" id="searchBuy">Include buy-list?</a>':''}</div>`;
     return;
   }
 
@@ -569,7 +781,10 @@ function renderBuilder(){
 
   // category-free: any pantry item that provides this nutrient, ranked by how close its default serving gets to the gap
   let sugg=ING.filter(i=>(i.pantry||state.showBuy) && !inPlate(i.id) && (i.n[key]||0)>0);
-  sugg.sort((a,b)=> Math.abs((a.n[key]||0)*a.def - remaining) - Math.abs((b.n[key]||0)*b.def - remaining));
+  // fit to the gap, but let something about to spoil jump the queue — a dying bunch of spinach
+  // is a better answer than a perfect-fit item that will still be there next week
+  const fit=i=>Math.abs((i.n[key]||0)*i.def - remaining) - (isDying(i.id)?remaining*0.6:0);
+  sugg.sort((a,b)=> fit(a)-fit(b));
   const LIMIT=3, shown=state.expand?sugg:sugg.slice(0,LIMIT), moreN=sugg.length-shown.length;
 
   const reqGaps=seqReq().filter(underTarget);
@@ -664,6 +879,9 @@ document.addEventListener('click', e=>{
   const t=e.target;
   if(t.dataset.meal){ state.meal=t.dataset.meal; state.focus='protein'; render(); }
   else if(t.dataset.focus){ state.focus=t.dataset.focus; state.expand=false; renderBuilder(); }
+  else if(t.dataset.loadslot){ loadSlot(t.dataset.loadslot); }
+  else if(t.dataset.prepdone){ prepDone(t.dataset.prepdone); }
+  else if(t.dataset.adddish){ addDish(t.dataset.adddish); }
   else if(t.dataset.add){ addItem(t.dataset.add); }
   else if(t.dataset.rm){ rmItem(t.dataset.rm); }
   else if(t.dataset.act){ // stepper +/-
@@ -710,9 +928,10 @@ async function migrateLocal(){
 async function init(){
   try{
     await migrateLocal();
-    const [data, plates] = await Promise.all([api('data'), api('plates')]);
+    const [data, plates, menu, stock] = await Promise.all([
+      api('data'), api('plates'), api('menu'), api('stock')]);
     buildData(data);
-    state.saved = plates;
+    state.saved = plates; MENU = menu; STOCK = stock;
     render();
   }catch(e){
     document.querySelector('.wrap').innerHTML =
