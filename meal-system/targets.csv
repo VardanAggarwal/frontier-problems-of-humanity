@@ -1,0 +1,15 @@
+# Target nutrients — what a meal / day / week must deliver. Drives the planner's gap detection + rollups.
+# fname = internal focus name. cadence: meal | day | week. daily = full-day target. meal = one-main-meal target.
+# permeal: 1 = required every meal (drives the guided flow). 0 = optional per meal (daily/weekly — addable, never blocks).
+# order here = order the planner walks gaps in (priority top-first).
+fname,key,name,unit,cadence,daily,meal,permeal
+protein,p,Protein,g,meal,120,30,1
+carbs,c,Carbs,g,day,200,57,1
+iron,fe,Iron,mg,day,17,5,1
+fibre,fib,Fibre,g,day,35,10,1
+vitc,vc,Vitamin C,mg,day,85,24,1
+calcium,ca,Calcium,mg,day,1000,285,0
+folate,fo,Folate,ug,day,400,114,0
+omega3,o3,Omega-3,g,day,1.6,0.5,0
+zinc,zn,Zinc,mg,week,11,3,0
+vita,va,Vitamin A,ug,week,900,257,0

@@ -1,0 +1,49 @@
+# Ingredient nutrient table — the data source for planner.html
+# Values are PER ONE UNIT of the stated unit (multiply by qty). Micros (vitc/folate/omega3/zinc/vita) are rough estimates.
+# pantry: 1 = on hand. base: 1 = can START a plate. green/probiotic: functional flags. role: for recipe phrasing (base/protein/veg/green/aromatic/sour/seed/fruit/condiment/dairy).
+# No commas inside any field.
+id,name,unit,default,pantry,base,green,probiotic,role,kcal,protein,carbs,fibre,iron,calcium,vitc,folate,omega3,zinc,vita,note
+egg,Eggs,egg,2,1,1,0,0,protein,72,6,0.5,0,0.9,28,0,24,0.05,0.6,40,keystone protein
+dal,Dal (toor/moong/masoor),cup,1,1,1,0,0,protein,120,9,20,4,2.8,40,0,120,0,0.7,0,daily backbone
+rajma,Rajma,cup,1,1,1,0,0,protein,220,14,40,9,3.5,70,0,130,0,1.0,0,soak 6-8h then discard water
+kala,Kala chana,cup,1,1,0,0,0,protein,210,13,35,8,3.0,70,0,100,0,1.0,0,
+soya,Soya chunks,30g dry,1,1,0,0,0,protein,100,15,10,3,5.0,80,0,60,0,1.0,0,cap 2-3x per week
+besan,Besan (chilla),40g,1,1,1,0,0,protein,150,8,22,4,1.7,18,0,170,0,1.0,0,
+whey,Whey,scoop,1,1,0,0,0,protein,120,24,3,0,0.3,120,0,0,0,1.0,0,gap-filler not a base
+sprout,Sprouted moong,cup,1,1,0,0,0,protein,100,7,17,4,1.4,50,10,100,0,0.5,0,sprout the moong you have
+peanut,Roasted peanuts,30g,1,1,0,0,0,seed,170,7,5,3,1.4,28,0,0,0,0.9,0,
+pb,Peanut butter,tbsp,2,1,0,0,0,condiment,95,4,3,1,0.3,7,0,0,0,0.5,0,
+pchutney,Peanut chutney,tbsp,2,1,0,0,0,condiment,55,2.5,3,1,0.4,12,0,0,0,0.4,0,pre-prepped condiment
+curd,Curd (toned),cup,1,1,1,0,1,dairy,120,7,10,0,0.1,275,0,0,0,0.9,0,daily probiotic
+tofu,Tofu (Ca-set),100g,1,0,0,0,0,protein,130,11,2,1,2.7,350,0,0,0,0.8,0,finished - buy
+paneer,Paneer,100g,1,0,0,0,0,protein,290,18,3,0,0.2,420,0,0,0,1.0,0,buy - cap 2-3x per week
+rice,Rice,cup,1,1,1,0,0,base,200,4,45,1,0.5,15,0,0,0,0.8,0,
+millet,Little millet,cup,1,1,1,0,0,base,200,6,40,4,2.0,15,0,0,0,1.5,0,
+ragi,Ragi flour,30g,2,1,0,0,0,base,100,3,22,3,1.1,100,0,0,0,0.6,0,plant-calcium
+poha,Poha,50g,1,1,1,0,0,base,180,4,38,2,2.5,10,0,0,0,0,0,
+suji,Suji/rava,50g,1,1,0,0,0,base,180,6,38,1,1.0,10,0,0,0,0,0,
+vermicelli,Vermicelli,50g,1,1,0,0,0,base,190,6,38,1,1.0,10,0,0,0,0,0,
+batter,Dosa-idli batter (ragi),dosa,2,1,1,0,1,base,90,3,15,1,1.0,40,0,0,0,0,0,fermented
+bread,Multigrain bread,slice,2,1,0,0,0,base,70,3,12,2,1.0,15,0,0,0,0,0,emergency only
+spinach,Spinach,cup,1,1,0,1,0,green,40,3,3,3,3.0,130,13,130,0,0.5,470,add lemon for oxalates
+amaranth,Amaranth,cup,1,1,0,1,0,green,40,3,4,3,3.0,130,20,130,0,0.5,550,lower oxalate than palak
+moringa,Moringa powder,tsp,1,1,0,1,0,green,5,0.6,1,1,0.5,35,5,40,0,0,90,stir into any dal
+carrot,Carrot,medium,1,1,0,0,0,veg,25,0.6,6,2,0.3,20,4,0,0,0,500,
+beet,Beetroot,medium,1,1,0,0,0,veg,35,1.3,8,2,0.8,10,0,90,0,0,0,
+fbeans,French beans,cup,1,1,0,0,0,veg,35,2,7,3,1.0,40,6,30,0,0,0,
+cocc,Coccinia (tindora),cup,1,1,0,0,0,veg,20,1,4,2,0.5,40,0,0,0,0,0,
+tomato,Tomato,medium,1,1,0,0,0,veg,20,1,4,1,0.3,10,15,0,0,0,40,iron partner
+onion,Onion (red),medium,1,1,0,0,0,aromatic,44,1.2,10,1.9,0.2,23,7,19,0,0,0,prebiotic base
+garlic,Garlic,clove,3,1,0,0,0,aromatic,4,0.2,1,0.1,0.05,5,1,0,0,0,0,prebiotic
+ginger,Ginger,tbsp,1,1,0,0,0,aromatic,5,0.1,1,0.2,0.05,2,0,0,0,0,0,digestive
+gchilli,Green chilli,piece,2,1,0,0,0,aromatic,4,0.2,1,0.3,0.1,2,18,0,0,0,0,
+curryleaf,Curry leaf,sprig,1,1,0,0,0,aromatic,2,0.1,0.2,0.2,0.1,8,0.3,0,0,0,0,flavour and iron trace
+coriander,Coriander,tbsp,2,1,0,0,0,aromatic,1,0.1,0.2,0.1,0.1,3,2,0,0,0,5,
+lemon,Lemon,piece,1,1,0,0,0,sour,8,0.2,2,0,0.1,5,18,0,0,0,0,iron partner - add at iron meals
+lemon_wedge,Lemon wedge,wedge,1,1,0,0,0,sour,2,0,0.5,0,0,1,4,0,0,0,0,iron partner - add at iron meals
+banana,Banana,medium,1,1,0,0,0,fruit,105,1.3,27,3,0.3,6,8,0,0,0,0,
+guava,Guava,medium,1,1,0,0,0,fruit,45,1.6,11,5,0.3,18,125,20,0,0,0,
+papaya,Papaya,cup,1,1,0,0,0,fruit,60,0.7,15,3,0.3,24,60,0,0,0,60,
+flax,Ground flax,tbsp,1,1,0,0,0,seed,55,2,3,3,0.6,45,0,0,2.3,0.5,0,daily
+til,Black til,tbsp,1,1,0,0,0,seed,52,1.6,2,1,1.3,88,0,0,0,0.7,0,
+pumpkin,Pumpkin seeds,15g,1,1,0,0,0,seed,85,4,2,1,2.2,7,0,0,0,2.2,0,

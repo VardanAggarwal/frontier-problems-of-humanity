@@ -1,0 +1,6 @@
+.DS_Store
+.playwright-mcp/
+__pycache__/
+*.pyc
+.venv/
+node_modules/

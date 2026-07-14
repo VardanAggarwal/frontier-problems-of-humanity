@@ -1,0 +1,27 @@
+# Recipes — matched against the plate. core = ingredients that DEFINE the dish; opt = go-well-with add-ons.
+# ids are space-separated (ingredient ids from ingredients.csv). meals = space-separated meal types it fits.
+# No commas inside any field.
+id,name,meals,core,opt,method
+egg_bhurji,Egg bhurji,breakfast lunch dinner,egg onion tomato,gchilli coriander ginger garlic curryleaf flax,Scramble eggs into sauteed onion-tomato with spices
+egg_curry,Egg curry,lunch dinner,egg onion tomato garlic ginger,coriander gchilli lemon,Boil eggs then simmer in an onion-tomato gravy
+egg_poriyal,Egg poriyal,breakfast lunch,egg onion curryleaf,gchilli coriander,Dry-fry eggs South-style with curry leaf and chilli
+besan_chilla,Besan chilla,breakfast snack,besan onion,tomato coriander gchilli pchutney flax,Whisk besan batter and pan-fry then top with chutney
+dal_tadka,Dal tadka,lunch dinner,dal onion tomato garlic,moringa ginger curryleaf lemon coriander,Temper cooked dal with garlic and spices
+dal_rice,Dal and rice,lunch dinner,dal rice,lemon curd moringa,Ladle tempered dal over rice with a squeeze of lemon
+dal_khichdi,Dal khichdi,lunch dinner,dal rice,carrot fbeans curd ginger,One-pot dal and rice cooked soft with cumin and hing
+millet_khichdi,Millet-veg khichdi,lunch dinner,millet dal,carrot fbeans curd lemon,One-pot millet and moong dal with mixed veg
+rajma_rice,Rajma rice,lunch dinner,rajma rice onion tomato,lemon curd coriander,Simmer rajma in onion-tomato gravy and serve over rice
+chana_masala,Kala chana masala,lunch dinner,kala onion tomato garlic ginger,lemon coriander,Cook kala chana in a tangy onion-tomato masala
+sprout_chaat,Sprout chaat,snack breakfast,sprout onion tomato lemon,peanut gchilli coriander pumpkin,Toss sprouts raw with onion-tomato-lemon and a crunch
+palak_dal,Spinach dal,lunch dinner,dal spinach garlic,lemon tomato onion,Cook moong dal with spinach and a garlic tadka
+curd_rice,Curd rice,lunch snack,curd rice,curryleaf ginger gchilli,Mix rice into curd with a mustard-curry-leaf tempering
+poha_veg,Poha,breakfast,poha onion,peanut curryleaf gchilli lemon carrot,Sizzle poha with onion peanuts and curry leaf
+suji_upma,Suji upma,breakfast,suji onion,carrot fbeans curryleaf gchilli peanut,Roast suji then cook with veg and tempering
+egg_dosa,Egg dosa,breakfast dinner,batter egg,pchutney coriander,Spread batter and crack an egg over the dosa
+dosa_chutney,Dosa and chutney,breakfast dinner,batter,pchutney,Crisp dosa served with peanut chutney
+tofu_bhurji,Tofu bhurji,breakfast dinner,tofu onion tomato,gchilli coriander,Crumble tofu into onion-tomato and spice like bhurji
+soya_curry,Soya curry,lunch dinner,soya onion tomato garlic ginger,coriander lemon,Simmer soaked soya chunks in an onion-tomato gravy
+veg_poriyal,Beans-carrot poriyal,lunch dinner,fbeans carrot onion,curryleaf gchilli coriander,Quick stir-fry of beans and carrot with tempering
+curd_fruit_bowl,Curd fruit bowl,breakfast snack,curd banana,flax pumpkin guava,Stir fruit and seeds into curd for a 2-min bowl
+whey_shake,Whey shake,snack,whey banana,pb,Blend whey with banana and water
+egg_toast,Egg toast,breakfast,bread egg,pb,Boiled or fried egg on multigrain toast

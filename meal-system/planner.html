@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balanced Meal Planner — prototype</title>
+<style>
+  :root{
+    --bg:#faf9f6; --panel:#fff; --ink:#1c1b19; --muted:#6b6a66; --line:#e7e5df;
+    --accent:#3a7d44; --accent-soft:#e6f0e8; --warn:#b5651d; --bar-bg:#eceae4;
+    --chip:#f1efe9; --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--bg:#16171a;--panel:#1f2125;--ink:#e9e7e2;--muted:#9a988f;--line:#2e3136;
+      --accent:#6fbf7a;--accent-soft:#22302493;--warn:#d9944a;--bar-bg:#2a2c30;--chip:#26282c;
+      --shadow:0 1px 3px rgba(0,0,0,.4);}
+  }
+  :root[data-theme=dark]{--bg:#16171a;--panel:#1f2125;--ink:#e9e7e2;--muted:#9a988f;--line:#2e3136;
+    --accent:#6fbf7a;--accent-soft:#22302493;--warn:#d9944a;--bar-bg:#2a2c30;--chip:#26282c;--shadow:0 1px 3px rgba(0,0,0,.4);}
+  :root[data-theme=light]{--bg:#faf9f6;--panel:#fff;--ink:#1c1b19;--muted:#6b6a66;--line:#e7e5df;
+    --accent:#3a7d44;--accent-soft:#e6f0e8;--warn:#b5651d;--bar-bg:#eceae4;--chip:#f1efe9;--shadow:0 1px 3px rgba(0,0,0,.06);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+  .wrap{max-width:1040px;margin:0 auto;padding:20px 16px 80px}
+  h1{font-size:20px;margin:0 0 2px}
+  .sub{color:var(--muted);font-size:13px;margin:0 0 18px}
+  .cols{display:grid;grid-template-columns:1fr 340px;gap:18px;align-items:start}
+  @media(max-width:820px){.cols{grid-template-columns:1fr}}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow);margin-bottom:16px}
+  .panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:0 0 12px}
+  /* meal + focus tabs */
+  .tabs{display:flex;flex-wrap:wrap;gap:8px}
+  .tab{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;
+    padding:7px 14px;font-size:13px;cursor:pointer;transition:.15s}
+  .tab:hover{border-color:var(--accent)}
+  .tab.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+  .focus-tabs{margin-top:4px}
+  .cad-sep{flex-basis:100%;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:8px 0 0}
+  .cad-sep:first-child{margin-top:0}
+  .focus-tab{position:relative}
+  .focus-tab.done::after{content:"✓";position:absolute;top:-6px;right:-2px;background:var(--accent);color:#fff;
+    width:16px;height:16px;border-radius:50%;font-size:10px;line-height:16px;text-align:center}
+  .focus-tab.locked{opacity:.45}
+  /* focus header */
+  .focus-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:4px}
+  .focus-head .big{font-size:17px;font-weight:600}
+  .focus-note{font-size:13px;color:var(--muted);margin:0 0 14px}
+  /* cards */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:560px){.cards{grid-template-columns:1fr}}
+  .card{border:1px solid var(--line);border-radius:10px;padding:11px 12px;display:flex;flex-direction:column;gap:8px}
+  .card.inplate{border-color:var(--accent);background:var(--accent-soft)}
+  .card .nm{font-weight:600;font-size:14px}
+  .card .meta{font-size:12px;color:var(--muted)}
+  .card .contrib{font-size:12.5px;color:var(--accent);font-weight:600}
+  .card .buy{font-size:11px;color:var(--warn);font-weight:600}
+  .row{display:flex;align-items:center;gap:8px;margin-top:auto}
+  .stepper{display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .stepper button{border:0;background:var(--chip);color:var(--ink);width:26px;height:28px;font-size:15px;cursor:pointer}
+  .stepper input{width:44px;height:28px;border:0;background:var(--panel);color:var(--ink);text-align:center;font-size:13px}
+  .stepper .unit{font-size:11px;color:var(--muted);padding:0 8px 0 2px}
+  .add{margin-left:auto;border:0;background:var(--accent);color:#fff;border-radius:8px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer}
+  .add.rm{background:transparent;color:var(--warn);border:1px solid var(--line)}
+  .hint{font-size:11.5px;color:var(--warn)}
+  /* progress */
+  .bar{height:8px;background:var(--bar-bg);border-radius:6px;overflow:hidden;margin:5px 0}
+  .bar > i{display:block;height:100%;background:var(--accent);border-radius:6px;transition:width .25s}
+  .bar > i.over{background:var(--warn)}
+  .prog-lbl{display:flex;justify-content:space-between;font-size:12.5px;margin-top:6px}
+  .prog-lbl b{font-weight:600}
+  /* plate */
+  .plate-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .plate-item:last-child{border-bottom:0}
+  .plate-item .pn{flex:1;min-width:0}
+  .plate-item .pn small{color:var(--muted);display:block}
+  .empty{color:var(--muted);font-size:13px;font-style:italic}
+  .flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .flag{font-size:11.5px;padding:3px 9px;border-radius:999px;background:var(--chip);color:var(--muted)}
+  .flag.ok{background:var(--accent-soft);color:var(--accent);font-weight:600}
+  .flag.miss{color:var(--warn)}
+  .totals .prog-lbl{margin-top:10px}
+  .next-btn{width:100%;margin-top:14px;border:0;background:var(--accent);color:#fff;border-radius:10px;padding:11px;font-size:14px;font-weight:600;cursor:pointer}
+  .next-btn:disabled{opacity:.4;cursor:default}
+  .reminders{font-size:12.5px;color:var(--muted);line-height:1.7}
+  .reminders b{color:var(--ink)}
+  .toggle{font-size:12.5px;color:var(--muted);margin-left:auto;display:flex;align-items:center;gap:6px;cursor:pointer}
+  .topbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .reset{margin-left:auto;font-size:12px;color:var(--muted);background:none;border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer}
+  .done-banner{background:var(--accent-soft);border:1px solid var(--accent);border-radius:10px;padding:12px;font-size:13.5px;margin-bottom:12px}
+  /* search + guided suggestions */
+  .search{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);font:inherit;margin-bottom:16px}
+  .search:focus{outline:none;border-color:var(--accent)}
+  .srow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .srow:last-child{border-bottom:0}
+  .srow.inplate .nm{color:var(--accent)}
+  .srow .si{flex:1;min-width:0}
+  .srow .nm{font-weight:600;font-size:14px}
+  .srow .meta{font-size:12px;color:var(--muted)}
+  .buy{font-size:10px;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:0 4px;margin-left:6px;vertical-align:middle;text-transform:uppercase;letter-spacing:.03em}
+  .gap-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:2px}
+  .gap-head .big{font-size:16px;font-weight:600}
+  .gap-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+  .gap-chips .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;width:100%}
+  .gap-chip{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:4px 10px;cursor:pointer;color:var(--muted);background:var(--panel)}
+  .gap-chip.on{border-color:var(--accent);color:var(--accent);font-weight:600;background:var(--accent-soft)}
+  .base-tiles{display:flex;flex-wrap:wrap;gap:8px}
+  .more-btn{margin-top:12px;font-size:12.5px;color:var(--accent);background:none;border:0;cursor:pointer;padding:0;font-weight:600}
+  .balanced{background:var(--accent-soft);border:1px solid var(--accent);border-radius:10px;padding:14px;font-size:14px}
+  /* recipe cards */
+  .recipe{border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:10px}
+  .recipe .rhead{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+  .recipe .rhead b{font-size:14px}
+  .recipe .fit{font-size:11px;color:var(--muted);white-space:nowrap}
+  .recipe .rmethod{font-size:12.5px;color:var(--muted);margin:4px 0 8px}
+  .recipe .ruses,.recipe .radd,.recipe .rfinish{font-size:12.5px;margin-top:3px}
+  .recipe .radd{color:var(--warn)}
+  .recipe .rfinish{color:var(--accent)}
+  .radd-link{cursor:pointer;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
+  .radd-link:hover{opacity:.65}
+  .rlbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1>Balanced Meal Planner</h1>
+      <p class="sub">Prototype · pantry-driven · protein-gated · reads <code>pantry-week1.md</code> + <code>nutrient-cadence.md</code></p>
+    </div>
+    <button class="reset" id="reset">Reset plate</button>
+  </div>
+
+  <!-- meal picker -->
+  <div class="panel">
+    <h2>1 · Which meal?</h2>
+    <div class="tabs" id="meals"></div>
+    <div id="dayBar" style="margin-top:12px;display:flex;align-items:center;flex-wrap:wrap;gap:6px"></div>
+  </div>
+
+  <div class="cols">
+    <!-- LEFT: suggestion loop -->
+    <div>
+      <div class="panel">
+        <h2>2 · Build the plate</h2>
+        <input class="search" id="search" placeholder="🔍 Search any ingredient — egg, ragi, spinach…" autocomplete="off">
+        <div id="builder"></div>
+        <div class="flags" id="flags"></div>
+      </div>
+      <div class="panel">
+        <h2>🍳 Recipes from your plate</h2>
+        <div id="recipes"></div>
+      </div>
+      <div class="panel">
+        <h2>Saved plates</h2>
+        <div id="saved"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: plate + rollup -->
+    <div>
+      <div class="panel">
+        <h2>Your plate</h2>
+        <div id="plate"></div>
+        <button class="next-btn" id="savePlate" style="margin-top:14px">＋ Save plate to this day</button>
+        <div id="recipeSave"></div>
+      </div>
+      <div class="panel totals">
+        <h2>This plate — vs full targets</h2>
+        <div id="totals"></div>
+      </div>
+      <div class="panel totals">
+        <h2>Day totals <span style="text-transform:none;font-weight:400">· saved plates</span></h2>
+        <div id="dayTotals"></div>
+      </div>
+      <div class="panel totals">
+        <h2>Week totals <span style="text-transform:none;font-weight:400">· 7-day window</span></h2>
+        <div id="weekTotals"></div>
+      </div>
+      <div class="panel">
+        <h2>Cadence reminders</h2>
+        <div class="reminders" id="reminders"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ DATA — loaded from ingredients.csv + targets.csv ============ */
+// Populated by buildData() after fetch. Edit the CSVs (not this file) to change data.
+let ING = [], FOCUS = {}, DAILY = {}, BASES = [], SEQ_MAIN = [], RECIPES = [], USER_RECIPES = [];
+const SEQ_SNACK = ['protein','vitc'];
+const CAD_LABEL = {meal:'Per meal', day:'Daily', week:'Weekly (average)'};
+const KCAL = 1775; // deficit midpoint
+const MEALS = {
+  breakfast:{label:'Breakfast', p:30, micros:true},
+  lunch:{label:'Lunch', p:32, micros:true},
+  snack:{label:'Snack', p:20, micros:false},
+  dinner:{label:'Dinner', p:28, micros:true},
+};
+// coaching line per nutrient (presentation only — not in CSV)
+const BLURBS = {
+  protein:'The per-meal gate. Hit this first — is there 25-30 g in front of me?',
+  carbs:'The base/grain. Rice, millet, ragi, poha, dosa. Moderate for the deficit.',
+  iron:'High-risk on a plant diet. Pair with a sour (lemon/tomato) to double uptake.',
+  calcium:'High-risk low-dairy. Ragi, til, curd, moringa, tofu carry it (+ Cipcal).',
+  fibre:'Ramp slowly + scale water. Legumes, millets, guava, veg.',
+  vitc:'Low-risk itself, but it is the iron-absorption partner — put it on the iron meal.',
+  folate:'Rides along with legumes + greens — usually free if protein is done well.',
+  omega3:'1 tbsp ground flax replaces the capsule. Egg yolk adds a little DHA.',
+  zinc:'Bank it across the week — pumpkin seeds, sprouted dals, til, millets.',
+  vita:'Fat-soluble, stores — average across the week via carrot / greens / papaya.',
+};
+const NONFOOD = [
+  {nm:'B12', cad:'day', how:'supplement — no plant source'},
+  {nm:'Vitamin D3', cad:'month', how:'supplement + 15 min sun; dose by blood test'},
+  {nm:'Calcium (Cipcal)', cad:'day', how:'supplement — tops up food calcium'},
+  {nm:'Iodine', cad:'day', how:'iodised salt (trivially met)'},
+  {nm:'Probiotic', cad:'day', how:'curd / buttermilk / idli — a live-culture serving'},
+];
+
+/* ---- CSV parsing → data structures (no commas inside CSV fields) ---- */
+function parseCSV(text){
+  const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(l=>l && !l.startsWith('#'));
+  const head = lines[0].split(',').map(s=>s.trim());
+  return lines.slice(1).map(line=>{
+    const cells = line.split(','); const o={};
+    head.forEach((h,i)=>o[h]=(cells[i]||'').trim()); return o;
+  });
+}
+function buildData(ingCSV, tgtCSV, recCSV){
+  ING = parseCSV(ingCSV).map(r=>({
+    id:r.id, nm:r.name, unit:r.unit, def:+r.default||1, role:r.role||'',
+    pantry:r.pantry==='1', base:r.base==='1', green:r.green==='1', probiotic:r.probiotic==='1',
+    note:r.note||'',
+    n:{ kcal:+r.kcal||0, p:+r.protein||0, c:+r.carbs||0, fib:+r.fibre||0, fe:+r.iron||0, ca:+r.calcium||0,
+        vc:+r.vitc||0, fo:+r.folate||0, o3:+r.omega3||0, zn:+r.zinc||0, va:+r.vita||0 } }));
+  BASES = ING.filter(i=>i.base).map(i=>i.id);
+  FOCUS = {}; DAILY = {}; SEQ_MAIN = [];
+  parseCSV(tgtCSV).forEach(r=>{
+    FOCUS[r.fname] = {key:r.key, nm:r.name, unit:r.unit, cad:r.cadence, daily:+r.daily||0, meal:+r.meal||0, permeal:r.permeal!=='0', blurb:BLURBS[r.fname]||''};
+    DAILY[r.key] = +r.daily||0; SEQ_MAIN.push(r.fname);
+  });
+  const split=s=>(s||'').split(/\s+/).filter(Boolean);
+  RECIPES = recCSV ? parseCSV(recCSV).map(r=>({ id:r.id, name:r.name, meals:split(r.meals), core:split(r.core), opt:split(r.opt), method:r.method||'', user:(r.id||'').startsWith('u') })) : [];
+}
+
+// (nutrient config, FOCUS, DAILY, SEQ_MAIN and BASES are now built from the CSVs in buildData() above)
+
+/* ============ STATE + PERSISTENCE ============ */
+function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function loadSaved(){ try{ return JSON.parse(localStorage.getItem('mp.saved'))||[]; }catch(e){ return []; } }
+function persist(){ try{ localStorage.setItem('mp.saved', JSON.stringify(state.saved)); }catch(e){} }
+// user-created recipes (browser-stored) — merged with recipes.csv at load so the recipe DB grows
+function loadUserRecipes(){ try{ return JSON.parse(localStorage.getItem('mp.recipes'))||[]; }catch(e){ return []; } }
+function persistRecipes(){ try{ localStorage.setItem('mp.recipes', JSON.stringify(USER_RECIPES)); }catch(e){} }
+
+let state = { meal:'lunch', focus:'protein', plate:[] /* {id, qty} */, showBuy:false, query:'', expand:false,
+  savingRecipe:false, saved:loadSaved() /* [{id,date,meal,items:[{id,qty}]}] */, day:todayStr() };
+
+function targetFor(focusName){
+  if(focusName==='protein') return MEALS[state.meal].p;
+  return FOCUS[focusName] ? FOCUS[focusName].meal : 0;
+}
+function seq(){ return SEQ_MAIN; }  // full nutrient universe (CSV order) — same for every meal
+// required gate: main meals = the permeal nutrients; a snack only gates protein (rest is day-level optional)
+function seqReq(){ const per=SEQ_MAIN.filter(fn=>FOCUS[fn] && FOCUS[fn].permeal);
+  return MEALS[state.meal].micros ? per : per.filter(fn=>fn==='protein'); }
+// optional this meal = everything not currently required — daily/weekly items still show + track across the day
+function seqOpt(){ const req=new Set(seqReq()); return SEQ_MAIN.filter(fn=>FOCUS[fn] && !req.has(fn)); }
+// a target counts as "met" within 10% — a small gap shouldn't block the flow
+const MET_TOL = 0.90;
+function underTarget(fn){ return plateTotal(FOCUS[fn].key) < targetFor(fn)*MET_TOL; }
+// which nutrient the builder is actively filling (null = all required met). optional foci allowed only if user taps one.
+function activeFocus(){
+  const req = seqReq().filter(underTarget);
+  if(seqOpt().includes(state.focus)) return state.focus;
+  if(req.includes(state.focus)) return state.focus;
+  return req[0] || null;
+}
+
+/* ============ HELPERS ============ */
+const $ = s => document.querySelector(s);
+function itemsTotal(items,key){ return items.reduce((s,it)=>{
+  const ing = ING.find(i=>i.id===it.id); return s + (ing ? (ing.n[key]||0) : 0)*it.qty; },0); }
+function plateTotal(key){ return itemsTotal(state.plate,key); }
+function inPlate(id){ return state.plate.find(p=>p.id===id); }
+function plateHas(prop){ return state.plate.some(it=>{ const i=ING.find(x=>x.id===it.id); return i && i[prop]; }); }
+// the nutrient we're currently filling (for showing the right contribution in search + suggestions)
+function activeGap(){
+  const fn = state.plate.length ? activeFocus() : null;
+  if(fn) return {fname:fn, key:FOCUS[fn].key, remaining:Math.max(0, targetFor(fn)-plateTotal(FOCUS[fn].key))};
+  return {fname:'protein', key:'p', remaining:0};
+}
+// aggregation across saved plates
+function platesFor(date){ return state.saved.filter(p=>p.date===date); }
+function aggTotal(plates,key){ return plates.reduce((s,p)=>s+itemsTotal(p.items,key),0); }
+function weekPlates(endDate){
+  const end=new Date(endDate+'T00:00'), start=new Date(end); start.setDate(end.getDate()-6);
+  return state.saved.filter(p=>{ const d=new Date(p.date+'T00:00'); return d>=start && d<=end; });
+}
+function daysLogged(plates){ return new Set(plates.map(p=>p.date)).size; }
+// day/week totals INCLUDING the current unsaved plate — used to judge optional (daily/weekly) items
+function dayGot(key){ return aggTotal(platesFor(state.day), key) + plateTotal(key); }
+function weekGot(key){ return aggTotal(weekPlates(state.day), key) + plateTotal(key); }
+function dayHas(prop){ return platesFor(state.day).some(p=>p.items.some(it=>{const i=ING.find(x=>x.id===it.id); return i && i[prop];})) || plateHas(prop); }
+// optional "done" = today's contribution hits the daily target (for weekly nutrients that's the 1/7 day-share)
+function optMet(fn){ const f=FOCUS[fn]; return dayGot(f.key) >= f.daily*MET_TOL; }
+function barRow(nm,got,tgt,unit,over){ const pct=Math.min(100, tgt?got/tgt*100:0);
+  return `<div class="prog-lbl"><span>${nm} <span style="color:var(--muted)">/ ${tgt}${unit}</span></span><b>${round1(got)}${unit}</b></div>
+    <div class="bar"><i class="${over&&got>tgt?'over':''}" style="width:${pct}%"></i></div>`; }
+// plate ops
+function savePlate(){ if(!state.plate.length) return;
+  state.saved.push({ id:'p'+Date.now(), date:state.day, meal:state.meal, items:state.plate.map(x=>({...x})) });
+  persist(); state.plate=[]; state.focus='protein'; render(); }
+function editPlate(id){ const p=state.saved.find(x=>x.id===id); if(!p) return;
+  state.meal=p.meal; state.day=p.date; state.plate=p.items.map(x=>({...x})); state.focus='protein';
+  state.saved=state.saved.filter(x=>x.id!==id); persist(); window.scrollTo(0,0); render(); }
+function delPlate(id){ state.saved=state.saved.filter(x=>x.id!==id); persist(); render(); }
+// save the current plate as a reusable recipe: core = substantial items, opt = garnish/finish (seeds/sour/fruit/condiment)
+async function saveAsRecipe(name){
+  if(!state.plate.length) return;
+  const ids=state.plate.map(p=>p.id);
+  const isOpt=id=>{const i=ING.find(x=>x.id===id); return i && ['seed','sour','fruit','condiment'].includes(i.role);};
+  const r={ id:'u'+Date.now(), name:(name||'').trim()||('My '+MEALS[state.meal].label.toLowerCase()),
+    meals:[state.meal], core:ids.filter(id=>!isOpt(id)), opt:ids.filter(isOpt), method:'Your saved recipe', user:true };
+  let toFile=false;
+  try{ const res=await fetch('/api/recipe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(r)}); toFile=res.ok; }catch(e){}
+  if(!toFile){ USER_RECIPES.push(r); persistRecipes(); }  // fallback: browser storage if the write API isn't available
+  RECIPES.push(r);
+  state.savingRecipe=false; render();
+}
+async function delRecipe(id){
+  try{ await fetch('/api/recipe/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})}); }catch(e){}
+  USER_RECIPES=USER_RECIPES.filter(r=>r.id!==id); RECIPES=RECIPES.filter(r=>r.id!==id); persistRecipes(); render();
+}
+
+/* ============ RENDER ============ */
+function render(){ renderMeals(); renderDayBar(); renderBuilder(); renderRecipes(); renderPlate(); renderRecipeSave(); renderTotals();
+  renderDayTotals(); renderWeekTotals(); renderFlags(); renderReminders(); renderSaved(); }
+
+function renderRecipeSave(){
+  const el=$('#recipeSave'); if(!el) return;
+  if(!state.plate.length){ el.innerHTML=''; return; }
+  if(state.savingRecipe){
+    const guess=state.plate.map(p=>ING.find(i=>i.id===p.id)).filter(Boolean)
+      .filter(i=>['protein','base','veg','green'].includes(i.role)).slice(0,2).map(i=>i.nm).join(' ') || 'My dish';
+    el.innerHTML=`<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+        <input id="recipeName" class="search" style="margin:0;flex:1;min-width:110px" placeholder="Recipe name" value="${guess}">
+        <button class="add" id="recipeConfirm">Save recipe</button>
+        <button class="add rm" id="recipeCancel">✕</button>
+      </div>
+      <div style="font-size:11.5px;color:var(--muted);margin-top:6px">Writes this combo to recipes.csv so it's a permanent suggestion.</div>`;
+  } else {
+    el.innerHTML=`<button class="more-btn" id="recipeAdd" style="margin-top:10px">＋ also save as a recipe</button>`;
+  }
+}
+
+// how a peripheral ingredient attaches to a dish (used to phrase "finish: flax (sprinkle)")
+const ROLE_VERB = {seed:'sprinkle', sour:'squeeze in', condiment:'serve with', fruit:'on the side', green:'stir in'};
+// greedily decompose a set of ingredient ids into ready dishes + accompaniments (shared by recipes panel & saved-plate headers)
+function composePlate(ids, meal){
+  const onP=id=>ids.includes(id);
+  const ing=id=>ING.find(x=>x.id===id);
+  const isBaseId=id=>{const i=ing(id); return i&&i.role==='base';};
+  const fits=r=>r.meals.includes(meal)?1:0;
+  const ready=RECIPES.filter(r=>r.core.length && r.core.every(onP))
+    .map(r=>({r, nb:r.core.filter(id=>!isBaseId(id))}))
+    .filter(x=>x.nb.length>0)
+    .sort((a,b)=>(b.nb.length-a.nb.length)||(fits(b.r)-fits(a.r)));
+  const covered=new Set(), chosen=[];
+  ready.forEach(x=>{ if(x.nb.some(id=>!covered.has(id))){ chosen.push(x.r);
+    x.r.core.forEach(id=>covered.add(id)); x.r.opt.forEach(id=>{ if(onP(id)) covered.add(id); }); }});
+  const bases=ids.filter(isBaseId); bases.forEach(id=>covered.add(id));
+  const finish=ids.filter(id=>!covered.has(id)).map(ing).filter(i=>i&&ROLE_VERB[i.role]);
+  finish.forEach(i=>covered.add(i.id));
+  const leftover=ids.filter(id=>!covered.has(id)).map(ing).filter(Boolean);
+  return {chosen, bases, finish, leftover};
+}
+
+function renderRecipes(){
+  const el=$('#recipes'); if(!el) return;
+  const plateIds=state.plate.map(p=>p.id);
+  if(!plateIds.length){ el.innerHTML=`<div class="empty">Add ingredients and I'll suggest dishes that use them.</div>`; return; }
+  const onPlate=id=>plateIds.includes(id);
+  const ing=id=>ING.find(x=>x.id===id);
+  const nm=id=>{const i=ing(id); return i?i.nm:id;};
+  const buyTag=id=>{const i=ing(id); return i&&!i.pantry?' <span class="buy">buy</span>':'';};
+  const fits=r=>r.meals.includes(state.meal)?1:0;
+
+  const {chosen, bases, finish, leftover} = composePlate(plateIds, state.meal);
+
+  let html='';
+  if(chosen.length){
+    html += `<div class="rlbl">This plate makes</div>` + chosen.map(r=>{
+      const uses=r.core.filter(onPlate).concat(r.opt.filter(id=>onPlate(id)&&r.core.indexOf(id)<0));
+      return `<div class="recipe">
+        <div class="rhead"><b>${r.name}</b><span class="fit">✓ ready${r.user?` · <span class="radd-link" data-delrecipe="${r.id}">remove</span>`:''}</span></div>
+        <div class="rmethod">${r.method}</div>
+        <div class="ruses">uses: ${uses.map(nm).join(', ')}</div>
+      </div>`;
+    }).join('');
+    if(bases.length)   html += `<div class="ruses" style="margin:2px 0 8px">served with: ${bases.map(nm).join(', ')}</div>`;
+    if(finish.length)  html += `<div class="rfinish" style="margin-bottom:8px">finish: ${finish.map(i=>`${i.nm} <span style="opacity:.7">(${ROLE_VERB[i.role]})</span>`).join(' · ')}</div>`;
+    if(leftover.length)html += `<div class="ruses" style="color:var(--muted);margin-bottom:8px">also on plate: ${leftover.map(i=>i.nm).join(', ')} <span style="opacity:.7">— no dish yet</span></div>`;
+  }
+
+  // 2) CLOSE — dishes you could make by adding 1-2 things (clickable)
+  const close=RECIPES.filter(r=>!chosen.includes(r))
+    .map(r=>({r, on:r.core.filter(onPlate), missing:r.core.filter(id=>!onPlate(id))}))
+    .filter(x=>x.on.length>0 && x.missing.length>=1 && x.missing.length<=2)
+    .sort((a,b)=>(b.on.length-a.on.length)||(a.missing.length-b.missing.length)||(fits(b.r)-fits(a.r)))
+    .slice(0,3);
+  if(close.length){
+    html += `<div class="rlbl" style="margin-top:6px">Close — add to make</div>` + close.map(({r,on,missing})=>`<div class="recipe">
+      <div class="rhead"><b>${r.name}</b><span class="fit">have ${on.length}/${r.core.length}</span></div>
+      <div class="rmethod">${r.method}</div>
+      <div class="radd">add: ${missing.map(id=>`<span class="radd-link" data-add="${id}">＋ ${nm(id)}</span>${buyTag(id)}`).join(' ')}</div>
+    </div>`).join('');
+  }
+
+  el.innerHTML = html || `<div class="empty">No dish matches yet — add a base or a protein.</div>`;
+}
+
+function renderDayBar(){
+  const n = platesFor(state.day).length;
+  $('#dayBar').innerHTML = `<label style="font-size:13px;color:var(--muted)">Day&nbsp;
+    <input type="date" id="dayInput" value="${state.day}" style="font:inherit;padding:4px 6px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink)"></label>
+    <span style="font-size:12.5px;color:var(--muted)">· ${n} plate${n===1?'':'s'} saved this day</span>`;
+}
+
+function renderDayTotals(){
+  const plates = platesFor(state.day);
+  const rows = [['Protein','p','g',DAILY.p],['Carbs','c','g',DAILY.c],['Iron','fe','mg',DAILY.fe],
+    ['Calcium','ca','mg',DAILY.ca],['Fibre','fib','g',DAILY.fib],['Vitamin C','vc','mg',DAILY.vc],
+    ['Folate','fo','µg',DAILY.fo],['Omega-3','o3','g',DAILY.o3]];
+  const meals = plates.map(p=>MEALS[p.meal].label).join(', ') || 'nothing saved yet';
+  $('#dayTotals').innerHTML =
+    `<div style="font-size:12.5px;color:var(--muted);margin-bottom:10px">${plates.length} plate(s): ${meals}</div>` +
+    rows.map(([nm,k,u,t])=>barRow(nm, aggTotal(plates,k), t, u, false)).join('') +
+    barRow('Calories', aggTotal(plates,'kcal'), KCAL, ' kcal', false);
+}
+
+function renderWeekTotals(){
+  const plates = weekPlates(state.day), n = daysLogged(plates);
+  const rows = [['Zinc','zn','mg',DAILY.zn*7],['Vitamin A','va','µg',DAILY.va*7],['Protein','p','g',DAILY.p*7]];
+  $('#weekTotals').innerHTML =
+    `<div style="font-size:12.5px;color:var(--muted);margin-bottom:10px">${n}/7 days logged · window ending ${state.day}</div>` +
+    rows.map(([nm,k,u,t])=>barRow(nm, aggTotal(plates,k), t, u, false)).join('');
+}
+
+function renderSaved(){
+  if(!state.saved.length){ $('#saved').innerHTML = `<div class="empty">No saved plates yet — build one and hit “Save plate to this day”.</div>`; return; }
+  const byDate = {}; state.saved.forEach(p=>{ (byDate[p.date]=byDate[p.date]||[]).push(p); });
+  const dates = Object.keys(byDate).sort().reverse();
+  $('#saved').innerHTML = dates.map(d=>`
+    <div style="margin-bottom:14px">
+      <div style="font-size:12.5px;color:var(--muted);margin-bottom:4px">${d}${d===state.day?' · <b style="color:var(--accent)">selected</b>':''}</div>
+      ${byDate[d].map(p=>{
+        const nm=id=>{const i=ING.find(x=>x.id===id); return i?i.nm:id;};
+        const names = p.items.map(it=>{const i=ING.find(x=>x.id===it.id); return i?`${i.nm}${it.qty!==i.def?` ×${round1(it.qty)}`:''}`:'?';}).join(', ');
+        const {chosen,bases} = composePlate(p.items.map(x=>x.id), p.meal);
+        const dish = [...chosen.map(r=>r.name), ...bases.map(nm)].join(' + ');
+        return `<div class="plate-item">
+          <div class="pn"><b>${MEALS[p.meal].label}</b>${dish?` · <span style="font-weight:600">${dish}</span>`:''}<small>${round1(itemsTotal(p.items,'p'))}g P · ${Math.round(itemsTotal(p.items,'kcal'))} kcal · ${names}</small></div>
+          <button class="add" data-edit="${p.id}" style="padding:5px 10px">Edit</button>
+          <button class="add rm" data-del="${p.id}" style="padding:5px 9px">✕</button>
+        </div>`; }).join('')}
+    </div>`).join('');
+}
+
+function renderMeals(){
+  $('#meals').innerHTML = Object.entries(MEALS).map(([k,m])=>
+    `<button class="tab ${state.meal===k?'on':''}" data-meal="${k}">${m.label} · ${m.p}g protein</button>`).join('');
+}
+
+function unitFor(key){ const f=Object.values(FOCUS).find(x=>x.key===key); return f?f.unit:''; }
+
+// one compact suggestion/search row. key = nutrient to show contribution for; remaining drives the "≈N to finish" hint.
+function suggRow(i, key, remaining){
+  const ip=inPlate(i.id), qty=ip?ip.qty:i.def, per=(i.n[key]||0);
+  const closeN=(!ip && remaining>0 && per>0)?Math.ceil(remaining/per):0;
+  const bits=[];
+  if(per) bits.push(`<b style="color:var(--accent)">+${round1(per*qty)}${unitFor(key)}</b>`);
+  bits.push(`${Math.round(i.n.kcal*qty)} kcal`);
+  if(closeN) bits.push(`≈${closeN} ${i.unit}${closeN>1?'s':''} to finish`);
+  if(i.note) bits.push(i.note);
+  return `<div class="srow ${ip?'inplate':''}">
+    <div class="si">
+      <div class="nm">${i.nm}${!i.pantry?'<span class="buy">buy</span>':''}</div>
+      <div class="meta">${bits.join(' · ')}</div>
+    </div>
+    <div class="stepper" data-id="${i.id}">
+      <button data-act="dec">–</button>
+      <input type="number" min="0" step="${stepFor(i)}" value="${qty}" data-id="${i.id}">
+      <span class="unit">${i.unit}</span>
+      <button data-act="inc">+</button>
+    </div>
+    ${ip? `<button class="add rm" data-rm="${i.id}" style="padding:6px 9px">✕</button>`
+        : `<button class="add" data-add="${i.id}">Add</button>`}
+  </div>`;
+}
+
+function renderBuilder(){
+  const el=$('#builder'), q=(state.query||'').trim().toLowerCase();
+
+  // --- SEARCH mode: type to add anything directly (contribution shown for the current gap) ---
+  if(q){
+    const ag=activeGap();
+    const m=ING.filter(i=>i.nm.toLowerCase().includes(q) && (i.pantry||state.showBuy))
+      .sort((a,b)=> Math.abs((a.n[ag.key]||0)*a.def - ag.remaining) - Math.abs((b.n[ag.key]||0)*b.def - ag.remaining));
+    el.innerHTML = m.length ? m.map(i=>suggRow(i,ag.key,ag.remaining)).join('')
+      : `<div class="empty">No ingredient matches “${q}”. ${!state.showBuy?'<a href="#" id="searchBuy">Include buy-list?</a>':''}</div>`;
+    return;
+  }
+
+  // --- BASE step: empty plate → start with a base ---
+  if(!state.plate.length){
+    const tiles=BASES.map(id=>{const i=ING.find(x=>x.id===id); return i?`<button class="tab" data-add="${id}">${i.nm}</button>`:'';}).join('');
+    el.innerHTML=`<p class="focus-note">Start with a <b>base</b> — a grain or an anchor protein. Then I'll show what's missing and suggest fills.</p>
+      <div class="base-tiles">${tiles}</div>
+      <p class="focus-note" style="margin-top:16px">…or search above to add anything specific.</p>`;
+    return;
+  }
+
+  // --- GAP step: what's missing next ---
+  const active = activeFocus();
+
+  // optional tray — daily/weekly nutrients + green/probiotic, judged against the WHOLE DAY (✓ = day already covered).
+  const optChips = seqOpt().map(fn=>{const g=FOCUS[fn];
+    return `<button class="gap-chip ${fn===active?'on':''}" data-focus="${fn}">${optMet(fn)?'✓ ':''}${g.nm}</button>`;}).join('');
+  const funcChips = [['green','Green'],['probiotic','Probiotic']].map(([p,label])=>{const has=dayHas(p);
+    return `<span class="gap-chip" style="cursor:default;opacity:${has?'1':'.55'}">${has?'✓ ':'○ '}${label}</span>`;}).join('');
+  const optTray = `<div class="gap-chips"><span class="lbl">Across the day — add if the day is short (✓ = day covered)</span>${optChips}${funcChips}</div>`;
+
+  if(!active){
+    el.innerHTML=`<div class="balanced">✓ Per-meal essentials covered — <b>Save plate</b> when ready.</div>${optTray}`;
+    return;
+  }
+  const f=FOCUS[active], key=f.key, optional=!f.permeal;
+  // optional nutrients fill against TODAY's share (weekly ones = daily = 1/7 of the week); required = this meal
+  let target, got;
+  if(optional){ target = f.daily; got = dayGot(key); }
+  else { target = targetFor(active); got = plateTotal(key); }
+  const remaining=Math.max(0,target-got), pct=Math.min(100, target?got/target*100:0);
+
+  // category-free: any pantry item that provides this nutrient, ranked by how close its default serving gets to the gap
+  let sugg=ING.filter(i=>(i.pantry||state.showBuy) && !inPlate(i.id) && (i.n[key]||0)>0);
+  sugg.sort((a,b)=> Math.abs((a.n[key]||0)*a.def - remaining) - Math.abs((b.n[key]||0)*b.def - remaining));
+  const LIMIT=3, shown=state.expand?sugg:sugg.slice(0,LIMIT), moreN=sugg.length-shown.length;
+
+  const reqGaps=seqReq().filter(underTarget);
+  const reqChips=reqGaps.map(fn=>{const g=FOCUS[fn], need=round1(targetFor(fn)-plateTotal(g.key));
+    return `<button class="gap-chip ${fn===active?'on':''}" data-focus="${fn}">${g.nm} <span style="opacity:.7">−${need}${g.unit}</span></button>`;}).join('');
+  const reqTray = reqChips ? `<div class="gap-chips"><span class="lbl">Still missing — tap to switch</span>${reqChips}</div>` : '';
+
+  el.innerHTML=`
+    <div class="gap-head">
+      <span class="big">Add ${f.nm.toLowerCase()}${optional?` <span style="font-size:12px;color:var(--muted);font-weight:400">· optional · ${f.cad==='week'?"today's share (weekly)":'today'}</span>`:''}</span>
+      <span style="color:var(--muted);font-size:13px">${round1(got)}/${target}${f.unit} · need ${round1(remaining)}</span>
+    </div>
+    <p class="focus-note">${f.blurb}</p>
+    <div class="bar"><i style="width:${pct}%"></i></div>
+    <div style="margin-top:14px">${shown.map(i=>suggRow(i,key,remaining)).join('') || `<div class="empty">Nothing in pantry for this — try search${!state.showBuy?' or the buy-list toggle':''}.</div>`}</div>
+    ${moreN>0?`<button class="more-btn" id="moreBtn">＋ ${moreN} more option${moreN>1?'s':''}</button>`:''}
+    ${(state.expand && sugg.length>LIMIT)?`<button class="more-btn" id="moreBtn">– show fewer</button>`:''}
+    ${reqTray}${optTray}
+    <label class="toggle" style="margin-top:14px"><input type="checkbox" id="buyToggle" ${state.showBuy?'checked':''}> include buy-list items</label>`;
+}
+
+function renderPlate(){
+  const el = $('#plate');
+  if(!state.plate.length){ el.innerHTML = `<div class="empty">Empty — add something from the suggestions.</div>`; return; }
+  el.innerHTML = state.plate.map(it=>{
+    const i = ING.find(x=>x.id===it.id);
+    return `<div class="plate-item">
+      <div class="pn">${i.nm}<small>${round1(i.n.p*it.qty)}g protein · ${Math.round(i.n.kcal*it.qty)} kcal</small></div>
+      <div class="stepper" data-id="${i.id}">
+        <button data-act="dec">–</button>
+        <input type="number" min="0" step="${stepFor(i)}" value="${it.qty}" data-id="${i.id}">
+        <span class="unit">${i.unit}</span>
+        <button data-act="inc">+</button>
+      </div>
+      <button class="add rm" data-rm="${i.id}" style="padding:6px 9px">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function renderTotals(){
+  // every tracked nutrient, grouped by cadence — bar vs full daily/weekly target (not the meal share)
+  let html = '', lastCad = null;
+  Object.entries(FOCUS).forEach(([fn,f])=>{
+    if(f.cad!==lastCad){ html += `<div class="cad-sep" style="margin-top:14px">${CAD_LABEL[f.cad]}</div>`; lastCad=f.cad; }
+    const tgt = f.cad==='meal' ? MEALS[state.meal].p : DAILY[f.key];
+    const got = plateTotal(f.key), pct=Math.min(100,got/tgt*100);
+    return html += `<div class="prog-lbl"><span>${f.nm} <span style="color:var(--muted)">/ ${tgt}${f.unit}</span></span><b>${round1(got)}${f.unit}</b></div>
+      <div class="bar"><i class="${got>tgt&&f.cad==='meal'?'over':''}" style="width:${pct}%"></i></div>`;
+  });
+  $('#totals').innerHTML = html +
+    `<div class="prog-lbl" style="margin-top:14px"><span>Calories <span style="color:var(--muted)">/ ${MEALS[state.meal].kcal||'~'} meal</span></span><b>${Math.round(plateTotal('kcal'))} kcal</b></div>`;
+}
+
+function renderFlags(){
+  // per-meal contextual nudge only — iron absorbs far better with a sour/vit-C on the SAME plate
+  const ironPresent = plateTotal('fe')>=2;
+  // partner present if there's a sour-role item (lemon/wedge) OR a real vit-C source (tomato ≥15mg etc.)
+  const vitcPartner = plateTotal('vc')>=15 ||
+    state.plate.some(it=>{const i=ING.find(x=>x.id===it.id); return i && i.role==='sour';});
+  $('#flags').innerHTML = (ironPresent && !vitcPartner)
+    ? `<span class="flag miss">⚠ iron on this plate, no sour — add lemon/tomato for absorption</span>` : '';
+}
+
+function renderReminders(){
+  const supp = NONFOOD.map(x=>`<span class="flag">${x.nm} <span style="opacity:.7">· ${x.cad}</span></span>`).join(' ');
+  $('#reminders').innerHTML = `
+    <div style="margin-bottom:8px"><b>Not from food — track separately:</b></div>
+    <div class="flags" style="margin:0 0 12px">${supp}</div>
+    <b>Weekly:</b> soya ≤3× · rotate greens/colours · resistance training 2–3×.<br>
+    <b>Monthly:</b> D3 dose · blood test (once) · weigh-in vs 0.3–0.5 kg/wk.<br>
+    <span style="color:var(--warn)"><b>Iron rule:</b> keep tea/coffee ≥1 h from dal/greens.</span>`;
+}
+
+/* ============ UTILS ============ */
+function round1(x){ return Math.round(x*10)/10; }
+function stepFor(i){ return ['cup','medium','egg','piece','scoop','dosa','slice','tbsp','tsp'].includes(i.unit)?1:0.5; }
+function nextFocus(){ const s=seq(), i=s.indexOf(state.focus); for(let j=i+1;j<s.length;j++){ return s[j]; } return null; }
+
+/* ============ EVENTS ============ */
+function addItem(id){ if(!inPlate(id)){ const i=ING.find(x=>x.id===id); state.plate.push({id, qty:i.def}); }
+  state.expand=false; state.query=''; const si=$('#search'); if(si) si.value=''; // clear search after a pick
+  render(); }
+function rmItem(id){ state.plate = state.plate.filter(p=>p.id!==id); render(); }
+function setQty(id, qty){
+  qty = Math.max(0, Number(qty)||0);
+  if(qty===0){ rmItem(id); return; }
+  const ip=inPlate(id); if(ip){ ip.qty=qty; } else { state.plate.push({id,qty}); }
+  render();
+}
+
+document.addEventListener('click', e=>{
+  const t=e.target;
+  if(t.dataset.meal){ state.meal=t.dataset.meal; state.focus='protein'; render(); }
+  else if(t.dataset.focus){ state.focus=t.dataset.focus; state.expand=false; renderBuilder(); }
+  else if(t.dataset.add){ addItem(t.dataset.add); }
+  else if(t.dataset.rm){ rmItem(t.dataset.rm); }
+  else if(t.dataset.act){ // stepper +/-
+    const box=t.closest('.stepper'); const id=box.dataset.id; const inp=box.querySelector('input');
+    const step=Number(inp.step)||1; let v=Number(inp.value)||0;
+    v = t.dataset.act==='inc'? v+step : v-step;
+    setQty(id, round1(v));
+  }
+  else if(t.id==='moreBtn'){ state.expand=!state.expand; renderBuilder(); }
+  else if(t.id==='searchBuy'){ e.preventDefault(); state.showBuy=true; renderBuilder(); }
+  else if(t.id==='reset'){ state.plate=[]; state.focus='protein'; state.query=''; state.expand=false; const si=$('#search'); if(si) si.value=''; render(); }
+  else if(t.id==='savePlate'){ savePlate(); }
+  else if(t.id==='recipeAdd'){ state.savingRecipe=true; renderRecipeSave(); }
+  else if(t.id==='recipeCancel'){ state.savingRecipe=false; renderRecipeSave(); }
+  else if(t.id==='recipeConfirm'){ const el=$('#recipeName'); saveAsRecipe(el?el.value:''); }
+  else if(t.dataset.delrecipe){ delRecipe(t.dataset.delrecipe); }
+  else if(t.dataset.edit){ editPlate(t.dataset.edit); }
+  else if(t.dataset.del){ delPlate(t.dataset.del); }
+});
+document.addEventListener('change', e=>{
+  if(e.target.matches('input[type=number]')){ setQty(e.target.dataset.id, e.target.value); }
+  if(e.target.id==='buyToggle'){ state.showBuy=e.target.checked; renderBuilder(); }
+  if(e.target.id==='dayInput'){ state.day=e.target.value||todayStr(); render(); }
+});
+document.addEventListener('input', e=>{
+  if(e.target.id==='search'){ state.query=e.target.value; renderBuilder(); } // only rebuild builder → search box keeps focus
+});
+
+/* ============ INIT — load CSV data, then render ============ */
+async function init(){
+  try{
+    const [ic, tc, rc] = await Promise.all([
+      fetch('ingredients.csv').then(r=>{ if(!r.ok) throw new Error('ingredients.csv'); return r.text(); }),
+      fetch('targets.csv').then(r=>{ if(!r.ok) throw new Error('targets.csv'); return r.text(); }),
+      fetch('recipes.csv').then(r=>r.ok?r.text():'').catch(()=>''),
+    ]);
+    buildData(ic, tc, rc);
+    USER_RECIPES = loadUserRecipes();         // localStorage fallback copies (only if the write API was unavailable)
+    USER_RECIPES.forEach(r=>{ if(!RECIPES.some(x=>x.id===r.id)) RECIPES.push(r); });  // dedupe vs recipes.csv
+    render();
+  }catch(e){
+    document.querySelector('.wrap').innerHTML =
+      `<div class="panel"><h2>Can't load the CSV data</h2>
+       <p style="color:var(--muted)">Browsers block <code>file://</code> from reading local files. Serve the folder over a local server:</p>
+       <pre style="background:var(--chip);padding:12px;border-radius:8px;overflow:auto">cd meal-system
+python3 -m http.server 8777</pre>
+       <p>then open <a href="http://localhost:8777/planner.html">http://localhost:8777/planner.html</a></p>
+       <p style="color:var(--warn);font-size:13px">(${e.message} failed to load)</p></div>`;
+  }
+}
+init();
+</script>
+</body>
+</html>
