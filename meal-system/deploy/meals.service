@@ -1,0 +1,25 @@
+[Unit]
+Description=Balanced Meal Planner API (SQLite)
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/meal-system
+Environment=MEALS_DB=/home/ubuntu/meal-system-data/meals.db
+Environment=HOST=127.0.0.1
+Environment=PORT=8200
+Environment=MEALS_QUIET=1
+ExecStart=/usr/bin/python3 /home/ubuntu/meal-system/app.py serve
+Restart=on-failure
+RestartSec=3
+
+# the app only ever needs its own code + its data dir
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/ubuntu/meal-system-data
+
+[Install]
+WantedBy=multi-user.target

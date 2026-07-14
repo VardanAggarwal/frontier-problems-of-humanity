@@ -190,7 +190,7 @@
 <script>
 /* ============ DATA — loaded from ingredients.csv + targets.csv ============ */
 // Populated by buildData() after fetch. Edit the CSVs (not this file) to change data.
-let ING = [], FOCUS = {}, DAILY = {}, BASES = [], SEQ_MAIN = [], RECIPES = [], USER_RECIPES = [];
+let ING = [], FOCUS = {}, DAILY = {}, BASES = [], SEQ_MAIN = [], RECIPES = [];
 const SEQ_SNACK = ['protein','vitc'];
 const CAD_LABEL = {meal:'Per meal', day:'Daily', week:'Weekly (average)'};
 const KCAL = 1775; // deficit midpoint
@@ -221,44 +221,48 @@ const NONFOOD = [
   {nm:'Probiotic', cad:'day', how:'curd / buttermilk / idli — a live-culture serving'},
 ];
 
-/* ---- CSV parsing → data structures (no commas inside CSV fields) ---- */
-function parseCSV(text){
-  const lines = text.split(/\r?\n/).map(l=>l.trim()).filter(l=>l && !l.startsWith('#'));
-  const head = lines[0].split(',').map(s=>s.trim());
-  return lines.slice(1).map(line=>{
-    const cells = line.split(','); const o={};
-    head.forEach((h,i)=>o[h]=(cells[i]||'').trim()); return o;
-  });
-}
-function buildData(ingCSV, tgtCSV, recCSV){
-  ING = parseCSV(ingCSV).map(r=>({
+/* ---- API JSON → data structures (source of truth is meals.db, served by app.py) ---- */
+function buildData(d){
+  ING = (d.ingredients||[]).map(r=>({
     id:r.id, nm:r.name, unit:r.unit, def:+r.default||1, role:r.role||'',
-    pantry:r.pantry==='1', base:r.base==='1', green:r.green==='1', probiotic:r.probiotic==='1',
+    pantry:!!r.pantry, base:!!r.base, green:!!r.green, probiotic:!!r.probiotic,
     note:r.note||'',
     n:{ kcal:+r.kcal||0, p:+r.protein||0, c:+r.carbs||0, fib:+r.fibre||0, fe:+r.iron||0, ca:+r.calcium||0,
         vc:+r.vitc||0, fo:+r.folate||0, o3:+r.omega3||0, zn:+r.zinc||0, va:+r.vita||0 } }));
   BASES = ING.filter(i=>i.base).map(i=>i.id);
   FOCUS = {}; DAILY = {}; SEQ_MAIN = [];
-  parseCSV(tgtCSV).forEach(r=>{
-    FOCUS[r.fname] = {key:r.key, nm:r.name, unit:r.unit, cad:r.cadence, daily:+r.daily||0, meal:+r.meal||0, permeal:r.permeal!=='0', blurb:BLURBS[r.fname]||''};
+  (d.targets||[]).forEach(r=>{
+    FOCUS[r.fname] = {key:r.key, nm:r.name, unit:r.unit, cad:r.cadence, daily:+r.daily||0, meal:+r.meal||0, permeal:!!r.permeal, blurb:BLURBS[r.fname]||''};
     DAILY[r.key] = +r.daily||0; SEQ_MAIN.push(r.fname);
   });
-  const split=s=>(s||'').split(/\s+/).filter(Boolean);
-  RECIPES = recCSV ? parseCSV(recCSV).map(r=>({ id:r.id, name:r.name, meals:split(r.meals), core:split(r.core), opt:split(r.opt), method:r.method||'', user:(r.id||'').startsWith('u') })) : [];
+  RECIPES = (d.recipes||[]).map(r=>({ id:r.id, name:r.name, meals:r.meals||[], core:r.core||[], opt:r.opt||[], method:r.method||'', user:!!r.user }));
 }
 
-// (nutrient config, FOCUS, DAILY, SEQ_MAIN and BASES are now built from the CSVs in buildData() above)
+/* ---- API helpers ---- */
+// relative base → works served from a domain root (/) or a subpath (/meals/) unchanged
+const API = new URL('api/', location.href.replace(/[^/]*$/, '')).href;
+async function api(path, body){
+  const opt = body===undefined ? {} :
+    {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)};
+  const res = await fetch(API+path, opt);
+  if(!res.ok) throw new Error(`${path} → ${res.status}`);
+  return res.json();
+}
+// a write failed — tell the user rather than silently dropping their data
+function apiFail(what, e){
+  console.error(what, e);
+  const b=document.createElement('div');
+  b.style.cssText='position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--warn);color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;z-index:99;box-shadow:var(--shadow)';
+  b.textContent=`⚠ Couldn't ${what} — not saved. ${e.message||''}`;
+  document.body.appendChild(b); setTimeout(()=>b.remove(), 5000);
+}
 
-/* ============ STATE + PERSISTENCE ============ */
+/* ============ STATE ============ */
+// Saved plates + user recipes live in meals.db (via /api). The browser holds no durable state.
 function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
-function loadSaved(){ try{ return JSON.parse(localStorage.getItem('mp.saved'))||[]; }catch(e){ return []; } }
-function persist(){ try{ localStorage.setItem('mp.saved', JSON.stringify(state.saved)); }catch(e){} }
-// user-created recipes (browser-stored) — merged with recipes.csv at load so the recipe DB grows
-function loadUserRecipes(){ try{ return JSON.parse(localStorage.getItem('mp.recipes'))||[]; }catch(e){ return []; } }
-function persistRecipes(){ try{ localStorage.setItem('mp.recipes', JSON.stringify(USER_RECIPES)); }catch(e){} }
 
 let state = { meal:'lunch', focus:'protein', plate:[] /* {id, qty} */, showBuy:false, query:'', expand:false,
-  savingRecipe:false, saved:loadSaved() /* [{id,date,meal,items:[{id,qty}]}] */, day:todayStr() };
+  savingRecipe:false, saved:[] /* [{id,date,meal,items:[{id,qty}]}] — from GET /api/plates */, day:todayStr() };
 
 function targetFor(focusName){
   if(focusName==='protein') return MEALS[state.meal].p;
@@ -311,30 +315,44 @@ function optMet(fn){ const f=FOCUS[fn]; return dayGot(f.key) >= f.daily*MET_TOL;
 function barRow(nm,got,tgt,unit,over){ const pct=Math.min(100, tgt?got/tgt*100:0);
   return `<div class="prog-lbl"><span>${nm} <span style="color:var(--muted)">/ ${tgt}${unit}</span></span><b>${round1(got)}${unit}</b></div>
     <div class="bar"><i class="${over&&got>tgt?'over':''}" style="width:${pct}%"></i></div>`; }
-// plate ops
-function savePlate(){ if(!state.plate.length) return;
-  state.saved.push({ id:'p'+Date.now(), date:state.day, meal:state.meal, items:state.plate.map(x=>({...x})) });
-  persist(); state.plate=[]; state.focus='protein'; render(); }
+// plate ops — every mutation goes to the DB, then state mirrors what the server accepted
+async function savePlate(){
+  if(!state.plate.length) return;
+  const p = { date:state.day, meal:state.meal, items:state.plate.map(x=>({...x})) };
+  try{
+    const {id} = await api('plates', p);
+    state.saved.push({...p, id});
+    state.plate=[]; state.focus='protein'; render();
+  }catch(e){ apiFail('save this plate', e); }
+}
 function editPlate(id){ const p=state.saved.find(x=>x.id===id); if(!p) return;
+  // pull it back onto the builder; it's removed from the DB and re-saved on the next Save
   state.meal=p.meal; state.day=p.date; state.plate=p.items.map(x=>({...x})); state.focus='protein';
-  state.saved=state.saved.filter(x=>x.id!==id); persist(); window.scrollTo(0,0); render(); }
-function delPlate(id){ state.saved=state.saved.filter(x=>x.id!==id); persist(); render(); }
+  delPlate(id); window.scrollTo(0,0); render(); }
+async function delPlate(id){
+  const prev=state.saved;
+  state.saved=state.saved.filter(x=>x.id!==id); render();
+  try{ await api('plates/delete', {id}); }
+  catch(e){ state.saved=prev; apiFail('delete that plate', e); render(); }
+}
 // save the current plate as a reusable recipe: core = substantial items, opt = garnish/finish (seeds/sour/fruit/condiment)
 async function saveAsRecipe(name){
   if(!state.plate.length) return;
   const ids=state.plate.map(p=>p.id);
   const isOpt=id=>{const i=ING.find(x=>x.id===id); return i && ['seed','sour','fruit','condiment'].includes(i.role);};
-  const r={ id:'u'+Date.now(), name:(name||'').trim()||('My '+MEALS[state.meal].label.toLowerCase()),
-    meals:[state.meal], core:ids.filter(id=>!isOpt(id)), opt:ids.filter(isOpt), method:'Your saved recipe', user:true };
-  let toFile=false;
-  try{ const res=await fetch('/api/recipe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(r)}); toFile=res.ok; }catch(e){}
-  if(!toFile){ USER_RECIPES.push(r); persistRecipes(); }  // fallback: browser storage if the write API isn't available
-  RECIPES.push(r);
-  state.savingRecipe=false; render();
+  const r={ name:(name||'').trim()||('My '+MEALS[state.meal].label.toLowerCase()),
+    meals:[state.meal], core:ids.filter(id=>!isOpt(id)), opt:ids.filter(isOpt), method:'Your saved recipe' };
+  try{
+    const {id} = await api('recipes', r);
+    RECIPES.push({...r, id, user:true});
+    state.savingRecipe=false; render();
+  }catch(e){ apiFail('save this recipe', e); }
 }
 async function delRecipe(id){
-  try{ await fetch('/api/recipe/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})}); }catch(e){}
-  USER_RECIPES=USER_RECIPES.filter(r=>r.id!==id); RECIPES=RECIPES.filter(r=>r.id!==id); persistRecipes(); render();
+  const prev=RECIPES;
+  RECIPES=RECIPES.filter(r=>r.id!==id); render();
+  try{ await api('recipes/delete', {id}); }
+  catch(e){ RECIPES=prev; apiFail('delete that recipe', e); render(); }
 }
 
 /* ============ RENDER ============ */
@@ -352,7 +370,7 @@ function renderRecipeSave(){
         <button class="add" id="recipeConfirm">Save recipe</button>
         <button class="add rm" id="recipeCancel">✕</button>
       </div>
-      <div style="font-size:11.5px;color:var(--muted);margin-top:6px">Saves this combo as a reusable recipe suggestion (kept in this browser).</div>`;
+      <div style="font-size:11.5px;color:var(--muted);margin-top:6px">Saves this combo to the recipe database so it's a permanent suggestion.</div>`;
   } else {
     el.innerHTML=`<button class="more-btn" id="recipeAdd" style="margin-top:10px">＋ also save as a recipe</button>`;
   }
@@ -671,26 +689,36 @@ document.addEventListener('input', e=>{
   if(e.target.id==='search'){ state.query=e.target.value; renderBuilder(); } // only rebuild builder → search box keeps focus
 });
 
-/* ============ INIT — load CSV data, then render ============ */
+/* ============ INIT — load from the API, then render ============ */
+// One-time lift of a browser's old localStorage into the DB, so upgrading doesn't drop history.
+async function migrateLocal(){
+  if(localStorage.getItem('mp.migrated')) return;
+  let plates=[], recipes=[];
+  try{ plates = JSON.parse(localStorage.getItem('mp.saved'))||[]; }catch(e){}
+  try{ recipes = JSON.parse(localStorage.getItem('mp.recipes'))||[]; }catch(e){}
+  if(!plates.length && !recipes.length){ localStorage.setItem('mp.migrated','1'); return; }
+  try{
+    const r = await api('import', {plates, recipes});
+    localStorage.setItem('mp.migrated','1');
+    console.log(`migrated ${r.plates} plates + ${r.recipes} recipes from this browser into the DB`);
+  }catch(e){ console.warn('localStorage migration deferred —', e.message); } // retry next load
+}
+
 async function init(){
   try{
-    const [ic, tc, rc] = await Promise.all([
-      fetch('ingredients.csv').then(r=>{ if(!r.ok) throw new Error('ingredients.csv'); return r.text(); }),
-      fetch('targets.csv').then(r=>{ if(!r.ok) throw new Error('targets.csv'); return r.text(); }),
-      fetch('recipes.csv').then(r=>r.ok?r.text():'').catch(()=>''),
-    ]);
-    buildData(ic, tc, rc);
-    USER_RECIPES = loadUserRecipes();         // localStorage fallback copies (only if the write API was unavailable)
-    USER_RECIPES.forEach(r=>{ if(!RECIPES.some(x=>x.id===r.id)) RECIPES.push(r); });  // dedupe vs recipes.csv
+    await migrateLocal();
+    const [data, plates] = await Promise.all([api('data'), api('plates')]);
+    buildData(data);
+    state.saved = plates;
     render();
   }catch(e){
     document.querySelector('.wrap').innerHTML =
-      `<div class="panel"><h2>Can't load the CSV data</h2>
-       <p style="color:var(--muted)">Browsers block <code>file://</code> from reading local files. Serve the folder over a local server:</p>
+      `<div class="panel"><h2>Can't reach the planner API</h2>
+       <p style="color:var(--muted)">This app needs <code>app.py</code> running — it serves the data and stores your plates in SQLite.</p>
        <pre style="background:var(--chip);padding:12px;border-radius:8px;overflow:auto">cd meal-system
-python3 -m http.server 8777</pre>
-       <p>then open <a href="http://localhost:8777/">http://localhost:8777/</a></p>
-       <p style="color:var(--warn);font-size:13px">(${e.message} failed to load)</p></div>`;
+python3 app.py serve</pre>
+       <p>then open <a href="http://127.0.0.1:8200/">http://127.0.0.1:8200/</a></p>
+       <p style="color:var(--warn);font-size:13px">(${e.message})</p></div>`;
   }
 }
 init();

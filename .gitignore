@@ -9,3 +9,6 @@ node_modules/
 meal-system/meal-plan.md
 meal-system/pantry-week1.md
 meal-system/nutrient-cadence.md
+
+# Meal planner runtime DB (lives on the server / locally, never in git)
+meal-system/data/
