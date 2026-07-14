@@ -335,11 +335,14 @@ async function delPlate(id){
   try{ await api('plates/delete', {id}); }
   catch(e){ state.saved=prev; apiFail('delete that plate', e); render(); }
 }
-// save the current plate as a reusable recipe: core = substantial items, opt = garnish/finish (seeds/sour/fruit/condiment)
+// roles that season/finish a dish rather than define it — these go to `opt` so a missing
+// clove of garlic doesn't stop the dish matching. Mirrors how recipes.csv splits its rows.
+const OPT_ROLES = ['seed','sour','fruit','condiment','aromatic'];
+// save the current plate as a reusable recipe: core = substantial items, opt = seasoning/finish
 async function saveAsRecipe(name){
   if(!state.plate.length) return;
   const ids=state.plate.map(p=>p.id);
-  const isOpt=id=>{const i=ING.find(x=>x.id===id); return i && ['seed','sour','fruit','condiment'].includes(i.role);};
+  const isOpt=id=>{const i=ING.find(x=>x.id===id); return i && OPT_ROLES.includes(i.role);};
   const r={ name:(name||'').trim()||('My '+MEALS[state.meal].label.toLowerCase()),
     meals:[state.meal], core:ids.filter(id=>!isOpt(id)), opt:ids.filter(isOpt), method:'Your saved recipe' };
   try{
