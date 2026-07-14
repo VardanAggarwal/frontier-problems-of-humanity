@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Balanced Meal Planner — prototype</title>
+<meta name="description" content="Pantry-driven, protein-gated meal planner. Build a plate, see nutrient gaps fill in real time, and track day/week totals.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥗</text></svg>">
+<title>Balanced Meal Planner</title>
 <style>
   :root{
     --bg:#faf9f6; --panel:#fff; --ink:#1c1b19; --muted:#6b6a66; --line:#e7e5df;
@@ -126,7 +128,7 @@
   <div class="topbar">
     <div>
       <h1>Balanced Meal Planner</h1>
-      <p class="sub">Prototype · pantry-driven · protein-gated · reads <code>pantry-week1.md</code> + <code>nutrient-cadence.md</code></p>
+      <p class="sub">Pantry-driven · protein-gated · build a plate and watch the nutrient gaps fill</p>
     </div>
     <button class="reset" id="reset">Reset plate</button>
   </div>
@@ -350,7 +352,7 @@ function renderRecipeSave(){
         <button class="add" id="recipeConfirm">Save recipe</button>
         <button class="add rm" id="recipeCancel">✕</button>
       </div>
-      <div style="font-size:11.5px;color:var(--muted);margin-top:6px">Writes this combo to recipes.csv so it's a permanent suggestion.</div>`;
+      <div style="font-size:11.5px;color:var(--muted);margin-top:6px">Saves this combo as a reusable recipe suggestion (kept in this browser).</div>`;
   } else {
     el.innerHTML=`<button class="more-btn" id="recipeAdd" style="margin-top:10px">＋ also save as a recipe</button>`;
   }
@@ -687,7 +689,7 @@ async function init(){
        <p style="color:var(--muted)">Browsers block <code>file://</code> from reading local files. Serve the folder over a local server:</p>
        <pre style="background:var(--chip);padding:12px;border-radius:8px;overflow:auto">cd meal-system
 python3 -m http.server 8777</pre>
-       <p>then open <a href="http://localhost:8777/planner.html">http://localhost:8777/planner.html</a></p>
+       <p>then open <a href="http://localhost:8777/">http://localhost:8777/</a></p>
        <p style="color:var(--warn);font-size:13px">(${e.message} failed to load)</p></div>`;
   }
 }

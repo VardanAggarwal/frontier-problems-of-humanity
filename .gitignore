@@ -4,3 +4,8 @@ __pycache__/
 *.pyc
 .venv/
 node_modules/
+
+# Personal meal-system planning notes (not used by the app)
+meal-system/meal-plan.md
+meal-system/pantry-week1.md
+meal-system/nutrient-cadence.md

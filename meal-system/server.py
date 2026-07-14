@@ -2,7 +2,11 @@
 """Static file server for the meal planner + tiny write API so saved recipes
 persist to recipes.csv (browsers can't write local files themselves).
 
-Run:  python3 server.py   →  http://127.0.0.1:8777/planner.html
+Optional local helper — the app runs fine on any static server without it
+(saved recipes fall back to browser localStorage). Run it only if you want
+saved recipes written back to recipes.csv on this machine.
+
+Run:  python3 server.py   →  http://127.0.0.1:8777/
 Endpoints:
   POST /api/recipe         body {id,name,meals,core,opt,method}  → append a row to recipes.csv
   POST /api/recipe/delete  body {id}                              → remove that row (user recipes only, id starts 'u')
