@@ -12,6 +12,7 @@ calcium,ca,Calcium,mg,day,1000,285,0
 magnesium,mg,Magnesium,mg,day,350,100,0
 potassium,k,Potassium,mg,day,3500,1000,0
 folate,fo,Folate,ug,day,400,114,0
-omega3,o3,Omega-3,g,day,1.6,0.5,0
+omega3,o3,Omega-3 (ALA),g,day,1.6,0.5,0
+omega3dha,o3d,Omega-3 (DHA/EPA),g,day,0.25,0.1,0
 zinc,zn,Zinc,mg,week,11,3,0
 vita,va,Vitamin A,ug,week,900,257,0

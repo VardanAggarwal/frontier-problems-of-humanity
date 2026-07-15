@@ -19,55 +19,56 @@
 #   PREP OUTPUT — a thing you make, not buy. It gets its own stock + freshness clock (shelf). Marking a
 #   prep "done" on index/menu bumps this row's stock; it then expires on its own shelf-life clock.
 # keep = 1 = a STANDING prep you always want a batch of ready — the prep queue nags when its stock is empty.
-id,name,unit,default,pantry,base,green,probiotic,topper,role,kcal,protein,carbs,fibre,iron,calcium,vitc,folate,omega3,zinc,vita,magnesium,potassium,note,shelf,pack,packname,lead,prep,makes,keep
-egg,Eggs,egg,2,1,1,0,0,0,protein,72,6,0.5,0,0.9,28,0,24,0.05,0.6,40,6,63,keystone protein,21,30,tray of 30,0,boil 6 at a time - keeps 5-7 days
-dal,Dal (toor/moong/masoor),cup,1,1,1,0,0,0,protein,120,9,20,4,2.8,40,0,120,0,0.7,0,60,400,daily backbone,365,28,1 kg packet,0,pressure-cook a batch - keeps 3-4 days
-rajma,Rajma,cup,1,1,1,0,0,0,protein,220,14,40,9,3.5,70,0,130,0,1.0,0,85,715,soak 6-8h then discard water,365,7,500 g packet,8,soak 6-8h then DISCARD the water
-kala,Kala chana,cup,1,1,0,0,0,0,protein,210,13,35,8,3.0,70,0,100,0,1.0,0,80,475,,365,8,500 g packet,8,soak 6-8h then discard the water
-kabuli,Kabuli chana,cup,1,0,1,0,0,0,protein,210,12,35,9,3.0,60,2,140,0,1.3,0,70,430,buy - for cold salads and bowls,365,8,500 g packet,8,soak 6-8h then discard the water
-soya,Soya chunks,30g dry,1,1,0,0,0,0,protein,100,15,10,3,5.0,80,0,60,0,1.0,0,85,180,cap 2-3x per week,180,6,200 g packet,1,boil then squeeze dry
-besan,Besan (chilla),40g,1,1,1,0,0,0,protein,150,8,22,4,1.7,18,0,170,0,1.0,0,66,340,,180,12,500 g packet,0,
-whey,Whey,scoop,1,1,0,0,0,0,protein,120,24,3,0,0.3,120,0,0,0,1.0,0,20,160,gap-filler not a base,365,30,1 kg tub,0,
-sprout,Sprouted moong,cup,1,1,0,0,0,0,protein,100,7,17,4,1.4,50,10,100,0,0.5,0,21,149,sprout the moong you have,3,4,jar - sprout at home,24,soak 8h then sprout 12-24h in a jar,dal,1
-peanut,Roasted peanuts,30g,1,1,0,0,0,1,seed,170,7,5,3,1.4,28,0,0,0,0.9,0,50,200,,90,16,500 g packet,0,
-pb,Peanut butter,tbsp,2,1,0,0,0,0,condiment,95,4,3,1,0.3,7,0,0,0,0.5,0,27,100,,120,25,340 g jar,0,
-pchutney,Peanut chutney,tbsp,2,1,0,0,0,0,condiment,55,2.5,3,1,0.4,12,0,0,0,0.4,0,15,60,pre-prepped condiment,21,20,jar,0,
-curd,Curd (toned),cup,1,1,1,0,1,1,dairy,120,7,10,0,0.1,275,0,0,0,0.9,0,24,350,daily probiotic,5,2.5,500 g tub,0,
-tofu,Tofu (plain),100g,1,0,0,0,0,0,protein,130,11,2,1,2.7,40,0,0,0,0.8,0,30,120,protein and iron only - Ca-set unavailable so calcium is ~40mg not 350,5,2,200 g block,0,cube and submerge in water - change daily
-paneer,Paneer,100g,1,0,0,0,0,0,protein,290,18,3,0,0.2,420,0,0,0,1.0,0,20,100,BUY - the calcium plug now Ca-set tofu is unavailable - cap 2-3x per week,5,2,200 g block,0,
-rice,Rice,cup,1,1,1,0,0,0,base,200,4,45,1,0.5,15,0,0,0,0.8,0,19,55,,365,17,1 kg packet,0,
-millet,Little millet,cup,1,1,1,0,0,0,base,200,6,40,4,2.0,15,0,0,0,1.5,0,75,110,carries magnesium - rice does not,180,8,500 g packet,6,soak 6h before cooking
-ragi,Ragi flour,30g,2,1,0,0,0,1,base,100,3,22,3,1.1,100,0,0,0,0.6,0,41,120,plant-calcium,90,16,500 g packet,0,
-poha,Poha,50g,1,1,1,0,0,0,base,180,4,38,2,2.5,10,0,0,0,0,0,30,60,,120,10,500 g packet,0,
-suji,Suji/rava,50g,1,1,0,0,0,0,base,180,6,38,1,1.0,10,0,0,0,0,0,24,90,,120,10,500 g packet,0,
-vermicelli,Vermicelli,50g,1,1,0,0,0,0,base,190,6,38,1,1.0,10,0,0,0,0,0,25,90,,180,8,400 g packet,0,
-oats,Rolled oats,40g,1,0,1,0,0,0,base,150,5,27,4,1.7,20,0,15,0.1,1.5,0,60,150,buy - the zero-cook overnight base,180,12,500 g packet,0,
-batter,Dosa-idli batter (ragi),dosa,2,1,1,0,1,0,base,90,3,15,1,1.0,40,0,0,0,0,0,15,50,fermented,5,8,1 kg pack,0,buy it - or ferment 12h
-bread,Multigrain bread,slice,2,1,0,0,0,0,base,70,3,12,2,1.0,15,0,0,0,0,0,25,70,emergency only,5,12,loaf,0,
-spinach,Spinach,cup,1,1,0,1,0,1,green,40,3,3,3,3.0,130,13,130,0,0.5,470,150,800,add lemon for oxalates,3,4,bunch,0,
-amaranth,Amaranth,cup,1,1,0,1,0,1,green,40,3,4,3,3.0,130,20,130,0,0.5,550,75,800,lower oxalate than palak,3,4,bunch,0,
-moringa,Moringa powder,tsp,1,1,0,1,0,1,green,5,0.6,1,1,0.5,35,5,40,0,0,90,9,33,stir into any dal,365,40,100 g pack,0,
-carrot,Carrot,medium,1,1,0,0,0,1,veg,25,0.6,6,2,0.3,20,4,0,0,0,500,7,195,,10,6,500 g,0,
-beet,Beetroot,medium,1,1,0,0,0,1,veg,35,1.3,8,2,0.8,10,0,90,0,0,0,23,440,,14,4,500 g,0,
-fbeans,French beans,cup,1,1,0,0,0,0,veg,35,2,7,3,1.0,40,6,30,0,0,0,25,210,,5,4,250 g,0,
-cocc,Coccinia (tindora),cup,1,1,0,0,0,0,veg,20,1,4,2,0.5,40,0,0,0,0,0,15,100,,7,4,250 g,0,
-tomato,Tomato,medium,1,1,0,0,0,1,veg,20,1,4,1,0.3,10,15,0,0,0,40,11,290,iron partner,5,8,500 g,0,
-cucumber,Cucumber,medium,1,0,0,0,0,0,veg,20,0.8,4,1,0.3,20,4,10,0,0.2,5,20,220,buy - the no-cook salad volume,7,4,500 g,0,
-onion,Onion (red),medium,1,1,0,0,0,0,aromatic,44,1.2,10,1.9,0.2,23,7,19,0,0,0,10,146,prebiotic base,21,8,1 kg,0,bhuna a big onion-tomato base - 1h once - keeps 4-5 days
-garlic,Garlic,clove,3,1,0,0,0,0,aromatic,4,0.2,1,0.1,0.05,5,1,0,0,0,0,0.8,12,prebiotic,30,40,2 bulbs,0,
-ginger,Ginger,tbsp,1,1,0,0,0,0,aromatic,5,0.1,1,0.2,0.05,2,0,0,0,0,0,3,25,digestive,14,10,100 g,0,
-gchilli,Green chilli,piece,2,1,0,0,0,0,aromatic,4,0.2,1,0.3,0.1,2,18,0,0,0,0,2,30,,7,25,50 g,0,
-curryleaf,Curry leaf,sprig,1,1,0,0,0,0,aromatic,2,0.1,0.2,0.2,0.1,8,0.3,0,0,0,0,1,10,flavour and iron trace,5,12,bunch,0,
-coriander,Coriander,tbsp,2,1,0,0,0,0,aromatic,1,0.1,0.2,0.1,0.1,3,2,0,0,0,5,1,15,,3,16,bunch,0,
-lemon,Lemon,piece,1,1,0,0,0,1,sour,8,0.2,2,0,0.1,5,18,0,0,0,0,5,60,iron partner - add at iron meals,14,6,6 lemons,0,
-lemon_wedge,Lemon wedge,wedge,1,1,0,0,0,1,sour,2,0,0.5,0,0,1,4,0,0,0,0,1,12,iron partner - add at iron meals,14,24,6 lemons,0,
-banana,Banana,medium,1,1,0,0,0,1,fruit,105,1.3,27,3,0.3,6,8,0,0,0,0,32,420,,5,6,half dozen,0,
-guava,Guava,medium,1,1,0,0,0,1,fruit,45,1.6,11,5,0.3,18,125,20,0,0,0,22,230,,5,4,500 g,0,
-papaya,Papaya,cup,1,1,0,0,0,1,fruit,60,0.7,15,3,0.3,24,60,0,0,0,60,30,360,,4,6,1 papaya,0,
-flax,Ground flax,tbsp,1,1,0,0,0,1,seed,55,2,3,3,0.6,45,0,0,2.3,0.5,0,40,85,daily - the omega-3 source,60,25,250 g packet,0,grind small batches - pre-ground goes rancid
-til,Black til,tbsp,1,1,0,0,0,1,seed,52,1.6,2,1,1.3,88,0,0,0,0.7,0,32,42,plant-calcium specialist,90,25,250 g packet,0,
-pumpkin,Pumpkin seeds,15g,1,1,0,0,0,1,seed,85,4,2,1,2.2,7,0,0,0,2.2,0,80,120,the zinc specialist,90,16,250 g packet,0,
+id,name,unit,default,pantry,base,green,probiotic,topper,role,kcal,protein,carbs,fibre,iron,calcium,vitc,folate,omega3,omega3_dha,zinc,vita,magnesium,potassium,note,shelf,pack,packname,lead,prep,makes,keep
+egg,Eggs,egg,2,1,1,0,0,0,protein,72,6,0.5,0,0.9,28,0,24,0.05,0.06,0.6,40,6,63,keystone protein,21,30,tray of 30,0,boil 6 at a time - keeps 5-7 days
+egg_o3,Omega-3 eggs (fortified),egg,2,0,1,0,0,0,protein,72,6,0.5,0,0.9,28,0,24,0.05,0.25,0.6,40,6,63,fortified/DHA-enriched - direct DHA - no conversion needed unlike flax ALA,21,30,tray of 30,0,boil 6 at a time - keeps 5-7 days
+dal,Dal (toor/moong/masoor),cup,1,1,1,0,0,0,protein,120,9,20,4,2.8,40,0,120,0,0,0.7,0,60,400,daily backbone,365,28,1 kg packet,0,pressure-cook a batch - keeps 3-4 days
+rajma,Rajma,cup,1,1,1,0,0,0,protein,220,14,40,9,3.5,70,0,130,0,0,1.0,0,85,715,soak 6-8h then discard water,365,7,500 g packet,8,soak 6-8h then DISCARD the water
+kala,Kala chana,cup,1,1,0,0,0,0,protein,210,13,35,8,3.0,70,0,100,0,0,1.0,0,80,475,,365,8,500 g packet,8,soak 6-8h then discard the water
+kabuli,Kabuli chana,cup,1,0,1,0,0,0,protein,210,12,35,9,3.0,60,2,140,0,0,1.3,0,70,430,buy - for cold salads and bowls,365,8,500 g packet,8,soak 6-8h then discard the water
+soya,Soya chunks,30g dry,1,1,0,0,0,0,protein,100,15,10,3,5.0,80,0,60,0,0,1.0,0,85,180,cap 2-3x per week,180,6,200 g packet,1,boil then squeeze dry
+besan,Besan (chilla),40g,1,1,1,0,0,0,protein,150,8,22,4,1.7,18,0,170,0,0,1.0,0,66,340,,180,12,500 g packet,0,
+whey,Whey,scoop,1,1,0,0,0,0,protein,120,24,3,0,0.3,120,0,0,0,0,1.0,0,20,160,gap-filler not a base,365,30,1 kg tub,0,
+sprout,Sprouted moong,cup,1,1,0,0,0,0,protein,100,7,17,4,1.4,50,10,100,0,0,0.5,0,21,149,sprout the moong you have,3,4,jar - sprout at home,24,soak 8h then sprout 12-24h in a jar,dal,1
+peanut,Roasted peanuts,30g,1,1,0,0,0,1,seed,170,7,5,3,1.4,28,0,0,0,0,0.9,0,50,200,,90,16,500 g packet,0,
+pb,Peanut butter,tbsp,2,1,0,0,0,0,condiment,95,4,3,1,0.3,7,0,0,0,0,0.5,0,27,100,,120,25,340 g jar,0,
+pchutney,Peanut chutney,tbsp,2,1,0,0,0,0,condiment,55,2.5,3,1,0.4,12,0,0,0,0,0.4,0,15,60,pre-prepped condiment,21,20,jar,0,
+curd,Curd (toned),cup,1,1,1,0,1,1,dairy,120,7,10,0,0.1,275,0,0,0,0,0.9,0,24,350,daily probiotic,5,2.5,500 g tub,0,
+tofu,Tofu (plain),100g,1,0,0,0,0,0,protein,130,11,2,1,2.7,40,0,0,0,0,0.8,0,30,120,protein and iron only - Ca-set unavailable so calcium is ~40mg not 350,5,2,200 g block,0,cube and submerge in water - change daily
+paneer,Paneer,100g,1,0,0,0,0,0,protein,290,18,3,0,0.2,420,0,0,0,0,1.0,0,20,100,BUY - the calcium plug now Ca-set tofu is unavailable - cap 2-3x per week,5,2,200 g block,0,
+rice,Rice,cup,1,1,1,0,0,0,base,200,4,45,1,0.5,15,0,0,0,0,0.8,0,19,55,,365,17,1 kg packet,0,
+millet,Little millet,cup,1,1,1,0,0,0,base,200,6,40,4,2.0,15,0,0,0,0,1.5,0,75,110,carries magnesium - rice does not,180,8,500 g packet,6,soak 6h before cooking
+ragi,Ragi flour,30g,2,1,0,0,0,1,base,100,3,22,3,1.1,100,0,0,0,0,0.6,0,41,120,plant-calcium,90,16,500 g packet,0,
+poha,Poha,50g,1,1,1,0,0,0,base,180,4,38,2,2.5,10,0,0,0,0,0,0,30,60,,120,10,500 g packet,0,
+suji,Suji/rava,50g,1,1,0,0,0,0,base,180,6,38,1,1.0,10,0,0,0,0,0,0,24,90,,120,10,500 g packet,0,
+vermicelli,Vermicelli,50g,1,1,0,0,0,0,base,190,6,38,1,1.0,10,0,0,0,0,0,0,25,90,,180,8,400 g packet,0,
+oats,Rolled oats,40g,1,0,1,0,0,0,base,150,5,27,4,1.7,20,0,15,0.1,0,1.5,0,60,150,buy - the zero-cook overnight base,180,12,500 g packet,0,
+batter,Dosa-idli batter (ragi),dosa,2,1,1,0,1,0,base,90,3,15,1,1.0,40,0,0,0,0,0,0,15,50,fermented,5,8,1 kg pack,0,buy it - or ferment 12h
+bread,Multigrain bread,slice,2,1,0,0,0,0,base,70,3,12,2,1.0,15,0,0,0,0,0,0,25,70,emergency only,5,12,loaf,0,
+spinach,Spinach,cup,1,1,0,1,0,1,green,40,3,3,3,3.0,130,13,130,0,0,0.5,470,150,800,add lemon for oxalates,3,4,bunch,0,
+amaranth,Amaranth,cup,1,1,0,1,0,1,green,40,3,4,3,3.0,130,20,130,0,0,0.5,550,75,800,lower oxalate than palak,3,4,bunch,0,
+moringa,Moringa powder,tsp,1,1,0,1,0,1,green,5,0.6,1,1,0.5,35,5,40,0,0,0,90,9,33,stir into any dal,365,40,100 g pack,0,
+carrot,Carrot,medium,1,1,0,0,0,1,veg,25,0.6,6,2,0.3,20,4,0,0,0,0,500,7,195,,10,6,500 g,0,
+beet,Beetroot,medium,1,1,0,0,0,1,veg,35,1.3,8,2,0.8,10,0,90,0,0,0,0,23,440,,14,4,500 g,0,
+fbeans,French beans,cup,1,1,0,0,0,0,veg,35,2,7,3,1.0,40,6,30,0,0,0,0,25,210,,5,4,250 g,0,
+cocc,Coccinia (tindora),cup,1,1,0,0,0,0,veg,20,1,4,2,0.5,40,0,0,0,0,0,0,15,100,,7,4,250 g,0,
+tomato,Tomato,medium,1,1,0,0,0,1,veg,20,1,4,1,0.3,10,15,0,0,0,0,40,11,290,iron partner,5,8,500 g,0,
+cucumber,Cucumber,medium,1,0,0,0,0,0,veg,20,0.8,4,1,0.3,20,4,10,0,0,0.2,5,20,220,buy - the no-cook salad volume,7,4,500 g,0,
+onion,Onion (red),medium,1,1,0,0,0,0,aromatic,44,1.2,10,1.9,0.2,23,7,19,0,0,0,0,10,146,prebiotic base,21,8,1 kg,0,bhuna a big onion-tomato base - 1h once - keeps 4-5 days
+garlic,Garlic,clove,3,1,0,0,0,0,aromatic,4,0.2,1,0.1,0.05,5,1,0,0,0,0,0,0.8,12,prebiotic,30,40,2 bulbs,0,
+ginger,Ginger,tbsp,1,1,0,0,0,0,aromatic,5,0.1,1,0.2,0.05,2,0,0,0,0,0,0,3,25,digestive,14,10,100 g,0,
+gchilli,Green chilli,piece,2,1,0,0,0,0,aromatic,4,0.2,1,0.3,0.1,2,18,0,0,0,0,0,2,30,,7,25,50 g,0,
+curryleaf,Curry leaf,sprig,1,1,0,0,0,0,aromatic,2,0.1,0.2,0.2,0.1,8,0.3,0,0,0,0,0,1,10,flavour and iron trace,5,12,bunch,0,
+coriander,Coriander,tbsp,2,1,0,0,0,0,aromatic,1,0.1,0.2,0.1,0.1,3,2,0,0,0,0,5,1,15,,3,16,bunch,0,
+lemon,Lemon,piece,1,1,0,0,0,1,sour,8,0.2,2,0,0.1,5,18,0,0,0,0,0,5,60,iron partner - add at iron meals,14,6,6 lemons,0,
+lemon_wedge,Lemon wedge,wedge,1,1,0,0,0,1,sour,2,0,0.5,0,0,1,4,0,0,0,0,0,1,12,iron partner - add at iron meals,14,24,6 lemons,0,
+banana,Banana,medium,1,1,0,0,0,1,fruit,105,1.3,27,3,0.3,6,8,0,0,0,0,0,32,420,,5,6,half dozen,0,
+guava,Guava,medium,1,1,0,0,0,1,fruit,45,1.6,11,5,0.3,18,125,20,0,0,0,0,22,230,,5,4,500 g,0,
+papaya,Papaya,cup,1,1,0,0,0,1,fruit,60,0.7,15,3,0.3,24,60,0,0,0,0,60,30,360,,4,6,1 papaya,0,
+flax,Ground flax,tbsp,1,1,0,0,0,1,seed,55,2,3,3,0.6,45,0,0,2.3,0,0.5,0,40,85,daily - the omega-3 source,60,25,250 g packet,0,grind small batches - pre-ground goes rancid
+til,Black til,tbsp,1,1,0,0,0,1,seed,52,1.6,2,1,1.3,88,0,0,0,0,0.7,0,32,42,plant-calcium specialist,90,25,250 g packet,0,
+pumpkin,Pumpkin seeds,15g,1,1,0,0,0,1,seed,85,4,2,1,2.2,7,0,0,0,0,2.2,0,80,120,the zinc specialist,90,16,250 g packet,0,
 # --- PREP OUTPUTS: things you MAKE not buy. `makes` links each to the raw ids it comes from; marking
 # --- it done (index/menu prep queue) bumps its stock and starts the shelf-life clock. sprout is one too.
-rajma_soaked,Soaked rajma,cup,1,0,1,0,0,0,protein,220,14,40,9,3.5,70,0,130,0,1.0,0,85,715,ready-to-cook - soak once cook for 2 days,2,3,home-soaked batch,8,soak 6-8h then DISCARD the water,rajma,0
-base_paste,Tomato-onion paste,serving,1,0,0,0,0,0,aromatic,45,1.5,9,2,0.4,20,10,15,0,0.2,20,10,250,bhuna base for any gravy - keeps 4-5 days,5,5,bhuna batch ~5 servings,0,bhuna onions+tomato+garlic+ginger ~1h,onion tomato garlic ginger,1
+rajma_soaked,Soaked rajma,cup,1,0,1,0,0,0,protein,220,14,40,9,3.5,70,0,130,0,0,1.0,0,85,715,ready-to-cook - soak once cook for 2 days,2,3,home-soaked batch,8,soak 6-8h then DISCARD the water,rajma,0
+base_paste,Tomato-onion paste,serving,1,0,0,0,0,0,aromatic,45,1.5,9,2,0.4,20,10,15,0,0,0.2,20,10,250,bhuna base for any gravy - keeps 4-5 days,5,5,bhuna batch ~5 servings,0,bhuna onions+tomato+garlic+ginger ~1h,onion tomato garlic ginger,1

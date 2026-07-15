@@ -221,7 +221,8 @@ const BLURBS = {
   fibre:'Ramp slowly + scale water. Legumes, millets, guava, veg.',
   vitc:'Low-risk itself, but it is the iron-absorption partner — put it on the iron meal.',
   folate:'Rides along with legumes + greens — usually free if protein is done well.',
-  omega3:'1 tbsp ground flax replaces the capsule. Egg yolk adds a little DHA.',
+  omega3:'Plant ALA — 1 tbsp ground flax hits the 1.6 g target, but <10% converts to usable EPA/DHA. Covers the ALA line, not the DHA one.',
+  omega3dha:'Pre-formed DHA/EPA — the form the body actually uses. Flax does NOT fill this. Egg yolk / omega-3 eggs, or an algae cap on veg days.',
   zinc:'Bank it across the week — pumpkin seeds, sprouted dals, til, millets.',
   vita:'Fat-soluble, stores — average across the week via carrot / greens / papaya.',
   magnesium:'Millets carry it, rice does not — the base you pick decides this one.',
@@ -243,7 +244,7 @@ function buildData(d){
     note:r.note||'', shelf:+r.shelf||30, lead:+r.lead||0, prep:r.prep||'',
     makes:r.makes||'', keep:!!r.keep,
     n:{ kcal:+r.kcal||0, p:+r.protein||0, c:+r.carbs||0, fib:+r.fibre||0, fe:+r.iron||0, ca:+r.calcium||0,
-        vc:+r.vitc||0, fo:+r.folate||0, o3:+r.omega3||0, zn:+r.zinc||0, va:+r.vita||0,
+        vc:+r.vitc||0, fo:+r.folate||0, o3:+r.omega3||0, o3d:+r.omega3_dha||0, zn:+r.zinc||0, va:+r.vita||0,
         mg:+r.magnesium||0, k:+r.potassium||0 } }));
   BASES = ING.filter(i=>i.base).map(i=>i.id);
   FOCUS = {}; DAILY = {}; SEQ_MAIN = [];
@@ -595,7 +596,8 @@ function renderDayTotals(){
   const rows = [['Protein','p','g',DAILY.p],['Carbs','c','g',DAILY.c],['Iron','fe','mg',DAILY.fe],
     ['Calcium','ca','mg',DAILY.ca],['Magnesium','mg','mg',DAILY.mg],['Potassium','k','mg',DAILY.k],
     ['Fibre','fib','g',DAILY.fib],['Vitamin C','vc','mg',DAILY.vc],
-    ['Folate','fo','µg',DAILY.fo],['Omega-3','o3','g',DAILY.o3]];
+    ['Folate','fo','µg',DAILY.fo],['Omega-3 ALA','o3','g',DAILY.o3],
+    ['Omega-3 DHA/EPA','o3d','g',DAILY.o3d]];
   const meals = plates.map(p=>MEALS[p.meal].label).join(', ') || 'nothing saved yet';
   $('#dayTotals').innerHTML =
     `<div style="font-size:12.5px;color:var(--muted);margin-bottom:10px">${plates.length} plate(s): ${meals}</div>` +

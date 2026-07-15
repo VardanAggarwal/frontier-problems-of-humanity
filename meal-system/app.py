@@ -53,8 +53,11 @@ HOST = os.environ.get('HOST', '127.0.0.1')
 
 # ingredient nutrient columns, in CSV order. Adding one here + in both CSVs is all it takes:
 # it flows into the planner's gap engine, the shop list and the menu scorer automatically.
+# omega3 = plant ALA (barely converts to EPA/DHA); omega3_dha = pre-formed DHA/EPA
+# (egg/fortified/algae) that needs no conversion. They are DIFFERENT molecules — tracked
+# as separate nutrients so the planner never sums flax-ALA and egg-DHA into one number.
 NUTRIENTS = ['kcal', 'protein', 'carbs', 'fibre', 'iron', 'calcium',
-             'vitc', 'folate', 'omega3', 'zinc', 'vita', 'magnesium', 'potassium']
+             'vitc', 'folate', 'omega3', 'omega3_dha', 'zinc', 'vita', 'magnesium', 'potassium']
 FLAGS = ['pantry', 'base', 'green', 'probiotic', 'topper']
 # shopping columns — shelf life (days) decides the run, pack converts need -> what you buy
 SHOP = ['shelf', 'pack', 'packname']
@@ -69,6 +72,7 @@ MIGRATIONS = {
     'ingredients': {'shelf': 'INT DEFAULT 30', 'pack': 'REAL DEFAULT 1', 'packname': "TEXT DEFAULT ''",
                     'topper': 'INT DEFAULT 0',
                     'magnesium': 'REAL DEFAULT 0', 'potassium': 'REAL DEFAULT 0',
+                    'omega3_dha': 'REAL DEFAULT 0',
                     'lead': 'REAL DEFAULT 0', 'prep': "TEXT DEFAULT ''",
                     'makes': "TEXT DEFAULT ''", 'keep': 'INT DEFAULT 0'},
     'plates': {'planned': 'INT DEFAULT 0', 'recipe_id': "TEXT DEFAULT ''"},
@@ -85,7 +89,9 @@ CREATE TABLE IF NOT EXISTS ingredients(
   probiotic INT DEFAULT 0, topper INT DEFAULT 0, note TEXT DEFAULT '',
   kcal REAL DEFAULT 0, protein REAL DEFAULT 0, carbs REAL DEFAULT 0, fibre REAL DEFAULT 0,
   iron REAL DEFAULT 0, calcium REAL DEFAULT 0, vitc REAL DEFAULT 0, folate REAL DEFAULT 0,
-  omega3 REAL DEFAULT 0, zinc REAL DEFAULT 0, vita REAL DEFAULT 0,
+  omega3 REAL DEFAULT 0,         -- plant ALA (does not convert well to EPA/DHA)
+  omega3_dha REAL DEFAULT 0,     -- pre-formed DHA/EPA: egg/fortified/algae, directly usable
+  zinc REAL DEFAULT 0, vita REAL DEFAULT 0,
   magnesium REAL DEFAULT 0, potassium REAL DEFAULT 0,
   shelf INT DEFAULT 30, pack REAL DEFAULT 1, packname TEXT DEFAULT '',
   lead REAL DEFAULT 0,           -- hours of ahead-work (soak/sprout) before it can be cooked
