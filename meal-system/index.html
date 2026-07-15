@@ -333,6 +333,12 @@ function weekPlates(endDate){
   const end=new Date(endDate+'T00:00'), start=new Date(end); start.setDate(end.getDate()-6);
   return state.saved.filter(p=>{ const d=new Date(p.date+'T00:00'); return d>=start && d<=end; });
 }
+function shiftDay(s,n){ const d=new Date(s+'T00:00'); d.setDate(d.getDate()+n);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+// how many of the last `days` days' plates included this ingredient — drives the anti-monotony nudge
+function recentUse(id, days=3){ const cut=shiftDay(state.day,-days);
+  return state.saved.filter(p=>p.date>cut && p.date<=state.day)
+                    .reduce((n,p)=> n + (p.items.some(it=>it.id===id)?1:0), 0); }
 function daysLogged(plates){ return new Set(plates.map(p=>p.date)).size; }
 // day/week totals INCLUDING the current unsaved plate — used to judge optional (daily/weekly) items
 function dayGot(key){ return aggTotal(platesFor(state.day), key) + plateTotal(key); }
@@ -728,6 +734,26 @@ function addDish(id){
   render();
 }
 
+// Opening suggestions for an empty plate — the same signals the menu generator scores on, but
+// for ONE meal: history affinity (looks like your eating) + rescue (uses something about to spoil)
+// − monotony (ingredients eaten lately, protein hero weighted) − effort. Returns whole dishes.
+function suggestDishes(meal, n=3){
+  const cand = RECIPES.filter(r=> r.meals.includes(meal) && dishItems(r).length);
+  const days = new Set(state.saved.map(p=>p.date)).size || 1;
+  const freq = {};
+  state.saved.forEach(p=>p.items.forEach(it=>{ freq[it.id]=(freq[it.id]||0)+1; }));
+  const score = r=>{
+    const items = dishItems(r);
+    const aff    = items.reduce((s,id)=> s + (freq[id]||0)/days, 0) / Math.max(1,items.length);
+    const rescue = items.reduce((s,id)=> s + (isDying(id)?1:0), 0);
+    let mono=0, w=0;
+    r.core.forEach(id=>{ const i=ING.find(x=>x.id===id); const wt=i&&i.role==='protein'?2:1; mono+=wt*recentUse(id); w+=wt; });
+    mono = w ? mono/w : 0;
+    return 0.35*aff + 0.8*rescue - 0.6*mono - (r.effort||15)/60;
+  };
+  return cand.map(r=>({r,s:score(r)})).sort((a,b)=>b.s-a.s).slice(0,n).map(x=>x.r);
+}
+
 function renderBuilder(){
   const el=$('#builder'), q=(state.query||'').trim().toLowerCase();
 
@@ -751,12 +777,24 @@ function renderBuilder(){
     return;
   }
 
-  // --- BASE step: empty plate → start with a base ---
+  // --- START step: empty plate → OPEN WITH MEAL-APPROPRIATE SUGGESTIONS, not a blank slate ---
   if(!state.plate.length){
+    const mealLabel = MEALS[state.meal].label.toLowerCase();
+    const dishes = suggestDishes(state.meal, 3);          // menu-style: whole dishes for THIS meal
+    // fallback single protein base if no dish is tagged for this meal (rotation-aware, ready-now)
+    const pT = MEALS[state.meal].p;
+    const basePick = BASES.map(id=>ING.find(x=>x.id===id))
+      .filter(i=>i && i.role==='protein' && (i.pantry||stockQty(i.id)>0))
+      .sort((a,b)=> (isDying(b.id)-isDying(a.id)) || ((a.lead||0)-(b.lead||0))
+                 || (recentUse(a.id)-recentUse(b.id)) || ((b.n.p||0)-(a.n.p||0)))[0];
     const tiles=BASES.map(id=>{const i=ING.find(x=>x.id===id); return i?`<button class="tab" data-add="${id}">${i.nm}</button>`:'';}).join('');
-    el.innerHTML=`<p class="focus-note">Start with a <b>base</b> — a grain or an anchor protein. Then I'll show what's missing and suggest fills.</p>
+    el.innerHTML=`
+      <p class="focus-note">Start your <b>${mealLabel}</b> — suggested for you (one tap drops the whole dish):</p>
+      ${dishes.length ? dishes.map(dishRow).join('')
+                      : (basePick?suggRow(basePick,'p',pT):'')}
+      <p class="focus-note" style="margin-top:14px">…or start from a base</p>
       <div class="base-tiles">${tiles}</div>
-      <p class="focus-note" style="margin-top:16px">…or search above to add anything specific.</p>`;
+      <p class="focus-note" style="margin-top:14px">…or search above to add anything specific.</p>`;
     return;
   }
 
@@ -785,7 +823,12 @@ function renderBuilder(){
   let sugg=ING.filter(i=>(i.pantry||state.showBuy) && !inPlate(i.id) && (i.n[key]||0)>0);
   // fit to the gap, but let something about to spoil jump the queue — a dying bunch of spinach
   // is a better answer than a perfect-fit item that will still be there next week
-  const fit=i=>Math.abs((i.n[key]||0)*i.def - remaining) - (isDying(i.id)?remaining*0.6:0);
+  // …but something eaten a lot in the last few days sinks down the list — so you rotate sources
+  // instead of adding eggs to a fourth meal. Capped below the freshness bonus, so a dying item
+  // still wins (using up a perishable beats variety).
+  const fit=i=>Math.abs((i.n[key]||0)*i.def - remaining)
+              - (isDying(i.id)?remaining*0.6:0)
+              + Math.min(recentUse(i.id),2)*remaining*0.2;
   sugg.sort((a,b)=> fit(a)-fit(b));
   const LIMIT=3, shown=state.expand?sugg:sugg.slice(0,LIMIT), moreN=sugg.length-shown.length;
 

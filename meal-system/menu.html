@@ -195,7 +195,12 @@ const EFFORT_MODES = {
   any:      {label:'Anything',   cap:99, note:'full curries and gravies allowed'},
 };
 // The daily contract (meal-plan.md §8). These are gates, not preferences.
-const EGGS_MIN   = 3;    // eggs/day — a hard quota across the day's slots
+// The protein floor ROTATES its hero across the week instead of mandating eggs every day —
+// egg, then tofu, then paneer, then dal — so no single source fills half your plates.
+// Daily protein GRAMS are still guaranteed by the per-slot floor + protein pass; only the
+// dominant SOURCE rotates. A legume every day (below) stays the backbone regardless.
+const PROTEIN_ANCHORS = [{id:'egg', qty:2}, {id:'tofu', qty:1}, {id:'paneer', qty:1}, {id:'dal', qty:1}];
+const anchorFor = di => PROTEIN_ANCHORS[((di % PROTEIN_ANCHORS.length) + PROTEIN_ANCHORS.length) % PROTEIN_ANCHORS.length];
 const LEGUMES    = ['dal','rajma','kala','sprout','soya','besan'];
 const IRON_PLATE = 2;    // mg of iron on a plate that obliges a vit-C partner
 
@@ -262,13 +267,27 @@ function atRisk(){
             .sort((a,b)=>a.left-b.left);
 }
 // how badly a dish is *wanted* because of what it uses up. Tighter deadline = stronger pull.
-function rescueScore(r){
+// `scheduled` (id -> qty already placed this run) makes rescue SPREAD: once the menu-so-far
+// already uses up an at-risk item, its pull fades, so rescue moves to the NEXT perishable
+// instead of piling every slot onto the most abundant one.
+function rescueScore(r, scheduled){
   const ids = new Set([...r.core, ...r.opt]);
   return atRisk().reduce((s,x)=>{
     if(!ids.has(x.i.id)) return s;
+    const covered = scheduled ? Math.min(1, (scheduled[x.i.id]||0) / Math.max(x.qty, 0.001)) : 0;
     const urgency = x.left <= 0 ? 0 : x.left <= 1 ? 1.6 : x.left <= 2 ? 1.1 : x.left <= 3 ? 0.7 : 0.3;
-    return s + urgency;
+    return s + urgency * (1 - covered);
   }, 0);
+}
+// monotony: how much a dish leans on ingredients already used this run + eaten recently.
+// Weighted to the protein "hero" so it is the SOURCE that rotates, not just a garnish.
+function monotony(r, ingUse){
+  const ids = r.core.length ? r.core : r.opt;
+  if(!ids.length) return 0;
+  let s=0, w=0;
+  ids.forEach(id=>{ const i=ing(id); const wt = i && i.role==='protein' ? 2 : 1;
+    s += wt*(ingUse[id]||0); w += wt; });
+  return w ? s/w : 0;
 }
 /* What will actually rot, given the menu as planned. This is the honest output: walk the menu in
    date order, spend each item's stock, and see what's still sitting there past its deadline. */
@@ -367,6 +386,12 @@ function generate(){
   const uses = {};
   const GAP = 3;                                          // no dish twice inside 3 days
   const MAXUSE = Math.max(2, Math.ceil(state.days/3));    // and no dish more than a third of the horizon
+  const DIV = 0.6;                                        // ingredient-rotation weight — spreads sources without overriding rescue
+  const ingUse = {};                                      // ingredient id -> times used, drives the monotony penalty
+  const sched = {};                                       // ingredient id -> qty scheduled, makes rescue spread
+  // seed the penalty from what you ate in the last 3 days, so the plan pivots AWAY from it
+  PLATES.filter(p=> p.date >= addDays(state.from,-3) && p.date < state.from)
+        .forEach(p=> p.items.forEach(it=> ingUse[it.id]=(ingUse[it.id]||0)+1));
 
   ds.forEach((date, di)=>{
     const chosen = {};
@@ -383,10 +408,14 @@ function generate(){
       // cheaper dishes win ties: a 3-min bowl beats a 25-min gravy at equal affinity.
       // rescueScore pulls hard toward dishes that use up what's about to rot — and it's weighted
       // to beat the effort bonus, because a spoiled bunch of spinach costs more than 10 minutes.
-      const r = cands.map(r=>({r, s: AFF[r.id] - (r.effort||15)/60 + rescueScore(r) + Math.random()*0.25}))
+      const r = cands.map(r=>({r, s: AFF[r.id] - (r.effort||15)/60 + rescueScore(r, sched)
+                                     - DIV*monotony(r, ingUse) + Math.random()*0.25}))
                      .sort((a,b)=>b.s-a.s)[0].r;
       lastUse[r.id]=di; uses[r.id]=(uses[r.id]||0)+1;
-      chosen[meal] = {date, meal, recipe:r.id, items: slotItems(r)};
+      const items = slotItems(r);
+      [...r.core, ...r.opt].forEach(id=> ingUse[id]=(ingUse[id]||0)+1);
+      items.forEach(it=> sched[it.id]=(sched[it.id]||0)+it.qty);
+      chosen[meal] = {date, meal, recipe:r.id, items};
     });
     SLOTS.forEach(m=>{ if(chosen[m]) menu.push(chosen[m]); });
   });
@@ -558,15 +587,19 @@ const dayFlag = (d, flag) => dayItems(d).some(x=>{const i=ing(x.id); return i &&
 function enforceContract(d){
   const has = m => state.menu.some(s=>s.date===d && s.meal===m);
 
-  // 1. EGGS — at least 3/day, spread across the day, not stacked on one plate
-  let need = EGGS_MIN - dayQty(d,'egg');
-  for(const m of ['breakfast','dinner','lunch','snack']){
+  // 1. PROTEIN ANCHOR — rotates across the week (egg → tofu → paneer → dal) so the protein
+  //    SOURCE varies day to day instead of eggs filling every plate. Tofu/paneer/dal read as
+  //    mains, so they land at lunch/dinner; eggs can also take breakfast.
+  const a = anchorFor(dates().indexOf(d));
+  let need = a.qty - dayQty(d, a.id);
+  const order = a.id==='egg' ? ['breakfast','dinner','lunch'] : ['lunch','dinner','breakfast'];
+  for(const m of order){
     if(need<=0) break;
     if(!has(m)) continue;
     const slot = state.menu.find(s=>s.date===d && s.meal===m);
-    const ex = slot.items.find(x=>x.id==='egg');
-    const add = Math.min(need, 2);
-    if(ex) ex.qty += add; else slot.items.push({id:'egg', qty:add});
+    const ex = slot.items.find(x=>x.id===a.id);
+    const add = Math.min(need, a.qty);
+    if(ex) ex.qty += add; else slot.items.push({id:a.id, qty:add});
     need -= add;
   }
 
@@ -604,11 +637,20 @@ function enforceContract(d){
     if(!hasC) put(d, s.meal, 'lemon');
   });
 
-  // 7. PROTEIN floor per slot — top up with an egg, then whey
+  // 7. PROTEIN floor per slot — top up with the day's rotating hero, then whey. Breakfast maps
+  //    the anchor to a breakfast-friendly form (besan chilla for a dal day, scramble for tofu) so
+  //    it is NOT eggs every single morning.
+  const BFAST_HERO = {egg:'egg', tofu:'tofu', paneer:'paneer', dal:'besan'};
   slotsOn(d).forEach(s=>{
     let gap = MEALS[s.meal].p - tot(s.items,'p');
-    if(gap > 6 && s.meal!=='snack'){ const e=s.items.find(x=>x.id==='egg');
-      if(e){ e.qty += 1; gap -= 6; } else { s.items.push({id:'egg', qty:1}); gap -= 6; } }
+    if(gap > 6 && s.meal!=='snack'){
+      let hero = s.meal==='breakfast' ? (BFAST_HERO[a.id]||'egg') : a.id;
+      if(!ing(hero)) hero = 'egg';
+      const per = (ing(hero)||{n:{p:6}}).n.p || 6;
+      const ex = s.items.find(x=>x.id===hero);
+      if(ex) ex.qty += 1; else s.items.push({id:hero, qty:1});
+      gap -= per;
+    }
     if(gap > 10) put(d, s.meal, 'whey');
   });
 }
@@ -664,7 +706,7 @@ function contractOf(d){
   const greenAt = m => { const s=state.menu.find(x=>x.date===d&&x.meal===m);
     return !s || s.items.some(x=>{const i=ing(x.id); return i&&i.green;}); };
   return [
-    {k:`${round1(dayQty(d,'egg'))} eggs`, ok: dayQty(d,'egg') >= EGGS_MIN},
+    (()=>{ const a=anchorFor(dates().indexOf(d)); return {k:`${a.id} anchor`, ok: dayQty(d,a.id) >= a.qty}; })(),
     {k:'legume',    ok: LEGUMES.some(id=>dayHas(d,id))},
     {k:'greens ×2', ok: greenAt('lunch') && greenAt('dinner')},
     {k:'probiotic', ok: dayFlag(d,'probiotic')},
@@ -827,7 +869,7 @@ function renderContract(){
   if(!state.menu.length){ $('#contract').innerHTML = `<div class="empty">—</div>`; return; }
   const ds = dates();
   const lines = [
-    ['≥3 eggs every day',        ds.every(d=>dayQty(d,'egg')>=EGGS_MIN)],
+    ['Protein anchor rotates daily', ds.every((d,i)=>dayQty(d, anchorFor(i).id) >= anchorFor(i).qty)],
     ['A legume every day',       ds.every(d=>LEGUMES.some(id=>dayHas(d,id)))],
     ['A green at lunch + dinner',ds.every(d=>contractOf(d)[2].ok)],
     ['A probiotic every day',    ds.every(d=>dayFlag(d,'probiotic'))],
