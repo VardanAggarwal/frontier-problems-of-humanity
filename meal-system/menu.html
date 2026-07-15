@@ -928,7 +928,7 @@ async function init(){
       green:!!r.green, probiotic:!!r.probiotic, topper:!!r.topper, shelf:+r.shelf||30,
       lead:+r.lead||0, prep:r.prep||'', makes:r.makes||'', keep:!!r.keep, pack:+r.pack||1,
       n:{ kcal:+r.kcal||0, p:+r.protein||0, c:+r.carbs||0, fib:+r.fibre||0, fe:+r.iron||0, ca:+r.calcium||0,
-          vc:+r.vitc||0, fo:+r.folate||0, o3:+r.omega3||0, zn:+r.zinc||0, va:+r.vita||0,
+          vc:+r.vitc||0, fo:+r.folate||0, o3:+r.omega3||0, o3d:+r.omega3_dha||0, zn:+r.zinc||0, va:+r.vita||0,
           mg:+r.magnesium||0, k:+r.potassium||0 } }));
     RECIPES = data.recipes||[];
     FOCUS = (data.targets||[]).map(t=>({key:t.key, name:t.name, unit:t.unit, daily:+t.daily||0}));
