@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Pantry-driven, protein-gated meal planner. Build a plate, see nutrient gaps fill in real time, and track day/week totals.">
+<meta name="description" content="Pantry-driven, protein-gated meal planner. Build a plate, see nutrient gaps fill in real time, and track your run rate on every nutrient.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥗</text></svg>">
 <title>Balanced Meal Planner</title>
 <style>
@@ -69,6 +69,7 @@
   .bar{height:8px;background:var(--bar-bg);border-radius:6px;overflow:hidden;margin:5px 0}
   .bar > i{display:block;height:100%;background:var(--accent);border-radius:6px;transition:width .25s}
   .bar > i.over{background:var(--warn)}
+  .bar > i.short{background:var(--warn)}   /* under target — same warn colour, opposite meaning to .over */
   .prog-lbl{display:flex;justify-content:space-between;font-size:12.5px;margin-top:6px}
   .prog-lbl b{font-weight:600}
   /* plate */
@@ -106,6 +107,15 @@
   .gap-chips .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;width:100%}
   .gap-chip{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:4px 10px;cursor:pointer;color:var(--muted);background:var(--panel)}
   .gap-chip.on{border-color:var(--accent);color:var(--accent);font-weight:600;background:var(--accent-soft)}
+  .gap-chip .debt{color:var(--warn);font-weight:600}
+  /* run rate — the trailing record. The strip is one cell per day, oldest left. */
+  .rr-days{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+  .strip{display:flex;gap:2px;margin-top:4px}
+  .strip i{flex:1;height:5px;border-radius:1px;background:var(--accent);opacity:.75}
+  .strip i.short{background:var(--warn)}
+  .strip i.blank{background:var(--line);opacity:1}
+  .rr-pct{font-variant-numeric:tabular-nums}
+  .rr-pct.short{color:var(--warn)}
   .base-tiles{display:flex;flex-wrap:wrap;gap:8px}
   .more-btn{margin-top:12px;font-size:12.5px;color:var(--accent);background:none;border:0;cursor:pointer;padding:0;font-weight:600}
   .balanced{background:var(--accent-soft);border:1px solid var(--accent);border-radius:10px;padding:14px;font-size:14px}
@@ -188,8 +198,8 @@
         <div id="dayTotals"></div>
       </div>
       <div class="panel totals">
-        <h2>Week totals <span style="text-transform:none;font-weight:400">· 7-day window</span></h2>
-        <div id="weekTotals"></div>
+        <h2>Run rate <span style="text-transform:none;font-weight:400">· last 7 completed days · worst first</span></h2>
+        <div id="runRate"></div>
       </div>
       <div class="panel">
         <h2>Cadence reminders</h2>
@@ -329,10 +339,6 @@ function activeGap(){
 // aggregation across saved plates
 function platesFor(date){ return state.saved.filter(p=>p.date===date); }
 function aggTotal(plates,key){ return plates.reduce((s,p)=>s+itemsTotal(p.items,key),0); }
-function weekPlates(endDate){
-  const end=new Date(endDate+'T00:00'), start=new Date(end); start.setDate(end.getDate()-6);
-  return state.saved.filter(p=>{ const d=new Date(p.date+'T00:00'); return d>=start && d<=end; });
-}
 function shiftDay(s,n){ const d=new Date(s+'T00:00'); d.setDate(d.getDate()+n);
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 // how many of the last `days` days' plates included this ingredient — drives the anti-monotony nudge
@@ -340,9 +346,69 @@ function recentUse(id, days=3){ const cut=shiftDay(state.day,-days);
   return state.saved.filter(p=>p.date>cut && p.date<=state.day)
                     .reduce((n,p)=> n + (p.items.some(it=>it.id===id)?1:0), 0); }
 function daysLogged(plates){ return new Set(plates.map(p=>p.date)).size; }
-// day/week totals INCLUDING the current unsaved plate — used to judge optional (daily/weekly) items
+
+/* ---- run rate: the trailing record, so a CHRONIC shortfall is visible and can steer today ----
+   Two deliberate choices, both about not manufacturing a deficit out of nothing:
+
+   1. The window ends YESTERDAY. Today is half-eaten by definition — folding a day still in
+      progress into the average would read as a shortfall every morning and push phantom debt
+      into the suggestions. Today has its own panel; this one is the closed record.
+   2. The denominator is days LOGGED, not 7. A day you forgot to track is missing evidence,
+      not a zero — dividing by 7 would let a lazy week look like malnutrition. The panel prints
+      n/7 so a thin record is visible rather than hidden inside the number. */
+const RUN_DAYS = 7;
+const DEBT_TOL = 0.85;            // trailing average below 85% of the daily target = carrying debt
+// …but an average over one or two days is an anecdote, not a run rate. Below this the panel still
+// SHOWS what it has (it's information), it just doesn't get to steer the builder or the menu —
+// one carb-light Tuesday should not rewrite next week.
+const DEBT_MIN_DAYS = 3;
+function runWindow(){
+  const start=shiftDay(state.day,-RUN_DAYS), end=shiftDay(state.day,-1);
+  return state.saved.filter(p=>p.date>=start && p.date<=end);
+}
+function runRate(key){
+  const plates=runWindow(), n=daysLogged(plates);
+  return {avg: n ? aggTotal(plates,key)/n : 0, days:n};
+}
+// per-day totals for the strip, oldest first. null = nothing logged that day — a blank, not a zero,
+// so a gap in the record never renders as a red day you didn't actually eat badly.
+function runSeries(key){
+  return Array.from({length:RUN_DAYS}, (_,i)=>{
+    const ps=platesFor(shiftDay(state.day, -(RUN_DAYS-i)));
+    return ps.length ? aggTotal(ps,key) : null;
+  });
+}
+/* How far below target the trailing average sits: 0 = on track, 1 = nothing at all.
+   Starts accruing only past DEBT_TOL, so hitting 90% of iron every day is not "debt".
+   Too little history = no debt: silence is not evidence of a gap. */
+let _debt=null;                   // rebuilt once per render; read per-ingredient in the ranking
+function debtMap(){
+  if(_debt) return _debt;
+  _debt={};
+  SEQ_MAIN.forEach(fn=>{
+    const f=FOCUS[fn], {avg,days}=runRate(f.key);
+    _debt[fn] = (days < DEBT_MIN_DAYS || !f.daily) ? 0 : Math.max(0, 1 - avg/(f.daily*DEBT_TOL));
+  });
+  return _debt;
+}
+const inDebt = fn => debtMap()[fn] > 0;
+/* An ingredient's pull toward what the week has been missing — what turns "consistently low on
+   iron" into spinach ranking above an equally-good-fit alternative.
+
+   A debt-WEIGHTED AVERAGE over the nutrients in debt (share of a day's target that one serving
+   carries), NOT a sum clipped at 1: a clipped sum saturates the moment several nutrients are owed
+   at once, which is precisely when it needs to tell foods apart. Normalising keeps it 0-1 and
+   discriminating however many nutrients are owed. */
+function debtBonus(i){
+  const m=debtMap();
+  let num=0, den=0;
+  SEQ_MAIN.forEach(fn=>{ const f=FOCUS[fn], w=m[fn]||0;
+    if(!f.daily || w<=0) return;
+    num += w*Math.min((i.n[f.key]||0)*i.def/f.daily, 1); den += w; });
+  return den ? num/den : 0;
+}
+// today's total INCLUDING the current unsaved plate — used to judge optional (daily/weekly) items
 function dayGot(key){ return aggTotal(platesFor(state.day), key) + plateTotal(key); }
-function weekGot(key){ return aggTotal(weekPlates(state.day), key) + plateTotal(key); }
 function dayHas(prop){ return platesFor(state.day).some(p=>p.items.some(it=>{const i=ING.find(x=>x.id===it.id); return i && i[prop];})) || plateHas(prop); }
 // optional "done" = today's contribution hits the daily target (for weekly nutrients that's the 1/7 day-share)
 function optMet(fn){ const f=FOCUS[fn]; return dayGot(f.key) >= f.daily*MET_TOL; }
@@ -393,8 +459,9 @@ async function delRecipe(id){
 }
 
 /* ============ RENDER ============ */
-function render(){ renderMeals(); renderDayBar(); renderPrep(); renderBuilder(); renderPlanned(); renderRecipes(); renderPlate(); renderRecipeSave(); renderTotals();
-  renderDayTotals(); renderWeekTotals(); renderFlags(); renderReminders(); renderSaved(); }
+function render(){ _debt=null;   // the record may have moved (a plate saved, the day switched) — recompute once, here
+  renderMeals(); renderDayBar(); renderPrep(); renderBuilder(); renderPlanned(); renderRecipes(); renderPlate(); renderRecipeSave(); renderTotals();
+  renderDayTotals(); renderRunRate(); renderFlags(); renderReminders(); renderSaved(); }
 
 function renderRecipeSave(){
   const el=$('#recipeSave'); if(!el) return;
@@ -611,12 +678,43 @@ function renderDayTotals(){
     barRow('Calories', aggTotal(plates,'kcal'), KCAL, ' kcal', false);
 }
 
-function renderWeekTotals(){
-  const plates = weekPlates(state.day), n = daysLogged(plates);
-  const rows = [['Zinc','zn','mg',DAILY.zn*7],['Vitamin A','va','µg',DAILY.va*7],['Protein','p','g',DAILY.p*7]];
-  $('#weekTotals').innerHTML =
-    `<div style="font-size:12.5px;color:var(--muted);margin-bottom:10px">${n}/7 days logged · window ending ${state.day}</div>` +
-    rows.map(([nm,k,u,t])=>barRow(nm, aggTotal(plates,k), t, u, false)).join('');
+/* Every target, not a hand-picked three: the whole point is to find the one you didn't know
+   you were missing. Sorted worst-first so the top row IS the answer to "what am I short on".
+   The strip separates "70% every single day" from "six good days and one blank" — the same
+   average, completely different problem. */
+function renderRunRate(){
+  const n = daysLogged(runWindow());
+  if(!n){ $('#runRate').innerHTML =
+    `<div class="empty">No completed days logged in the last week — save a few plates and the run rate builds itself.</div>`;
+    return; }
+  const rows = SEQ_MAIN.map(fn=>{ const f=FOCUS[fn], {avg}=runRate(f.key);
+    return {f, avg, pct: f.daily ? avg/f.daily*100 : 0}; })
+    .filter(r=>r.f.daily)
+    .sort((a,b)=>a.pct-b.pct);
+  const worst = rows.filter(r=>r.pct < DEBT_TOL*100);
+  const thin = n < DEBT_MIN_DAYS;    // don't call two days a pattern
+  const names = worst.slice(0,3).map(r=>r.f.nm.toLowerCase()).join(', ')
+              + (worst.length>3 ? ` +${worst.length-3} more` : '');
+  const head = `<div class="rr-days">${n}/7 days logged · ` + (
+    !worst.length ? `✓ every target on track across the window.` :
+    thin ? `<b style="color:var(--warn)">short on ${names}</b> — but ${n} day${n===1?'':'s'} is an
+            anecdote, not a run rate. Log ${DEBT_MIN_DAYS-n} more and this starts steering the
+            builder and the menu.`
+         : `<b style="color:var(--warn)">consistently short on ${names}</b> — the builder and the
+            menu now push these.`) + `</div>`;
+  $('#runRate').innerHTML = head + rows.map(r=>{
+    const short = r.pct < DEBT_TOL*100, pct = Math.min(100, r.pct);
+    const cells = runSeries(r.f.key).map(v=>{
+      if(v===null) return `<i class="blank" title="nothing logged"></i>`;
+      const dp = r.f.daily ? v/r.f.daily*100 : 0;
+      return `<i class="${dp < DEBT_TOL*100 ? 'short':''}" style="opacity:${Math.max(.25, Math.min(1, dp/100))}"
+                 title="${round1(v)}${r.f.unit} · ${Math.round(dp)}%"></i>`;
+    }).join('');
+    return `<div class="prog-lbl"><span>${r.f.nm} <span style="color:var(--muted)">/ ${r.f.daily}${r.f.unit} a day</span></span>
+      <b>${round1(r.avg)}${r.f.unit} <span class="rr-pct ${short?'short':''}">· ${Math.round(r.pct)}%</span></b></div>
+      <div class="bar"><i class="${short?'short':''}" style="width:${pct}%"></i></div>
+      <div class="strip">${cells}</div>`;
+  }).join('');
 }
 
 function renderSaved(){
@@ -802,14 +900,24 @@ function renderBuilder(){
   const active = activeFocus();
 
   // optional tray — daily/weekly nutrients + green/probiotic, judged against the WHOLE DAY (✓ = day already covered).
-  const optChips = seqOpt().map(fn=>{const g=FOCUS[fn];
-    return `<button class="gap-chip ${fn===active?'on':''}" data-focus="${fn}">${optMet(fn)?'✓ ':''}${g.nm}</button>`;}).join('');
+  // Ordered by the trailing week's debt, not CSV order: what you keep missing should be the first
+  // thing your thumb lands on, and it carries the % so you can see how bad the drift is.
+  const optChips = seqOpt().slice().sort((a,b)=>debtMap()[b]-debtMap()[a]).map(fn=>{const g=FOCUS[fn];
+    const {avg,days}=runRate(g.key);
+    const tag = (inDebt(fn) && !optMet(fn)) ? ` <span class="debt">${Math.round(avg/g.daily*100)}% 7d</span>` : '';
+    return `<button class="gap-chip ${fn===active?'on':''}" data-focus="${fn}">${optMet(fn)?'✓ ':''}${g.nm}${tag}</button>`;}).join('');
   const funcChips = [['green','Green'],['probiotic','Probiotic']].map(([p,label])=>{const has=dayHas(p);
     return `<span class="gap-chip" style="cursor:default;opacity:${has?'1':'.55'}">${has?'✓ ':'○ '}${label}</span>`;}).join('');
   const optTray = `<div class="gap-chips"><span class="lbl">Across the day — add if the day is short (✓ = day covered)</span>${optChips}${funcChips}</div>`;
 
   if(!active){
-    el.innerHTML=`<div class="balanced">✓ Per-meal essentials covered — <b>Save plate</b> when ready.</div>${optTray}`;
+    // Every per-meal gate is met — but "balanced plate" is not "balanced week". If the record
+    // says something has been missing for days, this is the last moment it can still be fixed.
+    const owed = seqOpt().filter(fn=>inDebt(fn) && !optMet(fn)).sort((a,b)=>debtMap()[b]-debtMap()[a])[0];
+    const nudge = owed ? `<p class="focus-note">The week is running short on <b>${FOCUS[owed].nm.toLowerCase()}</b>
+      (${Math.round(runRate(FOCUS[owed].key).avg/FOCUS[owed].daily*100)}% of target over the last 7 days)
+      and today hasn't covered it — <span class="radd-link" data-focus="${owed}">add some now</span>.</p>` : '';
+    el.innerHTML=`<div class="balanced">✓ Per-meal essentials covered — <b>Save plate</b> when ready.</div>${nudge}${optTray}`;
     return;
   }
   const f=FOCUS[active], key=f.key, optional=!f.permeal;
@@ -826,8 +934,12 @@ function renderBuilder(){
   // …but something eaten a lot in the last few days sinks down the list — so you rotate sources
   // instead of adding eggs to a fourth meal. Capped below the freshness bonus, so a dying item
   // still wins (using up a perishable beats variety).
+  // …and among equal fits, the one that also carries what the WEEK has been missing rises: a
+  // chronic iron gap should get closed by the greens you were adding for folate anyway. Ranked
+  // below freshness (a perishable is a deadline; debt is a drift) and above the variety penalty.
   const fit=i=>Math.abs((i.n[key]||0)*i.def - remaining)
               - (isDying(i.id)?remaining*0.6:0)
+              - debtBonus(i)*remaining*0.4
               + Math.min(recentUse(i.id),2)*remaining*0.2;
   sugg.sort((a,b)=> fit(a)-fit(b));
   const LIMIT=3, shown=state.expand?sugg:sugg.slice(0,LIMIT), moreN=sugg.length-shown.length;

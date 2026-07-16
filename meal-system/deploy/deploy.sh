@@ -2,7 +2,10 @@
 # Deploy the meal planner to the slate host.
 #
 #   ./deploy/deploy.sh                    # ship code + (re)start the service on :8200
-#   ./deploy/deploy.sh vameals            # ...and wire up https://vameals.duckdns.org
+#   ./deploy/deploy.sh planyourmeals      # ...and wire up https://planyourmeals.duckdns.org
+#
+# Production is planyourmeals.duckdns.org. The no-arg form is the normal deploy — DNS and
+# the Caddy site block are already in place, so the label is only needed to (re)wire them.
 #
 # The DuckDNS subdomain must already exist in your duckdns.org account — the
 # token only updates the IP of domains you already own. Everything else is
@@ -15,7 +18,7 @@ set -euo pipefail
 HOST=ubuntu@140.245.216.42
 KEY=~/.ssh/slate_server
 SRC="$(cd "$(dirname "$0")/.." && pwd)"
-SUB="${1:-}"                      # duckdns label, e.g. "vameals" (no .duckdns.org)
+SUB="${1:-}"                      # duckdns label, e.g. "planyourmeals" (no .duckdns.org)
 REMOTE=/home/ubuntu/meal-system
 DATA=/home/ubuntu/meal-system-data
 

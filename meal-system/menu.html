@@ -353,6 +353,50 @@ function whenLabel(hrs){
   return {t:'start tomorrow', cls:''};
 }
 
+/* ---- the debt prior: what the trailing week actually MISSED ----
+   Without this the generator only ever balances the horizon it just built: nine days iron-short
+   and next week's plan still aims at exactly 100% of iron, so the hole never gets backfilled.
+   Same rules as the planner's run-rate panel — window ends the day before the plan starts (a
+   day still in progress is not evidence), denominator is days LOGGED (an untracked day is
+   missing evidence, not a zero), debt accrues only below DEBT_TOL. */
+const RUN_DAYS = 7;
+const DEBT_TOL = 0.85;
+const DEBT_CAP = 0.3;      // most a debt can raise a target: +30%. A drought must not blow the kcal ceiling.
+const DEBT_MIN_DAYS = 3;   // under three logged days it's an anecdote — plan to the plain contract
+function debtMap(){
+  const start=addDays(state.from,-RUN_DAYS), end=addDays(state.from,-1);
+  const win = PLATES.filter(p=>p.date>=start && p.date<=end);
+  const days = new Set(win.map(p=>p.date)).size;
+  const m = {};
+  FOCUS.forEach(f=>{
+    if(days < DEBT_MIN_DAYS || !f.daily){ m[f.key]=0; return; }
+    const avg = win.reduce((s,p)=>s+tot(p.items,f.key),0)/days;
+    m[f.key] = Math.max(0, 1 - avg/(f.daily*DEBT_TOL));
+  });
+  return m;
+}
+// the target repair() aims at: the daily contract, raised toward whatever the record says you owe
+const debtTarget = (f, m) => f.daily * (1 + Math.min(m[f.key]||0, 1)*DEBT_CAP);
+/* How well a DISH answers the debt — so the fix isn't only a spoonful of seeds bolted on at the
+   end. repair() can only reach for toppers by design; this gets the debt into the dish choice
+   itself, where a real iron gap is better solved by picking the rajma than by dusting til on top.
+
+   A debt-WEIGHTED AVERAGE, not a sum: summing and clipping at 1 would peg every real dish at
+   1.0 the moment a few nutrients are in debt at once, which is exactly when the signal has to
+   discriminate. Normalising by total debt keeps it a clean 0-1 "how much of what I owe does this
+   dish actually carry", however many nutrients are owed. */
+function debtFit(r, m){
+  const ids = [...r.core, ...r.opt];
+  let num=0, den=0;
+  FOCUS.forEach(f=>{
+    const w = m[f.key]||0;
+    if(!f.daily || w<=0) return;
+    const got = ids.reduce((x,id)=>{ const i=ing(id); return x + (i ? (i.n[f.key]||0)*i.default : 0); },0);
+    num += w*Math.min(got/f.daily, 1); den += w;
+  });
+  return den ? num/den : 0;
+}
+
 /* ---- the history prior: which dishes look like YOUR eating? ---- */
 function affinity(){
   const days = new Set(PLATES.map(p=>p.date)).size || 1;
@@ -380,6 +424,7 @@ function affinity(){
 /* ============ THE GENERATOR ============ */
 function generate(){
   const AFF = affinity();
+  const DEBT = debtMap();
   const ds = dates();
   const menu = [];
   const lastUse = {};                                     // recipe id -> day index it was last used
@@ -387,6 +432,11 @@ function generate(){
   const GAP = 3;                                          // no dish twice inside 3 days
   const MAXUSE = Math.max(2, Math.ceil(state.days/3));    // and no dish more than a third of the horizon
   const DIV = 0.6;                                        // ingredient-rotation weight — spreads sources without overriding rescue
+  // Debt pull. Measured, not guessed: at 0.5 its spread was smaller than the random jitter below
+  // (i.e. noise). 1.5 gives it a spread comparable to affinity's. Even so the effect is modest —
+  // the HARD variety filter above already pins most slots, which is the correct priority: a menu
+  // that answers your iron gap by serving spinach seven days running is a worse menu.
+  const DEBT_W = 1.5;
   const ingUse = {};                                      // ingredient id -> times used, drives the monotony penalty
   const sched = {};                                       // ingredient id -> qty scheduled, makes rescue spread
   // seed the penalty from what you ate in the last 3 days, so the plan pivots AWAY from it
@@ -408,7 +458,10 @@ function generate(){
       // cheaper dishes win ties: a 3-min bowl beats a 25-min gravy at equal affinity.
       // rescueScore pulls hard toward dishes that use up what's about to rot — and it's weighted
       // to beat the effort bonus, because a spoiled bunch of spinach costs more than 10 minutes.
+      // debtFit then tilts what's left toward the nutrient the last week kept missing — weaker
+      // than rescue (a deadline beats a drift) but enough to decide between comparable dishes.
       const r = cands.map(r=>({r, s: AFF[r.id] - (r.effort||15)/60 + rescueScore(r, sched)
+                                     + DEBT_W*debtFit(r, DEBT)
                                      - DIV*monotony(r, ingUse) + Math.random()*0.25}))
                      .sort((a,b)=>b.s-a.s)[0].r;
       lastUse[r.id]=di; uses[r.id]=(uses[r.id]||0)+1;
@@ -662,10 +715,13 @@ function hash(s){ let h=0; for(const c of s) h=(h*31 + c.charCodeAt(0))|0; retur
 function repair(){
   const ds = dates();
   const toppers = ING.filter(i=>i.topper);
+  const debt = debtMap();
   for(let pass=0; pass<40; pass++){
     const short = FOCUS.map(f=>{
       const got = ds.reduce((s,d)=>s+tot(dayItems(d), f.key), 0);
-      const want = f.daily * ds.length;
+      // aim past the contract for anything the last week under-delivered — a chronic gap gets
+      // paid down, not just broken even on. Bounded by DEBT_CAP and by the kcal check below.
+      const want = debtTarget(f, debt) * ds.length;
       return {f, deficit:(want-got)/want};
     }).filter(x=>x.deficit > 1-MET).sort((a,b)=>b.deficit-a.deficit);
     if(!short.length) return;
@@ -782,6 +838,21 @@ function renderScore(){
     ${worst.map(r=>r.f.name).join(', ')} — toppers alone couldn't close ${worst.length===1?'it':'them'}.
     Swap a slot for a dish that carries ${worst[0].f.name.toLowerCase()}.</div>`;
   if(!over && !worst.length) head = `<div class="banner">✓ Every tracked target met, on daily average, and every day inside the ${KCAL} kcal ceiling.</div>`;
+
+  // What the trailing record says you owe. Deliberately worded as a PREFERENCE, not a promise:
+  // the debt tilts dish choice and raises what the repair pass aims at, but the calorie ceiling
+  // still outranks both, so on a full week it may change nothing. Claiming "backfilled" here
+  // would be writing a cheque the generator can't cash.
+  const debt = debtMap();
+  const owed = FOCUS.filter(f=>debt[f.key] > 0).sort((a,b)=>debt[b.key]-debt[a.key]);
+  if(owed.length){
+    const names = owed.slice(0,4).map(f=>f.name.toLowerCase()).join(', ')
+                + (owed.length>4 ? `, +${owed.length-4} more` : '');
+    head += `<div class="banner"><b>Carrying debt: ${names}</b> — the last 7 logged days ran short
+      ${owed.length===1?'on it':'on these'}. This menu leans toward dishes that carry
+      ${owed.length===1?'it':'them'} and aims up to ${Math.round(DEBT_CAP*100)}% past target where
+      calories allow — the ${KCAL} kcal ceiling still wins. Bars are scored against the plain target.</div>`;
+  }
 
   $('#score').innerHTML = head + rows.map(r=>{
     const pct = Math.min(100, r.pct), short = r.pct < MET*100;

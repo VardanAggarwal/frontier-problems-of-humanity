@@ -228,9 +228,13 @@ beside slate — its own systemd service, port (8200), data dir
 (`/home/ubuntu/meal-system-data`), and Caddy site block. Slate is never touched;
 the Caddyfile is backed up and `caddy validate`d before any reload.
 
+Production is **https://planyourmeals.duckdns.org** (basic auth). DNS and the Caddy
+site block are already wired, so the no-arg form is the normal deploy — pass the
+label only if you need to (re)create them.
+
 ```bash
 ./deploy/deploy.sh                 # ship code + restart the service on :8200
-./deploy/deploy.sh <duckdns-label> # ...and wire up https://<label>.duckdns.org
+./deploy/deploy.sh planyourmeals   # ...and (re)wire https://planyourmeals.duckdns.org
 ```
 
 **The DuckDNS subdomain must exist first.** The token only updates the IP of
