@@ -5,12 +5,12 @@ After=network.target
 [Service]
 Type=simple
 User=ubuntu
-WorkingDirectory=/home/ubuntu/meal-system
+WorkingDirectory=/home/ubuntu/fph/meal-system
 Environment=MEALS_DB=/home/ubuntu/meal-system-data/meals.db
 Environment=HOST=127.0.0.1
 Environment=PORT=8200
 Environment=MEALS_QUIET=1
-ExecStart=/usr/bin/python3 /home/ubuntu/meal-system/app.py serve
+ExecStart=/usr/bin/python3 /home/ubuntu/fph/meal-system/app.py serve
 Restart=on-failure
 RestartSec=3
 

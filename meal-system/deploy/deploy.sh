@@ -1,15 +1,26 @@
 #!/usr/bin/env bash
-# Deploy the meal planner to the slate host.
+# Deploy the meal planner to the slate host — git-based.
 #
-#   ./deploy/deploy.sh                    # ship code + (re)start the service on :8200
+#   ./deploy/deploy.sh                    # ship the committed HEAD + restart the service on :8200
 #   ./deploy/deploy.sh planyourmeals      # ...and wire up https://planyourmeals.duckdns.org
 #
 # Production is planyourmeals.duckdns.org. The no-arg form is the normal deploy — DNS and
 # the Caddy site block are already in place, so the label is only needed to (re)wire them.
 #
-# The DuckDNS subdomain must already exist in your duckdns.org account — the
-# token only updates the IP of domains you already own. Everything else is
-# idempotent and safe to re-run.
+# WHAT SHIPS: the commit on origin/main, not your working tree. The server holds a sparse
+# clone of the repo (meal-system/ only) and hard-resets to origin/main. So what's deployed is
+# always a SHA you can `git show`, and an uncommitted experiment can never reach production by
+# accident. The flip side: commit and push before deploying — the guards below stop you if you
+# haven't, rather than quietly shipping something stale.
+#
+# The repo is PUBLIC, so the server clones over HTTPS read-only and needs no credentials. If it
+# is ever made private, the server needs a read-only deploy key and REPO_URL must become the
+# git@ form.
+#
+# Untracked files (data/, meal-plan.md, pantry-week1.md, nutrient-cadence.md) simply never ship —
+# git carries only what's committed, so the old rsync --exclude list is now implicit.
+#
+# The database lives outside the checkout ($DATA) and is never touched by the reset.
 #
 # Slate is never touched: the Caddyfile is backed up and validated before reload,
 # and the meal planner gets its own site block, service, port, and data dir.
@@ -19,16 +30,47 @@ HOST=ubuntu@140.245.216.42
 KEY=~/.ssh/slate_server
 SRC="$(cd "$(dirname "$0")/.." && pwd)"
 SUB="${1:-}"                      # duckdns label, e.g. "planyourmeals" (no .duckdns.org)
-REMOTE=/home/ubuntu/meal-system
+REPO_URL=https://github.com/VardanAggarwal/frontier-problems-of-humanity.git
+CLONE=/home/ubuntu/fph            # sparse clone of the whole repo…
+REMOTE=$CLONE/meal-system         # …of which only this subtree is checked out and served
 DATA=/home/ubuntu/meal-system-data
+BRANCH=main
 
 ssh_() { ssh -i "$KEY" -o ConnectTimeout=15 "$HOST" "$@"; }
 
-echo "==> shipping code to $REMOTE"
-rsync -az --delete \
-  --exclude 'data/' --exclude '.git' --exclude '__pycache__' \
-  --exclude 'meal-plan.md' --exclude 'pantry-week1.md' --exclude 'nutrient-cadence.md' \
-  -e "ssh -i $KEY" "$SRC/" "$HOST:$REMOTE/"
+cd "$SRC"
+
+echo "==> checking the tree is deployable"
+# 1. nothing uncommitted under meal-system/ — the deploy ships commits, so a dirty file here
+#    would silently not go out. Changes elsewhere in the repo are none of this deploy's business.
+if ! git diff --quiet -- . || ! git diff --cached --quiet -- . ; then
+  echo "  !! uncommitted changes under meal-system/ — commit them first:"
+  git status --short -- . | sed 's/^/     /'
+  exit 1
+fi
+
+# 2. HEAD must already be on the remote branch, or the server would reset to something older
+#    than what you're looking at. This reports; it does not push for you — pushing is a
+#    decision, and a deploy script is the wrong place to make it silently.
+git fetch -q origin "$BRANCH"
+if ! git merge-base --is-ancestor HEAD "origin/$BRANCH"; then
+  echo "  !! HEAD ($(git rev-parse --short HEAD)) is not on origin/$BRANCH — push first:"
+  echo "     git push origin $BRANCH"
+  exit 1
+fi
+echo "  HEAD $(git rev-parse --short HEAD) is on origin/$BRANCH ✓"
+
+echo "==> pulling $BRANCH on the host"
+ssh_ "set -e
+  if [ ! -d $CLONE/.git ]; then
+    git clone --filter=blob:none --no-checkout $REPO_URL $CLONE
+    cd $CLONE && git sparse-checkout set meal-system && git checkout $BRANCH
+  fi
+  cd $CLONE
+  git fetch --quiet origin $BRANCH
+  git reset --hard --quiet origin/$BRANCH
+  echo \"  now at \$(git log --oneline -1)\"
+"
 
 echo "==> service + db"
 ssh_ "set -e
