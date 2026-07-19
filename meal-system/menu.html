@@ -148,6 +148,10 @@
         <div id="fresh"></div>
       </div>
       <div class="panel">
+        <h2>🧺 What this menu needs</h2>
+        <div id="buy"></div>
+      </div>
+      <div class="panel">
         <h2>The daily contract</h2>
         <div id="contract"></div>
       </div>
@@ -1001,7 +1005,7 @@ function contractOf(d){
 }
 
 /* ============ RENDER ============ */
-function render(){ renderGrid(); renderScore(); renderPrep(); renderFresh(); renderContract(); renderNote(); }
+function render(){ renderGrid(); renderScore(); renderPrep(); renderFresh(); renderBuy(); renderContract(); renderNote(); }
 
 function renderNote(){
   $('#genNote').innerHTML = state.menu.length
@@ -1071,15 +1075,14 @@ function renderScore(){
     Swap a slot for a dish that carries ${worst[0].f.name.toLowerCase()}.</div>`;
   if(!over && !worst.length) head = `<div class="banner">✓ Every tracked target met, on daily average, and every day inside the ${KCAL} kcal ceiling.</div>`;
 
-  /* The shopping cost of this plan, stated up front. Without it the basket weight is invisible:
-     you can't tell a 6-item week from a 26-item one by reading the grid. Named ingredients, not
-     just a count, because the useful reaction is "I'm not buying tofu" -> regenerate or swap. */
+  /* The shopping cost of this plan gets a one-line summary here and the full list in its own
+     panel. It used to name eight items and say "+6 more", which is the one shape a shopping list
+     must never take — see renderBuy(). */
   const buy = toBuy();
   if(Object.keys(STOCK).length){
     head += buy.length
-      ? `<div class="banner"><b>${buy.length} thing${buy.length===1?'':'s'} to buy</b> beyond what's
-         counted in stock: ${buy.slice(0,8).map(x=>x.i.name).join(', ')}${buy.length>8?`, +${buy.length-8} more`:''}.
-         The rest of these ${state.days} days runs out of the fridge.</div>`
+      ? `<div class="banner"><b>${buy.length} thing${buy.length===1?'':'s'} to buy</b> beyond stock —
+         the rest of these ${state.days} days runs out of the fridge. Full list below.</div>`
       : `<div class="banner">✓ This whole plan runs out of stock — nothing to buy.</div>`;
   } else {
     head += `<div class="banner">Stock isn't counted yet, so the plan can't tell what you already
@@ -1247,6 +1250,60 @@ function renderFresh(){
     why the count above is a report and not a promise. Flagging doesn't rewrite the menu on its own:
     <b>hit Suggest a menu again</b>.</p>`;
   el.innerHTML = html;
+}
+
+/* The shopping consequence of THIS menu, in full. It used to be a banner in the score panel that
+   named eight items and said "+6 more", which is the one shape a shopping list must never take.
+   Deliberately NOT a second shopping list: no pack maths, no shopping-run grouping, no tick-off.
+   Those live on shop.html, computed once, and duplicating them here would be the same drift that
+   put two disagreeing protein tables in this file. This answers "what does this plan cost me",
+   and hands over to the real list for "what do I put in the trolley". */
+function renderBuy(){
+  const el = $('#buy');
+  if(!Object.keys(STOCK).length){
+    el.innerHTML = `<div class="empty">Stock isn't counted, so everything would read as "buy" —
+      count it on the <a href="shop.html">shopping page</a> first.</div>`;
+    return;
+  }
+  if(!state.menu.length){ el.innerHTML = `<div class="empty">Generate a menu to see what it needs.</div>`; return; }
+  const rows = toBuy();
+  if(!rows.length){
+    el.innerHTML = `<div class="banner">✓ This whole plan runs out of stock — nothing to buy.</div>`;
+    return;
+  }
+  /* The saved/unsaved distinction is load-bearing, not a nicety. shop.html builds its list from
+     the SAVED menu, so an unsaved menu here means the two pages are quietly costing different
+     weeks — and nothing on either page would tell you. */
+  const stale = state.dirty
+    ? `<div class="banner warn"><b>This menu isn't saved.</b> The shopping page builds its list from the
+       saved menu, so it's still costing the previous one. <b>Save menu</b> above to line them up.</div>`
+    : `<div class="banner">✓ Saved — the <a href="shop.html">shopping page</a> is costing this same menu,
+       with pack sizes and tick-off.</div>`;
+
+  const partial = rows.filter(x=>stockQty(x.i.id) > 0).length;
+  el.innerHTML = stale
+    + `<p class="note" style="margin:12px 0 10px"><b>${rows.length} item${rows.length===1?'':'s'}</b>
+       beyond what's in stock, for ${state.days} days${partial?` · ${partial} you already have some of`:''}.
+       Quantities are what the menu consumes, not pack sizes.</p>`
+    + rows.map(x=>{
+        const have = stockQty(x.i.id);
+        return `<div class="rrow">
+          <div class="rn"><b>${x.i.name}</b>
+            <small>need ${round1(x.short)} more ${x.i.unit}${round1(x.short)==1?'':'s'}${
+              have > 0 ? ` · have ${round1(have)}` : ''}${
+              useUp(x.i.id) ? ' · <b>flagged to use up</b>' : ''}</small>
+          </div>
+          <span class="pill${have > 0 ? ' ok' : ''}">${have > 0 ? 'top up' : 'new'}</span>
+        </div>`;
+      }).join('')
+    + `<p class="note" style="margin:12px 0 0">The generator already works to keep this list short —
+       it charges every dish for what it would add here, so a week you can cook out of the fridge
+       beats a marginally better one that needs a shop.<br><br>
+       <b>The shopping page can show less than this, on purpose.</b> It won't have you buy further
+       ahead than a thing survives, so a 3-day green gets bought for 3 days even when the menu eats
+       it for 7 — you shop twice instead of throwing half of it away. This list is what the menu
+       <i>eats</i>; that one is what to actually put in the trolley.
+       <a href="shop.html">Full shopping list →</a></p>`;
 }
 
 function renderContract(){
