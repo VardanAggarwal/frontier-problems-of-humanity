@@ -18,57 +18,140 @@
 # makes = space-sep raw input ids this row is MADE from (soaking/sprouting/bhuna). Presence marks a
 #   PREP OUTPUT — a thing you make, not buy. It gets its own stock + freshness clock (shelf). Marking a
 #   prep "done" on index/menu bumps this row's stock; it then expires on its own shelf-life clock.
+# needform/gated = the FLAG escape hatch for effects that are real but unquantified (forms.csv
+#   mechanism=matrix/fat). needform = the form.csv id that must be applied; gated = the nutrients
+#   that should NOT be credited until it is. A flag not a multiplier: the planner WARNS, it never
+#   silently scales. Whole til really does deliver far less calcium than ground til - declining to
+#   invent the percentage is not the same as claiming the effect is zero.
 # keep = 1 = a STANDING prep you always want a batch of ready — the prep queue nags when its stock is empty.
-id,name,unit,default,pantry,base,green,probiotic,topper,role,kcal,protein,carbs,fibre,iron,calcium,vitc,folate,omega3,omega3_dha,zinc,vita,magnesium,potassium,note,shelf,pack,packname,lead,prep,makes,keep
-egg,Eggs,egg,2,1,1,0,0,0,protein,72,6,0.5,0,0.9,28,0,24,0.05,0.06,0.6,40,6,63,keystone protein,21,30,tray of 30,0,boil 6 at a time - keeps 5-7 days
-egg_o3,Omega-3 eggs (fortified),egg,2,0,1,0,0,0,protein,72,6,0.5,0,0.9,28,0,24,0.05,0.25,0.6,40,6,63,fortified/DHA-enriched - direct DHA - no conversion needed unlike flax ALA,21,30,tray of 30,0,boil 6 at a time - keeps 5-7 days
-dal,Dal (toor/moong/masoor),cup,1,1,1,0,0,0,protein,120,9,20,4,2.8,40,0,120,0,0,0.7,0,60,400,daily backbone,365,28,1 kg packet,0,pressure-cook a batch - keeps 3-4 days
-rajma,Rajma,cup,1,1,1,0,0,0,protein,220,14,40,9,3.5,70,0,130,0,0,1.0,0,85,715,soak 6-8h then discard water,365,7,500 g packet,8,soak 6-8h then DISCARD the water
-kala,Kala chana,cup,1,1,0,0,0,0,protein,210,13,35,8,3.0,70,0,100,0,0,1.0,0,80,475,,365,8,500 g packet,8,soak 6-8h then discard the water
-kabuli,Kabuli chana,cup,1,0,1,0,0,0,protein,210,12,35,9,3.0,60,2,140,0,0,1.3,0,70,430,buy - for cold salads and bowls,365,8,500 g packet,8,soak 6-8h then discard the water
-soya,Soya chunks,30g dry,1,1,0,0,0,0,protein,100,15,10,3,5.0,80,0,60,0,0,1.0,0,85,180,cap 2-3x per week,180,6,200 g packet,1,boil then squeeze dry
-besan,Besan (chilla),40g,1,1,1,0,0,0,protein,150,8,22,4,1.7,18,0,170,0,0,1.0,0,66,340,,180,12,500 g packet,0,
-whey,Whey,scoop,1,1,0,0,0,0,protein,120,24,3,0,0.3,120,0,0,0,0,1.0,0,20,160,gap-filler not a base,365,30,1 kg tub,0,
-sprout,Sprouted moong,cup,1,1,0,0,0,0,protein,100,7,17,4,1.4,50,10,100,0,0,0.5,0,21,149,sprout the moong you have,3,4,jar - sprout at home,24,soak 8h then sprout 12-24h in a jar,dal,1
-peanut,Roasted peanuts,30g,1,1,0,0,0,1,seed,170,7,5,3,1.4,28,0,0,0,0,0.9,0,50,200,,90,16,500 g packet,0,
-pb,Peanut butter,tbsp,2,1,0,0,0,0,condiment,95,4,3,1,0.3,7,0,0,0,0,0.5,0,27,100,,120,25,340 g jar,0,
-pchutney,Peanut chutney,tbsp,2,1,0,0,0,0,condiment,55,2.5,3,1,0.4,12,0,0,0,0,0.4,0,15,60,pre-prepped condiment,21,20,jar,0,
-curd,Curd (toned),cup,1,1,1,0,1,1,dairy,120,7,10,0,0.1,275,0,0,0,0,0.9,0,24,350,daily probiotic,5,2.5,500 g tub,0,
-tofu,Tofu (plain),100g,1,0,0,0,0,0,protein,130,11,2,1,2.7,40,0,0,0,0,0.8,0,30,120,protein and iron only - Ca-set unavailable so calcium is ~40mg not 350,5,2,200 g block,0,cube and submerge in water - change daily
-paneer,Paneer,100g,1,0,0,0,0,0,protein,290,18,3,0,0.2,420,0,0,0,0,1.0,0,20,100,BUY - the calcium plug now Ca-set tofu is unavailable - cap 2-3x per week,5,2,200 g block,0,
-rice,Rice,cup,1,1,1,0,0,0,base,200,4,45,1,0.5,15,0,0,0,0,0.8,0,19,55,,365,17,1 kg packet,0,
-millet,Little millet,cup,1,1,1,0,0,0,base,200,6,40,4,2.0,15,0,0,0,0,1.5,0,75,110,carries magnesium - rice does not,180,8,500 g packet,6,soak 6h before cooking
-ragi,Ragi flour,30g,2,1,0,0,0,1,base,100,3,22,3,1.1,100,0,0,0,0,0.6,0,41,120,plant-calcium,90,16,500 g packet,0,
-poha,Poha,50g,1,1,1,0,0,0,base,180,4,38,2,2.5,10,0,0,0,0,0,0,30,60,,120,10,500 g packet,0,
-suji,Suji/rava,50g,1,1,0,0,0,0,base,180,6,38,1,1.0,10,0,0,0,0,0,0,24,90,,120,10,500 g packet,0,
-vermicelli,Vermicelli,50g,1,1,0,0,0,0,base,190,6,38,1,1.0,10,0,0,0,0,0,0,25,90,,180,8,400 g packet,0,
-oats,Rolled oats,40g,1,0,1,0,0,0,base,150,5,27,4,1.7,20,0,15,0.1,0,1.5,0,60,150,buy - the zero-cook overnight base,180,12,500 g packet,0,
-batter,Dosa-idli batter (ragi),dosa,2,1,1,0,1,0,base,90,3,15,1,1.0,40,0,0,0,0,0,0,15,50,fermented,5,8,1 kg pack,0,buy it - or ferment 12h
-bread,Multigrain bread,slice,2,1,0,0,0,0,base,70,3,12,2,1.0,15,0,0,0,0,0,0,25,70,emergency only,5,12,loaf,0,
-spinach,Spinach,cup,1,1,0,1,0,1,green,40,3,3,3,3.0,130,13,130,0,0,0.5,470,150,800,add lemon for oxalates,3,4,bunch,0,
-amaranth,Amaranth,cup,1,1,0,1,0,1,green,40,3,4,3,3.0,130,20,130,0,0,0.5,550,75,800,lower oxalate than palak,3,4,bunch,0,
-moringa,Moringa powder,tsp,1,1,0,1,0,1,green,5,0.6,1,1,0.5,35,5,40,0,0,0,90,9,33,stir into any dal,365,40,100 g pack,0,
-carrot,Carrot,medium,1,1,0,0,0,1,veg,25,0.6,6,2,0.3,20,4,0,0,0,0,500,7,195,,10,6,500 g,0,
-beet,Beetroot,medium,1,1,0,0,0,1,veg,35,1.3,8,2,0.8,10,0,90,0,0,0,0,23,440,,14,4,500 g,0,
-fbeans,French beans,cup,1,1,0,0,0,0,veg,35,2,7,3,1.0,40,6,30,0,0,0,0,25,210,,5,4,250 g,0,
-cocc,Coccinia (tindora),cup,1,1,0,0,0,0,veg,20,1,4,2,0.5,40,0,0,0,0,0,0,15,100,,7,4,250 g,0,
-tomato,Tomato,medium,1,1,0,0,0,1,veg,20,1,4,1,0.3,10,15,0,0,0,0,40,11,290,iron partner,5,8,500 g,0,
-cucumber,Cucumber,medium,1,0,0,0,0,0,veg,20,0.8,4,1,0.3,20,4,10,0,0,0.2,5,20,220,buy - the no-cook salad volume,7,4,500 g,0,
-onion,Onion (red),medium,1,1,0,0,0,0,aromatic,44,1.2,10,1.9,0.2,23,7,19,0,0,0,0,10,146,prebiotic base,21,8,1 kg,0,bhuna a big onion-tomato base - 1h once - keeps 4-5 days
-garlic,Garlic,clove,3,1,0,0,0,0,aromatic,4,0.2,1,0.1,0.05,5,1,0,0,0,0,0,0.8,12,prebiotic,30,40,2 bulbs,0,
-ginger,Ginger,tbsp,1,1,0,0,0,0,aromatic,5,0.1,1,0.2,0.05,2,0,0,0,0,0,0,3,25,digestive,14,10,100 g,0,
-gchilli,Green chilli,piece,2,1,0,0,0,0,aromatic,4,0.2,1,0.3,0.1,2,18,0,0,0,0,0,2,30,,7,25,50 g,0,
-curryleaf,Curry leaf,sprig,1,1,0,0,0,0,aromatic,2,0.1,0.2,0.2,0.1,8,0.3,0,0,0,0,0,1,10,flavour and iron trace,5,12,bunch,0,
-coriander,Coriander,tbsp,2,1,0,0,0,0,aromatic,1,0.1,0.2,0.1,0.1,3,2,0,0,0,0,5,1,15,,3,16,bunch,0,
-lemon,Lemon,piece,1,1,0,0,0,1,sour,8,0.2,2,0,0.1,5,18,0,0,0,0,0,5,60,iron partner - add at iron meals,14,6,6 lemons,0,
-lemon_wedge,Lemon wedge,wedge,1,1,0,0,0,1,sour,2,0,0.5,0,0,1,4,0,0,0,0,0,1,12,iron partner - add at iron meals,14,24,6 lemons,0,
-banana,Banana,medium,1,1,0,0,0,1,fruit,105,1.3,27,3,0.3,6,8,0,0,0,0,0,32,420,,5,6,half dozen,0,
-guava,Guava,medium,1,1,0,0,0,1,fruit,45,1.6,11,5,0.3,18,125,20,0,0,0,0,22,230,,5,4,500 g,0,
-papaya,Papaya,cup,1,1,0,0,0,1,fruit,60,0.7,15,3,0.3,24,60,0,0,0,0,60,30,360,,4,6,1 papaya,0,
-flax,Ground flax,tbsp,1,1,0,0,0,1,seed,55,2,3,3,0.6,45,0,0,2.3,0,0.5,0,40,85,daily - the omega-3 source,60,25,250 g packet,0,grind small batches - pre-ground goes rancid
-til,Black til,tbsp,1,1,0,0,0,1,seed,52,1.6,2,1,1.3,88,0,0,0,0,0.7,0,32,42,plant-calcium specialist,90,25,250 g packet,0,
-pumpkin,Pumpkin seeds,15g,1,1,0,0,0,1,seed,85,4,2,1,2.2,7,0,0,0,0,2.2,0,80,120,the zinc specialist,90,16,250 g packet,0,
+# --- EXPANSION (2026-07-19): rows below generated from ICMR-NIN IFCT 2017 via the `ifct2017` npm
+# --- package - real per-100g composition scaled to the unit here. Energy from enerc (kJ -> kcal); the
+# --- oils/fats table carries no enerc so those are 9 kcal/g of fat. vita = retinol + carotene-eq/12 (ug RAE).
+# --- Non-nutrient columns (pantry/pack/shelf/prep) are still hand-set estimates - tune them.
+# --- Known IFCT gaps: it measures no retinol for dairy so milk/paneer vitA reads low; B12 is not a column at all.
+# --- COVERAGE PASS: added by enumerating IFCT groups rather than by recall. Numbers are all
+# --- 0 here on purpose — `python3 app.py ifct-derive --write` fills them from the table.
 # --- PREP OUTPUTS: things you MAKE not buy. `makes` links each to the raw ids it comes from; marking
 # --- it done (index/menu prep queue) bumps its stock and starts the shelf-life clock. sprout is one too.
-rajma_soaked,Soaked rajma,cup,1,0,1,0,0,0,protein,220,14,40,9,3.5,70,0,130,0,0,1.0,0,85,715,ready-to-cook - soak once cook for 2 days,2,3,home-soaked batch,8,soak 6-8h then DISCARD the water,rajma,0
-base_paste,Tomato-onion paste,serving,1,0,0,0,0,0,aromatic,45,1.5,9,2,0.4,20,10,15,0,0,0.2,20,10,250,bhuna base for any gravy - keeps 4-5 days,5,5,bhuna batch ~5 servings,0,bhuna onions+tomato+garlic+ginger ~1h,onion tomato garlic ginger,1
+id,name,unit,default,pantry,base,green,probiotic,topper,role,kcal,protein,carbs,fibre,iron,calcium,vitc,folate,omega3,omega3_dha,zinc,vita,magnesium,potassium,note,shelf,pack,packname,lead,prep,makes,keep,needform,gated,ifct_code,grams,grams_src
+potato,Potato,serving,1,1,1,0,0,0,base,35,0.8,7.4,0.9,0.28,5,11.6,8,0.02,0,0.14,0,12,270,the base you already had at home and the table never knew about,21,5,500 g,0,,,0,,,F006,50,ICMR-NIN DGI 2024 root serving (50g/day)
+brinjal,Brinjal,serving,1,0,0,0,0,0,veg,25,1.5,3.5,4,0.37,17,2.1,34,0.02,0,0.21,12,21,247,,7,4,250 g,0,,,0,,,D031,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+bhindi,Bhindi (okra),serving,1,0,0,0,0,0,veg,27,2.1,3.6,4.1,0.84,86,22.5,64,0.03,0,0.45,6,66,263,86 mg calcium per 100 g - the quiet calcium veg,5,4,250 g,0,,,0,,,D056,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+radish,Radish (mooli),serving,1,0,0,0,0,0,veg,16,0.4,3.3,1.3,0.18,15,10,15,0.02,0,0.11,0,8,144,buy it for the leaves too - see mooli_leaf,10,4,500 g,0,,,0,,,F010,50,ICMR-NIN DGI 2024 root serving (50g/day)
+springonion,Spring onion,serving,1,0,0,0,0,0,veg,26,2.1,3,5.2,3.09,31,27.2,58,0.04,0,0.99,58,67,312,iron 3.1 mg/100 g - far above the bulb onion,7,4,bunch,0,,,0,,,D058,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+arbi,Arbi (colocasia),serving,1,0,1,0,0,0,base,44,1.7,8.9,1.6,0.33,15,0.9,10,0,0,0.2,0,18,257,,14,4,500 g,0,,,0,,,F004,50,ICMR-NIN DGI 2024 root serving (50g/day)
+ashgourd,Ash gourd,serving,1,0,0,0,0,0,veg,17,0.8,2.8,3.4,0.47,19,11.4,14,0,0,0.13,0,20,372,,14,4,500 g,0,,,0,,,D001,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+guar,Cluster beans (guar),serving,1,0,0,0,0,0,veg,40,3.5,4.9,4.8,3.9,121,18,41,0.06,0,0.61,20,82,301,iron 3.9 mg and calcium 121 mg per 100 g,7,4,250 g,0,,,0,,,D039,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+snakegourd,Snake gourd,serving,1,0,0,0,0,0,veg,12,0.9,1.2,2.3,0.47,27,2.9,17,0.05,0,0.2,5,22,104,,5,4,250 g,0,,,0,,,D071,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+rawjack,Raw jackfruit,serving,1,0,0,0,0,0,veg,26,2,3.5,7.7,0.31,46,17.5,36,0.04,0,0.17,0,27,327,,5,3,500 g,0,,,0,,,D051,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+lettuce,Lettuce,serving,1,0,0,1,0,1,green,16,1.2,2.3,1.3,2.05,43,8.9,23,0.1,0,0.38,80,32,209,raw-salad green - iron 2.7 mg/100 g,7,6,1 head,0,,,0,,,C025,75,ICMR-NIN DGI 2024 glv serving (100g/day)
+bathua,Bathua leaves,serving,1,0,0,1,0,1,green,21,1.9,1.9,3,2,158,30.8,32,0.13,0,0.73,67,36,328,calcium 211 mg/100 g - the highest-calcium green on this list,3,4,bunch,0,,,0,,,C008,75,ICMR-NIN DGI 2024 glv serving (100g/day)
+pineapple,Pineapple,serving,1,0,0,0,0,0,fruit,43,0.5,9.4,3.5,0.28,11,36.4,18,0.03,0,0.1,3,13,143,,7,3,1 fruit,0,,,0,,,E053,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+grapes,Grapes,serving,1,0,0,0,0,0,fruit,61,0.8,13.2,1.4,0.22,11,18.3,9,0.04,0,0.05,2,7,171,,7,4,500 g,0,,,0,,,E022,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+sapota,Sapota (chikoo),serving,1,0,0,0,0,0,fruit,73,0.9,13.9,9.6,0.49,18,21,11,0.12,0,0.18,7,16,280,,5,4,500 g,0,,,0,,,E060,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+custardapple,Custard apple,serving,1,0,0,0,0,0,fruit,99,1.6,20.4,5.1,0.42,28,21.5,8,0.05,0,0.22,0,38,278,,4,3,500 g,0,,,0,,,E016,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+jamun,Jamun,serving,1,0,0,0,0,1,fruit,54,0.9,10.6,4.3,0.63,24,19.4,23,0.08,0,0.11,4,31,205,,4,4,500 g,0,,,0,,,E013,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+litchi,Litchi,serving,1,0,0,0,0,0,fruit,54,1,11.4,1.3,0.79,6,33.8,16,0.03,0,0.24,0,15,161,,5,4,500 g,0,,,0,,,E035,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+muskmelon,Muskmelon,serving,1,0,0,0,0,0,fruit,23,0.4,4.2,1.5,0.18,10,22.8,22,0.06,0,0.09,64,12,206,,5,4,1 melon,0,,,0,,,E045,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+khoa,Khoa,serving,1,0,0,0,0,0,dairy,632,32.7,33.1,0,4.64,1204,0,188,0.53,0,4.68,1,117,1072,calcium 602 mg/100 g,5,6,200 g,0,,,0,,,L004,200,ICMR-NIN DGI 2024 dairy serving (300g/day)
+egg,Eggs,serving,1,1,1,0,0,0,protein,67,6.6,0,0,0.91,25,0,25,0.01,0.04,0.61,100,6,69,keystone protein,21,30,tray of 30,0,boil 6 at a time - keeps 5-7 days,,0,,,M001,50,ICMR-NIN DGI 2024 egg serving (70g/day)
+egg_o3,Omega-3 eggs (fortified),serving,1,0,1,0,0,0,protein,72,6,0.5,0,0.9,28,0,24,0.05,0.25,0.6,40,6,63,fortified/DHA-enriched - direct DHA - no conversion needed unlike flax ALA,21,30,tray of 30,0,boil 6 at a time - keeps 5-7 days,,0,,,,50,ESTIMATE - no INDB serving for this food
+dal,Dal (toor/moong/masoor),serving,1,1,1,0,0,0,protein,99,6.5,16.6,2.7,1.17,22,0,32,0.02,0,0.79,3,36,418,daily backbone,365,28,1 kg packet,0,pressure-cook a batch - keeps 3-4 days,,0,,,B021,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+rajma,Rajma,serving,1,1,1,0,0,0,protein,89,5.8,14.6,5.1,1.89,40,0,99,0.17,0,0.78,0,49,410,soak 6-8h then discard water,365,7,500 g packet,8,soak 6-8h then DISCARD the water,,0,,,B019,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+kala,Kala chana,serving,1,1,0,0,0,0,protein,86,5.6,11.9,7.6,2.03,45,0,70,0.04,0,1.01,4,48,280,,365,8,500 g packet,8,soak 6-8h then discard the water,,0,,,B002,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+kabuli,Kabuli chana,serving,1,0,1,0,0,0,protein,86,5.6,11.9,7.6,2.03,45,0,70,0.04,0,1.01,4,48,280,buy - for cold salads and bowls,365,8,500 g packet,8,soak 6-8h then discard the water,,0,,,B002,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+soya,Soya chunks,serving,1,1,0,0,0,0,protein,100,15,10,3,5,80,0,60,0,0,1,0,85,180,cap 2-3x per week,180,6,200 g packet,1,boil then squeeze dry,,0,,,,30,row already stated 30g dry
+besan,Besan (chilla),serving,1,1,1,0,0,0,protein,99,6.5,14,4.5,1.82,14,0,55,0.03,0,1.09,4,35,287,,180,12,500 g packet,0,,,0,,,B001,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+whey,Whey,serving,1,1,0,0,0,0,protein,120,24,3,0,0.3,120,0,0,0,0,1,0,20,160,gap-filler not a base,365,30,1 kg tub,0,,,0,,,,30,ESTIMATE - one scoop
+sprout,Sprouted moong,serving,1,1,0,0,0,0,protein,88,6.8,13.8,5.1,1.47,28,0,44,0.05,0,0.8,3,59,353,sprout the moong you have,3,4,jar - sprout at home,24,soak 8h then sprout 12-24h in a jar,dal,1,,,B011,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+peanut,Roasted peanuts,serving,1,1,0,0,0,1,seed,104,4.7,3.5,2.1,0.69,11,0,18,0,0,0.64,0,39,136,,90,16,500 g packet,0,,,0,,,H012,20,ICMR-NIN DGI 2024 nutseed serving (35g/day)
+pb,Peanut butter,serving,2,1,0,0,0,0,condiment,97,3.7,2.1,1.1,0.34,6,0,8,0,0,0.48,0,29,112,UK FCT B504 via INDB,120,25,340 g jar,0,,,0,,,,16,row already stated tbsp = 16 g (UK FCT B504 basis)
+pchutney,Peanut chutney,serving,2,1,0,0,0,0,condiment,55,2.5,3,1,0.4,12,0,0,0,0,0.4,0,15,60,pre-prepped condiment,21,20,jar,0,,,0,,,,15,ESTIMATE - one tbsp
+curd,Curd (toned),serving,1,1,1,0,1,1,dairy,120,7,10,0,0.1,275,0,0,0,0,0.9,0,24,350,daily probiotic,5,2.5,500 g tub,0,,,0,,,,200,ICMR-NIN DGI 2024 dairy serving - "Curd 200ml"
+tofu,Tofu (plain),serving,1,0,0,0,0,0,protein,130,11,2,1,2.7,40,0,0,0,0,0.8,0,30,120,protein and iron only - Ca-set unavailable so calcium is ~40mg not 350 - UK FCT B506 gives 73kcal 8.1g protein 1.2mg iron for STEAMED (soft) tofu so these firm-tofu numbers may be ~1.7x high,5,2,200 g block,0,cube and submerge in water - change daily,,0,,,,100,row already stated 100g
+paneer,Paneer,serving,1,0,0,0,0,0,protein,516,37.7,24.8,0,1.8,952,0,187,0.47,0,5.48,1,53,127,BUY - the calcium plug now Ca-set tofu is unavailable - cap 2-3x per week,5,2,200 g block,0,,,0,,,L003,200,ICMR-NIN DGI 2024 dairy serving (300g/day)
+rice,Rice,serving,1,1,1,0,0,0,base,285,6.4,62.6,2.2,0.52,6,0,7,0.01,0,0.97,0,15,86,,365,17,1 kg packet,0,,,0,,,A015,80,ICMR-NIN DGI 2024 cereal serving (250g/day)
+millet,Little millet,serving,1,1,1,0,0,0,base,277,8.1,52.4,6.2,1.01,13,0,29,0.04,0,1.46,0,73,84,carries magnesium - rice does not,180,8,500 g packet,6,soak 6h before cooking,,0,,,A016,80,ICMR-NIN DGI 2024 cereal serving (250g/day)
+ragi,Ragi flour,serving,1,1,0,0,0,1,base,257,5.7,53.5,8.9,3.7,291,0,28,0.05,0,2.02,0,117,354,plant-calcium,90,16,500 g packet,0,,,0,,,A010,80,ICMR-NIN DGI 2024 cereal serving (250g/day)
+poha,Poha,serving,1,1,1,0,0,0,base,283,6,61.4,2.8,3.57,7,0,7,0.02,0,1.19,0,62,118,,120,10,500 g packet,0,,,0,,,A011,80,ICMR-NIN DGI 2024 cereal serving (250g/day)
+suji,Suji/rava,serving,1,1,0,0,0,0,base,267,9.1,54.7,7.8,2.38,24,0,21,0.02,0,1.7,0,30,227,,120,10,500 g packet,0,,,0,,,A022,80,ICMR-NIN DGI 2024 cereal serving (250g/day)
+vermicelli,Vermicelli,serving,1,1,0,0,0,0,base,266,7.8,56.3,7.4,1.62,16,0,11,0.01,0,0.66,0,27,130,,180,8,400 g packet,0,,,0,,,A023,80,ICMR-NIN DGI 2024 cereal serving (250g/day)
+oats,Rolled oats,serving,1,0,1,0,0,0,base,152,4.4,28.3,3.1,1.46,20,0,13,0.1,0,0.92,0,46,149,buy - the zero-cook overnight base - UK FCT A508 via INDB (ALA still an estimate),180,12,500 g packet,0,,,0,,,,40,row already stated 40g
+batter,Dosa-idli batter (ragi),serving,2,1,1,0,1,0,base,90,3,15,1,1,40,0,0,0,0,0,0,15,50,fermented,5,8,1 kg pack,0,buy it - or ferment 12h,,0,,,,60,ESTIMATE - one dosa
+bread,Multigrain bread,serving,2,1,0,0,0,0,base,70,3,12,2,1,15,0,0,0,0,0,0,25,70,emergency only,5,12,loaf,0,,,0,,,,30,ESTIMATE - one slice
+spinach,Spinach,serving,1,1,0,1,0,1,green,18,1.6,1.5,1.8,2.21,62,22.7,106,0.17,0,0.35,163,65,469,add lemon for oxalates,3,4,bunch,0,,,0,,,C033,75,ICMR-NIN DGI 2024 glv serving (100g/day)
+amaranth,Amaranth,serving,1,1,0,1,0,1,green,23,2.5,1.7,3.3,3.48,248,62.7,53,0.19,0,0.65,535,146,429,lower oxalate than palak,3,4,bunch,0,,,0,,,C002,75,ICMR-NIN DGI 2024 glv serving (100g/day)
+moringa,Moringa powder,serving,1,1,0,1,0,1,green,5,0.6,1,1,0.5,35,5,40,0,0,0,90,9,33,stir into any dal,365,40,100 g pack,0,,,0,,,,2,ESTIMATE - one tsp of dried leaf powder
+carrot,Carrot,serving,1,1,0,0,0,1,veg,17,0.5,2.8,2.1,0.3,18,3.1,12,0.01,0,0.12,337,8,136,,10,6,500 g,0,,,0,,,F002,50,ICMR-NIN DGI 2024 root serving (50g/day)
+beet,Beetroot,serving,1,1,0,0,0,1,veg,18,1,3.1,1.7,0.38,9,2.6,49,0,0,0.15,0,17,153,,14,4,500 g,0,,,0,,,F001,50,ICMR-NIN DGI 2024 root serving (50g/day)
+fbeans,French beans,serving,1,1,0,0,0,0,veg,22,2.1,2.6,4.2,0.98,50,1.4,62,0.07,0,0.37,33,35,317,,5,4,250 g,0,,,0,,,D050,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+cocc,Coccinia (tindora),serving,1,1,0,0,0,0,veg,17,1.4,2,3,0.38,34,17.6,49,0.04,0,0.18,11,20,198,,7,4,250 g,0,,,0,,,D054,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+tomato,Tomato,serving,1,1,0,0,0,1,veg,19,0.8,3.2,1.6,0.22,9,25.3,15,0.01,0,0.11,127,12,167,iron partner,5,8,500 g,0,,,0,,,D075,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+cucumber,Cucumber,serving,1,0,0,0,0,0,veg,20,0.7,3.5,2.1,0.46,16,6.1,17,0.01,0,0.17,0,20,183,buy - the no-cook salad volume,7,4,500 g,0,,,0,,,D043,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+onion,Onion (red),serving,1,1,0,0,0,0,aromatic,12,0.4,2.4,0.6,0.11,5,1.7,7,0,0,0.09,0,4,43,prebiotic base,21,8,1 kg,0,bhuna a big onion-tomato base - 1h once - keeps 4-5 days,,0,,,G017,25,INDB serving n=118 basis=core
+garlic,Garlic,serving,1,1,0,0,0,0,aromatic,1,0.1,0.2,0.1,0.01,0,0.1,1,0,0,0.01,0,0,5,prebiotic,30,40,2 bulbs,0,,,0,,,G012,1,INDB serving n=65 basis=all
+ginger,Ginger,serving,1,1,0,0,0,0,aromatic,3,0.1,0.4,0.3,0.1,1,0.3,1,0,0,0.02,0,3,20,digestive,14,10,100 g,0,,,0,,,G014,5,INDB serving n=10 basis=core
+gchilli,Green chilli,serving,1,1,0,0,0,0,aromatic,2,0.1,0.3,0.2,0.06,1,3.2,1,0,0,0.01,0,1,17,,7,25,50 g,0,,,0,,,G001,4,INDB serving n=7 basis=core
+curryleaf,Curry leaf,serving,1,1,0,0,0,0,aromatic,1,0.1,0.1,0.3,0.17,13,0.1,2,0.01,0,0.02,13,4,12,flavour and iron trace,5,12,bunch,0,,,0,,,G010,2,ESTIMATE - no INDB serving for this food
+coriander,Coriander,serving,1,1,0,0,0,0,aromatic,3,0.3,0.2,0.4,0.48,13,2.1,5,0.02,0,0.06,29,7,49,,3,16,bunch,0,,,0,,,G009,9,INDB serving n=6 basis=core
+lemon,Lemon,serving,1,1,0,0,0,1,sour,5,0.1,0,0,0.02,3,6.7,2,0.01,0,0.01,0,1,16,iron partner - add at iron meals,14,6,6 lemons,0,,,0,,,E033,14,INDB serving n=10 basis=core
+lemon_wedge,Lemon wedge,serving,1,1,0,0,0,1,sour,5,0.1,0,0,0.02,3,6.7,2,0.01,0,0.01,0,1,16,iron partner - add at iron meals,14,24,6 lemons,0,,,0,,,E033,14,INDB serving n=10 basis=core
+banana,Banana,serving,1,1,0,0,0,1,fruit,111,1.2,24.9,2.2,0.4,7,8.1,18,0.06,0,0.15,5,30,362,,5,6,half dozen,0,,,0,,,E009,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+guava,Guava,serving,1,1,0,0,0,1,fruit,32,1.4,5.1,8.6,0.32,19,214,30,0.01,0,0.23,25,15,283,,5,4,500 g,0,,,0,,,E028,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+papaya,Papaya,serving,1,1,0,0,0,1,fruit,24,0.4,4.6,2.8,0.23,15,43.1,61,0.04,0,0.08,112,11,173,,4,6,1 papaya,0,,,0,,,E049,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+flax,Ground flax,serving,1,1,0,0,0,1,seed,89,3.7,2.2,5.2,1.09,51,0,17,2.59,0,0.97,0,70,131,daily - the omega-3 source - this row IS the ground form so it is not gated,60,25,250 g packet,0,grind small batches - pre-ground goes rancid,,0,,,H014,20,ICMR-NIN DGI 2024 nutseed serving (35g/day)
+til,Black til,serving,1,1,0,0,0,1,seed,102,3.8,2.1,3.4,2.78,333,0,25,0.03,0,1.72,0,78,96,plant-calcium specialist - ONLY once ground - whole til passes through undigested,90,25,250 g packet,0,grind or dry-roast before use,,0,ground,calcium iron zinc magnesium,H009,20,ICMR-NIN DGI 2024 nutseed serving (35g/day)
+pumpkin,Pumpkin seeds,serving,1,1,0,0,0,1,seed,85,3.7,2.3,1,1.5,6,0,0,0,0,0.99,3,40,123,best zinc per gram on the seed shelf but 1 mg not 2.2 - UK FCT H518 via INDB,90,16,250 g packet,0,,,0,,,,15,row already stated 15g
+chana_dal,Chana dal,serving,1,1,1,0,0,0,protein,99,6.5,14,4.5,1.82,14,0,55,0.03,0,1.09,4,35,287,holds shape - the salad-and-sundal dal,365,28,1 kg packet,0,pressure-cook a batch - keeps 3-4 days,,0,,,B001,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+urad,Urad dal,serving,1,0,1,0,0,0,protein,97,6.9,15.3,3.6,1.4,17,0,27,0.17,0,0.9,0,52,347,buy - iron-dense dal and the dosa-batter base,365,28,1 kg packet,0,pressure-cook a batch - keeps 3-4 days,,0,,,B003,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+masoor,Masoor dal,serving,1,1,1,0,0,0,protein,97,7.3,15.8,3.1,2.12,13,0,15,0.02,0,1.08,0,22,236,cooks in 12 min with no soak - the fastest dal,365,28,1 kg packet,0,no soak - simmers in 12 min,,0,,,B013,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+lobia,Lobia (cowpea),serving,1,0,1,0,0,0,protein,96,6.4,16.1,3.5,1.51,25,0,75,0.06,0,1.07,0,64,373,buy - rajma texture at half the soak,365,8,500 g packet,6,soak 6h then discard the water,,0,,,B006,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+moth,Moth bean,serving,1,0,1,0,0,0,protein,93,5.9,15.6,4.5,2.37,46,0,105,0.07,0,0.58,0,62,407,buy - sprouts faster than moong,365,8,500 g packet,6,soak 6h then discard the water,,0,,,B016,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+kulthi,Kulthi (horse gram),serving,1,0,1,0,0,0,protein,99,6.5,17.2,2.4,2.63,81,0,49,0.02,0,0.81,1,46,320,buy - the iron outlier of the pulse shelf,365,8,500 g packet,8,soak 8h then discard the water,,0,,,B012,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+matar,Dried white peas,serving,1,0,1,0,0,0,protein,91,6.1,14.7,5.1,1.53,23,0,33,0.04,0,0.93,2,37,277,buy - the ragda base,365,8,500 g packet,8,soak 8h then discard the water,,0,,,B017,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+moong_whole,Whole moong,serving,1,1,1,0,0,0,protein,88,6.8,13.8,5.1,1.47,28,0,44,0.05,0,0.8,3,59,353,the thing you sprout - also cooks whole,365,28,1 kg packet,0,pressure-cook or sprout it,,0,,,B011,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+bajra,Bajra,serving,1,0,1,0,0,0,base,278,8.8,49.4,9.2,5.14,22,0,29,0.11,0,2.21,2,99,292,buy - iron and magnesium where rice has none,180,10,500 g packet,0,cook like rice - 1:2.5 water,,0,,,A003,80,ICMR-NIN DGI 2024 cereal serving (250g/day)
+jowar,Jowar,serving,1,0,1,0,0,0,base,267,8,54.1,8.2,3.16,22,0,32,0.01,0,1.57,1,106,262,buy - the mildest of the millets,180,10,500 g packet,0,cook like rice - 1:3 water,,0,,,A005,80,ICMR-NIN DGI 2024 cereal serving (250g/day)
+atta,Atta (whole wheat),serving,1,1,1,0,0,0,base,256,8.5,51.3,9.1,3.28,25,0,23,0.04,0,2.28,0,100,249,the default roti,120,33,1 kg packet,0,knead a batch of dough - keeps 2 days,,0,,,A019,80,ICMR-NIN DGI 2024 cereal serving (250g/day)
+quinoa,Quinoa,serving,1,0,1,0,0,0,base,263,10.5,42.9,11.7,6.01,158,0,138,0.16,0,2.65,0,95,379,buy - complete protein in a grain slot,180,11,500 g packet,0,rinse well then cook 1:2,,0,,,A009,80,ICMR-NIN DGI 2024 cereal serving (250g/day)
+rajgira,Rajgira (amaranth seed),serving,1,0,1,0,0,1,base,285,11.7,48,5.6,7.46,145,0,22,0.02,0,2.13,0,260,346,buy - plant calcium in a grain,180,16,500 g packet,0,pop it dry or cook as porridge,,0,,,A001,80,ICMR-NIN DGI 2024 cereal serving (250g/day)
+almond,Almonds,serving,1,0,0,0,0,1,seed,122,3.7,0.6,2.6,0.92,46,0.1,7,0.01,0,0.7,0,64,140,vitamin E and magnesium topper,120,33,500 g packet,0,soak overnight to peel - optional,,0,,,H001,20,ICMR-NIN DGI 2024 nutseed serving (35g/day)
+walnut,Walnuts,serving,1,0,0,0,0,1,seed,134,3,2,1.1,0.64,21,0.2,12,1.74,0,0.59,0,36,91,the second ALA source after flax,90,16,250 g packet,0,,,0,,,H021,20,ICMR-NIN DGI 2024 nutseed serving (35g/day)
+cashew,Cashews,serving,1,0,0,0,0,1,seed,117,3.8,5.1,0.8,1.19,7,0,5,0.01,0,1.07,0,61,127,the creaming agent for gravies without dairy,90,16,250 g packet,0,,,0,,,H005,20,ICMR-NIN DGI 2024 nutseed serving (35g/day)
+sunflower,Sunflower seeds,serving,1,0,0,0,0,1,seed,117,4.7,1.4,2.2,1.17,35,0,16,0.01,0,1.41,0,83,112,cheapest seed topper by weight,90,16,250 g packet,0,,,0,,,H020,20,ICMR-NIN DGI 2024 nutseed serving (35g/day)
+coconut,Fresh coconut,serving,1,0,0,0,0,0,condiment,82,0.8,1.3,2.1,0.26,2,0.2,5,0,0,0.12,0,7,49,chutney and poriyal finisher,5,20,half coconut,0,grate a batch - freezes well,,0,,,H007,20,INDB serving n=11 basis=core
+capsicum,Capsicum (green),serving,1,0,0,0,0,0,veg,16,1.1,1.8,2.1,0.48,15,123,52,0.04,0,0.15,27,12,154,,7,5,400 g,0,,,0,,,D033,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+cabbage,Cabbage,serving,1,0,0,0,0,0,veg,16,1,2.4,2.1,0.26,39,24.9,35,0.04,0,0.12,1,13,175,the long-keeping raw-salad volume,14,10,1 head,0,,,0,,,C015,75,ICMR-NIN DGI 2024 glv serving (100g/day)
+cauli,Cauliflower,serving,1,0,0,0,0,0,veg,23,2.1,2,3.7,0.96,25,47.1,46,0.12,0,0.31,0,23,329,,7,5,1 head,0,,,0,,,D036,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+pumpkin_veg,Pumpkin (kaddu),serving,1,0,0,0,0,0,veg,23,0.8,4,2.6,0.36,23,8,24,0.03,0,0.11,20,10,253,carotene-dense and keeps for weeks whole,21,4,500 g,0,,,0,,,D066,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+lauki,Lauki,serving,1,0,0,0,0,0,veg,11,0.5,1.7,2.1,0.26,15,4.3,42,0.02,0,0.15,4,11,124,,7,4,1 lauki,0,,,0,,,D007,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+karela,Karela,serving,1,0,0,0,0,0,veg,21,1.4,2.8,3.8,1.15,21,46.5,60,0.02,0,0.31,10,32,326,,7,4,250 g,0,,,0,,,D004,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+tori,Ridge gourd (tori),serving,1,0,0,0,0,0,veg,13,0.9,1.7,1.8,0.42,14,5.4,29,0.03,0,0.22,29,16,118,,5,4,250 g,0,,,0,,,D068,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+sweetpotato,Sweet potato,serving,1,0,1,0,0,0,base,54,0.7,12.1,2,0.17,14,9,8,0.01,0,0.08,224,9,172,a base that carries carotene - rice does not,21,4,500 g,0,boil a batch - keeps 3 days,,0,,,F013,50,ICMR-NIN DGI 2024 root serving (50g/day)
+mushroom,Button mushrooms,serving,1,0,0,0,0,0,veg,27,3.7,2,3.1,0.29,18,0,8,0,0,0.17,0,18,318,buy - umami and the only dietary vit-D candidate here,5,3,200 g pack,0,,,0,,,J001,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+drumstick,Drumstick pods,serving,1,0,0,0,0,0,veg,29,2.6,3.8,6.8,0.73,33,71.9,63,0.01,0,0.31,1,38,419,goes into sambar and dal,7,8,bunch,0,,,0,,,D046,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+peas_fresh,Green peas,serving,1,0,0,0,0,0,veg,81,7.2,11.9,6.3,1.58,28,38.4,55,0.01,0,1.09,10,40,249,frozen is fine - keeps for months,60,3,500 g pack,0,,,0,,,D061,100,ICMR-NIN DGI 2024 vegetable serving (250g/day)
+methi,Methi leaves,serving,1,0,0,1,0,1,green,26,2.8,1.6,3.7,4.27,206,43.7,56,0.27,0,0.41,578,48,170,bitter - pairs with dal and atta,3,4,bunch,0,,,0,,,C020,75,ICMR-NIN DGI 2024 glv serving (100g/day)
+sarson,Sarson leaves,serving,1,0,0,1,0,1,green,23,2.6,1.8,2.9,2.13,143,45.2,82,0.18,0,0.51,164,39,302,,3,4,bunch,0,,,0,,,C026,75,ICMR-NIN DGI 2024 glv serving (100g/day)
+mooli_leaf,Radish leaves,serving,1,0,0,1,0,1,green,20,1.7,2.1,1.4,2.86,176,49.3,40,0.15,0,0.37,162,43,228,the free green - comes attached to the radish,3,4,bunch,0,,,0,,,C031,75,ICMR-NIN DGI 2024 glv serving (100g/day)
+drumstick_leaf,Drumstick leaves,serving,1,0,0,1,0,1,green,51,4.8,4.2,6.2,3.42,236,81,32,0.33,0,0.54,1096,73,298,fresh moringa - same plant as the powder,2,4,bunch,0,,,0,,,C019,75,ICMR-NIN DGI 2024 glv serving (100g/day)
+agathi,Agathi leaves,serving,1,0,0,1,0,1,green,53,6,3.9,6.4,3.27,676,90.8,90,0.31,0,0.4,786,72,506,,2,4,bunch,0,,,0,,,C001,75,ICMR-NIN DGI 2024 glv serving (100g/day)
+mint,Mint,serving,1,0,0,0,0,0,aromatic,2,0.2,0.1,0.3,0.43,10,0.9,5,0.01,0,0.04,19,6,27,chutney and raita,5,20,bunch,0,,,0,,,G016,5,INDB serving n=4 basis=all
+orange,Orange,serving,1,0,0,0,0,1,fruit,37,0.7,7.9,1.3,0.81,20,42.7,19,0.01,0,0.04,7,11,164,iron partner - keeps better than guava,10,4,1 kg,0,,,0,,,E047,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+pomegranate,Pomegranate,serving,1,0,0,0,0,1,fruit,55,1.3,11.6,2.8,0.31,11,12.7,39,0,0,0.18,0,11,206,,14,2,1 fruit,0,deseed a whole one - keeps 3 days,,0,,,E055,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+amla,Amla,serving,1,0,0,0,0,1,fruit,24,0.3,4.4,7.8,1.25,20,252,8,0.03,0,0.05,0,6,223,the vitamin-C outlier - one piece covers the day,14,12,250 g,0,,,0,,,E021,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+mango,Mango (ripe),serving,1,0,0,0,0,1,fruit,42,0.5,8.2,1.9,0.51,16,33,82,0.1,0,0.12,98,13,144,,5,3,1 kg,0,,,0,,,E036,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+watermelon,Watermelon,serving,1,0,0,0,0,0,fruit,20,0.6,3.9,0.7,0.22,5,13.3,6,0.02,0,0.1,50,10,124,,7,8,half melon,0,,,0,,,E065,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+apple,Apple,serving,1,0,0,0,0,0,fruit,64,0.3,13.9,2.1,0.25,5,4,4,0.03,0,0.05,0,5,100,the travel fruit - keeps 3 weeks,21,4,500 g,0,,,0,,,E003,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+dates,Dates,serving,1,0,0,0,0,1,fruit,320,2.5,74.9,8.9,3.2,71,4.4,19,0.02,0,0.7,225,74,804,iron and the sugar you actually want,180,40,500 g packet,0,,,0,,,E017,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+fig_dry,Dried figs,serving,1,0,0,0,0,1,fruit,82,2,16.3,4.6,0.69,79,16.9,14,0.05,0,0.22,0,26,231,calcium in a sweet,180,12,250 g packet,0,,,0,,,E020,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+raisin,Raisins,serving,1,0,0,0,0,1,fruit,306,2.6,71.3,3.9,6.81,73,2.1,38,0.01,0,0.22,0,34,1105,,180,16,250 g packet,0,,,0,,,E057,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
+milk,Milk (cow),serving,1,1,0,0,0,0,dairy,146,6.5,9.9,0,0.3,236,4,14,0.04,0,0.66,2,17,230,the calcium floor when curd runs out,3,4,1 litre,0,,,0,,,L002,200,ICMR-NIN DGI 2024 dairy serving (300g/day)
+ghee,Ghee,serving,1,1,0,0,0,0,condiment,81,0,0,0,0,0,0,0,0.05,0,0,0,0,0,fat-soluble vitamin carrier - a tsp on dal is functional,365,100,500 g jar,0,,,0,,,T013,9,INDB serving n=4 basis=core
+mustard_oil,Mustard oil,serving,1,1,0,0,0,0,condiment,36,0,0,0,0,0,0,0,0.47,0,0,0,0,0,the ALA cooking fat,365,200,1 litre,0,,,0,,,T006,4,ESTIMATE - no INDB serving for this food
+coconut_water,Coconut water,serving,1,0,0,0,0,0,fruit,37,0.6,7.6,0,0.14,66,1.5,26,0,0,0.1,0,44,516,,2,1,1 coconut,0,,,0,,,K002,240,ESTIMATE - no INDB serving for this food
+tamarind,Tamarind pulp,serving,1,1,0,0,0,0,sour,49,0.5,11.4,0.9,1.56,25,0.6,2,0,0,0.1,0,14,142,sambar and chaat sour - iron partner like lemon,365,30,500 g block,0,,,0,,,E064,17,INDB serving n=7 basis=core
+jaggery,Jaggery,serving,1,1,0,0,0,0,condiment,99,0.5,23.8,0,1.3,30,0,4,0,0,0.13,0,32,137,trace iron - still sugar,365,125,1 kg block,0,,,0,,,I001,28,INDB serving n=24 basis=core
+chia,Chia seeds,serving,1,0,0,0,0,1,seed,80,2.7,4.3,4.1,0.86,38,0.1,13,0,0,0.65,0,59,122,US FCT H506 via INDB - ALA is NOT a column in that table so omega3 reads 0 here - that is missing data not absence,180,16,250 g packet,0,soak 10 min or grind,,0,,,,15,row already stated 15g
+rajma_soaked,Soaked rajma,serving,1,0,1,0,0,0,protein,89,5.8,14.6,5.1,1.89,40,0,99,0.17,0,0.78,0,49,410,ready-to-cook - soak once cook for 2 days,2,3,home-soaked batch,8,soak 6-8h then DISCARD the water,rajma,0,,,B019,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+base_paste,Tomato-onion paste,serving,1,0,0,0,0,0,aromatic,45,1.5,9,2,0.4,20,10,15,0,0,0.2,20,10,250,bhuna base for any gravy - keeps 4-5 days,5,5,bhuna batch ~5 servings,0,bhuna onions+tomato+garlic+ginger ~1h,onion tomato garlic ginger,1,,,,45,ESTIMATE - one serving of bhuna base

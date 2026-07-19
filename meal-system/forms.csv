@@ -1,0 +1,70 @@
+# Processing modes — the FORM layer. `bhuna` is not a cuisine to model: it is a transform
+# (til whole) -> (til roasted). Same for soaking rajma and fermenting batter.
+#
+# Forms are meant to become VARIANT ROWS in ingredients.csv, the way sprout already is
+# (sprout makes=dal). A variant inherits the whole machine: stock, shelf clock, `lead` hours,
+# the nightly prep queue, the keep-a-batch-ready nag. This file is the GENERATOR SPEC for
+# those rows, not a lookup you read by hand — so the numbers stay a formula and can be
+# regenerated when the formula improves.
+#
+# evidence = HOW WELL we know it. The flag that keeps an unquantified-but-real process usable
+#   instead of silently absent:
+#     quantified            a percentage exists and is cited. Safe to multiply.
+#     sourced-unquantified  a named source states the DIRECTION but publishes no number. The
+#                           planner may SURFACE it ("pressure-cooking helps here") and must NEVER
+#                           compute with it. This is the state ICMR leaves pressure-cooking in.
+#     gated                 real, directional, unquantified AND load-bearing enough that the
+#                           nutrient should not be credited at all until the form is applied
+#                           (whole til's calcium). See `gates`.
+#     unsourced             we believe it; nobody cited. Not actionable.
+#
+# mechanism = WHY absorption changes. This is the important column. `absorbed` is not one
+#   calculation and the four families do not share a formula:
+#
+#   phytate  phytate chelates Fe/Zn/Ca -> molar ratio vs published thresholds     SOURCED
+#   heat     nutrient destroyed by cooking -> see retention.csv (USDA RF6)        SOURCED
+#   matrix   nutrient sealed inside an intact seed coat or cell wall              NOT SOURCED
+#   fat      fat-soluble nutrient needs co-eaten fat to cross the gut wall        NOT SOURCED
+#
+# phyt_red = % phytate reduction. Only meaningful when mechanism=phytate.
+#   BLANK means NOT MEASURED — do not read blank as zero and do not substitute a guess.
+#   `raw` is the only genuine 0.
+#
+# gates = nutrients this form GATES rather than scales. A flag, not a number: it means the
+#   listed nutrients should not be credited until the form is applied. Used where the effect
+#   is real and directional but unquantified — whole til does deliver far less calcium than
+#   ground til, and refusing to invent the percentage is not the same as claiming no effect.
+#   The planner should WARN on a gated nutrient, never silently multiply it.
+#
+# lead = HOURS of ahead-time the mode costs, same clock as ingredients.csv `lead`.
+# applies = ingredient ids or roles this mode is defined for. No commas in any field.
+id,name,mechanism,evidence,phyt_red,gates,lead,applies,note,source
+raw,Raw,phytate,quantified,0,,0,all,the baseline every other row is measured against,definitional
+soaked,Soaked 6-12h,phytate,quantified,28,,8,protein base seed,discard the soak water or the phytate goes back in,sorghum 23.6-32.4pc + faba bean 26.9-32.5pc
+sprouted,Sprouted,phytate,quantified,30,,24,protein,germination phytase does the work - needs warmth and drainage,sorghum 24.9-35.3pc + faba bean 28.0-34.9pc
+soak_sprout,Soaked then sprouted,phytate,quantified,50,,32,protein,composed not measured - the two steps are not independent so this is a floor,derived from the two rows above
+ferment_wild,Fermented (wild/spontaneous),phytate,quantified,52,,12,base protein,batter left out overnight - what an idli batter actually is,maize Frontiers 2024 51.8pc
+ferment_curd,Fermented with curd or culture,phytate,quantified,68,,12,base protein,culturing with yogurt or Lp299 beats a wild ferment by ~15 points,maize Frontiers 2024 65.3-68.7pc
+soak_germ_ferment,Soaked germinated then fermented,phytate,quantified,86,,40,base protein,the ceiling of the stack - Phy:Zn 40.76 -> 7.77 in the source study,maize Frontiers 2024 85.6pc
+soak_warm,Soaked warm 45-65C pH 5-6,phytate,quantified,60,,6,base protein,endogenous phytase optimum - the wide range is the studys not a rounding,literature 26-100pc range midpoint
+ground,Ground or milled,matrix,gated,,calcium iron zinc magnesium,0,seed,ruptures the seed coat - til and flax pass through whole and undigested,GATED not quantified
+roasted,Dry-roasted (bhuna),matrix,gated,,,0,seed base,improves keeping and flavour and cracks the coat partially - phytate effect not measured,GATED not quantified
+chewed,Chewed thoroughly,matrix,gated,,,0,seed,the free version of grinding and the one nobody does,GATED not quantified
+with_fat,Eaten with fat,fat,gated,,vita,0,green veg,carotene and the fat-soluble vitamins need co-eaten fat - a tsp of ghee on the saag,GATED not quantified
+pressure_cooked,Pressure-cooked,heat,sourced-unquantified,,,0,protein base,ICMR: phytic acid in cereals+legumes 'decreases to a great extent' after boiling/pressure cooking making Fe Ca Mg Zn absorbable - DIRECTION sourced MAGNITUDE not,ICMR-NIN DGI 2024 p.4127
+boiled_drained,Boiled and drained,heat,quantified,,,0,protein veg green,ICMR: 'boiling with just enough water without having to drain is the best method to retain folate in legumes' - matches USDA RF6 numerically,ICMR-NIN DGI 2024 + USDA RF6 (retention.csv)
+#
+# CAVEATS - carried forward from nutrition-data-sources.md deliberately:
+# 1. Only TWO of the four mechanisms above are sourced: phytate and heat. `matrix` and `fat`
+#    carry gates instead of numbers. That is the honest state, not an oversight to fill in later
+#    with a plausible-looking percentage.
+# 2. The food-independence claim rests on THREE studies on THREE crops. Consistent but three.
+# 3. Retention (what survives cooking) is NOT bioavailability (what gets absorbed). That axis
+#    lives in retention.csv and MULTIPLIES with this one - it does not replace it. Legumes
+#    boiled 45-75 min and DRAINED keep 45pc of folate and 70pc of potassium; keep the water
+#    and it is 50pc and 75pc.
+# 4. RDAs are expressed as CONSUMED not absorbed - they already divide by an assumed
+#    bioavailability (WHO/FAO publishes 5pc 10pc and 15pc tiers). So absorbed figures must go
+#    in SEPARATE columns. Rewriting ingredients.csv iron to absorbed would divide by
+#    bioavailability twice and make every meal look short.
+# 5. Nothing in this file is wired into app.py yet. It is a data layer waiting for a consumer.

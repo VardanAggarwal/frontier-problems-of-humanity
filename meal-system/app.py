@@ -67,16 +67,32 @@ PREP = ['lead', 'prep']
 #   makes = space-sep raw input ids it's produced from ('' = a normal ingredient, not a prep output)
 #   keep  = 1 = a standing prep you always want a batch of ready on hand
 MADE = ['makes', 'keep']
+# gating columns — the FLAG escape hatch for absorption effects that are real but unquantified.
+#   needform = the forms.csv id that must be applied before this row's `gated` nutrients count
+#   gated    = space-sep nutrient keys NOT to credit until then (whole til's calcium, whole flax's ALA)
+# A flag, not a multiplier: we know the direction, we do not have the number, and inventing one
+# would be worse than showing nothing. The planner zeroes a gated nutrient and says why.
+GATE = ['needform', 'gated']
+# provenance — where this row's numbers CAME FROM. The whole ifct table lives in the DB
+# (542 foods x 421 components); a row that names an ifct_code and a grams basis can have its
+# nutrients REGENERATED from the source at any time (`python3 app.py ifct-derive`). A row with
+# no ifct_code is, by definition, still an estimate — and now visibly so rather than silently.
+SRC = ['ifct_code', 'grams', 'grams_src']
 # columns added after a release — ALTERed onto the existing tables by _migrate()
 MIGRATIONS = {
     'ingredients': {'shelf': 'INT DEFAULT 30', 'pack': 'REAL DEFAULT 1', 'packname': "TEXT DEFAULT ''",
                     'topper': 'INT DEFAULT 0',
                     'magnesium': 'REAL DEFAULT 0', 'potassium': 'REAL DEFAULT 0',
                     'omega3_dha': 'REAL DEFAULT 0',
+                    'needform': "TEXT DEFAULT ''", 'gated': "TEXT DEFAULT ''",
+                    'ifct_code': "TEXT DEFAULT ''", 'grams': 'REAL DEFAULT 0',
+                    'grams_src': "TEXT DEFAULT ''",
                     'lead': 'REAL DEFAULT 0', 'prep': "TEXT DEFAULT ''",
                     'makes': "TEXT DEFAULT ''", 'keep': 'INT DEFAULT 0'},
     'plates': {'planned': 'INT DEFAULT 0', 'recipe_id': "TEXT DEFAULT ''"},
-    'recipes': {'cuisine': "TEXT DEFAULT 'neutral'", 'effort': 'INT DEFAULT 15'},
+    'recipes': {'cuisine': "TEXT DEFAULT 'neutral'", 'effort': 'INT DEFAULT 15',
+                # amounts = 'id:grams ...' per serving (INDB). src = where the dish came from.
+                'amounts': "TEXT DEFAULT ''", 'src': "TEXT DEFAULT ''"},
     # bought_at, NOT updated_at: freshness is measured from the last PURCHASE. updated_at moves
     # every time you cook, so using it would silently reset the clock each time you ate some.
     'stock': {'bought_at': "TEXT DEFAULT ''"},
@@ -185,7 +201,7 @@ def import_csv(verbose=True):
     rec = _rows(os.path.join(DIR, 'recipes.csv'))
     with db() as c:
         cols = (['id', 'name', 'unit', 'default_qty', 'role'] + FLAGS + ['note']
-                + NUTRIENTS + SHOP + PREP + MADE + ['sort'])
+                + NUTRIENTS + SHOP + PREP + MADE + GATE + SRC + ['sort'])
         ph = ','.join('?' * len(cols))
         upd = ', '.join(f'{k}=excluded.{k}' for k in cols if k != 'id')
         sql = (f'INSERT INTO ingredients ({",".join(cols)}) VALUES ({ph}) '
@@ -197,7 +213,10 @@ def import_csv(verbose=True):
                 *[_num(r.get(k)) for k in NUTRIENTS],
                 int(_num(r.get('shelf'), 30)), _num(r.get('pack'), 1), r.get('packname', '') or '',
                 _num(r.get('lead'), 0), r.get('prep', '') or '',
-                r.get('makes', '') or '', int(_num(r.get('keep'))), i])
+                r.get('makes', '') or '', int(_num(r.get('keep'))),
+                r.get('needform', '') or '', r.get('gated', '') or '',
+                r.get('ifct_code', '') or '', _num(r.get('grams')),
+                r.get('grams_src', '') or '', i])
 
         tcols = ['fname', 'nkey', 'name', 'unit', 'cadence', 'daily', 'meal', 'permeal', 'sort']
         tph = ','.join('?' * len(tcols))
@@ -211,15 +230,17 @@ def import_csv(verbose=True):
 
         for r in rec:
             c.execute(
-                'INSERT INTO recipes (id,name,meals,core,opt,method,cuisine,effort,is_user) '
-                'VALUES (?,?,?,?,?,?,?,?,0) '
+                'INSERT INTO recipes (id,name,meals,core,opt,method,cuisine,effort,amounts,src,is_user) '
+                'VALUES (?,?,?,?,?,?,?,?,?,?,0) '
                 'ON CONFLICT(id) DO UPDATE SET name=excluded.name, meals=excluded.meals, '
                 'core=excluded.core, opt=excluded.opt, method=excluded.method, '
-                'cuisine=excluded.cuisine, effort=excluded.effort '
+                'cuisine=excluded.cuisine, effort=excluded.effort, '
+                'amounts=excluded.amounts, src=excluded.src '
                 'WHERE recipes.is_user = 0',
                 [r['id'], r['name'], r.get('meals', ''), r.get('core', ''),
                  r.get('opt', ''), r.get('method', ''),
-                 r.get('cuisine', 'neutral') or 'neutral', int(_num(r.get('effort'), 15))])
+                 r.get('cuisine', 'neutral') or 'neutral', int(_num(r.get('effort'), 15)),
+                 r.get('amounts', '') or '', r.get('src', '') or ''])
     if verbose:
         print(f'imported: {len(ing)} ingredients, {len(tgt)} targets, {len(rec)} seed recipes -> {DB_PATH}')
 
@@ -245,6 +266,108 @@ def export_csv():
 
 # ---------- reads ----------
 
+
+# ---------- IFCT: the sourced reference layer ----------
+# The full ICMR-NIN Indian Food Composition Tables 2017 live in the `ifct` table: 542 foods,
+# 151 components (each with its published error term). Ingredient rows link to it by code.
+# IFCT units are per 100 g, in GRAMS for everything except energy (kJ). The conversions below
+# are the only place that should know that.
+
+IFCT_MAP = {                       # our nutrient column -> (ifct key, multiplier from per-100g)
+    'protein': ('protcnt', 1), 'carbs': ('choavldf', 1), 'fibre': ('fibtg', 1),
+    'iron': ('fe', 1000), 'calcium': ('ca', 1000), 'vitc': ('vitc', 1000),
+    'folate': ('folsum', 1e6), 'omega3': ('f18d3n3', 1), 'omega3_dha': ('f22d6n3', 1),
+    'zinc': ('zn', 1000), 'magnesium': ('mg', 1000), 'potassium': ('k', 1000),
+}
+
+
+def ifct_search(q, limit=25):
+    """Find IFCT foods by name, scientific name, local name or group."""
+    init_db()
+    with db() as c:
+        rows = c.execute(
+            'SELECT code, name, grup, enerc/4.184 kcal, protcnt, fe*1000 fe, ca*1000 ca, zn*1000 zn '
+            'FROM ifct WHERE name LIKE ? OR scie LIKE ? OR lang LIKE ? OR grup LIKE ? '
+            'ORDER BY name LIMIT ?',
+            (f'%{q}%',) * 4 + (limit,)).fetchall()
+    for r in rows:
+        print(f"{r['code']:6s} {r['name'][:44]:46s} {r['kcal'] or 0:6.0f}kcal "
+              f"p{r['protcnt'] or 0:5.1f} fe{r['fe'] or 0:5.2f} ca{r['ca'] or 0:5.0f} zn{r['zn'] or 0:5.2f}"
+              f"  [{r['grup']}]")
+    if not rows:
+        print(f'no IFCT food matches {q!r}')
+    return rows
+
+
+def ifct_derive(write=False):
+    """Regenerate nutrient columns for every ingredient that declares an ifct_code + grams.
+
+    This is what makes "sourced" mechanically true rather than a claim in a comment: the
+    numbers are a function of (code, grams) and can be rebuilt from the table at any time.
+    Rows without an ifct_code are listed as UNSOURCED — they are estimates and should look it.
+    """
+    init_db()
+    out, unsourced = [], []
+    with db() as c:
+        ing = c.execute('SELECT * FROM ingredients ORDER BY sort, id').fetchall()
+        for r in ing:
+            code, g = (r['ifct_code'] or '').strip(), r['grams'] or 0
+            if not code or g <= 0:
+                unsourced.append(r['id']); continue
+            f = c.execute('SELECT * FROM ifct WHERE code=?', (code,)).fetchone()
+            if not f:
+                print(f'  !! {r["id"]}: ifct_code {code} not in table'); continue
+            s = g / 100.0
+            vals = {'kcal': (f['enerc'] or 0) / 4.184 * s}
+            if not f['enerc'] and f['fatce']:        # oils/fats carry no energy in IFCT
+                vals['kcal'] = 9 * f['fatce'] * s
+            for col, (k, mul) in IFCT_MAP.items():
+                vals[col] = (f[k] or 0) * mul * s
+            # vitamin A as ug RAE: preformed retinol + carotene equivalents / 12
+            vals['vita'] = ((f['retol'] or 0) * 1e6 + (f['cartbeq'] or 0) * 1e6 / 12) * s
+            diffs = [(k, r[k], v) for k, v in vals.items()
+                     if abs((r[k] or 0) - v) > max(0.05, abs(r[k] or 0) * 0.02)]
+            out.append((r['id'], code, g, f['name'], diffs))
+            if write:
+                c.execute('UPDATE ingredients SET ' + ','.join(f'{k}=?' for k in vals) +
+                          ' WHERE id=?', list(vals.values()) + [r['id']])
+    for iid, code, g, nm, diffs in out:
+        print(f'{iid:14s} {code} {g:6.1f}g  {nm[:34]:36s} ' +
+              ('  '.join(f'{k} {a or 0:.4g}->{b:.4g}' for k, a, b in diffs) if diffs else '(matches)'))
+    print(f'\n{len(out)} sourced from IFCT, {len(unsourced)} UNSOURCED: {" ".join(unsourced)}')
+    if write:
+        print('written to DB — run `export-ingredients` to push back into ingredients.csv')
+    return out
+
+
+def export_ingredients():
+    """Write the ingredients table back to ingredients.csv, preserving the comment header."""
+    init_db()
+    path = os.path.join(DIR, 'ingredients.csv')
+    src = open(path, encoding='utf-8').read().split('\n')
+    head = [l for l in src if l.lstrip().startswith('#')]
+    hdr = next(l for l in src if l.startswith('id,')).split(',')
+    # significant figures per column: the file is meant to be read and hand-edited, and
+    # "69.7897 kcal" is false precision on a table whose own error bars are ~5%.
+    DP = {'kcal': 0, 'calcium': 0, 'folate': 0, 'vita': 0, 'magnesium': 0, 'potassium': 0,
+          'protein': 1, 'carbs': 1, 'fibre': 1, 'vitc': 1, 'grams': 0,
+          'iron': 2, 'zinc': 2, 'omega3': 2, 'omega3_dha': 2}
+    def fmt(v, col=None):
+        if v is None: return ''
+        if isinstance(v, float):
+            if col in DP: v = round(v, DP[col])
+            return ('%.4f' % v).rstrip('0').rstrip('.') if v % 1 else str(int(v))
+        return str(v)
+    with db() as c:
+        rows = c.execute('SELECT * FROM ingredients ORDER BY sort, id').fetchall()
+    colmap = {'default': 'default_qty'}
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write('\n'.join(head) + '\n' + ','.join(hdr) + '\n')
+        for r in rows:
+            f.write(','.join(fmt(r[colmap.get(k, k)], k) for k in hdr) + '\n')
+    print(f'wrote {len(rows)} ingredients -> {path}')
+
+
 def get_data():
     with db() as c:
         ing = [{
@@ -253,6 +376,9 @@ def get_data():
             'shelf': r['shelf'] or 30, 'pack': r['pack'] or 1, 'packname': r['packname'] or '',
             'lead': r['lead'] or 0, 'prep': r['prep'] or '',
             'makes': r['makes'] or '', 'keep': bool(r['keep']),
+            'needform': r['needform'] or '', 'gated': (r['gated'] or '').split(),
+            'ifct_code': r['ifct_code'] or '', 'grams': r['grams'] or 0,
+            'grams_src': r['grams_src'] or '',
             **{k: bool(r[k]) for k in FLAGS},
             **{k: r[k] for k in NUTRIENTS},
         } for r in c.execute('SELECT * FROM ingredients ORDER BY sort, id')]
@@ -266,6 +392,10 @@ def get_data():
             'meals': (r['meals'] or '').split(), 'core': (r['core'] or '').split(),
             'opt': (r['opt'] or '').split(), 'method': r['method'] or '',
             'cuisine': r['cuisine'] or '', 'effort': r['effort'] or 0,   # 0/'' = unknown, UI hides it
+            # amounts = 'id:grams ...' per SERVING, from INDB. src = provenance ('INDB:ASC152').
+            'amounts': dict((lambda a: (a[0], float(a[1])))(x.split(':'))
+                            for x in (r['amounts'] or '').split() if ':' in x),
+            'src': r['src'] or '',
             'user': bool(r['is_user']),
         } for r in c.execute('SELECT * FROM recipes ORDER BY is_user, id')]
     return {'ingredients': ing, 'targets': tgt, 'recipes': rec}
@@ -591,6 +721,12 @@ if __name__ == '__main__':
     cmd = sys.argv[1] if len(sys.argv) > 1 else 'serve'
     if cmd == 'serve':
         serve()
+    elif cmd == 'ifct':
+        ifct_search(' '.join(sys.argv[2:]) or '')
+    elif cmd == 'ifct-derive':
+        ifct_derive(write='--write' in sys.argv)
+    elif cmd == 'export-ingredients':
+        export_ingredients()
     elif cmd == 'import-csv':
         import_csv()
     elif cmd == 'export-csv':

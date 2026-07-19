@@ -2,17 +2,59 @@
 # fname = internal focus name. cadence: meal | day | week. daily = full-day target. meal = one-main-meal target.
 # permeal: 1 = required every meal (drives the guided flow). 0 = optional per meal (daily/weekly — addable, never blocks).
 # order here = order the planner walks gaps in (priority top-first).
-fname,key,name,unit,cadence,daily,meal,permeal
-protein,p,Protein,g,meal,120,30,1
-carbs,c,Carbs,g,day,200,57,1
-iron,fe,Iron,mg,day,17,5,1
-fibre,fib,Fibre,g,day,35,10,1
-vitc,vc,Vitamin C,mg,day,85,24,1
-calcium,ca,Calcium,mg,day,1000,285,0
-magnesium,mg,Magnesium,mg,day,350,100,0
-potassium,k,Potassium,mg,day,3500,1000,0
-folate,fo,Folate,ug,day,400,114,0
-omega3,o3,Omega-3 (ALA),g,day,1.6,0.5,0
-omega3dha,o3d,Omega-3 (DHA/EPA),g,day,0.25,0.1,0
-zinc,zn,Zinc,mg,week,11,3,0
-vita,va,Vitamin A,ug,week,900,257,0
+# source = where `daily` comes from. ICMR-NIN RDA 2020 is the right standard here: it is
+# Indian, and its iron/zinc figures are HIGHER than the US IOM precisely because it assumes the
+# low mineral bioavailability of a phytate-rich vegetarian diet — which is the diet this plans.
+# Rows marked "your choice" are deliberate (1775 kcal deficit, 120 g protein) and are NOT RDAs.
+# evidence = same flagging discipline as forms.csv:
+#   sourced     a named citation stands behind the number (ICMR-NIN RDA 2020 for the micros).
+#   derived     computed from YOUR measured data via a cited formula. Recompute if the body
+#               composition in profile.csv changes.
+#   flagged     a citation EXISTS but its population is not you. Worse than unsourced, because
+#               it looks justified.
+#   deliberate  YOUR decision, correctly not an RDA. A population figure would be the wrong tool.
+#   unsourced   believed, uncited, not actionable. Fix or accept knowingly.
+#
+# PROTEIN, 100 g/d. DERIVED from measured bodyweight + the SEDENTARY literature.
+#   Wycherley 2012 (AJCN, 24 controlled feeding trials, 1063 overweight/obese adults, energy-
+#   restricted, NOT resistance-trained — the population actually described by profile.csv):
+#   higher-protein arms 1.07-1.60 g/kg/d preserved +0.43 kg more lean mass and lost more fat
+#   than lower-protein arms (0.55-0.88 g/kg/d), at a matched energy deficit.
+#   At 68.5 kg that band is 73-110 g. 100 g = 1.46 g/kg — comfortably inside it.
+#
+# WHY IT WAS 120 AND WHY THAT WAS WRONG: 120 g came from Helms 2014 (2.3 g/kg FFM), whose
+# cohort is RESISTANCE-TRAINED lean athletes. 6-7 pull-ups daily is not that stimulus. Applying
+# an athlete formula to a sedentary person is the same category error as measuring an Indian
+# vegetarian diet against a US zinc RDA — which this file also used to do.
+#
+# WHY 100 AND NOT 110: measured intake runs 75-100 g/day, i.e. 1.09-1.46 g/kg — already inside
+# the effective arm the whole time. A 120 g target reported a shortfall every single day, drove
+# whey into the shop list and made the debt engine over-rank protein, all in pursuit of a number
+# the evidence does not support here. 100 g is the top of what is actually achieved AND well
+# inside the sourced band. A target that is met beats a target that is aspirational.
+#
+# WHAT WOULD RAISE IT: structured resistance training 2-3x/week moves you into Helms' population
+# (120-162 g). So does getting leaner than ~20% body fat or cutting harder — Helms scales up with
+# both. Re-derive from profile.csv if either changes.
+#
+# ALSO WORTH KNOWING: BMR 1498 x 1.2 (sedentary) = 1798 kcal. The 1775 kcal target is therefore
+# roughly MAINTENANCE, not a deficit, unless daily activity is above sedentary. The whole system
+# is built around "the deficit" — worth confirming that it exists.
+# PER-MEAL TARGET = 30% of the day, across FOUR slots weighted 30/30/30/10.
+# The snack slot is real and still planned for — it just carries the smallest share, so missing
+# it costs ~10% of the day rather than a quarter of it. The old divisor (3.5, and 4 for protein)
+# spread the load evenly, which made a skipped snack look like a real shortfall in every nutrient.
+fname,key,name,unit,cadence,daily,meal,permeal,source,evidence
+protein,p,Protein,g,meal,100,30,1,Wycherley 2012 AJCN 1.07-1.60 g/kg/d sedentary+energy-restricted = 73-110 g; 100 g = 1.46 g/kg,derived
+carbs,c,Carbs,g,day,200,60,1,falls out of the kcal budget once protein and fat are set,deliberate
+iron,fe,Iron,mg,day,19,5.7,1,ICMR-NIN RDA 2020 (male),sourced
+fibre,fib,Fibre,g,day,44,13.2,1,ICMR-NIN DGI 2024 'around 25g/1000 Kcal' x 1775 kcal = 44 g,derived
+vitc,vc,Vitamin C,mg,day,80,24,1,ICMR-NIN RDA 2020 (male),sourced
+calcium,ca,Calcium,mg,day,1000,300,0,ICMR-NIN RDA 2020 (male),sourced
+magnesium,mg,Magnesium,mg,day,440,132,0,ICMR-NIN RDA 2020 (male),sourced
+potassium,k,Potassium,mg,day,3500,1050,0,NOT in ICMR-NIN RDA 2020 Table 3 nor DGI 2024 - 3500 is the US/WHO figure carried over,unsourced
+folate,fo,Folate,ug,day,300,90,0,ICMR-NIN RDA 2020 (male) DFE,sourced
+omega3,o3,Omega-3 (ALA),g,day,2.2,0.66,0,ICMR-NIN RDA 2020 - 2.2 g n-3 PUFA,sourced
+omega3dha,o3d,Omega-3 (DHA/EPA),g,day,0.25,0.07,0,ICMR DGI 2024 flags that only a small amount of ALA converts to EPA/DHA but publishes NO figure - deliberately left unsourced,unsourced
+zinc,zn,Zinc,mg,week,17,5.1,0,ICMR-NIN RDA 2020 (male),sourced
+vita,va,Vitamin A,ug,week,1000,300,0,ICMR-NIN RDA 2020 (male),sourced

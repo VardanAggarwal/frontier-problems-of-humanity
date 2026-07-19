@@ -1,0 +1,107 @@
+# Phytate and the molar ratios that predict mineral absorption.
+# DERIVED — regenerated from the `ifct` table in meals.db using each ingredient's own
+# ifct_code + grams, so it shares one basis with ingredients.csv by construction rather than
+# by luck. Rebuild after changing any gram basis. Source: ICMR-NIN IFCT 2017, Table 11
+# (phytate) + the mineral table.
+# phytate/iron/zinc are PER UNIT in mg. phy_fe / phy_zn are MOLAR ratios:
+#   (phytate/660.04) / (mineral/atomic weight).  Fe 55.85   Zn 65.38
+# Thresholds: Phy:Zn >15 poor · 5-15 moderate · <5 good.  Phy:Fe >1 inhibited · <0.4 good.
+# These are RAW values — apply forms.csv to get the soaked/sprouted/fermented number.
+# Blank ratio = that mineral is absent, so no ratio exists (not "unmeasured").
+# Rows absent carry no meaningful phytate (dairy egg fruit most veg oils): absent = zero, not unknown.
+id,phytate,iron,zinc,phy_fe,phy_zn
+potato,28,0.28,0.14,8.46,19.81
+brinjal,12,0.37,0.21,2.74,5.66
+bhindi,4,0.84,0.45,0.40,0.88
+radish,1,0.18,0.11,0.47,0.90
+springonion,61,3.09,0.99,1.67,6.10
+arbi,7,0.33,0.20,1.79,3.47
+ashgourd,15,0.47,0.13,2.70,11.43
+guar,9,3.90,0.61,0.20,1.46
+snakegourd,13,0.47,0.20,2.34,6.44
+rawjack,69,0.31,0.17,18.83,40.20
+lettuce,32,2.05,0.38,1.32,8.34
+bathua,14,2.00,0.73,0.59,1.90
+pineapple,9,0.28,0.10,2.72,8.91
+grapes,2,0.22,0.05,0.77,3.96
+sapota,8,0.49,0.18,1.38,4.40
+custardapple,15,0.42,0.22,3.02,6.75
+jamun,9,0.63,0.11,1.21,8.10
+litchi,3,0.79,0.24,0.32,1.24
+muskmelon,12,0.18,0.09,5.64,13.21
+dal,83,1.17,0.79,6.00,10.41
+rajma,144,1.89,0.78,6.45,18.29
+kala,173,2.03,1.01,7.21,16.97
+kabuli,173,2.03,1.01,7.21,16.97
+besan,135,1.82,1.09,6.28,12.27
+sprout,112,1.47,0.80,6.45,13.87
+peanut,116,0.69,0.64,14.23,17.95
+rice,213,0.52,0.97,34.66,21.75
+millet,212,1.01,1.46,17.76,14.38
+ragi,245,3.70,2.02,5.60,12.01
+poha,379,3.57,1.19,8.98,31.55
+suji,439,2.38,1.70,15.61,25.58
+vermicelli,134,1.62,0.66,7.00,20.11
+spinach,9,2.21,0.35,0.34,2.55
+amaranth,4,3.48,0.65,0.10,0.61
+carrot,10,0.30,0.12,2.82,8.25
+beet,5,0.38,0.15,1.11,3.30
+fbeans,8,0.98,0.37,0.69,2.14
+cocc,10,0.38,0.18,2.23,5.50
+tomato,3,0.22,0.11,1.15,2.70
+cucumber,18,0.46,0.17,3.31,10.49
+onion,3,0.11,0.09,2.31,3.30
+garlic,0,0.01,0.01,0.00,0.00
+ginger,1,0.10,0.02,0.85,4.95
+gchilli,1,0.06,0.01,1.41,9.91
+curryleaf,1,0.17,0.02,0.50,4.95
+coriander,3,0.48,0.06,0.53,4.95
+banana,12,0.40,0.15,2.54,7.92
+guava,55,0.32,0.23,14.54,23.69
+papaya,25,0.23,0.08,9.20,30.95
+flax,372,1.09,0.97,28.88,37.99
+til,169,2.78,1.72,5.14,9.73
+chana_dal,135,1.82,1.09,6.28,12.27
+urad,174,1.40,0.90,10.52,19.15
+masoor,65,2.12,1.08,2.59,5.96
+lobia,172,1.51,1.07,9.64,15.92
+moth,183,2.37,0.58,6.53,31.25
+kulthi,102,2.63,0.81,3.28,12.47
+matar,124,1.53,0.93,6.86,13.21
+moong_whole,112,1.47,0.80,6.45,13.87
+bajra,388,5.14,2.21,6.39,17.39
+jowar,439,3.16,1.57,11.76,27.70
+atta,506,3.28,2.28,13.05,21.98
+quinoa,96,6.01,2.65,1.35,3.59
+rajgira,314,7.46,2.13,3.56,14.60
+almond,193,0.92,0.70,17.75,27.31
+walnut,200,0.64,0.59,26.44,33.58
+cashew,186,1.19,1.07,13.23,17.22
+sunflower,85,1.17,1.41,6.15,5.97
+coconut,27,0.26,0.12,8.79,22.29
+capsicum,16,0.48,0.15,2.82,10.57
+cabbage,9,0.26,0.12,2.93,7.43
+cauli,18,0.96,0.31,1.59,5.75
+pumpkin_veg,20,0.36,0.11,4.70,18.01
+lauki,11,0.26,0.15,3.58,7.26
+karela,14,1.15,0.31,1.03,4.47
+tori,15,0.42,0.22,3.02,6.75
+sweetpotato,27,0.17,0.08,13.44,33.43
+drumstick,86,0.73,0.31,9.97,27.48
+peas_fresh,162,1.58,1.09,8.68,14.72
+methi,14,4.27,0.41,0.28,3.38
+sarson,26,2.13,0.51,1.03,5.05
+mooli_leaf,42,2.86,0.37,1.24,11.24
+drumstick_leaf,96,3.42,0.54,2.38,17.61
+agathi,47,3.27,0.40,1.22,11.64
+mint,2,0.43,0.04,0.39,4.95
+pomegranate,46,0.31,0.18,12.56,25.31
+amla,49,1.25,0.05,3.32,97.07
+mango,86,0.51,0.12,14.27,70.99
+watermelon,1,0.22,0.10,0.38,0.99
+apple,0,0.25,0.05,0.00,0.00
+dates,134,3.20,0.70,3.54,18.96
+fig_dry,49,0.69,0.22,6.01,22.06
+raisin,20,6.81,0.22,0.25,9.00
+tamarind,1,1.56,0.10,0.05,0.99
+rajma_soaked,144,1.89,0.78,6.45,18.29

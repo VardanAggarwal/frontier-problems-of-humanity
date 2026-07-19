@@ -180,9 +180,12 @@ const KCAL_TOL = 1.05;                                // 5% grace before a day c
 // are ranges not floors (§1 gives carbs as 180-220, so 196/200 is fine), and the planner already
 // works to a 90% tolerance. Demanding 98% just manufactures false shortfalls.
 const MET = 0.95;
-// per-slot calorie budget — sums to KCAL. Drives WHERE a repair topper lands: the slot with
-// the most headroom, never just the first one (that is what turned snack into a 771 kcal dump).
-const KCAL_SLOT = {breakfast:450, lunch:550, snack:250, dinner:525};
+/* Per-slot calorie budget — sums to KCAL, weighted so the snack is the light one. Snacks are
+   real here but unreliable, so a skipped snack should cost ~100 kcal (5.6% of the day), not the
+   250 kcal the old split parked there. The mains carry the rest.
+   Still drives WHERE a repair topper lands: the slot with the most headroom, never just the
+   first one (that is what turned snack into a 771 kcal dump). */
+const KCAL_SLOT = {breakfast:475, lunch:625, snack:100, dinner:575};
 // what the trim pass is allowed to shrink: the carb/fat filler, never a contract item
 const TRIMMABLE = i => i.role==='base' || i.role==='condiment' || i.id==='peanut';
 /* EFFORT — the axis that actually decides whether a plan survives contact with a Tuesday.
@@ -236,9 +239,28 @@ function addDays(s,n){ const d=new Date(s+'T00:00'); d.setDate(d.getDate()+n);
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function dayName(s){ return new Date(s+'T00:00').toLocaleDateString(undefined,{weekday:'short'}); }
 
+/* delivered(): same seam as index.html — see the long comment there. A gated nutrient reads 0
+   until its form is applied, so repair() below cannot answer a calcium debt with whole til.
+   That matters MORE here than on the plate screen: repair() is toppers-only by design, and the
+   toppers are exactly the rows whose headline nutrient is locked inside a seed coat. */
+// nutrient long names (CSV/DB) -> the short keys used in i.n and FOCUS[].key.
+// gated lists are authored long-form in ingredients.csv because that is readable; they must be
+// translated here or every gate silently no-ops against a key that does not exist.
+const NKEY = {kcal:'kcal', protein:'p', carbs:'c', fibre:'fib', iron:'fe', calcium:'ca', vitc:'vc',
+  folate:'fo', omega3:'o3', omega3_dha:'o3d', zinc:'zn', vita:'va', magnesium:'mg', potassium:'k'};
+function gatedOut(i,key){ return !!(i.needform && (i.gated||[]).includes(key)); }
+function delivered(i,key){ return gatedOut(i,key) ? 0 : (i.n[key]||0); }
+
+/* A dish with NO meal slot is eligible for ANY slot. 179 dishes came from INDB, which has no
+   course field; 86 got a slot from a second source and 93 did not. Treating blank as
+   "unknown, so allow it" keeps them in play, and — importantly — keeps the DATA honest:
+   we never write a slot we did not source, so `meals` still means "someone established this".
+   The alternative (filling blanks with all four in the CSV) would look like provenance. */
+const fitsMeal = (r, m) => !r.meals.length || r.meals.includes(m);
+
 // nutrient totals for a list of {id, qty}
 function tot(items, key){
-  return items.reduce((s,it)=>{ const i=ing(it.id); return s + (i ? (i.n[key]||0) : 0)*it.qty; }, 0);
+  return items.reduce((s,it)=>{ const i=ing(it.id); return s + (i ? delivered(i,key) : 0)*it.qty; }, 0);
 }
 const dates = () => Array.from({length:state.days}, (_,k)=>addDays(state.from,k));
 const slotsOn = d => state.menu.filter(s=>s.date===d);
@@ -391,7 +413,7 @@ function debtFit(r, m){
   FOCUS.forEach(f=>{
     const w = m[f.key]||0;
     if(!f.daily || w<=0) return;
-    const got = ids.reduce((x,id)=>{ const i=ing(id); return x + (i ? (i.n[f.key]||0)*i.default : 0); },0);
+    const got = ids.reduce((x,id)=>{ const i=ing(id); return x + (i ? delivered(i,f.key)*i.default : 0); },0);
     num += w*Math.min(got/f.daily, 1); den += w;
   });
   return den ? num/den : 0;
@@ -447,8 +469,8 @@ function generate(){
     const chosen = {};
     SLOTS.forEach(meal=>{
       const cap = EFFORT_MODES[state.effort].cap;
-      let all = RECIPES.filter(r=>r.meals.includes(meal) && (r.effort||15) <= cap);
-      if(!all.length) all = RECIPES.filter(r=>r.meals.includes(meal));   // nothing that cheap fits — relax
+      let all = RECIPES.filter(r=>fitsMeal(r,meal) && (r.effort||15) <= cap);
+      if(!all.length) all = RECIPES.filter(r=>fitsMeal(r,meal));   // nothing that cheap fits — relax
       if(!all.length) return;
       // HARD variety, not a soft penalty — a penalty just loses to a high affinity score,
       // which is how every lunch became dal khichdi. Relax the rule only if nothing survives it.
@@ -732,10 +754,10 @@ function repair(){
     ds.forEach(d=>{
       if(dayKcal(d) >= KCAL*KCAL_TOL) return;             // this day is full — don't make it worse
       toppers.forEach(i=>{
-        if((i.n[f.key]||0) <= 0) return;
+        if(delivered(i,f.key) <= 0) return;          // gated? then it cannot repair this nutrient
         if(dayHas(d, i.id)) return;                       // one serving per ingredient per day. Hard.
         // nudge toward toppers already in the fridge and near their deadline
-        const eff = (i.n[f.key]||0) / Math.max(i.n.kcal, 5) * (1 + rescueScore({core:[i.id], opt:[]}));
+        const eff = delivered(i,f.key) / Math.max(i.n.kcal, 5) * (1 + rescueScore({core:[i.id], opt:[]}));
         if(!best || eff > best.eff) best={d, i, eff};
       });
     });
@@ -801,7 +823,7 @@ function renderGrid(){
         const core = new Set(r ? [...r.core, ...r.opt] : []);
         const extras = s.items.filter(x=>!core.has(x.id) || (ing(x.id)||{}).topper);
         const p = tot(s.items,'p'), low = p < MEALS[m].p*0.85;
-        const opts = RECIPES.filter(x=>x.meals.includes(m))
+        const opts = RECIPES.filter(x=>fitsMeal(x,m))
           .sort((a,b)=>(a.effort||15)-(b.effort||15))
           .map(x=>`<option value="${x.id}" ${x.id===s.recipe?'selected':''}>${x.name}${x.effort?` · ${x.effort}m`:''}</option>`).join('');
         const bits = r ? [r.effort?`${r.effort} min`:'', r.cuisine||''].filter(Boolean) : [];
@@ -1000,7 +1022,8 @@ async function init(){
       lead:+r.lead||0, prep:r.prep||'', makes:r.makes||'', keep:!!r.keep, pack:+r.pack||1,
       n:{ kcal:+r.kcal||0, p:+r.protein||0, c:+r.carbs||0, fib:+r.fibre||0, fe:+r.iron||0, ca:+r.calcium||0,
           vc:+r.vitc||0, fo:+r.folate||0, o3:+r.omega3||0, o3d:+r.omega3_dha||0, zn:+r.zinc||0, va:+r.vita||0,
-          mg:+r.magnesium||0, k:+r.potassium||0 } }));
+          mg:+r.magnesium||0, k:+r.potassium||0 },
+    needform:r.needform||'', gated:(r.gated||[]).map(x=>NKEY[x]||x) }));
     RECIPES = data.recipes||[];
     FOCUS = (data.targets||[]).map(t=>({key:t.key, name:t.name, unit:t.unit, daily:+t.daily||0}));
     PLATES = plates; PINS = pins; STOCK = stock;

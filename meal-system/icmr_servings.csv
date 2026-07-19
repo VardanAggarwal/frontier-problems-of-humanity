@@ -1,0 +1,24 @@
+# SERVING SIZES per food group — ICMR-NIN, Dietary Guidelines for Indians 2024.
+# Source: https://nin.res.in/dietaryguidelines/pdfjs/locale/DGI_2024.pdf
+#   Table 1.2a 'My Plate for the Day' (2000 kcal, vegetarian) for the DAILY group allowance,
+#   and the worked sample meal plans (p. ~1231) for the PER-MEAL serving, quoted below.
+# All weights are RAW / uncooked, as the guideline states.
+#
+# This replaces INDB medians for the CORE groups. INDB is a corpus of textbook recipes, so its
+# median counts an ingredient's share of a mixed dish — which put a dal serving at 12 g against
+# ICMR's 25-30 g. For aromatics and condiments ICMR says nothing and INDB is still the source.
+#
+# daily_g = the group's whole-day allowance. serving_g = one meal's worth, as printed in the
+# guideline's own meal plans. quote = the exact text the serving is taken from.
+group,daily_g,serving_g,quote
+cereal,250,80,"Rice (100g) or Phulka (100g) at lunch; Rice or Phulka (60g) at dinner"
+pulse,85,30,"Pulses (30g) at lunch; Red gram or chana (25g) (1/2 cup) at dinner"
+glv,100,75,"GLV curry (75g) (1/2 cup)"
+vegetable,250,100,"400g of vegetables (GLV: 100g; Other vegetables: 250g; Roots and tubers: 50g)"
+root,50,50,"Vegetable curry with roots 1.25 cup"
+fruit,100,100,"Fruits 100g at lunch; Fruit 50g at dinner"
+nutseed,35,20,"Nuts (almond walnut peanut & other nuts) and oilseeds (Sesame etc.) (20g)"
+dairy,300,200,"Curd 200ml; Milk 50ml"
+egg,70,50,"Chicken/meat/eggs 70g per day (non-veg plate); one egg is ~50 g edible"
+fat,27,10,"Oil 15g at lunch; Oil 10g at dinner"
+sugar,27,10,"sugar must be restricted to 25-30 grams per day"

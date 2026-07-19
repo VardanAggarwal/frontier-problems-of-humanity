@@ -110,10 +110,27 @@
   .gap-chip .debt{color:var(--warn);font-weight:600}
   /* run rate — the trailing record. The strip is one cell per day, oldest left. */
   .rr-days{font-size:12.5px;color:var(--muted);margin-bottom:10px}
-  .strip{display:flex;gap:2px;margin-top:4px}
-  .strip i{flex:1;height:5px;border-radius:1px;background:var(--accent);opacity:.75}
-  .strip i.short{background:var(--warn)}
-  .strip i.blank{background:var(--line);opacity:1}
+  /* padding + content-box clip: the bar still READS as 5px, but the hoverable box is 17px.
+     Aiming at a 5px target with a mouse is the reason the old native tooltip went unread. */
+  .strip{display:flex;gap:2px;margin-top:-2px;position:relative}
+  /* content-box is load-bearing — the global border-box would fold the padding INTO the 5px and
+     leave a zero-height content box, i.e. an invisible strip. */
+  .strip i{flex:1;box-sizing:content-box;height:5px;padding:6px 0;background-clip:content-box;
+           border-radius:1px;background-color:var(--accent);opacity:.75;position:relative;cursor:default}
+  .strip i.short{background-color:var(--warn)}
+  .strip i.blank{background-color:var(--line);opacity:1}
+  .strip i:hover{opacity:1}
+  /* the tooltip. Fires instantly — the whole point is reading seven days in one sweep, which a
+     ~1s native delay per cell makes impossible. */
+  .strip i[data-tip]:hover::after{
+    /* below, not above: above would cover the very bar you're reading the cell against. */
+    content:attr(data-tip);position:absolute;top:100%;left:50%;transform:translateX(-50%);
+    margin-top:-2px;white-space:nowrap;font-size:11.5px;font-style:normal;line-height:1.4;
+    background:var(--ink);color:var(--panel);padding:4px 7px;border-radius:5px;
+    box-shadow:var(--shadow);z-index:5;pointer-events:none;font-variant-numeric:tabular-nums}
+  /* first/last cells would overflow the panel if centred */
+  .strip i:first-child[data-tip]:hover::after{left:0;transform:none}
+  .strip i:last-child[data-tip]:hover::after{left:auto;right:0;transform:none}
   .rr-pct{font-variant-numeric:tabular-nums}
   .rr-pct.short{color:var(--warn)}
   .base-tiles{display:flex;flex-wrap:wrap;gap:8px}
@@ -216,11 +233,14 @@ let ING = [], FOCUS = {}, DAILY = {}, BASES = [], SEQ_MAIN = [], RECIPES = [], M
 const SEQ_SNACK = ['protein','vitc'];
 const CAD_LABEL = {meal:'Per meal', day:'Daily', week:'Weekly (average)'};
 const KCAL = 1775; // deficit midpoint
+/* Per-slot protein, summing to the 100 g daily target across all four slots — but weighted so
+   the snack carries the least. Snacks happen here, just not reliably; skipping one should cost
+   8 g, not 25 g. The old split (30/32/20/28) leaned on the snack for a fifth of the day. */
 const MEALS = {
   breakfast:{label:'Breakfast', p:30, micros:true},
   lunch:{label:'Lunch', p:32, micros:true},
-  snack:{label:'Snack', p:20, micros:false},
-  dinner:{label:'Dinner', p:28, micros:true},
+  snack:{label:'Snack', p:8,  micros:false},   // deliberately light — the skippable slot
+  dinner:{label:'Dinner', p:30, micros:true},
 };
 // coaching line per nutrient (presentation only — not in CSV)
 const BLURBS = {
@@ -252,10 +272,11 @@ function buildData(d){
     id:r.id, nm:r.name, unit:r.unit, def:+r.default||1, pack:+r.pack||1, role:r.role||'',
     pantry:!!r.pantry, base:!!r.base, green:!!r.green, probiotic:!!r.probiotic,
     note:r.note||'', shelf:+r.shelf||30, lead:+r.lead||0, prep:r.prep||'',
-    makes:r.makes||'', keep:!!r.keep,
+    makes:r.makes||'', keep:!!r.keep, grams:+r.grams||0, ifct_code:r.ifct_code||'',
     n:{ kcal:+r.kcal||0, p:+r.protein||0, c:+r.carbs||0, fib:+r.fibre||0, fe:+r.iron||0, ca:+r.calcium||0,
         vc:+r.vitc||0, fo:+r.folate||0, o3:+r.omega3||0, o3d:+r.omega3_dha||0, zn:+r.zinc||0, va:+r.vita||0,
-        mg:+r.magnesium||0, k:+r.potassium||0 } }));
+        mg:+r.magnesium||0, k:+r.potassium||0 },
+    needform:r.needform||'', gated:(r.gated||[]).map(x=>NKEY[x]||x) }));
   BASES = ING.filter(i=>i.base).map(i=>i.id);
   FOCUS = {}; DAILY = {}; SEQ_MAIN = [];
   (d.targets||[]).forEach(r=>{
@@ -323,10 +344,54 @@ function daysLeft(id){
 }
 const isDying = id => stockQty(id) > 0 && daysLeft(id) <= 3;
 
+/* Graded decay pressure, 0..1. isDying is a cliff — a beetroot with 4 days left scores the same
+   as one with 30, then jumps to full panic on day 3. That reads nothing like how produce actually
+   sits in a fridge, so the ranking only noticed a perishable once it was nearly too late.
+   Ramps from a week out, and an already-overdue item pins at 1 rather than going negative. */
+function urgency(id){
+  if(stockQty(id) <= 0) return 0;
+  const d = daysLeft(id);
+  if(d >= 7) return 0;
+  return Math.min(1, (7 - Math.max(d, 0)) / 7);
+}
+
 /* ============ HELPERS ============ */
 const $ = s => document.querySelector(s);
+
+/* ---- delivered(): the ONE seam between "what the table says" and "what you get" ----
+
+   Every nutrient read in this file goes through here — plateTotal, the run rate, the debt map,
+   the ranking, the scorecard. That is deliberate: absorption is not a feature to bolt onto one
+   screen, it is a correction to a single number that the whole planner already reads.
+
+   Today it applies GATES only (ingredients.csv needform/gated). A gate is a flag, not a
+   multiplier: whole til is listed at 88 mg calcium, but an intact seed coat passes through you,
+   so its calcium is not 88 and it is not 40 either — we do not have the number. Crediting 88 is
+   a lie the planner then acts on; crediting 0 until it is ground is the honest floor and it is
+   also the behaviour we want, because it stops repair() "fixing" a calcium debt with a spoonful
+   of seeds. See forms.csv mechanism=matrix for why there is no percentage to use instead.
+
+   Retention (retention.csv) and phytate absorption (phytate.csv x forms.csv) multiply in HERE
+   when they get wired — nothing downstream has to change. Note they must NOT be applied to the
+   debt/target comparison as-is: targets.csv figures are CONSUMED intakes with bioavailability
+   already divided out, so absorbed values belong in ranking tiebreaks, not in gap arithmetic. */
+// nutrient long names (CSV/DB) -> the short keys used in i.n and FOCUS[].key.
+// gated lists are authored long-form in ingredients.csv because that is readable; they must be
+// translated here or every gate silently no-ops against a key that does not exist.
+const NKEY = {kcal:'kcal', protein:'p', carbs:'c', fibre:'fib', iron:'fe', calcium:'ca', vitc:'vc',
+  folate:'fo', omega3:'o3', omega3_dha:'o3d', zinc:'zn', vita:'va', magnesium:'mg', potassium:'k'};
+function gatedOut(i,key){ return !!(i.needform && (i.gated||[]).includes(key)); }
+function delivered(i,key){ return gatedOut(i,key) ? 0 : (i.n[key]||0); }
+
+/* A dish with NO meal slot is eligible for ANY slot. 179 dishes came from INDB, which has no
+   course field; 86 got a slot from a second source and 93 did not. Treating blank as
+   "unknown, so allow it" keeps them in play, and — importantly — keeps the DATA honest:
+   we never write a slot we did not source, so `meals` still means "someone established this".
+   The alternative (filling blanks with all four in the CSV) would look like provenance. */
+const fitsMeal = (r, m) => !r.meals.length || r.meals.includes(m);
+
 function itemsTotal(items,key){ return items.reduce((s,it)=>{
-  const ing = ING.find(i=>i.id===it.id); return s + (ing ? (ing.n[key]||0) : 0)*it.qty; },0); }
+  const ing = ING.find(i=>i.id===it.id); return s + (ing ? delivered(ing,key) : 0)*it.qty; },0); }
 function plateTotal(key){ return itemsTotal(state.plate,key); }
 function inPlate(id){ return state.plate.find(p=>p.id===id); }
 function plateHas(prop){ return state.plate.some(it=>{ const i=ING.find(x=>x.id===it.id); return i && i[prop]; }); }
@@ -370,13 +435,19 @@ function runRate(key){
   const plates=runWindow(), n=daysLogged(plates);
   return {avg: n ? aggTotal(plates,key)/n : 0, days:n};
 }
-// per-day totals for the strip, oldest first. null = nothing logged that day — a blank, not a zero,
-// so a gap in the record never renders as a red day you didn't actually eat badly.
+// per-day totals for the strip, oldest first. v null = nothing logged that day — a blank, not a
+// zero, so a gap in the record never renders as a red day you didn't actually eat badly.
+// Carries the date too: a cell you can't name is a cell you can't act on.
 function runSeries(key){
   return Array.from({length:RUN_DAYS}, (_,i)=>{
-    const ps=platesFor(shiftDay(state.day, -(RUN_DAYS-i)));
-    return ps.length ? aggTotal(ps,key) : null;
+    const d  = shiftDay(state.day, -(RUN_DAYS-i));
+    const ps = platesFor(d);
+    return {d, v: ps.length ? aggTotal(ps,key) : null};
   });
+}
+// "Tue 14 Jul" — enough to place the day without the year, which is always this one.
+function dayLabel(s){
+  return new Date(s+'T00:00').toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'});
 }
 /* How far below target the trailing average sits: 0 = on track, 1 = nothing at all.
    Starts accruing only past DEBT_TOL, so hitting 90% of iron every day is not "debt".
@@ -404,7 +475,7 @@ function debtBonus(i){
   let num=0, den=0;
   SEQ_MAIN.forEach(fn=>{ const f=FOCUS[fn], w=m[fn]||0;
     if(!f.daily || w<=0) return;
-    num += w*Math.min((i.n[f.key]||0)*i.def/f.daily, 1); den += w; });
+    num += w*Math.min(delivered(i,f.key)*i.def/f.daily, 1); den += w; });
   return den ? num/den : 0;
 }
 // today's total INCLUDING the current unsaved plate — used to judge optional (daily/weekly) items
@@ -487,7 +558,7 @@ function composePlate(ids, meal){
   const onP=id=>ids.includes(id);
   const ing=id=>ING.find(x=>x.id===id);
   const isBaseId=id=>{const i=ing(id); return i&&i.role==='base';};
-  const fits=r=>r.meals.includes(meal)?1:0;
+  const fits=r=>fitsMeal(r,meal)?1:0;
   const ready=RECIPES.filter(r=>r.core.length && r.core.every(onP))
     .map(r=>({r, nb:r.core.filter(id=>!isBaseId(id))}))
     .filter(x=>x.nb.length>0)
@@ -620,8 +691,9 @@ function renderRecipes(){
   const onPlate=id=>plateIds.includes(id);
   const ing=id=>ING.find(x=>x.id===id);
   const nm=id=>{const i=ing(id); return i?i.nm:id;};
-  const buyTag=id=>{const i=ing(id); return i&&!i.pantry?' <span class="buy">buy</span>':'';};
-  const fits=r=>r.meals.includes(state.meal)?1:0;
+  const buyTag=id=>{const i=ing(id); if(!i) return '';
+    return i.makes ? ' <span class="buy">prep</span>' : (!i.pantry ? ' <span class="buy">buy</span>' : '');};
+  const fits=r=>fitsMeal(r,state.meal)?1:0;
 
   const {chosen, bases, finish, leftover} = composePlate(plateIds, state.meal);
 
@@ -704,11 +776,14 @@ function renderRunRate(){
             menu now push these.`) + `</div>`;
   $('#runRate').innerHTML = head + rows.map(r=>{
     const short = r.pct < DEBT_TOL*100, pct = Math.min(100, r.pct);
-    const cells = runSeries(r.f.key).map(v=>{
-      if(v===null) return `<i class="blank" title="nothing logged"></i>`;
+    // data-tip drives a CSS tooltip, not the native one: 5px of bar behind a browser hover delay
+    // is a number you can technically get to and never actually read. The date leads — "Tue, 4.1g"
+    // is a fact you can do something about, "4.1g" on its own is trivia.
+    const cells = runSeries(r.f.key).map(({d,v})=>{
+      if(v===null) return `<i class="blank" data-tip="${dayLabel(d)} · nothing logged"></i>`;
       const dp = r.f.daily ? v/r.f.daily*100 : 0;
       return `<i class="${dp < DEBT_TOL*100 ? 'short':''}" style="opacity:${Math.max(.25, Math.min(1, dp/100))}"
-                 title="${round1(v)}${r.f.unit} · ${Math.round(dp)}%"></i>`;
+                 data-tip="${dayLabel(d)} · ${round1(v)}${r.f.unit} · ${Math.round(dp)}% of ${r.f.daily}${r.f.unit}"></i>`;
     }).join('');
     return `<div class="prog-lbl"><span>${r.f.nm} <span style="color:var(--muted)">/ ${r.f.daily}${r.f.unit} a day</span></span>
       <b>${round1(r.avg)}${r.f.unit} <span class="rr-pct ${short?'short':''}">· ${Math.round(r.pct)}%</span></b></div>
@@ -743,13 +818,23 @@ function renderMeals(){
 }
 
 function unitFor(key){ const f=Object.values(FOCUS).find(x=>x.key===key); return f?f.unit:''; }
+function nameFor(key){ const f=Object.values(FOCUS).find(x=>x.key===key); return f?f.nm.toLowerCase():key; }
 
 // one compact suggestion/search row. key = nutrient to show contribution for; remaining drives the "≈N to finish" hint.
 function suggRow(i, key, remaining){
-  const ip=inPlate(i.id), qty=ip?ip.qty:i.def, per=(i.n[key]||0);
+  const ip=inPlate(i.id), qty=ip?ip.qty:i.def, per=delivered(i,key);
   const closeN=(!ip && remaining>0 && per>0)?Math.ceil(remaining/per):0;
   const bits=[];
   if(per) bits.push(`<b style="color:var(--accent)">+${round1(per*qty)}${unitFor(key)}</b>`);
+  // A gated nutrient reads 0 — say so, and say what unlocks it. A silent zero looks like a bug
+  // or, worse, like the food is worthless; the point is that the FORM is wrong, not the food.
+  // Shown ALWAYS, not only when the gated nutrient happens to be the one you're filling: with an
+  // empty plate activeGap() defaults to protein, so a key-conditional marker is invisible exactly
+  // when you're browsing — which is when you need to know the row is only half-counted.
+  if(i.needform) bits.push(
+    `<b style="color:var(--warn)">${(i.gated||[]).map(nameFor).join('/')} needs ${i.needform}</b>`);
+  const gq = gramsFor(i, qty);
+  if(gq) bits.push(`<b>${gq} g</b>`);          // the real quantity, whatever the unit says
   bits.push(`${Math.round(i.n.kcal*qty)} kcal`);
   if(closeN) bits.push(`≈${closeN} ${i.unit}${closeN>1?'s':''} to finish`);
   if(i.note) bits.push(i.note);
@@ -758,7 +843,7 @@ function suggRow(i, key, remaining){
     ? `<span class="buy" style="color:var(--accent);border-color:var(--accent)">${dl<=0?'use today':dl+'d left'}</span>` : '';
   return `<div class="srow ${ip?'inplate':''}">
     <div class="si">
-      <div class="nm">${i.nm}${!i.pantry?'<span class="buy">buy</span>':''}${dying}</div>
+      <div class="nm">${i.nm}${i.makes?'<span class="buy">prep</span>':(!i.pantry?'<span class="buy">buy</span>':'')}${dying}</div>
       <div class="meta">${bits.join(' · ')}</div>
     </div>
     <div class="stepper" data-id="${i.id}">
@@ -784,7 +869,7 @@ function searchRecipes(q){
     if(!hit) return null;
     const have = r.core.filter(id=>{const i=ING.find(x=>x.id===id); return i && i.pantry;}).length;
     return {r, s: (hitName?4:0) + have/Math.max(1,r.core.length)*2
-                 + (r.meals.includes(state.meal)?1:0) - r.effort/60};
+                 + (fitsMeal(r,state.meal)?1:0) - r.effort/60};
   }).filter(Boolean).sort((a,b)=>b.s-a.s).slice(0,5);
   return scored.map(x=>x.r);
 }
@@ -803,7 +888,12 @@ function dishRow(r){
   const p = ids.reduce((s,id)=>{const i=ING.find(x=>x.id===id); return s + (i?i.n.p*i.def:0);},0);
   const kc= ids.reduce((s,id)=>{const i=ING.find(x=>x.id===id); return s + (i?i.n.kcal*i.def:0);},0);
   const nm = id=>{const i=ING.find(x=>x.id===id); return i?i.nm:id;};
-  const missing = ids.filter(id=>{const i=ING.find(x=>x.id===id); return i && !i.pantry;});   // ids, not objects
+  // ids, not objects. Prep outputs are reachable, not shopping — same rule the ranking uses.
+  const missing = ids.filter(id=>{const i=ING.find(x=>x.id===id); return i && !(i.pantry||i.makes);});
+  // What this dish actually saves, soonest-to-turn first. Named with the clock, because "beetroot"
+  // is a fact and "beetroot, 2d" is a reason to cook this tonight instead of scrolling on.
+  const saves = ids.filter(id=>urgency(id) > 0).sort((a,b)=>daysLeft(a)-daysLeft(b));
+  const clock = d => d <= 0 ? 'today' : `${d}d`;
   // only render what we actually know — a hand-saved recipe has no effort/cuisine, and
   // "undefinedm · undefined" is worse than showing nothing
   const tags = [];
@@ -816,7 +906,8 @@ function dishRow(r){
       <div class="nm">${r.name} ${chips}</div>
       <div class="meta"><b style="color:var(--accent)">+${round1(p)}g protein</b> · ${Math.round(kc)} kcal${r.method?` · ${r.method}`:''}</div>
       <div class="meta" style="margin-top:2px">adds: ${ids.map(nm).join(', ')}</div>
-      ${missing.length?`<div class="meta" style="color:var(--warn)">not in pantry: ${missing.map(nm).join(', ')}</div>`:''}
+      ${saves.length?`<div class="meta" style="color:var(--accent)">uses up: ${saves.map(id=>`${nm(id)} (${clock(daysLeft(id))})`).join(', ')}</div>`:''}
+      ${missing.length?`<div class="meta" style="color:var(--warn)">buy ${missing.length}: ${missing.map(nm).join(', ')}${saves.length?' — and the rest is already in your fridge':''}</div>`:''}
     </div>
     <button class="add" data-adddish="${r.id}">Add dish</button>
   </div>`;
@@ -836,18 +927,34 @@ function addDish(id){
 // for ONE meal: history affinity (looks like your eating) + rescue (uses something about to spoil)
 // − monotony (ingredients eaten lately, protein hero weighted) − effort. Returns whole dishes.
 function suggestDishes(meal, n=3){
-  const cand = RECIPES.filter(r=> r.meals.includes(meal) && dishItems(r).length);
+  const cand = RECIPES.filter(r=> fitsMeal(r,meal) && dishItems(r).length);
   const days = new Set(state.saved.map(p=>p.date)).size || 1;
   const freq = {};
   state.saved.forEach(p=>p.items.forEach(it=>{ freq[it.id]=(freq[it.id]||0)+1; }));
   const score = r=>{
     const items = dishItems(r);
     const aff    = items.reduce((s,id)=> s + (freq[id]||0)/days, 0) / Math.max(1,items.length);
-    const rescue = items.reduce((s,id)=> s + (isDying(id)?1:0), 0);
+    const rescue = items.reduce((s,id)=> s + urgency(id), 0);
     let mono=0, w=0;
     r.core.forEach(id=>{ const i=ING.find(x=>x.id===id); const wt=i&&i.role==='protein'?2:1; mono+=wt*recentUse(id); w+=wt; });
     mono = w ? mono/w : 0;
-    return 0.35*aff + 0.8*rescue - 0.6*mono - (r.effort||15)/60;
+    /* Pantry readiness. A penalty, not a filter — a shoppable dish stays visible as "here's what
+       a shop unlocks". Prep outputs count as reachable: soaked rajma is rajma you own plus a
+       night's lead, not a trip to the store.
+
+       Counted as ITEMS SHORT, not fraction short. A fraction made a 3-item dish missing one thing
+       look worse than a 10-item dish missing three, when the actual ask — one stop, one item — is
+       the smaller one. What you weigh when deciding is how many things you have to go buy.
+
+       And a rescue forgives the first two of them. That is the whole point of this pass: the old
+       scoring punished exactly the dish that would save a dying beetroot because it also needed a
+       capsicum, so nothing got cooked and the beetroot rotted anyway. Two items is a corner-shop
+       errand; letting that block a rescue is how food dies in the fridge. */
+    const ids = dishItems(r);
+    const missing = ids.filter(id=>{const i=ING.find(x=>x.id===id); return !(i && (i.pantry||i.makes));}).length;
+    const forgiven = rescue >= 0.5 ? 2 : 0;
+    const short = Math.max(0, missing - forgiven);
+    return 0.35*aff + 1.1*rescue - 0.6*mono - (r.effort||15)/60 - 0.5*short;
   };
   return cand.map(r=>({r,s:score(r)})).sort((a,b)=>b.s-a.s).slice(0,n).map(x=>x.r);
 }
@@ -860,8 +967,10 @@ function renderBuilder(){
   if(q){
     const ag=activeGap();
     const dishes = searchRecipes(q);
-    const m=ING.filter(i=>i.nm.toLowerCase().includes(q) && (i.pantry||state.showBuy))
-      .sort((a,b)=> Math.abs((a.n[ag.key]||0)*a.def - ag.remaining) - Math.abs((b.n[ag.key]||0)*b.def - ag.remaining));
+    // Explicit search is explicit intent: show every match, badge what you don't have.
+    // (Unprompted suggestions still respect the pantry — see the suggest path below.)
+    const m=ING.filter(i=>i.nm.toLowerCase().includes(q))
+      .sort((a,b)=> Math.abs(delivered(a,ag.key)*a.def - ag.remaining) - Math.abs(delivered(b,ag.key)*b.def - ag.remaining));
 
     let html='';
     if(dishes.length){
@@ -928,7 +1037,7 @@ function renderBuilder(){
   const remaining=Math.max(0,target-got), pct=Math.min(100, target?got/target*100:0);
 
   // category-free: any pantry item that provides this nutrient, ranked by how close its default serving gets to the gap
-  let sugg=ING.filter(i=>(i.pantry||state.showBuy) && !inPlate(i.id) && (i.n[key]||0)>0);
+  let sugg=ING.filter(i=>(i.pantry||state.showBuy) && !inPlate(i.id) && delivered(i,key)>0);
   // fit to the gap, but let something about to spoil jump the queue — a dying bunch of spinach
   // is a better answer than a perfect-fit item that will still be there next week
   // …but something eaten a lot in the last few days sinks down the list — so you rotate sources
@@ -937,7 +1046,7 @@ function renderBuilder(){
   // …and among equal fits, the one that also carries what the WEEK has been missing rises: a
   // chronic iron gap should get closed by the greens you were adding for folate anyway. Ranked
   // below freshness (a perishable is a deadline; debt is a drift) and above the variety penalty.
-  const fit=i=>Math.abs((i.n[key]||0)*i.def - remaining)
+  const fit=i=>Math.abs(delivered(i,key)*i.def - remaining)
               - (isDying(i.id)?remaining*0.6:0)
               - debtBonus(i)*remaining*0.4
               + Math.min(recentUse(i.id),2)*remaining*0.2;
@@ -969,11 +1078,11 @@ function renderPlate(){
   el.innerHTML = state.plate.map(it=>{
     const i = ING.find(x=>x.id===it.id);
     return `<div class="plate-item">
-      <div class="pn">${i.nm}<small>${round1(i.n.p*it.qty)}g protein · ${Math.round(i.n.kcal*it.qty)} kcal</small></div>
+      <div class="pn">${i.nm}<small>${gramsFor(i,it.qty)?gramsFor(i,it.qty)+' g · ':''}${round1(i.n.p*it.qty)}g protein · ${Math.round(i.n.kcal*it.qty)} kcal</small></div>
       <div class="stepper" data-id="${i.id}">
         <button data-act="dec">–</button>
         <input type="number" min="0" step="${stepFor(i)}" value="${it.qty}" data-id="${i.id}">
-        <span class="unit">${i.unit}</span>
+        <span class="unit" title="${i.grams?`1 ${i.unit} = ${i.grams} g`:''}">${i.unit}</span>
         <button data-act="inc">+</button>
       </div>
       <button class="add rm" data-rm="${i.id}" style="padding:6px 9px">✕</button>
@@ -1017,7 +1126,12 @@ function renderReminders(){
 
 /* ============ UTILS ============ */
 function round1(x){ return Math.round(x*10)/10; }
-function stepFor(i){ return ['cup','medium','egg','piece','scoop','dosa','slice','tbsp','tsp'].includes(i.unit)?1:0.5; }
+/* Half steps everywhere. The unit ("cup", "medium") is a label; the GRAMS are the real
+   quantity, and no unit is so precise that half of it is meaningless. Being able to say
+   "half an onion" matters more than keeping whole numbers tidy. */
+function stepFor(i){ return 0.5; }
+// what this quantity actually weighs — the number to trust when the unit label is vague
+function gramsFor(i, qty){ return (i.grams||0) > 0 ? Math.round(i.grams*qty) : 0; }
 function nextFocus(){ const s=seq(), i=s.indexOf(state.focus); for(let j=i+1;j<s.length;j++){ return s[j]; } return null; }
 
 /* ============ EVENTS ============ */

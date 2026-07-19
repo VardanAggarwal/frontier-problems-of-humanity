@@ -1,0 +1,69 @@
+# SERVING SIZE per food — grams of this food in ONE SERVING of a dish it anchors.
+# Source: INDB (1014 Indian recipes with gram amounts + serving counts), filtered to the
+# same food universe as the dish import — no bakery/confectionery/dairy-fat/meat/fish (278 recipes).
+# basis=core -> median over dishes where the food is a CORE ingredient (>=3 such dishes).
+# basis=all  -> never anchors 3+ dishes; median over every dish using it. For a garnish
+#               that is correct: the bit-player amount IS the serving.
+# n = contributing dishes. Wide p25-p75 = served in very different amounts; treat as weak.
+ifct_code,food_name,basis,n,p25,serving_g,p75
+A003,Bajra,core,6,12,19,25
+A011,Rice flakes,core,3,20,20,50
+A015,Rice  parboiled  milled,core,32,30,80,80
+A019,Wheat flour  atta,core,31,40,80,80
+A022,Wheat  semolina,core,9,20,25,45
+B001,Bengal gram  dal,core,36,15,20,38
+B002,Chickpeas,core,5,30,40,50
+B003,Black gram  dal,core,16,7,13,30
+B011,Beansprouts  mung  boiled in unsalted water,core,10,30,30,50
+B013,Lentil whole  yellowish,core,6,8,11,30
+B021,Red gram  dal,core,19,10,12,25
+B506,Tofu  soya bean  steamed,core,5,16,20,20
+C008,Bathua leaves,core,3,10,100,150
+C015,Cabbage  green,core,4,22,61,100
+C020,Fenugreek leaves,core,5,50,50,75
+C025,Lettuce,core,3,24,48,48
+C033,Spinach,core,16,25,38,50
+D007,Bottle gourd  elongate  pale green,core,4,50,75,100
+D031,Brinjal - all varieties,core,7,15,100,150
+D033,Capsicum  green,core,6,10,35,50
+D036,Cauliflower,core,9,40,80,100
+D043,Cucumber  green  elongate,core,4,50,50,80
+D050,French beans  hybrid,core,7,10,25,100
+D056,Ladies finger,core,4,80,90,120
+D061,Peas  fresh,core,28,20,45,100
+D065,Pumpkin  orange  round,core,3,15,30,50
+D075,Tomato  ripe  hybrid,core,64,30,50,50
+E009,Banana  ripe  montham,core,5,50,50,50
+E014,Cherries  red,all,5,8,8,8
+E017,DATES  dried,core,4,18,40,74
+E033,Lemon  juice,core,10,9,14,18
+E064,Tamarind  pulp,core,7,3,17,20
+F002,Carrot  orange,core,21,10,25,50
+F004,Colocasia,core,3,25,100,100
+F006,Potato  brown skin  big,core,34,25,50,80
+F010,Radish  elongate  white skin,core,4,38,44,100
+G001,Chillies  green - all varieties,core,7,2,4,13
+G009,Coriander leaves,core,6,5,9,10
+G012,Garlic  small clove,all,65,1,1,1
+G014,Ginger  fresh,core,10,5,5,10
+G016,Mint leaves,all,4,4,5,20
+G017,Onion  big,core,118,18,25,50
+G022,Chillies  red,core,4,7,7,9
+G025,Cumin seeds,all,3,2,2,3
+G512,Bay leaf  dried,all,23,0,0,0
+G518,Cinnamon  ground,all,6,1,1,1
+G554,Ginger  ground,all,6,1,1,3
+H005,Cashew nut,all,4,2,3,10
+H007,Coconut  kernal  dry,core,11,12,20,20
+H009,Sesame seeds,all,8,5,6,10
+H012,Ground nut,core,14,7,10,20
+H013,Mustard seeds,all,7,1,2,2
+I001,Jaggery  cane,core,24,15,28,30
+J001,Button mushroom  fresh,core,3,50,50,60
+K505,Water  distilled,core,50,50,100,160
+L002,Milk  whole  Cow,core,3,30,40,350
+L003,Paneer,core,11,40,50,75
+L520,Yogurt  whole milk  plain,core,43,50,100,100
+M001,Egg  poultry  whole  raw,core,8,50,50,100
+T013,Ghee  butter,core,4,8,9,10
+T508,Oil  sunflower,core,48,120,240,480

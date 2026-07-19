@@ -1,0 +1,26 @@
+# Body composition — the inputs the targets are derived FROM. Measured, not assumed.
+# Recorded 2026-07-19 (bioimpedance scale).
+# FFM is the load-bearing one: the deficit-protein literature scales on fat-free mass, not on
+# bodyweight and definitely not on BMI. SMM (skeletal muscle) is a SUBSET of FFM — bone, organs
+# and non-muscle water make up the rest — so do not substitute one for the other.
+key,value,unit,note
+weight,68.5,kg,
+fat_mass,16.3,kg,
+fat_pct,23.7,%,Helms 2014 inclusion was males <=23% body fat - you sit marginally OUTSIDE that cohort
+ffm,52.2,kg,weight - fat mass. The basis for the protein target
+skeletal_muscle,27.8,kg,subset of FFM - not interchangeable with it
+body_water,38.3,kg,
+bmi,22.4,,not used for anything - cannot distinguish muscle from fat
+bmr,1498,kcal,measured/estimated basal rate
+training,6-7 pull-ups daily,,a real but very low-volume resistance stimulus - far below the study protocols
+#
+# ENERGY BOUNDS — ICMR-NIN RDA 2020, sedentary.
+# PAL: ICMR recalculated physical activity level from INDIAN PAR data because "energy spent for
+# different physical activity are lower" for Indians; sedentary PAL fell from 1.53 (2010) to
+# 1.40 (2020). Using the Western 1.2 convention understates TDEE by ~300 kcal and makes a real
+# deficit look like maintenance — that mistake was made once here already.
+pal_sedentary,1.40,,ICMR-NIN RDA 2020 - recalculated from Indian PAR values
+tdee,2097,kcal,BMR 1498 x PAL 1.40. ICMR Table 1a lists 2110 kcal for adult men sedentary work
+kcal_target,1775,kcal,a 322 kcal/day deficit = 15.4% = ~0.29 kg fat/week. A textbook moderate cut
+kcal_floor,1498,kcal,BMR. Do not plan below this
+protein_pct_at_target,27,%,120 g protein = 27% of 1775 kcal. Comfortable; stays under 32% even at the BMR floor
