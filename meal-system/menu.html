@@ -167,11 +167,15 @@
 <script>
 /* ============ DATA ============ */
 let ING=[], RECIPES=[], FOCUS=[], PLATES=[], PINS={}, STOCK={};
+/* Per-slot protein allocation — the ONE table in this file, and it matches index.html's MEALS.p.
+   It used to read snack 20 / dinner 28 while the plate builder said 8 / 30, so the same snack was
+   "20 g short" here and fine there. The snack is the deliberately light, skippable slot (8 g);
+   the mains carry the day. Everything per-slot derives from these numbers, calories included. */
 const MEALS = {
   breakfast:{label:'Breakfast', p:30},
   lunch:    {label:'Lunch',     p:32},
-  snack:    {label:'Snack',     p:20},
-  dinner:   {label:'Dinner',    p:28},
+  snack:    {label:'Snack',     p:8},
+  dinner:   {label:'Dinner',    p:30},
 };
 const SLOTS = ['breakfast','lunch','snack','dinner'];
 const KCAL = 1775;                                    // the deficit. A ceiling, not a target.
@@ -180,10 +184,7 @@ const KCAL_TOL = 1.05;                                // 5% grace before a day c
 // are ranges not floors (§1 gives carbs as 180-220, so 196/200 is fine), and the planner already
 // works to a 90% tolerance. Demanding 98% just manufactures false shortfalls.
 const MET = 0.95;
-/* Per-slot PROTEIN allocation — the same numbers the plate builder gates each meal on
-   (index.html MEALS.p). Stated here so the two pages agree by construction. */
-const P_SLOT = {breakfast:30, lunch:32, snack:8, dinner:30};
-/* Per-slot calorie budget, DERIVED from that allocation rather than typed in. Protein is the
+/* Per-slot calorie budget, DERIVED from the protein allocation rather than typed in. Protein is the
    anchor (§1): a slot asked for a third of the day's protein has to carry about a third of its
    calories or its gate is unmeetable inside the budget. This drives WHERE a repair topper lands
    — the slot with the most headroom, never just the first one (that is what turned snack into a
@@ -191,8 +192,8 @@ const P_SLOT = {breakfast:30, lunch:32, snack:8, dinner:30};
    Supersedes a hand-set 475/625/100/575. The visible change is the snack: 100 -> 142, because
    8 g of protein does not fit in 100 kcal. It is still by far the lightest slot, so "a skipped
    snack is cheap" survives; it now costs 8% of the day instead of 5.6%. */
-const KCAL_SLOT = (() => { const tp = SLOTS.reduce((s,m)=>s+P_SLOT[m], 0), o={};
-  SLOTS.forEach(m=> o[m] = Math.round(KCAL * P_SLOT[m] / tp)); return o; })();
+const KCAL_SLOT = (() => { const tp = SLOTS.reduce((s,m)=>s+MEALS[m].p, 0), o={};
+  SLOTS.forEach(m=> o[m] = Math.round(KCAL * MEALS[m].p / tp)); return o; })();
 // what the trim pass is allowed to shrink: the carb/fat filler, never a contract item
 const TRIMMABLE = i => i.role==='base' || i.role==='condiment' || i.id==='peanut';
 /* EFFORT — the axis that actually decides whether a plan survives contact with a Tuesday.
