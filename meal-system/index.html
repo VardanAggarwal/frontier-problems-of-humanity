@@ -47,6 +47,15 @@
   .tab:hover{border-color:var(--accent)}
   .tab.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
   .focus-tabs{margin-top:4px}
+  /* On a phone the four meal pills wrapped to four rows, spending a third of the first screen on
+     a target you already know. The gram figure is reference, not a choice — it goes, the choice
+     stays, and the row fits across. */
+  @media(max-width:560px){
+    .tabs{gap:6px}
+    #meals{display:grid;grid-template-columns:repeat(4,1fr)}
+    #meals .tab{padding:7px 2px;font-size:12.5px;text-align:center}
+    #meals .tab-sub{display:none}
+  }
   .cad-sep{flex-basis:100%;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:8px 0 0}
   .cad-sep:first-child{margin-top:0}
   .focus-tab{position:relative}
@@ -92,6 +101,38 @@
   .flag.ok{background:var(--accent-soft);color:var(--accent);font-weight:600}
   .flag.miss{color:var(--warn)}
   .totals .prog-lbl{margin-top:10px}
+  /* Horizon switch. Only the selected pane is in flow — the other two stay rendered so switching
+     is instant and never re-reads the DB. */
+  .seg{display:flex;gap:2px;background:var(--line);padding:2px;border-radius:8px;margin:2px 0 4px}
+  .seg button{flex:1;font:inherit;font-size:12.5px;padding:6px 4px;border:0;border-radius:6px;
+    background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap}
+  .seg button.on{background:var(--panel);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+  .hz{display:none}
+  .hz.on{display:block}
+  /* Desktop: an ordinary panel. The sheet chrome only exists below 820px. */
+  .sheet-grip{cursor:default}
+  .grip-bar,.sheet-sum{display:none}
+  @media(max-width:820px){
+    /* Collapsing CLAMPS THE HEIGHT; it does not translate the sheet down past the fold. An
+       off-screen transform depends on viewport maths the browser moves under you — the address
+       bar showing/hiding on scroll changes vh, and the sheet ends up parked out of sight. A
+       clamped height cannot leave the screen: worst case it is the grip. dvh (vh fallback) for
+       the same reason — it tracks the address bar instead of fighting it. */
+    #platePanel{position:fixed;left:0;right:0;bottom:0;z-index:30;margin:0;
+      border-radius:14px 14px 0 0;border-bottom:0;display:flex;flex-direction:column;
+      padding:0 14px calc(14px + env(safe-area-inset-bottom));
+      box-shadow:0 -3px 18px rgba(0,0,0,.18);
+      overflow:hidden;max-height:var(--peek,70px);transition:max-height .22s ease}
+    #platePanel.open{max-height:78vh;max-height:78dvh}
+    #platePanel.dragging{transition:none}
+    .sheet-grip{position:relative;padding:8px 0 10px;cursor:pointer;touch-action:none;
+      background:var(--panel);border-radius:14px 14px 0 0}
+    .grip-bar{display:block;width:36px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 8px}
+    .sheet-sum{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+    .sheet-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+    /* the sheet floats over the page — give the last panel room to clear the peek */
+    .wrap{padding-bottom:96px}
+  }
   .next-btn{width:100%;margin-top:14px;border:0;background:var(--accent);color:#fff;border-radius:10px;padding:11px;font-size:14px;font-weight:600;cursor:pointer}
   .next-btn:disabled{opacity:.4;cursor:default}
   .reminders{font-size:12.5px;color:var(--muted);line-height:1.7}
@@ -109,6 +150,16 @@
   .srow .si{flex:1;min-width:0}
   .srow .nm{font-weight:600;font-size:14px}
   .srow .meta{font-size:12px;color:var(--muted)}
+  /* The stepper + Add are ~230px of fixed furniture. On a phone that left the name column about
+     130px wide, so "Multigrain bread" wrapped a word per line and one row ate a third of the
+     screen. Below 560px the name takes the full width and the controls get their own line —
+     the name is what you read, the controls are what you press, and neither has to fight. */
+  @media(max-width:560px){
+    .srow{flex-wrap:wrap;gap:8px}
+    .srow .si{flex:1 0 100%}
+    .srow .stepper{margin-left:0}
+    .srow .add{margin-left:auto}
+  }
   .buy{font-size:10px;color:var(--warn);border:1px solid var(--warn);border-radius:4px;padding:0 4px;margin-left:6px;vertical-align:middle;text-transform:uppercase;letter-spacing:.03em}
   .gap-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:2px}
   .gap-head .big{font-size:16px;font-weight:600}
@@ -194,10 +245,6 @@
         <div class="flags" id="flags"></div>
       </div>
       <div class="panel">
-        <h2>🗓️ Planned for this day</h2>
-        <div id="planned"></div>
-      </div>
-      <div class="panel">
         <h2>🍳 Recipes from your plate</h2>
         <div id="recipes"></div>
       </div>
@@ -209,23 +256,29 @@
 
     <!-- RIGHT: plate + rollup -->
     <div class="col">
-      <div class="panel">
-        <h2>Your plate</h2>
-        <div id="plate"></div>
-        <button class="next-btn" id="savePlate" style="margin-top:14px">＋ Save plate to this day</button>
-        <div id="recipeSave"></div>
+      <!-- On mobile this same panel becomes a bottom sheet: the grip stays peeking above the fold
+           so the plate is reachable from anywhere in the scroll, and the body scrolls inside it.
+           One panel, two presentations — no duplicate #plate to keep in sync. -->
+      <div class="panel" id="platePanel">
+        <div class="sheet-grip" id="sheetGrip">
+          <div class="grip-bar"></div>
+          <h2 style="margin:0">Your plate</h2>
+          <div class="sheet-sum" id="sheetSum"></div>
+        </div>
+        <div class="sheet-body">
+          <div id="plate"></div>
+          <button class="next-btn" id="savePlate" style="margin-top:14px">＋ Save plate to this day</button>
+          <div id="recipeSave"></div>
+        </div>
       </div>
+      <!-- One bar list, three horizons. Same nutrients, same scale, same row positions — the
+           comparison only works if the bars stay put while the window changes under them. -->
       <div class="panel totals">
-        <h2>This plate — vs full targets</h2>
-        <div id="totals"></div>
-      </div>
-      <div class="panel totals">
-        <h2>Day totals <span style="text-transform:none;font-weight:400">· saved plates</span></h2>
-        <div id="dayTotals"></div>
-      </div>
-      <div class="panel totals p-tail">
-        <h2>Run rate <span style="text-transform:none;font-weight:400">· last 7 completed days · worst first</span></h2>
-        <div id="runRate"></div>
+        <h2 id="horizonTitle"></h2>
+        <div class="seg" id="horizonSeg"></div>
+        <div id="totals" class="hz" data-pane="plate"></div>
+        <div id="dayTotals" class="hz" data-pane="day"></div>
+        <div id="runRate" class="hz" data-pane="week"></div>
       </div>
       <div class="panel p-tail">
         <h2>Cadence reminders</h2>
@@ -327,7 +380,8 @@ let state = { meal:'lunch', focus:'protein', plate:[] /* {id, qty} */, showBuy:f
      it — RUN_DAYS=7 and recentUse's 3 — with slack for selecting a past date in the day bar.
      Widened, never narrowed, by loadMore(): shrinking it mid-session would drop plates the run
      rate is already averaging over. */
-  since: shiftDay(todayStr(), -30), loadingMore:false, exhausted:false };
+  since: shiftDay(todayStr(), -30), loadingMore:false, exhausted:false,
+  horizon:'plate' /* plate | day | week — which window the shared bar list is showing */ };
 
 function targetFor(focusName){
   if(focusName==='protein') return MEALS[state.meal].p;
@@ -379,6 +433,7 @@ function urgency(id){
 
 /* ============ HELPERS ============ */
 const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
 
 /* ---- delivered(): the ONE seam between "what the table says" and "what you get" ----
 
@@ -515,13 +570,13 @@ async function savePlate(){
   try{
     const {id} = await api('plates', p);
     state.saved.push({...p, id});
-    state.plate=[]; state.focus='protein'; render();
+    state.plate=[]; state.focus='protein'; render(); setSheet(false);
   }catch(e){ apiFail('save this plate', e); }
 }
 function editPlate(id){ const p=state.saved.find(x=>x.id===id); if(!p) return;
   // pull it back onto the builder; it's removed from the DB and re-saved on the next Save
   state.meal=p.meal; state.day=p.date; state.plate=p.items.map(x=>({...x})); state.focus='protein';
-  delPlate(id); window.scrollTo(0,0); render(); }
+  delPlate(id); window.scrollTo(0,0); render(); setSheet(true); }
 async function delPlate(id){
   const prev=state.saved;
   state.saved=state.saved.filter(x=>x.id!==id); render();
@@ -553,8 +608,79 @@ async function delRecipe(id){
 
 /* ============ RENDER ============ */
 function render(){ _debt=null;   // the record may have moved (a plate saved, the day switched) — recompute once, here
-  renderMeals(); renderDayBar(); renderPrep(); renderBuilder(); renderPlanned(); renderRecipes(); renderPlate(); renderRecipeSave(); renderTotals();
-  renderDayTotals(); renderRunRate(); renderFlags(); renderReminders(); renderSaved(); }
+  renderMeals(); renderDayBar(); renderPrep(); renderBuilder(); renderRecipes(); renderPlate(); renderRecipeSave(); renderTotals();
+  renderDayTotals(); renderRunRate(); renderHorizon(); renderFlags(); renderReminders(); renderSaved();
+  renderSheet(); }
+
+/* The grip line — what you need to know about the plate without opening it. */
+function renderSheet(){
+  const el = $('#sheetSum'); if(!el) return;
+  const n = state.plate.length;
+  el.innerHTML = n
+    ? `${n} item${n===1?'':'s'} · <b style="color:var(--ink)">${round1(plateTotal('p'))}g</b> / ${MEALS[state.meal].p}g protein · ${Math.round(plateTotal('kcal'))} kcal`
+    : `Empty — tap a suggestion to start`;
+  syncPeek();
+}
+
+/* The collapsed height is the grip's actual height, measured. Hard-coding it means the sheet
+   mis-parks the day the summary wraps to two lines or the font metrics shift. */
+function syncPeek(){
+  const p=$('#platePanel'), g=$('#sheetGrip'); if(!p||!g) return;
+  p.style.setProperty('--peek', Math.round(g.getBoundingClientRect().height) + 'px');
+}
+function setSheet(open){ $('#platePanel')?.classList.toggle('open', open); }
+
+/* Tap the grip to toggle; drag it to place. Drag is worth the ~20 lines here — a sheet that only
+   responds to taps reads as broken on a phone, because the grip looks draggable. Vertical intent
+   only, and a short flick counts the same as a long drag. */
+function initSheet(){
+  const p=$('#platePanel'), g=$('#sheetGrip'); if(!p||!g) return;
+  let y0=null, t0=0, dy=0, moved=false;
+  const mobile=()=>matchMedia('(max-width:820px)').matches;
+  g.addEventListener('pointerdown', e=>{
+    if(!mobile()) return;
+    y0=e.clientY; t0=Date.now(); dy=0; moved=false;
+    p.classList.add('dragging'); g.setPointerCapture(e.pointerId);
+  });
+  g.addEventListener('pointermove', e=>{
+    if(y0===null) return;
+    dy=e.clientY-y0;
+    if(Math.abs(dy)>4) moved=true;
+    // drag adjusts the same clamped height the open/closed states use, so a released drag lands
+    // on exactly what the CSS would have animated to — no transform to unwind
+    const peek=parseFloat(getComputedStyle(p).getPropertyValue('--peek'))||70;
+    const max=innerHeight*0.78;
+    const rest=p.classList.contains('open')?max:peek;
+    p.style.maxHeight=Math.max(peek, Math.min(max, rest-dy))+'px';
+  });
+  const end=e=>{
+    if(y0===null) return;
+    p.classList.remove('dragging'); p.style.maxHeight='';
+    const quick=Date.now()-t0 < 300 && Math.abs(dy)>24;
+    if(!moved) setSheet(!p.classList.contains('open'));           // a tap
+    else if(quick) setSheet(dy<0);                                 // a flick
+    else setSheet(Math.abs(dy) < p.offsetHeight/3 ? p.classList.contains('open') : dy<0);
+    y0=null;
+  };
+  g.addEventListener('pointerup', end);
+  g.addEventListener('pointercancel', end);
+  addEventListener('resize', syncPeek);
+  syncPeek();
+}
+
+const HORIZONS = {
+  plate: {tab:'This plate', h2:'This plate <span style="text-transform:none;font-weight:400">· vs full targets</span>'},
+  day:   {tab:'Today',      h2:'Day totals <span style="text-transform:none;font-weight:400">· saved plates</span>'},
+  week:  {tab:'Week',       h2:'Run rate <span style="text-transform:none;font-weight:400">· last 7 completed days · worst first</span>'}
+};
+/* Swaps which pane is in flow. All three are already rendered by render() — this only decides what
+   you look at, so the switch costs nothing and never loses your place. */
+function renderHorizon(){
+  $('#horizonTitle').innerHTML = HORIZONS[state.horizon].h2;
+  $('#horizonSeg').innerHTML = Object.entries(HORIZONS).map(([k,v])=>
+    `<button data-hz="${k}" class="${state.horizon===k?'on':''}">${v.tab}</button>`).join('');
+  $$('.hz').forEach(el=> el.classList.toggle('on', el.dataset.pane===state.horizon));
+}
 
 function renderRecipeSave(){
   const el=$('#recipeSave'); if(!el) return;
@@ -670,33 +796,45 @@ async function prepDone(oid){
 
 // The menu page plans; the planner cooks. This is the bridge — load the planned slot, tweak it,
 // save it. Saving marks it eaten and consumes stock, exactly like any other plate.
-function renderPlanned(){
-  const el=$('#planned'); if(!el) return;
+/* The plan for this day, folded into the builder. It used to be its own panel above the
+   suggestions, which put a plan you might follow and a suggestion you might take in two places
+   competing for the same decision — and on a phone, half a screen apart. Same decision, one
+   place: what's planned leads, what's suggested follows.
+   Returns '' when there's no plan, so the builder simply opens on suggestions. */
+function plannedSection(){
   const today = MENU.filter(s=>s.date===state.day);
-  if(!today.length){
-    el.innerHTML = `<div class="empty">Nothing planned for ${state.day}. <a href="menu.html">Generate a menu →</a></div>`;
-    return;
-  }
+  if(!today.length) return '';
+  const mine = today.filter(s=>s.meal===state.meal);
   const prep = []; // anything on today's plan that needed starting yesterday
-  el.innerHTML = today.sort((a,b)=>Object.keys(MEALS).indexOf(a.meal)-Object.keys(MEALS).indexOf(b.meal))
-    .map(sl=>{
-      const r = RECIPES.find(x=>x.id===sl.recipe);
-      const p = itemsTotal(sl.items,'p'), kc = itemsTotal(sl.items,'kcal');
-      const names = sl.items.map(it=>{const i=ING.find(x=>x.id===it.id); return i?i.nm:'';}).filter(Boolean).join(', ');
-      // only nag for prep we actually owe. A dry staple (rajma, shelf 365) needs its soak every
-      // time; an already-prepped perishable (a sprout jar, shelf 3) doesn't while stock covers it.
-      sl.items.forEach(it=>{ const i=ING.find(x=>x.id===it.id);
-        if(!i || !i.lead || prep.some(x=>x.id===i.id)) return;
-        const alreadyDone = (i.shelf||30) <= 3 && stockQty(i.id) >= it.qty;
-        if(!alreadyDone) prep.push(i); });
-      const on = sl.meal===state.meal;
-      return `<div class="plate-item">
-        <div class="pn"><b>${MEALS[sl.meal].label}</b>${r?` · ${r.name}`:''}${r&&r.effort?` <span class="buy" style="color:var(--muted);border-color:var(--line)">${r.effort}m</span>`:''}
-          <small>${round1(p)}g P · ${Math.round(kc)} kcal · ${names}</small></div>
-        <button class="add ${on?'':'rm'}" data-loadslot="${sl.id}" style="padding:5px 10px">${on?'Load':'Load'}</button>
-      </div>`;
-    }).join('') +
-    (prep.length ? `<div class="flags" style="margin-top:10px"><span class="flag miss">🌱 needs prep ahead: ${prep.map(i=>`${i.nm} (${i.prep})`).join(' · ')}</span></div>` : '');
+  today.forEach(sl=> sl.items.forEach(it=>{ const i=ING.find(x=>x.id===it.id);
+    if(!i || !i.lead || prep.some(x=>x.id===i.id)) return;
+    // only nag for prep we actually owe. A dry staple (rajma, shelf 365) needs its soak every
+    // time; an already-prepped perishable (a sprout jar, shelf 3) doesn't while stock covers it.
+    const alreadyDone = (i.shelf||30) <= 3 && stockQty(i.id) >= it.qty;
+    if(!alreadyDone) prep.push(i); }));
+
+  const rows = mine.map(sl=>{
+    const r = RECIPES.find(x=>x.id===sl.recipe);
+    const p = itemsTotal(sl.items,'p'), kc = itemsTotal(sl.items,'kcal');
+    const names = sl.items.map(it=>{const i=ING.find(x=>x.id===it.id); return i?i.nm:'';}).filter(Boolean).join(', ');
+    return `<div class="plate-item">
+      <div class="pn"><b>${r?r.name:MEALS[sl.meal].label}</b>${r&&r.effort?` <span class="buy" style="color:var(--muted);border-color:var(--line)">${r.effort}m</span>`:''}
+        <small>${round1(p)}g P · ${Math.round(kc)} kcal · ${names}</small></div>
+      <button class="add" data-loadslot="${sl.id}" style="padding:5px 10px">Load</button>
+    </div>`; }).join('');
+
+  // the other meals are context, not a decision you make from here — one line, not four rows
+  const others = today.filter(s=>s.meal!==state.meal)
+    .sort((a,b)=>Object.keys(MEALS).indexOf(a.meal)-Object.keys(MEALS).indexOf(b.meal))
+    .map(sl=>{ const r=RECIPES.find(x=>x.id===sl.recipe);
+      return `${MEALS[sl.meal].label}${r?`: ${r.name}`:''}`; }).join(' · ');
+
+  return (rows
+      ? `<p class="focus-note">🗓️ <b>Planned</b> for your ${MEALS[state.meal].label.toLowerCase()} — one tap loads it:</p>${rows}`
+      : '') +
+    (others ? `<p class="focus-note" style="margin-top:${rows?'10':'0'}px">🗓️ Also planned today · ${others}</p>` : '') +
+    (prep.length ? `<div class="flags" style="margin-top:10px"><span class="flag miss">🌱 needs prep ahead: ${prep.map(i=>`${i.nm} (${i.prep})`).join(' · ')}</span></div>` : '') +
+    (rows ? `<p class="focus-note" style="margin-top:14px">…or build it yourself:</p>` : '');
 }
 function loadSlot(id){
   const sl = MENU.find(x=>x.id===id); if(!sl) return;
@@ -870,7 +1008,7 @@ function renderSaved(){
 
 function renderMeals(){
   $('#meals').innerHTML = Object.entries(MEALS).map(([k,m])=>
-    `<button class="tab ${state.meal===k?'on':''}" data-meal="${k}">${m.label} · ${m.p}g protein</button>`).join('');
+    `<button class="tab ${state.meal===k?'on':''}" data-meal="${k}">${m.label}<span class="tab-sub"> · ${m.p}g protein</span></button>`).join('');
 }
 
 function unitFor(key){ const f=Object.values(FOCUS).find(x=>x.key===key); return f?f.unit:''; }
@@ -1052,6 +1190,7 @@ function renderBuilder(){
                  || (recentUse(a.id)-recentUse(b.id)) || ((b.n.p||0)-(a.n.p||0)))[0];
     const tiles=BASES.map(id=>{const i=ING.find(x=>x.id===id); return i?`<button class="tab" data-add="${id}">${i.nm}</button>`:'';}).join('');
     el.innerHTML=`
+      ${plannedSection()}
       <p class="focus-note">Start your <b>${mealLabel}</b> — suggested for you (one tap drops the whole dish):</p>
       ${dishes.length ? dishes.map(dishRow).join('')
                       : (basePick?suggRow(basePick,'p',pT):'')}
@@ -1229,6 +1368,7 @@ document.addEventListener('click', e=>{
   else if(t.id==='recipeAdd'){ state.savingRecipe=true; renderRecipeSave(); }
   else if(t.id==='recipeCancel'){ state.savingRecipe=false; renderRecipeSave(); }
   else if(t.id==='recipeConfirm'){ const el=$('#recipeName'); saveAsRecipe(el?el.value:''); }
+  else if(t.dataset.hz){ state.horizon=t.dataset.hz; renderHorizon(); }
   else if(t.id==='moreDays'){ loadMoreDays(); }
   else if(t.id==='fewerDays'){ state.olderDays = 0; renderSaved(); }
   else if(t.dataset.delrecipe){ delRecipe(t.dataset.delrecipe); }
@@ -1267,6 +1407,7 @@ async function init(){
     buildData(data);
     state.saved = plates; MENU = menu; STOCK = stock;
     render();
+    initSheet();
   }catch(e){
     document.querySelector('.wrap').innerHTML =
       `<div class="panel"><h2>Can't reach the planner API</h2>
