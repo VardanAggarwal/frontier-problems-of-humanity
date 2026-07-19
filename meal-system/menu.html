@@ -301,6 +301,41 @@ function rescueScore(r, scheduled){
     return s + urgency * (1 - covered);
   }, 0);
 }
+/* ============ BASKET COST — plan out of the fridge, not out of the shop ============
+   rescueScore only pulls toward what is about to ROT. It says nothing about the much commoner
+   case: an ingredient we simply don't own. So a "cheap" week could still open with a shopping
+   list of thirty new items, because nothing in the score ever charged for buying one.
+   Two costs, and the gap between them is the whole point:
+     NEW_ID  — a distinct ingredient we own none of. This is the real unit of shopping: one more
+               thing to find, carry and pay for, whether the recipe wants 20 g of it or 200.
+     EXTRA   — more of something already short. Nearly free, because the pack is coming anyway.
+   Charging per DISTINCT id (not per gram) is what makes the menu cluster: once the run has
+   committed to a bunch of coriander, every later dish using coriander is almost costless, so
+   the generator reuses it instead of reaching for the next new herb. `sched` is the run's
+   commitment so far, which is why a thing is only "new" the first time it's chosen. */
+const NEW_ID  = 1.0;    // charge for opening a new line on the shopping list
+const EXTRA   = 0.15;   // charge for needing more of something already on it
+const OPT_DISC = 0.4;   // a garnish we'd have to buy is a softer cost than a core ingredient
+function buyCost(r, sched){
+  const cost = (ids, disc) => ids.reduce((s,id)=>{
+    const i = ing(id); if(!i) return s;
+    const need = (sched[id]||0) + (i.default||1);
+    if(need <= stockQty(id)) return s;                        // covered by the fridge — free
+    const already = (sched[id]||0) > stockQty(id);            // this run already committed to buying it
+    return s + disc*(already ? EXTRA : NEW_ID);
+  }, 0);
+  return cost(r.core, 1) + cost(r.opt.filter(id=>!r.core.includes(id)), OPT_DISC);
+}
+/* What the plan actually costs to shop for: distinct ingredients the horizon needs beyond stock. */
+function toBuy(){
+  const need = {};
+  dates().forEach(d=> dayItems(d).forEach(it=> need[it.id]=(need[it.id]||0)+it.qty));
+  return Object.entries(need)
+    .map(([id,q])=>({i:ing(id), short: q - stockQty(id)}))
+    .filter(x=>x.i && x.short > 0.05)
+    .sort((a,b)=>b.short-a.short);
+}
+
 // monotony: how much a dish leans on ingredients already used this run + eaten recently.
 // Weighted to the protein "hero" so it is the SOURCE that rotates, not just a garnish.
 function monotony(r, ingUse){
@@ -459,6 +494,22 @@ function generate(){
   // the HARD variety filter above already pins most slots, which is the correct priority: a menu
   // that answers your iron gap by serving spinach seven days running is a worse menu.
   const DEBT_W = 1.5;
+  /* Basket weight — and this one is a genuine TRADE, not a free win, so the number is measured
+     rather than picked. Swept over 12 generations per point on a 7-day horizon:
+
+        BUY_W    0     0.15   0.30   0.45   0.60   0.80   1.20
+        to buy   20.7  17.3   14.4   13.3   11.8    9.1    7.7
+        short     2.2   3.0    4.1    3.7    4.1    4.7    4.4
+        kcal     2177  2114   2036   2039   2022   1955   1949
+
+     Read the last two rows together: shortfalls track CALORIES almost exactly. Cooking out of a
+     narrow fridge lands the week under the ceiling, and a smaller plate carries fewer nutrients —
+     repair can't recover it, because toppers are capped at one serving per day. So every item
+     saved on the list is paid for in targets, and past ~0.45 the list stops falling much while
+     the misses keep coming. 0.45 is that knee: a third off the shopping list for ~1.5 targets.
+     Nutrition is the system's first priority (§1), which is why this sits well below rescue's
+     top urgency (1.6) — food already bought and about to rot still outranks not shopping. */
+  const BUY_W = (window.BUY_W_OVERRIDE ?? 0.45);
   const ingUse = {};                                      // ingredient id -> times used, drives the monotony penalty
   const sched = {};                                       // ingredient id -> qty scheduled, makes rescue spread
   // seed the penalty from what you ate in the last 3 days, so the plan pivots AWAY from it
@@ -483,7 +534,7 @@ function generate(){
       // debtFit then tilts what's left toward the nutrient the last week kept missing — weaker
       // than rescue (a deadline beats a drift) but enough to decide between comparable dishes.
       const r = cands.map(r=>({r, s: AFF[r.id] - (r.effort||15)/60 + rescueScore(r, sched)
-                                     + DEBT_W*debtFit(r, DEBT)
+                                     + DEBT_W*debtFit(r, DEBT) - BUY_W*buyCost(r, sched)
                                      - DIV*monotony(r, ingUse) + Math.random()*0.25}))
                      .sort((a,b)=>b.s-a.s)[0].r;
       lastUse[r.id]=di; uses[r.id]=(uses[r.id]||0)+1;
@@ -524,7 +575,11 @@ function rebuild(ds){
    grain in them, so a no-cook week drifts carb-light and fat-heavy. A base closes it. */
 function fixCarbs(d){
   const f = FOCUS.find(x=>x.key==='c'); if(!f) return;
-  const bases = ING.filter(i=>i.role==='base').sort((a,b)=>(b.n.c/b.n.kcal)-(a.n.c/a.n.kcal));
+  // densest carb per calorie wins, but a base we already have outranks one we'd have to buy —
+  // rice and atta are interchangeable enough here that stock is the better tiebreak.
+  const inStock = i => plannedQty(i.id) + (i.default||1) <= stockQty(i.id) ? 1 : 0;
+  const bases = ING.filter(i=>i.role==='base')
+    .sort((a,b)=> inStock(b)-inStock(a) || (b.n.c/b.n.kcal)-(a.n.c/a.n.kcal));
   for(let g=0; g<6; g++){
     if(tot(dayItems(d),'c') >= f.daily*MET) return;
     const b = bases.find(i=>!dayHas(d, i.id));            // one base per day per kind
@@ -654,6 +709,11 @@ function put(date, meal, id, qty){
   slot.items.push({id, qty: qty || i.default || 1});
   return true;
 }
+// how much of an ingredient the menu as it currently stands already commits. The repair and
+// contract passes run AFTER the generator loop, so they can't read its `sched` — they read this.
+function plannedQty(id){
+  return state.menu.reduce((s,sl)=>s + sl.items.filter(x=>x.id===id).reduce((n,x)=>n+x.qty,0), 0);
+}
 const dayHas = (d, id) => dayItems(d).some(x=>x.id===id);
 const dayQty = (d, id) => dayItems(d).filter(x=>x.id===id).reduce((s,x)=>s+x.qty,0);
 const dayFlag = (d, flag) => dayItems(d).some(x=>{const i=ing(x.id); return i && i[flag];});
@@ -682,9 +742,14 @@ function enforceContract(d){
   if(!LEGUMES.some(id=>dayHas(d,id))) put(d, has('lunch')?'lunch':'dinner', 'dal');
 
   // 3. A GREEN at lunch AND at dinner
-  // pick the green that dies soonest (and that we actually have), not a random one
+  // pick the green that dies soonest (and that we actually have LEFT), not a random one. "Have"
+  // has to net off what the plan already spends: one bunch of spinach does not cover seven
+  // dinners. Once stock IS spent, fall back to a green the plan is already buying rather than a
+  // fresh one — deepening a line on the shopping list is cheaper than opening another.
+  const spare  = i => plannedQty(i.id) + (i.default||1) <= stockQty(i.id) ? 1 : 0;
+  const onList = i => plannedQty(i.id) > 0 ? 1 : 0;
   const greens = ING.filter(i=>i.green)
-    .sort((a,b)=>(stockQty(b.id)>0) - (stockQty(a.id)>0) || daysLeft(a.id) - daysLeft(b.id));
+    .sort((a,b)=>spare(b)-spare(a) || onList(b)-onList(a) || daysLeft(a.id) - daysLeft(b.id));
   ['lunch','dinner'].forEach(m=>{
     if(!has(m)) return;
     const slot = state.menu.find(s=>s.date===d && s.meal===m);
@@ -757,6 +822,10 @@ function repair(){
         if(delivered(i,f.key) <= 0) return;          // gated? then it cannot repair this nutrient
         if(dayHas(d, i.id)) return;                       // one serving per ingredient per day. Hard.
         // nudge toward toppers already in the fridge and near their deadline
+        // NOT biased toward stocked toppers, though the basket weight biases dish choice. Measured:
+        // a 1.35x bonus for owning it changed the shopping list by nothing and the nutrient misses
+        // by nothing — repair is the last pass, working on gaps the fridge already failed to close,
+        // so the stocked topper it would pick is usually the one that's already on the plate.
         const eff = delivered(i,f.key) / Math.max(i.n.kcal, 5) * (1 + rescueScore({core:[i.id], opt:[]}));
         if(!best || eff > best.eff) best={d, i, eff};
       });
@@ -860,6 +929,21 @@ function renderScore(){
     ${worst.map(r=>r.f.name).join(', ')} — toppers alone couldn't close ${worst.length===1?'it':'them'}.
     Swap a slot for a dish that carries ${worst[0].f.name.toLowerCase()}.</div>`;
   if(!over && !worst.length) head = `<div class="banner">✓ Every tracked target met, on daily average, and every day inside the ${KCAL} kcal ceiling.</div>`;
+
+  /* The shopping cost of this plan, stated up front. Without it the basket weight is invisible:
+     you can't tell a 6-item week from a 26-item one by reading the grid. Named ingredients, not
+     just a count, because the useful reaction is "I'm not buying tofu" -> regenerate or swap. */
+  const buy = toBuy();
+  if(Object.keys(STOCK).length){
+    head += buy.length
+      ? `<div class="banner"><b>${buy.length} thing${buy.length===1?'':'s'} to buy</b> beyond what's
+         counted in stock: ${buy.slice(0,8).map(x=>x.i.name).join(', ')}${buy.length>8?`, +${buy.length-8} more`:''}.
+         The rest of these ${state.days} days runs out of the fridge.</div>`
+      : `<div class="banner">✓ This whole plan runs out of stock — nothing to buy.</div>`;
+  } else {
+    head += `<div class="banner">Stock isn't counted yet, so the plan can't tell what you already
+      have — <a href="shop.html">count it on the shopping page</a> and regenerate to plan around it.</div>`;
+  }
 
   // What the trailing record says you owe. Deliberately worded as a PREFERENCE, not a promise:
   // the debt tilts dish choice and raises what the repair pass aims at, but the calorie ceiling
