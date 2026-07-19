@@ -727,6 +727,7 @@ function generate(){
    nothing for whey. Order matters more than any single rule here. */
 function rebuild(ds){
   ds.forEach(enforceContract);
+  ds.forEach(capEggs);          // after the anchor has topped up, before protein is judged
   ds.forEach(trimDay);
   ds.forEach(fixProtein);
   ds.forEach(fixCarbs);
@@ -755,6 +756,35 @@ function fixCarbs(d){
   }
 }
 
+/* §8 allows 3-4 eggs a day. That ceiling existed only inside fixProtein's addEgg, which is a
+   guard on ONE pass's own additions — nothing was counting the day. Eggs arrive from at least
+   three other places: the dish itself, the protein anchor topping up to 2, and a second or third
+   egg dish landing in another slot. Measured before this: 13% of low-effort days ran over 4, and
+   the worst had 5 across four slots (upma 1, raita 1, boiled-egg chaat 1, garlic greens 2).
+   Nothing was wrong with any single decision, which is exactly why it needed a day-level pass.
+
+   Removal order matters. An egg the RECIPE is built on (egg curry, boiled-egg chaat) is the
+   dish; an egg added by the anchor or a repair is a topping. So incidental eggs go first, and
+   only then the slot carrying the most, which is the one least changed by losing one.
+   Runs before fixProtein so the protein it costs can be answered with whey rather than reopening
+   the gap after everything else has settled. */
+const EGG_MAX = 4;
+function capEggs(d){
+  const eggsIn = s => s.items.filter(x=>x.id==='egg').reduce((n,x)=>n+x.qty, 0);
+  for(let guard=0; guard<20; guard++){
+    let over = dayQty(d,'egg') - EGG_MAX;
+    if(over <= 0.001) return;
+    const holders = slotsOn(d).filter(s=>eggsIn(s) > 0);
+    if(!holders.length) return;
+    const isCore = s => { const r = rec(s.recipe); return r ? r.core.includes('egg') : false; };
+    holders.sort((a,b)=> (isCore(a) - isCore(b)) || (eggsIn(b) - eggsIn(a)));
+    const s = holders[0], it = s.items.find(x=>x.id==='egg');
+    const take = Math.min(over, it.qty);
+    it.qty -= take;
+    if(it.qty <= 0.001) s.items = s.items.filter(x=>x.id!=='egg');
+  }
+}
+
 /* Protein needs its OWN pass. repair() is deliberately restricted to toppers (seeds, greens,
    sours) — which is what keeps a repair edible, but it also means toppers carry almost no
    protein, so protein is structurally unfixable there. Both moves below are the ones the plan
@@ -763,7 +793,7 @@ function fixProtein(d){
   const target = (FOCUS.find(f=>f.key==='p')||{}).daily || 120;
   const EGG_KCAL = 72, WHEY_KCAL = 120;
   const addEgg = () => {                              // 6 g — for a small gap; real food beats powder
-    if(dayQty(d,'egg') >= 4) return false;            // §8 allows 3-4/day, no more
+    if(dayQty(d,'egg') >= EGG_MAX) return false;      // the same ceiling capEggs enforces
     if(headroom(d) < EGG_KCAL && !freeKcal(d, EGG_KCAL)) return false;
     const s = slotsOn(d).find(x=>x.items.some(y=>y.id==='egg'));
     if(!s) return false;
