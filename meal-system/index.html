@@ -389,7 +389,7 @@ let state = { meal:'lunch', focus:'protein', plate:[] /* {id, qty} */, showBuy:f
      Widened, never narrowed, by loadMore(): shrinking it mid-session would drop plates the run
      rate is already averaging over. */
   since: shiftDay(todayStr(), -30), loadingMore:false, exhausted:false,
-  horizon:'plate' /* plate | day | week — which window the shared bar list is showing */ };
+  horizon:'day' /* plate | day | week — which window the shared bar list is showing. See syncHorizon() */ };
 
 function targetFor(focusName){
   if(focusName==='protein') return MEALS[state.meal].p;
@@ -615,7 +615,23 @@ async function delRecipe(id){
 }
 
 /* ============ RENDER ============ */
+/* Which horizon you land on, decided by whether you're holding anything. An EMPTY plate scored
+   against full targets is all zeros — that reads as failure when it's really a blank slate, and
+   it answers a question nobody asked. Before you've put anything down the live question is what
+   the DAY still owes you, so that's the default. The moment the plate stops being empty it
+   flips: you're building something now, and the plate is the thing you're building. Emptying it
+   (saving, resetting) hands it back to Today, where the plate you just saved has landed.
+   Only the TRANSITION switches, never the steady state — so if you tab to Week mid-plate it
+   stays on Week, and this can't fight you while you add the next six items. */
+let plateWas = 0;
+function syncHorizon(){
+  const n = state.plate.length;
+  if(n && !plateWas)      state.horizon = 'plate';
+  else if(!n && plateWas) state.horizon = 'day';
+  plateWas = n;
+}
 function render(){ _debt=null;   // the record may have moved (a plate saved, the day switched) — recompute once, here
+  syncHorizon();
   renderMeals(); renderDayBar(); renderPrep(); renderBuilder(); renderRecipes(); renderPlate(); renderRecipeSave(); renderTotals();
   renderDayTotals(); renderRunRate(); renderHorizon(); renderFlags(); renderReminders(); renderSaved();
   renderSheet(); }
@@ -848,7 +864,7 @@ function loadSlot(id){
   const sl = MENU.find(x=>x.id===id); if(!sl) return;
   state.meal = sl.meal;
   state.plate = sl.items.map(x=>({...x}));
-  state.focus='protein'; state.query=''; const si=$('#search'); if(si) si.value='';
+  state.focus='protein'; clearSearch();
   window.scrollTo(0,0); render();
 }
 
@@ -1121,7 +1137,7 @@ function addDish(id){
     const i = ING.find(x=>x.id===iid);
     if(i) state.plate.push({id:iid, qty:i.def});
   });
-  state.expand=false; state.query=''; const si=$('#search'); if(si) si.value='';
+  clearSearch();
   render();
 }
 
@@ -1343,14 +1359,26 @@ function gramsFor(i, qty){ return (i.grams||0) > 0 ? Math.round(i.grams*qty) : 0
 function nextFocus(){ const s=seq(), i=s.indexOf(state.focus); for(let j=i+1;j<s.length;j++){ return s[j]; } return null; }
 
 /* ============ EVENTS ============ */
+/* A search is a question, and adding the thing answers it — so the query has to go, or the
+   builder stays frozen on "tofu" and the next tap has to clear it by hand first. One helper
+   because there are THREE ways to add and they kept drifting: the Add button, a whole dish, and
+   the quantity stepper. The stepper was the one that got missed — tapping + on a search result
+   puts the item on the plate just as much as Add does. */
+function clearSearch(){
+  state.expand=false; state.query='';
+  const si=$('#search'); if(si) si.value='';
+}
 function addItem(id){ if(!inPlate(id)){ const i=ING.find(x=>x.id===id); state.plate.push({id, qty:i.def}); }
-  state.expand=false; state.query=''; const si=$('#search'); if(si) si.value=''; // clear search after a pick
+  clearSearch();
   render(); }
 function rmItem(id){ state.plate = state.plate.filter(p=>p.id!==id); render(); }
 function setQty(id, qty){
   qty = Math.max(0, Number(qty)||0);
   if(qty===0){ rmItem(id); return; }
-  const ip=inPlate(id); if(ip){ ip.qty=qty; } else { state.plate.push({id,qty}); }
+  const ip=inPlate(id); if(ip){ ip.qty=qty; }
+  // only the ADD transition clears the search — nudging the quantity of something already on the
+  // plate is an edit, not an answer, and wiping the results mid-adjust would be the annoying bug.
+  else { state.plate.push({id,qty}); clearSearch(); }
   render();
 }
 
@@ -1371,7 +1399,7 @@ document.addEventListener('click', e=>{
   }
   else if(t.id==='moreBtn'){ state.expand=!state.expand; renderBuilder(); }
   else if(t.id==='searchBuy'){ e.preventDefault(); state.showBuy=true; renderBuilder(); }
-  else if(t.id==='reset'){ state.plate=[]; state.focus='protein'; state.query=''; state.expand=false; const si=$('#search'); if(si) si.value=''; render(); }
+  else if(t.id==='reset'){ state.plate=[]; state.focus='protein'; clearSearch(); render(); }
   else if(t.id==='savePlate'){ savePlate(); }
   else if(t.id==='recipeAdd'){ state.savingRecipe=true; renderRecipeSave(); }
   else if(t.id==='recipeCancel'){ state.savingRecipe=false; renderRecipeSave(); }
