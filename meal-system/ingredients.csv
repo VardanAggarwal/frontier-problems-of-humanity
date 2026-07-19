@@ -78,6 +78,7 @@ suji,Suji/rava,serving,1,1,0,0,0,0,base,267,9.1,54.7,7.8,2.38,24,0,21,0.02,0,1.7
 vermicelli,Vermicelli,serving,1,1,0,0,0,0,base,266,7.8,56.3,7.4,1.62,16,0,11,0.01,0,0.66,0,27,130,,180,8,400 g packet,0,,,0,,,A023,80,ICMR-NIN DGI 2024 cereal serving (250g/day)
 oats,Rolled oats,serving,1,0,1,0,0,0,base,152,4.4,28.3,3.1,1.46,20,0,13,0.1,0,0.92,0,46,149,buy - the zero-cook overnight base - UK FCT A508 via INDB (ALA still an estimate),180,12,500 g packet,0,,,0,,,,40,row already stated 40g
 batter,Dosa-idli batter (ragi),serving,2,1,1,0,1,0,base,90,3,15,1,1,40,0,0,0,0,0,0,15,50,fermented,5,8,1 kg pack,0,buy it - or ferment 12h,,0,,,,60,ESTIMATE - one dosa
+batter_plain,Dosa-idli batter (rice-urad),serving,2,1,1,0,1,0,base,92,3.1,18.9,1.3,0.44,5,0,7.7,0.04,0,0.44,0,15,98,the everyday batter - the ragi version carries 8x the calcium,5,8,1 kg pack,0,buy it - or ferment 12h,,0,,,,60,DERIVED 3:1 rice(A015):urad(B003) by dry weight - 60 g wet batter ~ 26.5 g dry
 bread,Multigrain bread,serving,2,1,0,0,0,0,base,70,3,12,2,1,15,0,0,0,0,0,0,25,70,emergency only,5,12,loaf,0,,,0,,,,30,ESTIMATE - one slice
 spinach,Spinach,serving,1,1,0,1,0,1,green,18,1.6,1.5,1.8,2.21,62,22.7,106,0.17,0,0.35,163,65,469,add lemon for oxalates,3,4,bunch,0,,,0,,,C033,75,ICMR-NIN DGI 2024 glv serving (100g/day)
 amaranth,Amaranth,serving,1,1,0,1,0,1,green,23,2.5,1.7,3.3,3.48,248,62.7,53,0.19,0,0.65,535,146,429,lower oxalate than palak,3,4,bunch,0,,,0,,,C002,75,ICMR-NIN DGI 2024 glv serving (100g/day)
