@@ -350,9 +350,22 @@ function renderPins(){
   $('#pins').innerHTML = html;
 }
 
+// Order the kitchen by how much of each thing is on hand, fullest first, so the
+// truncated view shows what you actually have rather than the top of the pantry file.
+// Snapshotted: editing a count must not make the row jump out from under the cursor.
+let stockOrder = null;
+function stockRank(){
+  if(stockOrder) return stockOrder;
+  const by = ING.map((i,ix)=>({id:i.id, qty:stockOf(i.id), ix}))
+    .sort((a,b)=>(b.qty-a.qty) || (a.ix-b.ix));
+  stockOrder = new Map(by.map((x,rank)=>[x.id, rank]));
+  return stockOrder;
+}
 function renderStock(){
   const q=(state.q||'').trim().toLowerCase();
-  let list = q ? ING.filter(i=>i.name.toLowerCase().includes(q)) : ING;
+  const rank = stockRank();
+  let list = (q ? ING.filter(i=>i.name.toLowerCase().includes(q)) : ING.slice())
+    .sort((a,b)=>rank.get(a.id)-rank.get(b.id));
   const LIMIT=12;
   const shown = (q||state.expandStock) ? list : list.slice(0,LIMIT);
   const moreN = list.length-shown.length;
@@ -410,14 +423,14 @@ document.addEventListener('click', e=>{
     const v=(Number(inp.value)||0) + (t.dataset.sact==='inc'?step:-step);
     setStock(id, Math.max(0, round1(v)));
   }
-  else if(t.id==='moreStock'){ state.expandStock=!state.expandStock; renderStock(); }
+  else if(t.id==='moreStock'){ state.expandStock=!state.expandStock; stockOrder=null; renderStock(); }
 });
 document.addEventListener('change', e=>{
   if(e.target.dataset.sid){ setStock(e.target.dataset.sid, e.target.value); }
   if(e.target.dataset.pinid){ setPin(e.target.dataset.pinid, e.target.value); }
 });
 document.addEventListener('input', e=>{
-  if(e.target.id==='stockSearch'){ state.q=e.target.value; renderStock(); }  // keep focus: only rebuild the list
+  if(e.target.id==='stockSearch'){ state.q=e.target.value; stockOrder=null; renderStock(); }  // keep focus: only rebuild the list
 });
 
 /* ============ INIT ============ */

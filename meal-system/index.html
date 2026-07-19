@@ -343,6 +343,11 @@ function daysLeft(id){
   return (i.shelf||30) - age;
 }
 const isDying = id => stockQty(id) > 0 && daysLeft(id) <= 3;
+// `pantry` is a static seed hint from the CSV — it says "I usually keep this", not "I have this".
+// Once any stock has actually been counted, the count is the truth and the hint is ignored.
+// Before that first count everything reads 0, so fall back to the hint rather than badging all 121.
+const stockSeeded = () => Object.values(STOCK).some(x=>(x.qty||0) > 0);
+const needsBuy = i => stockSeeded() ? stockQty(i.id) <= 0 : !i.pantry;
 
 /* Graded decay pressure, 0..1. isDying is a cliff — a beetroot with 4 days left scores the same
    as one with 30, then jumps to full panic on day 3. That reads nothing like how produce actually
@@ -692,7 +697,7 @@ function renderRecipes(){
   const ing=id=>ING.find(x=>x.id===id);
   const nm=id=>{const i=ing(id); return i?i.nm:id;};
   const buyTag=id=>{const i=ing(id); if(!i) return '';
-    return i.makes ? ' <span class="buy">prep</span>' : (!i.pantry ? ' <span class="buy">buy</span>' : '');};
+    return i.makes ? ' <span class="buy">prep</span>' : (needsBuy(i) ? ' <span class="buy">buy</span>' : '');};
   const fits=r=>fitsMeal(r,state.meal)?1:0;
 
   const {chosen, bases, finish, leftover} = composePlate(plateIds, state.meal);
@@ -843,7 +848,7 @@ function suggRow(i, key, remaining){
     ? `<span class="buy" style="color:var(--accent);border-color:var(--accent)">${dl<=0?'use today':dl+'d left'}</span>` : '';
   return `<div class="srow ${ip?'inplate':''}">
     <div class="si">
-      <div class="nm">${i.nm}${i.makes?'<span class="buy">prep</span>':(!i.pantry?'<span class="buy">buy</span>':'')}${dying}</div>
+      <div class="nm">${i.nm}${i.makes?'<span class="buy">prep</span>':(needsBuy(i)?'<span class="buy">buy</span>':'')}${dying}</div>
       <div class="meta">${bits.join(' · ')}</div>
     </div>
     <div class="stepper" data-id="${i.id}">
@@ -1046,10 +1051,15 @@ function renderBuilder(){
   // …and among equal fits, the one that also carries what the WEEK has been missing rises: a
   // chronic iron gap should get closed by the greens you were adding for folate anyway. Ranked
   // below freshness (a perishable is a deadline; debt is a drift) and above the variety penalty.
+  // …and something you don't actually have sinks below something you do. A penalty, not a filter:
+  // the answer to a gap nothing in the kitchen closes is still "buy this", so it stays visible —
+  // it just stops outranking food already on the shelf. Sized above the variety penalty (0.2×2)
+  // and below the freshness bonus (0.6), so a dying ingredient still beats a shopping trip.
   const fit=i=>Math.abs(delivered(i,key)*i.def - remaining)
               - (isDying(i.id)?remaining*0.6:0)
               - debtBonus(i)*remaining*0.4
-              + Math.min(recentUse(i.id),2)*remaining*0.2;
+              + Math.min(recentUse(i.id),2)*remaining*0.2
+              + (needsBuy(i)?remaining*0.5:0);
   sugg.sort((a,b)=> fit(a)-fit(b));
   const LIMIT=3, shown=state.expand?sugg:sugg.slice(0,LIMIT), moreN=sugg.length-shown.length;
 
