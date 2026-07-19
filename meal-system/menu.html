@@ -215,7 +215,8 @@ const anchorFor = di => PROTEIN_ANCHORS[((di % PROTEIN_ANCHORS.length) + PROTEIN
 const LEGUMES    = ['dal','rajma','kala','sprout','soya','besan'];
 const IRON_PLATE = 2;    // mg of iron on a plate that obliges a vit-C partner
 
-let state = { from:todayStr(), days:7, effort:'low', menu:[], dirty:false };
+let state = { from:todayStr(), days:7, effort:'low', menu:[], dirty:false,
+              showStock:false /* the fold on the use-it-up picker; view only, never persisted */ };
 
 /* ---- api ---- */
 const API = new URL('api/', location.href.replace(/[^/]*$/, '')).href;
@@ -309,6 +310,66 @@ function rescueScore(r, scheduled){
     return s + urgency * (1 - covered);
   }, 0);
 }
+/* ============ USE IT UP — the one thing you asked for out loud ============
+   rescueScore infers what matters from a shelf-life clock. This is the opposite: you TOLD it.
+   You have half a cabbage and a block of paneer and you want them gone this week, and no amount
+   of inferred urgency is going to say so — the paneer has three weeks of shelf life and the
+   generator would happily ignore it while you watch it sit there.
+   So a flagged item outranks rescue (an instruction beats a deadline) but still loses to the
+   calorie ceiling and the daily contract, which are hard passes, not scores. The honest
+   consequence is that flagging something is not a promise it gets eaten — see placement(). */
+const useUp = id => !!(STOCK[id]||{}).useup;
+const useUpIds = () => ING.filter(i=>useUp(i.id)).map(i=>i.id);
+/* Pull toward a flagged item, fading as the run actually places it. Same `covered` trick rescue
+   uses, and for the same reason: without it every slot piles onto the first flagged item and the
+   second one never gets touched. `qty` is what you own — the pull dies when the stock does, so a
+   flagged item with 2 servings left stops competing once 2 servings are on the calendar. */
+function useUpScore(r, scheduled){
+  const ids = new Set([...r.core, ...r.opt]);
+  return useUpIds().reduce((s,id)=>{
+    if(!ids.has(id)) return s;
+    const have = stockQty(id);
+    if(have <= 0) return s;                                   // flagged but you own none — nothing to spend
+    const covered = Math.min(1, ((scheduled||{})[id]||0) / have);
+    return s + (1 - covered);
+  }, 0);
+}
+/* Did it actually work? Walk the finished menu and count servings placed against servings owned.
+   This is the whole point of the feature: "I flagged the cabbage" is anxiety, "4 of 6 placed,
+   nothing else uses it this week" is information you can act on. Reported, never faked — the
+   generator is not allowed to force the last two servings in by breaking the contract. */
+function placement(){
+  return useUpIds().map(id=>{
+    const i = ing(id), have = stockQty(id);
+    const days = dates().filter(d=>dayHas(d,id));
+    const placed = dates().reduce((s,d)=>s+dayItems(d).filter(x=>x.id===id).reduce((n,x)=>n+x.qty,0), 0);
+    return {i, have, placed:Math.min(placed,have), left:Math.max(0, have-placed), days, why:whyStuck(id)};
+  }).filter(x=>x.i);
+}
+/* WHY it didn't all fit — the difference between a feature and a shrug. "4 of 6 placed" alone
+   leaves you guessing whether to wait, cook differently or give the cabbage away. Every answer
+   here names the specific constraint that bound, because each has a different fix.
+   Checked in order of how fixable they are, cheapest fix first. */
+function whyStuck(id){
+  const cap  = EFFORT_MODES[state.effort].cap;
+  const uses = RECIPES.filter(r=>[...r.core,...r.opt].includes(id) && SLOTS.some(m=>fitsMeal(r,m)));
+  if(!uses.length)
+    return `no dish in the book uses this — add it to a plate by hand on the planner`;
+  const under = uses.filter(r=>(r.effort||15) <= cap);
+  if(!under.length){
+    const min = Math.min(...uses.map(r=>r.effort||15));
+    const mode = Object.entries(EFFORT_MODES).find(([,m])=>m.cap >= min);
+    return `no dish under ${cap} min uses this — the quickest is ${min} min`
+         + (mode ? `, so switch effort to “${mode[1].label}”` : '');
+  }
+  // Dishes exist and are cheap enough, so what's left is the variety rule: no dish twice inside
+  // GAP days, and none more than a third of the horizon. That's a real ceiling, and it's the one
+  // people misread as the generator ignoring them.
+  const ceiling = under.length * Math.max(2, Math.ceil(state.days/3));
+  return `${under.length} dish${under.length===1?'':'es'} here use it, but no dish repeats inside
+          ${3} days — about ${ceiling} serving${ceiling===1?'':'s'} is the most ${state.days} days can absorb`;
+}
+
 /* ============ BASKET COST — plan out of the fridge, not out of the shop ============
    rescueScore only pulls toward what is about to ROT. It says nothing about the much commoner
    case: an ingredient we simply don't own. So a "cheap" week could still open with a shopping
@@ -502,6 +563,12 @@ function generate(){
   // the HARD variety filter above already pins most slots, which is the correct priority: a menu
   // that answers your iron gap by serving spinach seven days running is a worse menu.
   const DEBT_W = 1.5;
+  /* Use-it-up weight. Set ABOVE rescue's top urgency (1.6) on purpose: an explicit instruction
+     outranks an inferred deadline. It is deliberately the largest term in this score — if you
+     flag three things and the week doesn't visibly bend around them, the feature is a lie. What
+     it still cannot do is break the HARD gates (variety, effort cap, calorie ceiling, the daily
+     contract), which is why placement() reports the shortfall instead of the score hiding it. */
+  const USEUP_W = 2.0;
   /* Basket weight — and this one is a genuine TRADE, not a free win, so the number is measured
      rather than picked. Swept over 12 generations per point on a 7-day horizon:
 
@@ -542,6 +609,7 @@ function generate(){
       // debtFit then tilts what's left toward the nutrient the last week kept missing — weaker
       // than rescue (a deadline beats a drift) but enough to decide between comparable dishes.
       const r = cands.map(r=>({r, s: AFF[r.id] - (r.effort||15)/60 + rescueScore(r, sched)
+                                     + USEUP_W*useUpScore(r, sched)
                                      + DEBT_W*debtFit(r, DEBT) - BUY_W*buyCost(r, sched)
                                      - DIV*monotony(r, ingUse) + Math.random()*0.25}))
                      .sort((a,b)=>b.s-a.s)[0].r;
@@ -756,8 +824,11 @@ function enforceContract(d){
   // fresh one — deepening a line on the shopping list is cheaper than opening another.
   const spare  = i => plannedQty(i.id) + (i.default||1) <= stockQty(i.id) ? 1 : 0;
   const onList = i => plannedQty(i.id) > 0 ? 1 : 0;
+  // a flagged green wins outright while there's still stock to spend — this pass places two
+  // greens a day, so it's the single biggest lever the contract has on using something down.
+  const want = i => (useUp(i.id) && spare(i)) ? 1 : 0;
   const greens = ING.filter(i=>i.green)
-    .sort((a,b)=>spare(b)-spare(a) || onList(b)-onList(a) || daysLeft(a.id) - daysLeft(b.id));
+    .sort((a,b)=>want(b)-want(a) || spare(b)-spare(a) || onList(b)-onList(a) || daysLeft(a.id) - daysLeft(b.id));
   ['lunch','dinner'].forEach(m=>{
     if(!has(m)) return;
     const slot = state.menu.find(s=>s.date===d && s.meal===m);
@@ -1016,38 +1087,104 @@ function renderPrep(){
    <b>Done</b> stocks the ready form (soaked rajma keeps ~2 days sprouts ~3) so the next cook skips the wait.</p>`;
 }
 
+/* The panel answers three questions in the order you actually ask them:
+     1. what did I flag, and did the menu absorb it?     (placement — the anxiety, answered)
+     2. what's about to rot whether I flagged it or not?  (the clock, unchanged)
+     3. what else is in the fridge?                       (the picker, folded away until wanted)
+   Ordered that way because after generating, (1) is the only one you came back for. Each section
+   renders an item at most once — a flagged, rotting cabbage belongs in (1), not three times. */
 function renderFresh(){
-  const risk = atRisk();
-  if(!risk.length){
-    $('#fresh').innerHTML = `<div class="empty">Nothing perishable is close to turning${Object.keys(STOCK).length?'':' — count your stock on the shopping page first'}.</div>`;
+  const el = $('#fresh');
+  if(!Object.keys(STOCK).length){
+    el.innerHTML = `<div class="empty">Nothing counted in stock — count it on the
+      <a href="shop.html">shopping page</a> and everything you own shows up here to flag.</div>`;
     return;
   }
+  const flagged = placement();
+  const shownAbove = new Set(flagged.map(x=>x.i.id));
+  const risk  = atRisk().filter(x=>!shownAbove.has(x.i.id));
+  risk.forEach(x=>shownAbove.add(x.i.id));
   const waste = state.menu.length ? spoilage() : [];
-  const wasteIds = new Set(waste.map(w=>w.i.id));
-  const head = !state.menu.length
-    ? `<p class="note" style="margin:-4px 0 10px">Generate a menu and I'll show what it rescues and what still rots.</p>`
-    : waste.length
-      ? `<div class="banner warn" style="margin-bottom:12px"><b>${waste.length} item${waste.length===1?'':'s'} will still spoil</b>
-         — the menu doesn't use ${waste.length===1?'it':'them'} up in time. Swap a slot for a dish that does, or plan to give ${waste.length===1?'it':'them'} away.</div>`
-      : `<div class="banner" style="margin-bottom:12px">✓ This menu uses up everything before it turns.</div>`;
+  const planned = state.menu.length;
+  let html = '';
 
-  $('#fresh').innerHTML = head + risk.map(x=>{
-    const w = waste.find(y=>y.i.id===x.i.id);
-    const dead = x.left <= 0;
-    const uses = state.menu.length ? RECIPES.filter(r=>[...r.core,...r.opt].includes(x.i.id))
-                                            .slice(0,2).map(r=>r.name) : [];
-    return `<div class="rrow">
-      <div class="rn"><b>${x.i.name}</b>
-        <small class="${dead||w?'miss':''}">${round1(x.qty)} ${x.i.unit} ·
-          ${dead ? 'past its shelf life' : `${x.left} day${x.left===1?'':'s'} left`}
-          ${w ? ` · <b>${round1(w.waste)} ${x.i.unit} will spoil</b>` : state.menu.length ? ' · used in time ✓' : ''}</small>
-        ${w && uses.length ? `<small style="color:var(--muted)">try: ${uses.join(' · ')}</small>` : ''}
-      </div>
-      <span class="pill ${dead||w?'':'ok'}">${dead?'⚠':x.left<=2?'soon':'ok'}</span>
-    </div>`;
-  }).join('') +
-  `<p class="note" style="margin:10px 0 0">The generator already pulls hard toward dishes that use these — a
-   bunch of spinach costs more than the 10 minutes it takes to cook properly, so freshness outranks effort.</p>`;
+  // --- 1. WHAT YOU ASKED FOR. Reported honestly: the generator is not allowed to force the last
+  //        two servings in by breaking the contract, so sometimes the answer is "it doesn't fit".
+  if(flagged.length){
+    if(!planned){
+      html += `<div class="banner"><b>${flagged.length} item${flagged.length===1?'':'s'} flagged to use up.</b>
+        Generate and the week bends toward ${flagged.length===1?'it':'them'} — then I'll report exactly how much lands.</div>`;
+    } else {
+      const done = flagged.filter(x=>x.left <= 0.05);
+      html += done.length===flagged.length
+        ? `<div class="banner">✓ Everything you flagged fits inside these ${state.days} days.</div>`
+        : `<div class="banner warn"><b>${flagged.length-done.length} of ${flagged.length} flagged item${flagged.length===1?'':'s'} won't fit</b>
+           in ${state.days} days. The menu takes what it can without breaking the calorie ceiling or the daily
+           contract — stretch the horizon, or plan to give the rest away.</div>`;
+    }
+    html += flagged.map(x=>{
+      const ok = x.left <= 0.05, dl = daysLeft(x.i.id);
+      const clock = (x.i.shelf||30) <= PERISHABLE ? (dl<=0 ? ' · past its shelf life' : ` · ${dl}d left`) : '';
+      return `<div class="rrow">
+        <div class="rn"><b>${x.i.name}</b>
+          <small class="${planned && !ok ? 'miss':''}">${planned
+            ? `${round1(x.placed)} of ${round1(x.have)} ${x.i.unit} placed${ok?' ✓':` · <b>${round1(x.left)} left over</b>`}`
+            : `${round1(x.have)} ${x.i.unit}${clock}`}</small>
+          ${planned ? `<small style="color:var(--muted)">${ok
+            ? x.days.map(d=>dayName(d)).join(', ')
+            : x.why}</small>` : ''}
+        </div>
+        <button class="add" data-useup="${x.i.id}" style="padding:6px 9px">✓ using up</button>
+      </div>`;
+    }).join('');
+  }
+
+  // --- 2. THE CLOCK. Same as before: what rots, flagged or not.
+  if(risk.length){
+    html += !planned
+      ? `<p class="note" style="margin:${html?'14px':'-4px'} 0 10px">On the clock — generate and I'll show what gets rescued and what still rots:</p>`
+      : waste.length
+        ? `<div class="banner warn" style="margin-top:${html?'14px':'0'}"><b>${waste.length} item${waste.length===1?'':'s'} will still spoil</b>
+           — the menu doesn't use ${waste.length===1?'it':'them'} up in time. Flag ${waste.length===1?'it':'them'} below and regenerate, or plan to give ${waste.length===1?'it':'them'} away.</div>`
+        : `<div class="banner" style="margin-top:${html?'14px':'0'}">✓ This menu uses up everything before it turns.</div>`;
+    html += risk.map(x=>{
+      const w = waste.find(y=>y.i.id===x.i.id);
+      const dead = x.left <= 0;
+      return `<div class="rrow">
+        <div class="rn"><b>${x.i.name}</b>
+          <small class="${dead||w?'miss':''}">${round1(x.qty)} ${x.i.unit} ·
+            ${dead ? 'past its shelf life' : `${x.left} day${x.left===1?'':'s'} left`}
+            ${w ? ` · <b>${round1(w.waste)} ${x.i.unit} will spoil</b>` : planned ? ' · used in time ✓' : ''}</small>
+        </div>
+        <button class="add ghost" data-useup="${x.i.id}" style="padding:6px 9px">use it up</button>
+      </div>`;
+    }).join('');
+  }
+
+  // --- 3. EVERYTHING ELSE you own. Folded away: the point of the panel is the two lists above,
+  //        and a 40-row fridge inventory on top of them would bury the answer you came for.
+  const rest = ING.filter(i=>stockQty(i.id) > 0 && !shownAbove.has(i.id))
+                  .sort((a,b)=> daysLeft(a.id)-daysLeft(b.id) || stockQty(b.id)-stockQty(a.id));
+  if(rest.length){
+    html += `<button class="add ghost" id="useupAll" style="margin-top:14px">
+      ${state.showStock ? '↑ hide' : `↓ flag something else · ${rest.length} more in stock`}</button>`;
+    if(state.showStock){
+      html += rest.map(i=>{
+        const dl = daysLeft(i.id);
+        const clock = (i.shelf||30) <= PERISHABLE ? ` · ${dl<=0?'past its shelf life':dl+'d left'}` : '';
+        return `<div class="rrow">
+          <div class="rn"><b>${i.name}</b><small>${round1(stockQty(i.id))} ${i.unit}${clock}</small></div>
+          <button class="add ghost" data-useup="${i.id}" style="padding:6px 9px">use it up</button>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  html += `<p class="note" style="margin:12px 0 0">Flagging an item outranks the shelf-life clock — you said
+    it out loud, so it beats a guess. It does not outrank the calorie ceiling or the daily contract, which is
+    why the count above is a report and not a promise. Flagging doesn't rewrite the menu on its own:
+    <b>hit Suggest a menu again</b>.</p>`;
+  el.innerHTML = html;
 }
 
 function renderContract(){
@@ -1086,6 +1223,14 @@ document.addEventListener('click', async e=>{
     try{ STOCK = await api('stock/add', {id:o.id, delta:(o.pack||1)}); render(); }
     catch(err){ apiFail('log the prep', err); }
   }
+  // Flagging does NOT regenerate. Rewriting a menu you may have already shopped for, because you
+  // ticked a box, is the wrong default — the button below says what to do next.
+  else if(t.dataset.useup){
+    const id = t.dataset.useup;
+    try{ STOCK = await api('stock/useup', {id, on: !useUp(id)}); render(); }
+    catch(err){ apiFail('flag that for using up', err); }
+  }
+  else if(t.id==='useupAll'){ state.showStock = !state.showStock; renderFresh(); }
 });
 document.addEventListener('change', e=>{
   const t=e.target;

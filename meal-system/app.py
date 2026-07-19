@@ -29,6 +29,7 @@ API:
   POST /api/stock           -> {id, qty}              set absolute
   POST /api/stock/add       -> {id, delta}            tick a shopping line (delta = packs bought)
   POST /api/stock/seed      -> assume one full pack of every pantry=1 ingredient
+  POST /api/stock/useup     -> {id, on}  flag an item for the generator to eat down
   GET  /api/pins            -> {recipe_id: perweek}   dishes you want to stay able to make
   POST /api/pins            -> {id, perweek}          perweek = 0 unpins
   GET  /api/menu            -> the planned menu (plates with planned=1 — intended, not eaten)
@@ -96,7 +97,7 @@ MIGRATIONS = {
                 'amounts': "TEXT DEFAULT ''", 'src': "TEXT DEFAULT ''"},
     # bought_at, NOT updated_at: freshness is measured from the last PURCHASE. updated_at moves
     # every time you cook, so using it would silently reset the clock each time you ate some.
-    'stock': {'bought_at': "TEXT DEFAULT ''"},
+    'stock': {'bought_at': "TEXT DEFAULT ''", 'useup': 'INT DEFAULT 0'},
 }
 
 SCHEMA = """
@@ -119,7 +120,8 @@ CREATE TABLE IF NOT EXISTS ingredients(
 );
 CREATE TABLE IF NOT EXISTS stock(
   ing_id TEXT PRIMARY KEY, qty REAL DEFAULT 0, updated_at TEXT,
-  bought_at TEXT DEFAULT ''      -- last time this was BOUGHT. Freshness clock; cooking never resets it.
+  bought_at TEXT DEFAULT '',     -- last time this was BOUGHT. Freshness clock; cooking never resets it.
+  useup INT DEFAULT 0            -- you asked the generator to eat this down. Survives regeneration.
 );
 CREATE TABLE IF NOT EXISTS pins(
   recipe_id TEXT PRIMARY KEY, perweek REAL DEFAULT 1
@@ -428,7 +430,8 @@ def get_plates(planned=0, since=''):
 
 def get_stock():
     with db() as c:
-        return {r['ing_id']: {'qty': r['qty'], 'bought': r['bought_at'] or r['updated_at'] or ''}
+        return {r['ing_id']: {'qty': r['qty'], 'bought': r['bought_at'] or r['updated_at'] or '',
+                              'useup': bool(r['useup'])}
                 for r in c.execute('SELECT * FROM stock')}
 
 
@@ -581,6 +584,20 @@ def seed_stock():
     return get_stock()
 
 
+def set_useup(iid, on):
+    """Flag/unflag one stocked ingredient as 'eat this down'.
+
+    Lives on the stock row, not in the browser, so the flag you set on your phone is the one the
+    laptop generates against. INSERT-then-update because you can legitimately flag something the
+    stock table has never seen (qty 0) — it just won't pull on anything until you count it.
+    """
+    with db() as c:
+        c.execute('INSERT INTO stock (ing_id,qty,updated_at,bought_at,useup) VALUES (?,0,?,?,?) '
+                  'ON CONFLICT(ing_id) DO UPDATE SET useup=excluded.useup',
+                  [iid, _now(), _now(), 1 if on else 0])
+    return get_stock()
+
+
 def set_pin(rid, perweek):
     with db() as c:
         if _num(perweek) <= 0:
@@ -697,6 +714,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 return self._json(200, set_stock(str(d.get('id', '')), d.get('qty'), d.get('bought')))
             if p == '/api/stock/add':
                 return self._json(200, add_stock(str(d.get('id', '')), d.get('delta')))
+            if p == '/api/stock/useup':
+                return self._json(200, set_useup(str(d.get('id', '')), bool(d.get('on'))))
             if p == '/api/stock/seed':
                 return self._json(200, seed_stock())
             if p == '/api/pins':
