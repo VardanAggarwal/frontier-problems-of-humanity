@@ -348,6 +348,7 @@ const isDying = id => stockQty(id) > 0 && daysLeft(id) <= 3;
 // Before that first count everything reads 0, so fall back to the hint rather than badging all 121.
 const stockSeeded = () => Object.values(STOCK).some(x=>(x.qty||0) > 0);
 const needsBuy = i => stockSeeded() ? stockQty(i.id) <= 0 : !i.pantry;
+const haveNow  = i => !!i && !needsBuy(i);
 
 /* Graded decay pressure, 0..1. isDying is a cliff — a beetroot with 4 days left scores the same
    as one with 30, then jumps to full panic on day 3. That reads nothing like how produce actually
@@ -872,7 +873,7 @@ function searchRecipes(q){
     const hitName = r.name.toLowerCase().includes(q);
     const hit = hitName || (r.cuisine||'').includes(q) || (r.method||'').toLowerCase().includes(q) || names.includes(q);
     if(!hit) return null;
-    const have = r.core.filter(id=>{const i=ING.find(x=>x.id===id); return i && i.pantry;}).length;
+    const have = r.core.filter(id=>haveNow(ING.find(x=>x.id===id))).length;
     return {r, s: (hitName?4:0) + have/Math.max(1,r.core.length)*2
                  + (fitsMeal(r,state.meal)?1:0) - r.effort/60};
   }).filter(Boolean).sort((a,b)=>b.s-a.s).slice(0,5);
@@ -894,7 +895,7 @@ function dishRow(r){
   const kc= ids.reduce((s,id)=>{const i=ING.find(x=>x.id===id); return s + (i?i.n.kcal*i.def:0);},0);
   const nm = id=>{const i=ING.find(x=>x.id===id); return i?i.nm:id;};
   // ids, not objects. Prep outputs are reachable, not shopping — same rule the ranking uses.
-  const missing = ids.filter(id=>{const i=ING.find(x=>x.id===id); return i && !(i.pantry||i.makes);});
+  const missing = ids.filter(id=>{const i=ING.find(x=>x.id===id); return i && !(haveNow(i)||i.makes);});
   // What this dish actually saves, soonest-to-turn first. Named with the clock, because "beetroot"
   // is a fact and "beetroot, 2d" is a reason to cook this tonight instead of scrolling on.
   const saves = ids.filter(id=>urgency(id) > 0).sort((a,b)=>daysLeft(a)-daysLeft(b));
@@ -956,7 +957,7 @@ function suggestDishes(meal, n=3){
        capsicum, so nothing got cooked and the beetroot rotted anyway. Two items is a corner-shop
        errand; letting that block a rescue is how food dies in the fridge. */
     const ids = dishItems(r);
-    const missing = ids.filter(id=>{const i=ING.find(x=>x.id===id); return !(i && (i.pantry||i.makes));}).length;
+    const missing = ids.filter(id=>{const i=ING.find(x=>x.id===id); return !(i && (haveNow(i)||i.makes));}).length;
     const forgiven = rescue >= 0.5 ? 2 : 0;
     const short = Math.max(0, missing - forgiven);
     return 0.35*aff + 1.1*rescue - 0.6*mono - (r.effort||15)/60 - 0.5*short;
@@ -996,7 +997,7 @@ function renderBuilder(){
     // fallback single protein base if no dish is tagged for this meal (rotation-aware, ready-now)
     const pT = MEALS[state.meal].p;
     const basePick = BASES.map(id=>ING.find(x=>x.id===id))
-      .filter(i=>i && i.role==='protein' && (i.pantry||stockQty(i.id)>0))
+      .filter(i=>i && i.role==='protein' && haveNow(i))
       .sort((a,b)=> (isDying(b.id)-isDying(a.id)) || ((a.lead||0)-(b.lead||0))
                  || (recentUse(a.id)-recentUse(b.id)) || ((b.n.p||0)-(a.n.p||0)))[0];
     const tiles=BASES.map(id=>{const i=ING.find(x=>x.id===id); return i?`<button class="tab" data-add="${id}">${i.nm}</button>`:'';}).join('');
