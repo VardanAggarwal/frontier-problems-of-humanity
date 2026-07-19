@@ -261,7 +261,17 @@ const overCap = (r, cap) => Math.max(0, effMin(r) - cap) / cap;
 // dominant SOURCE rotates. A legume every day (below) stays the backbone regardless.
 const PROTEIN_ANCHORS = [{id:'egg', qty:2}, {id:'tofu', qty:1}, {id:'paneer', qty:1}, {id:'dal', qty:1}];
 const anchorFor = di => PROTEIN_ANCHORS[((di % PROTEIN_ANCHORS.length) + PROTEIN_ANCHORS.length) % PROTEIN_ANCHORS.length];
-const LEGUMES    = ['dal','rajma','kala','sprout','soya','besan'];
+/* What satisfies "a legume every day". This listed six ids while the ingredient table carried
+   fifteen pulses, so a day built on chana dal, masoor or lobia read as having NO legume — and
+   enforceContract's response to that is to add a toor dal on top. A redundant second pulse, its
+   calories, and a menu that tastes like dal every day because the gate could not see the dal it
+   already had. Surfaced by the item swap: replacing dal with chana dal flipped the flag to ⚠.
+   Judgement calls, deliberate: tofu and paneer are out (the plan rotates tofu as its OWN protein
+   anchor, so counting it here would let the legume gate pass on a day with no pulse at all);
+   peanut and peanut butter are out (botanically legumes, used here as a seed and a condiment);
+   french beans, cluster beans and fresh peas are out — they are role=veg, not pulse protein. */
+const LEGUMES    = ['dal','rajma','rajma_soaked','kala','kabuli','chana_dal','urad','masoor',
+                    'lobia','moth','matar','moong_whole','sprout','soya','besan'];
 const IRON_PLATE = 2;    // mg of iron on a plate that obliges a vit-C partner
 
 let state = { from:todayStr(), days:7, effort:'low', menu:[], dirty:false,
