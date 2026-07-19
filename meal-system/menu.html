@@ -74,6 +74,8 @@
   .si .item:not(:last-child):after{content:', '}
   .si .item:hover{text-decoration:underline dotted;text-underline-offset:2px;color:var(--accent)}
   .topper.item:hover{filter:brightness(1.1)}
+  .edited{display:inline-block;font-size:9.5px;padding:1px 5px;margin-left:4px;border-radius:999px;
+    border:1px dashed var(--warn);color:var(--warn);text-transform:none;letter-spacing:0;cursor:help}
   .swapbox{margin-top:6px;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--chip)}
   .swaphead{font-size:11px;color:var(--muted);margin-bottom:6px}
   .swapopt{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;
@@ -1084,8 +1086,17 @@ function renderGrid(){
         const s = state.menu.find(x=>x.date===d && x.meal===m);
         if(!s) return `<div class="slot"><div class="sm">${MEALS[m].label}</div><div class="empty">—</div></div>`;
         const r = rec(s.recipe);
-        const core = new Set(r ? [...r.core, ...r.opt] : []);
-        const extras = s.items.filter(x=>!core.has(x.id) || (ing(x.id)||{}).topper);
+        /* What counts as "part of the dish" for display. Once you've edited the slot the recipe
+           is no longer the authority on what's on it — the plate is. Reading the stale recipe
+           here is what made a swapped-in ingredient render TWICE: absent from the recipe's core
+           it fell through to `extras`, while still being listed as a plain item. */
+        const edited = !!s.edited;
+        const isTop = x => !!(ing(x.id)||{}).topper;
+        const core = new Set(r && !edited ? [...r.core, ...r.opt]
+                                          : s.items.filter(x=>!isTop(x)).map(x=>x.id));
+        // disjoint by construction, so nothing can appear in both lists again
+        const extras = s.items.filter(x=>!core.has(x.id) || isTop(x));
+        const listed = s.items.filter(x=>core.has(x.id) && !isTop(x));
         const p = tot(s.items,'p'), low = p < MEALS[m].p*0.85;
         const opts = RECIPES.filter(x=>fitsMeal(x,m))
           .sort((a,b)=>effMin(a)-effMin(b))
@@ -1098,10 +1109,10 @@ function renderGrid(){
                  ${e.est?`data-settime="${r.id}" title="estimated — no recorded time for this dish. Tap to set the real one."`:''}
            >${e.est?'~':''}${e.min} min${e.est?' est':''}${r.cuisine?` · ${r.cuisine}`:''}</span>`;
         return `<div class="slot">
-          <div class="sm">${MEALS[m].label} ${cost}</div>
+          <div class="sm">${MEALS[m].label} ${cost}${edited
+            ? `<span class="edited" title="you swapped an ingredient, so this is no longer exactly ${r?r.name:'the original dish'} — the time shown is the original dish's">edited</span>` : ''}</div>
           <select data-swap="${d}|${m}">${opts}</select>
-          <div class="si">${s.items.map(x=>{const i=ing(x.id); if(!i) return '';
-            if(i.topper && !core.has(x.id)) return '';
+          <div class="si">${listed.map(x=>{const i=ing(x.id); if(!i) return '';
             return `<span class="item" data-replace="${d}|${m}|${i.id}" title="tap to swap just this">${i.name}${x.qty!==i.default?` ×${round1(x.qty)}`:''}</span>`;})
             .filter(Boolean).join('')}</div>
           <div>${extras.map(x=>{const i=ing(x.id); return i
@@ -1135,6 +1146,33 @@ function swapCandidates(id, date){
     })
     .sort((a,b)=>b.score-a.score);
 }
+/* A slot carries a recipe AND a list of items, and swapping an item breaks the promise between
+   them: take the millet out of a millet upma and the slot still called itself "Millet upma ·
+   12m". A dish name is a claim about what's on the plate, so it has to answer for the edit.
+   Two ways it can, in order of how good the outcome is:
+     1. RE-MATCH. The plate may now BE another dish outright — pull the paneer out of a paneer
+        bhurji, put tofu in, and the tofu bhurji recipe's core is satisfied exactly. Then the
+        slot is honestly that dish, name, time and all.
+     2. Failing that, say EDITED and stop pretending. The name stays as provenance (it is still
+        recognisably that dish minus one thing) but is marked, and renderGrid switches to reading
+        the plate itself rather than the recipe. */
+/* "Core is a subset of the plate" is NOT enough on its own, and the first version proved it: a
+   millet upma with the millet swapped got renamed "Beans-carrot poriyal", because that recipe's
+   two core items happened to both be sitting on the plate. A confidently wrong dish name is
+   worse than admitting the plate is edited. Two more tests, and the first is the real one:
+     · the match must USE the ingredient you just swapped in. If it doesn't, it isn't the dish
+       you now have — it's some unrelated recipe that fits in the leftovers.
+     · it must be at least as specific as the dish it replaces, so a 1-ingredient recipe can't
+       claim a 4-ingredient plate. */
+function rematch(slot, newId){
+  const ids = new Set(slot.items.map(x=>x.id));
+  const was = rec(slot.recipe);
+  const floor = was ? was.core.length : 1;
+  return RECIPES.filter(r => r.core.length >= floor
+                          && r.core.includes(newId)
+                          && r.core.every(c=>ids.has(c)))
+                .sort((a,b)=>b.core.length - a.core.length)[0] || null;   // most specific wins
+}
 function replaceItem(date, meal, oldId, newId){
   const slot = state.menu.find(s=>s.date===date && s.meal===meal);
   const it = slot && slot.items.find(x=>x.id===oldId);
@@ -1143,6 +1181,14 @@ function replaceItem(date, meal, oldId, newId){
   const ex = slot.items.find(x=>x.id===newId);          // already there — merge rather than duplicate
   if(ex){ slot.items = slot.items.filter(x=>x.id!==oldId); }
   else  { it.id = newId; it.qty = nu.default || 1; }
+
+  const m = rematch(slot, newId);
+  if(m){ slot.recipe = m.id; slot.edited = false; }      // the plate honestly IS that dish now
+  else {                                                 // still recognisably the old dish, minus one thing
+    const was = rec(slot.recipe);
+    slot.edited = !was || !was.core.every(c=>slot.items.some(x=>x.id===c));
+  }
+
   state.replacing = null; state.dirty = true;
   render();                                             // contract flags + score recompute themselves
 }
@@ -1485,6 +1531,7 @@ document.addEventListener('change', e=>{
     const slot = state.menu.find(s=>s.date===d && s.meal===m);
     slot.recipe = r.id;
     slot.items = slotItems(r);
+    slot.edited = false;                               // items now come straight from the recipe again
     rebuild(dates());
     state.dirty=true; render();
   }
