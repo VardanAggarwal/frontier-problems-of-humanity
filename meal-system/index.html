@@ -304,6 +304,14 @@ const MEALS = {
   snack:{label:'Snack', p:8,  micros:false},   // deliberately light — the skippable slot
   dinner:{label:'Dinner', p:30, micros:true},
 };
+/* Calorie budget per slot, DERIVED from the protein allocation above rather than typed in.
+   Protein is the anchor (§1): the slot asked for a third of the day's protein is the slot that
+   has to carry about a third of its calories, or the gate is unmeetable inside the budget.
+   Deriving it also keeps one number authoritative — retune a meal's protein and its calorie
+   line follows instead of quietly disagreeing with it. Rounding can leave the four ±1 kcal off
+   KCAL; that is below the resolution of anything reading it. */
+(() => { const ms = Object.values(MEALS), tp = ms.reduce((s,m)=>s+m.p, 0);
+         ms.forEach(m=> m.kcal = Math.round(KCAL * m.p / tp)); })();
 // coaching line per nutrient (presentation only — not in CSV)
 const BLURBS = {
   protein:'The per-meal gate. Hit this first — is there 25-30 g in front of me?',
@@ -1301,7 +1309,7 @@ function renderTotals(){
       <div class="bar"><i class="${got>tgt&&f.cad==='meal'?'over':''}" style="width:${pct}%"></i></div>`;
   });
   $('#totals').innerHTML = html +
-    `<div class="prog-lbl" style="margin-top:14px"><span>Calories <span style="color:var(--muted)">/ ${MEALS[state.meal].kcal||'~'} meal</span></span><b>${Math.round(plateTotal('kcal'))} kcal</b></div>`;
+    `<div class="prog-lbl" style="margin-top:14px"><span>Calories <span style="color:var(--muted)">/ ${MEALS[state.meal].kcal} kcal ${MEALS[state.meal].label.toLowerCase()}</span></span><b>${Math.round(plateTotal('kcal'))} kcal</b></div>`;
 }
 
 function renderFlags(){

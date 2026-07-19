@@ -180,12 +180,19 @@ const KCAL_TOL = 1.05;                                // 5% grace before a day c
 // are ranges not floors (§1 gives carbs as 180-220, so 196/200 is fine), and the planner already
 // works to a 90% tolerance. Demanding 98% just manufactures false shortfalls.
 const MET = 0.95;
-/* Per-slot calorie budget — sums to KCAL, weighted so the snack is the light one. Snacks are
-   real here but unreliable, so a skipped snack should cost ~100 kcal (5.6% of the day), not the
-   250 kcal the old split parked there. The mains carry the rest.
-   Still drives WHERE a repair topper lands: the slot with the most headroom, never just the
-   first one (that is what turned snack into a 771 kcal dump). */
-const KCAL_SLOT = {breakfast:475, lunch:625, snack:100, dinner:575};
+/* Per-slot PROTEIN allocation — the same numbers the plate builder gates each meal on
+   (index.html MEALS.p). Stated here so the two pages agree by construction. */
+const P_SLOT = {breakfast:30, lunch:32, snack:8, dinner:30};
+/* Per-slot calorie budget, DERIVED from that allocation rather than typed in. Protein is the
+   anchor (§1): a slot asked for a third of the day's protein has to carry about a third of its
+   calories or its gate is unmeetable inside the budget. This drives WHERE a repair topper lands
+   — the slot with the most headroom, never just the first one (that is what turned snack into a
+   771 kcal dump) — so a budget that disagrees with the protein gate misroutes repairs.
+   Supersedes a hand-set 475/625/100/575. The visible change is the snack: 100 -> 142, because
+   8 g of protein does not fit in 100 kcal. It is still by far the lightest slot, so "a skipped
+   snack is cheap" survives; it now costs 8% of the day instead of 5.6%. */
+const KCAL_SLOT = (() => { const tp = SLOTS.reduce((s,m)=>s+P_SLOT[m], 0), o={};
+  SLOTS.forEach(m=> o[m] = Math.round(KCAL * P_SLOT[m] / tp)); return o; })();
 // what the trim pass is allowed to shrink: the carb/fat filler, never a contract item
 const TRIMMABLE = i => i.role==='base' || i.role==='condiment' || i.id==='peanut';
 /* EFFORT — the axis that actually decides whether a plan survives contact with a Tuesday.
