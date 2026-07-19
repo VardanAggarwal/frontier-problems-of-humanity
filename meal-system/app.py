@@ -30,6 +30,7 @@ API:
   POST /api/stock/add       -> {id, delta}            tick a shopping line (delta = packs bought)
   POST /api/stock/seed      -> assume one full pack of every pantry=1 ingredient
   POST /api/stock/useup     -> {id, on}  flag an item for the generator to eat down
+  POST /api/recipes/effort  -> {id, effort}  record a dish's real cooking time
   GET  /api/pins            -> {recipe_id: perweek}   dishes you want to stay able to make
   POST /api/pins            -> {id, perweek}          perweek = 0 unpins
   GET  /api/menu            -> the planned menu (plates with planned=1 — intended, not eaten)
@@ -92,7 +93,10 @@ MIGRATIONS = {
                     'lead': 'REAL DEFAULT 0', 'prep': "TEXT DEFAULT ''",
                     'makes': "TEXT DEFAULT ''", 'keep': 'INT DEFAULT 0'},
     'plates': {'planned': 'INT DEFAULT 0', 'recipe_id': "TEXT DEFAULT ''"},
-    'recipes': {'cuisine': "TEXT DEFAULT 'neutral'", 'effort': 'INT DEFAULT 15',
+    'recipes': {'cuisine': "TEXT DEFAULT 'neutral'", 'effort': 'INT DEFAULT 0',
+                # '' = the time came from recipes.csv (or is absent). 'user' = you timed it while
+                # cooking, which outranks the CSV and must survive the import on every deploy.
+                'effort_src': "TEXT DEFAULT ''",
                 # amounts = 'id:grams ...' per serving (INDB). src = where the dish came from.
                 'amounts': "TEXT DEFAULT ''", 'src': "TEXT DEFAULT ''"},
     # bought_at, NOT updated_at: freshness is measured from the last PURCHASE. updated_at moves
@@ -237,12 +241,16 @@ def import_csv(verbose=True):
                 'VALUES (?,?,?,?,?,?,?,?,?,?,0) '
                 'ON CONFLICT(id) DO UPDATE SET name=excluded.name, meals=excluded.meals, '
                 'core=excluded.core, opt=excluded.opt, method=excluded.method, '
-                'cuisine=excluded.cuisine, effort=excluded.effort, '
+                # a time you recorded beats the CSV, forever. Everything else still
+                # re-seeds normally, so editing recipes.csv keeps working.
+                "cuisine=excluded.cuisine, "
+                "effort=CASE WHEN recipes.effort_src='user' THEN recipes.effort "
+                "          ELSE excluded.effort END, "
                 'amounts=excluded.amounts, src=excluded.src '
                 'WHERE recipes.is_user = 0',
                 [r['id'], r['name'], r.get('meals', ''), r.get('core', ''),
                  r.get('opt', ''), r.get('method', ''),
-                 r.get('cuisine', 'neutral') or 'neutral', int(_num(r.get('effort'), 15)),
+                 r.get('cuisine', 'neutral') or 'neutral', int(_num(r.get('effort'), 0)),
                  r.get('amounts', '') or '', r.get('src', '') or ''])
     if verbose:
         print(f'imported: {len(ing)} ingredients, {len(tgt)} targets, {len(rec)} seed recipes -> {DB_PATH}')
@@ -598,6 +606,21 @@ def set_useup(iid, on):
     return get_stock()
 
 
+def set_effort(rid, minutes):
+    """Record how long a dish actually takes.
+
+    101 of the seeded recipes arrived with no time and are shown as estimates (~40 min, the
+    median of the INDB dishes that did carry one). This is how an estimate becomes a fact: cook
+    it once, type the real number, and every future menu plans against it. Writes to recipes.
+    """
+    m = int(_num(minutes))
+    if m <= 0 or m > 600:
+        return {'ok': False, 'error': 'a dish takes between 1 and 600 minutes'}
+    with db() as c:
+        c.execute("UPDATE recipes SET effort = ?, effort_src = 'user' WHERE id = ?", [m, rid])
+    return {'ok': True, 'id': rid, 'effort': m}
+
+
 def set_pin(rid, perweek):
     with db() as c:
         if _num(perweek) <= 0:
@@ -714,6 +737,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 return self._json(200, set_stock(str(d.get('id', '')), d.get('qty'), d.get('bought')))
             if p == '/api/stock/add':
                 return self._json(200, add_stock(str(d.get('id', '')), d.get('delta')))
+            if p == '/api/recipes/effort':
+                return self._json(200, set_effort(str(d.get('id', '')), d.get('effort')))
             if p == '/api/stock/useup':
                 return self._json(200, set_useup(str(d.get('id', '')), bool(d.get('on'))))
             if p == '/api/stock/seed':

@@ -65,6 +65,9 @@
     margin-left:4px;text-transform:none;letter-spacing:0}
   .eff.t0{background:var(--accent-soft);color:var(--accent);font-weight:600}
   .eff.t2{color:var(--warn)}
+  /* an estimated time reads as provisional and offers itself for correction — dashed, not solid */
+  .eff.est{border:1px dashed var(--line);background:transparent;cursor:pointer;font-style:italic}
+  .eff.est:hover{border-color:var(--accent);color:var(--accent)}
   .topper{display:inline-block;font-size:10.5px;padding:1px 6px;border-radius:999px;background:var(--accent-soft);
     color:var(--accent);margin:1px 2px 0 0;font-weight:600}
   .rrow{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
@@ -205,6 +208,34 @@ const EFFORT_MODES = {
   balanced: {label:'Balanced',   cap:15, note:'one-pan cooking; multi-step only where nothing else fits'},
   any:      {label:'Anything',   cap:99, note:'full curries and gravies allowed'},
 };
+/* ---- how long a dish takes, and how much of that we actually know ----
+   101 of 292 recipes carry no time. They are ALL INDB imports that found no matched recipe
+   source, and the INDB dishes that DID match run a median of 40 minutes — kofta curries,
+   biryanis, stuffed parathas. The old code read `r.effort||15`, which silently called every one
+   of them a 15-minute dish. Two things followed, both bad:
+     · 15 sits exactly ON the Balanced cap, so all 101 passed it. "Balanced · ≤15 min/meal" was
+       a pool of 194 dishes, 101 of which are probably ~40 min. The mode lied.
+     · Low effort excluded them, but only by luck of the arithmetic.
+   Measured against the population that matters (held-out INDB dishes, 300 shuffles): a flat 15
+   is 28.1 min of mean absolute error, a flat 40 is 14.4. So 40 it is.
+   A per-dish guess was tried and rejected. A keyword model fitted on dish names (bowl 4, salad 6,
+   dal 20, curry 35, kofta 60) scores 13.0 — 1.4 min better than one flat number, which does not
+   justify printing twelve different invented figures as if they were measured. Ingredient count
+   correlates at r=0.31 and adds nothing. So: one honest prior, shown as an estimate (~40m), and
+   correctable in one tap from the grid. Every correction shrinks the guessing permanently. */
+const EFFORT_EST = 40;
+function effortOf(r){
+  const v = +(r||{}).effort || 0;
+  return v > 0 ? {min:v, est:false} : {min:EFFORT_EST, est:true};
+}
+const effMin = r => effortOf(r).min;
+/* The cap is a RAMP, not a cliff. At cap 8 a hard cutoff throws away 32 timed dishes sitting
+   between 9 and 12 minutes — it left low-effort mode with 39 dishes to build a week from, which
+   is why flagging an ingredient often had nothing to place it in. Dishes up to 1.5x the cap stay
+   eligible and carry a penalty that grows with the overrun, so a 12-minute dish can win a slot
+   when nothing at 8 fits, and never just because it scored well on something else. */
+const effCeiling = cap => Math.round(cap * 1.5);
+const overCap = (r, cap) => Math.max(0, effMin(r) - cap) / cap;
 // The daily contract (meal-plan.md §8). These are gates, not preferences.
 // The protein floor ROTATES its hero across the week instead of mandating eggs every day —
 // egg, then tofu, then paneer, then dal — so no single source fills half your plates.
@@ -355,19 +386,31 @@ function whyStuck(id){
   const uses = RECIPES.filter(r=>[...r.core,...r.opt].includes(id) && SLOTS.some(m=>fitsMeal(r,m)));
   if(!uses.length)
     return `no dish in the book uses this — add it to a plate by hand on the planner`;
-  const under = uses.filter(r=>(r.effort||15) <= cap);
+  const under = uses.filter(r=>effMin(r) <= effCeiling(cap));
   if(!under.length){
-    const min = Math.min(...uses.map(r=>r.effort||15));
-    const mode = Object.entries(EFFORT_MODES).find(([,m])=>m.cap >= min);
-    return `no dish under ${cap} min uses this — the quickest is ${min} min`
+    const min = Math.min(...uses.map(effMin));
+    // compare against each mode's CEILING, not its cap — the ramp is what decides eligibility, so
+    // recommending "Anything" for a 20-min dish that Balanced already reaches is just wrong.
+    const mode = Object.entries(EFFORT_MODES).find(([,m])=>effCeiling(m.cap) >= min);
+    return `no dish this quick uses it — the fastest is ${min} min against your ${cap} min setting`
          + (mode ? `, so switch effort to “${mode[1].label}”` : '');
   }
-  // Dishes exist and are cheap enough, so what's left is the variety rule: no dish twice inside
-  // GAP days, and none more than a third of the horizon. That's a real ceiling, and it's the one
-  // people misread as the generator ignoring them.
-  const ceiling = under.length * Math.max(2, Math.ceil(state.days/3));
-  return `${under.length} dish${under.length===1?'':'es'} here use it, but no dish repeats inside
-          ${3} days — about ${ceiling} serving${ceiling===1?'':'s'} is the most ${state.days} days can absorb`;
+  /* Dishes exist and are quick enough, so the binding constraint is placement. Split CORE from
+     GARNISH, because they fail differently and only one of them has a fix worth naming: a dish
+     built ON the ingredient places a full serving every time it runs, while an ingredient that's
+     only ever an optional topper competes with every other topper for OPT_CAP slots and lands
+     sometimes. Quoting a combined ceiling was actively misleading — it promised peanuts "about
+     30 servings" on the strength of 10 dishes that merely garnish with them, then placed 1. */
+  const core = under.filter(r=>r.core.includes(id));
+  const ceiling = core.length * Math.max(2, Math.ceil(state.days/3));
+  if(!core.length)
+    return `${under.length} dish${under.length===1?'':'es'} here use it, but only as an optional
+            topper — a garnish competes for ${OPT_CAP} slots a dish and lands sometimes, so it
+            can't be relied on to eat a stock down`;
+  return `${core.length} dish${core.length===1?'':'es'} here ${core.length===1?'is':'are'} built on it,
+          and no dish repeats inside 3 days — about ${ceiling} serving${ceiling===1?'':'s'} is the
+          most ${state.days} days can absorb`
+       + (under.length > core.length ? ` (${under.length-core.length} more use it only as a garnish)` : '');
 }
 
 /* ============ BASKET COST — plan out of the fridge, not out of the shop ============
@@ -569,6 +612,20 @@ function generate(){
      it still cannot do is break the HARD gates (variety, effort cap, calorie ceiling, the daily
      contract), which is why placement() reports the shortfall instead of the score hiding it. */
   const USEUP_W = 2.0;
+  /* Over-cap penalty, measured. The ramp is only honest if overrunning stays the EXCEPTION —
+     otherwise "≤8 min/meal" just means 12 with extra steps. Swept at 6 generations per point:
+
+        OVER_W                0     0.5    1      2      3      5
+        low: % over 8 min     46    45     42     30     26     23
+        low: mean min/meal    8.1   8.0    7.9    7.3    7.0    6.9
+        balanced: % over 15   29    26     24     14     11      2
+
+     3.0 is the knee. The average low-effort meal comes in UNDER the cap (7.0 min) and a quarter
+     of slots overrun, which is the intent: a 12-minute dish is reachable when it rescues a
+     flagged ingredient or nothing at 8 fits, not because it edged ahead on affinity. Past 3 the
+     curve flattens and it's a cliff again. A dish at the ceiling is charged 1.5 here, which
+     comfortably outranks the effort bonus it displaces. */
+  const OVER_W = 3.0;
   /* Basket weight — and this one is a genuine TRADE, not a free win, so the number is measured
      rather than picked. Swept over 12 generations per point on a 7-day horizon:
 
@@ -595,7 +652,7 @@ function generate(){
     const chosen = {};
     SLOTS.forEach(meal=>{
       const cap = EFFORT_MODES[state.effort].cap;
-      let all = RECIPES.filter(r=>fitsMeal(r,meal) && (r.effort||15) <= cap);
+      let all = RECIPES.filter(r=>fitsMeal(r,meal) && effMin(r) <= effCeiling(cap));
       if(!all.length) all = RECIPES.filter(r=>fitsMeal(r,meal));   // nothing that cheap fits — relax
       if(!all.length) return;
       // HARD variety, not a soft penalty — a penalty just loses to a high affinity score,
@@ -608,7 +665,7 @@ function generate(){
       // to beat the effort bonus, because a spoiled bunch of spinach costs more than 10 minutes.
       // debtFit then tilts what's left toward the nutrient the last week kept missing — weaker
       // than rescue (a deadline beats a drift) but enough to decide between comparable dishes.
-      const r = cands.map(r=>({r, s: AFF[r.id] - (r.effort||15)/60 + rescueScore(r, sched)
+      const r = cands.map(r=>({r, s: AFF[r.id] - effMin(r)/60 - OVER_W*overCap(r,cap) + rescueScore(r, sched)
                                      + USEUP_W*useUpScore(r, sched)
                                      + DEBT_W*debtFit(r, DEBT) - BUY_W*buyCost(r, sched)
                                      - DIV*monotony(r, ingUse) + Math.random()*0.25}))
@@ -972,10 +1029,15 @@ function renderGrid(){
         const extras = s.items.filter(x=>!core.has(x.id) || (ing(x.id)||{}).topper);
         const p = tot(s.items,'p'), low = p < MEALS[m].p*0.85;
         const opts = RECIPES.filter(x=>fitsMeal(x,m))
-          .sort((a,b)=>(a.effort||15)-(b.effort||15))
-          .map(x=>`<option value="${x.id}" ${x.id===s.recipe?'selected':''}>${x.name}${x.effort?` · ${x.effort}m`:''}</option>`).join('');
-        const bits = r ? [r.effort?`${r.effort} min`:'', r.cuisine||''].filter(Boolean) : [];
-        const cost = bits.length ? `<span class="eff ${r.effort&&r.effort<=6?'t0':r.effort&&r.effort<=15?'t1':'t2'}">${bits.join(' · ')}</span>` : '';
+          .sort((a,b)=>effMin(a)-effMin(b))
+          .map(x=>{const e=effortOf(x); return `<option value="${x.id}" ${x.id===s.recipe?'selected':''}>${x.name} · ${e.est?'~':''}${e.min}m</option>`;}).join('');
+        /* The time chip is a BUTTON when we're guessing. A "~40m est" you can't correct is just
+           an apology; one tap turns it into a real number that sticks for every future menu. */
+        const e = r ? effortOf(r) : null;
+        const cost = !r ? '' :
+          `<span class="eff ${e.min<=6?'t0':e.min<=15?'t1':'t2'}${e.est?' est':''}"
+                 ${e.est?`data-settime="${r.id}" title="estimated — no recorded time for this dish. Tap to set the real one."`:''}
+           >${e.est?'~':''}${e.min} min${e.est?' est':''}${r.cuisine?` · ${r.cuisine}`:''}</span>`;
         return `<div class="slot">
           <div class="sm">${MEALS[m].label} ${cost}</div>
           <select data-swap="${d}|${m}">${opts}</select>
@@ -1231,6 +1293,22 @@ document.addEventListener('click', async e=>{
     catch(err){ apiFail('flag that for using up', err); }
   }
   else if(t.id==='useupAll'){ state.showStock = !state.showStock; renderFresh(); }
+  // An estimate you can correct. Writes to the recipe, so it holds for every future menu — the
+  // only way the 101 untimed dishes ever stop being guesses.
+  else if(t.dataset.settime){
+    const r = rec(t.dataset.settime); if(!r) return;
+    const v = prompt(`How long does “${r.name}” actually take, in minutes of active work?`
+                   + `\n\nWe're guessing ${EFFORT_EST} min — the median of the imported dishes that`
+                   + ` did come with a time. Your number replaces it permanently.`, '');
+    if(v===null) return;
+    const m = Math.round(Number(v));
+    if(!(m > 0 && m <= 600)) return;
+    try{
+      await api('recipes/effort', {id:r.id, effort:m});
+      r.effort = m;                                     // patch in place — no reload to see it
+      render();
+    }catch(err){ apiFail('save that time', err); }
+  }
 });
 document.addEventListener('change', e=>{
   const t=e.target;
