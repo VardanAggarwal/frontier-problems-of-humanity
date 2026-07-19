@@ -45,6 +45,7 @@ import socketserver
 import sqlite3
 import sys
 import time
+import urllib.parse
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.environ.get('MEALS_DB', os.path.join(DIR, 'data', 'meals.db'))
@@ -401,16 +402,28 @@ def get_data():
     return {'ingredients': ing, 'targets': tgt, 'recipes': rec}
 
 
-def get_plates(planned=0):
-    """planned=0 -> what you ate (history). planned=1 -> the menu (what you intend to eat)."""
+def get_plates(planned=0, since=''):
+    """planned=0 -> what you ate (history). planned=1 -> the menu (what you intend to eat).
+
+    `since` (YYYY-MM-DD, inclusive) bounds the history so a year of logging isn't shipped on every
+    page load. It is a DATE window, not a row LIMIT, deliberately: the client's run rate, monotony
+    penalty and affinity score all slice `saved` by date, so a row cap would silently truncate the
+    middle of a window and quietly corrupt those numbers. Whole days or nothing.
+    """
+    where, args = 'planned = ?', [planned]
+    if since:
+        where += ' AND date >= ?'
+        args.append(since)
     with db() as c:
+        rows = c.execute('SELECT * FROM plates WHERE ' + where + ' ORDER BY date, created_at',
+                         args).fetchall()
+        keep = {r['id'] for r in rows}
         items = {}
         for r in c.execute('SELECT * FROM plate_items'):
-            items.setdefault(r['plate_id'], []).append({'id': r['ing_id'], 'qty': r['qty']})
+            if r['plate_id'] in keep:
+                items.setdefault(r['plate_id'], []).append({'id': r['ing_id'], 'qty': r['qty']})
         return [{'id': r['id'], 'date': r['date'], 'meal': r['meal'],
-                 'recipe': r['recipe_id'] or '', 'items': items.get(r['id'], [])}
-                for r in c.execute('SELECT * FROM plates WHERE planned = ? ORDER BY date, created_at',
-                                   [planned])]
+                 'recipe': r['recipe_id'] or '', 'items': items.get(r['id'], [])} for r in rows]
 
 
 def get_stock():
@@ -649,7 +662,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             if self.path.startswith('/api/data'):
                 return self._json(200, get_data())
             if self.path.startswith('/api/plates'):
-                return self._json(200, get_plates(0))
+                q = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
+                return self._json(200, get_plates(0, (q.get('since') or [''])[0]))
             if self.path.startswith('/api/menu'):
                 return self._json(200, get_plates(1))
             if self.path.startswith('/api/stock'):

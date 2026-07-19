@@ -28,7 +28,16 @@
   h1{font-size:20px;margin:0 0 2px}
   .sub{color:var(--muted);font-size:13px;margin:0 0 18px}
   .cols{display:grid;grid-template-columns:1fr 340px;gap:18px;align-items:start}
-  @media(max-width:820px){.cols{grid-template-columns:1fr}}
+  /* One column on mobile. The two column wrappers go display:contents so every panel becomes a
+     direct grid child and can be reordered across them — otherwise `order` only sorts panels
+     within their own column. Saved plates belongs after the day's numbers on a phone: you read
+     what the plate did, then what the day totals, and only then look back at what you logged. */
+  @media(max-width:820px){
+    .cols{grid-template-columns:1fr}
+    .cols>.col{display:contents}
+    .p-saved{order:1}
+    .p-tail{order:2}
+  }
   .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow);margin-bottom:16px}
   .panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:0 0 12px}
   /* meal + focus tabs */
@@ -177,7 +186,7 @@
 
   <div class="cols">
     <!-- LEFT: suggestion loop -->
-    <div>
+    <div class="col">
       <div class="panel">
         <h2>2 · Build the plate</h2>
         <input class="search" id="search" placeholder="🔍 Search a dish or an ingredient — shakshuka, tofu, greek, ragi…" autocomplete="off">
@@ -192,14 +201,14 @@
         <h2>🍳 Recipes from your plate</h2>
         <div id="recipes"></div>
       </div>
-      <div class="panel">
+      <div class="panel p-saved">
         <h2>Saved plates</h2>
         <div id="saved"></div>
       </div>
     </div>
 
     <!-- RIGHT: plate + rollup -->
-    <div>
+    <div class="col">
       <div class="panel">
         <h2>Your plate</h2>
         <div id="plate"></div>
@@ -214,11 +223,11 @@
         <h2>Day totals <span style="text-transform:none;font-weight:400">· saved plates</span></h2>
         <div id="dayTotals"></div>
       </div>
-      <div class="panel totals">
+      <div class="panel totals p-tail">
         <h2>Run rate <span style="text-transform:none;font-weight:400">· last 7 completed days · worst first</span></h2>
         <div id="runRate"></div>
       </div>
-      <div class="panel">
+      <div class="panel p-tail">
         <h2>Cadence reminders</h2>
         <div class="reminders" id="reminders"></div>
       </div>
@@ -309,9 +318,16 @@ function apiFail(what, e){
 /* ============ STATE ============ */
 // Saved plates + user recipes live in meals.db (via /api). The browser holds no durable state.
 function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function yesterdayStr(){ const d=new Date(); d.setDate(d.getDate()-1); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 
 let state = { meal:'lunch', focus:'protein', plate:[] /* {id, qty} */, showBuy:false, query:'', expand:false,
-  savingRecipe:false, saved:[] /* [{id,date,meal,items:[{id,qty}]}] — from GET /api/plates */, day:todayStr() };
+  savingRecipe:false, saved:[] /* [{id,date,meal,items:[{id,qty}]}] — from GET /api/plates */, day:todayStr(),
+  olderDays:0 /* extra day-groups revealed past the today+yesterday window */,
+  /* How far back history is fetched. 30 days comfortably covers the two windows that actually read
+     it — RUN_DAYS=7 and recentUse's 3 — with slack for selecting a past date in the day bar.
+     Widened, never narrowed, by loadMore(): shrinking it mid-session would drop plates the run
+     rate is already averaging over. */
+  since: shiftDay(todayStr(), -30), loadingMore:false, exhausted:false };
 
 function targetFor(focusName){
   if(focusName==='protein') return MEALS[state.meal].p;
@@ -745,8 +761,9 @@ function renderDayBar(){
 function renderDayTotals(){
   const plates = platesFor(state.day);
   const rows = [['Protein','p','g',DAILY.p],['Carbs','c','g',DAILY.c],['Iron','fe','mg',DAILY.fe],
-    ['Calcium','ca','mg',DAILY.ca],['Magnesium','mg','mg',DAILY.mg],['Potassium','k','mg',DAILY.k],
-    ['Fibre','fib','g',DAILY.fib],['Vitamin C','vc','mg',DAILY.vc],
+    ['Calcium','ca','mg',DAILY.ca],['Zinc <span style="font-size:11px;opacity:.7">· wk avg</span>','zn','mg',DAILY.zn],
+    ['Magnesium','mg','mg',DAILY.mg],['Potassium','k','mg',DAILY.k],
+    ['Fibre','fib','g',DAILY.fib],['Vitamin C','vc','mg',DAILY.vc],['Vitamin A <span style="font-size:11px;opacity:.7">· wk avg</span>','va','µg',DAILY.va],
     ['Folate','fo','µg',DAILY.fo],['Omega-3 ALA','o3','g',DAILY.o3],
     ['Omega-3 DHA/EPA','o3d','g',DAILY.o3d]];
   const meals = plates.map(p=>MEALS[p.meal].label).join(', ') || 'nothing saved yet';
@@ -798,11 +815,39 @@ function renderRunRate(){
   }).join('');
 }
 
+/* Reveal 7 more day-groups; fetch another 30-day chunk first if we've reached the edge of what's
+   loaded. A fetch that returns no date we didn't already have means the table has nothing older —
+   the only honest way to know, since the window is by date and the DB may simply start there. */
+async function loadMoreDays(){
+  if(state.loadingMore) return;
+  const dates = new Set(state.saved.map(p=>p.date));
+  const loadedOlder = state.saved.filter(p => p.date < yesterdayStr() && p.date !== state.day);
+  if(new Set(loadedOlder.map(p=>p.date)).size > state.olderDays){ state.olderDays += 7; return renderSaved(); }
+  if(state.exhausted) return;
+  const older = shiftDay(state.since, -30);
+  state.loadingMore = true; renderSaved();
+  try{
+    const plates = await api('plates?since='+older);
+    state.exhausted = plates.every(p => dates.has(p.date));
+    state.saved = plates; state.since = older;   // superset of the old window, never narrower
+    if(!state.exhausted) state.olderDays += 7;
+  }catch(e){ apiFail('load older plates', e); }
+  state.loadingMore = false; render();
+}
+
 function renderSaved(){
   if(!state.saved.length){ $('#saved').innerHTML = `<div class="empty">No saved plates yet — build one and hit “Save plate to this day”.</div>`; return; }
   const byDate = {}; state.saved.forEach(p=>{ (byDate[p.date]=byDate[p.date]||[]).push(p); });
   const dates = Object.keys(byDate).sort().reverse();
-  $('#saved').innerHTML = dates.map(d=>`
+  /* The panel is for "what did I just eat", not an archive — today and yesterday are the days you
+     still act on. Everything older loads a week at a time so a year of logging isn't 1400 rows of
+     DOM on every render. The selected day is always shown even when it's outside that window,
+     otherwise picking an old date in the day bar silently shows nothing here. */
+  const shown = dates.filter(d => d >= yesterdayStr() || d === state.day);
+  const rest  = dates.filter(d => !shown.includes(d));
+  const vis   = shown.concat(rest.slice(0, state.olderDays));
+  const left  = rest.length - state.olderDays;
+  $('#saved').innerHTML = vis.map(d=>`
     <div style="margin-bottom:14px">
       <div style="font-size:12.5px;color:var(--muted);margin-bottom:4px">${d}${d===state.day?' · <b style="color:var(--accent)">selected</b>':''}</div>
       ${byDate[d].map(p=>{
@@ -815,7 +860,12 @@ function renderSaved(){
           <button class="add" data-edit="${p.id}" style="padding:5px 10px">Edit</button>
           <button class="add rm" data-del="${p.id}" style="padding:5px 9px">✕</button>
         </div>`; }).join('')}
-    </div>`).join('');
+    </div>`).join('') + (
+      state.loadingMore ? `<div class="empty">Loading older days…</div>` :
+      left>0 ? `<button class="add" id="moreDays" style="padding:6px 12px">Show ${Math.min(7,left)} older day${Math.min(7,left)===1?'':'s'} <span style="opacity:.6">· ${left} loaded</span></button>` :
+      !state.exhausted ? `<button class="add" id="moreDays" style="padding:6px 12px">Load older days <span style="opacity:.6">· before ${state.since}</span></button>` :
+      state.olderDays ? `<button class="add" id="fewerDays" style="padding:6px 12px">Collapse older days</button>` :
+      `<div class="empty" style="margin-top:8px">That's every day on record.</div>`);
 }
 
 function renderMeals(){
@@ -1179,6 +1229,8 @@ document.addEventListener('click', e=>{
   else if(t.id==='recipeAdd'){ state.savingRecipe=true; renderRecipeSave(); }
   else if(t.id==='recipeCancel'){ state.savingRecipe=false; renderRecipeSave(); }
   else if(t.id==='recipeConfirm'){ const el=$('#recipeName'); saveAsRecipe(el?el.value:''); }
+  else if(t.id==='moreDays'){ loadMoreDays(); }
+  else if(t.id==='fewerDays'){ state.olderDays = 0; renderSaved(); }
   else if(t.dataset.delrecipe){ delRecipe(t.dataset.delrecipe); }
   else if(t.dataset.edit){ editPlate(t.dataset.edit); }
   else if(t.dataset.del){ delPlate(t.dataset.del); }
@@ -1211,7 +1263,7 @@ async function init(){
   try{
     await migrateLocal();
     const [data, plates, menu, stock] = await Promise.all([
-      api('data'), api('plates'), api('menu'), api('stock')]);
+      api('data'), api('plates?since='+state.since), api('menu'), api('stock')]);
     buildData(data);
     state.saved = plates; MENU = menu; STOCK = stock;
     render();
