@@ -1,0 +1,369 @@
+<title>Ken–Betwa Link: Canal Systems &amp; Command Areas (Schematic)</title>
+<style>
+:root{
+  --bg:#eef3f2; --bg-panel:#ffffff; --ink:#152225; --ink-soft:#455154; --ink-mute:#75807f;
+  --line:#c3cdc9; --accent:#4a4e8c;
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --sans: ui-sans-serif, "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0d1517; --bg-panel:#131e21; --ink:#e4eeec; --ink-soft:#aebcba; --ink-mute:#7c8b89; --line:#2a3b3d; --accent:#8c90d6; }
+}
+:root[data-theme="dark"]{ --bg:#0d1517; --bg-panel:#131e21; --ink:#e4eeec; --ink-soft:#aebcba; --ink-mute:#7c8b89; --line:#2a3b3d; --accent:#8c90d6; }
+:root[data-theme="light"]{ --bg:#eef3f2; --bg-panel:#ffffff; --ink:#152225; --ink-soft:#455154; --ink-mute:#75807f; --line:#c3cdc9; --accent:#4a4e8c; }
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);}
+.wrap{max-width:1400px;margin:0 auto;padding:28px 20px 60px;}
+header{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
+.eyebrow{font:600 11px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);}
+h1{font:700 26px/1.15 var(--sans);letter-spacing:-.01em;margin:0;text-wrap:balance;}
+.sub{font:400 14px/1.55 var(--sans);color:var(--ink-soft);max-width:82ch;margin:2px 0 0;}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px;align-items:start;}
+@media (max-width:960px){.layout{grid-template-columns:1fr;}}
+.panel{background:var(--bg-panel);border:1px solid var(--line);border-radius:10px;}
+.map-panel{padding:14px 14px 8px;}
+svg{width:100%;height:auto;display:block;}
+.map-caption{font:400 11.5px/1.5 var(--sans);color:var(--ink-mute);margin-top:6px;}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font:400 11px/1.3 var(--sans);color:var(--ink-soft);padding:10px 2px 4px;}
+@media (max-width:640px){.legend{grid-template-columns:1fr;}}
+.legend h3{grid-column:1/-1;font:700 10px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-mute);margin:8px 0 2px;}
+.legend h3:first-child{margin-top:0;}
+.legend-item{display:flex;align-items:center;gap:7px;white-space:nowrap;}
+.lline{width:20px;height:3px;flex:0 0 auto;}
+.ldot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;border:1.5px solid #0003;}
+.side{display:flex;flex-direction:column;gap:12px;}
+.side .panel{padding:14px 16px;}
+.side h2{font:700 12.5px/1.3 var(--sans);margin:0 0 8px;letter-spacing:-.01em;}
+table{width:100%;border-collapse:collapse;font-size:11px;}
+td,th{padding:4px 4px;border-top:1px solid var(--line);text-align:left;vertical-align:top;}
+th{font:600 10px var(--sans);color:var(--ink-mute);border-top:none;}
+.sw{display:inline-block;width:12px;height:8px;border-radius:2px;vertical-align:middle;margin-right:4px;}
+.note{font:400 11.5px/1.5 var(--sans);color:var(--ink-soft);margin-top:6px;}
+.tt{position:fixed;pointer-events:none;background:var(--bg-panel);border:1px solid var(--line);border-radius:6px;
+  padding:8px 10px;font:400 12px/1.4 var(--sans);color:var(--ink);max-width:280px;box-shadow:0 6px 20px rgba(0,0,0,.18);
+  opacity:0;transition:opacity .1s;z-index:50;}
+.tt b{font-weight:700;}
+footer{margin-top:20px;font:400 11.5px/1.6 var(--sans);color:var(--ink-mute);}
+footer code{font-size:10.5px;}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Ken–Betwa Link Project</div>
+    <h1>Canal systems and command areas — schematic, grouped by supply line</h1>
+    <p class="sub">Not a map — a schematic, but oriented to rough real compass direction (N up, E right):
+      Daudhan Dam sits as the central hub; Jhansi/Mahoba/Tikamgarh/Lalitpur bow west and north of it;
+      Banda/Bariarpur sit northeast; Damoh sits south; Lower Orr Dam/Datia sit far northwest; Kotha
+      Barrage/Bina Complex sit southwest. Each canal/lift system is one straight/bowed line in its own
+      color, with the command areas it feeds shown as blobs in that same color, sized by CCA (√ha scale).
+      For exact lat/lon, see <code>command_area_geoboundaries.md</code>.</p>
+  </header>
+
+  <div class="layout">
+    <div class="panel map-panel">
+      <svg id="map" viewBox="0 0 1000 660"></svg>
+      <p class="map-caption">Hover any line, dot, or blob for details.</p>
+    </div>
+
+    <div class="side">
+      <div class="panel">
+        <h2>Command areas (11 shown, 1 dropped)</h2>
+        <table id="cmd-table"></table>
+        <p class="note">Lalitpur-by-substitution (3,533 ha, &lt;0.5% of total CCA) dropped — too small to
+          matter at this scale.</p>
+      </div>
+      <div class="panel">
+        <h2>Irrigation water required, by demand zone (MCM/yr)</h2>
+        <table id="suff-table"></table>
+        <p class="note">Required = KBLP's own irrigation duty (5,079 m³/ha/yr, from
+          <code>kblp_salient_features.pdf</code> §2.3.4's Command Area &amp; Water Utilization table:
+          4,614.56 MCM ÷ 9,08,428 ha) × each command's CCA. No command-level flow-metering data exists,
+          so demand is grouped to the finest resolution the source actually supports — WHERE water is
+          drawn relative to Daudhan, not per structure: <b>upstream at Daudhan</b> (reservoir pump/lift,
+          never leaves the Ken), <b>en-route on the K-B Link canal</b> (drawn off before it reaches
+          Betwa), <b>downstream Ken</b> (Ken LBC + Bariarpur RBC, further along the Ken's own course),
+          and the <b>Betwa-side standalone</b> group (not fed by the transfer at all).</p>
+        <p class="note"><b>Downstream Ken (Ken LBC + Bariarpur R.B.C.) alone requires 1,865 MCM/yr.</b>
+          The K-B Link diverts 1,377 MCM/yr away from the Ken side to the Betwa instead (see water-split
+          panel below) — 74% of what downstream Ken needs on its own. Kept in-basin rather than
+          transferred west, that volume would go a long way toward meeting downstream Ken's own
+          requirement first.</p>
+      </div>
+      <div class="panel">
+        <h2>Cost Efficiency by System (₹ per ha)</h2>
+        <table id="cost-table"></table>
+        <p class="note">Cost per ha = system cost ÷ total CCA that system's commands cover (computed
+          live from the numbers above, not separately typed in). Costs are from
+          <code>kblp_salient_features.pdf</code>'s "Abstract Of Cost" table (₹ crore, 2020-21 price
+          level) — this DPR component sub-total is ₹37,778.75 cr, part of the full ₹44,605 cr
+          Cabinet-approved project cost, not equal to it. Notable: the K-B Link main canal — the
+          project's namesake transfer to Betwa — is the most expensive per hectare of the group,
+          pricier than the Ken LBC or reservoir pump/lift schemes that just move Ken's own water
+          around within its own basin.</p>
+      </div>
+      <div class="panel">
+        <h2>Water split at Daudhan (MCM/yr)</h2>
+        <table id="split-table"></table>
+        <p class="note">Ken's own basin use is ~3x the entire K-B transfer, and only ~4% of the
+          transfer (≈0.8% of Ken's total yield) ever actually reaches the Betwa river.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Sources: <code>source-pdfs/kblp_index_map.pdf</code> (NWDA), <code>command_area_geoboundaries.md</code>,
+    <code>index_map_documentation.md</code> in this repo. CCA figures are NWDA's own published numbers;
+    layout/positions on this page are schematic only.
+  </footer>
+</div>
+<div class="tt" id="tt"></div>
+
+<script>
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs){ const e = document.createElementNS(NS, tag); for(const k in attrs) e.setAttribute(k, attrs[k]); return e; }
+
+const svg = document.getElementById("map");
+const tt = document.getElementById("tt");
+function showTip(e, html){ tt.innerHTML = html; tt.style.opacity = 1; tt.style.left=(e.clientX+14)+"px"; tt.style.top=(e.clientY+14)+"px"; }
+function hideTip(){ tt.style.opacity = 0; }
+function blobR(cca){ return 8 + Math.sqrt(cca) * 0.11; }
+
+// ---------- SYSTEMS: one straight/bowed line (canal/structure grouping, neutral color) ----------
+// plus command-area blobs, each with its OWN unique color — commands serve different purposes,
+// so color now identifies the command, not which canal delivers it. Line color/dash still shows
+// which physical system a command belongs to.
+// Layout keeps rough real-world compass direction (N up, E right) even though this is schematic,
+// not a true map: Daudhan is the central hub; Jhansi/Mahoba/Tikamgarh/Lalitpur sit west and bow
+// north of it; Banda/Bariarpur sit northeast; Damoh sits south; Lower Orr/Datia sit far northwest;
+// Kotha Barrage and Bina Complex sit southwest as two SEPARATE structures on two separate lines —
+// not merged, they are unconnected projects that happen to be geographically close.
+// each system's LINE gets its own color too now, distinct from the blob palette so the two
+// don't get confused for the same encoding.
+// Daudhan Dam's own headworks cost (₹10,899.65 cr) is shared infrastructure underlying every
+// Ken-basin system below (K-B Link, Ken LBC, Daudhan reservoir pump/lift) — not attributable to
+// just one of them, so it's shown on the dam's own point, not folded into any single line's cost.
+const HUB = {name:"Daudhan Dam", x:560, y:340, cost:10899.65, color:"#3a3a3a",
+  costNote:"Head works only (Unit-I). Shared source for every Ken-basin system on this page — not specific to any one canal."};
+// Water-split headline figures (kblp_salient_features.pdf §2.3.4 master table), MCM/yr:
+const WATER_SPLIT = [
+  {label:"Ken basin annual yield (at Daudhan)", mcm:6590},
+  {label:"Stays in Ken basin (MP 2,350 + UP 1,700)", mcm:4050},
+  {label:"Total drawn at Daudhan (+ env. flow 493.6)", mcm:4543.5},
+  {label:"Diverted through link canal to Betwa side", mcm:1377},
+  {label:"↳ pumping station (RD 18km)", mcm:220.77},
+  {label:"↳ en-route irrigation (Chhatarpur/Tikamgarh)", mcm:1010.51},
+  {label:"↳ en-route drinking water", mcm:94.79},
+  {label:"↳ actually released into the Betwa river", mcm:50.93},
+];
+// Costs below are from kblp_salient_features.pdf, "Abstract Of Cost — Comprehensive Report of
+// Ken-Betwa Link Project" (₹ crore, 2020-21 price level). Where a line's cost isn't cleanly
+// itemized to just that structure, the cost note says so explicitly rather than guessing.
+const systems = [
+  {
+    key:"kb-link", label:"K-B Link Main Canal", demandGroup:"En-route canal (K-B Link main)", cost:10472.58, lineColor:"#b5651d",
+    line:{pts:[[560,340],[440,320],[340,190],[240,320],[150,350]]},
+    endMcm:50.93, endMcmLabel:"→ Betwa river (Lalitpur)",
+    desc:"Daudhan Dam → Chhatarpur → bows north past the Mahoba/Jhansi border → Tikamgarh → Lalitpur. Carries the enroute + high-level-pump MP commands and the Jhansi/Mahoba UP commands.",
+    from:HUB,
+    blobs:[
+      {name:"Enroute command (MP-A)", cca:96751, x:400, y:305, color:"#e6194b", mcm:1010.51, mcmNote:"En-route irrigation, Chhatarpur/Tikamgarh — matches this command directly."},
+      {name:"High-level, K-B Link pump (MP-C)", cca:42096, x:340, y:190, color:"#ffe119"},
+      {name:"Enroute: Jhansi & Mahoba (UP-Ai)", cca:17488, x:290, y:250, color:"#911eb4"},
+      {name:"New command, Mahoba (UP-Aii)", cca:37564, x:250, y:220, color:"#46f0f0"},
+    ],
+  },
+  {
+    key:"ken-lbc", label:"Ken Left Bank Canal (M.P.)", demandGroup:"Downstream Ken", cost:6734.79, lineColor:"#2c5f2d",
+    line:{pts:[[560,340],[680,250],[800,160]]},
+    desc:"Daudhan Dam, running northeast toward the Chhatarpur→Banda corridor. 1,74,742 ha — the single largest MP command line item.",
+    from:HUB,
+    blobs:[ {name:"Command of Ken L.B.C. (MP-E)", cca:174742, x:700, y:230, color:"#4363d8"} ],
+  },
+  {
+    key:"bariarpur-rbc", label:"Bariarpur R.B.C.", demandGroup:"Downstream Ken", cost:220, lineColor:"#4b3869",
+    costNote:"Full ₹220 cr lump sum used as-is, though it technically also covers Parichha Weir and Barwa Sagar repair/strengthening — not exclusively Bariarpur's. Treat this cost/ha as an overestimate of the true dedicated cost.",
+    mcm:493.6, mcmNote:"Environmental-flow allocation carried through the Bariarpur pick-up weir — not the RBC's own irrigation draw specifically, which isn't separately published.",
+    line:{pts:[[800,160],[880,120]]},
+    desc:"From the Bariarpur pick-up weir (further along the Ken, northeast of Daudhan) into Banda. 1,92,479 ha — the single largest UP command, and the largest of all 12.",
+    from:{name:"Bariarpur P.U.W.", x:800, y:160},
+    blobs:[ {name:"Bariarpur R.B.C., Banda (UP-B)", cca:192479, x:900, y:110, color:"#008080"} ],
+  },
+  {
+    key:"panna-hatta", label:"Daudhan reservoir pump/lift (Ken-basin only, not the transfer)", demandGroup:"Upstream Ken (at Daudhan)", dash:"3,3", cost:5409.58, lineColor:"#8c6b2f",
+    costNote:"Cost line item is \"Panna and Hatta lift\" — covers both blobs on this line together, not split between them.",
+    line:{pts:[[560,340],[560,480]]},
+    desc:"Reservoir-fed pump/lift schemes off Daudhan itself — Ken's own water via new pump/canal infrastructure, never crossing to the Betwa. Groups the high-level pump command with Panna+Hatta LIS since both draw the same way.",
+    from:HUB,
+    blobs:[
+      {name:"High-level, Daudhan reservoir pump (MP-B)", cca:43678, x:560, y:410, color:"#f58231"},
+      {name:"Panna and Hatta L.I.S. (MP-D)", cca:90101, x:560, y:500, color:"#3cb44b", mcm:436.29, mcmNote:"Panna 331.63 + Damoh/Hatta 104.65 MCM — Ken-basin water via lift irrigation."},
+    ],
+  },
+  {
+    key:"lower-orr", label:"Lower Orr Dam → Datia", demandGroup:"Betwa side (standalone, not fed by K-B transfer)", cost:2864.76, lineColor:"#a13d63",
+    costNote:"Lower Orr's own standalone \"Total Project Cost\" (not broken into sub-components in the source).",
+    line:{pts:[[110,120],[230,90]]},
+    desc:"Standalone Betwa Project, far northwest of Daudhan — not fed by the K-B transfer. The dam's 90,000 ha command polygon extends into Datia (confirmed both in the source text and a vectorized trace of the index map), not into Shivpuri, its own host district.",
+    from:{name:"Lower Orr Dam", x:110, y:120},
+    blobs:[ {name:"Enroute command, Lower Orr Dam (B-A) — reaches Datia", cca:90000, x:250, y:85, color:"#f032e6"} ],
+  },
+  {
+    key:"kotha", label:"Kotha Barrage", demandGroup:"Betwa side (standalone, not fed by K-B transfer)", cost:null, lineColor:"#2f5d62", costNote:"No cost figure found in either source PDF — salient-features page for Kotha lists only technical/hydrology data.",
+    line:{pts:[[110,440],[210,480]]},
+    desc:"Standalone Betwa Project, southwest of Daudhan — a separate structure from Bina Complex, not physically connected to it. Not fed by the K-B transfer.",
+    from:{name:"Kotha Barrage", x:110, y:440},
+    blobs:[ {name:"Kotha Barrage (B-B)", cca:20000, x:220, y:490, color:"#9a6324"} ],
+  },
+  {
+    key:"bina", label:"Bina Complex", demandGroup:"Betwa side (standalone, not fed by K-B transfer)", cost:null, lineColor:"#614124", costNote:"No cost figure found in either source PDF — salient-features page for Bina Complex lists only technical/hydrology data.",
+    line:{pts:[[110,560],[210,540]]},
+    desc:"Standalone Betwa Project, southwest of Daudhan — a separate structure from Kotha Barrage, not physically connected to it. Not fed by the K-B transfer.",
+    from:{name:"Bina Complex dams", x:110, y:560},
+    blobs:[ {name:"Bina Complex (B-C)", cca:96000, x:220, y:545, color:"#800000"} ],
+  },
+];
+
+function render(){
+  svg.innerHTML = "";
+
+  // compass rose, top-right, so the "rough direction" claim is checkable
+  const cx0=955, cy0=40;
+  svg.appendChild(el("text",{x:cx0,y:cy0-14,"font-size":11,fill:"var(--ink-mute)","font-family":"var(--sans)","font-weight":700,"text-anchor":"middle"})).textContent="N";
+  svg.appendChild(el("line",{x1:cx0,y1:cy0-8,x2:cx0,y2:cy0+8,stroke:"var(--ink-mute)","stroke-width":1.5}));
+  svg.appendChild(el("path",{d:`M${cx0},${cy0-8} L${cx0-3},${cy0-2} M${cx0},${cy0-8} L${cx0+3},${cy0-2}`,stroke:"var(--ink-mute)","stroke-width":1.5}));
+
+  systems.forEach(sys=>{
+    const pts = sys.line.pts;
+    const d = pts.map((p,i)=>(i===0?"M":"L")+p[0]+","+p[1]).join(" ");
+    const l = el("path", {d, fill:"none", stroke:sys.lineColor, "stroke-width":3, "stroke-linecap":"round", "stroke-linejoin":"round"});
+    if(sys.dash) l.setAttribute("stroke-dasharray", sys.dash);
+    const costLine = sys.cost ? `<br><b>₹${sys.cost.toLocaleString()} cr</b> (2020-21 price level)` : `<br><span style="color:var(--ink-mute)">Cost: not itemized alone</span>`;
+    const costNoteLine = sys.costNote ? `<br><span style="color:var(--ink-mute);font-size:11px">${sys.costNote}</span>` : "";
+    l.addEventListener("mousemove", e=>showTip(e, `<b>${sys.label}</b><br>${sys.desc}${costLine}${costNoteLine}`));
+    l.addEventListener("mouseleave", hideTip);
+    svg.appendChild(l);
+
+    // arrowhead at the line's terminal segment
+    const [x2,y2] = pts[pts.length-1], [x1,y1] = pts[pts.length-2];
+    const ang = Math.atan2(y2-y1, x2-x1), ah=8;
+    const ax1 = x2 - ah*Math.cos(ang-0.4), ay1 = y2 - ah*Math.sin(ang-0.4);
+    const ax2 = x2 - ah*Math.cos(ang+0.4), ay2 = y2 - ah*Math.sin(ang+0.4);
+    svg.appendChild(el("path",{d:`M${x2},${y2} L${ax1},${ay1} M${x2},${y2} L${ax2},${ay2}`, stroke:sys.lineColor,"stroke-width":3,"stroke-linecap":"round"}));
+
+    // final-release MCM badge at the arrowhead end (e.g. K-B Link's water that actually reaches Betwa)
+    if(sys.endMcm){
+      const endT = el("text",{x:x2, y:y2+18, "font-size":8.5, fill:"#2a7fb8","font-family":"var(--mono)","font-weight":700,"text-anchor":"middle"});
+      endT.textContent = "💧 "+sys.endMcm.toLocaleString()+" MCM/yr "+(sys.endMcmLabel||"");
+      endT.addEventListener("mousemove", e=>showTip(e, `<b>${sys.label} — final release</b><br>${sys.endMcm.toLocaleString()} MCM/yr ${sys.endMcmLabel||""}`));
+      endT.addEventListener("mouseleave", hideTip);
+      svg.appendChild(endT);
+    }
+
+    // origin structure dot + label
+    const originDot = el("circle",{cx:sys.from.x, cy:sys.from.y, r:6, fill:"var(--ink)", stroke:"var(--bg-panel)","stroke-width":1.5});
+    const originCost = sys.from.cost ? `<br><b>₹${sys.from.cost.toLocaleString()} cr</b><br><span style="color:var(--ink-mute);font-size:11px">${sys.from.costNote||""}</span>` : "";
+    originDot.addEventListener("mousemove", e=>showTip(e, `<b>${sys.from.name}</b>${originCost}`));
+    originDot.addEventListener("mouseleave", hideTip);
+    svg.appendChild(originDot);
+
+    // blobs — each command gets its own unique color, independent of the line/system it's on
+    sys.blobs.forEach(b=>{
+      const r = blobR(b.cca);
+      const c = el("circle",{cx:b.x, cy:b.y, r:r, fill:b.color, opacity:.6, stroke:b.color, "stroke-width":1.5});
+      const mcmLine = b.mcm ? `<br><b>${b.mcm.toLocaleString()} MCM/yr</b>${b.mcmNote?` — ${b.mcmNote}`:""}` : `<br><span style="color:var(--ink-mute)">MCM/yr: not separately published</span>`;
+      c.addEventListener("mousemove", e=>showTip(e, `<b>${b.name}</b><br>${b.cca.toLocaleString()} ha<br><span style="color:var(--ink-mute)">via ${sys.label} — ${sys.cost ? "₹"+sys.cost.toLocaleString()+" cr" : "cost not itemized"}</span>${mcmLine}`));
+      c.addEventListener("mouseleave", hideTip);
+      svg.appendChild(c);
+      const t = el("text",{x:b.x, y:b.y+3, "font-size":8.5, fill:"#fff","font-family":"var(--sans)","font-weight":700,"text-anchor":"middle"});
+      t.textContent = (b.cca/1000).toFixed(0)+"k";
+      svg.appendChild(t);
+      const lbl = el("text",{x:b.x, y:b.y+r+12, "font-size":8.5, fill:"var(--ink-mute)","font-family":"var(--sans)","text-anchor":"middle"});
+      lbl.textContent = b.name.split("(")[0].trim();
+      svg.appendChild(lbl);
+      // MCM/yr badge — on the map, not just in the side table, when a figure is published
+      if(b.mcm){
+        const mcmT = el("text",{x:b.x, y:b.y+r+24, "font-size":8.5, fill:"#2a7fb8","font-family":"var(--mono)","font-weight":700,"text-anchor":"middle"});
+        mcmT.textContent = "💧 "+b.mcm.toLocaleString()+" MCM/yr";
+        svg.appendChild(mcmT);
+      }
+    });
+
+    // system-level MCM badge (e.g. Bariarpur's environmental flow) — not tied to one blob.
+    // Anchored at the origin structure point (not the line midpoint, which can sit inside a
+    // large command blob further along) and offset clear of the origin dot's own label.
+    if(sys.mcm){
+      const mx = sys.from.x, my = sys.from.y - 16;
+      const mcmT = el("text",{x:mx, y:my, "font-size":8.5, fill:"#2a7fb8","font-family":"var(--mono)","font-weight":700,"text-anchor":"middle"});
+      mcmT.textContent = "💧 "+sys.mcm.toLocaleString()+" MCM/yr";
+      mcmT.addEventListener("mousemove", e=>showTip(e, `<b>${sys.label}</b><br>${sys.mcm.toLocaleString()} MCM/yr${sys.mcmNote?` — ${sys.mcmNote}`:""}`));
+      mcmT.addEventListener("mouseleave", hideTip);
+      svg.appendChild(mcmT);
+    }
+  });
+}
+render();
+
+const allCommands = systems.flatMap(s=>s.blobs.map(b=>({...b, system:s.label, demandGroup:s.demandGroup})));
+
+const tbl = document.getElementById("cmd-table");
+let rows = `<tr><th>Command</th><th>CCA (ha)</th></tr>`;
+allCommands.forEach(b=>{
+  rows += `<tr><td><span class="sw" style="background:${b.color}"></span>${b.name}</td><td>${b.cca.toLocaleString()}</td></tr>`;
+});
+tbl.innerHTML = rows;
+
+// cost per CCA — computed from the same numbers already on the page, not re-typed
+function ccaOf(sys){ return sys.blobs.reduce((sum,b)=>sum+b.cca, 0); }
+function costPerHaCell(cost, cca){
+  if(!cost) return `<span style="color:var(--ink-mute)">N/A — cost not itemized</span>`;
+  const perHa = (cost*1e7)/cca; // cr -> rupees, / ha
+  return `₹${(perHa/1e5).toFixed(2)} lakh/ha`;
+}
+
+function swatch(color){ return `<span class="sw" style="background:${color}"></span>`; }
+
+let costRows = `<tr><th>Structure / system</th><th>CCA served (ha)</th><th>Cost (₹ cr)</th><th>Cost per ha</th></tr>`;
+const hubCCA = systems.filter(s=>s.from===HUB).reduce((sum,s)=>sum+ccaOf(s), 0);
+costRows += `<tr><td>${swatch(HUB.color)}Daudhan Dam (head works — shared by every system below fed from it)</td><td>${hubCCA.toLocaleString()}</td><td>${HUB.cost.toLocaleString()}</td><td>${costPerHaCell(HUB.cost, hubCCA)}</td></tr>`;
+systems.forEach(s=>{
+  const cca = ccaOf(s);
+  costRows += `<tr><td>${swatch(s.lineColor)}${s.label}</td><td>${cca.toLocaleString()}</td><td>${s.cost ? s.cost.toLocaleString() : "—"}</td><td>${costPerHaCell(s.cost, cca)}</td></tr>`;
+});
+document.getElementById("cost-table").innerHTML = costRows;
+
+// water split — headline MCM figures, top-down flow at Daudhan
+let splitRows = `<tr><th>Stage</th><th>MCM/yr</th></tr>`;
+WATER_SPLIT.forEach(w=>{
+  splitRows += `<tr><td>${w.label}</td><td>${w.mcm.toLocaleString()}</td></tr>`;
+});
+document.getElementById("split-table").innerHTML = splitRows;
+
+// irrigation water required, grouped by WHERE the demand physically sits (no command-level flow
+// data exists, so demand is rolled up to the three Ken-side zones + the standalone Betwa group,
+// which is the finest resolution the source data actually supports).
+const REQ_DUTY_M3_PER_HA = 5079; // kblp_salient_features.pdf §2.3.4: 4,614.56 MCM / 9,08,428 ha
+const DEMAND_GROUP_ORDER = [
+  "Upstream Ken (at Daudhan)",
+  "En-route canal (K-B Link main)",
+  "Downstream Ken",
+  "Betwa side (standalone, not fed by K-B transfer)",
+];
+
+let suffRows = `<tr><th>Command</th><th>CCA (ha)</th><th>Required (MCM/yr)</th></tr>`;
+let sTotCca=0, sTotReq=0;
+DEMAND_GROUP_ORDER.forEach(group=>{
+  const inGroup = allCommands.filter(b=>b.demandGroup===group);
+  if(!inGroup.length) return;
+  const groupCca = inGroup.reduce((s,b)=>s+b.cca,0);
+  const groupReq = groupCca*REQ_DUTY_M3_PER_HA/1e6;
+  suffRows += `<tr><td colspan="3" style="padding-top:10px"><b>${group}</b></td></tr>`;
+  inGroup.forEach(b=>{
+    const req = b.cca*REQ_DUTY_M3_PER_HA/1e6;
+    suffRows += `<tr><td>${swatch(b.color)}${b.name}</td><td>${b.cca.toLocaleString()}</td><td>${req.toFixed(1)}</td></tr>`;
+  });
+  suffRows += `<tr><td><i>Subtotal</i></td><td><i>${groupCca.toLocaleString()}</i></td><td><i>${groupReq.toFixed(1)}</i></td></tr>`;
+  sTotCca+=groupCca; sTotReq+=groupReq;
+});
+suffRows += `<tr><td><b>Total</b></td><td><b>${sTotCca.toLocaleString()}</b></td><td><b>${sTotReq.toFixed(1)}</b></td></tr>`;
+document.getElementById("suff-table").innerHTML = suffRows;
+</script>

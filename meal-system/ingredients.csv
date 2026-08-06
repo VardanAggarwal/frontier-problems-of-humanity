@@ -61,7 +61,7 @@ rajma,Rajma,serving,1,1,1,0,0,0,protein,89,5.8,14.6,5.1,1.89,40,0,99,0.17,0,0.78
 kala,Kala chana,serving,1,1,0,0,0,0,protein,86,5.6,11.9,7.6,2.03,45,0,70,0.04,0,1.01,4,48,280,,365,8,500 g packet,8,soak 6-8h then discard the water,,0,,,B002,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
 kabuli,Kabuli chana,serving,1,0,1,0,0,0,protein,86,5.6,11.9,7.6,2.03,45,0,70,0.04,0,1.01,4,48,280,buy - for cold salads and bowls,365,8,500 g packet,8,soak 6-8h then discard the water,,0,,,B002,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
 soya,Soya chunks,serving,1,1,0,0,0,0,protein,100,15,10,3,5,80,0,60,0,0,1,0,85,180,cap 2-3x per week,180,6,200 g packet,1,boil then squeeze dry,,0,,,,30,row already stated 30g dry
-besan,Besan (chilla),serving,1,1,1,0,0,0,protein,99,6.5,14,4.5,1.82,14,0,55,0.03,0,1.09,4,35,287,,180,12,500 g packet,0,,,0,,,B001,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
+besan,Besan,serving,1,1,1,0,0,0,protein,99,6.5,14,4.5,1.82,14,0,55,0.03,0,1.09,4,35,287,,180,12,500 g packet,0,,,0,,,B001,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
 whey,Whey,serving,1,1,0,0,0,0,protein,120,24,3,0,0.3,120,0,0,0,0,1,0,20,160,gap-filler not a base,365,30,1 kg tub,0,,,0,,,,30,ESTIMATE - one scoop
 sprout,Sprouted moong,serving,1,1,0,0,0,0,protein,88,6.8,13.8,5.1,1.47,28,0,44,0.05,0,0.8,3,59,353,sprout the moong you have,3,4,jar - sprout at home,24,soak 8h then sprout 12-24h in a jar,dal,1,,,B011,30,ICMR-NIN DGI 2024 pulse serving (85g/day)
 peanut,Roasted peanuts,serving,1,1,0,0,0,1,seed,104,4.7,3.5,2.1,0.69,11,0,18,0,0,0.64,0,39,136,,90,16,500 g packet,0,,,0,,,H012,20,ICMR-NIN DGI 2024 nutseed serving (35g/day)
@@ -80,6 +80,7 @@ oats,Rolled oats,serving,1,0,1,0,0,0,base,152,4.4,28.3,3.1,1.46,20,0,13,0.1,0,0.
 batter,Dosa-idli batter (ragi),serving,2,1,1,0,1,0,base,90,3,15,1,1,40,0,0,0,0,0,0,15,50,fermented,5,8,1 kg pack,0,buy it - or ferment 12h,,0,,,,60,ESTIMATE - one dosa
 batter_plain,Dosa-idli batter (rice-urad),serving,2,1,1,0,1,0,base,92,3.1,18.9,1.3,0.44,5,0,7.7,0.04,0,0.44,0,15,98,the everyday batter - the ragi version carries 8x the calcium,5,8,1 kg pack,0,buy it - or ferment 12h,,0,,,,60,DERIVED 3:1 rice(A015):urad(B003) by dry weight - 60 g wet batter ~ 26.5 g dry
 bread,Multigrain bread,serving,2,1,0,0,0,0,base,70,3,12,2,1,15,0,0,0,0,0,0,25,70,emergency only,5,12,loaf,0,,,0,,,,30,ESTIMATE - one slice
+white_bread,White bread,serving,2,1,0,0,0,0,base,66,2,13,0.6,0.7,15,0,0,0,0,0,0,20,35,emergency only,5,12,loaf,0,,,0,,,,30,ESTIMATE - one slice
 spinach,Spinach,serving,1,1,0,1,0,1,green,18,1.6,1.5,1.8,2.21,62,22.7,106,0.17,0,0.35,163,65,469,add lemon for oxalates,3,4,bunch,0,,,0,,,C033,75,ICMR-NIN DGI 2024 glv serving (100g/day)
 amaranth,Amaranth,serving,1,1,0,1,0,1,green,23,2.5,1.7,3.3,3.48,248,62.7,53,0.19,0,0.65,535,146,429,lower oxalate than palak,3,4,bunch,0,,,0,,,C002,75,ICMR-NIN DGI 2024 glv serving (100g/day)
 moringa,Moringa powder,serving,1,1,0,1,0,1,green,5,0.6,1,1,0.5,35,5,40,0,0,0,90,9,33,stir into any dal,365,40,100 g pack,0,,,0,,,,2,ESTIMATE - one tsp of dried leaf powder
@@ -96,7 +97,6 @@ gchilli,Green chilli,serving,1,1,0,0,0,0,aromatic,2,0.1,0.3,0.2,0.06,1,3.2,1,0,0
 curryleaf,Curry leaf,serving,1,1,0,0,0,0,aromatic,1,0.1,0.1,0.3,0.17,13,0.1,2,0.01,0,0.02,13,4,12,flavour and iron trace,5,12,bunch,0,,,0,,,G010,2,ESTIMATE - no INDB serving for this food
 coriander,Coriander,serving,1,1,0,0,0,0,aromatic,3,0.3,0.2,0.4,0.48,13,2.1,5,0.02,0,0.06,29,7,49,,3,16,bunch,0,,,0,,,G009,9,INDB serving n=6 basis=core
 lemon,Lemon,serving,1,1,0,0,0,1,sour,5,0.1,0,0,0.02,3,6.7,2,0.01,0,0.01,0,1,16,iron partner - add at iron meals,14,6,6 lemons,0,,,0,,,E033,14,INDB serving n=10 basis=core
-lemon_wedge,Lemon wedge,serving,1,1,0,0,0,1,sour,5,0.1,0,0,0.02,3,6.7,2,0.01,0,0.01,0,1,16,iron partner - add at iron meals,14,24,6 lemons,0,,,0,,,E033,14,INDB serving n=10 basis=core
 banana,Banana,serving,1,1,0,0,0,1,fruit,111,1.2,24.9,2.2,0.4,7,8.1,18,0.06,0,0.15,5,30,362,,5,6,half dozen,0,,,0,,,E009,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
 guava,Guava,serving,1,1,0,0,0,1,fruit,32,1.4,5.1,8.6,0.32,19,214,30,0.01,0,0.23,25,15,283,,5,4,500 g,0,,,0,,,E028,100,ICMR-NIN DGI 2024 fruit serving (100g/day)
 papaya,Papaya,serving,1,1,0,0,0,1,fruit,24,0.4,4.6,2.8,0.23,15,43.1,61,0.04,0,0.08,112,11,173,,4,6,1 papaya,0,,,0,,,E049,100,ICMR-NIN DGI 2024 fruit serving (100g/day)

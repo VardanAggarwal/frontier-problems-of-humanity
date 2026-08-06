@@ -89,3 +89,14 @@
 - What changes about me or my read of the problem between one iteration and the next?
 - What would make me stop the loop — either because it worked, or because it shouldn't continue?
 - If I ran ten of these small iterations, what would I want to be true about how they differ from each other?
+
+## 4. Candidate frontier problems — seed list (2026-07-22)
+
+*Not verbatim journal — a Claude-generated seed list, thrown out on request after the food closure, for reaction rather than as my own conclusions. My response: "Almost all of them seem like problems I am close to."*
+
+- Money & work: productivity-wage decoupling; gig/platform algorithmic management; credentialism outrunning real skill-signal
+- Trust & information: institutional trust collapse with no replacement built; algorithmic curation optimizing engagement over stated goals
+- Relationships & loneliness: dating markets in abundance-paralysis; adult friendship infrastructure disappearing
+- Health & aging: healthcare's incentive to treat over prevent; isolation in aging populations as family structures erode
+- Governance & coordination: democracy's short feedback cycle against multi-decade problems; housing/land as asset class vs. necessity
+- Cities & environment: urban expansion I feed into while hating it (already named in §2) — pulled out as its own thread

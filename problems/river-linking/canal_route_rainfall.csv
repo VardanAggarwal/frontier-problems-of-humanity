@@ -1,0 +1,11 @@
+point,lat,lon,route_order,type,mean_annual_mm_2016_2025,mean_annual_mm_1981_1990,classification
+daudhan_dam_panna,24.72,80.18,0,canal_route,1202.6,988.8,not water-stressed (>900mm)
+daudhan_dam_panna_to_chhatarpur_mid1,24.786666666666665,79.98333333333333,1,canal_route,1178.3,928.2,not water-stressed (>900mm)
+daudhan_dam_panna_to_chhatarpur_mid2,24.853333333333335,79.78666666666668,2,canal_route,1159.2,906.9,not water-stressed (>900mm)
+chhatarpur,24.92,79.59,3,canal_route,1199.6,885.2,not water-stressed (>900mm)
+chhatarpur_to_tikamgarh_mid1,24.86,79.33666666666667,4,canal_route,1130.6,835.7,not water-stressed (>900mm)
+chhatarpur_to_tikamgarh_mid2,24.8,79.08333333333333,5,canal_route,1149.6,824.8,not water-stressed (>900mm)
+tikamgarh,24.74,78.83,6,canal_route,1108.4,826.4,not water-stressed (>900mm)
+tikamgarh_to_lalitpur_terminus_mid1,24.72,78.69,7,canal_route,1115.2,826.4,not water-stressed (>900mm)
+tikamgarh_to_lalitpur_terminus_mid2,24.7,78.55,8,canal_route,1150.7,835.7,not water-stressed (>900mm)
+lalitpur_terminus,24.68,78.41,9,canal_route,1146.3,835.7,not water-stressed (>900mm)

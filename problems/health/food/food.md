@@ -2,6 +2,14 @@
 
 *Parent: [`../health.md`](../health.md). Published artifact: [`../../food-frontier-article.md`](../../food-frontier-article.md). All thinking dated 2026-07-11 unless noted.*
 
+## Closure (2026-07-22)
+
+**Closed — not to be doubled down on further.**
+
+Called from a step back on the method itself: individual-level solving (own menu, own sourcing) and the actual civilizational nutrition problem stopped converging. The real problem is being solved through fortification — population-scale, passive, already at ~800M reach — while this exploration was solving menu/personalization, a different mechanism entirely. My solution and the world's solution were never going to meet. That divergence, on top of iteration 1's early churn result and the solution-pulls arc already landing on "the outcome signal is the only durable moat" with no validated path to test it, is where this stops.
+
+Doesn't erase the analysis above — the fortification finding, the passivity finding, and the moat-collapse argument stand as the residue. This closes it as an active line of work; the next problem starts clean rather than carrying this one open.
+
 ## Gap statement
 
 **Health consciousness is expected to drive food's next transition, but it runs on a feedback signal that doesn't exist: there is no individual-level evidence connecting a food change to a health outcome.** More precisely — the metric exists (blood panels, the checkup boom) but is disconnected from the eating loop, and the eating loop is connected only to narrative.

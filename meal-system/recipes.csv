@@ -164,7 +164,7 @@ indb_paneer_pulao,Paneer pulao,lunch,rice onion paneer,,,north indian recipes,50
 indb_peanut_pulao,Peanut pulao,,rice onion peanut,,,,0,rice:80 onion:50 peanut:50,INDB:ASC119
 indb_green_chickpeas_pulao,Green chickpeas pulao,lunch,rice onion kabuli,,,indian,60,rice:80 onion:50 kabuli:50,INDB:ASC121|AK:Tofu Green Pulao Recipe(0.50)
 indb_vegetable_biryani_biriyani,Vegetable biryani/biriyani,lunch,rice onion cauli fbeans peas_fresh tomato carrot potato,ginger garlic,,hyderabadi,80,rice:50 onion:50 cauli:25 fbeans:25 peas_fresh:25 tomato:25 carrot:25 potato:25 ginger:3 garlic:1,INDB:ASC123|AK:Hyderabadi Vegetable Biryani Recipe - (0.50)
-indb_lemon_rice,Lemon rice,lunch,rice lemon_wedge peanut,,,south indian recipes,65,rice:80 lemon_wedge:30 peanut:25,INDB:ASC124|AK:Carrot Lemon Rice Recipe(0.67)
+indb_lemon_rice,Lemon rice,lunch,rice lemon peanut,,,south indian recipes,65,rice:80 lemon:30 peanut:25,INDB:ASC124|AK:Carrot Lemon Rice Recipe(0.67)
 indb_curd_rice,Curd rice,lunch,rice curd,gchilli,,indian,50,rice:80 curd:61 gchilli:3,INDB:ASC126|AK:Curd Rice With Carrots Recipe(0.67)
 indb_tamarind_rice,Tamarind rice,lunch,rice tamarind,cashew peanut,,indian,30,rice:80 tamarind:20 cashew:2 peanut:2,INDB:ASC127|AK:Coriander Tamarind Millet Rice Recipe(0.50)
 indb_masala_dosa,Masala dosa,breakfast,potato onion rice,urad,,karnataka,55,potato:50 onion:38 rice:30 urad:10,INDB:ASC146|AK:Sagu Masala Dosa Recipe(0.67)
@@ -183,7 +183,7 @@ indb_lobia_curry,Lobia curry,,tomato lobia onion,ginger garlic,,,0,tomato:50 lob
 indb_kidney_bean_curry,Kidney bean curry,,tomato rajma_soaked onion,ginger garlic,,,0,tomato:50 rajma_soaked:30 onion:25 ginger:3 garlic:1,INDB:ASC165
 indb_sambar,Sambar,lunch,dal brinjal drumstick bhindi tomato onion coconut,tamarind,,south indian recipes,55,dal:25 brinjal:15 drumstick:15 bhindi:15 tomato:15 onion:15 coconut:15 tamarind:10,INDB:ASC167|AK:Beetroot Sambar Recipe(0.50)
 indb_besan_kadhi_with_pakodies,Besan kadhi with pakodies,,curd chana_dal spinach,onion,,,0,curd:50 chana_dal:25 spinach:10 onion:8,INDB:ASC168
-indb_sprouted_moong_dal_chat,Sprouted moong dal chat,lunch,cucumber tomato potato moong_whole onion,lemon_wedge,,north indian recipes,25,cucumber:50 tomato:50 potato:50 moong_whole:50 onion:30 lemon_wedge:25,INDB:ASC170|AK: Sprouted Moong Dal Recipe(0.75)
+indb_sprouted_moong_dal_chat,Sprouted moong dal chat,lunch,cucumber tomato potato moong_whole onion,lemon,,north indian recipes,25,cucumber:50 tomato:50 potato:50 moong_whole:50 onion:30 lemon:25,INDB:ASC170|AK: Sprouted Moong Dal Recipe(0.75)
 indb_potato_cauliflower,Potato cauliflower,lunch dinner,cauli potato,ginger gchilli,,indian,45,cauli:100 potato:50 ginger:6 gchilli:2,INDB:ASC171|AK:Potato And Cauliflower In Peanut Curry(0.50)
 indb_potato_capsicum,Potato capsicum,snack,potato capsicum,ginger gchilli,,indian,45,potato:75 capsicum:50 ginger:6 gchilli:2,INDB:ASC172|AK:Stuffed Capsicum With Sweet Potato Rec(0.50)
 indb_cabbage_and_peas,Cabbage and peas,,cabbage peas_fresh,ginger gchilli,,,0,cabbage:100 peas_fresh:50 ginger:6 gchilli:2,INDB:ASC173
@@ -208,7 +208,7 @@ indb_cauliflower_kofta_curry,Cauliflower kofta curry,dinner,cauli tomato onion,g
 indb_baked_brinjal_in_tomato_sauce,Baked brinjal in tomato sauce,lunch dinner,tomato brinjal onion,paneer garlic,,continental,55,tomato:250 brinjal:125 onion:38 paneer:12 garlic:1,INDB:ASC213|AK:Baked Egg With Quinoa & Tomato Sauce R(0.50)
 indb_dum_aloo,Dum aloo,lunch dinner,potato onion curd,gchilli garlic,,bengali recipes,70,potato:100 onion:30 curd:30 gchilli:3 garlic:1,INDB:ASC214|AK:Bengali Aloo Dum Recipe - Bengali Aloo(0.67)
 indb_spinach_paneer,Spinach paneer,lunch,spinach tomato paneer onion,ginger garlic,,north indian recipes,100,spinach:150 tomato:50 paneer:40 onion:25 ginger:5 garlic:1,INDB:ASC215|AK:Spinach Paneer Kofta Curry Recipe(0.50)
-indb_mixed_pulse_and_vegetable_salad,Mixed pulse and vegetable salad,,lettuce potato cucumber onion lemon_wedge rajma_soaked,kabuli gchilli,,,0,lettuce:48 potato:30 cucumber:20 onion:20 lemon_wedge:18 rajma_soaked:15 kabuli:15 gchilli:2,INDB:ASC258
+indb_mixed_pulse_and_vegetable_salad,Mixed pulse and vegetable salad,,lettuce potato cucumber onion lemon rajma_soaked,kabuli gchilli,,,0,lettuce:48 potato:30 cucumber:20 onion:20 lemon:18 rajma_soaked:15 kabuli:15 gchilli:2,INDB:ASC258
 indb_sprouted_moong_salad,Sprouted moong salad,lunch,lettuce moong_whole tomato potato curd onion,,,north indian recipes,25,lettuce:48 moong_whole:40 tomato:30 potato:30 curd:30 onion:25,INDB:ASC259|AK: Sprouted Moong Dal Recipe(0.50)
 indb_tomato_onion_raita,Tomato onion raita,lunch dinner,curd tomato onion,gchilli,,indian,10,curd:100 tomato:40 onion:35 gchilli:2,INDB:ASC269|AK:Onion Raita Recipe - Onion Raita Recip(0.67)
 indb_peanut_raita,Peanut raita,lunch dinner,curd peanut,gchilli,,indian,10,curd:100 peanut:20 gchilli:2,INDB:ASC270|AK:Peanut Raita Recipe - Boiled Peanut Ra(0.67)
@@ -221,25 +221,25 @@ indb_dahi_vadas_dahi_bhalla,Dahi vadas/Dahi bhalla,,curd urad,ginger,,,0,curd:75
 indb_gunjia,Gunjia,,curd urad,coconut raisin,,,0,curd:75 urad:25 coconut:8 raisin:1,INDB:ASC280
 indb_mixed_vegetable_pakora_pakoda,Mixed vegetable pakora/pakoda,,chana_dal spinach cauli potato onion,,,,0,chana_dal:50 spinach:20 cauli:20 potato:20 onion:20,INDB:ASC354
 indb_masala_vada,Masala vada,snack,chana_dal dal onion gchilli,ginger,,south indian recipes,90,chana_dal:20 dal:20 onion:10 gchilli:3 ginger:3,INDB:ASC378|AK:Avarekalu Masala Vada Recipe(0.67)
-indb_peanut_chutney,Peanut chutney,lunch dinner,peanut lemon_wedge gchilli,ginger,,indian,30,peanut:10 lemon_wedge:8 gchilli:2 ginger:2,INDB:ASC385|AK:Peanut Chutney Recipe - Peanut Chutney(1.00)
-indb_coconut_chutney,Coconut chutney,lunch dinner,coconut lemon_wedge,gchilli,,south indian recipes,20,coconut:12 lemon_wedge:9 gchilli:1,INDB:ASC386|AK:Coconut Chutney Recipe - Coconut Chutn(1.00)
+indb_peanut_chutney,Peanut chutney,lunch dinner,peanut lemon gchilli,ginger,,indian,30,peanut:10 lemon:8 gchilli:2 ginger:2,INDB:ASC385|AK:Peanut Chutney Recipe - Peanut Chutney(1.00)
+indb_coconut_chutney,Coconut chutney,lunch dinner,coconut lemon,gchilli,,south indian recipes,20,coconut:12 lemon:9 gchilli:1,INDB:ASC386|AK:Coconut Chutney Recipe - Coconut Chutn(1.00)
 indb_gram_flour_and_semolina_chilla_che,Gram flour and semolina chilla/cheela/savory pancake,,spinach suji chana_dal,,,,0,spinach:25 suji:20 chana_dal:15,INDB:ASC461
 indb_split_bengal_gram_sweet_rice,Split bengal gram sweet rice,,rice jaggery chana_dal,,,,0,rice:50 jaggery:50 chana_dal:20,INDB:ASC463
 indb_sweet_poori,Sweet poori,,atta jaggery chana_dal,til,,,0,atta:50 jaggery:50 chana_dal:20 til:10,INDB:ASC464
 indb_sweet_split_chickpea_roti,Sweet split chickpea roti,,atta jaggery chana_dal,,,,0,atta:50 jaggery:30 chana_dal:20,INDB:ASC467
-indb_sprouted_moong_poha,Sprouted moong poha,lunch,poha potato onion moong_whole peanut lemon_wedge,gchilli,,north indian recipes,25,poha:50 potato:30 onion:30 moong_whole:30 peanut:20 lemon_wedge:18 gchilli:3,INDB:ASC469|AK: Sprouted Moong Dal Recipe(0.50)
+indb_sprouted_moong_poha,Sprouted moong poha,lunch,poha potato onion moong_whole peanut lemon,gchilli,,north indian recipes,25,poha:50 potato:30 onion:30 moong_whole:30 peanut:20 lemon:18 gchilli:3,INDB:ASC469|AK: Sprouted Moong Dal Recipe(0.50)
 indb_pearl_millet_ladoo,Pearl millet ladoo,,jaggery bajra dal peanut,til,,,0,jaggery:30 bajra:25 dal:10 peanut:10 til:5,INDB:ASC470
 indb_paushtik_roti,Paushtik roti,,spinach atta onion chana_dal,gchilli,,,0,spinach:50 atta:30 onion:25 chana_dal:20 gchilli:3,INDB:ASC472
 indb_semolina_carrot_vada,Semolina carrot vada,,curd suji carrot,,,,0,curd:35 suji:25 carrot:25,INDB:ASC473
 indb_dhokla,Dhokla,breakfast,chana_dal curd,ginger gchilli,,gujarati recipes﻿,15,chana_dal:38 curd:38 ginger:2 gchilli:1,INDB:ASC474|AK:Rasawala Dhokla Recipe(0.50)
-indb_semolina_upma,Semolina upma,,suji onion urad gchilli ginger,lemon_wedge,,,0,suji:20 onion:15 urad:2 gchilli:2 ginger:2 lemon_wedge:2,INDB:BFP039
-indb_vermicelli_upma,Vermicelli upma,breakfast,vermicelli onion urad gchilli ginger,lemon_wedge,,chettinad,25,vermicelli:20 onion:15 urad:2 gchilli:2 ginger:2 lemon_wedge:2,INDB:BFP040|AK:Chettinad Style Tomato Vermicelli Upma(0.50)
-indb_rice_upma,Rice upma,breakfast,rice onion urad gchilli ginger,lemon_wedge,,south indian recipes,60,rice:20 onion:15 urad:2 gchilli:2 ginger:2 lemon_wedge:2,INDB:BFP041|AK:Vegetable Rice Upma Recipe(0.67)
-indb_vegetable_upma,Vegetable upma,breakfast,suji peas_fresh onion carrot peanut urad,lemon_wedge gchilli ginger,,fusion,50,suji:40 peas_fresh:20 onion:20 carrot:10 peanut:10 urad:5 lemon_wedge:4 gchilli:3 ginger:3,INDB:BFP043|AK:Quinoa Vegetable Upma Recipe(0.67)
-indb_poha,Poha,breakfast,poha potato peanut,lemon_wedge,,north indian recipes,40,poha:20 potato:15 peanut:5 lemon_wedge:4,INDB:BFP044|AK:Indori Poha Recipe(0.50)
-indb_vegetable_poha,Vegetable poha,,poha peas_fresh onion carrot peanut urad,lemon_wedge gchilli ginger,,,0,poha:20 peas_fresh:10 onion:10 carrot:5 peanut:5 urad:2 lemon_wedge:2 gchilli:2 ginger:2,INDB:BFP045
-indb_moong_dal_stuffed_cheela_chilla,Moong dal stuffed cheela/chilla,breakfast,potato dal onion gchilli coriander,lemon_wedge urad ginger,,north indian recipes,90,potato:65 dal:50 onion:25 gchilli:13 coriander:10 lemon_wedge:8 urad:5 ginger:3,INDB:BFP046|AK: Moong Dal Chilla (Recipe In Hindi)(0.50)
-indb_paneer_stuffed_cheela_chilla,Paneer stuffed cheela/chilla,,dal paneer onion gchilli coriander,lemon_wedge urad ginger,,,0,dal:50 paneer:50 onion:25 gchilli:13 coriander:10 lemon_wedge:8 urad:5 ginger:3,INDB:BFP047
+indb_semolina_upma,Semolina upma,,suji onion urad gchilli ginger,lemon,,,0,suji:20 onion:15 urad:2 gchilli:2 ginger:2 lemon:2,INDB:BFP039
+indb_vermicelli_upma,Vermicelli upma,breakfast,vermicelli onion urad gchilli ginger,lemon,,chettinad,25,vermicelli:20 onion:15 urad:2 gchilli:2 ginger:2 lemon:2,INDB:BFP040|AK:Chettinad Style Tomato Vermicelli Upma(0.50)
+indb_rice_upma,Rice upma,breakfast,rice onion urad gchilli ginger,lemon,,south indian recipes,60,rice:20 onion:15 urad:2 gchilli:2 ginger:2 lemon:2,INDB:BFP041|AK:Vegetable Rice Upma Recipe(0.67)
+indb_vegetable_upma,Vegetable upma,breakfast,suji peas_fresh onion carrot peanut urad,lemon gchilli ginger,,fusion,50,suji:40 peas_fresh:20 onion:20 carrot:10 peanut:10 urad:5 lemon:4 gchilli:3 ginger:3,INDB:BFP043|AK:Quinoa Vegetable Upma Recipe(0.67)
+indb_poha,Poha,breakfast,poha potato peanut,lemon,,north indian recipes,40,poha:20 potato:15 peanut:5 lemon:4,INDB:BFP044|AK:Indori Poha Recipe(0.50)
+indb_vegetable_poha,Vegetable poha,,poha peas_fresh onion carrot peanut urad,lemon gchilli ginger,,,0,poha:20 peas_fresh:10 onion:10 carrot:5 peanut:5 urad:2 lemon:2 gchilli:2 ginger:2,INDB:BFP045
+indb_moong_dal_stuffed_cheela_chilla,Moong dal stuffed cheela/chilla,breakfast,potato dal onion gchilli coriander,lemon urad ginger,,north indian recipes,90,potato:65 dal:50 onion:25 gchilli:13 coriander:10 lemon:8 urad:5 ginger:3,INDB:BFP046|AK: Moong Dal Chilla (Recipe In Hindi)(0.50)
+indb_paneer_stuffed_cheela_chilla,Paneer stuffed cheela/chilla,,dal paneer onion gchilli coriander,lemon urad ginger,,,0,dal:50 paneer:50 onion:25 gchilli:13 coriander:10 lemon:8 urad:5 ginger:3,INDB:BFP047
 indb_indian_style_egg_bhujia,Indian style egg bhujia,,egg tomato onion,ginger gchilli garlic,,,0,egg:50 tomato:30 onion:30 ginger:5 gchilli:3 garlic:1,INDB:BFP052
 indb_onion_green_chilli_parantha_parath,Onion-green chilli parantha/paratha,,atta onion,gchilli,,,0,atta:80 onion:80 gchilli:3,INDB:BFP108
 indb_methi_parantha_paratha,Methi parantha/paratha,breakfast,atta onion methi,ginger gchilli,,north indian recipes,45,atta:80 onion:80 methi:50 ginger:5 gchilli:3,INDB:BFP110|AK:Lu methi paratha recipe(0.67)
@@ -255,7 +255,7 @@ indb_urad_special_dehusked,Urad special dehusked,,onion radish urad tomato ginge
 indb_arhar_with_spinach,Arhar with spinach,,spinach dal ghee,ginger gchilli garlic,,,0,spinach:50 dal:30 ghee:10 ginger:5 gchilli:3 garlic:1,INDB:BFP172
 indb_moong_dal_with_vadi,Moong dal with vadi,snack,onion tomato tofu gchilli ginger,ghee garlic,,indian,,onion:20 tomato:15 tofu:8 gchilli:5 ginger:5 ghee:5 garlic:1,INDB:BFP174|AK: Moong Dal Tikki Recipe(0.50)
 indb_rasam_with_tamarind,Rasam with tamarind,,tomato dal ginger,gchilli tamarind garlic,,,0,tomato:50 dal:10 ginger:5 gchilli:3 tamarind:3 garlic:1,INDB:BFP176
-indb_rasam_with_lemon,Rasam with lemon,lunch dinner,tomato dal lemon_wedge ginger,gchilli garlic,,south indian recipes,25,tomato:50 dal:10 lemon_wedge:8 ginger:5 gchilli:3 garlic:1,INDB:BFP177|AK:Lemon Thyme Rasam Recipe(0.67)
+indb_rasam_with_lemon,Rasam with lemon,lunch dinner,tomato dal lemon ginger,gchilli garlic,,south indian recipes,25,tomato:50 dal:10 lemon:8 ginger:5 gchilli:3 garlic:1,INDB:BFP177|AK:Lemon Thyme Rasam Recipe(0.67)
 indb_green_gram_whole_with_baghar,Green gram whole with baghar,,moong_whole ginger ghee,garlic,,,0,moong_whole:30 ginger:5 ghee:5 garlic:1,INDB:BFP178
 indb_kabuli_channa_curry,Kabuli channa curry,,tomato kabuli onion ginger,garlic,,,0,tomato:50 kabuli:40 onion:30 ginger:15 garlic:1,INDB:BFP185
 indb_besan_gatte_curry,Besan gatte curry,,curd chana_dal tomato onion paneer,ginger gchilli raisin,,,0,curd:65 chana_dal:45 tomato:30 onion:30 paneer:20 ginger:5 gchilli:2 raisin:1,INDB:BFP187
@@ -284,7 +284,7 @@ indb_masala_green_chilli_pakora_pakoda,Masala green chilli pakora/pakoda,,chana_
 indb_masala_urad_dal_vada,Masala urad dal vada,snack,urad onion coconut gchilli,ginger,,south indian recipes,,urad:30 onion:10 coconut:5 gchilli:3 ginger:2,INDB:BFP437|AK:Urad dal vada recipe - urad dal vada r(0.75)
 indb_gooseberry_chutney,Gooseberry chutney,,amla coriander,gchilli,,,0,amla:25 coriander:5 gchilli:2,INDB:BFP445
 indb_dessicated_coconut_chutney,Dessicated coconut chutney,lunch dinner,chana_dal coconut tamarind,,,south indian recipes,20,chana_dal:10 coconut:5 tamarind:3,INDB:BFP450|AK:Coconut Chutney Recipe - Coconut Chutn(0.67)
-indb_curd_vegetable_dip,Curd vegetable dip,,curd lemon_wedge capsicum carrot,onion ginger garlic,,,0,curd:33 lemon_wedge:10 capsicum:3 carrot:3 onion:3 ginger:2 garlic:0,INDB:BFP452
+indb_curd_vegetable_dip,Curd vegetable dip,,curd lemon capsicum carrot,onion ginger garlic,,,0,curd:33 lemon:10 capsicum:3 carrot:3 onion:3 ginger:2 garlic:0,INDB:BFP452
 indb_pearl_millet_infant_food,Pearl millet infant food,,bajra jaggery dal,til peanut,,,0,bajra:20 jaggery:15 dal:10 til:2 peanut:2,INDB:BFP546
 indb_sajina,Sajina,,bajra jaggery dal,,,,0,bajra:25 jaggery:15 dal:10,INDB:BFP547
 indb_cereal_mix,Cereal mix,,jaggery rice carrot chana_dal,peanut,,,0,jaggery:15 rice:12 carrot:10 chana_dal:8 peanut:5,INDB:BFP548

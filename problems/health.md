@@ -18,7 +18,7 @@ Entered through the framework on 2026-07-11: "I can try to reach for frontier pr
 
 | Tier | Contact level | Status |
 |------|--------------|--------|
-| 1 — Food | Living it (deficiencies, own cooking, ethics constraints) | **Active** → [`health/food.md`](health/food.md) |
+| 1 — Food | Living it (deficiencies, own cooking, ethics constraints) | **Closed (2026-07-22)** — individual solving and the world's actual solution (fortification) diverged; not to be doubled down on → [`health/food.md`](health/food.md) |
 | 2 — Medical trust / family doctor | Observed (avoidance, compounding frictions) | Recurring since Aug 2023 note "Revolutionising Medical Advisory: Beyond Google's Limits" — problem diagnosis holds (scarce professionals, pharma-driven distrust, Google fallback); its Web3 solution blueprint is dead. Was theoretical then, lived now. **Next candidate.** |
 | 3 — People caring for your health | Reflection | Not opened |
 | 4 — Health as identity/self-esteem | Reflection (cooking as my version) | Not opened |
@@ -33,5 +33,5 @@ Entered through the framework on 2026-07-11: "I can try to reach for frontier pr
 
 ## Sub-problems
 
-- **[Food](health/food.md)** — active; gap defined, requirements set, iteration 1 designed.
+- **[Food](health/food.md)** — closed 2026-07-22; gap defined, requirements set, iteration 1 run and returned early, solution-shape explored to the moat question. Not to be doubled down on further.
 - **Medical trust / family doctor** — not yet opened; 3-year recurrence makes it the next candidate.

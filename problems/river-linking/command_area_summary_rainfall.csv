@@ -1,0 +1,12 @@
+command,table,cca_ha,mean_annual_mm_2016_2025,mean_annual_mm_1981_1990,classification
+B-A_lower_orr_enroute,betwa_projects,90000,1087.7,760.5,not water-stressed (>900mm)
+B-B_kotha_barrage,betwa_projects,20000,1329.3,958.7,not water-stressed (>900mm)
+B-C_bina_complex,betwa_projects,96000,1291.0,974.6,not water-stressed (>900mm)
+MP-A_enroute,kb_link_main,96751,1058.1,787.3,not water-stressed (>900mm)
+MP-B_highlevel_daudhan_pump,kb_link_main,43678,1172.5,933.8,not water-stressed (>900mm)
+MP-C_highlevel_kblink_pump,kb_link_main,42096,1173.8,893.7,not water-stressed (>900mm)
+MP-D_panna_hatta_lis,kb_link_main,90101,1213.5,974.0,not water-stressed (>900mm)
+MP-E_ken_lbc,kb_link_main,174742,1158.5,923.4,not water-stressed (>900mm)
+UP-Ai_enroute_jhansi_mahoba,kb_link_main,17488,1140.4,886.6,not water-stressed (>900mm)
+UP-Aii_new_mahoba,kb_link_main,37564,1080.2,893.0,not water-stressed (>900mm)
+UP-B_bariarpur_rbc_banda,kb_link_main,192479,1088.4,906.3,not water-stressed (>900mm)

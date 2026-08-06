@@ -1,0 +1,10 @@
+point,lat,lon,type,mean_annual_mm_2016_2025,mean_annual_mm_1981_1990,classification
+sagar,23.83,78.74,phase2_or_wider_district,1243.4,975.6,not water-stressed (>900mm)
+damoh,23.83,79.44,phase2_or_wider_district,1332.0,939.0,not water-stressed (>900mm)
+datia,25.68,78.46,phase2_or_wider_district,970.2,723.6,not water-stressed (>900mm)
+shivpuri,25.43,77.66,phase2_or_wider_district,934.6,658.9,not water-stressed (>900mm)
+vidisha,23.53,77.81,phase2_or_wider_district,1374.0,1009.1,not water-stressed (>900mm)
+raisen,23.39,77.78,phase2_or_wider_district,1385.7,1009.1,not water-stressed (>900mm)
+banda,25.48,80.34,phase2_or_wider_district,1094.3,902.7,not water-stressed (>900mm)
+mahoba,25.29,79.87,phase2_or_wider_district,1104.2,900.9,not water-stressed (>900mm)
+jhansi,25.45,78.58,phase2_or_wider_district,1022.2,724.6,not water-stressed (>900mm)
