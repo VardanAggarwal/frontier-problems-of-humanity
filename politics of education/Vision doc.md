@@ -1,0 +1,19 @@
+Equity in education as a lever for social change via political institution building
+- Equity in education:
+    - Everyone should have access to education that puts them on equal footing in the society
+        - Access should consider their reality of life and not just institutional existence
+        - Food, ability to reach school, study material etc.
+        - When General category cut-offs and Reserved category cut-offs become similar, then equity is achieved.
+- Social change:
+    - Why would education matter to someone struggling with basic needs like food, water & shelter?
+        - Means of delivering education & resultant social outcomes shall improve lives of marginalised communities
+        - Equity in education shall lead to equality in society
+- Political institution building:
+    - The end goal is to create laws & policies and get them implemented on the ground to deliver equity in education
+    - Get people who fundamentally believe in education as a tool of social change in positions of power
+    - Create awareness, political will and a strong belief in people that education is the ultimate tool of social change
+    - Create institutional incentives that allow these institutions to last beyond the people involved in building it
+        - Capital and popular opinion are two major incentives in political institutions. By ensuring that popular opinion is aligned with the idea of education as a fundamental need and that capital required if any comes by aligning yourself with delivering equity in education, we can create incentives that persist the institutions beyond people.
+    - Why shall & how can outsiders create lasting political institutions?
+        - We can only act as a trigger. The leaders have to come from within the community. The belief in education has to be their own independently. The desire to bring social change has to be inherent to them. They will have to get people to believe in the cause and follow them on their own. We can just help them see the power that lies within themselves.
+            - Capital to fight elections they shall arrange themselves, we can invest capital in their personal growth.
