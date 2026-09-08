@@ -25,7 +25,8 @@ sources:
   - {kind: youtube, url: "https://www.youtube.com/watch?v=nJ8nBHLrJ6c", handle: "EPSCO India — asbestos safety & compliance talks", last_checked: 2026-09-08, status: live}
   - {kind: other, url: "https://www.zoominfo.com/p/Suhel-Parker/4068910696", handle: "Founder & CEO, EPSCO India — s***@epscoindia.com", last_checked: 2026-09-08, status: live}
 contact_route: "LinkedIn /in/suhel-parker (primary — he posts, EPSCO reposts). Via EPSCO: info@epscoindia.com. Also Director, India Chapter, Indoor Air Quality Association (IAQA) — a second reach path."
-followed: false
+followed: true
+followed_date: 2026-09-08
 last_checked: 2026-09-08
 updated: 2026-09-08
 ---

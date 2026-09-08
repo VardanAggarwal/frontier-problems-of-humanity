@@ -24,8 +24,8 @@ sources:
   - {kind: linkedin, url: "https://www.linkedin.com/in/kushagra-srivastava-chakr/", handle: "kushagra-srivastava-chakr — CEO Chakr Innovation (handle to re-verify)", last_checked: 2026-09-08, status: live}
   - {kind: press, url: "https://startuppedia.in/startup-stories/this-iit-d-founder-built-indias-first-cpcb-approved-pollution-control-device-chakr-shield-that-turns-diesel-generator-emissions-into-ink-10924551", handle: "Startuppedia founder profile", last_checked: 2026-09-08, status: live}
 contact_route: "LinkedIn (primary — founder posts, Chakr account amplifies). Via Chakr: chakr.in."
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-08
 last_checked: 2026-09-08
 updated: 2026-09-08
 ---

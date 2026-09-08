@@ -23,8 +23,8 @@ sources:
   - {kind: linkedin, url: "https://www.linkedin.com/in/bharti-singhla-73317174/", handle: "bharti-singhla-73317174 — climate-tech investing, founder lessons, air pollution; cadence slowed post-2023", last_checked: 2026-09-08, status: live}
   - {kind: instagram, url: "https://www.instagram.com/bhartisinghla/", handle: "@bhartisinghla — private", last_checked: 2026-09-08, status: stale}
 contact_route: "LinkedIn DM /in/bharti-singhla-73317174; or via Momentum Capital / Pragati Earth (pragatiearth.com)."
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-08
 last_checked: 2026-09-08
 updated: 2026-09-08
 ---

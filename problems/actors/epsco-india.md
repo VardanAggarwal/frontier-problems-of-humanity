@@ -24,9 +24,10 @@ sources:
   - {kind: other, url: "https://nadca.com/find-a-professional/epsco-india-pvt-ltd-0", handle: "NADCA directory — member since 2017-05-03", last_checked: 2026-09-07, status: live}
   - {kind: linkedin, url: "https://www.linkedin.com/company/epsco-india", handle: "epsco-india", last_checked: 2026-09-07, status: stale}
 contact_route: "info@epscoindia.com / +91 98204 20126 (Sunflower Building, Dindoshi Industrial Premises, GM Link Road, Goregaon East, Mumbai 400063). Founder & CEO Suhel Parker — US-certified/licensed asbestos inspector, planner and contractor; ~20–30 yrs of abatement work across the Indian subcontinent and Middle East."
-followed: false
+followed: true
+followed_date: 2026-09-08
 last_checked: 2026-09-07
-updated: 2026-09-07
+updated: 2026-09-08
 ---
 
 # EPSCO India

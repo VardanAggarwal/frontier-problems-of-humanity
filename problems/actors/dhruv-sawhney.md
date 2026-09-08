@@ -27,10 +27,10 @@ sources:
   - {kind: press, url: "https://www.indianchemicalnews.com/sustainability/nurturefarms-eliminate-stubble-burning-project-reduces-greenhouse-emissions-11558", handle: "quoted as COO & business head on the CRM programme's emissions result", last_checked: 2026-09-09, status: live}
   - {kind: press, url: "https://agriculturepost.com/farm-inputs/farm-mechanisation/nurture-farm-completes-largest-ever-project-to-eliminate-stubble-burning-in-india/", handle: "quoted on completion of the stubble-burning project", last_checked: 2026-09-09, status: live}
 contact_route: "LinkedIn DM — he is the named, press-quoted owner of the crop-residue-management programme, and the reachable surface for nurture.farm on this failure (the company has no other named CRM contact). Otherwise via nurture.farm (see nurture-farm)."
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-08
 last_checked: 2026-09-09
-updated: 2026-09-09
+updated: 2026-09-08
 ---
 
 # Dhruv Sawhney
@@ -53,4 +53,4 @@ LinkedIn DM (live, posts within days). Via the company: nurture.farm.
 <!-- reverse-chron, fixed format, appended by the monitoring agent -->
 - 2026-09-09 — Record created from the `nurture-farm` channel pass, which had left the CRM programme's owner unnamed. Two earlier candidate names (Samina Ali, Priyam Singh, from the company's "Meet [X]" LinkedIn series) were checked and do not own the programme. — https://in.linkedin.com/in/dhruvsawhney
 
-<!-- Coverage not yet mapped: Rize, his own smallholder-rice venture (Series B per his LinkedIn), is a possible adjacent enterprise-leg actor on paddy systems — not yet researched. -->
+<!-- Rize is now recorded (rize.md): AWD/DSR paddy-methane carbon projects in Vietnam and Indonesia, no India operations. Held off every leaf — different mechanism from residue burning, and outside the India scope. -->
