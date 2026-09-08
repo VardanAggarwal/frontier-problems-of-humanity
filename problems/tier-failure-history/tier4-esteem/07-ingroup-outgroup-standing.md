@@ -1,5 +1,7 @@
 # In-Group vs. Out-Group Standing — Whole Group's Rank Against Rival Groups (Tier 4: Esteem)
 
+> Rank held collectively — a group's standing against rivals, absorbed by every member.
+
 Tier definition: rank gates resource/mating access. Here rank is held collectively — a nation, empire, or civilization's relative standing against rival groups, not any one individual's. Threats to group standing (defeat, subjugation, humiliation) are absorbed by every member and often outlive the generation that suffered them.
 
 ## How the threat manifested

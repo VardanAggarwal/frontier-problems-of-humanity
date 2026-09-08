@@ -1,5 +1,7 @@
 # Occupational/Skill Status (Tier 4 — Esteem)
 
+> Rank held through mastery of a craft or profession; its loss reads as identity collapse.
+
 Tier definition: rank gates resource/mating access within a group. Occupational and skill status is a primary rank ladder — mastery of a craft or profession sets a person's place in the group's hierarchy, and loss of that ladder is experienced as identity collapse, not just income loss.
 
 ## Threat episodes

@@ -1,5 +1,7 @@
 # Water / Fluid Balance — Tier 1 Physiological
 
+> Potable water in sufficient quantity, and the aquifers and systems that deliver it.
+
 Humans die of dehydration in 3-5 days without water. Unlike food, there is almost no storage buffer in the body. This makes water threats faster-acting and more politically volatile than food threats.
 
 ## How this need has been threatened
@@ -67,11 +69,10 @@ Humans die of dehydration in 3-5 days without water. Unlike food, there is almos
 - **Rainwater harvesting traditions** — from Roman impluvium/cistern systems, to Indian *johad* check-dams and Rajasthani *tankas*, to modern mandated rooftop-harvesting codes (e.g., Chennai post-2001 legislation) — decentralized, low-tech buffering against seasonal and drought-driven scarcity.
 - **2010, UN General Assembly Resolution 64/292** — formally recognized access to clean water and sanitation as a human right, reframing water access as a legal/political entitlement rather than a purely infrastructural or charitable matter.
 
-
 ### Where it worked
 
 - **Gujarat's Jyotirgram Yojana, 2003–06 — the one intervention in this tier that fixes two needs at once.** Gujarat spent ~US$290 million separating agricultural electricity feeders from domestic ones, then gave villages 24-hour metered three-phase power while tubewell owners received **eight hours a day of full-voltage supply on a pre-announced daytime schedule**. Groundwater withdrawal fell roughly **37%** (15.7 → 9.9 billion units/year, 2001–2006) and farm power subsidies roughly halved.
-- Two things make this the most important positive control in the tier. First, it demonstrates that groundwater draw responds to *how* power is supplied rather than to price alone — rationing quality-of-supply worked where tariffs had failed politically for decades. Second, the same intervention is the fix for the night-irrigation sleep failure in `06-sleep-circadian.md:§India` — daytime scheduling was adopted here as a byproduct of metering discipline, not as a welfare measure, and it removed the need for farmers to irrigate at night.
+- Two things make this the most important positive control in the tier. First, it demonstrates that groundwater draw responds to *how* power is supplied rather than to price alone — rationing quality-of-supply worked where tariffs had failed politically for decades. Second, the same intervention is the fix for the night-irrigation sleep failure in [sleep](/need/sleep) (§India) — daytime scheduling was adopted here as a byproduct of metering discipline, not as a welfare measure, and it removed the need for farmers to irrigate at night.
 - **Write the disagreement, not a verdict.** The withdrawal reduction is well documented; whether aquifer *storage* recovered is contested — district-level analysis 1996–2011 finds storage continuing to decline despite the scheme. The honest claim is that Jyotirgram changed the extraction rate and the farmer's working day, not that it reversed depletion.
 - **Guinea worm eradication, certified 2000.** India eliminated dracunculiasis — a purely water-borne parasite — through case containment, filtration and water-source conversion. Distinct from the chlorination story because it required no treatment infrastructure at all, only interrupting one transmission route.
 
@@ -91,7 +92,7 @@ Humans die of dehydration in 3-5 days without water. Unlike food, there is almos
 - **Mekong River, 2020s** — Mekong River Commission and Stimson Center satellite monitoring (Eyes on Earth) continue to document upstream Chinese dam operations altering flow and trapping sediment, worsening drought and fisheries collapse for downstream Cambodia, Laos, and Vietnam.
 - **Himalayan/glacier-fed rivers** — the 2023 ICIMOD "Water, Ice, Society, Ecosystems" report projected Hindu Kush Himalaya glaciers could lose up to 80% of volume by 2100 under high-emission scenarios, threatening the long-term flow reliability of the Indus, Ganges, and Brahmaputra basins that support roughly 2 billion people.
 - **US aging infrastructure** — the EPA's 2023 Drinking Water Infrastructure Needs Survey estimated $625 billion is needed over 20 years to maintain and upgrade US drinking-water systems; the ASCE 2025 Infrastructure Report Card again graded US drinking water a "C-," citing a water-main break roughly every two minutes nationwide.
-- **The 2023-24 El Niño — the same monsoon deficit behind Chennai and Bengaluru's crises above also broke through as a global food-price shock, not just a local supply one.** India's pre-emptive rice-export bans (citing El Niño risk) pushed global rice prices up over 20%. The crop-yield and price mechanism — India's kharif acreage response, the 2002/2009/2018-19 historical spread (2009 held as an open disagreement rather than resolved), and a finding that the state's ENSO forecast (IMD's live bulletin) is not yet wired to an anticipatory buffer-stock or import trigger — is developed in `01-food.md`'s India: El Niño/ENSO-driven crop and price shocks section, to avoid duplicating it here.
+- **The 2023-24 El Niño — the same monsoon deficit behind Chennai and Bengaluru's crises above also broke through as a global food-price shock, not just a local supply one.** India's pre-emptive rice-export bans (citing El Niño risk) pushed global rice prices up over 20%. The crop-yield and price mechanism — India's kharif acreage response, the 2002/2009/2018-19 historical spread (2009 held as an open disagreement rather than resolved), and a finding that the state's ENSO forecast (IMD's live bulletin) is not yet wired to an anticipatory buffer-stock or import trigger — is developed in [food](/need/food)'s India: El Niño/ENSO-driven crop and price shocks section, to avoid duplicating it here.
 
 ### India: groundwater, contamination, and dam displacement
 

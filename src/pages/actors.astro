@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+import { corpus } from '../lib/site.mjs';
+const tracked = corpus.actors.filter((a) => a.depth === 'tracked');
+const registry = corpus.actors.filter((a) => a.depth !== 'tracked');
+const followed = corpus.actors.filter((a) => a.followed).length;
+const LEG_LABEL = { activism: 'campaigners', institution: 'agencies', enterprise: 'companies' };
+const legLabel = (a) => a.leg.map((x) => LEG_LABEL[x] ?? x).join(' · ');
+---
+<Base title="Actors" crumb={`<a href="/">Pyramid</a> / Actors`}>
+  <h1>Actors</h1>
+  <p class="lede">
+    Everyone found working on any failure here — campaigners, agencies and companies
+    alike, organisations and named individuals. Cataloguing them is the platform's
+    differentiator; connecting them is its output.
+  </p>
+  <p class="note">
+    <strong>What publishes and what does not.</strong> A published ask must carry a public URL —
+    inferred asks and asks heard in conversation stay in the record. Reachability publishes as a
+    <em>channel kind</em>, not an address: this is a register of who is working what, not a scraped
+    contact sheet for small organisations.
+  </p>
+
+  <button id="followfilter" type="button" aria-pressed="false">Followed only <span class="tag">{followed}</span></button>
+
+  <h2>Tracked <span class="tag">{tracked.length}</span></h2>
+  {tracked.length === 0 ? <p class="empty">None yet.</p> : (
+    <div class="grid">{tracked.map((a) => (
+      <a class="card" href={a.url} data-followed={a.followed ? '1' : '0'}><span class="t">{a.name}{a.followed ? ' ★' : ''}</span>
+        <span class="d">{legLabel(a)} · {a.representation_unit}</span>
+        <span class="m">{a.lifecycle} · {a.leaves.length} failure{a.leaves.length === 1 ? '' : 's'}{a.affected_led === 'yes' ? ' · affected-led' : ''}</span></a>))}</div>
+  )}
+
+  <h2>Registry <span class="tag">{registry.length}</span></h2>
+  <p style="color:var(--muted);font-size:.9rem;margin-top:-.4rem">Cited in a failure record — identity, scope and role. Not in the monitoring rotation.</p>
+  {registry.length === 0 ? <p class="empty">None yet.</p> : (
+    <div class="grid">{registry.map((a) => (
+      <a class="card" href={a.url} data-followed={a.followed ? '1' : '0'}><span class="t">{a.name}{a.followed ? ' ★' : ''}</span>
+        <span class="d">{legLabel(a)}</span>
+        <span class="m">{a.lifecycle}</span></a>))}</div>
+  )}
+
+  <style>
+    #followfilter {
+      font: .72rem/1 var(--mono); color: var(--muted);
+      background: var(--panel); border: 1px solid var(--rule); border-radius: 999px;
+      padding: .32rem .7rem; cursor: pointer; margin: 1.5rem 0 .5rem;
+    }
+    #followfilter:hover { border-color: var(--accent); color: var(--accent); }
+    #followfilter[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+    :root[data-actors="followed"] .card[data-followed="0"] { display: none; }
+  </style>
+  <script is:inline>
+    (function () {
+      var b = document.getElementById('followfilter');
+      if (!b) return;
+      try {
+        if (localStorage.getItem('fph-actors') === 'followed')
+          document.documentElement.dataset.actors = 'followed';
+      } catch (e) {}
+      function sync() {
+        b.setAttribute('aria-pressed', String(document.documentElement.dataset.actors === 'followed'));
+      }
+      b.addEventListener('click', function () {
+        var on = document.documentElement.dataset.actors === 'followed';
+        if (on) delete document.documentElement.dataset.actors;
+        else document.documentElement.dataset.actors = 'followed';
+        try { localStorage.setItem('fph-actors', on ? '' : 'followed'); } catch (e) {}
+        sync();
+      });
+      sync();
+    })();
+  </script>
+</Base>

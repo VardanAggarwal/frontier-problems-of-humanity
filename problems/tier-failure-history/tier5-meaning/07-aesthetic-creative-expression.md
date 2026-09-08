@@ -1,5 +1,7 @@
 # Aesthetic/Creative Expression — Tier 5 (Meaning)
 
+> Making, and being able to make, as a meaning-source.
+
 Creative and ritual making is symbolic self-extension — a person or people asserting "this form matters" beyond survival need. Because that assertion carries political and cultural weight, it is a recurring target for control: states ban forms that compete with official meaning-making, colonizers suppress rituals that anchor a rival cosmology, industrialization prices out the slow hand-forms that carried aesthetic tradition. Yet the same record shows the drive persisting under extreme deprivation — art made in camps, under bans, in secret — suggesting the need is closer to compulsive than optional.
 
 ## Dated episodes

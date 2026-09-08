@@ -1,5 +1,7 @@
 # Understanding/Comprehension (Tier 5 — Meaning)
 
+> Curiosity-driven sense-making pursued for its own sake.
+
 Tier definition: symbolic self-extension through curiosity-driven sense-making as a meaning-source — distinct from Tier 2's threat-focused information security, this is comprehension pursued for its own sake.
 
 ## How the need has been threatened

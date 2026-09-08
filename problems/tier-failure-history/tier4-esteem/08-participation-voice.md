@@ -1,5 +1,7 @@
 # Participation/Voice — Tier 4 (Esteem)
 
+> The ability to influence group decisions, which rank neither guarantees nor withholds.
+
 Tier definition: rank gates resource/mating access within a group. Voice is distinct from rank itself — it is the ability to influence group decisions, which can be denied even to people with formal rank (shareholders without board seats) and granted unevenly regardless of rank (a low-status assembly member with one vote still gets a vote). Denial of voice is denial of the ability to shape the rules that determine everyone else's rank.
 
 ## How the threat manifested

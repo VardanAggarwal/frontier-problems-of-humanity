@@ -1,5 +1,7 @@
 # Kinship / Lineage Network (Tier 3 — Belonging)
 
+> Extended-family bonds as the scaled-up form of the parent-child mechanism.
+
 Tier definition: extended-family/lineage bonds as a scaled-up version of the parent-child bonding mechanism.
 
 ## How the need has been threatened

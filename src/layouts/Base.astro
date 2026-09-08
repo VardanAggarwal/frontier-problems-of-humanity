@@ -1,0 +1,27 @@
+---
+import '../styles/global.css';
+const { title, crumb } = Astro.props;
+const nav = [['/', 'Pyramid'], ['/actors', 'Actors'], ['/method', 'Method']];
+---
+<html lang="en" data-records="all" data-prose="all">
+  <head>
+    <meta charset="utf-8" />
+    <base target="_blank" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title ? `${title} · Frontier Problems` : 'Frontier Problems of Humanity'}</title>
+    <meta name="description" content="Every documented failure of a human need, and everyone working on it." />
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap">
+        <a class="mark" href="/">Frontier Problems of Humanity</a>
+        <nav>{nav.map(([href, label]) => <a href={href}>{label}</a>)}</nav>
+      </div>
+    </header>
+    <main class="wrap">
+      {crumb && <div class="crumb" set:html={crumb} />}
+      <slot />
+    </main>
+  </body>
+</html>

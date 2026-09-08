@@ -1,0 +1,86 @@
+---
+import Base from '../layouts/Base.astro';
+import { corpus } from '../lib/site.mjs';
+---
+<Base title="Method" crumb={`<a href="/">Pyramid</a> / Method`}>
+  <h1>Method</h1>
+  <p class="lede">
+    How a record gets here, what its fields mean, and what the site refuses to do.
+  </p>
+
+  <h2>Scope</h2>
+  <p>
+    <strong>India-anchored, global where the mechanism is.</strong> Threat history and
+    evolution are global; the failure record is India. Every failure record carries a
+    <code>geography</code> so the claim is explicit rather than implied. A global failure
+    earns its own record only when its mechanism differs from the Indian one — otherwise
+    it is evidence inside the India record.
+  </p>
+
+  <h2>Vocabulary</h2>
+  <p>
+    Elsewhere on the site, "failure" is what the records below call a <strong>leaf</strong>, and
+    "shared cause" is what they call a <strong>node</strong>. The three legs — <strong>activism</strong>,
+    <strong>enterprise</strong> and <strong>institution</strong> — read as <strong>campaigners</strong>,
+    <strong>companies</strong> and <strong>agencies</strong>. The underlying fields keep the original
+    names; only the on-page labels change.
+  </p>
+
+  <h2>Record status</h2>
+  <p>
+    A record starts as a <strong>stub</strong> — real, browsable and linkable, named and placed
+    under a need, with no research behind it yet — and a topic file starts as
+    <strong>first-sweep</strong>, the equivalent for a whole need. Both read on the site as
+    <strong>outline only</strong>. A leaf carrying the full A–E body (<strong>researched</strong>)
+    and a topic file at <strong>standard</strong> or fully <strong>leafed</strong> both read as
+    <strong>researched</strong>. <strong>Stale</strong> is set by the build, never by hand — a gap
+    verdict standing against an actor that has since changed state, or a record unreviewed for
+    over 18 months.
+  </p>
+
+  <h2>The gap line</h2>
+  <ul>
+    <li><b>none</b> — reads as <strong>covered</strong>. Someone is working it on every front it needs.</li>
+    <li><b>coverage</b> — reads as <strong>we haven't found who's doing this</strong>. Someone is
+      working it; the platform has not found and listed them yet. Submit a name if you know one.</li>
+    <li><b>representation</b> — reads as <strong>nobody is doing this</strong>. No one is working
+      it at the scale where the harm actually falls. No name to submit; closing it is fieldwork —
+      building or organising the actor.</li>
+  </ul>
+  <p>No problem is screened out. Every documented failure gets a record and keeps it, including
+    the solved ones — a solved record is never deleted, it becomes a positive control with a
+    named owner, which is the scarcest thing here.</p>
+
+  <h2>The mechanisms</h2>
+  <p>Seven, each found in three or more tier-1 files, plus two secondary and one escape value.
+    A mechanism that recurs unchanged across tiers is documented once, here, and tagged on the
+    record — not re-derived per file.</p>
+  <div class="grid">{corpus.mechanisms.filter((m) => m.leaves.length > 0 || corpus.nodes.some((n) => n.mechanisms.includes(m.id))).map((m) => (
+    <a class="card" href={m.url}><span class="t">{m.title}</span><span class="d">{m.one_line}</span>
+      <span class="m">{m.leaves.length} failure{m.leaves.length === 1 ? '' : 's'}</span></a>))}</div>
+  <p class="note" style="margin-top:1rem">
+    <strong><code>unclassified</code> is a legitimate value.</strong> All seven were derived from
+    tier-1 state-instrument failures. Tiers 3–5 fail through status hierarchies, kinship
+    arrangements and belief systems, where no instrument is keyed to anything; forcing that
+    material into the seven produces a confident wrong tag, and the cross-record view then groups
+    unlike things as alike.
+  </p>
+
+  <h2>What is not here</h2>
+  <ul>
+    <li><b>No submission form.</b> A coverage gap renders as a finding, not an intake box.
+      Revisit when there is traffic to submit from.</li>
+    <li><b>No contact addresses.</b> Reachability publishes as a channel kind.</li>
+    <li><b>No unsourced asks.</b> A published need must carry a public URL — enforced as a
+      database constraint, not by care.</li>
+    <li><b>No connection records.</b> They are the project's output and they are private;
+      only their counts appear, on the scoreboard.</li>
+  </ul>
+
+  <h2>The records</h2>
+  <p>
+    Everything a person writes is held as plain text, and is authoritative; the database this
+    site is built from is derived, and authoritative only for what a machine appends. Every
+    change is a reviewable diff.
+  </p>
+</Base>

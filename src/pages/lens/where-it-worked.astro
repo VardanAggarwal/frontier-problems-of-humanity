@@ -1,0 +1,33 @@
+---
+import Base from '../../layouts/Base.astro';
+import { corpus, md } from '../../lib/site.mjs';
+const rows = corpus.needs
+  .map((n) => ({ need: n, sec: corpus.tierFiles.get(n.id)?.where_it_worked ?? null }))
+  .filter((r) => r.sec);
+const missing = corpus.needs.filter((n) => !corpus.tierFiles.get(n.id)?.where_it_worked);
+---
+<Base title="Where it worked" crumb={`<a href="/">Pyramid</a> / Where it worked`}>
+  <h1>Where it worked</h1>
+  <p class="lede">
+    The positive controls, pulled out of every topic file. A framework built only from
+    failures cannot distinguish a hard problem from a neglected one.
+  </p>
+  <div class="counts">
+    <div><b>{rows.length}</b><span>needs with a control</span></div>
+    <div><b>{missing.length}</b><span>without</span></div>
+  </div>
+
+  {rows.map(({ need, sec }) => (
+    <section style="margin-top:2.5rem">
+      <h2><a href={need.url} style="text-decoration:none">{need.title}</a> <span class="tag">tier {need.tier}</span></h2>
+      <div class="prose ai-prose" set:html={md(sec.markdown)} />
+    </section>
+  ))}
+
+  <h2>No positive control on file</h2>
+  <p style="color:var(--muted);font-size:.9rem;margin-top:-.4rem">
+    Almost all of these are outline-only files, written before the section was made
+    mandatory. The absence is the reason the label exists.
+  </p>
+  <div class="tags">{missing.map((n) => <a class="tag" href={n.url}>{n.title}</a>)}</div>
+</Base>

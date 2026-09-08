@@ -1,5 +1,7 @@
 # Parent-Child Attachment & Child-Rearing Support (Tier 3 — Belonging)
 
+> Sustained caregiver attachment, which an altricial species depends on to develop at all.
+
 Tier definition: bonding between parent/caregiver and child as a precondition for the species' care strategy — humans are altricial and depend on sustained attachment for survival and development.
 
 ## How the threat has manifested

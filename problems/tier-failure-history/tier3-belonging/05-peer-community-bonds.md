@@ -1,5 +1,7 @@
 # Peer / Non-Kin Community Bonds (Tier 3 — Belonging)
 
+> Durable trust structures beyond blood — village, guild, parish, neighbourhood.
+
 Tier definition: group cohesion as bonding scaled beyond blood ties. Villages, guilds, parishes, and neighborhoods extend trust past kinship into durable peer structures. When those structures are dissolved — by economic transformation, forced movement, war, or withdrawal into private life — people keep kin ties but lose the wider web that made them legible and mutually obligated to non-relatives.
 
 ## How the threat has shown up

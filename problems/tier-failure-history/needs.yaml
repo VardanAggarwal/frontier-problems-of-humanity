@@ -1,0 +1,300 @@
+# Need registry — levels 1 and 2 of the browse tree.
+#
+# Source of truth for `enum.need` in ../data-model.yaml. A leaf's `need:` must
+# resolve to an `id` here. Added 2026-09-06: before this file, needs existed only
+# as an H2 convention inside each tier file and a hand-kept markdown list in
+# 00-index.md, so `need: air` on a leaf resolved to no record and the browse tree
+# could not be generated.
+#
+# `id` must be unique across ALL tiers — needs are referenced by bare slug and omit
+# the tier.
+#
+# status:
+#   first-sweep  written before the current standards — no `### Where it worked`,
+#                few or no `## Sources`. Real work, thin. Labelled so a reader can
+#                tell the two epistemic classes apart. 26 of 36 files, 2026-09-06.
+#   standard     meets the CLAUDE.md tier-file invariants
+#   leafed       standard, and its `### India:` list has been enumerated into leaves
+#
+# `definition` and `description` are NOT fields here. They live in the tier
+# file's lead area — the block between the `# Title` and the first `##`:
+#   > <one-line definition, browse-card form>
+#
+#   <description paragraph(s): what the need is, what failing it means, the
+#   scope axes, what is out of scope>
+# corpus.mjs parses the leading `>` blockquote as `definition` and the prose
+# after it as `description`. A file with no blockquote falls back to its title
+# and the loader warns. Written at tier time by process-tier (step 4).
+
+version: 1
+
+tiers:
+  1: {name: Physiological, gloss: "homeostasis — override frequency measured in hours to weeks"}
+  2: {name: Safety,        gloss: "threat-buffering projected over time"}
+  3: {name: Belonging,     gloss: "bonding as reproductive strategy + group cohesion"}
+  4: {name: Esteem,        gloss: "status as the resource-access mechanism within a group"}
+  5: {name: Meaning,       gloss: "persistence of abstract/symbolic extensions of self"}
+
+needs:
+
+  # --- Tier 1 — Physiological ---------------------------------------------
+  - id: food
+    tier: 1
+    order: 1
+    title: Food / caloric intake
+    file: tier1-physiological/01-food.md
+    status: standard
+
+  - id: water
+    tier: 1
+    order: 2
+    title: Water / fluid balance
+    file: tier1-physiological/02-water.md
+    status: standard
+
+  - id: air
+    tier: 1
+    order: 3
+    title: Air / breathable environment
+    file: tier1-physiological/03-air.md
+    status: leafed
+
+  - id: shelter
+    tier: 1
+    order: 4
+    title: Shelter & thermoregulation
+    file: tier1-physiological/04-shelter-thermoregulation.md
+    status: standard
+
+  - id: sanitation
+    tier: 1
+    order: 5
+    title: Sanitation & disease
+    file: tier1-physiological/05-sanitation-disease.md
+    status: standard
+
+  - id: sleep
+    tier: 1
+    order: 6
+    title: Sleep / circadian regulation
+    file: tier1-physiological/06-sleep-circadian.md
+    status: standard
+
+  # --- Tier 2 — Safety -----------------------------------------------------
+  - id: violence-protection
+    tier: 2
+    order: 1
+    title: Violence protection
+    file: tier2-safety/01-violence-protection.md
+    status: standard
+
+  - id: rule-of-law
+    tier: 2
+    order: 2
+    title: Rule of law & property/contract rights
+    file: tier2-safety/02-rule-of-law-property.md
+    status: standard
+
+  - id: financial-continuity
+    tier: 2
+    order: 3
+    title: Financial / economic continuity
+    file: tier2-safety/03-financial-economic-continuity.md
+    status: standard
+
+  - id: livelihood
+    tier: 2
+    order: 4
+    title: Employment / livelihood security
+    file: tier2-safety/04-employment-livelihood.md
+    status: standard
+
+  - id: health-safety-net
+    tier: 2
+    order: 5
+    title: Health safety net
+    file: tier2-safety/05-health-safety-net.md
+    status: first-sweep
+
+  - id: disaster-protection
+    tier: 2
+    order: 6
+    title: Disaster / institutional protection
+    file: tier2-safety/06-disaster-institutional-protection.md
+    status: first-sweep
+
+  - id: epistemic-security
+    tier: 2
+    order: 7
+    title: Information / epistemic security
+    file: tier2-safety/07-information-epistemic-security.md
+    status: first-sweep
+
+  # --- Tier 3 — Belonging --------------------------------------------------
+  - id: mate-acquisition
+    tier: 3
+    order: 1
+    title: Mate acquisition / courtship
+    file: tier3-belonging/01-mate-acquisition.md
+    status: first-sweep
+
+  - id: pair-bonding
+    tier: 3
+    order: 2
+    title: Pair-bonding / marriage
+    file: tier3-belonging/02-pair-bonding-marriage.md
+    status: first-sweep
+
+  - id: parent-child-attachment
+    tier: 3
+    order: 3
+    title: Parent-child attachment
+    file: tier3-belonging/03-parent-child-attachment.md
+    status: first-sweep
+
+  - id: kinship
+    tier: 3
+    order: 4
+    title: Kinship / lineage network
+    file: tier3-belonging/04-kinship-lineage.md
+    status: first-sweep
+
+  - id: peer-community
+    tier: 3
+    order: 5
+    title: Peer / non-kin community bonds
+    file: tier3-belonging/05-peer-community-bonds.md
+    status: first-sweep
+
+  - id: intergenerational-transmission
+    tier: 3
+    order: 6
+    title: Intergenerational transmission
+    file: tier3-belonging/06-intergenerational-transmission.md
+    status: first-sweep
+
+  - id: ingroup-cohesion
+    tier: 3
+    order: 7
+    title: In-group identity / cohesion
+    file: tier3-belonging/07-ingroup-identity-cohesion.md
+    status: first-sweep
+
+  # --- Tier 4 — Esteem -----------------------------------------------------
+  - id: caste-status
+    tier: 4
+    order: 1
+    title: Hereditary / caste status
+    file: tier4-esteem/01-hereditary-caste-status.md
+    status: first-sweep
+
+  - id: ascribed-status
+    tier: 4
+    order: 2
+    title: Ascribed-identity status
+    file: tier4-esteem/02-ascribed-identity-status.md
+    status: first-sweep
+
+  - id: class-status
+    tier: 4
+    order: 3
+    title: Economic / class status
+    file: tier4-esteem/03-economic-class-status.md
+    status: first-sweep
+
+  - id: occupational-status
+    tier: 4
+    order: 4
+    title: Occupational / skill status
+    file: tier4-esteem/04-occupational-skill-status.md
+    status: first-sweep
+
+  - id: political-rank
+    tier: 4
+    order: 5
+    title: Political / power rank
+    file: tier4-esteem/05-political-power-rank.md
+    status: first-sweep
+
+  - id: age-rank
+    tier: 4
+    order: 6
+    title: Age / generational rank
+    file: tier4-esteem/06-age-generational-rank.md
+    status: first-sweep
+
+  - id: group-standing
+    tier: 4
+    order: 7
+    title: In-group vs out-group standing
+    file: tier4-esteem/07-ingroup-outgroup-standing.md
+    status: first-sweep
+
+  - id: participation-voice
+    tier: 4
+    order: 8
+    title: Participation / voice
+    file: tier4-esteem/08-participation-voice.md
+    status: first-sweep
+
+  # --- Tier 5 — Meaning ----------------------------------------------------
+  - id: religious-meaning
+    tier: 5
+    order: 1
+    title: Religious / cosmological meaning
+    file: tier5-meaning/01-religious-cosmological.md
+    status: first-sweep
+
+  - id: political-ideology
+    tier: 5
+    order: 2
+    title: Political / national ideology
+    file: tier5-meaning/02-political-national-ideology.md
+    status: first-sweep
+
+  - id: vocational-identity
+    tier: 5
+    order: 3
+    title: Occupational / vocational identity
+    file: tier5-meaning/03-occupational-vocational-identity.md
+    status: first-sweep
+
+  - id: cultural-identity
+    tier: 5
+    order: 4
+    title: Ethnic / cultural identity
+    file: tier5-meaning/04-ethnic-cultural-identity.md
+    status: first-sweep
+
+  - id: personal-purpose
+    tier: 5
+    order: 5
+    title: Personal legacy / individual purpose
+    file: tier5-meaning/05-personal-legacy-purpose.md
+    status: first-sweep
+
+  - id: collective-memory
+    tier: 5
+    order: 6
+    title: Collective memory / ancestor-continuity
+    file: tier5-meaning/06-collective-memory-ancestor-continuity.md
+    status: first-sweep
+
+  - id: aesthetic-expression
+    tier: 5
+    order: 7
+    title: Aesthetic / creative expression
+    file: tier5-meaning/07-aesthetic-creative-expression.md
+    status: first-sweep
+
+  - id: understanding
+    tier: 5
+    order: 8
+    title: Understanding / comprehension
+    file: tier5-meaning/08-understanding-comprehension.md
+    status: first-sweep
+
+# --- Cross-cutting axes are NOT needs ------------------------------------
+# autonomy and leisure are properties of HOW a need is met, recorded as a
+# `cross_cutting:` tag on a leaf or (rarely) a thin container leaf.
+# See cross-cutting/00-index.md. They have no rows here by construction.

@@ -1,5 +1,7 @@
 # Ascribed-Identity Status — Race, Gender, Immigrant Status (Tier 4: Esteem)
 
+> Rank assigned at birth by race, sex or origin — no performance can change it.
+
 Tier definition: rank gates resource/mating access within a group. Here rank is assigned at birth — by skin color, sex, or nation of origin — not earned. Ascribed status is the purest form of gatekept esteem: no performance can change it.
 
 ## How the threat manifested

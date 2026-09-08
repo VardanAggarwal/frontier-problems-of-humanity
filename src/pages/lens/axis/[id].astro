@@ -1,0 +1,33 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { corpus, md } from '../../../lib/site.mjs';
+export function getStaticPaths() {
+  return corpus.axes
+    .filter((a) => a.leaves.length > 0)
+    .map((a) => ({ params: { id: a.id }, props: { a } }));
+}
+const { a } = Astro.props;
+const file = corpus.crossCuttingFiles.find((f) => f.id === a.id)?.parsed ?? null;
+const containers = a.leaves.filter((l) => l.kind === 'cc_leaf');
+const tagged = a.leaves.filter((l) => l.kind === 'leaf');
+---
+<Base title={a.title} crumb={`<a href="/">Pyramid</a> / Cross-cutting`}>
+  <h1>{a.title}</h1>
+  <p class="lede">{a.one_line}</p>
+
+  <h2>Failures that do not reduce to one need</h2>
+  {containers.length === 0 ? <p class="empty">None recorded. These are the container failures — slavery, bonded labour, totalitarian control of daily life — that hold the axis on their own.</p> :
+    <div class="grid">{containers.map((l) => <a class="card" href={l.url}><span class="t">{l.title}</span><span class="d">{l.one_line}</span></a>)}</div>}
+
+  <h2>Where the axis bites inside another need</h2>
+  {tagged.length === 0 ? <p class="empty">No failure record carries this tag yet.</p> :
+    <div class="grid">{tagged.map((l) => <a class="card" href={l.url}><span class="t">{l.title}</span><span class="d">{l.one_line}</span><span class="m">{l.need}</span></a>)}</div>}
+
+  {file && (<div class="ai-prose">
+    <h2>The essay</h2>
+    <div class="prose">
+      {file.sections.map((s) => (<><h2>{s.heading}</h2><div set:html={md(s.markdown)} />
+        {s.subs.map((sub) => (<><h3>{sub.heading}</h3><div set:html={md(sub.markdown)} /></>))}</>))}
+    </div>
+  </div>)}
+</Base>

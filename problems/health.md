@@ -1,5 +1,10 @@
 # Health — Frontier Problem
 
+> **Superseded — kept for history, not for use.**
+> Domain-overview draft predating the tier/leaf model. Health material now routes to the tier-2 `health-safety-net` need and its leaves.
+> Nothing here is wired into the record model (`../problems/data-model.yaml`) and nothing should be cited from it without re-verification.
+> *Marked 2026-09-06.*
+
 *Domain overview. Method: [`../playbook.md`](../playbook.md). Active sub-problem: [`health/food.md`](health/food.md).*
 
 ## Provenance

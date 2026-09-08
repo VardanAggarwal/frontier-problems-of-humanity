@@ -1,0 +1,45 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { corpus, md } from '../../../lib/site.mjs';
+
+export function getStaticPaths() {
+  return corpus.needs.map((need) => ({ params: { id: need.id }, props: { need } }));
+}
+const { need } = Astro.props;
+const parsed = corpus.tierFiles.get(need.id);
+const tier = corpus.tiers[need.tier];
+// `Where it worked` is promoted onto the need's own directory page — the one
+// section the portal addresses by key — so it is dropped from the essay body
+// rendered here.
+const body = (parsed?.sections ?? [])
+  .filter((s) => s.key !== 'follow-list')
+  .map((s) => ({ ...s, subs: s.subs.filter((x) => x.key !== 'where-it-worked') }));
+---
+<Base
+  title={`${need.title} — background`}
+  crumb={`<a href="/">Pyramid</a> / <a href="/tier/${need.tier}">Tier ${need.tier} — ${tier.name}</a> / <a href="/need/${need.id}">${need.title}</a>`}
+>
+  <h1>{need.title}: background research</h1>
+  <p class="lede">
+    The full topic write-up this need's directory is drawn from — threat history, how humanity has
+    dealt with it, and where it fails today. <a href={`/need/${need.id}`}>Back to the {need.title.toLowerCase()} directory →</a>
+  </p>
+  {need.status === 'first-sweep' && (
+    <p class="note"><strong>First sweep.</strong> Written before the current standards: no
+    positive controls, few or no sources. Kept and labelled rather than rewritten.</p>
+  )}
+  {parsed ? (
+    <div class="prose">
+      {body.map((s) => (<>
+        <h2>{s.heading}</h2>
+        <div set:html={md(s.markdown)} />
+        {s.subs.map((sub) => (<>
+          <h3>{sub.heading}</h3>
+          <div set:html={md(sub.markdown)} />
+        </>))}
+      </>))}
+    </div>
+  ) : (
+    <p class="empty">No background research written for this need yet.</p>
+  )}
+</Base>

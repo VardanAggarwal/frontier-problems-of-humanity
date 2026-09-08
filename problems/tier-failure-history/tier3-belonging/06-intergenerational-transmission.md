@@ -1,5 +1,7 @@
 # Intergenerational Transmission (Tier 3 — Belonging)
 
+> Passing skills, language, practice and obligation from one generation to the next.
+
 Continuity of bonding structures across generations: language, craft skill, and social role passed from elder to young. When this chain breaks, a group loses not just information but the medium through which identity and belonging are transmitted.
 
 ## How the threat has struck

@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import { corpus, gapQueue, gapTag } from '../lib/site.mjs';
+const q = gapQueue();
+const LEG_LABEL = { activism: 'campaigners', institution: 'agencies', enterprise: 'companies' };
+const GAP_LABEL = { coverage: "we haven't found who's doing this", representation: 'nobody is doing this' };
+---
+<Base title="Gaps" crumb={`<a href="/">Pyramid</a> / Gaps`}>
+  <h1>Gaps</h1>
+  <p class="lede">
+    The failures with someone missing. This is the only page here that produces work rather
+    than describing it — it is the catalyst's queue.
+  </p>
+  <p class="note">
+    Two kinds, and they must stay distinguishable. <strong>{GAP_LABEL.coverage}</strong>: someone
+    works this and the platform has not found them yet. <strong>{GAP_LABEL.representation}</strong>:
+    no one exists at a unit that can perceive and act on the harm — nobody to submit, and filling
+    it is fieldwork, not search. An empty slot there is a finding, not a stub awaiting a submit
+    button.
+  </p>
+
+  {q.length === 0 && (
+    <p class="empty" style="margin-top:2rem">
+      No gaps recorded yet — a gap is assigned from a completed "who is working on this" pass,
+      and no failure has been researched. Zero here means the research has not started, not that
+      nothing is missing.
+    </p>
+  )}
+
+  {q.length > 0 && (
+    <div class="grid">{q.map((l) => (
+      <a class="card" href={l.url}>
+        <span class="t">{l.title}</span>
+        <span class="d">{l.gap_note}</span>
+        <span class="m">
+          <span class={`tag ${gapTag(l.gap)}`}>{GAP_LABEL[l.gap] ?? l.gap}</span>
+          {' · '}{l.need ?? l.axis}
+          {l.gap_missing_leg.length > 0 && <>{' · missing '}{l.gap_missing_leg.map((leg) => LEG_LABEL[leg] ?? leg).join(', ')}</>}
+        </span>
+      </a>))}
+    </div>
+  )}
+</Base>

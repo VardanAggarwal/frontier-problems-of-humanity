@@ -1,5 +1,7 @@
 # Collective Memory / Ancestor-Continuity (Tier 5 — Meaning)
 
+> The line back to the dead — record, rite and remembrance.
+
 Symbolic self-extension through being remembered and continuing an ancestral chain — distinct from group-membership identity. Threat = severing the chain (destroying records, kin, or the practices that link living to dead and present to future). Response = institutions that fix memory against deliberate erasure.
 
 ## How the need has been threatened

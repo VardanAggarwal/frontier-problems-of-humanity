@@ -1,5 +1,7 @@
 # Hereditary/Caste Status — Tier 4 (Esteem)
 
+> Rank assigned by birth into a hereditary order, gating resource and mating access.
+
 Rank gates resource and mating access within a group. When hereditary status closes, esteem stops being convertible into access — provoking either forced leveling or entrenched backlash. History shows four distinct failure modes, not one: sudden legal abolition, slow economic erosion, violent reassertion when loss is threatened, and quiet persistence/adaptation under formal abolition. Colonial administration adds a fifth: outside powers hardening indigenous hierarchies for their own convenience.
 
 ## Dated episodes

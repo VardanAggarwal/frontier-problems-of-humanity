@@ -5,6 +5,11 @@ __pycache__/
 .venv/
 node_modules/
 
+# Portal build output. The site is derived from problems/; only the source and
+# the emitted problems/index.db + index.json are committed.
+dist/
+.astro/
+
 # Personal meal-system planning notes (not used by the app)
 meal-system/meal-plan.md
 meal-system/pantry-week1.md
@@ -12,3 +17,9 @@ meal-system/nutrient-cadence.md
 
 # Meal planner runtime DB (lives on the server / locally, never in git)
 meal-system/data/
+
+# Private catalyst layer — relationship state, connection records, contact notes.
+# Excluded at the filesystem level, not at render time, so the publish boundary
+# holds before the portal build exists. NOT backed up by git — back this
+# directory up separately. See problems/schema.md → The private layer.
+problems/private/

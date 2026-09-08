@@ -1,5 +1,10 @@
 # The Societal Pyramid — Where Society Is Breaking
 
+> **Superseded — kept for history, not for use.**
+> This file's three-tier pyramid (Resources / Coordination / Cohesion) is an **earlier, rival** structure. The live rederivation is [`tier-taxonomy.md`](tier-taxonomy.md) — one drive, nested containers, five tiers by override frequency — and the live failure record is [`tier-failure-history/`](tier-failure-history/00-index.md). Read this only for how the thinking got there.
+> Nothing here is wired into the record model (`../problems/data-model.yaml`) and nothing should be cited from it without re-verification.
+> *Marked 2026-09-06.*
+
 *Started 2026-07-22. Maslow's hierarchy applied at societal scale (from notebook.md §2: Resources/Coordination/Cohesion ↔ Money/Power/Relationships). Diagnostic axis: not "how strained is this system" but "how far has the contract underneath it drifted from genuine compliance to pretense" — Vardan's own 2017 theory ("Social Contracts: Why we fail to abide by them"), applied here for the first time at civilizational scale.*
 
 *Method note: each tier below was researched by a separate agent, scoped only to that tier, instructed to recall Vardan's own prior Slate material, find current world news/patterns across scale (individual → national → planetary) and economic strata (subsistence → ultra-wealthy), and connect back. Not exhaustive — a first structured pass, meant to be pushed on and revised.*

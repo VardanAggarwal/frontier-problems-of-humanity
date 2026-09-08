@@ -1,5 +1,7 @@
 # Mate Acquisition / Courtship (Tier 3 — Belonging)
 
+> The ability to find and form a reproductive/intimate partnership at all.
+
 Distinct from bond *maintenance*: this is the competing-for phase, where population-level mate-market structure (sex ratios, endogamy rules, price systems) determines whether an individual can find a mate at all. Offspring altriciality forced pair-bonding into the human reproductive strategy; when the market that produces those bonds is distorted, the failure shows up as bachelorhood, coerced marriage, or violence between competitors. This topic is thinner-documented than food or violence — much of the evidence is demographic (sex-ratio data) rather than narrative history, so some entries below lean on statistics more than events.
 
 ## How the need has been threatened

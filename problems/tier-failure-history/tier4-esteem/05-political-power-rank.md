@@ -1,5 +1,7 @@
 # Political/Power Rank (Tier 4 — Esteem)
 
+> Held position in the lever that decides who eats and who is protected.
+
 Tier definition: rank gates resource and mating access within a group — losing political rank is not symbolic, it is the loss of the lever that controls who eats, who is protected, and who reproduces with advantage.
 
 ## How the need has been threatened

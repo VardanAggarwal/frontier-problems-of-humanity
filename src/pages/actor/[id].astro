@@ -1,0 +1,154 @@
+---
+import Base from '../../layouts/Base.astro';
+import { corpus, md } from '../../lib/site.mjs';
+
+export function getStaticPaths() {
+  return corpus.actors.map((a) => ({ params: { id: a.id }, props: { a } }));
+}
+const { a } = Astro.props;
+const sourced = a.needs.filter((n) => /^https?:\/\//.test(n.source ?? ''));
+const withheld = a.needs.length - sourced.length;
+const leaves = a.leaves
+  .map(({ id, role }) => ({ l: corpus.allLeaves.find((x) => x.id === id), role }))
+  .filter((r) => r.l)
+  .sort((x, y) => (x.role === 'primary' ? 0 : 1) - (y.role === 'primary' ? 0 : 1));
+const nodes = a.nodes.map((id) => corpus.nodes.find((n) => n.id === id)).filter(Boolean);
+const others = new Map();
+for (const { l } of leaves) {
+  for (const other of l.actors_touching ?? []) {
+    if (other.id === a.id) continue;
+    if (!others.has(other.id)) others.set(other.id, { actor: other, via: [] });
+    others.get(other.id).via.push(l);
+  }
+}
+for (const n of nodes) {
+  for (const other of n.actors_on_node ?? []) {
+    if (other.id === a.id) continue;
+    if (!others.has(other.id)) others.set(other.id, { actor: other, via: [] });
+  }
+}
+const othersWorking = [...others.values()].sort((x, y) => y.via.length - x.via.length);
+const channel = { email: 'by email', form: 'by web form', social: 'on social', web: 'via their site' };
+const kind = (() => {
+  const r = (a.contact_route ?? '').toLowerCase();
+  if (!r) return null;
+  if (r.includes('@') && !r.startsWith('http')) return 'email';
+  if (r.includes('form')) return 'form';
+  if (r.includes('twitter') || r.includes('x.com') || r.startsWith('@')) return 'social';
+  if (r.startsWith('http')) return 'web';
+  return 'other';
+})();
+const sec = (k) => a.sections.find((s) => s.key === k);
+const LEG_LABEL = { activism: 'campaigners', institution: 'agencies', enterprise: 'companies' };
+const legLabel = (x) => x.leg.map((v) => LEG_LABEL[v] ?? v).join(' · ');
+
+const FEED_RANK = ['rss', 'newsletter', 'youtube', 'x', 'linkedin', 'instagram', 'facebook', 'website'];
+const feeds = a.sources
+  .filter((s) => s.url && FEED_RANK.includes(s.kind) && !['none-found', 'dead'].includes(s.status))
+  .sort((x, y) => FEED_RANK.indexOf(x.kind) - FEED_RANK.indexOf(y.kind));
+---
+<Base title={a.name} crumb={`<a href="/">Pyramid</a> / <a href="/actors">Actors</a>`}>
+  <h1>{a.name}</h1>
+  <div class="tags">
+    <span class="tag on">{legLabel(a)}</span>
+    <span class="tag">{a.type}</span>
+    <span class="tag">{a.depth}</span>
+    <span class={`tag ${a.stance === 'organised-against-remedy' ? 'alarm' : ''}`}>{a.stance}</span>
+    {a.affected_led === 'yes' && <span class="tag ok">affected-led</span>}
+    <span class="tag">{a.representation_unit}</span>
+    <span class={`tag ${['shut', 'dormant', 'distressed'].includes(a.lifecycle) ? 'warn' : ''}`}>{a.lifecycle}</span>
+    {a.geography.map((g) => <span class="tag">{g}</span>)}
+  </div>
+
+  <p class="note" id="followbox" data-slug={a.slug} data-followed={a.followed ? '1' : '0'}
+     data-since={a.followed_date ?? ''} style={a.followed ? 'border-left-color:var(--ok);margin-top:1.5rem' : 'margin-top:1.5rem'}>
+    <button id="followbtn" type="button">{a.followed ? 'Unfollow' : 'Follow for updates'}</button>{' '}
+    <span id="followstate">{a.followed
+      ? `Followed${a.followed_date ? ` since ${a.followed_date}` : ''}. Writes the record.`
+      : 'Sets followed: true and the date in the record.'}</span>
+    {feeds.length > 0
+      ? <> Feeds: {feeds.map((s, i) => <>{i > 0 && ' · '}<a href={s.url}>{s.kind}</a></>)}.</>
+      : <> No feed channel on record — see <a href="#reach">How to reach them</a>.</>}
+  </p>
+  <script is:inline>
+    (function () {
+      var box = document.getElementById('followbox');
+      var btn = document.getElementById('followbtn');
+      var state = document.getElementById('followstate');
+      if (!box || !btn) return;
+      btn.addEventListener('click', function () {
+        var next = box.dataset.followed !== '1';
+        btn.disabled = true;
+        fetch('/api/follow', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ slug: box.dataset.slug, followed: next }),
+        })
+          .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || r.status); return j; }); })
+          .then(function (j) {
+            box.dataset.followed = j.followed ? '1' : '0';
+            box.style.borderLeftColor = j.followed ? 'var(--ok)' : '';
+            btn.textContent = j.followed ? 'Unfollow' : 'Follow for updates';
+            state.textContent = j.followed
+              ? 'Followed since ' + j.followed_date + '. Record written.'
+              : 'Not followed. Record written.';
+          })
+          .catch(function (e) { state.textContent = 'Could not write record (' + e.message + ') — dev server only.'; })
+          .finally(function () { btn.disabled = false; });
+      });
+    })();
+  </script>
+
+  {a.stance === 'organised-against-remedy' && (
+    <p class="note" style="border-left-color:var(--alarm);margin-top:1.5rem">
+      <strong>Organised against the remedy.</strong> A first-class finding, not a disqualification —
+      and it publishes only with its sources, listed below.
+    </p>
+  )}
+
+  <div class="ai-prose">
+    {a.lede && <div class="prose" style="margin-top:1.5rem" set:html={md(a.lede)} />}
+    {sec('scope') && <><h2>{sec('scope').heading}</h2><div class="prose" set:html={md(sec('scope').markdown)} /></>}
+    {sec('status') && <><h2>{sec('status').heading}</h2><div class="prose" set:html={md(sec('status').markdown)} /></>}
+  </div>
+
+  <h2>What they need</h2>
+  {sourced.length === 0 ? <p class="empty">Nothing published.</p> : (
+    <ul>{sourced.map((n) => <li><b>{n.kind}</b> — {n.text} <a class="tag" href={n.source}>source</a> {n.as_of && <span class="tag">{n.as_of}</span>}</li>)}</ul>
+  )}
+  {withheld > 0 && <p class="empty">{withheld} further ask{withheld > 1 ? 's' : ''} recorded without a public source, held back from publication.</p>}
+
+  <h2>What they can offer</h2>
+  {a.offers.length === 0 ? <p class="empty">Nothing recorded.</p> :
+    <ul>{a.offers.map((o) => <li><b>{o.kind}</b> — {o.text}</li>)}</ul>}
+
+  <h2>Working on</h2>
+  {leaves.length + nodes.length === 0 ? <p class="empty">No failures or shared causes linked.</p> : (
+    <div class="grid">
+      {leaves.map(({ l, role }) => <a class="card" href={l.url}><span class="t">{l.title}</span><span class="d">{l.one_line}</span><span class="m">{role}</span></a>)}
+      {nodes.map((n) => <a class="card" href={n.url}><span class="t">{n.title}</span><span class="m">shared cause</span></a>)}
+    </div>
+  )}
+
+  <h2 id="reach">How to reach them</h2>
+  <p>{kind ? `Reachable ${channel[kind] ?? 'by another route'}.` : 'No route recorded.'}</p>
+  <ul>{a.sources.map((s) => (
+    <li>{s.url ? <a href={s.url}>{s.kind}</a> : <>{s.kind}</>} {s.handle && <code>{s.handle}</code>}
+      <span class={`tag ${s.status === 'none-found' ? 'warn' : s.status === 'dead' ? 'alarm' : ''}`}>{s.status}</span></li>
+  ))}</ul>
+
+  {sec('updates') && <div class="ai-prose"><h2>Recent updates</h2><div class="prose" set:html={md(sec('updates').markdown)} /></div>}
+  <p class="recpath">Updated {a.updated}</p>
+
+  <h2>Others working the same failure</h2>
+  {othersWorking.length === 0 ? <p class="empty">No other actor recorded on the same failure yet.</p> : (
+    <div class="grid">{othersWorking.map(({ actor: o, via }) => (
+      <a class="card" href={`/actor/${o.id}`}>
+        <span class="t">{o.name}</span>
+        <span class="d">{legLabel(o)} · {o.depth}</span>
+        <span class="m">via {via.length > 0 ? via.map((l) => l.title).join(', ') : 'shared cause'}</span>
+      </a>))}
+    </div>
+  )}
+
+
+</Base>

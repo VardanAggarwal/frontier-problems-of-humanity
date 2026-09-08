@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro';
+import { corpus, needsByTier, needShown, md } from '../../lib/site.mjs';
+
+export function getStaticPaths() {
+  return Object.keys(corpus.tiers).map((n) => ({ params: { n: String(n) } }));
+}
+const n = Number(Astro.params.n);
+const tier = corpus.tiers[n];
+const needs = needsByTier(n);
+const hidden = needs.filter((need) => !needShown(need)).length;
+
+// Fix 2/9: the tier's own 00-summary.md ("what survived the [need] files"),
+// otherwise dark — /tier/N used to repeat the one-line definition already
+// shown on / and on /need/x. Lead with the first two sections; the rest sits
+// under a fold rather than a separate route.
+const summary = corpus.tierSummaries.get(n) ?? null;
+const leadSections = summary?.sections.slice(0, 2) ?? [];
+const restSections = summary?.sections.slice(2) ?? [];
+---
+<Base title={`Tier ${n} — ${tier.name}`} crumb={`<a href="/">Pyramid</a> / Tier ${n}`}>
+  <h1>Tier {n} — {tier.name}</h1>
+  <p class="lede">{tier.gloss}</p>
+
+  {summary && (
+    <div class="prose tier-summary">
+      {summary.lede && <div set:html={md(summary.lede)} />}
+      {leadSections.map((s) => (
+        <>
+          <h2>{s.heading}</h2>
+          <div set:html={md(s.markdown)} />
+          {s.subs.map((sub) => (
+            <>
+              <h3>{sub.heading}</h3>
+              <div set:html={md(sub.markdown)} />
+            </>
+          ))}
+        </>
+      ))}
+      {restSections.length > 0 && (
+        <details>
+          <summary>Read the rest of the tier summary</summary>
+          {restSections.map((s) => (
+            <>
+              <h2>{s.heading}</h2>
+              <div set:html={md(s.markdown)} />
+              {s.subs.map((sub) => (
+                <>
+                  <h3>{sub.heading}</h3>
+                  <div set:html={md(sub.markdown)} />
+                </>
+              ))}
+            </>
+          ))}
+        </details>
+      )}
+    </div>
+  )}
+
+  <h2>The needs in this tier</h2>
+  <div class="grid">
+    {needs.map((need) => (
+      <a class={`card${needShown(need) ? '' : ' unverified'}`} href={need.url}>
+        <span class="t">{need.title}</span>
+        <span class="d">{need.definition}</span>
+        <span class="m">
+          {need.leaves.length === 0
+            ? 'topic file written · not yet enumerated'
+            : `${need.leaves.length} failure${need.leaves.length === 1 ? '' : 's'}`}
+          {' · '}{need.status === 'first-sweep' ? 'outline only' : 'researched'}
+        </span>
+      </a>
+    ))}
+  </div>
+
+  {hidden > 0 && (
+    <p class="u-hint">{hidden} of {needs.length} needs still outline-only, dimmed. <b>Show outline-only</b> in the header for full cards.</p>
+  )}
+</Base>

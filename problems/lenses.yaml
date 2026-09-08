@@ -1,0 +1,144 @@
+# Lens registry — the cross-leaf views that are NOT record types.
+#
+# A node is a concrete object and has a record and a page. A mechanism and a
+# cross-cutting axis are the other two ways leaves group across needs, and
+# neither has a record: they are closed vocabularies tagged on leaves. This file
+# gives each one an id, a title and a line, so `/lens/mechanism/<id>` and
+# `/lens/axis/<id>` can render a page instead of a bare slug.
+#
+# Source of truth for the mechanism vocabulary is CLAUDE.md -> The mechanisms;
+# for the enum, data-model.yaml -> enums.mechanism. This file must agree with
+# both — the build errors if the id sets differ.
+#
+# Added 2026-09-06 (03-portal.md §5, delta 5).
+
+version: 1
+
+mechanisms:
+  - id: aggregation-masks-failure
+    title: Aggregation masks failure
+    one_line: The reporting unit is larger than the harm unit, so the average clears while the affected population does not exist in the data.
+    description: >-
+      A statistic is collected at a scale — national, state, city — coarser than the scale at
+      which the harm concentrates, so the mean sits inside the acceptable band while whole
+      sub-populations sit far outside it and never appear as a distinct number. The diagnostic
+      is a compliant headline figure alongside a non-compliant fragment of the same
+      population. The reporting unit needs an owner accountable for the fragment, which makes
+      this an institution problem first — enterprise can move it only where the harmed
+      sub-population can pay to be measured.
+    order: 1
+  - id: spend-mismatched-to-source
+    title: Spend mismatched to source
+    one_line: Money is appropriated and executed, but aimed at a contributor other than the load-bearing one.
+    description: >-
+      The response is real — funded, staffed, spent on schedule — but attached to a cause that
+      carries a minority of the burden, so effort and outcome decouple. The diagnostic is a
+      well-executed programme whose spending breakdown does not match the causal breakdown of
+      the harm. Fixing it means redirecting the institutional spend to the load-bearing
+      source, or an enterprise serving that source directly; the appropriation already exists,
+      so the barrier is aim, not budget.
+    order: 2
+  - id: instrument-keyed-to-wrong-object
+    title: Instrument keyed to the wrong object
+    one_line: The remedy attaches to something adjacent to the harm, excluding a class of the harmed by design rather than by failure.
+    description: >-
+      A remedy is defined against a proxy for the harm rather than the harm itself, so a class
+      of victims is excluded structurally — the instrument works exactly as written and still
+      misses them. The same shape appears outside the state: in consumer products aimed at the
+      least-affected buyers, and in advocacy built around a claimant group adjacent to the
+      people actually carrying the harm. Because an unserved object concretely exists,
+      enterprise can usually move this one directly.
+    order: 3
+  - id: authority-mismatched-to-harm
+    title: Authority mismatched to harm
+    one_line: The body with power over the remedy does not contain the source — or is itself the source.
+    description: >-
+      The jurisdiction of the body empowered to act does not coincide with the extent of the
+      harm — the harm crosses a boundary the authority does not, or the authority is itself
+      the source — so the entity with power structurally cannot or will not use it. The object
+      needs an owner whose remit matches the harm before either other leg has something to
+      attach to: institution-building first.
+    order: 4
+  - id: primary-vs-derivative-burden
+    title: Primary vs derivative burden
+    one_line: The visible, contested cause is not the one carrying most of the load.
+    description: >-
+      Attention and effort route to the most salient contributor, which is often not the
+      largest, so the majority of the problem is left unaddressed while the minority is fought
+      over. The diagnostic is a heavily contested visible cause that accounts for a small
+      share of the measured load, with a larger, quieter cause beside it. The fix —
+      redirecting to the primary burden — sits with institution or enterprise depending on
+      whether a payer exists.
+    order: 5
+  - id: solution-at-hand-blocked
+    title: Solution at hand, blocked
+    one_line: Technically settled and affordable, politically stuck.
+    description: >-
+      The technical answer is known, demonstrated and affordable, and the obstacle is entirely
+      political: a concentrated, organised loser against a diffuse, silent beneficiary. This
+      is the one mechanism that meets the frontier criterion by definition — solution at hand,
+      blocker identifiable and movable — and capital cannot shift it; the route is activism
+      into institution.
+    order: 6
+  - id: compensation-substitutes-for-counting
+    title: Compensation substitutes for counting
+    one_line: A payout layer is built without the detection layer beneath it, capping liability by leaving the denominator unknown.
+    description: >-
+      The state builds the machinery to pay for a harm without building the machinery to
+      detect it, so the bill is bounded by how few cases are found rather than by how many
+      exist. Paying is politically cheaper than measuring, and the compensation ceiling is
+      also why no detection market forms — a cap is not a demand signal. Enterprise can move
+      it where a buyer for detection exists; otherwise the missing denominator is itself what
+      activism must contest.
+    order: 7
+  - id: within-tier-loop
+    title: Within-tier loop
+    one_line: Secondary. Provision of one need in a tier degrades another in the same tier.
+    description: >-
+      Meeting one need with the cheapest available satisfier damages a neighbouring need in
+      the same tier, so the ledger nets out lower than the provision figure suggests.
+      Secondary to the seven, but worth tagging because the second harm is usually uncounted.
+    order: 8
+  - id: second-half-never-built
+    title: The second half never built
+    one_line: Secondary. Collection without treatment, enrolment without teaching, law without the delivery body.
+    description: >-
+      The first stage of a two-stage remedy is built and the second is not, so the visible
+      activity — infrastructure laid, people enrolled, a law passed — relocates the problem
+      rather than resolving it. It is the leg-2 → leg-3 handoff failing, and the binding
+      constraint turns out to be executing a won remedy more often than winning it.
+    order: 9
+  - id: visible-win-strands-residual
+    title: Visible win strands the residual
+    one_line: Provisional. A decisive win against the largest, most salient contributor drains the political attention that would have funded action on the diffuse remainder — the residual is left to no one because the headline problem was declared solved. 2 instances so far (residual-childhood-lead, crop-residue-burning).
+    description: >-
+      A decisive, well-publicised victory against the largest and most visible contributor
+      removes the political attention that would have funded work on the diffuse remainder,
+      which is then left to no one because the headline problem has been declared solved. It
+      sits below the "3-plus tier-1 files" bar the original seven cleared, so it is carried as
+      provisional pending more instances.
+    order: 10
+  - id: unclassified
+    title: Unclassified
+    one_line: None of the above fits without distortion. A legitimate value, and the leaf owes a §C paragraph saying what the pattern actually is — that paragraph is where the next mechanism comes from.
+    description: >-
+      Not a failure of tagging — a required escape value. The seven mechanisms were derived
+      from tier-1 state-instrument failures; tiers 3–5 fail through status hierarchies, kinship
+      arrangements and belief systems, where no instrument is keyed to anything, and forcing
+      that material into the seven produces a confident wrong tag that the cross-leaf view
+      then groups as alike. A leaf tagged unclassified owes a paragraph in its diagnosis
+      section saying what the pattern actually is — that paragraph is where the eighth
+      mechanism will come from.
+    order: 11
+
+axes:
+  - id: autonomy
+    title: Freedom / autonomy
+    one_line: Cannot be lost alone — it is the axis every tier is held on, and its failure shows up inside other needs rather than beside them.
+    file: tier-failure-history/cross-cutting/01-freedom-autonomy.md
+    order: 1
+  - id: leisure
+    title: Leisure / play
+    one_line: Unclaimed time. Squeezed out of every tier by the provision of the tiers below it.
+    file: tier-failure-history/cross-cutting/02-leisure-play.md
+    order: 2

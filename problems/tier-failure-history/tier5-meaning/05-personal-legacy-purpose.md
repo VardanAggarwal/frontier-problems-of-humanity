@@ -1,5 +1,7 @@
 # Personal Legacy/Individual Purpose (Tier 5 — Meaning)
 
+> Individual meaning and legacy, distinct from collective ideology or identity.
+
 Tier definition: symbolic self-extension through individual legacy/purpose as a meaning-source, distinct from collective ideology/identity forms.
 
 ## How the need has been threatened

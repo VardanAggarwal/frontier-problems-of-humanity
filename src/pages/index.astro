@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import { corpus, needsByTier, needShown, tierHasVerified } from '../lib/site.mjs';
+
+const tiers = Object.entries(corpus.tiers).map(([n, t]) => ({ n: Number(n), ...t }));
+const total = corpus.allLeaves.length;
+const researched = corpus.allLeaves.filter((l) => l.status !== 'stub').length;
+const leafed = corpus.needs.filter((n) => n.status === 'leafed').length;
+const standard = corpus.needs.filter((n) => n.status !== 'first-sweep').length;
+---
+<Base title={null}>
+  <h1>Frontier Problems of Humanity</h1>
+  <p class="lede">
+    One drive — persist and propagate — rederived into five tiers of need, each
+    tier mapped to its documented failures, and each failure to everyone already
+    working on it. The catalogue is the first goal; connecting the people in it
+    is the point.
+  </p>
+
+  <div class="counts">
+    <div><b>{corpus.needs.length}</b><span>needs</span></div>
+    <div><b>{total}</b><span>failure records</span></div>
+    <div><b>{researched}</b><span>researched</span></div>
+    <div><b>{corpus.actors.length}</b><span>actors</span></div>
+    <div><b>{corpus.nodes.length}</b><span>cross-need nodes</span></div>
+    <div><b>{standard}/{corpus.needs.length}</b><span>files at standard</span></div>
+  </div>
+
+  <p class="u-hint">
+    Showing verified records only — {standard} of {corpus.needs.length} needs past first-sweep,
+    {researched} of {total} failure records off stub. <b>Show outline-only</b> in the header opens the full tree.
+  </p>
+
+  <h2>The pyramid</h2>
+  {tiers.map((t) => {
+    const ns = needsByTier(t.n);
+    return (
+      <section class={`tierband${tierHasVerified(t.n) ? '' : ' unverified'}`}>
+        <header>
+          <h2><a href={`/tier/${t.n}`} style="text-decoration:none">Tier {t.n} — {t.name}</a></h2>
+          <span class="gloss">{t.gloss}</span>
+        </header>
+        <div class="needs">
+          {ns.map((n) => <a href={n.url} class={needShown(n) ? '' : 'unverified'}>{n.title}{n.leaves.length > 0 && <span style="color:var(--muted)"> · {n.leaves.length}</span>}</a>)}
+        </div>
+      </section>
+    );
+  })}
+
+  <section class="tierband">
+    <header>
+      <h2>Cross-cutting axes</h2>
+      <span class="gloss">Cannot be lost alone — they are held inside every tier rather than beside them.</span>
+    </header>
+    <div class="needs">{corpus.axes.filter((a) => a.leaves.length > 0).map((a) => <a href={a.url}>{a.title}</a>)}</div>
+  </section>
+
+  <h2>Reading it another way</h2>
+  <div class="grid">
+    <a class="card" href="/nodes"><span class="t">Cross-need nodes</span><span class="d">One concrete object upstream of two or more needs. Acting there moves the whole set.</span><span class="m">{corpus.nodes.length} registered</span></a>
+    <a class="card" href="/gaps"><span class="t">Gaps</span><span class="d">Failures with a leg missing. The only page here that produces work rather than describing it.</span><span class="m">the catalyst's queue</span></a>
+    <a class="card" href="/lens/where-it-worked"><span class="t">Where it worked</span><span class="d">Positive controls. A framework built only from failures cannot tell a hard problem from a neglected one.</span></a>
+    <a class="card" href="/scoreboard"><span class="t">Scoreboard</span><span class="d">What the catalyst work has actually moved — connections made, actors reachable, records gone stale.</span></a>
+    <a class="card" href="/lens/latent"><span class="t">Latent</span><span class="d">Harm already incurred, not yet visible in mortality data. A filter, not a folder.</span></a>
+  </div>
+</Base>

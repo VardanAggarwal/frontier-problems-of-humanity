@@ -1,5 +1,7 @@
 # Disaster / Institutional Protection — Population-Scale Shocks (Tier 2: Safety)
 
+> Population-scale shock absorption — the natural event, and the institutional failure to answer it.
+
 Tier definition: a buffer against unpredictable future population-scale threats — natural disaster, or institutional failure to respond to one.
 
 ## How the threat has hit

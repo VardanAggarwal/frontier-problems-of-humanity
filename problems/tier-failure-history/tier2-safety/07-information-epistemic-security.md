@@ -1,5 +1,7 @@
 # Information / Epistemic Security (Tier 2 — Safety)
 
+> Access to information true enough to act on, and protection from engineered falsity.
+
 Definition: the buffer of accurate foresight — knowing what threats are coming in time to act. This is distinct from the threat itself. Attacked by propaganda, censorship, disinformation, and information blackouts, which don't create the famine/plague/war but blind people to it until too late.
 
 ## How this need has been threatened

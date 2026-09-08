@@ -1,5 +1,7 @@
 # Religious/Cosmological Meaning — Tier 5 (Meaning)
 
+> A cosmology that places the self in something that outlasts it.
+
 Once survival is secured, the drive to persist/propagate keeps operating but relocates onto symbolic substrates: a cosmology, a god, an afterlife, a chosen people, a sacred order. These decay slower than a body but are still finite — they can be suppressed by states, shattered by conquest, split by schism, undercut by rival science, or simply worn away by secular life. History shows five distinct attack vectors on this substrate: state suppression, forced conversion, internal schism, scientific-cosmological challenge, and gradual secularization.
 
 ## Dated episodes

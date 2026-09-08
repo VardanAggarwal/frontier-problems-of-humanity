@@ -1,5 +1,7 @@
 # Health Safety Net — Injury/Illness Recovery Infrastructure (Tier 2 — Safety)
 
+> Recovery infrastructure for injury and illness, and protection from its cost.
+
 Threat: illness or injury strikes unpredictably. Without a buffer, recovery costs destroy savings, land, or life itself — turning a biological event into permanent ruin.
 
 ## How the threat has hit, across eras and geographies
@@ -52,7 +54,7 @@ Threat: illness or injury strikes unpredictably. Without a buffer, recovery cost
 
 ## Carried in from Tier 1 (2026-07-25) — not yet researched
 
-**Obstetric survival belongs here, not in Tier 1.** The Tier 1 review found that `../../tier-taxonomy.md` derives the hierarchy from *persist/propagate* while all six Tier 1 needs are persist — propagation-survival has no file anywhere in the framework. It was routed here on the reasoning that birth is not the threat; the inability to survive a known, time-bounded medical event is, which makes it a safety-net failure rather than a substrate failure.
+**Obstetric survival belongs here, not in Tier 1.** The Tier 1 review found that the tier-derivation framework derives the hierarchy from *persist/propagate* while all six Tier 1 needs are persist — propagation-survival has no file anywhere in the framework. It was routed here on the reasoning that birth is not the threat; the inability to survive a known, time-bounded medical event is, which makes it a safety-net failure rather than a substrate failure.
 
-To research when this file is worked: MMR 88 per 100,000 live births (SRS 2021–23) and ~22,500 maternal deaths a year; leading causes obstetric haemorrhage, hypertensive disorders, obstructed labour, sepsis, unsafe abortion; anaemia as the compounding factor, and note that anaemia is *rising* (NFHS-4→5: women 50.1%→53.7%, children 58.6%→67.1%, recorded in `../tier1-physiological/01-food.md`). Also: neonatal mortality and India's share of global neonatal deaths, the JSY/JSSK institutional-delivery push as a likely positive control, and whether institutional delivery rates rose faster than delivery *quality*.
+To research when this file is worked: MMR 88 per 100,000 live births (SRS 2021–23) and ~22,500 maternal deaths a year; leading causes obstetric haemorrhage, hypertensive disorders, obstructed labour, sepsis, unsafe abortion; anaemia as the compounding factor, and note that anaemia is *rising* (NFHS-4→5: women 50.1%→53.7%, children 58.6%→67.1%, recorded under [food / caloric intake](/need/food)). Also: neonatal mortality and India's share of global neonatal deaths, the JSY/JSSK institutional-delivery push as a likely positive control, and whether institutional delivery rates rose faster than delivery *quality*.
 

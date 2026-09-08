@@ -1,5 +1,7 @@
 # In-Group Identity/Cohesion (Tier 3 — Belonging)
 
+> The we-feeling that lets strangers act as kin at scale.
+
 Tier definition: group cohesion as a bonding mechanism scaled from blood-kin to symbolic/national in-groups — the "we-feeling" that lets strangers act as kin.
 
 ## How the need has been threatened

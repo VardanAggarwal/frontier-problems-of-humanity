@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import { corpus } from '../../lib/site.mjs';
+const latent = corpus.allLeaves.filter((l) => l.onset === 'latent');
+---
+<Base title="Latent" crumb={`<a href="/">Pyramid</a> / Latent`}>
+  <h1>Stored risk</h1>
+  <p class="lede">
+    Harm already incurred and not yet visible in mortality data. Asbestos, lead, silica,
+    seismic exposure, fossil-aquifer depletion. Latent is not the same as small.
+  </p>
+  <p class="note">
+    This is a <strong>filter, not a folder</strong>. Latent failures used to live in a section
+    inside each topic file, which meant a reader had to already know to look there. Here it is
+    a view over <code>onset: latent</code>, and the failure record sits under its own need like
+    any other.
+  </p>
+  {latent.length === 0 ? <p class="empty" style="margin-top:2rem">No failure record carries <code>onset: latent</code> yet. The five instances above are named as pointers in the tier-1 topic files and become records as those files are researched.</p> :
+    <div class="grid">{latent.map((l) => (
+      <a class="card" href={l.url}><span class="t">{l.title}</span><span class="d">{l.one_line}</span>
+        <span class="m">{l.need ?? l.axis}</span></a>))}</div>}
+</Base>

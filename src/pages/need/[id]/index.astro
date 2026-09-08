@@ -1,0 +1,83 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { corpus, md, statusTag } from '../../../lib/site.mjs';
+
+export function getStaticPaths() {
+  return corpus.needs.map((need) => ({ params: { id: need.id }, props: { need } }));
+}
+const { need } = Astro.props;
+const parsed = corpus.tierFiles.get(need.id);
+const tier = corpus.tiers[need.tier];
+const nodes = corpus.nodes.filter((nd) => nd.needs.includes(need.id));
+const worked = parsed?.where_it_worked ?? null;
+const shownLeaves = need.leaves.filter((l) => l.status !== 'stub').length;
+const hiddenLeaves = need.leaves.length - shownLeaves;
+
+// Reader-facing vocabulary — label strings only, never the underlying enum
+// values. The four-way status axis (leaf: stub/researched/stale, need:
+// first-sweep/standard/leafed) collapses to two labels for a stranger.
+const recordLabel = (s) => (s === 'stub' ? 'outline only' : 'researched');
+const needRecordLabel = (s) => (s === 'first-sweep' ? 'outline only' : 'researched');
+const gapLabel = (g) =>
+  ({ none: 'covered', coverage: "we haven't found who's doing this", representation: 'nobody is doing this' }[g] ?? g);
+const hasBackground = !!parsed && (parsed.sections ?? []).some((s) => s.key !== 'follow-list');
+---
+<Base title={need.title} crumb={`<a href="/">Pyramid</a> / <a href="/tier/${need.tier}">Tier ${need.tier} — ${tier.name}</a>`}>
+  <h1>{need.title}</h1>
+  <p class="lede">{need.definition}</p>
+  {need.description && <div class="prose need-scope" set:html={md(need.description)} />}
+
+  <h2>Where it fails today</h2>
+  {need.leaves.length === 0 ? (
+    <p class="empty">
+      Not yet broken into individual cases
+      {hasBackground ? <> — see the <a href={`/need/${need.id}/background`}>background research</a>.</> : '.'}
+    </p>
+  ) : (
+    <div class="grid">
+      {need.leaves.map((l) => (
+        <a class={`card${l.status === 'stub' ? ' unverified u-hide' : ''}`} href={l.url}>
+          <span class="t">{l.title}</span>
+          <span class="d">{l.one_line}</span>
+          <span class="m">
+            <span class={`tag ${statusTag(l.status)}`}>{recordLabel(l.status)}</span>
+            {l.gap && <span class="tag"> {gapLabel(l.gap)}</span>}
+          </span>
+        </a>
+      ))}
+    </div>
+  )}
+  {hiddenLeaves > 0 && (
+    <p class="u-hint">
+      {hiddenLeaves} outline-only failure{hiddenLeaves === 1 ? '' : 's'} hidden
+      {shownLeaves === 0 ? ' — none researched yet.' : `, ${shownLeaves} shown.`}
+      <b> Show outline-only</b> in the header to list them.
+    </p>
+  )}
+
+  {nodes.length > 0 && (<>
+    <h2>Shared causes reaching this need</h2>
+    <div class="grid">
+      {nodes.map((nd) => (
+        <a class="card" href={nd.url}>
+          <span class="t">{nd.title}</span>
+          <span class="d">{nd.one_line}</span>
+          <span class="m">{nd.type} · {nd.status}</span>
+        </a>
+      ))}
+    </div>
+  </>)}
+
+  {worked && (<div>
+    <h2>Where it worked</h2>
+    <div class="prose" set:html={md(worked.markdown)} />
+  </div>)}
+
+  {hasBackground && (
+    <p class="supporting">
+      <a href={`/need/${need.id}/background`}>Read the full background research on {need.title.toLowerCase()} →</a>
+    </p>
+  )}
+
+  <p class="recpath">{needRecordLabel(need.status)} · {need.leaves.length} failures</p>
+</Base>

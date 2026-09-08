@@ -1,0 +1,29 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { corpus, md } from '../../../lib/site.mjs';
+export function getStaticPaths() {
+  // Emit a lens only if something points at it — a failure record or a shared
+  // cause. Node-only members still need a page, or the chips linking them dangle.
+  return corpus.mechanisms
+    .filter((m) => m.leaves.length > 0 || corpus.nodes.some((n) => n.mechanisms.includes(m.id)))
+    .map((m) => ({ params: { id: m.id }, props: { m } }));
+}
+const { m } = Astro.props;
+const nodes = corpus.nodes.filter((n) => n.mechanisms.includes(m.id));
+---
+<Base title={m.title} crumb={`<a href="/">Pyramid</a> / <a href="/method">Mechanisms</a>`}>
+  <h1>{m.title}</h1>
+  <p class="lede">{m.one_line}</p>
+  {m.description && <div class="prose" set:html={md(m.description)} />}
+  <h2>Failures</h2>
+  {m.leaves.length === 0 ? <p class="empty">No failure record carries this tag yet.</p> :
+    <div class="grid">{m.leaves.map((l) => (
+      <a class="card" href={l.url}><span class="t">{l.title}</span><span class="d">{l.one_line}</span>
+        <span class="m">{l.need ?? l.axis}</span></a>))}</div>}
+  {nodes.length > 0 && (<>
+    <h2>Shared causes</h2>
+    <div class="grid">{nodes.map((n) => (
+      <a class="card" href={n.url}><span class="t">{n.title}</span><span class="d">{n.one_line}</span>
+        <span class="m">{n.type}</span></a>))}</div>
+  </>)}
+</Base>

@@ -1,5 +1,7 @@
 # Violence Protection (Tier 2 — Safety)
 
+> Protection of the body from deliberate harm by others, private or state.
+
 Tier definition: a buffer against unpredictable future threats to body, claims, and resources — surviving today isn't enough if you can be destroyed tomorrow.
 
 ## How the need has been threatened

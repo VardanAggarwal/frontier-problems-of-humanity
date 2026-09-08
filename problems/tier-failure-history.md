@@ -1,5 +1,10 @@
 # Tier Failures Across Societal Transitions — Documented History
 
+> **Superseded — kept for history, not for use.**
+> Superseded first pass. It collapsed to a single mechanism, which is the flaw [`tier-failure-history/`](tier-failure-history/00-index.md) exists to avoid by researching each need independently.
+> Nothing here is wired into the record model (`../problems/data-model.yaml`) and nothing should be cited from it without re-verification.
+> *Marked 2026-09-06.*
+
 *No hypothesis, no framing — dated episodes only, by Maslow tier, across collapse/revolution/war/industrialization/colonization/financial crisis.*
 
 ## Tier 1 — Physiological (food/water/shelter)

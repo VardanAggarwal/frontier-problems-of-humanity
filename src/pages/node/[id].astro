@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import { corpus, md } from '../../lib/site.mjs';
+
+export function getStaticPaths() {
+  return corpus.nodes.map((node) => ({ params: { id: node.id }, props: { node } }));
+}
+const { node } = Astro.props;
+const needs = node.needs.map((id) => corpus.needs.find((n) => n.id === id)).filter(Boolean);
+// `Leaves` and `Actors on the node` are derived (03-portal.md §2) — whatever a
+// node file says in those two sections is ignored and rendered from the graph.
+const body = node.sections.filter((s) => !['leaves', 'actors'].includes(s.key));
+const LEG_LABEL = { activism: 'campaigners', institution: 'agencies', enterprise: 'companies' };
+---
+<Base title={node.title} crumb={`<a href="/">Pyramid</a> / <a href="/nodes">Nodes</a>`}>
+  <h1>{node.title}</h1>
+  <p class="lede">{node.one_line}</p>
+  <div class="tags">
+    <span class="tag on">{node.type}</span>
+    <span class="tag">{node.status}</span>
+    {node.geography.map((g) => <span class="tag">{g}</span>)}
+    {node.mechanisms.map((m) => <a class="tag" href={`/lens/mechanism/${m}`}>{m}</a>)}
+  </div>
+
+  <dl class="facts">
+    <dt>authority</dt><dd>{node.authority}</dd>
+    <dt>needs reached</dt><dd>{needs.map((n, i) => <>{i > 0 && ' · '}<a href={n.url}>{n.title}</a></>)}</dd>
+    {node.sub_levers.length > 0 && (<><dt>sub-levers</dt><dd>{node.sub_levers.join(' · ')}</dd></>)}
+    <dt>updated</dt><dd>{node.updated}</dd>
+  </dl>
+
+  <h2>Failures downstream</h2>
+  {node.leaves.length === 0
+    ? <p class="empty">No failure records yet declare this shared cause. The <code>needs:</code> claim above is
+        the author's assertion of reach; the build warns for every need claimed here with no member failure.</p>
+    : <div class="grid">{node.leaves.map((l) => (
+        <a class="card" href={l.url}><span class="t">{l.title}</span><span class="d">{l.one_line}</span>
+        <span class="m">{l.need ?? l.axis}</span></a>))}</div>}
+
+  <h2>Actors on the shared cause</h2>
+  {node.actors_on_node.length === 0
+    ? <p class="empty">None recorded — people who work the lever itself, rather than any one failure downstream of it.</p>
+    : <div class="grid">{node.actors_on_node.map((a) => (
+        <a class="card" href={a.url}><span class="t">{a.name}</span><span class="m">{a.leg.map((x) => LEG_LABEL[x] ?? x).join(' · ')}</span></a>))}</div>}
+
+  <div class="ai-prose">
+    <h2>The record</h2>
+    <div class="prose" set:html={md([node.lede, ...body.map((s) => `## ${s.heading}\n\n${s.markdown}`)].filter(Boolean).join('\n\n'))} />
+  </div>
+</Base>

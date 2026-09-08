@@ -1,0 +1,520 @@
+# fph data model — formal schema
+#
+# Companion to problems/schema.md (prose explainer). THIS file is the source of
+# truth for record shape: field names, types, enums, required/optional, relations.
+# Instance data lives in each record's markdown frontmatter. The portal build
+# (catalyst-platform/03-portal.md §1) transcribes this file into a Zod schema,
+# validates every frontmatter block against it, and loads the result into SQLite.
+#
+# Markdown stays authoritative for everything a human writes. The DB is derived,
+# and authoritative only for machine-appended time-series (poll results,
+# last_checked, update rows, connection state) — 03-portal.md §1, the authority
+# split. This file is the schema that migration reads.
+
+version: 3      # v3, 2026-09-06 — portal pass. Identity decoupled from path and
+                # from classification: ids are declared, bare and stable; `aliases`
+                # makes renames additive. Emit target is SQLite. See 03-portal.md §5.
+                # v2, 2026-09-06 — audit pass. Added: need + connection entities,
+                # record status (stub|researched), typed actor needs/offers/sources,
+                # geography, refresh fields, the private-layer split, ref types.
+
+# ---------------------------------------------------------------------------
+# Type notation
+# ---------------------------------------------------------------------------
+# Scalars:  string · text (multi-line) · int · bool · date (ISO YYYY-MM-DD) · url
+# enum.X            a value from `enums.X` below
+# list[T]           an ordered list of T
+# ref.leaf          a leaf id (a bare slug) — build errors on a dangling ref
+# ref.cc_leaf       a cross-cutting-leaf id (a bare slug; same namespace as ref.leaf)
+# ref.any_leaf      ref.leaf | ref.cc_leaf
+# ref.node          a node id (slug)
+# ref.actor         an actor id (slug)
+# ref.need          a need id (see problems/tier-failure-history/needs.yaml)
+# ref.connection    a connection id (slug)
+# {a: T, b: T}      an inline object; list[{...}] is a list of them
+#
+# `private: true` on a field or entity  -> the published artifact is built from a
+# view that does not select it, so it is absent rather than filtered. Private
+# records still load and FK-enforce (03-portal.md §1). Private *bodies* live under
+# problems/private/, which is gitignored (see schema.md -> The private layer).
+#
+# Every entity additionally carries:
+#   id       {type: string, required: true}   declared, authoritative over the path
+#   aliases  {type: "list[string]"}           append-only; former ids, drive redirects
+
+# ---------------------------------------------------------------------------
+# Controlled vocabularies
+# ---------------------------------------------------------------------------
+enums:
+  tier: [1, 2, 3, 4, 5]
+
+  # `need` is NOT hardcoded here. The need registry is
+  # problems/tier-failure-history/needs.yaml — one row per need, with tier,
+  # title, file and status. enum.need = the set of ids in that file.
+  # Adding a need means adding a row there, not editing this list.
+  need: ref.needs-registry
+
+  record_status:           # applies to leaf, cross_cutting_leaf
+    - stub                 # known failure, named and placed, not yet researched.
+                           # Valid, publishable, counts in the browse tree.
+                           # gap / mechanisms / evidence not yet required.
+    - researched           # full A-E body; every required field present.
+    - stale                # was researched; `last_reviewed` older than the
+                           # refresh interval, or an actor on it changed state.
+
+  channel:                 # Axis 1 — Galtung + one added cell
+    - direct               # an identifiable actor/event acts
+    - structural           # harm from how a system is arranged, no single actor
+    - cultural-normative   # legitimising beliefs, themselves the harm
+    - ambient-accidental   # hazard with a source but no intent and no system design
+
+  satisfier_relation:      # Axis 2 — Max-Neef
+    - absence
+    - violator             # provision damages the need or other needs over time
+    - pseudo-satisfier     # felt relief that then blocks the real fix
+    - maldistribution      # exists, unequally held
+    - degraded-quality     # present, below threshold
+
+  onset: [acute, chronic, latent]   # latent = the old "stored risk, not yet realised"
+
+  agent_physical:          # Axis 4 — tier 1, parts of tier 2
+    - nature
+    - climate
+    - industrial-accident
+    - industrial-exposure
+    - industrial-pollution
+    - daily-life
+    - warfare
+    - state-policy
+
+  agent_social:            # Axis 4 — tiers 3-5
+    - market
+    - state-policy
+    - social-norm
+    - technology-shift
+    - demographic-shift
+    - deliberate-exclusion
+
+  mechanism:               # the seven; see CLAUDE.md -> The mechanisms
+    - aggregation-masks-failure
+    - spend-mismatched-to-source
+    - instrument-keyed-to-wrong-object
+    - authority-mismatched-to-harm
+    - primary-vs-derivative-burden
+    - solution-at-hand-blocked
+    - compensation-substitutes-for-counting
+    # secondary
+    - within-tier-loop
+    - second-half-never-built
+    # promoted from a §C `unclassified` paragraph, 2026-09-07 (air leaves). Below the
+    # "3+ tier-1 files" bar the original seven cleared — 2 instances so far
+    # (residual-childhood-lead, crop-residue-burning) — flagged as provisional.
+    - visible-win-strands-residual
+      # a decisive, visible win against the largest/most salient contributor
+      # removes the political attention that would have funded action on the
+      # remaining diffuse sources; the residual is left to no one precisely
+      # because the headline problem was declared solved.
+    # escape value — REQUIRED where none of the above fits without distortion.
+    # The seven were derived from tier-1 state-instrument failures; forcing a
+    # tier-4 or tier-5 leaf into them produces a confident wrong tag that the
+    # cross-leaf mechanism view then groups as alike. Using `unclassified`
+    # obliges a §C paragraph saying what the pattern actually is — that
+    # paragraph is where mechanism #8 will come from.
+    - unclassified
+
+  gap: [none, coverage, representation]
+
+  cross_cutting_axis: [autonomy, leisure]
+
+  node_type:
+    - instrument           # one government lever with cross-need side effects
+    - sector               # a whole provision system — satisfies some needs, harms others
+    - exposure-class       # not a policy object — a shared hazard family via one mechanism
+
+  node_status: [open, fix-known, fix-partial, fix-done]
+
+  leg: [activism, institution, enterprise]
+
+  affected_led: [yes, no, partial]
+
+  representation_unit:
+    - local-affected
+    - central-org
+    - enterprise
+    - central-at-named-legitimacy-cost
+
+  actor_type: [org, individual]
+
+  actor_depth:             # how much of the actor record is owed
+    - registry             # cited in a leaf; identity + scope + leg only.
+                           # NOT in the monitoring rotation. The default.
+    - tracked              # a catalyst target: needs/offers/contact required,
+                           # monitored, eligible to appear in a connection.
+
+  lifecycle: [operating, scaling, distressed, dormant, acquired, shut, won-and-dissolved]
+
+  stance:                  # where the actor stands relative to the remedy.
+                           # `organised-against-remedy` is a first-class finding
+                           # (process-leaf D q3), not a disqualification.
+    - works-the-remedy
+    - neutral
+    - organised-against-remedy
+    - ambiguous
+
+  source_kind: [website, rss, newsletter, x, linkedin, instagram, youtube, facebook,
+                substack, annual-report, press, filings, other]
+
+  source_status:
+    - live
+    - stale                # not posted within the actor's normal cadence
+    - dead                 # URL 404s / account gone
+    - none-found           # SEARCHED AND FOUND NOTHING. Recording this is the
+                           # point: 11 of 19 rows in the one executed follow-list
+                           # pass had no reachable channel, and that is a finding
+                           # about the harm, not an incomplete row.
+
+  need_kind:               # what an actor is asking for — keep the list short
+                           # until ~20 actor records exist, then tighten
+    - money
+    - people
+    - data
+    - legal
+    - distribution
+    - introductions
+    - policy-access
+    - technology
+    - other
+
+  offer_kind:
+    - reach
+    - data
+    - fieldwork
+    - legal
+    - convening
+    - technology
+    - capital
+    - credibility
+    - other
+
+  need_state: [open, partially-met, met, withdrawn, unknown]
+
+  relationship: [not-contacted, contacted, in-conversation, connected]
+    # who they were connected TO is a `connection` record, not a suffix on this
+    # value (schema.md previously wrote `connected-to-<x>`; reconciled 2026-09-06)
+
+  connection_state:
+    - hypothesis           # noted, not yet acted on
+    - proposed             # introduction offered to at least one side
+    - introduced           # both sides in contact
+    - engaged              # they are actually working together
+    - declined
+    - dead                 # went nowhere; keep the record, it is the negative result
+
+  geography:               # `global` | `india` | an India state slug | a country slug.
+                           # Required on leaf and node. The project is named "of
+                           # Humanity" and the evidence base is India-heavy: that
+                           # is a stated scope decision (README -> Scope), and this
+                           # field is what makes it visible rather than implicit.
+    type: "list[string]"
+    vocabulary: "global | india | <india-state-kebab> | <iso-country-kebab>"
+
+  need_file_status:        # how far the parent tier topic file has been taken
+    - first-sweep          # written before the current standards; no `### Where
+                           # it worked`, few or no sources. Real work, thin —
+                           # labelled so a reader can tell the two classes apart.
+    - standard             # meets the CLAUDE.md tier-file invariants
+    - leafed               # standard, and its `### India:` list has been
+                           # enumerated and turned into leaves
+
+  actor_leaf_role:         # an actor's weight on one leaf (leaf__actor link)
+    - primary              # load-bearing on this failure — rendered as a card
+    - supporting           # context / adjacent — rendered in an inline list
+
+# ---------------------------------------------------------------------------
+# Entities
+# ---------------------------------------------------------------------------
+entities:
+
+  # -- need ------------------------------------------------------------------
+  # Levels 1-2 of the browse tree. Previously existed only as an H2 convention
+  # in each tier file and a hand-kept list in 00-index.md, so `need: air` on a
+  # leaf resolved to no record and the tree could not be generated.
+  need:
+    file: "problems/tier-failure-history/needs.yaml"   # ONE file, all needs — not per-file frontmatter
+    id: "{slug}"
+    fields:
+      id:          {type: string, required: true}      # e.g. air
+      tier:        {type: enum.tier, required: true}
+      title:       {type: string, required: true}
+      order:       {type: int, required: true}         # within the tier; matches the file's NN- prefix
+      file:        {type: string, required: true}      # the tier topic file
+      status:      {type: enum.need_file_status, required: true}
+    # `definition` (one-line) and `description` (paragraph) are NOT fields here.
+    # They live in the tier file's lead area — a leading `>` blockquote, then
+    # prose — and are parsed in corpus.mjs. See CLAUDE.md -> Tier file structure.
+    generated:
+      - leaves                                          # every leaf with this need
+
+  # -- leaf ------------------------------------------------------------------
+  leaf:
+    file: "problems/tier-failure-history/tier{tier}-*/{need}/{slug}.md"
+    id: "{slug}"                           # e.g. cookfire-smoke — a bare slug
+    note: >
+      The id is a bare slug and the need is a field, not part of the id. The
+      directory stays {need}/ for browsing, but the build reads frontmatter and
+      never the path. Changed in v3: {need}/{slug} put a classification inside an
+      identity, so reclassifying a leaf — the likeliest edit in a project whose
+      research output is revising where things sit — produced a new id and dead
+      inbound links from every actor and node. Now it is a one-field change.
+      Leaf slugs share one namespace with cross-cutting-leaf slugs and must be
+      globally unique; the build enforces it.
+    frontmatter:
+      id:                 {type: string, required: true}   # bare slug, authoritative over the path
+      aliases:            {type: "list[string]", required: false}   # append-only; former ids, drive redirects
+      title:              {type: string, required: true}   # the browse-card label. Do not make the site scrape prose.
+      one_line:           {type: string, required: true}   # the browse-card blurb — the failure in one sentence
+      status:             {type: enum.record_status, required: true}
+      tier:               {type: enum.tier, required: true}
+      need:               {type: ref.need, required: true}
+      geography:          {type: "list[string]", required: true}    # see enums.geography
+      salience:           {type: int, required: false}     # position in the parent tier file's `### India:` list;
+                                                           # the user's ordering, a judgment already spent.
+                                                           # v3 open: derive from the list or drop it — hand-set,
+                                                           # it desyncs silently when the list is renumbered.
+                                                           # Superseded for process order by `scale` below; kept
+                                                           # only as list position / tiebreak.
+      scale:              {type: int, required: false}     # the one impact number. Base-10 order of magnitude of
+                                                           # the affected / at-risk population in this leaf's
+                                                           # geography (India unless the failure is global) —
+                                                           # 52M silica-exposed -> 7, ~500M on solid cooking
+                                                           # fuel -> 8. Set at tier time from the magnitude
+                                                           # figure. Count the EXPOSED population, not the
+                                                           # diagnosed / certified count: asbestos is millions
+                                                           # exposed and ~0 diagnosed, and the missing count is
+                                                           # the finding, not a reason to rank the leaf low.
+                                                           # Omit when even exposure is unquantified (§B carries
+                                                           # the reason) — it sorts last but stays visible.
+                                                           # Per-leaf ordering key only, NOT additive —
+                                                           # overlapping cohorts across leaves are expected.
+                                                           # Build order for the stub->researched upgrade, not a
+                                                           # screen: every failure still becomes a leaf.
+      channel:            {type: enum.channel, required: "status == researched"}
+      satisfier_relation: {type: enum.satisfier_relation, required: "status == researched"}
+      onset:              {type: enum.onset, required: "status == researched"}
+      agent:              {type: "enum.agent_physical | enum.agent_social", required: "status == researched"}
+      mechanisms:         {type: "list[enum.mechanism]", required: "status == researched"}
+      nodes:              {type: "list[ref.node]", required: false, default: []}
+      cross_cutting:      {type: "list[enum.cross_cutting_axis]", required: false, default: []}
+      gap:                {type: enum.gap, required: "status == researched"}
+      gap_missing_leg:    {type: "list[enum.leg]", required: false, default: []}
+        # WHICH leg is absent. Without this, "show me every leaf with no
+        # enterprise actor" means reading every leaf. This field is the worklist.
+      gap_note:           {type: string, required: false}   # one line — the specific shape of the gap
+      gap_as_of:          {type: date, required: "status == researched"}
+        # a `gap: none` asserted in 2026 against an actor that has since gone
+        # `shut` is worse than a blank. Build warns when gap_as_of predates the
+        # last lifecycle change on any linked actor.
+      sources:            {type: "list[{title: string, org: string, year: int, url: url}]", required: false, default: []}
+      updated:            {type: date, required: true}
+      last_reviewed:      {type: date, required: false}
+    body: "prose — sections A-E per schema.md (a `stub` carries only A's one line)"
+    generated:
+      - actors_touching                   # inverse of actor.leaves; never hand-maintained
+
+  # -- cross-cutting leaf ----------------------------------------------------
+  cross_cutting_leaf:
+    file: "problems/tier-failure-history/cross-cutting/{axis}/{slug}.md"
+    id: "{slug}"                           # e.g. bonded-labour-india — a bare slug;
+                                           # `axis` is a field. Same namespace as leaf ids.
+    note: >
+      Only for failures that do NOT reduce to a single tiered need (slavery,
+      bonded labour, totalitarian daily-life control). Everything else is a
+      `cross_cutting` tag on a normal leaf, not a record here.
+    frontmatter:
+      id:                 {type: string, required: true}
+      title:              {type: string, required: true}
+      one_line:           {type: string, required: true}
+      status:             {type: enum.record_status, required: true}
+      axis:               {type: enum.cross_cutting_axis, required: true}
+      tiers:              {type: "list[enum.tier]", required: true}   # containers touched — informational
+      geography:          {type: "list[string]", required: true}
+      channel:            {type: enum.channel, required: "status == researched"}
+      satisfier_relation: {type: enum.satisfier_relation, required: "status == researched"}
+      onset:              {type: enum.onset, required: "status == researched"}
+      mechanisms:         {type: "list[enum.mechanism]", required: "status == researched"}
+      nodes:              {type: "list[ref.node]", required: false, default: []}
+      gap:                {type: enum.gap, required: "status == researched"}
+      gap_missing_leg:    {type: "list[enum.leg]", required: false, default: []}
+      gap_note:           {type: string, required: false}
+      gap_as_of:          {type: date, required: "status == researched"}
+      sources:            {type: "list[{title: string, org: string, year: int, url: url}]", required: false, default: []}
+      updated:            {type: date, required: true}
+      last_reviewed:      {type: date, required: false}
+    body: "prose — sections A-E per schema.md"
+    generated:
+      - actors_touching
+
+  # -- node ------------------------------------------------------------------
+  node:
+    file: "problems/cross-need-nodes/{slug}.md"
+    id: "{slug}"                           # e.g. farm-power-tariff
+    frontmatter:
+      id:         {type: string, required: true}
+      title:      {type: string, required: true}
+      one_line:   {type: string, required: true}
+      type:       {type: enum.node_type, required: true}
+      authority:  {type: string, required: true}          # body that can change the object; "none / fragmented" for exposure-class
+      geography:  {type: "list[string]", required: true}
+      mechanisms: {type: "list[enum.mechanism]", required: false, default: []}
+      needs:      {type: "list[ref.need]", required: true}
+        # ASSERTED by the node's author, not generated: it is the claim that this
+        # object reaches these needs. The build script cross-checks it against the
+        # union of member leaves' needs and WARNS on a need claimed here with no
+        # member leaf — that check caught `sleep` on toxic-exposure-class.
+      sub_levers: {type: "list[string]", required: "type == sector"}
+        # a sector node has no single edit, which contradicts the register's own
+        # "one intervention moves the whole set" line unless the sub-levers are
+        # enumerated. Enumerating them is what makes a sector node actionable.
+      actors:     {type: "list[ref.actor]", required: false, default: []}   # actors working the object itself
+      status:     {type: enum.node_status, required: true}
+      updated:    {type: date, required: true}
+    body: >
+      prose — the object (one para); cross-need chain (one line per need);
+      the one intervention (or, for a sector, the sub-lever map) + where tried, result
+    generated:
+      - leaves                             # every leaf whose `nodes` contains this id
+      - actors_on_node                     # inverse of actor.nodes
+
+  # -- actor -----------------------------------------------------------------
+  # The actor record is the platform's differentiator (00-plan.md goal 3) and was
+  # v1's least-specified entity — its entire catalyst payload was free text. The
+  # match between one actor's need and another's offer IS the catalyst act; in
+  # prose the only matcher is the operator's memory across every file.
+  actor:
+    file: "problems/actors/{slug}.md"
+    private_file: "problems/private/actors/{slug}.md"   # gitignored; see schema.md -> The private layer
+    id: "{slug}"
+    frontmatter:
+      name:                {type: string, required: true}
+      slug:                {type: string, required: true}
+      type:                {type: enum.actor_type, required: true}
+      depth:               {type: enum.actor_depth, required: true, default: registry}
+      aka:                 {type: "list[string]", required: false, default: []}   # former names, acronyms — dedup key
+      parent:              {type: ref.actor, required: false}     # chapter/programme -> parent org
+      superseded_by:       {type: ref.actor, required: false}     # merged, renamed, absorbed
+      affiliations:        {type: "list[{actor: ref.actor, role: string, from: date, to: date}]", required: false, default: []}
+        # individuals -> org records. Dated and role-bearing: an undated affiliation
+        # goes silently wrong the moment the person leaves.
+      leg:                 {type: "list[enum.leg]", required: true}
+        # the lever the actor pulls, not the kind of entity it is (`type` covers that).
+        # For type: individual, assign `institution` ONLY when the person holds a formal
+        # office in a body with authority over the source. A proxy activist, litigator or
+        # policy-shaper without a seat is `activism` — model their institutional influence
+        # via an `affiliations` entry to the org/board record, not a second leg.
+      affected_led:        {type: enum.affected_led, required: true}
+      representation_unit: {type: enum.representation_unit, required: true}
+      stance:              {type: enum.stance, required: true, default: works-the-remedy}
+      leaves:              {type: "list[ref.any_leaf | {id: ref.any_leaf, role: enum.actor_leaf_role}]", required: false, default: []}
+        # a bare slug is role `supporting`; `{id, role: primary}` marks the actor as
+        # load-bearing on that leaf. Portal groups primary as cards, supporting as an
+        # inline list, and ranks primary first. Owner side of leaf__actor.
+      nodes:               {type: "list[ref.node]", required: false, default: []}
+      geography:           {type: "list[string]", required: true}
+      lifecycle:           {type: enum.lifecycle, required: true}
+      lifecycle_as_of:     {type: date, required: true}
+      needs:               {type: "list[{kind: enum.need_kind, text: string, as_of: date, source: string, state: enum.need_state}]",
+                            required: "depth == tracked", default: []}
+        # `source` = where the ask was seen (post URL / report / "conversation
+        # 2026-09-02"). An inferred ask is allowed but must say so in `text`.
+      offers:              {type: "list[{kind: enum.offer_kind, text: string}]",
+                            required: "depth == tracked", default: []}
+      sources:             {type: "list[{kind: enum.source_kind, url: url, handle: string, last_checked: date, status: enum.source_status}]",
+                            required: true, default: []}
+        # the monitoring agent's poll list. An actor with NO reachable channel
+        # records one row with status `none-found` — never an empty list.
+      contact_route:       {type: string, required: "depth == tracked"}   # email / form / handle — how a message actually arrives
+      followed:            {type: bool, required: true}
+      followed_date:       {type: date, required: false}
+      last_checked:        {type: date, required: false}
+      updated:             {type: date, required: true}
+    body: >
+      prose — scope, status detail (funding, scale metric), what they need /
+      what they can offer where the typed lists above need context,
+      how to reach them, and `## Recent updates`
+    body_sections:
+      recent_updates:
+        heading: "## Recent updates"
+        line_format: "- YYYY-MM-DD — <one line> — <url>"
+        order: reverse-chronological
+        note: >
+          Kept in the body, not frontmatter, because it is read as a narrative and
+          appended to indefinitely. The fixed line format is what makes it
+          machine-appendable by the monitoring agent and diffable in git.
+    private_body:                                   # lives in private_file
+      sections: ["Catalyst notes"]
+      fields:
+        relationship:      {type: enum.relationship, required: true, default: not-contacted}
+        connections:       {type: "list[ref.connection]", required: false, default: []}
+
+  # -- connection ------------------------------------------------------------
+  # The project's primary output. v1 formalised four entities and left the
+  # introduction to prose, which made it writable but uncountable: no pair, no
+  # date, no state, no way to tell a live introduction from a dead one, and no
+  # way for the repo to show that it had catalysed nothing.
+  connection:
+    file: "problems/private/connections/{slug}.md"
+    id: "{slug}"                           # e.g. mlpc--warrior-moms-silicosis
+    private: true                          # absent from the published DB; still loaded and FK-checked
+    frontmatter:
+      id:             {type: string, required: true}
+      actors:         {type: "list[ref.actor]", required: true, min: 2}
+      context:        {type: "ref.any_leaf | ref.node", required: true}   # what they'd be working on
+      gap_filled:     {type: string, required: true}
+        # which gap/broken handoff the introduction fills — the reason it is worth
+        # making. If this can't be written in a line, it isn't a connection yet.
+      hypothesis:     {type: text, required: true}     # why these two, specifically
+      state:          {type: enum.connection_state, required: true}
+      date_proposed:  {type: date, required: false}
+      date_introduced: {type: date, required: false}
+      outcome:        {type: text, required: "state in [engaged, declined, dead]"}
+      updated:        {type: date, required: true}
+    body: "prose — the pitch to each side, the warm-intro path, what happened"
+
+# ---------------------------------------------------------------------------
+# Relations   (many-to-many; declared once, on the `owner` side)
+# ---------------------------------------------------------------------------
+relations:
+  need__leaf:            {owner: leaf.need,          inverse: need.leaves}
+  leaf__actor:           {owner: actor.leaves,       inverse: leaf.actors_touching}   # link carries role: primary|supporting
+  cc_leaf__actor:        {owner: actor.leaves,       inverse: cross_cutting_leaf.actors_touching}
+    # actor.leaves is typed ref.any_leaf and carries both edges
+  leaf__node:            {owner: leaf.nodes,         inverse: node.leaves}
+  cc_leaf__node:         {owner: cross_cutting_leaf.nodes, inverse: node.leaves}
+  node__actor:           {owner: actor.nodes,        inverse: node.actors_on_node}
+  actor__connection:     {owner: connection.actors,  inverse: actor.connections}     # private both ends
+  connection__context:   {owner: connection.context}                                 # -> leaf | cc_leaf | node
+  actor__actor:          {owner: actor.parent}                                       # and actor.superseded_by
+  leaf__mechanism:       {owner: leaf.mechanisms}               # value list, no inverse record
+  leaf__cross_cutting:   {owner: leaf.cross_cutting}            # value list, no inverse record
+
+# ---------------------------------------------------------------------------
+# Build
+# ---------------------------------------------------------------------------
+build:
+  pipeline: catalyst-platform/03-portal.md   # §1. Astro content collections; not yet written
+  output:
+    - problems/index.db                      # SQLite, committed — public views only
+    - problems/index.json                    # emitted alongside, for JSON consumers
+  does:
+    - "validate every frontmatter block against this file, including the conditional `required: status == researched` rules"
+    - "load into the SQLite schema; foreign keys enforce what were hand-written ref checks"
+    - "resolve refs through `aliases` so a rename is not a dangling ref; error on anything still dangling"
+    - "load problems/private/ too — it is FK-checked, then omitted from the published views"
+    - "VACUUM INTO the public views; private tables are absent from the emitted file, not filtered from it"
+    - "regenerate each entity's `generated:` sections back into its markdown file"
+  warns_on:
+    - "a node `needs:` entry with no member leaf under that need"
+    - "a leaf whose `gap_as_of` predates the latest `lifecycle_as_of` of any linked actor"
+    - "a leaf `status: researched` whose `last_reviewed` is over 18 months old -> stale"
+    - "an actor with `depth: tracked` and no source row of status `live`"
+    - "a need id in needs.yaml with zero leaves"

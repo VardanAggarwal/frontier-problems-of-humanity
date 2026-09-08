@@ -1,5 +1,7 @@
 # Pair-Bonding / Marriage — Bond Maintenance (Tier 3 — Belonging)
 
+> Maintenance of the formed bond, as distinct from forming it.
+
 Tier definition: bonding as a precondition for this species' reproductive/care strategy.
 
 ## How the need has been threatened

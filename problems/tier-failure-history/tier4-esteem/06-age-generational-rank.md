@@ -1,5 +1,7 @@
 # Age/Generational Rank — Elder vs. Junior Privilege (Tier 4 — Esteem)
 
+> Elder-vs-junior privilege, and what happens when the ladder inverts.
+
 Rank by age or generation once gated resource and mating access almost everywhere: elders held land, ritual authority, and marriage-approval power over juniors. Industrialization, revolution, colonialism, and demographic aging have each eroded pieces of that gate. This is a thinner record than other esteem-tier threats — the mechanisms below are real but the documentation is sparser and more diffuse than, say, caste or gender rank.
 
 ## How the threat has struck

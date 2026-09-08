@@ -1,0 +1,309 @@
+---
+import Base from '../../layouts/Base.astro';
+import { corpus, md, mdInline, statusTag, gapTag } from '../../lib/site.mjs';
+
+export function getStaticPaths() {
+  return corpus.allLeaves.map((l) => ({ params: { id: l.id }, props: { l } }));
+}
+const { l } = Astro.props;
+const need = l.need ? corpus.needs.find((n) => n.id === l.need) : null;
+const axis = l.axis ? corpus.axes.find((a) => a.id === l.axis) : null;
+const crumb = need
+  ? `<a href="/">Pyramid</a> / <a href="/tier/${need.tier}">Tier ${need.tier}</a> / <a href="${need.url}">${need.title}</a>`
+  : `<a href="/">Pyramid</a> / <a href="/lens/axis/${l.axis}">${axis?.title ?? l.axis}</a>`;
+const byLeg = ['activism', 'institution', 'enterprise'].map((leg) => ({
+  leg, actors: l.actors_touching.filter((a) => a.leg.includes(leg)),
+}));
+const sec = (k) => l.sections.find((s) => s.key === k);
+const human = (s) => String(s).replace(/-/g, ' ');
+const titleCase = (s) =>
+  String(s).split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+const place = (g) => (g === 'global' ? 'Global' : g === 'india' ? 'India' : titleCase(g));
+const mechTitle = (id) => corpus.mechanisms.find((m) => m.id === id)?.title ?? human(id);
+const axisTitle = (id) => corpus.axes.find((a) => a.id === id)?.title ?? human(id);
+const classif = [l.onset, l.channel, l.agent, l.satisfier_relation].filter(Boolean);
+// Bare "§C" / "§B (Evidence)" cross-refs in leaf prose point at this leaf's own
+// A–E sections. Turn them into links to the on-page anchors; drop the now-
+// redundant "(Name)" parenthetical.
+const SEC_KEY = { A: 'classification', B: 'evidence', C: 'diagnosis', D: 'actors', E: 'gap' };
+const SEC_NAME = { A: 'Classification', B: 'Evidence', C: 'Diagnosis', D: 'Who is working on this', E: 'Gap' };
+const secref = (s) => String(s).replace(
+  /§([A-E])\b(?:\s*\([^)]*\))?/g,
+  (_, L) => `<a href="#sec-${SEC_KEY[L]}" class="secref" title="${SEC_NAME[L]}">§${L}</a>`,
+);
+// Pull the one §A bullet that explains each classification value, keyed by value slug.
+// §A bullets lead `- **<Axis> — <value>.** …`.
+const classBullets = {};
+for (const line of (sec('classification')?.markdown ?? '').split('\n')) {
+  const m = line.match(/^\s*[-*]\s+\*\*[^—]*—\s*([a-z][a-z-]*)\.\*\*/i);
+  if (m) classBullets[m[1].toLowerCase()] = line.trim().replace(/^[-*]\s+/, '');
+}
+// Bare record slugs in prose (`solution-at-hand-blocked`, `small-industrial-town-air`)
+// render as `<code>slug</code>`. Link the ones that resolve to a corpus record.
+const XREF = new Map();
+for (const r of [
+  ...corpus.allLeaves, ...corpus.needs, ...corpus.mechanisms,
+  ...corpus.axes, ...corpus.nodes, ...corpus.actors,
+]) if (r.id && r.url && r.id !== l.id) {
+  XREF.set(r.id, { url: r.url, label: r.title ?? r.name ?? human(r.id) });
+}
+const xref = (html) => String(html).replace(
+  /<code>([a-z][a-z0-9-]*)<\/code>/g,
+  (m, id) => {
+    const r = XREF.get(id);
+    return r ? `<a class="xref" href="${r.url}">${r.label}</a>` : m;
+  },
+);
+const render = (s) => xref(md(secref(s)));
+const renderInline = (s) => xref(mdInline(secref(s)));
+const GAP_TEXT = {
+  // `none` does NOT mean solved. Three branches of the verdict table land here:
+  // actors present and moved the blocker once; present at the right unit and
+  // unmoved for decades; present and organised against the remedy. What the
+  // value asserts is that a missing actor is not the explanation — so the text
+  // must not read as reassurance, and must not claim all three legs are filled
+  // (asbestos-import-legal's enterprise leg is deliberately empty).
+  none: 'The actors this problem needs exist, so a missing actor is not the explanation. Where it is still unfixed, the record names the blocker instead.',
+  coverage: 'Someone is doing this work; the platform just has not found and listed them yet. If you know who, send the name.',
+  // `representation` covers two branches of the verdict table — absent at every
+  // unit, and present but at the wrong unit (actors exist, serving a population
+  // that is not the harmed one). `gap_missing_leg` does NOT separate them: a
+  // wrong-unit leaf and an absent-everywhere leaf both name the same leg. So the
+  // text stays true of both rather than asserting nobody is doing the work,
+  // which contradicted the note on every unit-mismatch leaf.
+  representation: 'No one is working this at the unit where the harm falls — either nobody is, or the actors that exist serve a different population. Closing this gap means building or organising that actor.',
+};
+// Reader-facing short label for the gap enum — used in badges/headings where
+// GAP_TEXT's full sentence would be too long. Raw enum stays available via
+// the `title` attribute for anyone who wants the field value.
+const GAP_LABEL = {
+  none: 'actors present',
+  coverage: "we haven't found who's doing this",
+  representation: 'not covered where the harm is',
+};
+const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+// Four record-status vocabularies (stub / first-sweep / standard / leafed)
+// collapse to two reader labels on this page; leaf status is only ever
+// stub | researched | stale (see src/lib/site.mjs statusTag).
+const STATUS_LABEL = (s) => (s === 'stub' ? 'outline only' : 'researched');
+// leg id -> reader-facing name (activism/institution/enterprise are internal
+// taxonomy terms; files and frontmatter keep them, only the label changes).
+const LEG_LABEL = { activism: 'Campaigners', institution: 'Agencies', enterprise: 'Companies' };
+// Trim gap_note (internal shorthand, 58-120 words) to its first sentence, or
+// ~60 words on a word boundary, for the always-visible gap box. Section E
+// (Diagnosis/Gap research notes) carries the full argument.
+const shortenNote = (raw) => {
+  const text = String(raw).trim();
+  const sentenceMatch = text.match(/^[\s\S]*?[.!?](?=\s|$)/);
+  let short = sentenceMatch ? sentenceMatch[0].trim() : text;
+  const words = short.split(/\s+/);
+  if (words.length > 60) short = words.slice(0, 60).join(' ') + '…';
+  else if (short.length < text.length) short += '…';
+  return short;
+};
+---
+<Base title={l.title} crumb={crumb}>
+  <h1>{l.title}</h1>
+  <p class="lede">{l.one_line}</p>
+  <dl class="leafmeta">
+    <div class="row">
+      <dt>State</dt>
+      <dd>
+        <span class={`tag ${statusTag(l.status)}`} title={l.status}>{STATUS_LABEL(l.status)}</span>
+        {l.gap && <span class={`tag ${gapTag(l.gap)}`} title={`gap: ${l.gap}`}>{GAP_LABEL[l.gap] ?? l.gap}</span>}
+      </dd>
+    </div>
+    {classif.length > 0 && (
+      <div class="row">
+        <dt>Classification</dt>
+        <dd class="inline">
+          {classif.map((v, i) => (
+            <>
+              {i > 0 && <span class="sep">·</span>}
+              <button type="button" class={`term${classBullets[v] ? '' : ' plain'}`}
+                aria-expanded="false" data-v={v} data-sec="sec-classification"
+                title="how this was assigned">{human(v)}</button>
+            </>
+          ))}
+          <div class="term-detail" hidden></div>
+          <div class="term-src" hidden>
+            {classif.map((v) => classBullets[v] && (
+              <div data-v={v} set:html={render(classBullets[v])} />
+            ))}
+          </div>
+        </dd>
+      </div>
+    )}
+    {l.geography.length > 0 && (
+      <div class="row">
+        <dt>Where</dt>
+        <dd class="inline">
+          {l.geography.map((g, i) => (
+            <>{i > 0 && <span class="sep">·</span>}<span>{place(g)}</span></>
+          ))}
+        </dd>
+      </div>
+    )}
+    {l.mechanisms.length > 0 && (
+      <div class="row">
+        <dt>Mechanisms</dt>
+        <dd>{l.mechanisms.map((m) => (
+          <a class="tag on" href={`/lens/mechanism/${m}`}>{mechTitle(m)}</a>
+        ))}</dd>
+      </div>
+    )}
+    {(l.cross_cutting ?? []).length > 0 && (
+      <div class="row">
+        <dt>Axes</dt>
+        <dd>{l.cross_cutting.map((a) => (
+          <a class="tag" href={`/lens/axis/${a}`}>{axisTitle(a)}</a>
+        ))}</dd>
+      </div>
+    )}
+    {l.nodes.length > 0 && (
+      <div class="row">
+        <dt>Shared causes</dt>
+        <dd>{l.nodes.map((n) => (
+          <a class="tag" href={`/node/${n}`}>{human(n)}</a>
+        ))}</dd>
+      </div>
+    )}
+  </dl>
+
+  {l.status === 'stub' && (() => {
+    const hasBody = Boolean(l.lede) || ['evidence', 'diagnosis'].some(sec);
+    const missing = [];
+    if (!sec('evidence')) missing.push('evidence');
+    if (!sec('diagnosis')) missing.push('a diagnosis');
+    if (!l.gap) missing.push('a gap verdict');
+    const missingText = missing.length > 0
+      ? `It does not yet have ${missing.join(', ').replace(/, ([^,]*)$/, missing.length > 2 ? ', or $1' : ' or $1')}.`
+      : 'What is below has not been through a full research pass.';
+    return (
+      <p class="note" style="margin-top:1.5rem">
+        <strong>Outline only.</strong> This failure has been named and placed under a need, and that is a
+        real record: it is browsable, linkable, and can receive an actor submission. {hasBody
+          ? missingText
+          : 'It has not been researched yet — no evidence, diagnosis or gap verdict.'} Breadth before
+        depth is deliberate; a depth-first build order against {corpus.needs.length} needs never ships.
+      </p>
+    );
+  })()}
+
+  {l.gap && (
+    <p class="note" style={`margin-top:1.5rem;border-left-color:var(--${l.gap === 'none' ? 'ok' : l.gap === 'representation' ? 'alarm' : 'warn'})`}>
+      <strong>{cap(GAP_LABEL[l.gap] ?? l.gap)}.</strong> {GAP_TEXT[l.gap]}
+      {l.gap_note && <> <Fragment set:html={renderInline(shortenNote(l.gap_note))} /></>}
+      {/* gap_missing_leg is the worklist field — "show me every leaf with no
+          company working it". It used to render only when gap_note was absent,
+          so it disappeared from exactly the leaves researched enough to carry a
+          note. Both now show. */}
+      {l.gap_missing_leg.length > 0 && <> Missing: <b>{l.gap_missing_leg.map((g) => LEG_LABEL[g] ?? g).join(', ')}</b>.</>}
+      {l.gap_as_of && <> <span style="font-family:var(--mono);font-size:.8em">· reviewed {l.gap_as_of}</span></>}
+    </p>
+  )}
+
+  {l.lede && (
+    <div class="prose" style="margin-top:1.5rem" set:html={render(l.lede)} />
+  )}
+
+  {['classification', 'evidence', 'diagnosis', 'gap'].some(sec) && (
+    <details class="leaf-prose">
+      <summary>Research notes — classification, evidence, diagnosis, gap</summary>
+      <div class="prose">
+        {['classification', 'evidence', 'diagnosis', 'gap'].map((k) => {
+          const s = sec(k);
+          return s && (<><h3 id={`sec-${k}`}>{s.heading}</h3><div set:html={render(s.markdown)} /></>);
+        })}
+      </div>
+      {(() => {
+        const notes = ['classification', 'evidence', 'diagnosis', 'gap']
+          .flatMap((k) => sec(k)?.notes ?? []);
+        return notes.length > 0 && (
+          <div class="datanotes">
+            <b>Data notes</b>
+            <ol>{notes.map((n) => <li set:html={renderInline(n)} />)}</ol>
+          </div>
+        );
+      })()}
+    </details>
+  )}
+
+  <h2 id="sec-actors">Who is working on this</h2>
+  {l.actors_touching.length === 0
+    ? <p class="empty">No actor records link to this failure yet.</p>
+    : byLeg.map(({ leg, actors }) => {
+        const primary = actors.filter((a) => l.actor_roles?.get(a.id) === 'primary');
+        const supporting = actors.filter((a) => l.actor_roles?.get(a.id) !== 'primary');
+        const card = (a) => (
+          <a class="card" href={a.url} data-followed={a.followed ? '1' : '0'}>
+            <span class="t">{a.name}{a.followed ? ' ★' : ''}</span>
+            <span class="m">{a.affected_led === 'yes' ? 'affected-led · ' : ''}{a.representation_unit} · {a.lifecycle}</span>
+          </a>);
+        return (
+          <>
+            <h3>{LEG_LABEL[leg] ?? leg}</h3>
+            {actors.length === 0 && <p class="empty">No actor of this kind — and whether that absence is structural is the finding.</p>}
+            {primary.length > 0
+              ? <>
+                  <div class="grid">{primary.map(card)}</div>
+                  {supporting.length > 0 && (
+                    <p class="supporting">Supporting: {supporting.map((a, i) => <>{i > 0 && ', '}<a href={a.url}>{a.name}</a></>)}</p>
+                  )}
+                </>
+              : actors.length > 0 && <div class="grid">{actors.map(card)}</div>}
+          </>
+        );
+      })}
+  {sec('actors') && (
+    <details class="leaf-prose">
+      <summary>Research notes — who is working on this</summary>
+      <div class="prose" set:html={render(sec('actors').markdown)} />
+    </details>
+  )}
+
+  {l.sources.length > 0 && (<>
+    <h2>Sources</h2>
+    <ul>{l.sources.map((s) => (
+      <li>{s.url ? <a href={s.url}>{s.title ?? s.url}</a> : s.title} {s.org && <>— {s.org}</>} {s.year && <>({s.year})</>}</li>
+    ))}</ul>
+  </>)}
+
+  <p class="recpath"> Updated {l.updated}</p>
+
+  <script is:inline>
+    (function () {
+      var dd = document.querySelector('.leafmeta dd.inline');
+      if (!dd) return;
+      var detail = dd.querySelector('.term-detail');
+      var src = dd.querySelector('.term-src');
+      var terms = dd.querySelectorAll('.term');
+      var notes = document.querySelector('.leaf-prose');
+      function close() {
+        detail.hidden = true; detail.innerHTML = '';
+        terms.forEach(function (t) { t.setAttribute('aria-expanded', 'false'); });
+      }
+      terms.forEach(function (b) {
+        b.addEventListener('click', function () {
+          var wasOpen = b.getAttribute('aria-expanded') === 'true';
+          close();
+          if (wasOpen) return;
+          var found = src && src.querySelector('[data-v="' + b.dataset.v + '"]');
+          if (found) {
+            detail.innerHTML = found.innerHTML;
+            detail.hidden = false;
+            b.setAttribute('aria-expanded', 'true');
+          } else {
+            var t = document.getElementById(b.dataset.sec);
+            if (notes && !notes.open) notes.open = true;
+            if (t) {
+              t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              t.classList.add('flash');
+              setTimeout(function () { t.classList.remove('flash'); }, 1600);
+            }
+          }
+        });
+      });
+    })();
+  </script>
+</Base>

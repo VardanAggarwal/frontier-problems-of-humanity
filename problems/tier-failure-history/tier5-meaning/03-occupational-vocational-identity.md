@@ -1,5 +1,7 @@
 # Occupational/Vocational Identity (Tier 5 — Meaning)
 
+> Work as symbolic self-extension — not 'I rank lower' but 'I no longer know what I am'.
+
 Tier definition: work as symbolic self-extension and meaning-source, distinct from Tier 4's status-rank framing of occupation. The threat here is not "I earn less" or "I rank lower" — it is "I no longer know what I am."
 
 ## How the threat has manifested

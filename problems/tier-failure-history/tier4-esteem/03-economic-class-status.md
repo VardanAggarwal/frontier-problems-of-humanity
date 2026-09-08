@@ -1,5 +1,7 @@
 # Economic/Class Status — Tier 4 (Esteem)
 
+> Rank held through economic position and its mobility, or absence of it.
+
 Tier 4 need: rank within a group gates resource and mating access. This file covers how economic/class rank has been suddenly destroyed, inverted, or expropriated — collapsing the status security of whole classes — and what institutions humanity built to dampen that volatility.
 
 ## How the threat has manifested

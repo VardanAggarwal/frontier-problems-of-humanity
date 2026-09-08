@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import { corpus } from '../lib/site.mjs';
+
+// Counters 1-2 come from the private connection records. Only the COUNT crosses
+// the boundary — no id, no pair, no context. Publishing "connections engaged: 0"
+// is the commitment device: a private scoreboard is one the archive can quietly
+// outgrow (03-portal.md §3).
+const engaged = corpus.connections.filter((c) => c.state === 'engaged').length;
+const live = corpus.connections.filter((c) => ['proposed', 'introduced'].includes(c.state)).length;
+const tracked = corpus.actors.filter((a) => a.depth === 'tracked');
+const reachable = tracked.filter((a) => a.sources.some((s) => s.status === 'live')).length;
+const researched = corpus.allLeaves.filter((l) => l.status === 'researched').length;
+const needsWithLeaf = corpus.needs.filter((n) => n.leaves.length > 0).length;
+const openAsks = corpus.actors.flatMap((a) => a.needs).filter((n) => (n.state ?? 'open') === 'open').length;
+const stale = corpus.allLeaves.filter((l) => l.status === 'stale').length;
+
+const rows = [
+  ['Connections engaged', 'they are actually working together', engaged],
+  ['Connections live', 'proposed or introduced', live],
+  ['Actors tracked', 'catalyst targets, monitored', tracked.length],
+  ['Actors reachable', 'tracked, with at least one live channel', reachable],
+  ['Failures researched / total', 'full A–E body against every record', `${researched} / ${corpus.allLeaves.length}`],
+  ['Needs with ≥1 failure', `of ${corpus.needs.length} in the registry`, `${needsWithLeaf} / ${corpus.needs.length}`],
+  ['Open asks', 'published needs still unmet', openAsks],
+  ['Stale', 'records the build has flagged for refresh', stale],
+];
+---
+<Base title="Scoreboard" crumb={`<a href="/">Pyramid</a> / Scoreboard`}>
+  <h1>Scoreboard</h1>
+  <p class="lede">
+    What makes catalyst work visible. Generated at build time from the records, and
+    public at zero on purpose.
+  </p>
+
+  <table class="prose" style="border-collapse:collapse;margin-top:1.5rem;max-width:46rem;width:100%">
+    <thead><tr><th style="border:1px solid var(--rule);padding:.4rem .6rem;text-align:left">Counter</th>
+      <th style="border:1px solid var(--rule);padding:.4rem .6rem;text-align:left">Reads</th>
+      <th style="border:1px solid var(--rule);padding:.4rem .6rem;text-align:right">Now</th></tr></thead>
+    <tbody>{rows.map(([name, reads, val]) => (
+      <tr><td style="border:1px solid var(--rule);padding:.4rem .6rem"><b>{name}</b></td>
+        <td style="border:1px solid var(--rule);padding:.4rem .6rem;color:var(--muted);font-size:.9rem">{reads}</td>
+        <td style="border:1px solid var(--rule);padding:.4rem .6rem;text-align:right;font-family:var(--mono)">{val}</td></tr>))}
+    </tbody>
+  </table>
+
+  <p class="note" style="margin-top:2rem">
+    <strong>The stated failure mode.</strong> Counters 5 and 6 climbing while 1 and 2 stay at zero —
+    an archive wearing a catalyst's name. That is a test with a deadline, not a metric to watch:
+    six months from the first researched failure.
+  </p>
+  <p class="note" style="margin-top:1rem">
+    <strong>Boundary.</strong> Connection records are private. Only their counts appear here —
+    no pair, no context, no state beyond the aggregate.
+  </p>
+</Base>

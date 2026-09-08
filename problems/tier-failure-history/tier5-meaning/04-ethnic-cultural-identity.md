@@ -1,5 +1,7 @@
 # Ethnic/Cultural Identity — Tier 5 (Meaning)
 
+> The symbolic markers — language, script, ritual, place-names — through which a group narrates its continuity.
+
 Tier definition: symbolic self-extension through ethnic/cultural belonging as a meaning-source — distinct from Tier 3's belonging-bond framing, which is about relational attachment, not identity-as-meaning. The threat here is erasure of the symbolic markers (language, script, ritual, dress, place-names, kinship structure) through which a group narrates its own continuity across generations. History shows this threat taking four forms: deliberate state policy aimed at erasure, colonial imposition of foreign categories, forced assimilation short of genocide, and the slower, undirected dilution that diaspora and post-colonial nation-building both produce.
 
 ## Dated episodes

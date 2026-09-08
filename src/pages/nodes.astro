@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import { corpus } from '../lib/site.mjs';
+
+const TYPES = [
+  ['instrument', 'Instrument', 'One government lever, one authority, one edit.'],
+  ['sector', 'Sector', 'A whole provision system — many sub-levers, no single edit.'],
+  ['exposure-class', 'Exposure class', 'Not a policy object: a hazard family recurring through one mechanism.'],
+];
+---
+<Base title="Cross-need nodes" crumb={`<a href="/">Pyramid</a> / Nodes`}>
+  <h1>Cross-need nodes</h1>
+  <p class="lede">
+    A shared cause is one concrete object upstream of failures in two or more needs, such
+    that acting on that single object moves the whole set. Invisible from inside one need;
+    it surfaces only reading across.
+  </p>
+  <p class="note">
+    A shared cause is peer to a mechanism, not above a failure: a mechanism groups by
+    abstract <em>pattern</em>, a shared cause by concrete <em>object</em>. It is the only
+    cross-failure lens that is a first-class record with its own actors — people work the
+    lever without working any one failure downstream of it.
+  </p>
+
+  {TYPES.map(([type, label, gloss]) => {
+    const ns = corpus.nodes.filter((n) => n.type === type);
+    return (<>
+      <h2>{label}</h2>
+      <p style="color:var(--muted);font-size:.9rem;margin-top:-.4rem">{gloss}</p>
+      {ns.length === 0 ? <p class="empty">None registered.</p> : (
+        <div class="grid">
+          {ns.map((n) => (
+            <a class="card" href={n.url}>
+              <span class="t">{n.title}</span>
+              <span class="d">{n.one_line}</span>
+              <span class="m">{n.needs.join(' · ')} — {n.status}</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </>);
+  })}
+</Base>

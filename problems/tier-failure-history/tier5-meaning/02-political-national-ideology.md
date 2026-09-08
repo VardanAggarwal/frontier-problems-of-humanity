@@ -1,5 +1,7 @@
 # Political/National Ideology (Tier 5 — Meaning)
 
+> Belief systems that supply collective purpose.
+
 Tier definition: the drive to persist/propagate points at symbolic constructs — here, political belief systems that give life collective purpose.
 
 ## How the need has been threatened

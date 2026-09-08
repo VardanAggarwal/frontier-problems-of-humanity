@@ -1,6 +1,6 @@
 # fph — Frontier Problems of Humanity
 
-Rederiving Maslow's hierarchy from a single drive (persist/propagate), mapping each tier to documented civilizational failures, in order to select one frontier problem to work on personally.
+Rederiving Maslow's hierarchy from a single drive (persist/propagate), mapping each tier to documented civilizational failures, in order to build a public platform that catalogues every actor working on each failure — what they need, what they can offer, how to reach them — and to act as catalyst connecting them across the activism / institution-building / enterprise legs. The earlier goal, *select one frontier problem to work on personally*, is superseded (2026-09-06): the catalyst role is the frontier, not the problem pick. See `catalyst-platform/00-plan.md`.
 
 ## Repo map
 
@@ -9,17 +9,34 @@ notebook.md                        verbatim working journal — who I am, the wo
 playbook.md                        the domain loop (used on food, 2026-07-11) — 12 steps, notice → conclude
 problems/
   tier-taxonomy.md                 the rederivation: one drive, nested containers, tiers by override frequency
+  schema.md                        prose explainer for the six record types (need, leaf, cross-cutting leaf, node, actor, connection) and how they wire
+  lenses.yaml                      the mechanism + cross-cutting-axis registries — id/title/one_line, for /lens/* pages
+  data-model.yaml                  formal schema — fields, types, enums, relations; source of truth for record shape; validated and loaded into problems/index.db (committed)
+  actors/<slug>.md                 one file per org or named individual, spanning needs — depth, status, typed needs/offers, sources, updates, contact
+  actors/_template.md              the v2 actor frontmatter template
+  private/                         GITIGNORED — catalyst notes, connection records, contact state; not backed up by git
   tier-failure-history.md           superseded first pass (single-mechanism collapse) — kept for history only
   tier-failure-history/
-    00-index.md                     39-file index across 5 tiers + cross-cutting
+    _tier-template.md               tier-file skeleton + per-section guidance (headings are a build invariant); canonical copy of "Tier file structure" below
+    _leaf-template.md               leaf frontmatter + the A-E section template (headings are a build invariant)
+    needs.yaml                      the need registry — 36 rows, levels 1-2 of the browse tree; source of truth for need ids and per-file status
+    00-index.md                     human-readable view of needs.yaml + leaves, 5 tiers + cross-cutting; marks first-sweep vs standard files
     tier1-physiological/
       00-summary.md                 what survived the six files — read before the six
       01-food.md … 06-sleep-circadian.md
+      <need>/<slug>.md              leaf: one documented failure instance — classification, evidence, diagnosis, who works it, gap
     tier2-safety/ … tier5-meaning/
-    cross-cutting/                  freedom, leisure, energy — instrumental, not terminal needs
-  cross-need-nodes/                 register of policy objects spanning 2+ needs (farm power, construction, ethanol, toxic exposure)
+    cross-cutting/                  axes that can't be lost alone — freedom, leisure (energy moved to a node 2026-09-06); 00-index.md + one essay per axis
+  cross-need-nodes/                 register of concrete objects upstream of 2+ needs, typed instrument / sector / exposure-class (farm-power, ethanol, construction, energy, toxic-exposure)
   <domain>.md                       domain overview: tier mapping + status
   <domain>/<sub-problem>.md         full chain: history → mechanism → gap → requirements → experiments
+src/                                the portal — Astro pages + the corpus loader (lib/schema.mjs, lib/sections.mjs, lib/corpus.mjs)
+scripts/build-index.mjs             emits problems/index.db + problems/index.json; `npm run validate` for the loader alone
+catalyst-platform/
+  00-plan.md                       the platform: list problems, research each, list everyone working it; catalyst division of labour; sequence
+  01-scoreboard.md                 the counters that make catalyst work visible — connections, actors reachable, leaves, stale
+  02-connect-pass.md               the pair-scoped procedure: asks + offers -> a connection record -> two drafted messages
+  03-portal.md                     the public web layer — build pipeline, section invariant, route map, publish boundary; §7 records what shipped 2026-09-06 and the six departures from the design
 meal-system/                        the food loop, lived (step 9 of the playbook)
 economics-of-change/                durable, ongoing (not a one-off write) — the lens for whether a change initiative's economics hold, run alongside problems/ not nested under it
   00-index.md                       purpose + how the folder grows over time
@@ -30,18 +47,35 @@ publishing/                         drafts written for an outside reader — ess
   frontier-memory-blog.md           moved from ~/job-hunt, 2026-07-29
 ```
 
+## Running the portal
+
+```
+npm run validate    # load + validate the whole corpus, emit nothing. Run this after editing any record.
+npm run build       # emit problems/index.db + index.json, then build the static site into dist/
+npm run dev         # local server with reload
+```
+
+`npm run validate` is the fast check. Errors fail the build; warnings are the punch list (README → *What to test*). A leaf that breaks the A–E section invariant is an error; a node or actor body that does is a warning, because those five node files predate the invariant.
+
 Two distinct processes, don't conflate them:
 - **`playbook.md`** — running one *domain* through my own life (food). Notice → live it → talk → publish.
 - **`.claude/skills/process-tier/`** — researching one *tier* of the failure history. Invoke `/process-tier` when starting or continuing a tier.
 
+Both feed **`catalyst-platform/00-plan.md`** — the platform: a browse tree of problems, a leaf per failure instance, an actor record per person/org, the catalyst's connection work on top. Leaves are processed by `process-leaf` (`.claude/skills/process-leaf/`, sibling of `process-tier`).
+
 ## Tier file structure — invariant
+
+Canonical copy with per-section guidance: `problems/tier-failure-history/_tier-template.md` (sibling of `_leaf-template.md`). The rules below are the spec; the template is the skeleton to copy. Keep the two in sync when either changes.
 
 Every `tierN-*/NN-topic.md` file uses exactly these H2s, in this order, with these titles verbatim:
 
 ```markdown
 # <Need> (Tier N — <tier name>)
 
-Tier definition: <one line>
+> <one-line definition — browse-card form>          ← parsed as the need's `definition`
+
+<description: one paragraph — what the need is, what failing it means,
+the scope axes, what is out of scope>              ← parsed as the need's `description`
 
 ## How this need has been threatened
 ## How humanity evolved to deal with this threat
@@ -52,53 +86,64 @@ Tier definition: <one line>
 ```
 
 Rules:
+- **The lead area carries the need's own `definition` + `description`.** Not `needs.yaml` — that file is id/tier/order/title/file/status only. `corpus.mjs` reads the leading `>` blockquote as `definition` and the prose between it and the first `##` as `description`; both render on `/need/<id>`. A missing blockquote falls back to the title and warns. The old bare `Tier definition: <line>` form is superseded; where one remains as the first line of the description prose the loader strips the label.
 - **India is never its own H2.** It is always `### India: <descriptor>` nested under `Where this fails today`, after the global material. Fixed retroactively in `02-water.md`; don't reintroduce.
 - **Global before India** within `Where this fails today`.
-- **Latent ≠ active.** Anything whose harm is already incurred but not yet visible in mortality data goes in `### India: stored risk, not yet realised`, not in the active list. Asbestos, lead, silicosis, seismic exposure and fossil-aquifer depletion are the tier-1 instances.
+- **Latent ≠ active.** Anything whose harm is already incurred but not yet visible in mortality data is `onset: latent` on its leaf. The tier file's `### India: stored risk, not yet realised` H2 stays, but as a **pointer list** — one line per latent leaf, no magnitude or diagnosis. Asbestos, lead, silicosis, seismic exposure and fossil-aquifer depletion are the tier-1 instances.
 - **`### Where it worked` is mandatory in every file**, closing the evolution section, with a measured before/after wherever one exists. A framework built only from failures cannot distinguish a hard problem from a neglected one. Writing "no positive control found" is an acceptable entry; omitting the section is not. Tier 1 was drafted once with a claim that it contained a single positive control; it contains at least seven, and the error changed a conclusion.
 - **Mode granularity is bold-lead** (`**Mode name**` as a group header, or `- **Mode.**` as a bullet lead). Promote to `###` only when a section exceeds ~10 modes (`01-food.md` is the only current case).
 - **Cross-need material is cross-referenced, never duplicated.** When a cause appears in more than one need, each file carries its own route and points to the others plus the node entry in the tier summary (see lead across `01`/`03`/`04`).
 - One `00-summary.md` per tier, linked from `00-index.md` as read-first.
+- **Per-instance analytic content now lives in leaves.** The `### India: who is commercially working…` block, magnitude/denominator figures, and stored-risk diagnosis move to `tierN-x/<need>/<slug>.md`. The tier file keeps threat history, evolution, `### Where it worked`, the `### India:` failure list, and a pointer to its leaves. Producing the leaves is `process-leaf`'s job, not `process-tier`'s. (Retrofit is per-file, one sitting each — air first.)
 
 ## Research standards
 
 - **Verify before writing.** Claims get researched, reconciled and only then written into a file. If asked to add something, research it first and report findings — don't write the user's hypothesis into the doc as fact.
 - **When sources disagree, write the disagreement.** Don't pick a number silently. Precedents in-file: Delhi 82.2 vs 99.6 µg/m³ (different administrative boundaries in the same IQAir report); asbestos imports as a range with the chrysotile-only vs all-asbestos caveat; sewage treatment 61% official vs ~28% independent, with the gap itself named as the finding.
+  - **Keep the reconciliation out of the reading line.** A source-vs-source caveat, a "which boundary" note, a "do not average" instruction — write it as a standalone line in the leaf section leading `Data note — …` (or `Data caution — …`). The loader lifts those lines out of the prose and renders them as a numbered *Data notes* block at the foot of the research disclosure. Substantive methodology that belongs in the argument (a lenient national threshold, a failed hypothesis) stays inline.
 - **Kill a hypothesis that doesn't survive the data, including the user's.** Mumbai-worsening failed (CSE winter 2024-25: peak daily PM2.5 down 44%) and was folded in by mechanism instead of being written as a trend.
 - **Hold competing hypotheses.** Don't collapse to one frame. The small-city question resolved as *both* real inversion and detection artifact.
 - **Absence of measurement is a finding, not a gap in the research.** Say so in-file. It recurred in four of six tier-1 files and became the tier's most consistent result.
 - **Give the denominator** so a ratio is checkable (`419 towns with stations against ~7,900 census towns`), and flag coincidental figures (`the two counts of 23 are coincidental`).
 - Prefer primary/institutional sources: IQAir, CREA, CGWB, CPCB, CSE, NFHS, UDISE+, ICMR, NITI Aayog, HLRN, UNEP, Census. Cite the report and year inline.
-- **Know that the institutional-source preference biases the finding.** Institutional data is state-generated, so a harm no agency measures is invisible to this method and a harm an agency does measure arrives pre-framed as that agency's failure. This is why tier 1 drifted into a policy-failure audit. Counteract it deliberately with the commercial-landscape pass below.
+- **Know that the institutional-source preference biases the finding.** Institutional data is state-generated, so a harm no agency measures is invisible to this method and a harm an agency does measure arrives pre-framed as that agency's failure. This is why tier 1 drifted into a policy-failure audit. Counteract it deliberately with the "who is working on this" pass below.
 
-## Commercial-landscape pass — required for every need file
+## Who is working on this — required for every leaf
 
-A failure is not neglected because the state is failing at it. Establish who is *already commercially working on it* before calling anything a frontier. Every `### India:` section must carry a closing block answering:
+Run by `process-leaf`, once per failure instance — **not at tier time**. The tier file's only leg-symmetric obligation is `### Where it worked` (positive controls). Everything below produces leaf body §D and the `gap:` line.
 
-1. **Who is commercially active** against each failure mode — named companies, funding, and status (operating / acquired / shut down / distressed). Density of *entry* is not density of *durable business*; distinguish them.
-2. **Who the paying customer is.** The central question. Urban consumer, farmer buying inputs, employer, industrial emitter under a compliance mandate, municipality, state tender.
-3. **Where capital deployed and failed**, and why — unit economics, distribution cost, margin.
-4. **Over-served spaces.** Where commercial density is disproportionate to measured harm. The mismatch is diagnostic, not decorative: it usually means the served population is not the harmed one, and that gap is itself a finding about a missed or mis-specified problem.
-5. **Failure modes with no commercial actor**, and whether the reason is that the harmed party cannot pay.
+A failure is not neglected because the state is failing at it, and not solved because a company sells something adjacent. Before characterising any failure, establish who is *already* working it, across all three legs. One pass, three sub-blocks, same five questions:
 
-**The organising axis is payer identity, not public vs private.** Working hypothesis, held from the food case and to be tested against every need: *private capital is dense wherever the harmed party is also a paying customer, and absent wherever they aren't.* A second hypothesis to test alongside it: *capital follows the mandate, not the harm* — where a compliance obligation exists (EPR, ZLD, CEMS), regulation manufactures a customer and a market appears regardless of harm size.
+1. **Who is active** — named actors, formation, funding source, status. → produces / updates an actor record (`problems/actors/<slug>.md`).
+2. **What makes the actor viable** — the leg-specific core:
+   - *Commercial:* who the paying customer is.
+   - *Activism:* whether leadership represents the harmed (affected-led vs proxy / NGO-staffed).
+   - *Institution:* whether the body's authority contains the source, and its reporting unit is the harm unit.
+3. **Where effort deployed and failed, and why** —
+   - *Commercial:* unit economics, distribution cost, margin — the capital graveyard.
+   - *Activism:* won the law, lost the execution; blocker moved once vs institutionalised; movement organised *against* the remedy.
+   - *Institution:* spend mismatched to source; the second half never built; disbursal rate.
+4. **Over-served / over-represented / over-institutionalised** — density disproportionate to measured harm. Diagnostic: usually means the served population is not the harmed one.
+5. **Failure modes with no actor of that leg** — and whether the reason is structural: harmed party cannot pay (commercial); harm latent / diffuse / the harmed benefit from the cause (activism); no administrative unit maps the harm (institution).
 
-Hold the counter-case rather than assuming it away: telecom and UPI both reached apparently non-paying populations profitably, so "cannot pay" often means "has not been priced right." An empty space may be an opportunity, not a void.
+`affected-led` is a tag on the actor, not a leg — leg and unit are independent assignments.
 
-## Social-media tracking pass — required for every need file
+## Actor tracking — runs with the pass above
 
-Every actor named anywhere in the file — by the commercial-landscape pass, the representation-unit gate, or in-text — gets tracked, not just cited. This applies equally to organisations and to named individuals (founders, spokespeople, officials), and regardless of leg (affected-led, commercial, institutional).
+Every actor named anywhere gets an actor record, not just a citation — organisations and named individuals (founders, spokespeople, officials) alike, every leg.
 
-For each named actor:
-1. **Find their active platform(s).** Twitter/X, LinkedIn, Instagram, YouTube — wherever they actually post, not every platform by default.
-2. **Follow/subscribe.** Immediately, during research — not as a follow-up task after the file is written.
-3. **Log it.** A follow-list table appended to the file: actor, type (org / individual), leg, platform, handle. No status column yet — this is a list to watch, not a re-verified fact each time.
+**`depth: tracked` follows the ground test, not influence.** `tracked` (monitored, channel-searched, connection-eligible) is for actors *operating where the harm is* — affected-led/local collectives, field enterprises that deploy or service the remedy, local regulators actually acting on the failure. Evidence-base authors, academics, ministers, courts, commissions and national advocacy/publishing NGOs stay `registry` however influential — cited, not monitored. Don't run `actor-channel-finder` for a `registry` actor. Full criteria: `process-leaf` → *Actor records — the §D sub-procedure*.
 
-Not automated yet. Revisit tooling once the list is large enough that manual scrolling stops working.
+1. **Find their active platform(s)** — wherever they actually post.
+2. **Follow/subscribe immediately**, during research.
+3. **Create/update `problems/actors/<slug>.md`** per `schema.md` — identity, status, needs, offers, recent updates, contact, private catalyst notes. The old per-file follow-list table is now a generated view ("actors touching this leaf").
+4. **Harvest the actors that researching one actor surfaces.** Every actor pass turns up others — co-petitioners, co-authors, coalition partners, named officials, the affected-led leader an NGO speaks *for*. Don't make a record for each; list the unresearched names on the leaf (§D, "coverage not yet mapped" — this also backs `gap: coverage`), then run the pass again on those worth it now. A lead becomes a record only when a wave researches it; stop when a wave yields no new names. In the silicosis sweep this is the *only* way the affected-led leader was found. `process-leaf` (§D sub-procedure) has the fan-out mechanics.
 
-## The six mechanisms
+Not automated yet. Revisit tooling once the registry is large enough that manual scrolling stops working.
 
-Found in three or more tier-1 files each. Check every new failure against these before writing it as novel — see `problems/tier-failure-history/tier1-physiological/00-summary.md` §3.
+## The mechanisms
+
+Seven, found in three or more tier-1 files each. Check every new failure against these before writing it as novel — see `problems/tier-failure-history/tier1-physiological/00-summary.md` §3.
 
 1. **Aggregation masks failure** — reporting unit larger than harm unit
 2. **Spend mismatched to source** — funded, executed, aimed wrong
@@ -110,64 +155,40 @@ Found in three or more tier-1 files each. Check every new failure against these 
 
 Secondary: **within-tier loops** (shelter provision degrades thermoregulation) and **the second half never built** (collection without treatment).
 
-If a mechanism recurs unchanged in tier 2, it belongs in `cross-cutting/`, not in a tier file.
+Provisional (below the "3+ tier-1 files" bar, 2 instances so far — `residual-childhood-lead`, `crop-residue-burning`): **visible win strands the residual** — a decisive win against the largest, most salient contributor drains the political attention that would have funded the diffuse remainder, which is then left to no one because the headline problem was declared solved. Promoted from an `unclassified` §C paragraph, 2026-09-07.
+
+A mechanism that recurs unchanged across tiers is documented once, here — not re-derived in each tier file. Tag leaves with it (`mechanisms:` frontmatter); don't restate it.
+
+**`unclassified` is a legitimate eighth value, and using it is not a failure.** All seven were derived from tier-1 *state-instrument* failures. Tiers 3–5 fail through status hierarchies, kinship arrangements and belief systems, where no instrument is keyed to anything; forcing that material into these seven produces a confident wrong tag and the cross-leaf mechanism view then groups unlike things as alike. A leaf tagged `unclassified` owes a paragraph in §C saying what the pattern actually is — that paragraph is where the eighth mechanism comes from.
 
 ## Cross-need nodes
 
-A **node** is one policy object producing failures in two or more needs. Nodes are invisible from inside a single file and only appear once a tier is complete — check for them during the summary, and maintain the register across tiers, not per tier.
+A **node** is one concrete object — a policy lever, a provision sector, or a hazard class — upstream of leaves in two or more needs, such that acting on that single object moves the whole set. Invisible from inside one tier file; surfaces only reading a tier across — check during the summary, maintain the register across tiers.
 
-Register: `problems/cross-need-nodes/00-index.md`. A node is worth more than a shortlist row, because one intervention there propagates across needs.
+A node is a grouping *across* leaves, peer to a mechanism: mechanism groups by an abstract *pattern* ("compensation substitutes for counting"), a node by a concrete *object* ("the ethanol blending schedule"). A node usually exhibits one or more mechanisms. It is not above or below leaves — it's a lens across them, and the only such lens that is a first-class record with its own actor links (people work the lever without working any one downstream leaf).
 
-## Frontier-problem criterion
+**Three types:** `instrument` (one government lever, one authority, one edit — farm-power tariff, ethanol blending) · `sector` (a whole provision system, many sub-levers — construction, energy) · `exposure-class` (not a policy object; a hazard family recurring via one mechanism — asbestos/lead/silica).
 
-The working filter, arrived at by the user and refined in-session: **solution at hand, plus a blocker that is identifiable and movable.** Not toll. Secondary axes: irreversibility, substrate depth, detection lag, neglect, measurement state.
+Register: `problems/cross-need-nodes/00-index.md`. Node membership is declared on the leaf (`nodes:` frontmatter); the node's leaf list is generated. A node is worth more than a shortlist row because one intervention there propagates across needs.
 
-**The user holds three instruments, not one.** *Superseded 2026-08-24.* The earlier framing was **capital allocation, not policy advocacy** — a single instrument, under which political movability was an irrelevant axis and politically-blocked problems ranked lowest. The user's standing frame elsewhere is the **catalyst model**: a central entity routes a problem to one of three legs — **activism, political institution-building, social enterprise** — and leads none of them. Under three instruments a political blocker is not a disqualifier; it is a routing signal to the activism/institution leg.
+## Catalyst method
 
-This resolves a contradiction that was sitting inside the criterion itself. The primary filter is *solution at hand plus an identifiable, movable blocker*, yet **solution at hand, blocked** ranked lowest on the screen. Both were correct under one instrument. The error was the instrument count, not the criterion.
+No problem is screened out. Every documented failure gets a leaf and stays on the platform. The method's job per leaf: **catalogue who is working on it, and flag what's missing.**
 
-**Every shortlist entry carries four questions** (was three):
+**Gap line** — every leaf carries one:
+- `gap: none` — actors present across the legs the problem needs.
+- `gap: coverage` — someone works it; the platform hasn't found them yet. Viewers can submit names.
+- `gap: representation` — no actor exists at a unit that can perceive and act on the harm. Nobody to submit; filling it is fieldwork. Future state.
 
-1. **Who owns the object.**
-2. **What the smallest sufficient actor is.**
-3. **Whether a payer exists** — and if not, whether the beneficiary can be made payable (see `economics-of-change/`).
-4. **Whether representation exists at the harm's correct unit.** New, and the hardest gate. From the user's Seed Savers Club conclusion: a protest must be led by the affected, an institution persists only with representation of the governed, an enterprise succeeds only against a problem its builders actually face. The catalyst's contribution compounds only where leadership on the chosen leg is genuinely representative, not nominal.
+Keep the two distinguishable: an empty representation slot is a finding, not a stub awaiting a submit button.
 
-   **Amended 2026-08-24, and the amendment matters.** The gate first read *whether a locally-rooted leader exists, or is findable*, with "no leader and no route to one means the entry is not actionable." That is too strict, and wrong in the same way the single-instrument criterion was wrong one level up: it treats a routing signal as a disqualifier. **The representation unit has to match the perception unit of the harm** — can the person bearing it perceive it, attribute it, and act against the party causing it?
+**Record status** — every leaf carries `status: stub | researched` (`stale` is set by the build script). A **stub** is id + title + one_line + need, and it is a real record: it appears in the browse tree, can be linked and can receive an actor submission. Goal 1 (a browsable list of every problem) ships on stubs; goal 2 (research per problem) upgrades them one per sitting. Depth-first is the wrong build order against 36 needs.
 
-   - **Local affected** — harm concentrated, perceived by the sufferer, counterparty local and nameable. *Manual scavenging (SKA), silicosis (a mine), cool roofs (a roof), gig fatigue (a platform's local fleet).*
-   - **Central organisation** — harm latent, invisible or statistical; attribution is a specialist function the sufferer cannot perform. *Lead (the affected are children and the injury is imperceptible), asbestos (20–40 yr latency), AMR (no individual sufferer), air source-apportionment (the harm unit is an airshed).*
-   - **Enterprise** — the sufferer can perceive the harm *and* transact against it, or can be made able to. *Cool roofs, fleet fatigue, data-centre water.*
-   - **Central, at a named legitimacy cost** — the sufferer perceives the harm but **benefits from its cause**. *Western Ghats slope zoning, farm power, ethanol feedstock.* This is the one cell where the catalyst model runs against its own founding principle; the cost is carried explicitly, never assumed away.
+**Scope: India-anchored, global-where-the-mechanism-is.** Not a stated decision until now, and it was silently assumed everywhere. Rule: threat history and evolution are global; the failure record is India, and `geography:` on every leaf makes the claim explicit rather than implied. A global failure gets its own leaf only when the mechanism differs from the Indian one — otherwise it is evidence inside the India leaf.
 
-   Three rules follow. **"No local leader" routes rather than disqualifies** — only *no representation at any unit* fails the gate, which in tier 1 is one row (rental discrimination). **The unit can be wrong in the other direction too**: local representation of an airshed-scale harm is a unit mismatch, not a smaller problem than a missing unit (tier 1's instance is Warrior Moms). And **leg and unit are independent assignments** — asbestos is activism-leg with a central unit, cool roofs is enterprise-leg with a local unit.
+**Refreshing and retiring** — `process-leaf` → *Refreshing, correcting and retiring a record*. Records go stale (`gap_as_of` older than a linked actor's `lifecycle_as_of`), and a **solved leaf is never deleted**: it re-runs `gap:`, gains a dated note on what moved and who moved it, and becomes a positive control with a named owner — the scarcest thing in the repo.
 
-   **Latency and local representation are structurally incompatible.** A harm nobody has felt yet cannot have an affected-led claimant, so every row in a latent set routes to a central unit or to enterprise. Expect this in every tier.
-
-   **The organisation of the harmed is a research input, not only a scoring criterion.** In tier 1 it held facts the institutional sources did not surface and that changed two rows' classification — a DMF-funded silicosis corpus, a working $1,100–1,400 cool-roof loan. Go looking for it while researching, not while scoring.
-
-**The mechanisms sort by instrument, not by rank.** Each names which leg can move it:
-
-- **Solution at hand, blocked** — political by construction. Capital cannot move it; **activism → institution** can. Ranked lowest under the single-instrument screen; under three it is live, and it is the only class that satisfies the primary filter by definition.
-- **Instrument keyed to the wrong object** — an unserved object exists precisely because the state's instrument was aimed elsewhere. **Enterprise**, directly. Still the strongest signal for capital.
-- **Absence of measurement** / **compensation substitutes for counting** — a missing detection layer. **Enterprise** where a buyer exists; **activism** where the missing denominator is itself the contested thing, since an uncounted harm has no claimants.
-- **Aggregation masks failure** — someone bears an unrepresented harm. **Enterprise** if they can pay; **institution-building** where the fix is the reporting unit itself, i.e. the harm unit needs an owner.
-- **Authority mismatched to harm** — nobody holds it, so nobody blocks entry either. **Institution-building** first: the object needs an owner before either other leg has anything to attach to.
-- **Spend mismatched to source** / **primary vs derivative burden** — misdirection with an owner and a budget already in place. **Institution** (redirect the spend) or **enterprise** (serve the real source directly).
-
-**Instrument selection is a step, not an attribute.** The method selects a problem; it must also select the leg and the sequence between legs. Between shortlist and commitment: diagnose the binding constraint, choose the leg, and name the handoff to the next leg where there is one. The default failure is a leg chosen by the actor's preference rather than by the problem's mechanism — an activist chooses activism, a founder chooses enterprise, a bureaucrat chooses a scheme. Being instrument-agnostic at that fork is the catalyst's non-substitutable value, because it is the one judgment no leg-holder can make for themselves.
-
-**The third path, which the tier files kept missing:** the choice is not state-fixes-it or market-fixes-it. The generative position is **making a non-paying beneficiary payable** — insurance, B2B2C, employer or landlord as buyer, offtake against a compliance obligation. This is a business-model frontier rather than a technical or political one, and it is what *instrument keyed to the wrong object* looks like from the other side: the object has no wallet, not no need.
-
-**And tier 1 settles who walks it: organisation precedes payment.** In every tier-1 instance where a non-paying beneficiary became payable, an organisation of the affected built the payment mechanism, and no allocator did — Mahila Housing Trust's credit cooperative financing 20,000+ cool roofs at $1,100–1,400 each, Amul returning ~80% of the consumer rupee to producers by owning the margin, Sulabh at ~15M users/day on ₹1–2, SEWA making 21,000 exposed women the beneficiaries of a priced heat instrument. None is venture-financed, and none of the dense venture-financed categories in the six tier-1 files reaches that population at all. So the third path is not spotted by an allocator and handed to a founder; it is produced by the constituency organising first. **"Cannot pay" in tier 1 has consistently meant "is not organised."** Four existence proofs, all small against the need — treat it as the strongest available hypothesis, not as settled.
-
-Resolved this session, previously open: the observation that seventeen of eighteen tier-1 shortlist entries are implementation rather than knowledge frontiers is **mostly an artifact of the method** — of the institutional-source preference, of a mechanism list containing only institutional failure modes, of a national unit of analysis whose only plausible owner is the state, and of a criterion that selects for political blockers. Partly, though, it is true of the world: tier 1 is the tier where provision genuinely is state-shaped (pipes, sewers, buffer stocks, feeder separation). If that holds, the conclusion for a capital allocator is that **tier 1 is a poor hunting ground and tiers 2–5 are likely better** — a real result, not a failure. Hold both readings.
-
-**Reopened by the three-instrument amendment (2026-08-24).** That resolution was reached under the single-instrument screen, which ranked politically-blocked entries lowest — so the criterion partly manufactured the finding it reported. "Seventeen of eighteen are implementation frontiers" is a verdict about *capital's* reach, not about the problems: an implementation frontier with a political blocker is dead to capital and live to activism → institution. Re-score the tier-1 shortlist under three instruments before treating "tier 1 is a poor hunting ground" as settled. It may survive; it has not been tested against the amended screen.
-
-**Resolved by the tier-1 rewrite (2026-08-24). The verdict is withdrawn.** Re-scored on leg plus representation unit, tier 1's five strongest rows — manual scavenging, silicosis, cool roofs, heat at work, fleet fatigue — are *all* implementation frontiers with movable blockers and existing affected-led organisations. That is the best available configuration under three instruments, not the worst. "Implementation frontier" was a verdict about capital's reach, and the tier is not a poor hunting ground. What survives from the old reading is the method bias itself: the institutional-source preference, a mechanism list containing only institutional failure modes, and a national unit of analysis whose only plausible owner is the state. That bias is real and is what the commercial and representation passes exist to counteract.
-
-**Two findings from the rewrite to carry into every later tier.** First, **the leader gate and the payer gate are anti-correlated in tier 1** — the rows the capital screen demoted (silicosis, manual scavenging, cool roofs) are exactly the rows with decades-old affected-led organisations, while its top pick (data-centre water) has no affected party at all because the harm has not landed. If that holds in tier 2 it is the project's most consequential structural result, because it means the two screens point in opposite directions and neither can be run alone. Second, **won the law, lost the execution** — the dominant activism failure mode, present in four of four tier-1 rows where a movement actually moved the blocker (2013 Act with 714/766 districts self-declaring free; 2019 silicosis policy at 16.6% disbursal; Rajasthan gig Act under industry challenge; MHT at 20,000 homes against tens of millions). It is the leg-2 → leg-3 handoff breaking, and it is the specific judgment no leg-holder can make for themselves.
+**Connection opportunities** — where a leaf has actors on some legs but not others, or a rule was won but nobody delivers it, name the two actors who should be talking. Logged in `problems/private/`, not the public leaf. Logging is done at leaf time; **acting on them is a separate pass with its own unit — the actor pair, not the problem** — `catalyst-platform/02-connect-pass.md`. Both skills are problem-scoped, so without that pass the catalyst work has no procedure and never happens. Counted on `catalyst-platform/01-scoreboard.md`.
 
 ## Working with the user
 
