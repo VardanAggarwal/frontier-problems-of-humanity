@@ -171,6 +171,14 @@ budget on prose that yields no name and no handle. Rules:
    final — skip it silently, do not research it, do not write it, and do not
    re-propose it in LEADS. These are decisions already made; re-surfacing one
    costs the user the same search twice and asks them to make it again.
+   **A lead is stale the moment the actor gets a record.** `_crawl-state.md`
+   accumulates LEADS across passes and nothing retires them, so a name written in
+   pass 4 still reads as "unresearched" in pass 7. Before seeding from any LEADS
+   block — including one a prompt hands you as priority work — check whether
+   `problems/actors/<slug>.md` already exists. If it does, the lead is done: mark
+   it and move on. Three records once sat in LEADS flagged "never written" a full
+   day after they were written *and committed*, and a close-out pass spent its
+   entire top priority rediscovering them.
 2. **Prune at harvest.** Before triaging, drop every name whose far end is out of
    sector (see *Prune by relevance*). Pruning is free and happens first; triage
    then ranks only what survives.
@@ -274,6 +282,10 @@ PRUNED  (edges declined at harvest, per the relevance rule — deliberate, not m
 
 LEADS — next wave, unresearched
   <name> — <edge from which actor> — <where seen> — why it's worth a wave
+
+RETIRED LEADS  (written this pass — annotate them in place in _crawl-state.md's
+  earlier LEADS blocks, do not only append a new section)
+  <name> — now problems/actors/<slug>.md
 
 NOT WRITTEN, deliberately
   <name> — reason (out of scope / no verifiable source / already covered by <slug>)

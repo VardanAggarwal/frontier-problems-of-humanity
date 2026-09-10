@@ -40,6 +40,7 @@ updated: 2026-09-10
 - spun-out-of ← villgro
 - board ← paul-basil (co-founder, partner)
 - funded-by → lemelson-foundation (seeded Fund I)
+- funded-by → michael-susan-dell-foundation (one of Menterra Social Impact Fund I's 5 LPs)
 
 ## Status
 - **Funding** — Menterra Social Impact Fund I: ₹40 crore, closed 2016.
@@ -56,3 +57,4 @@ menterra.com; LinkedIn company page; warm intro via Paul Basil or the Villgro ne
 
 ## Recent updates
 - 2026-09-10 — Record created. LinkedIn and website confirmed live; no dated 2026 post independently verified this pass.
+- 2026-09-11 — Added Michael & Susan Dell Foundation as one of Menterra Social Impact Fund I's 5 LPs (PitchBook, Inc42), closing MSDF's second independent India edge this pass.

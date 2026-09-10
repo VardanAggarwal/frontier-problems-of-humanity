@@ -4,6 +4,14 @@
      DEAD END or PRUNED has already cost a search and must not be retried.
      Loader ignores `_`-prefixed files, so this never enters the corpus.
      Started as a /tmp scratch file during the Villgro crawl, 2026-09-10;
+
+     LEAD HYGIENE (added 2026-09-11, after a pass lost its whole P1 to this):
+     a LEAD is stale the moment the actor gets a record. Before seeding from any
+     LEADS block, check problems/actors/<slug>.md exists; if it does, the lead is
+     done. At the end of every pass, annotate every lead you wrote with
+     `← WRITTEN: <slug> — retired from LEADS <date>` rather than only appending a
+     new section. responsAbility, Skoll and IKEA sat in LEADS as "never written"
+     for a day after they were written and committed.
      moved into the repo when that scratch directory went away. -->
 
 ## WRITTEN
@@ -94,16 +102,16 @@ Total: 17 actor files written, all complete (no half-written/invalid files).
 ## LEADS — unresearched, next-wave seed set
 
 - Srinivas Ramanujam's prior corporate employer — edge: spun-out-of, from Villgro record — seen in bio ("15+ years corporate sector") but employer not named in sources pulled — worth naming for the spun-out-of edge.
-- Villgro board members (Ashwin Mahalingam, Bharti Gupta Ramola, Dimple Gujral, Indumathi Nambi, Kairas Vakharia, Ranjeev Lodha, Sameer Mehta) — edge: board, from villgro.org/our-team — each is a named individual with an outside institutional seat (IIT-Madras, ex-PwC/Basix, Teach For India, Mahindra Farm Equipment, Dr Mehta's Hospitals) — high value as cross-sector bridges, not yet researched.
+- Villgro board members (Ashwin Mahalingam, Bharti Gupta Ramola, Dimple Gujral, Indumathi Nambi, Kairas Vakharia, Ranjeev Lodha, Sameer Mehta) — edge: board, from villgro.org/our-team — each is a named individual with an outside institutional seat (IIT-Madras, ex-PwC/Basix, Teach For India, Mahindra Farm Equipment, Dr Mehta's Hospitals) — high value as cross-sector bridges, not yet researched.  ← WRITTEN: bharti-gupta-ramola, dimple-gujral, indumathi-nambi, kairas-vakharia, ranjeev-lodha, sameer-mehta — retired from LEADS 2026-09-11
 - Radhika Ramesh, Shelly Kwatra, Shriyam Yagnik, Aditi Pareek — Villgro COO and Impact Finance analyst team — edge: board/team, from villgro.org/our-team — programme-officer-level, likely higher-signal feeds than the CEO per the "mover over the money" bias — not yet researched.
-- Vahan — edge: cohort, from Villgro seed (named as notable portfolio alongside Ecozen/Wysa in Tracxn summary) — gig-worker staffing platform — worth a wave, pushed to leads under old brief's "don't over-write operators" rule.
-- Wysa — edge: cohort, from Villgro seed (same Tracxn line) — mental-health app, notable portfolio — pushed to leads, same reason.
+- Vahan — edge: cohort, from Villgro seed (named as notable portfolio alongside Ecozen/Wysa in Tracxn summary) — gig-worker staffing platform — worth a wave, pushed to leads under old brief's "don't over-write operators" rule.  ← WRITTEN: vahan — retired from LEADS 2026-09-11
+- Wysa — edge: cohort, from Villgro seed (same Tracxn line) — mental-health app, notable portfolio — pushed to leads, same reason.  ← WRITTEN: wysa — retired from LEADS 2026-09-11
 - Vindya M Narsian — edge: co-funded, from Villgro's "$170K seed round in Avni Wellness, Oct 24 2025" (Tracxn) — named co-investor alongside IRMA — not researched.
 - IRMA (Institute of Rural Management Anand) — edge: co-funded, same Avni Wellness round — an institution co-investing alongside Villgro, worth checking if it has a broader impact-capital role.
 - Avni Wellness — edge: funded-by villgro (latest investment, $170K seed, Oct 2025) — not researched, portfolio company.
-- Accion — edge: co-funded (ClimaFii Alliance), from shell-foundation — large global microfinance/fintech intermediary funding into India and Africa — high-value convener/intermediary, not researched this pass.
-- BFA Global — edge: co-funded (ClimaFii Alliance), from shell-foundation — fintech-for-inclusion research/advisory intermediary — not researched.
-- Wilfred Njagi (individual) — edge: board/CEO, from villgro-africa — co-founder & CEO, active LinkedIn presence referencing Sankalp Africa Summit and WEF Davos 2026 — record not made (only org-level villgro-africa written); worth its own individual file per the "mover over the money" rule.
+- Accion — edge: co-funded (ClimaFii Alliance), from shell-foundation — large global microfinance/fintech intermediary funding into India and Africa — high-value convener/intermediary, not researched this pass.  ← WRITTEN: accion — retired from LEADS 2026-09-11
+- BFA Global — edge: co-funded (ClimaFii Alliance), from shell-foundation — fintech-for-inclusion research/advisory intermediary — not researched.  ← WRITTEN: bfa-global — retired from LEADS 2026-09-11
+- Wilfred Njagi (individual) — edge: board/CEO, from villgro-africa — co-founder & CEO, active LinkedIn presence referencing Sankalp Africa Summit and WEF Davos 2026 — record not made (only org-level villgro-africa written); worth its own individual file per the "mover over the money" rule.  ← WRITTEN: wilfred-njagi — retired from LEADS 2026-09-11
 - Dr Robert Karanja — edge: board (former CEO), from villgro-africa — handed CEO baton to Njagi — not researched, may still be active in the sector.
 - AUDA-NEPAD — edge: funded-by, from villgro-africa — African Union Development Agency, continental institutional funder — global/African relevance to India is low; noted as African-context lead only.
 - Johnson & Johnson Foundation — edge: funded-by, from villgro-africa — global corporate foundation — check India relevance before writing.
@@ -113,25 +121,25 @@ Total: 17 actor files written, all complete (no half-written/invalid files).
 - Vineet Rai (individual, Aavishkaar Group founder/Vice Chairman) — edge: board, from aavishkaar-group / intellecap — named but not channel-verified or written up — high-value "mover over letterhead" candidate.
 - Vineet Chandra Rai (individual, Aavishkaar Group CEO) — same edge/source as above — not researched.
 - Vikas Bali (individual, Intellecap CEO) — edge: board, from intellecap — not channel-verified.
-- Calvert Impact Capital — edge: funded-by (of Northern Arc Capital, $10M ECB financing) — major US-based impact-capital intermediary active in India debt markets — not researched, high-value funder/intermediary.
-- Triodos Investment Management — edge: funded-by (of Ecozen), also a global impact-investment bank active across India renewables/agri — not researched, recurring name worth a file.
+- Calvert Impact Capital — edge: funded-by (of Northern Arc Capital, $10M ECB financing) — major US-based impact-capital intermediary active in India debt markets — not researched, high-value funder/intermediary.  ← WRITTEN: calvert-impact-capital — retired from LEADS 2026-09-11
+- Triodos Investment Management — edge: funded-by (of Ecozen), also a global impact-investment bank active across India renewables/agri — not researched, recurring name worth a file.  ← WRITTEN: triodos-investment-management — retired from LEADS 2026-09-11
 - Spark Capital — edge: funded-by (of Ecozen, Nov 2025 debt round) — India-based VC, check if impact-oriented enough for segment scope.
 - UTI Asset Management Company — edge: funded-by (of Ecozen) — mainstream AMC dipping into climate debt; check India relevance/segment fit before writing.
 - Dare Ventures — edge: funded-by (of Ecozen, Series C first tranche) — not researched.
-- Frontier Markets — edge: funded-by (DOEN), from doen-foundation — well-known India last-mile rural distribution enterprise (women-led "Saral Jeevan" agent network) — high signal, not researched.
+- Frontier Markets — edge: funded-by (DOEN), from doen-foundation — well-known India last-mile rural distribution enterprise (women-led "Saral Jeevan" agent network) — high signal, not researched.  ← WRITTEN: frontier-markets — retired from LEADS 2026-09-11
 - BBOXX, SunFunder — edge: funded-by (DOEN) — East Africa energy enterprises, lower India relevance — Africa-context leads only.
-- IKEA Foundation — edge: co-funded, from selco-foundation (Energy for Health, Sustain Plus Platform, GIZ partnership) — major global climate/livelihoods funder into India, narrowed its climate strategy in 2025 — high-value funder, not written up as its own file this pass (only cited inline on selco-foundation.md).
-- Sustain Plus Energy Foundation — edge: co-funded (IKEA Foundation partner, India renewable-energy platform, 150+ partners) — not researched, high-value India intermediary/platform.
+- IKEA Foundation — edge: co-funded, from selco-foundation (Energy for Health, Sustain Plus Platform, GIZ partnership) — major global climate/livelihoods funder into India, narrowed its climate strategy in 2025 — high-value funder, not written up as its own file this pass (only cited inline on selco-foundation.md).  ← WRITTEN: ikea-foundation — retired from LEADS 2026-09-11
+- Sustain Plus Energy Foundation — edge: co-funded (IKEA Foundation partner, India renewable-energy platform, 150+ partners) — not researched, high-value India intermediary/platform.  ← WRITTEN: sustain-plus-energy-foundation — retired from LEADS 2026-09-11
 - GIZ (India) — edge: co-funded (IKEA Foundation partnership, smallholder farmer decentralised energy) — German development agency, institutional funder — not researched.
-- Dasra, Antarang Foundation — edge: attends, from selco-foundation's Skoll World Forum 2026 panel — Dasra was subsequently written up; Antarang Foundation (skilling/livelihoods nonprofit) was not — worth a wave.
+- Dasra, Antarang Foundation — edge: attends, from selco-foundation's Skoll World Forum 2026 panel — Dasra was subsequently written up; Antarang Foundation (skilling/livelihoods nonprofit) was not — worth a wave.  ← WRITTEN: dasra, antarang-foundation — retired from LEADS 2026-09-11
 - Ministry of Health and Family Welfare / State Health Missions — edge: convenes (with selco-foundation, Energy for Health) — institutional, likely registry-depth only.
 - Mizoram Department of Agriculture — edge: co-funded (MoU with SELCO, March 2026) — state-government institutional actor, registry-depth candidate only.
-- Neera Nundy, Deval Sanghavi (individuals, Dasra co-founders) — edge: board, from dasra — named but not individually researched or channel-verified — high-value "mover over letterhead" candidates given Dasra's field-building role.
-- Skoll Foundation — edge: attends/co-funded (Skoll World Forum, SELCO/Dasra 2026 panel; also gave 2026 Skoll Award to Indus Action, India civic-tech) — global convener/funder, was being researched (channels found live) when the crawl was stopped — NOT yet written to a file. High priority to pick up first in the relaunch.
-- Indus Action — edge: funded (2026 Skoll Award for Social Innovation winner) — India civic-tech/public-benefits-access nonprofit — not researched, notable enough to warrant its own file.
-- Antarang Foundation — see above (Skoll World Forum 2026 co-panelist with SELCO/Dasra) — not researched.
-- responsAbility Investments — was mid-research (channels found live, India 2025/2026 investment list gathered: Sahyadri Farms, WheelsEMI, AMPIN, Ace International, Roserve Enviro, Qul Fruitwall) but the actor file was NOT yet written when the stop came — high priority to pick up first in the relaunch, most of the research is already done (see EDGES section above for the money detail).
-- IKEA Foundation — repeated here as the clearest single miss: cited three times (SELCO, Sustain Plus, GIZ) but never given its own record.
+- Neera Nundy, Deval Sanghavi (individuals, Dasra co-founders) — edge: board, from dasra — named but not individually researched or channel-verified — high-value "mover over letterhead" candidates given Dasra's field-building role.  ← WRITTEN: neera-nundy — retired from LEADS 2026-09-11
+- Skoll Foundation — edge: attends/co-funded (Skoll World Forum, SELCO/Dasra 2026 panel; also gave 2026 Skoll Award to Indus Action, India civic-tech) — global convener/funder, was being researched (channels found live) when the crawl was stopped — NOT yet written to a file. High priority to pick up first in the relaunch.  ← WRITTEN: skoll-foundation — retired from LEADS 2026-09-11
+- Indus Action — edge: funded (2026 Skoll Award for Social Innovation winner) — India civic-tech/public-benefits-access nonprofit — not researched, notable enough to warrant its own file.  ← WRITTEN: indus-action — retired from LEADS 2026-09-11
+- Antarang Foundation — see above (Skoll World Forum 2026 co-panelist with SELCO/Dasra) — not researched.  ← WRITTEN: antarang-foundation — retired from LEADS 2026-09-11
+- responsAbility Investments — was mid-research (channels found live, India 2025/2026 investment list gathered: Sahyadri Farms, WheelsEMI, AMPIN, Ace International, Roserve Enviro, Qul Fruitwall) but the actor file was NOT yet written when the stop came — high priority to pick up first in the relaunch, most of the research is already done (see EDGES section above for the money detail).  ← WRITTEN: responsability-investments — retired from LEADS 2026-09-11
+- IKEA Foundation — repeated here as the clearest single miss: cited three times (SELCO, Sustain Plus, GIZ) but never given its own record.  ← WRITTEN: ikea-foundation — retired from LEADS 2026-09-11
 
 ## PORTFOLIO / OPERATOR NAMES — seen, not detailed, wanted by new brief
 
@@ -215,21 +223,21 @@ Operator ratio this wave: 5 of 13 (~38%) — slightly over the ⅓ cap; hold to 
 
 ## LEADS — carried forward + new
 
-- Tarun Cherukuri (Indus Action founder-CEO) — individual file not written this pass (avoided dangling ref); in.linkedin.com/in/taruncherukuri — worth its own file next wave.
-- Priya Agrawal (Antarang founder) — same reason, not written; worth its own file.
-- Madhav Krishna (Vahan founder-CEO) — not written.
-- Jo Aggarwal (Wysa co-founder-CEO) — not written.
+- Tarun Cherukuri (Indus Action founder-CEO) — individual file not written this pass (avoided dangling ref); in.linkedin.com/in/taruncherukuri — worth its own file next wave.  ← WRITTEN: tarun-cherukuri — retired from LEADS 2026-09-11
+- Priya Agrawal (Antarang founder) — same reason, not written; worth its own file.  ← WRITTEN: priya-agrawal — retired from LEADS 2026-09-11
+- Madhav Krishna (Vahan founder-CEO) — not written.  ← WRITTEN: madhav-krishna — retired from LEADS 2026-09-11
+- Jo Aggarwal (Wysa co-founder-CEO) — not written.  ← WRITTEN: jo-aggarwal — retired from LEADS 2026-09-11
 - Ajaita Shah (Frontier Markets founder-CEO, Schwab 2024 laureate) — not written; high "mover over letterhead" candidate, active WEF/Schwab circuit.
-- BFA Global — still unresearched (ClimaFii Alliance co-funder, from shell-foundation) — carried from wave 1.
-- Vikas Bali (Intellecap CEO) — still unverified/unresearched.
-- Wilfred Njagi (Villgro Africa CEO) — still not given own file.
-- Neera Nundy / Deval Sanghavi (Dasra co-founders) — still not researched individually.
-- Annapurna Finance, IKF Finance, Dvara KGFS — Accion's named India investees, unresearched operators.
-- WheelsEMI, AMPIN Energy Transition, Roserve Enviro, Qul Fruitwall, Ace International — responsAbility's remaining India portfolio (6 total, 1 sampled = Sahyadri Farms; 5 remain unresearched, per the operator sampling rule).
-- Sustain Plus Energy Foundation, GIZ India — IKEA Foundation's India partners, still unresearched.
-- Gray Matters Capital operators (uFaber, ThinkZone, Indian School Finance Company, iDreamCareer, Avni Wellness) — still unresearched, carried from wave 1.
-- Upaya Social Ventures operators (Biofics Organics, Bintix) — still unresearched, carried from wave 1.
-- Villgro board members (Ashwin Mahalingam, Bharti Gupta Ramola, Dimple Gujral, Indumathi Nambi, Kairas Vakharia, Ranjeev Lodha, Sameer Mehta) — still unresearched, carried from wave 1.
+- BFA Global — still unresearched (ClimaFii Alliance co-funder, from shell-foundation) — carried from wave 1.  ← WRITTEN: bfa-global — retired from LEADS 2026-09-11
+- Vikas Bali (Intellecap CEO) — still unverified/unresearched.  ← WRITTEN: vikas-bali — retired from LEADS 2026-09-11
+- Wilfred Njagi (Villgro Africa CEO) — still not given own file.  ← WRITTEN: wilfred-njagi — retired from LEADS 2026-09-11
+- Neera Nundy / Deval Sanghavi (Dasra co-founders) — still not researched individually.  ← WRITTEN: neera-nundy, deval-sanghavi — retired from LEADS 2026-09-11
+- Annapurna Finance, IKF Finance, Dvara KGFS — Accion's named India investees, unresearched operators.  ← WRITTEN: annapurna-finance — retired from LEADS 2026-09-11
+- WheelsEMI, AMPIN Energy Transition, Roserve Enviro, Qul Fruitwall, Ace International — responsAbility's remaining India portfolio (6 total, 1 sampled = Sahyadri Farms; 5 remain unresearched, per the operator sampling rule).  ← WRITTEN: wheelsemi, roserve-enviro — retired from LEADS 2026-09-11
+- Sustain Plus Energy Foundation, GIZ India — IKEA Foundation's India partners, still unresearched.  ← WRITTEN: sustain-plus-energy-foundation, giz-india — retired from LEADS 2026-09-11
+- Gray Matters Capital operators (uFaber, ThinkZone, Indian School Finance Company, iDreamCareer, Avni Wellness) — still unresearched, carried from wave 1.  ← WRITTEN: idreamcareer — retired from LEADS 2026-09-11
+- Upaya Social Ventures operators (Biofics Organics, Bintix) — still unresearched, carried from wave 1.  ← WRITTEN: bintix — retired from LEADS 2026-09-11
+- Villgro board members (Ashwin Mahalingam, Bharti Gupta Ramola, Dimple Gujral, Indumathi Nambi, Kairas Vakharia, Ranjeev Lodha, Sameer Mehta) — still unresearched, carried from wave 1.  ← WRITTEN: bharti-gupta-ramola, dimple-gujral, indumathi-nambi, kairas-vakharia, ranjeev-lodha, sameer-mehta — retired from LEADS 2026-09-11
 
 ## DEAD ENDS (new)
 
@@ -339,19 +347,19 @@ Operator ratio: 5 of 15 (33%) — within cap.
 - Okapi Research and Advisory — Ashwin Mahalingam's co-founded firm, unresearched.
 - Carbon Zero Challenge — Indumathi Nambi's national cleantech student contest, a convener edge, unresearched.
 - IIM Udaipur Incubation Centre, M.I.T.R.A. — Kairas Vakharia's other board seats, unresearched.
-- HDFC Life Insurance, SRF Ltd, Tata Steel Ltd, Unitus Impact Fund (GP advisory board), Transforming Rural India Foundation (advisory council) — Bharti Gupta Ramola's other seats; Unitus Impact Fund especially high-value (an impact-fund GP board), unresearched.
+- HDFC Life Insurance, SRF Ltd, Tata Steel Ltd, Unitus Impact Fund (GP advisory board), Transforming Rural India Foundation (advisory council) — Bharti Gupta Ramola's other seats; Unitus Impact Fund especially high-value (an impact-fund GP board), unresearched.  ← WRITTEN: unitus-impact-fund, transforming-rural-india-foundation — retired from LEADS 2026-09-11
 - Tatha Partners, Dalberg Global Development Advisors, India School Leadership Institute — Dimple Gujral's other affiliations, unresearched.
 - Huhtamaki PPL, IVP Ltd — Ranjeev Lodha's other board seats, unresearched.
 - Dr. Mehta's Hospitals, India Home Health Care, Atlas Advisory, Everonn Medical Education — Sameer Mehta's other affiliations, unresearched.
-- Punjab Renewable Energy Systems / PRESPL portfolio-adjacent leads (Neev Fund, SIDBI) — cited in monish-ahuja.md, not yet cross-checked against this network.
+- Punjab Renewable Energy Systems / PRESPL portfolio-adjacent leads (Neev Fund, SIDBI) — cited in monish-ahuja.md, not yet cross-checked against this network.  ← WRITTEN: punjab-renewable-energy-systems — retired from LEADS 2026-09-11
 - Encourage Capital, Oikocredit — Annapurna Finance's other co-investors (Dec 2021 raise), unresearched.
 - Faering Capital, Elevar Equity, Women's World Banking — WheelsEMI's other investors, unresearched.
 - Concord Enviro Systems, Danish Climate Investment Fund (DCIF) — Roserve Enviro's JV parents, unresearched.
-- Ayush Bansal, Pravesh Dudani (iDreamCareer founders) — individual "mover over letterhead" candidates, not written this pass (avoided dangling-ref risk; org-level record only).
-- Roshan Miranda, Udit Patidar, Jayanarayan Kulathingal (Bintix founders) — same reason, not written.
-- Gobinda Chandra Pattnaik (Annapurna Finance MD/founder) — same reason, not written; high-value MFI-sector individual.
+- Ayush Bansal, Pravesh Dudani (iDreamCareer founders) — individual "mover over letterhead" candidates, not written this pass (avoided dangling-ref risk; org-level record only).  ← WRITTEN: ayush-bansal, pravesh-dudani — retired from LEADS 2026-09-11
+- Roshan Miranda, Udit Patidar, Jayanarayan Kulathingal (Bintix founders) — same reason, not written.  ← WRITTEN: roshan-miranda — retired from LEADS 2026-09-11
+- Gobinda Chandra Pattnaik (Annapurna Finance MD/founder) — same reason, not written; high-value MFI-sector individual.  ← WRITTEN: gobinda-chandra-pattnaik — retired from LEADS 2026-09-11
 - Srinivas Kantheti et al. (WheelsEMI founders) — same reason, not written.
-- Prerak Goel, Prayas Goel (Roserve Enviro founders) — same reason, not written.
+- Prerak Goel, Prayas Goel (Roserve Enviro founders) — same reason, not written.  ← WRITTEN: prerak-goel, prayas-goel — retired from LEADS 2026-09-11
 
 ## DEAD ENDS (new)
 
@@ -407,7 +415,7 @@ Operator ratio: 5 of 15 (33%) — within cap.
 
 - Medhavi Skills University / Medhavi Foundation (Pravesh Dudani's current venture) — unresearched, adjacent skilling-sector lead.
 - Waste Ventures India (Roshan Miranda's prior venture) — unresearched.
-- Harish Hande — named as a Transforming Rural India Foundation board member per search snippet; already the founder-figure behind selco-foundation.md but has no individual actor file of his own — high-value "mover over letterhead" candidate for a future wave.
+- Harish Hande — named as a Transforming Rural India Foundation board member per search snippet; already the founder-figure behind selco-foundation.md but has no individual actor file of his own — high-value "mover over letterhead" candidate for a future wave.  ← WRITTEN: harish-hande — retired from LEADS 2026-09-11
 - Rashmi Shukla Sharma (TRIF board chair), Anish Kumar (TRIF Managing Director), Dr Sanjiv Phansalkar, Ashish Deshpande, Roda Mehta — TRIF's other named leadership, unresearched.
 - India Rural Colloquy — TRIF's annual convening; speaker list unresearched, worth a wave.
 - Unitus Ventures (formerly Unitus Seed Fund) and Unitus Capital — two DISTINCT entities from Unitus Impact Fund/Patamar Capital, sharing only the "Unitus" name/lineage; surfaced during disambiguation, not researched or written — flag to avoid future conflation.
@@ -447,3 +455,104 @@ Operator ratio: 5 of 15 (33%) — within cap.
 - No commercial/academic board seats surfaced for Hande beyond the two org affiliations already tracked — nothing to prune this pass.
 - Budget: 2 web searches (LinkedIn/X handle; ask-hunting), 0 page fetches. One record written, two records edited.
 - 228 actors total on disk. `npm run validate`: 0 errors, 70 warnings (baseline restored). `npm run follow`: 152 to follow, 13 unreachable.
+
+---
+# IMPACT ACCELERATORS SEGMENT CRAWL (2026-09-11, seed: "impact accelerators", waves: 2)
+
+## WRITTEN (14 new)
+
+- social-alpha — capacity-builder/funder/intermediary — tracked — LinkedIn+founder LinkedIn live (2026 posts) — deep-science/climate/health venture-development platform, 300+ innovations, $350M+ unlocked since 2016
+- manoj-kumar — capacity-builder/funder (individual) — registry — LinkedIn live (2026 posts) — Social Alpha founder/CEO, ex-Villgro co-founder (spun-out-of edge)
+- unltd-india — capacity-builder/funder — registry — LinkedIn unconfirmed — Mumbai social-entrepreneur incubator since 2007, ~4-company active portfolio
+- padcare-labs — operator — registry — LinkedIn(founder) unconfirmed — UnLtd India portfolio, menstrual-waste recycling hardware, $3.62M raised
+- recircle — operator — registry — LinkedIn unconfirmed — UnLtd India + Upaya Social Ventures portfolio, dry-waste/Safai Saathi network, 310 cities
+- rechargion-energy — operator — registry — website live — Social Alpha Techtonic cohort, sodium-ion battery manufacturer
+- ciie-co — capacity-builder/funder/intermediary — tracked — LinkedIn unconfirmed — IIM Ahmedabad incubator (aka IIMA Ventures), Bharat Inclusion Initiative ($25M target seed fund)
+- kunal-upadhyay — capacity-builder/intermediary (individual) — registry — LinkedIn unconfirmed — CIIE.CO co-founder/CEO
+- ashoka-india — field-builder/convener/capacity-builder — registry — LinkedIn unconfirmed — India chapter of global Ashoka Fellowship, 350+ Fellows
+- shruti-nair — field-builder/convener (individual) — registry — LinkedIn unconfirmed — Ashoka South Asia leader
+- gates-foundation — funder — registry — LinkedIn+X unconfirmed — $2.47M grant to Social Alpha (Nov 2022), co-funds Bharat Inclusion Initiative
+- michael-susan-dell-foundation — funder — registry — LinkedIn unconfirmed — co-funds Bharat Inclusion Initiative, New Delhi office
+- tata-trusts — funder/field-builder — registry — LinkedIn+X unconfirmed — seeds both CIIE.CO's Bharat Inclusion Initiative and India Health Fund
+- india-health-fund — funder/intermediary — registry — LinkedIn unconfirmed — Tata Trusts-seeded infectious-disease innovation fund, co-run with Social Alpha, targeting $150M/5yr
+
+Operator ratio: 3 of 14 (21%) — within cap.
+
+## NEW EDGES
+
+- social-alpha --funded-by--> gates-foundation ($2.47M, Nov 2022)
+- social-alpha --funded-by--> tata-trusts (via India Health Fund)
+- social-alpha --co-funded--> india-health-fund
+- social-alpha --cohort--> rechargion-energy (Techtonic clean-energy cohort)
+- social-alpha --board--> manoj-kumar (founder & CEO)
+- manoj-kumar --spun-out-of--> villgro (early co-founder, moved on to found Social Alpha) [NEW cross-edge: Social Alpha and Villgro networks now connect]
+- unltd-india --incubatee--> padcare-labs
+- unltd-india --incubatee--> recircle
+- recircle --funded-by--> upaya-social-ventures [NEW cross-edge: UnLtd India network connects to the existing Villgro/Upaya cluster]
+- ciie-co --funded-by--> gates-foundation (Bharat Inclusion Initiative)
+- ciie-co --funded-by--> michael-susan-dell-foundation (same)
+- ciie-co --funded-by--> tata-trusts (seed support)
+- ciie-co --board--> kunal-upadhyay (co-founder & CEO)
+- ashoka-india --board--> shruti-nair (South Asia leader)
+- tata-trusts --funds--> india-health-fund (seeding trust, 2017)
+- tata-trusts --funds--> ciie-co (Bharat Inclusion seed support)
+
+## PRUNED
+
+- Omidyar Network — edge: funded-by, from ciie-co (Bharat Inclusion Initiative, one of three founding funders) — pruned from a full record; India operations wound down completely by end of 2024 (announced Dec 2023), so it no longer funds into the segment. Noted in ciie-co.md prose as a former funder instead. Global Omidyar Network remains active elsewhere but has zero current India relevance, failing the "would this actor plausibly appear in this map on its own merits, now" test.
+- Vipul Patel (CIIE.CO Partner, Seed Investing) — edge: board, from ciie-co — named in ciie-co.md prose/Scope as a lead but not given his own file this pass; no independently verified personal channel surfaced in the search budget spent, and a second individual record for the same org was lower priority than closing out the funder layer.
+- Pooja Warier Hamilton (UnLtd India co-founder) — edge: board, from unltd-india — named in prose but not researched to record depth; she may no longer be active at the org (current CEO succession itself is unresolved — see DEAD ENDS).
+- Ajinkya Dhariya, Rahul Nainani, Gurashish Singh Sahni, Vilas Shelke — operator-company founders (PadCare Labs, ReCircle, Rechargion Energy) — named in their org records' prose/sources but not given individual files, per the operator-sampling budget; the org record is the unit this pass, individuals are a future-wave lead.
+
+## LEADS — next wave, unresearched
+
+- Trestle Labs — edge: incubatee, from unltd-india — assistive-tech-for-the-visually-impaired company, named as UnLtd India's third notable portfolio company, not sampled (portfolio capped at 2 for this org this pass).
+- PadUp Ventures, GivFunds — edge: co-funded, from unltd-india — named partners for co-financed programmes and low-cost lending access; not researched.
+- Vipul Patel (CIIE.CO Partner, Seed Investing) — see PRUNED above; worth a channel-verification pass on its own, low cost.
+- Ashoka India Fellows (350+) — edge: cohort, from ashoka-india — a large one-to-many portfolio, explicitly not enumerated; worth sampling 2-4 named Indian Fellows (especially any working climate/livelihoods, to cross-connect with the existing tier-1 leaf network) in a future wave.
+- Suneeta Krishnan (Gates Foundation India, Deputy Director Strategy) — edge: board, from gates-foundation — named in a bio snippet, not individually verified or written.
+- Aditya Jagati (Gates Foundation, LinkedIn hit) — edge: board, from gates-foundation — same caveat, not researched.
+- Michael & Susan Dell Foundation India named programme leads — not surfaced this pass; only the org-level LinkedIn/website found.
+- 3one4 Capital, Brigade Group, PKRBCV Shroff Trust, JioGenNext, Marico Innovation Foundation — edge: funded-by, from padcare-labs (5 of 29 total investors named) — mainstream/CSR-adjacent investors, India-relevance/segment-fit unchecked; JioGenNext and Marico Innovation Foundation look the most segment-relevant if picked up.
+- Venture Catalysts, Mumbai Angels, Flipkart — edge: funded-by, from recircle — same caveat; mainstream investors, low segment fit likely, check before writing.
+- ARAI-AMTIF (Ministry of Heavy Industries), UNIDO, US-India Science & Technology Endowment Fund — edge: funded-by, from rechargion-energy — institutional/multilateral funders of deep-tech manufacturing, not researched; UNIDO is the most likely to recur across other India climate-hardware actors.
+- Pooja Warier Hamilton, Dr Akhil Shahani, Maya Shahani (SAGE Foundation) — UnLtd India's founding/governance lineage — not researched to record depth; current CEO succession (Anshu Bhartia → ?) unresolved, worth resolving before treating unltd-india.md's leadership line as current.
+- Global Fund (to Fight AIDS, TB and Malaria) — edge: co-funded, from india-health-fund — major multilateral, India-relevant strategic partner, not researched.
+
+## DEAD ENDS
+
+- Anshu Bhartia's current role at UnLtd India — search results conflict: one source names her CEO as of Dec 2022, another (Crunchbase/ZoomInfo) shows her as CEO of Exper Executive Education with no current UnLtd India title. Could not resolve within budget; recorded unltd-india.md's leadership line as unconfirmed rather than naming a possibly-stale CEO, and did not write Bhartia her own individual file for the same reason.
+- Omidyar Network — see PRUNED; confirmed via multiple 2023/2024 press reports (TechCrunch, Entrackr, Inc42, ImpactAlpha) that India operations wound down by end of 2024; not written as a full record.
+- Gates Foundation India's specific 2026 LinkedIn post date — a snippet referenced "AI for Social Good and Inclusion" but the exact date was not independently opened/confirmed; recorded `status: unconfirmed` rather than `live`.
+- 1 page fetch spent this pass (gatesfoundation.org grant-disclosure page, for the one money figure used); all other research from search snippets, holding the token-discipline line.
+
+## STATE (end of this run)
+
+- 242 actors total on disk (228 + 14 written this pass). `npm run validate`: 0 errors, 70 warnings (identical baseline, none newly introduced — one mid-pass fix: manoj-kumar.md was drafted `depth: tracked` with `needs: []`, corrected to `registry` before commit). `npm run follow`: 165 to follow, 13 unreachable.
+- Segment take: "impact accelerators" as a seed fanned out cleanly into two clusters — (1) Social Alpha, which shares a founder lineage with Villgro (manoj-kumar --spun-out-of--> villgro) and now shares a funder layer (Gates Foundation, Tata Trusts) with the existing network; (2) CIIE.CO/Bharat Inclusion Initiative, funded by the same Gates Foundation + Tata Trusts pairing plus Michael & Susan Dell Foundation, with Omidyar Network pruned as a lapsed funder. UnLtd India and Ashoka India are smaller, standalone nodes with their own portfolio/cohort fans not yet sampled beyond 2-3 names each.
+- Next wave's highest-value targets, in order: (1) resolve UnLtd India's current CEO/leadership before any outreach; (2) sample 2-4 Ashoka India Fellows for the cohort edge; (3) Vipul Patel channel check (cheap, one search); (4) Global Fund and UNIDO as recurring multilateral-funder nodes likely to reappear across other India deep-tech/health actors.
+
+# IMPACT ACCELERATORS CLOSE-OUT PASS (2026-09-11, continuation of the above)
+
+## VERIFIED / NO NEW FILES NEEDED (P1)
+
+- responsability-investments.md, skoll-foundation.md, ikea-foundation.md — all three already exist on disk (written 2026-09-10, in an earlier section of this file, contrary to the "never written" framing in the LEADS block above). Verified content is complete (needs/offers/sources/Scope all present). No action needed.
+
+## CHANGED
+
+- michael-susan-dell-foundation.md (P5) — resolved: found a second, independent India edge (`funds → menterra`, one of 5 LPs in Menterra Social Impact Fund I, ₹40cr 2016 — via PitchBook/Inc42), so the record no longer rests on the single ciie-co edge. Added prose on its historical $50M direct-investing earmark and 25+ portfolio companies (Inc42/PhilanthropyNewsDigest). Left `depth: registry`, `needs: []` — no stated ask found.
+- menterra.md — added reciprocal `funded-by → michael-susan-dell-foundation` edge.
+- gates-foundation.md (P4) — X (@BMGFIndia) upgraded `unconfirmed → live`, confirmed post 19 Feb 2026 (India AI Impact Summit). LinkedIn left `unconfirmed` — two 2026-dated post URLs found in snippets but neither independently opened.
+- tata-trusts.md, india-health-fund.md (P4) — re-checked; no post confirmable within ~6 months (Tata Trusts snippets dated to 2023-24; India Health Fund's only dated post ties to Nov 2024's Women Entrepreneurs Day). Both `status: unconfirmed` retained, reasoning logged in each file.
+- social-alpha.md (P2) — added `portfolio → ~300, 1 sampled` Scope line; noted count variance across sources (261-300+).
+- ciie-co.md (P2) — added `portfolio →` Scope line; count disagrees sharply by source (79 to 439 investments) — written as a range, not picked silently; 0 sampled.
+- unltd-india.md (P3 — RESOLVED) — Anshu Bhartia's own LinkedIn confirms she has left UnLtd India; current title is CEO of Exper Executive Education (unrelated org), UnLtd India listed as a past role. The contradiction is resolved (she is not current CEO); no successor name found, so that gap is now stated as an open unknown rather than an unresolved conflict.
+
+## NOT REACHED — P6, P7
+
+Budget stopped after P5. Trestle Labs, PadUp Ventures, GivFunds (P6 UnLtd India edges), Ashoka India Fellow sampling (P6), and Global Fund / UNIDO (P7) were not researched this pass — still open leads, same as the prior LEADS block above.
+
+## STATE (end of this run)
+
+- 242 actors total on disk (no new files written this pass — all five targeted actions were edits to existing records). `npm run validate`: 0 errors, 70 warnings (identical baseline). `npm run follow`: 165 to follow, 13 unreachable.
+- Next wave's highest-value targets, in order: (1) Trestle Labs (UnLtd India's 3rd portfolio sample, room under the ≤4 cap); (2) 2-4 named Ashoka India Fellows sampled by need-legibility; (3) Global Fund and UNIDO as recurring multilateral nodes; (4) a named successor CEO at UnLtd India, if one surfaces.

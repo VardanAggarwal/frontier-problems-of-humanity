@@ -38,7 +38,11 @@ Spawn `impact-network-crawler` via the Agent tool with a prompt that carries:
 - The seed, wave count and segment.
 - **`problems/actors/_crawl-state.md` as required first reading**, with the
   instruction to append its new leads, edges, prunes and dead ends there at the
-  end. That file is the only thing connecting one pass to the next.
+  end, **and to retire in place any lead it wrote** rather than only appending a
+  new section. That file is the only thing connecting one pass to the next, and
+  nothing else retires a lead — three actors sat in LEADS marked "never written"
+  for a day after they were written and committed, and a whole pass's top
+  priority went on rediscovering them.
 - The current corpus size and that it validates clean, so the agent knows any
   error it sees is its own.
 - **The recurring failure modes**, restated every time — each has broken a pass:
@@ -67,6 +71,11 @@ npm run validate                                   # 0 errors is the bar
 grep -L "^ecosystem_role:" problems/actors/<new>.md # must return nothing
 grep -l "kind: twitter" problems/actors/*.md        # must return nothing
 ```
+
+A pass that reports a record as "already existed, no action needed" is reporting
+a stale lead, not doing nothing wrong — check `git log --oneline -1 -- <file>` to
+see when it actually landed, and make sure the lead got retired in
+`_crawl-state.md` so the next pass doesn't spend on it too.
 
 Then report what landed, what it pruned, and what it deliberately did not write
 — the PRUNED and NOT WRITTEN blocks are decisions the user should see, not
