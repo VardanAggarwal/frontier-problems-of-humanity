@@ -87,10 +87,62 @@ function followWriter() {
   };
 }
 
+/** Dev-only. POST /api/exclude {slug, excluded, why} → flips depth to `excluded`
+ *  (remembering what it was) or restores it. Never runs in the static build. */
+function excludeWriter() {
+  return {
+    name: 'fph:exclude-writer',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use('/api/exclude', (req, res, next) => {
+        if (req.method !== 'POST') return next();
+        let body = '';
+        req.on('data', (c) => (body += c));
+        req.on('end', () => {
+          const done = (code, obj) => {
+            res.statusCode = code;
+            res.setHeader('content-type', 'application/json');
+            res.end(JSON.stringify(obj));
+          };
+          try {
+            const { slug, excluded = true, why } = JSON.parse(body || '{}');
+            if (!/^[a-z0-9-]+$/.test(slug ?? '')) return done(400, { error: 'bad slug' });
+            const file = `${ACTORS_DIR}/${slug}.md`;
+            if (!existsSync(file)) return done(404, { error: 'no such actor' });
+            const src = readFileSync(file, 'utf8');
+            const m = src.match(/^(---\n[\s\S]*?\n)(---\n[\s\S]*)$/);
+            if (!m) return done(500, { error: 'no frontmatter' });
+            const d = today();
+            const was = (m[1].match(/^depth:[ \t]*(\S+)/m) ?? [, 'registry'])[1];
+            let fm = m[1], rest = m[2];
+            if (excluded) {
+              // remember what it was, so an undo restores rather than guesses
+              fm = setFm(fm, 'depth', 'excluded');
+              const note = `\n<!-- excluded ${d} — ${why || 'no reason given'}\n`
+                + `     was depth: ${was === 'excluded' ? 'registry' : was}. `
+                + `Out of the follow list and out of the crawl; record and edges kept. -->\n`;
+              if (!/<!-- excluded /.test(rest)) rest = rest.trimEnd() + '\n' + note;
+            } else {
+              const prev = (rest.match(/<!-- excluded[\s\S]*?was depth: (\S+?)\./) ?? [, 'registry'])[1];
+              fm = setFm(fm, 'depth', prev);
+              rest = rest.replace(/\n<!-- excluded [\s\S]*?-->\n/, '\n');
+            }
+            fm = setFm(fm, 'updated', d);
+            writeFileSync(file, fm + rest);
+            done(200, { ok: true, excluded: !!excluded, was });
+          } catch (e) {
+            done(500, { error: String((e && e.message) || e) });
+          }
+        });
+      });
+    },
+  };
+}
+
 export default defineConfig({
   site: 'https://frontier-problems.example',
   outDir: './dist',
   build: { format: 'directory' },
   markdown: { syntaxHighlight: false },
-  vite: { plugins: [watchCorpus(), followWriter()] },
+  vite: { plugins: [watchCorpus(), followWriter(), excludeWriter()] },
 });

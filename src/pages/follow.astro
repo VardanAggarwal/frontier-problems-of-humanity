@@ -1,0 +1,272 @@
+---
+import Base from '../layouts/Base.astro';
+import { corpus } from '../lib/site.mjs';
+
+// One flat row per actor, ordered as a worklist: unfollowed first, people before
+// letterheads, tracked before registry. The toggle writes back to the record via
+// the dev-only POST /api/follow (astro.config.mjs → followWriter).
+const RANK = ['x', 'substack', 'newsletter', 'linkedin', 'instagram', 'youtube',
+  'rss', 'facebook', 'website', 'press', 'annual-report', 'filings', 'other'];
+
+const rows = corpus.actors.filter((a) => a.depth !== 'excluded').map((a) => {
+  const feeds = (a.sources ?? [])
+    .filter((s) => s.url && s.status !== 'dead' && s.status !== 'none-found')
+    .sort((x, y) => RANK.indexOf(x.kind) - RANK.indexOf(y.kind))
+    .slice(0, 3);
+  const eco = a.ecosystem_role ?? [];
+  return {
+    slug: a.id ?? a.slug, name: a.name, url: a.url, type: a.type,
+    depth: a.depth, followed: a.followed === true, feeds, eco,
+    role: [...eco, ...(a.leg ?? [])].join(' · '),
+    unreachable: feeds.length === 0,
+    hay: `${a.name} ${a.slug} ${eco.join(' ')} ${(a.leg ?? []).join(' ')}`.toLowerCase(),
+  };
+});
+
+const ord = (r) => [r.followed ? 1 : 0, r.unreachable ? 1 : 0,
+  r.type === 'individual' ? 0 : 1, r.depth === 'tracked' ? 0 : 1, r.name.toLowerCase()];
+rows.sort((a, b) => {
+  const x = ord(a), y = ord(b);
+  for (let i = 0; i < x.length; i++) if (x[i] !== y[i]) return x[i] < y[i] ? -1 : 1;
+  return 0;
+});
+
+const nFollowed = rows.filter((r) => r.followed).length;
+const nEco = rows.filter((r) => r.eco.length).length;
+const nUnreachable = rows.filter((r) => r.unreachable).length;
+---
+<Base title="Follow" crumb={`<a href="/">Pyramid</a> / <a href="/actors">Actors</a> / Follow`}>
+  <h1>Follow list</h1>
+  <p class="lede">
+    Every actor, one line, with somewhere to actually follow them. Open the feed,
+    follow it, tick the box — the tick writes <code>followed: true</code> straight
+    into <code>problems/actors/&lt;slug&gt;.md</code>.
+  </p>
+  <p class="note">
+    <strong>Writes only under <code>npm run dev</code>.</strong> The toggle posts to a
+    dev-server endpoint. On the published static build the boxes read the corpus but
+    cannot change it, and will say so when clicked.
+  </p>
+  <p class="note">
+    <strong>&#215; means never again.</strong> It sets <code>depth: excluded</code> on the record —
+    out of this list and out of the crawl, which will not research or re-propose the name. The file
+    and its edges are kept, and the row offers an undo until you reload.
+  </p>
+
+  <div class="bar">
+    <input id="q" type="search" placeholder="filter by name, role, leg…" autocomplete="off" />
+    <button class="f" data-f="todo" type="button" aria-pressed="true">To follow <span class="tag">{rows.length - nFollowed}</span></button>
+    <button class="f" data-f="followed" type="button" aria-pressed="false">Followed <span class="tag" id="nfollowed">{nFollowed}</span></button>
+    <button class="f" data-f="eco" type="button" aria-pressed="false">Ecosystem <span class="tag">{nEco}</span></button>
+    <button class="f" data-f="tracked" type="button" aria-pressed="false">Tracked</button>
+    <button class="f" data-f="all" type="button" aria-pressed="false">All <span class="tag">{rows.length}</span></button>
+    <span id="status" role="status" aria-live="polite"></span>
+  </div>
+
+  <ul class="follows">
+    {rows.map((r) => (
+      <li class="row" data-slug={r.slug} data-followed={r.followed ? '1' : '0'}
+          data-eco={r.eco.length ? '1' : '0'} data-tracked={r.depth === 'tracked' ? '1' : '0'}
+          data-unreachable={r.unreachable ? '1' : '0'} data-hay={r.hay}>
+        <button class="tick" type="button" aria-pressed={r.followed ? 'true' : 'false'}
+                aria-label={`Mark ${r.name} as followed`}><span aria-hidden="true">✓</span></button>
+        <div class="who">
+          <a class="nm" href={r.url}>{r.name}</a>
+          <span class="meta">{r.type === 'individual' ? 'person' : 'org'} · {r.role || '—'}{r.depth === 'tracked' ? ' · tracked' : ''}</span>
+        </div>
+        <button class="drop" type="button" title={`Never show ${r.name} again`}
+                aria-label={`Exclude ${r.name} from the network`}>&#215;</button>
+        <div class="feeds">
+          {r.feeds.length === 0
+            ? <span class="none">no channel found</span>
+            : r.feeds.map((s) => (
+                <a class="feed" href={s.url} title={s.handle || s.url}>{s.kind}{s.status === 'stale' ? ' ·stale' : ''}</a>
+              ))}
+        </div>
+      </li>
+    ))}
+  </ul>
+  <p class="empty" id="noresults" hidden>Nothing matches.</p>
+  <p class="note" style="margin-top:2rem">
+    {nUnreachable} of {rows.length} have no reachable channel. For many that is the
+    finding, not a hole in the research.
+  </p>
+
+  <style>
+    .bar { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin: 1.5rem 0 1rem; }
+    #q {
+      font: .8rem/1 var(--sans); color: var(--ink); background: var(--panel);
+      border: 1px solid var(--rule); border-radius: 999px; padding: .4rem .8rem; min-width: 14rem;
+    }
+    #q:focus { outline: none; border-color: var(--accent); }
+    .f {
+      font: .72rem/1 var(--mono); color: var(--muted); background: var(--panel);
+      border: 1px solid var(--rule); border-radius: 999px; padding: .32rem .7rem; cursor: pointer;
+    }
+    .f:hover { border-color: var(--accent); color: var(--accent); }
+    .f[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+    #status { font: .72rem/1 var(--mono); color: var(--muted); margin-left: auto; }
+    #status[data-tone="err"] { color: var(--alarm); }
+    #status[data-tone="ok"] { color: var(--ok); }
+
+    .follows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+    .row {
+      display: flex; gap: .8rem; align-items: baseline;
+      padding: .55rem .2rem; border-bottom: 1px solid var(--rule);
+    }
+    .row[hidden] { display: none; }
+    .tick {
+      flex: none; width: 1.15rem; height: 1.15rem; align-self: center; cursor: pointer;
+      border: 1px solid var(--rule); border-radius: .25rem; background: var(--panel);
+      color: transparent; font-size: .72rem; line-height: 1; padding: 0;
+    }
+    .tick:hover { border-color: var(--accent); }
+    .tick[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+    .tick[data-busy] { opacity: .45; cursor: wait; }
+    .drop {
+      flex: none; align-self: center; order: 9; cursor: pointer;
+      font: 1rem/1 var(--mono); color: var(--muted); background: none;
+      border: 1px solid transparent; border-radius: .25rem; padding: 0 .35rem;
+      opacity: 0; transition: opacity .12s;
+    }
+    .row:hover .drop, .drop:focus { opacity: 1; }
+    .drop:hover { color: var(--alarm); border-color: var(--alarm); }
+    .row.gone { opacity: .5; }
+    .row.gone .nm { text-decoration: line-through; }
+    .undo {
+      font: .7rem/1 var(--mono); color: var(--accent); background: none; cursor: pointer;
+      border: 1px solid var(--accent); border-radius: 999px; padding: .25rem .6rem; align-self: center;
+    }
+    .who { flex: 1 1 22rem; min-width: 0; }
+    .nm { font-family: var(--serif); font-size: 1rem; }
+    .row[data-followed="1"] .nm { color: var(--muted); }
+    .meta { display: block; font: .7rem/1.4 var(--mono); color: var(--muted); }
+    .feeds { flex: 0 1 auto; display: flex; flex-wrap: wrap; gap: .3rem; }
+    .feed {
+      font: .68rem/1 var(--mono); text-decoration: none; color: var(--accent);
+      border: 1px solid var(--rule); border-radius: 999px; padding: .25rem .55rem;
+    }
+    .feed:hover { border-color: var(--accent); background: var(--accent-soft); }
+    .none { font: .68rem/1 var(--mono); color: var(--muted); font-style: italic; }
+    @media (max-width: 40rem) { .row { flex-wrap: wrap; } .feeds { padding-left: 1.95rem; } }
+  </style>
+
+  <script is:inline>
+    (function () {
+      var rows = Array.prototype.slice.call(document.querySelectorAll('.row'));
+      var status = document.getElementById('status');
+      var q = document.getElementById('q');
+      var none = document.getElementById('noresults');
+      var counter = document.getElementById('nfollowed');
+      var filter = 'todo';
+
+      function say(msg, tone) {
+        status.textContent = msg || '';
+        if (tone) status.dataset.tone = tone; else delete status.dataset.tone;
+      }
+      function pass(r) {
+        var f = r.dataset.followed === '1';
+        if (filter === 'todo' && f) return false;
+        if (filter === 'followed' && !f) return false;
+        if (filter === 'eco' && r.dataset.eco !== '1') return false;
+        if (filter === 'tracked' && r.dataset.tracked !== '1') return false;
+        var term = q.value.trim().toLowerCase();
+        return !term || r.dataset.hay.indexOf(term) !== -1;
+      }
+      function apply() {
+        var n = 0;
+        rows.forEach(function (r) { var ok = pass(r); r.hidden = !ok; if (ok) n++; });
+        none.hidden = n > 0;
+        counter.textContent = rows.filter(function (r) { return r.dataset.followed === '1'; }).length;
+      }
+
+      function post(url, payload) {
+        return fetch(url, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(payload),
+        }).then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        }).then(function (j) {
+          if (j.error) throw new Error(j.error);
+          return j;
+        });
+      }
+
+      // An exclusion is a real decision, but a mis-click is a real accident.
+      // The row stays put, struck through, with an undo until the page reloads.
+      function mkUndo(r) {
+        var u = document.createElement('button');
+        u.className = 'undo'; u.type = 'button'; u.textContent = 'undo';
+        u.addEventListener('click', function () {
+          u.disabled = true;
+          post('/api/exclude', { slug: r.dataset.slug, excluded: false })
+            .then(function () { location.reload(); })
+            .catch(function (e) { u.disabled = false; say('undo failed (' + e.message + ')', 'err'); });
+        });
+        return u;
+      }
+
+      document.querySelectorAll('.f').forEach(function (b) {
+        b.addEventListener('click', function () {
+          filter = b.dataset.f;
+          document.querySelectorAll('.f').forEach(function (o) {
+            o.setAttribute('aria-pressed', String(o === b));
+          });
+          apply();
+        });
+      });
+      q.addEventListener('input', apply);
+
+      rows.forEach(function (r) {
+        var d = r.querySelector('.drop');
+        d.addEventListener('click', function () {
+          var name = r.querySelector('.nm').textContent;
+          var why = window.prompt('Exclude "' + name + '" for good. Why?', '');
+          if (why === null) return;                       // cancelled — no write
+          d.disabled = true;
+          say('excluding ' + r.dataset.slug + '\u2026');
+          post('/api/exclude', { slug: r.dataset.slug, excluded: true, why: why || 'no reason given' })
+            .then(function () {
+              r.classList.add('gone');
+              d.replaceWith(mkUndo(r));
+              say('excluded ' + r.dataset.slug + ' \u2014 out of the crawl', 'ok');
+            })
+            .catch(function (e) {
+              d.disabled = false;
+              say('not saved (' + e.message + ') \u2014 writes need `npm run dev`', 'err');
+            });
+        });
+
+        var t = r.querySelector('.tick');
+        t.addEventListener('click', function () {
+          if (t.dataset.busy) return;
+          var next = r.dataset.followed !== '1';
+          t.dataset.busy = '1';
+          say('saving ' + r.dataset.slug + '…');
+          fetch('/api/follow', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ slug: r.dataset.slug, followed: next }),
+          }).then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          }).then(function (j) {
+            if (j.error) throw new Error(j.error);
+            r.dataset.followed = j.followed ? '1' : '0';
+            t.setAttribute('aria-pressed', String(!!j.followed));
+            say((j.followed ? 'followed ' : 'unfollowed ') + r.dataset.slug, 'ok');
+            // leave the row in place until the next filter change, so a mis-tick
+            // is reversible without hunting for it
+            counter.textContent = rows.filter(function (x) { return x.dataset.followed === '1'; }).length;
+          }).catch(function (e) {
+            say('not saved (' + e.message + ') — writes need `npm run dev`', 'err');
+          }).then(function () { delete t.dataset.busy; });
+        });
+      });
+
+      apply();
+    })();
+  </script>
+</Base>

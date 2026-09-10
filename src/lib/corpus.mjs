@@ -125,6 +125,13 @@ export function loadCorpus({ includePrivate = true } = {}) {
     if (actor.stance === 'organised-against-remedy' &&
         !actor.sources.some((s) => s.url && s.status !== 'none-found'))
       errors.push(`${file}: stance: organised-against-remedy with no sourced channel (assertion 4)`);
+    // An actor must attach to something: a leaf (it works a failure) or an
+    // ecosystem_role (it works the sector). With neither it is an orphan — it
+    // appears in no browse path and no filter, which is how 30 network-crawl
+    // records shipped with the field silently missing.
+    if (actor.depth !== 'excluded' &&
+        actor.leaves.length === 0 && (actor.ecosystem_role ?? []).length === 0)
+      warns.push(`${file}: attaches to nothing — no leaves and no ecosystem_role`);
     attachBody(actor, body, 'actor', errors, warns, file, data);
     actors.push(actor); register(actor, file);
   }

@@ -14,6 +14,7 @@ problems/
   data-model.yaml                  formal schema — fields, types, enums, relations; source of truth for record shape; validated and loaded into problems/index.db (committed)
   actors/<slug>.md                 one file per org or named individual, spanning needs — depth, status, typed needs/offers, sources, updates, contact
   actors/_template.md              the v2 actor frontmatter template
+  follow-list.md                   GENERATED (`npm run follow`) — flat checkbox list of every actor + live channel, unfollowed first
   private/                         GITIGNORED — catalyst notes, connection records, contact state; not backed up by git
   tier-failure-history.md           superseded first pass (single-mechanism collapse) — kept for history only
   tier-failure-history/
@@ -32,6 +33,7 @@ problems/
   <domain>/<sub-problem>.md         full chain: history → mechanism → gap → requirements → experiments
 src/                                the portal — Astro pages + the corpus loader (lib/schema.mjs, lib/sections.mjs, lib/corpus.mjs)
 scripts/build-index.mjs             emits problems/index.db + problems/index.json; `npm run validate` for the loader alone
+scripts/follow-list.mjs             emits problems/follow-list.md; `npm run follow` (also runs inside `npm run build`)
 catalyst-platform/
   00-plan.md                       the platform: list problems, research each, list everyone working it; catalyst division of labour; sequence
   01-scoreboard.md                 the counters that make catalyst work visible — connections, actors reachable, leaves, stale
@@ -139,7 +141,13 @@ Every actor named anywhere gets an actor record, not just a citation — organis
 3. **Create/update `problems/actors/<slug>.md`** per `schema.md` — identity, status, needs, offers, recent updates, contact, private catalyst notes. The old per-file follow-list table is now a generated view ("actors touching this leaf").
 4. **Harvest the actors that researching one actor surfaces.** Every actor pass turns up others — co-petitioners, co-authors, coalition partners, named officials, the affected-led leader an NGO speaks *for*. Don't make a record for each; list the unresearched names on the leaf (§D, "coverage not yet mapped" — this also backs `gap: coverage`), then run the pass again on those worth it now. A lead becomes a record only when a wave researches it; stop when a wave yields no new names. In the silicosis sweep this is the *only* way the affected-led leader was found. `process-leaf` (§D sub-procedure) has the fan-out mechanics.
 
-Not automated yet. Revisit tooling once the registry is large enough that manual scrolling stops working.
+Two agents produce actor records, on different units:
+- **`actor-channel-finder`** — one already-named actor → their live channels. Leaf-anchored work.
+- **`impact-network-crawler`** — a seed → recursive fan-out across the impact sector by edge (funds, board, cohort, convenes, portfolio), writing a record per actor. Holds both layers deliberately: the catalyst layer (funders, conveners) carries the `offers:`, the operator layer (grantees, incubatees) carries the `needs:`, and the match between them is the catalyst act — so a map of funders alone is useless. One-to-many portfolio edges are *sampled* (≤4 per parent, by need-legibility), never enumerated, with the un-taken count written into the parent record. Not leaf-anchored: these carry `leaves: []` and an `ecosystem_role:` (funder / intermediary / capacity-builder / convener / field-builder / researcher / operator / platform), orthogonal to `leg`. The ground test for `depth: tracked` still applies — funders and conveners who decide are `tracked`, commentators stay `registry`.
+
+**Ruling someone out is a recorded decision, not a deletion.** On `/follow`, the `×` on a row does it — it asks for a reason, writes `depth: excluded`, and offers an undo that restores the previous depth. From the shell: `npm run exclude -- <slug|name> "why"` — an existing record gets `depth: excluded` (file and edges kept, gone from the follow list and the crawl); a name that never became a record gets a row in `problems/actors/_excluded.yaml`. `npm run exclude -- --list` shows both. The crawler checks the list during dedupe and never re-proposes an excluded name.
+
+**Following is done on the page, not by hand.** `npm run dev` → `/follow` — one row per actor with its live channels and a tick box; ticking POSTs to `/api/follow` (the dev-only writer in `astro.config.mjs`), which sets `followed:` / `followed_date:` / `updated:` in `problems/actors/<slug>.md`. The static build renders the page read-only. `npm run follow` regenerates the offline copy at `problems/follow-list.md`; `--ecosystem` / `--tracked` narrow it.
 
 ## The mechanisms
 

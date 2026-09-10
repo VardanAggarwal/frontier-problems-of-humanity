@@ -1,0 +1,29 @@
+# Names deliberately excluded from the network — never research, never propose,
+# never show in the follow list.
+#
+# Two ways to exclude:
+#   1. A name that never became a record  -> add a row here.
+#   2. A record that already exists       -> set `depth: excluded` in its
+#      frontmatter. The file stays readable and its edges stay intact; it just
+#      leaves the follow list and the crawl.
+#
+# impact-network-crawler checks this file during dedupe, before spending a
+# search. A hit is treated exactly like an already-written record: skip it.
+# Match is case-insensitive on `name` and on anything in `aka`.
+
+excluded:
+  - name: Tata Steel Ltd
+    aka: [Tata Steel]
+    why: listed manufacturer — a commercial board seat, not a sector edge
+    edge: bharti-gupta-ramola --board-->
+    as_of: 2026-09-10
+  - name: HDFC Life Insurance
+    aka: [HDFC Life]
+    why: listed insurer — commercial board seat
+    edge: bharti-gupta-ramola --board-->
+    as_of: 2026-09-10
+  - name: SRF Ltd
+    aka: [SRF]
+    why: listed chemicals/manufacturing — commercial board seat
+    edge: bharti-gupta-ramola --board-->
+    as_of: 2026-09-10

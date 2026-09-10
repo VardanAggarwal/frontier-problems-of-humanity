@@ -145,11 +145,28 @@ enums:
 
   actor_type: [org, individual]
 
+  ecosystem_role:          # what lever the actor pulls *in the impact sector itself*,
+                           # independent of any one leaf. Set by network-crawler;
+                           # empty for leaf-anchored actors. Orthogonal to `leg`.
+    - funder               # deploys capital — philanthropy, DAF, CSR, impact fund
+    - intermediary         # moves others' capital — advisory, giving circle, regrantor
+    - capacity-builder     # supplies talent/ops/tech to other orgs
+    - convener             # runs the room — networks, summits, fellowships
+    - field-builder        # builds a whole domain's infrastructure/standards
+    - researcher           # produces the sector's evidence base
+    - operator             # runs frontline programmes (the default NGO/enterprise)
+    - platform             # marketplace/registry others transact through
+
   actor_depth:             # how much of the actor record is owed
     - registry             # cited in a leaf; identity + scope + leg only.
                            # NOT in the monitoring rotation. The default.
     - tracked              # a catalyst target: needs/offers/contact required,
                            # monitored, eligible to appear in a connection.
+    - excluded             # deliberately out of the network. The record and its
+                           # edges stay readable and linkable; it leaves the follow
+                           # list and the crawl, and is never researched again.
+                           # For a name that never became a record, use the row
+                           # list in problems/actors/_excluded.yaml instead.
 
   lifecycle: [operating, scaling, distressed, dormant, acquired, shut, won-and-dissolved]
 
@@ -165,9 +182,13 @@ enums:
                 substack, annual-report, press, filings, other]
 
   source_status:
-    - live
+    - live                 # VERIFIED: a post seen within the actor's normal cadence
     - stale                # not posted within the actor's normal cadence
     - dead                 # URL 404s / account gone
+    - unconfirmed          # the handle is real and resolves, but recency was NOT
+                           # verified this pass. Distinct from `live` (which is a
+                           # claim) and from `stale` (which is a finding). Keeps a
+                           # crawler honest instead of forcing it to overclaim.
     - none-found           # SEARCHED AND FOUND NOTHING. Recording this is the
                            # point: 11 of 19 rows in the one executed follow-list
                            # pass had no reachable channel, and that is a finding
@@ -402,9 +423,15 @@ entities:
       aka:                 {type: "list[string]", required: false, default: []}   # former names, acronyms — dedup key
       parent:              {type: ref.actor, required: false}     # chapter/programme -> parent org
       superseded_by:       {type: ref.actor, required: false}     # merged, renamed, absorbed
-      affiliations:        {type: "list[{actor: ref.actor, role: string, from: date, to: date}]", required: false, default: []}
+      affiliations:        {type: "list[{actor: ref.actor, role: string, from: partial-date, to: partial-date}]", required: false, default: []}
         # individuals -> org records. Dated and role-bearing: an undated affiliation
         # goes silently wrong the moment the person leaves.
+        # `partial-date` = YYYY | YYYY-MM | YYYY-MM-DD. Affiliations are usually known
+        # only to the year; a strict date there invents a day or discards the year.
+      ecosystem_role:      {type: "list[enum.ecosystem_role]", required: false, default: []}
+        # sector-level lever, independent of any leaf. Populated for ecosystem
+        # actors (funders, catalysts) that carry `leaves: []`. Orthogonal to `leg`:
+        # a climate fund is leg `enterprise` + ecosystem_role `funder`.
       leg:                 {type: "list[enum.leg]", required: true}
         # the lever the actor pulls, not the kind of entity it is (`type` covers that).
         # For type: individual, assign `institution` ONLY when the person holds a formal

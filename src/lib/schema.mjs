@@ -27,12 +27,14 @@ export const E = {
   affected_led: ['yes', 'no', 'partial'],
   representation_unit: ['local-affected', 'central-org', 'enterprise', 'central-at-named-legitimacy-cost'],
   actor_type: ['org', 'individual'],
-  actor_depth: ['registry', 'tracked'],
+  ecosystem_role: ['funder', 'intermediary', 'capacity-builder', 'convener',
+    'field-builder', 'researcher', 'operator', 'platform'],
+  actor_depth: ['registry', 'tracked', 'excluded'],
   lifecycle: ['operating', 'scaling', 'distressed', 'dormant', 'acquired', 'shut', 'won-and-dissolved'],
   stance: ['works-the-remedy', 'neutral', 'organised-against-remedy', 'ambiguous'],
   source_kind: ['website', 'rss', 'newsletter', 'x', 'linkedin', 'instagram', 'youtube',
     'facebook', 'substack', 'annual-report', 'press', 'filings', 'other'],
-  source_status: ['live', 'stale', 'dead', 'none-found'],
+  source_status: ['live', 'stale', 'dead', 'unconfirmed', 'none-found'],
   need_kind: ['money', 'people', 'data', 'legal', 'distribution', 'introductions',
     'policy-access', 'technology', 'other'],
   offer_kind: ['reach', 'data', 'fieldwork', 'legal', 'convening', 'technology',
@@ -76,6 +78,13 @@ const actorLeafRef = z.array(z.union([
 // `updated:` is often written unquoted in YAML and parses to a Date. Accept both.
 const asDate = z.preprocess(
   (v) => (v instanceof Date ? v.toISOString().slice(0, 10) : v), date);
+
+// Affiliations are routinely known only to the year ("founded Villgro, 2001").
+// Forcing YYYY-MM-DD there either invents a day or throws the year away, so
+// from/to accept YYYY, YYYY-MM or a full date. Every other date field stays strict.
+const partialDate = z.preprocess(
+  (v) => (v instanceof Date ? v.toISOString().slice(0, 10) : (v == null ? v : String(v))),
+  z.string().regex(/^\d{4}(-\d{2}(-\d{2})?)?$/, 'expected YYYY, YYYY-MM or YYYY-MM-DD'));
 
 export const sourceRef = z.object({
   title: z.string().optional(), org: z.string().optional(),
@@ -162,9 +171,10 @@ export const actorSchema = z.object({
   aka: list(z.string()), parent: slug.optional(), superseded_by: slug.optional(),
   affiliations: list(z.object({
     actor: slug, role: z.string().optional(),
-    from: asDate.optional(), to: asDate.optional(),
+    from: partialDate.optional().nullable(), to: partialDate.optional().nullable(),
   }).passthrough()),
   leg: z.array(en('leg')).min(1),
+  ecosystem_role: z.array(en('ecosystem_role')).optional().default([]),
   affected_led: en('affected_led'),
   representation_unit: en('representation_unit'),
   stance: en('stance').default('works-the-remedy'),

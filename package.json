@@ -4,10 +4,12 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run index && astro build",
+    "build": "npm run index && npm run follow && astro build",
     "preview": "astro preview",
     "index": "node scripts/build-index.mjs",
-    "validate": "node scripts/build-index.mjs --dry-run"
+    "validate": "node scripts/build-index.mjs --dry-run",
+    "follow": "node scripts/follow-list.mjs",
+    "exclude": "node scripts/exclude.mjs"
   },
   "dependencies": {
     "astro": "^5.6.1",
