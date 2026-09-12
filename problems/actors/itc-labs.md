@@ -11,7 +11,7 @@ leg: [enterprise]
 affected_led: no
 representation_unit: enterprise
 stance: works-the-remedy
-leaves: [ambient-asbestos-demolition-dust]
+leaves: [asbestos-in-air]
 nodes: [toxic-exposure-class]
 geography: [india]
 lifecycle: operating
@@ -32,4 +32,4 @@ updated: 2026-09-09
 **What they do.** NABL-accredited lab offering ACM surveys, airborne asbestos monitoring, sample analysis by polarised light microscopy, risk assessment and compliance support, sold to industry, infrastructure projects and commercial facilities. Same finding as `qualitek-labs`: the capability is present, the buyer for an ambient survey is not.
 
 ## Scope
-- `ambient-asbestos-demolition-dust` — second datapoint that the survey layer exists commercially and serves the segment that can pay.
+- `asbestos-in-air` — second datapoint that the survey layer exists commercially and serves the segment that can pay.

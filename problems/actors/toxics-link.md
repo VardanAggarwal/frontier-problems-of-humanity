@@ -20,7 +20,7 @@ offers:
   - {kind: legal, text: "a policy-advocacy track record on the 2016 paint rule"}
 sources:
   - {kind: website, url: "https://toxicslink.org/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "@toxicslink", last_checked: 2026-09-07, status: none-found}
+  - {kind: x, url: "https://x.com/toxicslink", handle: "@toxicslink", last_checked: 2026-09-07, status: unconfirmed}
 contact_route: "info@toxicslink.org (verify); Delhi office. Associate director Satish Sinha is the usual spokesperson."
 followed: false
 last_checked: 2026-09-07

@@ -38,6 +38,7 @@ updated: 2026-09-10
 - funded-by → shell-foundation (ClimaFii Alliance partner)
 - funds → bintix (2025 follow-on, 6th waste-management investment)
 - funds → recircle (portfolio company; edge sourced from ReCircle's side, 2026-09-11)
+- co-funded → yunus-social-business-india (joint 2022 Accelerator cohort, 9-10 early-stage livelihood enterprises; found 2026-09-11 accelerators-segment sweep)
 
 ## Status
 - **Funding** — 3 investments made in 2025 (Biofics Organics, Bintix follow-on, one more).

@@ -15,7 +15,7 @@ lifecycle: operating
 lifecycle_as_of: 2026-09-07
 sources:
   - {kind: website, url: "https://www.iqair.com/world-air-quality-report", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "@IQAir", last_checked: 2026-09-07, status: none-found}
+  - {kind: x, url: "https://x.com/IQAir", handle: "@IQAir", last_checked: 2026-09-07, status: unconfirmed}
 followed: false
 last_checked: 2026-09-07
 updated: 2026-09-07

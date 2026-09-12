@@ -25,10 +25,10 @@ sources:
   - {kind: linkedin, url: "https://in.linkedin.com/company/responsability-investments", handle: "responsability-investments", last_checked: 2026-09-10, status: live}
   - {kind: website, url: "https://www.responsability.com/en/about", last_checked: 2026-09-10, status: live}
 contact_route: "responsability.com contact form; Mumbai office (one of the firm's global hubs alongside Zurich, Lima, Nairobi, Paris, Tbilisi, Singapore)"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-11
 last_checked: 2026-09-10
-updated: 2026-09-10
+updated: 2026-09-11
 ---
 
 # responsAbility Investments

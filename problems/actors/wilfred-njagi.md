@@ -2,7 +2,7 @@
 name: Wilfred Njagi
 slug: wilfred-njagi
 type: individual
-depth: registry
+depth: excluded
 aka: []
 parent:
 superseded_by:
@@ -55,3 +55,6 @@ LinkedIn (ke.linkedin.com/in/wilfred-njagi-b812b814); posts referencing healthca
 
 <!-- depth: registry — no directly quoted ask found this pass. Africa-context;
      India relevance is indirect (via the Villgro spun-out-of edge). -->
+
+<!-- excluded 2026-09-10 — Non-India focused
+     was depth: registry. Out of the follow list and out of the crawl; record and edges kept. -->

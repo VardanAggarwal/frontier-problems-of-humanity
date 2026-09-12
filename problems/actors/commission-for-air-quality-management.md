@@ -23,7 +23,7 @@ offers:
   - {kind: data, text: "GRAP-stage records, inspection data, stubble-fire counts"}
 sources:
   - {kind: website, url: "https://caqm.nic.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "@CAQM_Official", last_checked: 2026-09-07, status: none-found}
+  - {kind: x, url: "https://x.com/CAQM_Official", handle: "@CAQM_Official", last_checked: 2026-09-07, status: unconfirmed}
 contact_route: "caqm.nic.in — official correspondence / grievance portal; Delhi HQ. Warm-intro path via CPCB / MoEFCC officials already in the silicosis actor set."
 followed: true
 followed_date: 2026-09-07

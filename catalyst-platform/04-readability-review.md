@@ -19,11 +19,11 @@ Two gates hide most of the corpus by default: `global.css:175` hides `.ai-prose`
 | `leaf/residual-childhood-lead` | 719 | 3,262 |
 | `leaf/silicosis-stone-industry` | 779 | 2,920 |
 | `leaf/small-industrial-town-air` | 814 | 3,827 |
-| `leaf/asbestos-import-legal` | 855 | 4,101 |
+| `leaf/asbestos-in-air` | 855 | 4,101 |
 | `leaf/cookfire-smoke` | 882 | 3,661 |
 | `leaf/north-india-winter-smog` | 935 | 3,885 |
 | `leaf/crop-residue-burning` | 1,178 | 4,530 |
-| `leaf/ambient-asbestos-demolition-dust` | 140 | 140 |
+| `leaf/asbestos-in-air` | 140 | 140 |
 
 The arrival layer is already the right length. Everything in Part 2 is judged against what a reader
 sees on arrival first, and what they see after one click second.
@@ -37,7 +37,7 @@ Ranked. Each fixes every page at once.
 ### 1. The stub branch hides a written body and prints a false claim
 `src/pages/leaf/[id].astro:133-139` branches on `status: stub` and renders boilerplate — *"It has
 not been researched yet — no evidence, diagnosis or gap verdict"* — **instead of** the body.
-`ambient-asbestos-demolition-dust` has all three (7 Mt in the building stock, >100M people under
+`asbestos-in-air` has all three (7 Mt in the building stock, >100M people under
 AC roofs, the NAAQS omission, a named enterprise actor) and renders 140 words denying it.
 → Render the body above the note; narrow the note to what is actually missing.
 
@@ -168,7 +168,7 @@ Arrival layer is 738 words: definition, seven cards, two node cards, footer. Thi
 - **T** · Every H2 names a container, not a claim. Only "Vegetation as a remedy: real mechanism,
   wrong order of magnitude" states one.
 
-## `leaf/asbestos-import-legal`
+## `leaf/asbestos-in-air`
 Worst lede and worst gap box in the set.
 
 - **A** · `:5` — 65 words, one sentence, four semicolon clauses. Replacement:
@@ -313,7 +313,7 @@ Best-written record in the corpus. Three changes.
   the taxonomy.
 - **C** · Undefined: µg/dL, ULAB, EPR, FSSAI, NFHS, affected-led.
 
-## `leaf/ambient-asbestos-demolition-dust`
+## `leaf/asbestos-in-air`
 Content-rich, format-poor. Body doesn't render at all (Part 1, fix 1).
 
 - The whole body is one 11-line blockquote (`:16-26`), which the loader reads as a lede quote and
@@ -322,9 +322,15 @@ Content-rich, format-poor. Body doesn't render at all (Part 1, fix 1).
   Replacement: *"Nobody has measured ambient asbestos fibre in any Indian city, so there is no
   harmed population to count and no magnitude to state."*
 - `:26` "Sourced to the user's Slate notes" — delete.
-- **Open question:** fold into `asbestos-import-legal` as "the installed stock", keeping the slug
-  as a redirect? The distinction between them is exposure route, not harmed population, and the
-  parent's §C (`:67`) already carries "the stock already installed" as its load-bearing burden.
+- **Open question — RESOLVED 2026-09-09, yes.** Folded in. The two leaves were merged into
+  `asbestos-in-air`, with `asbestos-import-legal` and `ambient-asbestos-demolition-dust` both kept
+  as aliases so the old URLs redirect. The review's reasoning held: the distinction was exposure
+  route, not harmed population, and the corpus splits leaves by material and failure, not route
+  (`silicosis-stone-industry` covers five routes in one record). Both routes survive as named
+  subsections of §B and §D; both gap verdicts survive in §E.
+
+  *Note: the two `## leaf/asbestos-in-air` headings in this file are the two pre-merge leaves,
+  renamed by the id migration. Read them as route 1 (import trade) and route 2 (installed stock).*
 
 ---
 

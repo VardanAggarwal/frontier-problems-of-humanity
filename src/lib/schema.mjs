@@ -23,7 +23,7 @@ export const E = {
   cross_cutting_axis: ['autonomy', 'leisure'],
   node_type: ['instrument', 'sector', 'exposure-class'],
   node_status: ['open', 'fix-known', 'fix-partial', 'fix-done'],
-  leg: ['activism', 'institution', 'enterprise'],
+  leg: ['activism', 'institution', 'enterprise', 'service'],
   affected_led: ['yes', 'no', 'partial'],
   representation_unit: ['local-affected', 'central-org', 'enterprise', 'central-at-named-legitimacy-cost'],
   actor_type: ['org', 'individual'],

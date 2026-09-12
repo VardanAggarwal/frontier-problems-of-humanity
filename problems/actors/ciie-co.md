@@ -26,8 +26,8 @@ sources:
   - {kind: linkedin, url: "https://in.linkedin.com/company/iimaventures", handle: "iimaventures", last_checked: 2026-09-11, status: unconfirmed}
   - {kind: website, url: "https://iimaventures.com/", last_checked: 2026-09-11, status: live}
 contact_route: "iimaventures.com; warm intro via CEO Kunal Upadhyay or Partner Vipul Patel"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-11
 last_checked: 2026-09-11
 updated: 2026-09-11
 ---

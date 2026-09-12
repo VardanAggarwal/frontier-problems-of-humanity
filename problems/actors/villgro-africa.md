@@ -26,10 +26,10 @@ sources:
   - {kind: x, url: "https://x.com/VillgroAfrica", handle: "@VillgroAfrica", last_checked: 2026-09-10, status: unconfirmed}
   - {kind: website, url: "https://villgroafrica.org/", last_checked: 2026-09-10, status: live}
 contact_route: "villgroafrica.org contact form"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-11
 last_checked: 2026-09-10
-updated: 2026-09-10
+updated: 2026-09-11
 ---
 
 # Villgro Africa

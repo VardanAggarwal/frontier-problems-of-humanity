@@ -26,8 +26,8 @@ sources:
   - {kind: linkedin, url: "https://in.linkedin.com/in/vineet-rai-536160", handle: "vineet-rai-536160", last_checked: 2026-09-10, status: unconfirmed}
   - {kind: x, url: "https://x.com/raivineet", handle: "@Raivineet", last_checked: 2026-09-10, status: unconfirmed}
 contact_route: "LinkedIn; X @Raivineet"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-10
 updated: 2026-09-10
 ---

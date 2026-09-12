@@ -23,10 +23,10 @@ offers: []
 sources:
   - {kind: linkedin, url: "https://www.linkedin.com/in/shrutisn/", handle: "shrutisn", last_checked: 2026-09-11, status: unconfirmed}
 contact_route: "LinkedIn (linkedin.com/in/shrutisn); via Ashoka India"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-11
-updated: 2026-09-11
+updated: 2026-09-10
 ---
 
 # Shruti Nair

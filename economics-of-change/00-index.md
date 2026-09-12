@@ -7,10 +7,12 @@ Started 2026-07-31, prompted by a working question: why is social change underfu
 ## Files
 
 - `mechanisms-tried.md` — what's been tried in the last 2-3 decades to fund non-paying-beneficiary problems, by mechanism, with track records. Six clusters researched: cash transfers/UBI, results-based financing/DIBs, blended finance/DFIs, social enterprise/venture philanthropy, compliance-manufactured markets, crypto public-goods funding.
+- `india-impact-capital-stack.md` — who writes what first cheque in India, tier 0 (₹1L grants) to tier 4 ($47M debt), from an 11-investor test against a commercial control arm. Finding: the ladder is continuous in rupees, discontinuous in *instrument*, and unpublished. Carries the falsification trail for three claims this project got wrong. Written 2026-09-11; no action decided.
 - `lens.md` — the working framework distilled from those six clusters plus `../problems/tier-failure-history/tier1-physiological/00-summary.md` §6. Three axes so far: verification proximity, ownership vs. payment, metric dimensionality. To be refined every time a new cluster or tier is added.
 
 ## How this runs
 
 - Add a cluster whenever a new mechanism surfaces (in tier work, in reading, in news) that isn't yet covered in `mechanisms-tried.md`.
 - Re-open `lens.md` whenever a tier's `00-summary.md` §6 ("what worked") is written — tier summaries are an independent empirical source for this lens and should be checked against it each time, not just tier 1.
+- Candidate fourth axis logged in `india-impact-capital-stack.md` §6 (instrument fit to growth shape) — waits for a second domain before promotion into `lens.md`.
 - Not on the tier-file H2 invariant from `../CLAUDE.md` — this folder's structure is looser by design since it's synthesis-across-domains, not one need's failure history.

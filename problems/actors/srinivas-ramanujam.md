@@ -24,8 +24,8 @@ offers:
 sources:
   - {kind: linkedin, url: "https://www.linkedin.com/in/srinivas1729/", handle: "srinivas1729", last_checked: 2026-09-10, status: live}
 contact_route: "LinkedIn DM; via Villgro contact form"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-10
 updated: 2026-09-10
 ---

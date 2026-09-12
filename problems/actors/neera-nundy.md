@@ -24,8 +24,8 @@ offers:
 sources:
   - {kind: linkedin, url: "https://www.linkedin.com/in/neera-nundy-4b14105/", handle: "neera-nundy-4b14105", last_checked: 2026-09-10, status: unconfirmed}
 contact_route: "LinkedIn"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-10
 updated: 2026-09-10
 ---

@@ -13,6 +13,19 @@ const CORPUS_DIR = fileURLToPath(new URL('./problems', import.meta.url));
 const LOADER_FILES = ['src/lib/corpus.mjs', 'src/lib/site.mjs', 'src/lib/sections.mjs', 'src/lib/schema.mjs']
   .map((p) => fileURLToPath(new URL(`./${p}`, import.meta.url)));
 
+// Writes made by our own dev endpoints must not bounce the page: the tick would
+// reload the browser and throw away the active filter. Record the path here so
+// the watcher can still invalidate the corpus but skip the reload.
+const SELF_WRITES = new Map();
+function writeSelf(file, content) {
+  SELF_WRITES.set(file, Date.now());
+  writeFileSync(file, content);
+}
+function isSelfWrite(file) {
+  const t = SELF_WRITES.get(file);
+  return t !== undefined && Date.now() - t < 3000;
+}
+
 /** Dev-only. Watch problems/** explicitly and, on any .md/.yaml change,
  *  invalidate the loader modules and force a full page reload. */
 function watchCorpus() {
@@ -23,9 +36,13 @@ function watchCorpus() {
       server.watcher.add(CORPUS_DIR);
       const bust = (file) => {
         if (!file.startsWith(CORPUS_DIR) || !/\.(md|ya?ml)$/.test(file)) return;
+        // Always drop the cached corpus, so the next request re-reads from disk.
         for (const f of LOADER_FILES)
           for (const m of server.moduleGraph.getModulesByFile(f) ?? [])
             server.moduleGraph.invalidateModule(m);
+        // …but a write we made ourselves must not bounce the browser: the page
+        // already reflects it, and a reload would cost the active filter.
+        if (isSelfWrite(file)) return;
         server.ws.send({ type: 'full-reload', path: '*' });
       };
       server.watcher.on('add', bust);
@@ -76,7 +93,7 @@ function followWriter() {
             let fm = setFm(m[1], 'followed', followed ? 'true' : 'false');
             fm = setFm(fm, 'followed_date', followed ? d : '');
             fm = setFm(fm, 'updated', d);
-            writeFileSync(file, fm + m[2]);
+            writeSelf(file, fm + m[2]);
             done(200, { ok: true, followed: !!followed, followed_date: followed ? d : null });
           } catch (e) {
             done(500, { error: String(e && e.message || e) });
@@ -128,7 +145,7 @@ function excludeWriter() {
               rest = rest.replace(/\n<!-- excluded [\s\S]*?-->\n/, '\n');
             }
             fm = setFm(fm, 'updated', d);
-            writeFileSync(file, fm + rest);
+            writeSelf(file, fm + rest);
             done(200, { ok: true, excluded: !!excluded, was });
           } catch (e) {
             done(500, { error: String((e && e.message) || e) });

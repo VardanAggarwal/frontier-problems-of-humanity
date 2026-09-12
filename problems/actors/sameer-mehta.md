@@ -24,8 +24,8 @@ offers:
 sources:
   - {kind: linkedin, url: "https://www.linkedin.com/in/sammehta/", handle: "sammehta", last_checked: 2026-09-10, status: unconfirmed}
 contact_route: "LinkedIn; Dr. Mehta's Hospitals"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-10
 updated: 2026-09-10
 ---

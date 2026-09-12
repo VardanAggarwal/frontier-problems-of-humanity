@@ -23,7 +23,7 @@ offers:
   - {kind: data, text: "independent NCAP-tracking and source-apportionment-gap analysis; monitor-uptime auditing"}
   - {kind: credibility, text: "widely quoted independent analyst; co-built CREA's early NCAP work"}
 sources:
-  - {kind: x, url: "", handle: "@Sunil_S_Dahiya", last_checked: 2026-09-07, status: none-found}
+  - {kind: x, url: "https://x.com/Sunil_S_Dahiya", handle: "@Sunil_S_Dahiya", last_checked: 2026-09-07, status: unconfirmed}
   - {kind: linkedin, url: "", handle: "sunil-dahiya", last_checked: 2026-09-07, status: none-found}
   - {kind: website, url: "https://www.envirocatalysts.com/", handle: "", last_checked: 2026-09-07, status: live}
 contact_route: "via Envirocatalysts website / X DM."

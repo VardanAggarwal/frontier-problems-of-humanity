@@ -25,10 +25,10 @@ sources:
   - {kind: linkedin, url: "https://www.linkedin.com/company/menterra-venture-advisors", handle: "menterra-venture-advisors", last_checked: 2026-09-10, status: live}
   - {kind: website, url: "https://www.menterra.com/", last_checked: 2026-09-10, status: live}
 contact_route: "menterra.com contact form"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-11
 last_checked: 2026-09-10
-updated: 2026-09-10
+updated: 2026-09-11
 ---
 
 # Menterra

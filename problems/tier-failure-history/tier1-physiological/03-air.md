@@ -103,5 +103,4 @@ Data note — city-scale receptor studies (TERI–ARAI Delhi, 2016 base: road an
 
 Pointer list only — harm incurred, not yet visible in mortality data. The diagnosis lives in each leaf.
 
-- Chrysotile asbestos still legally imported and used.
-- Ambient asbestos from weathering, renovation and demolition of the in-place roofing stock.
+- Asbestos in the air — the legal chrysotile import trade, and the ~7 Mt already installed as roofing now weathering, being renovated and demolished. Two routes, one leaf.

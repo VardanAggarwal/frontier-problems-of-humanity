@@ -195,7 +195,11 @@ budget on prose that yields no name and no handle. Rules:
 5. **Find the live feed.** Site → name the humans → X, LinkedIn, Substack,
    newsletter, YouTube. Verify a post within ~6 months and record the date.
    Never invent a handle you did not see; "none found" is a real answer, and for
-   a funder it is itself a finding.
+   a funder it is itself a finding. But a handle you *did* see and merely could
+   not fetch is `unconfirmed`, never `none-found` — see the `sources:` rule below.
+   Across the first crawl cohort this cost 68 LinkedIn URLs against 13 X ones,
+   which is a measure of what each platform lets a bot fetch, not of where these
+   actors post.
 6. **Write the record** (below).
 7. **Next wave** from what step 1 surfaced. Stop when a wave yields no new
    reachable names, or at the wave budget.
@@ -210,9 +214,10 @@ Ecosystem specifics:
   `funder · intermediary · capacity-builder · convener · field-builder ·
   researcher · operator · platform`. This is the sector lever, orthogonal to `leg`.
 - `leg:` still required — the lever pulled on the world (`activism` /
-  `institution` / `enterprise`). A philanthropic fund is usually
-  `enterprise` + `ecosystem_role: [funder]`; a movement-support regrantor is
-  `activism` + `[intermediary]`.
+  `institution` / `enterprise` / `service`). A philanthropic fund whose grantees
+  earn revenue is `enterprise` + `ecosystem_role: [funder]`; a fund whose
+  grantees deliver without charging beneficiaries is `service` + `[funder]`;
+  a movement-support regrantor is `activism` + `[intermediary]`.
 - `depth:` — **default `registry`. `tracked` is earned by a stated ask, not by
   importance.** The ground test (CLAUDE.md → *Actor tracking*) is unchanged, and
   being a large funder does not satisfy it — influence is exactly what that test
@@ -233,6 +238,15 @@ Ecosystem specifics:
   `status: unconfirmed` when the handle resolves but you did not verify recency —
   it is a legal enum value, and it is the honest one. Never write `live` for a feed
   whose last post you did not see. `kind:` for Twitter/X is **`x`**, not `twitter`.
+- **`none-found` means no handle exists, not "I couldn't fetch it."** x.com serves
+  a login wall to an unauthenticated fetch while LinkedIn URLs surface straight out
+  of search, so defaulting an unfetchable X handle to `none-found` quietly turns the
+  corpus into a LinkedIn directory. If you saw the handle anywhere real — site
+  footer, bio, byline, coalition or speaker page, a search snippet that matches the
+  actor — write `url: "https://x.com/<handle>"` with `status: unconfirmed` and note
+  where you saw it. Reserve `none-found` for having looked and found no handle at
+  all, and apply the same standard to every platform: sighted-but-unfetchable is
+  `unconfirmed` everywhere, guessed is never written anywhere.
 - `affiliations:` `from`/`to` accept `YYYY`, `YYYY-MM` or `YYYY-MM-DD`. Use the
   year when the year is all you know — do not invent a day.
 - Body: the template's sections. In `## Scope`, since there are no leaf ids,

@@ -10,7 +10,7 @@ leg: [enterprise]
 affected_led: no
 representation_unit: enterprise
 stance: works-the-remedy
-leaves: [ambient-asbestos-demolition-dust]
+leaves: [asbestos-in-air]
 nodes: [toxic-exposure-class]
 geography: [india]
 lifecycle: operating
@@ -36,7 +36,7 @@ updated: 2026-09-08
 **Who they are.** Founder & CEO of `epsco-india`, the Mumbai asbestos-abatement contractor. US-certified/licensed asbestos inspector, planner, contractor and supervisor; ~20–30 yrs of environmental-cleanup project delivery across the Indian subcontinent and Middle East. Runs NAETI asbestos-abatement training in India and is Director of the India Chapter of the Indoor Air Quality Association. The reachable surface for EPSCO — he posts on asbestos as a public-health issue under his own name; the company account amplifies.
 
 ## Scope
-- `ambient-asbestos-demolition-dust` — as EPSCO's founder, the individual behind the only licensed abatement capacity found in India; segment is corporate facilities, not the households under in-place AC roofs (see the org record).
+- `asbestos-in-air` — as EPSCO's founder, the individual behind the only licensed abatement capacity found in India; segment is corporate facilities, not the households under in-place AC roofs (see the org record).
 
 ## What they can offer
 Certified abatement training and project-delivery capacity; a public voice already framing asbestos as a health catastrophe.

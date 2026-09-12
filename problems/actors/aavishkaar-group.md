@@ -25,10 +25,10 @@ sources:
   - {kind: linkedin, url: "https://in.linkedin.com/company/aavishkaar-group", handle: "aavishkaar-group", last_checked: 2026-09-10, status: live}
   - {kind: website, url: "https://aavishkaargroup.com/", last_checked: 2026-09-10, status: live}
 contact_route: "aavishkaargroup.com contact form"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-11
 last_checked: 2026-09-10
-updated: 2026-09-10
+updated: 2026-09-11
 ---
 
 # Aavishkaar Group

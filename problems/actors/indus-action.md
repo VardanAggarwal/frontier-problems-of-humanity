@@ -25,10 +25,10 @@ sources:
   - {kind: website, url: "https://indusaction.org/", last_checked: 2026-09-10, status: live}
   - {kind: linkedin, url: "https://www.linkedin.com/company/indusaction", handle: "indusaction", last_checked: 2026-09-10, status: unconfirmed}
 contact_route: "indusaction.org; Tarun Cherukuri, Founder-CEO, in.linkedin.com/in/taruncherukuri"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-11
 last_checked: 2026-09-10
-updated: 2026-09-10
+updated: 2026-09-11
 ---
 
 # Indus Action

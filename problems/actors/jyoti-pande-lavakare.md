@@ -19,7 +19,7 @@ sources:
   - {kind: linkedin, url: "https://www.linkedin.com/in/jyoti-pande-lavakare-a3a9b3a/", handle: "jyoti-pande-lavakare-a3a9b3a", last_checked: 2026-09-07, status: live}
   - {kind: press, url: "https://theprint.in/author/jyoti-pande-lavakare/", handle: "ThePrint author page", last_checked: 2026-09-07, status: live}
   - {kind: website, url: "https://www.jyotipande.in/", handle: "personal site", last_checked: 2026-09-07, status: stale}
-  - {kind: x, url: "", handle: "@jyotipande", last_checked: 2026-09-07, status: none-found}
+  - {kind: x, url: "https://x.com/jyotipande", handle: "@jyotipande", last_checked: 2026-09-07, status: unconfirmed}
 followed: true
 followed_date: 2026-09-08
 last_checked: 2026-09-07

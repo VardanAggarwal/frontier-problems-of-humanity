@@ -20,7 +20,7 @@ offers:
   - {kind: convening, text: "policy convening access to MoPNG / NITI Aayog"}
 sources:
   - {kind: website, url: "https://www.ceew.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "@CEEWIndia", last_checked: 2026-09-07, status: none-found}
+  - {kind: x, url: "https://x.com/CEEWIndia", handle: "@CEEWIndia", last_checked: 2026-09-07, status: unconfirmed}
 contact_route: "ceew.in contact form; named researchers on the clean-cooking reports."
 followed: true
 followed_date: 2026-09-07

@@ -24,8 +24,8 @@ offers:
 sources:
   - {kind: linkedin, url: "https://in.linkedin.com/in/kairas-vakharia-97539916", handle: "kairas-vakharia-97539916", last_checked: 2026-09-10, status: unconfirmed}
 contact_route: "LinkedIn; Mahindra & Mahindra Farm Equipment Sector"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-10
 updated: 2026-09-10
 ---

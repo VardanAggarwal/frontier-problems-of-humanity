@@ -68,7 +68,7 @@ first at every step
 
 **3. Search patterns**
 - `"<name>" newsletter OR substack OR telegram`
-- `site:twitter.com "<name>"` · `site:linkedin.com/company "<name>"` ·
+- `site:x.com "<name>"` · `site:twitter.com "<name>"` · `site:linkedin.com/company "<name>"` ·
   `site:linkedin.com/in "<founder>"`
 - `"<founder name>" <topic>` — separate where the person posts from the org.
 - For registered NGOs: funder grantee pages, FCRA/annual filings, and
@@ -99,6 +99,19 @@ deliverable.
   note the last-post date.
 - **Real handles only.** Never construct a plausible-looking handle you didn't
   see. If you didn't find one, that platform gets "none found".
+- **`none-found` means no handle exists, not "I couldn't fetch it."** x.com
+  serves a login wall to an unauthenticated fetch, so an X handle can almost
+  never be confirmed the way a LinkedIn URL can. That is a property of the
+  platform, not a signal about the actor — and writing `none-found` because of
+  it silently rewrote the corpus into a LinkedIn list (14 records carried a
+  known handle with an empty URL). So: **if you saw the handle anywhere real** —
+  the actor's own site footer, their bio, a byline, a coalition page, a search
+  result whose snippet matches the actor — write
+  `url: "https://x.com/<handle>"` with `status: unconfirmed` and say in the
+  catalyst notes where you saw it and that the feed was not fetchable. Reserve
+  `none-found` for having looked and found no handle at all. Apply exactly the
+  same standard to every platform: an unfetchable-but-sighted handle is
+  `unconfirmed` everywhere, and a guessed one is never written anywhere.
 - Prefer the actor's primary language feed; note if the active feed is in Hindi
   or a regional language.
 - Keep the return small. 1–3 feeds, not every profile that exists.
@@ -134,7 +147,7 @@ DEAD / DORMANT (verified — don't re-hunt)
 
 # <org-slug>.md  (merge into existing sources:)
 sources:
-  - {kind: twitter,  url: "", handle: "@", last_checked: <today>, status: live}
+  - {kind: x,  url: "", handle: "@", last_checked: <today>, status: live}
   - {kind: newsletter, url: "", handle: "", last_checked: <today>, status: live}
   - {kind: rss, url: "", handle: "", last_checked: <today>, status: live}
 contact_route: "<how to actually reach them>"
@@ -146,7 +159,7 @@ slug: <person-slug>
 type: individual
 affiliations: [{actor: <org-slug>, role: "<role>", from: <date or "">, to: }]
 sources:
-  - {kind: twitter, url: "", handle: "@", last_checked: <today>, status: live}
+  - {kind: x, url: "", handle: "@", last_checked: <today>, status: live}
   - {kind: substack, url: "", handle: "", last_checked: <today>, status: live}
 contact_route: "<direct if known, else 'via <org>'>"
 

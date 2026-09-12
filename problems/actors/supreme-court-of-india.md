@@ -11,7 +11,7 @@ leg: [institution]
 affected_led: no
 representation_unit: central-org
 stance: works-the-remedy
-leaves: [silicosis-stone-industry, north-india-winter-smog, crop-residue-burning, asbestos-import-legal]
+leaves: [silicosis-stone-industry, north-india-winter-smog, crop-residue-burning, asbestos-in-air]
 nodes: [toxic-exposure-class]
 geography: [india]
 lifecycle: operating
@@ -35,7 +35,7 @@ updated: 2026-09-07
 - `silicosis-stone-industry` — created the central-level institutional hook the leaf's diagnosis said did not exist, and named the coordinating layer into being. As of this record the model exists on paper: the national committee is unconstituted and the named bodies have not reported action. The Court supervises but does not implement.
 - `north-india-winter-smog` — approved GRAP (2016); the *M.C. Mehta* continuing mandamus; rebuked CAQM for non-follow-up (Oct 2024); called odd-even "optics" (Nov 2023).
 - `crop-residue-burning` — has supervised the stubble/NCR air matter via *M.C. Mehta v. Union of India* since 2019; its Nov 2024 rebuke of the Centre triggered the doubling of stubble environmental compensation.
-- `asbestos-import-legal` — *Consumer Education & Research Centre v. Union of India* (1995): membrane-filter monitoring, 40-year worker health records, compulsory insurance, decadal PEL review per ILO — substantially unimplemented, reiterated by the NGT in 2025.
+- `asbestos-in-air` — *Consumer Education & Research Centre v. Union of India* (1995): membrane-filter monitoring, 40-year worker health records, compulsory insurance, decadal PEL review per ILO — substantially unimplemented, reiterated by the NGT in 2025.
 
 ## Status
 - **Funding** — constitutional body, consolidated fund.

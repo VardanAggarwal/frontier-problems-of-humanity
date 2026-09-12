@@ -11,7 +11,7 @@ leg: [institution]
 affected_led: no
 representation_unit: central-org
 stance: works-the-remedy
-leaves: [silicosis-stone-industry, north-india-winter-smog, crop-residue-burning, residual-childhood-lead, small-industrial-town-air, ambient-asbestos-demolition-dust]
+leaves: [silicosis-stone-industry, north-india-winter-smog, crop-residue-burning, residual-childhood-lead, small-industrial-town-air, asbestos-in-air]
 nodes: [toxic-exposure-class, construction, energy]
 geography: [india]
 lifecycle: operating
@@ -47,5 +47,5 @@ updated: 2026-09-09
 Institutional — cpcb.nic.in.
 
 ## Recent updates
-- 2025-11-07 → 2026-09-09 — **In default of a dated order on `ambient-asbestos-demolition-dust`.** NGT direction XVI (30 Oct 2025) requires CPCB to prepare, finalise and issue an SOP for disposal of cement-asbestos waste that prevents "re-entrainment into air matrix on degradation"; direction XIV requires CPCB with SPCBs/PCCs to evolve a monitoring mechanism for asbestos-waste disposal. Its 12-member expert committee (Office Order 7 Nov 2024) ran no study of its own and benchmarked non-occupational exposure against the 0.1 f/cc occupational limit. ATR due ~31 May 2026; not on the public record. — https://fcpma.in/wp-content/uploads/2025/11/Judgement_Raja-Singh-v-UOI-and-ors1.pdf
+- 2025-11-07 → 2026-09-09 — **In default of a dated order on `asbestos-in-air`.** NGT direction XVI (30 Oct 2025) requires CPCB to prepare, finalise and issue an SOP for disposal of cement-asbestos waste that prevents "re-entrainment into air matrix on degradation"; direction XIV requires CPCB with SPCBs/PCCs to evolve a monitoring mechanism for asbestos-waste disposal. Its 12-member expert committee (Office Order 7 Nov 2024) ran no study of its own and benchmarked non-occupational exposure against the 0.1 f/cc occupational limit. ATR due ~31 May 2026; not on the public record. — https://fcpma.in/wp-content/uploads/2025/11/Judgement_Raja-Singh-v-UOI-and-ors1.pdf
 - 2026-09-07 — Record created from the `silicosis-stone-industry` leaf sweep. — https://www.hhrjournal.org/2025/09/08/preventing-silicosis-is-now-a-human-rights-duty-in-india/

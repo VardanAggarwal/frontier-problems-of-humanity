@@ -2,7 +2,7 @@
 name: Srinivas Kantheti
 slug: srinivas-kantheti
 type: individual
-depth: registry
+depth: excluded
 aka: []
 parent:
 superseded_by:
@@ -53,3 +53,6 @@ LinkedIn (in.linkedin.com/in/srinivas-kantheti-b279124), recency not verified wi
 - 2026-09-10 — Record created from WheelsEMI's founder team (operator-founders consolidation pass).
 
 <!-- depth: registry — no stated personal ask found; org-level wheelsemi.md carries the venture's needs. -->
+
+<!-- excluded 2026-09-10 — Link not working
+     was depth: registry. Out of the follow list and out of the crawl; record and edges kept. -->

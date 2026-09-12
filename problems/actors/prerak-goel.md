@@ -23,8 +23,8 @@ offers: []
 sources:
   - {kind: linkedin, url: "https://in.linkedin.com/in/prerak-goel-86a421", handle: "prerak-goel-86a421", last_checked: 2026-09-10, status: unconfirmed}
 contact_route: "LinkedIn (prerak-goel-86a421); Roserve Enviro"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-10
 updated: 2026-09-10
 ---

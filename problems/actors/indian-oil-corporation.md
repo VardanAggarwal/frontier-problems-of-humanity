@@ -15,7 +15,7 @@ lifecycle: operating
 lifecycle_as_of: 2026-09-07
 sources:
   - {kind: website, url: "https://iocl.com/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "@IndianOilcl", last_checked: 2026-09-07, status: none-found}
+  - {kind: x, url: "https://x.com/IndianOilcl", handle: "@IndianOilcl", last_checked: 2026-09-07, status: unconfirmed}
 followed: false
 last_checked: 2026-09-07
 updated: 2026-09-07

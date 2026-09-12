@@ -8,14 +8,14 @@ leg: [institution]
 affected_led: no
 representation_unit: central-org
 stance: ambiguous
-leaves: [north-india-winter-smog, cookfire-smoke, crop-residue-burning, residual-childhood-lead, asbestos-import-legal, ambient-asbestos-demolition-dust]
+leaves: [north-india-winter-smog, cookfire-smoke, crop-residue-burning, residual-childhood-lead, asbestos-in-air]
 nodes: [construction, energy, toxic-exposure-class]
 geography: [india]
 lifecycle: operating
 lifecycle_as_of: 2026-09-07
 sources:
   - {kind: website, url: "https://moef.gov.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "@moefcc", last_checked: 2026-09-07, status: none-found}
+  - {kind: x, url: "https://x.com/moefcc", handle: "@moefcc", last_checked: 2026-09-07, status: unconfirmed}
 followed: false
 last_checked: 2026-09-07
 updated: 2026-09-09
@@ -30,7 +30,7 @@ updated: 2026-09-09
 - `cookfire-smoke` — HAP sits outside its instruments; owned by MoPNG.
 - `crop-residue-burning` — notified the environmental-compensation amendment; parent of CAQM and CPCB.
 - `residual-childhood-lead` — owns the self-certified 2016 paint rule and the 2022 battery rules; no non-petrol lead source programme.
-- `asbestos-import-legal` — holds a stated phase-out "vision" (per NGT Oct 2025); has not legislated; nominates the Rotterdam CRC member.
+- `asbestos-in-air` — holds a stated phase-out "vision" (per NGT Oct 2025); has not legislated; nominates the Rotterdam CRC member.
 
 ## Status
 - **Funding** — Government of India (Union budget).
@@ -40,5 +40,5 @@ updated: 2026-09-09
 Institutional — moef.gov.in.
 
 ## Recent updates
-- 2025-11-07 → 2026-09-09 — **In default of a dated order on `ambient-asbestos-demolition-dust`.** NGT direction XVII (30 Oct 2025) gave MoEF&CC six months to review the evidence and frame policy on AC roofing in schools, residential houses and other buildings per its own Vision Statement ¶4.3.1, and to issue guidelines on manufacturing, installation, maintenance, dismantling and disposal. On the record it admitted that weathering, renovation and demolition release asbestos fibres into air, water and soil — the admission the tribunal used to reject the manufacturers' contrary claim. ATR due ~31 May 2026; not on the public record. — https://fcpma.in/wp-content/uploads/2025/11/Judgement_Raja-Singh-v-UOI-and-ors1.pdf
+- 2025-11-07 → 2026-09-09 — **In default of a dated order on `asbestos-in-air`.** NGT direction XVII (30 Oct 2025) gave MoEF&CC six months to review the evidence and frame policy on AC roofing in schools, residential houses and other buildings per its own Vision Statement ¶4.3.1, and to issue guidelines on manufacturing, installation, maintenance, dismantling and disposal. On the record it admitted that weathering, renovation and demolition release asbestos fibres into air, water and soil — the admission the tribunal used to reject the manufacturers' contrary claim. ATR due ~31 May 2026; not on the public record. — https://fcpma.in/wp-content/uploads/2025/11/Judgement_Raja-Singh-v-UOI-and-ors1.pdf
 - 2026-09-07 — Record created from the air-leaf retrofit (winter-smog, NCAP, cookfire, crop-residue, lead, asbestos). — https://moef.gov.in/

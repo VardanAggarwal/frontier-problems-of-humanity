@@ -21,7 +21,7 @@ offers:
   - {kind: credibility, text: "most-cited independent source on Indian NCAP performance"}
 sources:
   - {kind: website, url: "https://energyandcleanair.org/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "@CREACleanAir", last_checked: 2026-09-07, status: none-found}
+  - {kind: x, url: "https://x.com/CREACleanAir", handle: "@CREACleanAir", last_checked: 2026-09-07, status: unconfirmed}
 contact_route: "energyandcleanair.org contact form."
 followed: true
 followed_date: 2026-09-07

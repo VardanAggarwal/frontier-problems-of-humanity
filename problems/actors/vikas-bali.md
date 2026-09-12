@@ -24,8 +24,8 @@ offers:
 sources:
   - {kind: x, url: "https://x.com/intellecapceo", handle: "@intellecapceo", last_checked: 2026-09-10, status: unconfirmed}
 contact_route: "X @intellecapceo; Intellecap team page"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-10
 updated: 2026-09-10
 ---

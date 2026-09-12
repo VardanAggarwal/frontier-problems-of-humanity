@@ -24,7 +24,7 @@ offers:
   - {kind: credibility, text: "co-author of The Toxic Truth (2020) with UNICEF"}
 sources:
   - {kind: website, url: "https://www.pureearth.org/india-3/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "@pureearthnow", last_checked: 2026-09-07, status: none-found}
+  - {kind: x, url: "https://x.com/pureearthnow", handle: "@pureearthnow", last_checked: 2026-09-07, status: unconfirmed}
   - {kind: linkedin, url: "", handle: "Pure Earth", last_checked: 2026-09-07, status: none-found}
 contact_route: "contact form at pureearth.org; India team via country director Diksha Radhakrishnan."
 followed: false

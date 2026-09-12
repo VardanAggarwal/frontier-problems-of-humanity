@@ -11,7 +11,7 @@ leg: [institution]
 affected_led: no
 representation_unit: central-org
 stance: works-the-remedy
-leaves: [silicosis-stone-industry, north-india-winter-smog, crop-residue-burning, asbestos-import-legal, small-industrial-town-air, ambient-asbestos-demolition-dust]
+leaves: [silicosis-stone-industry, north-india-winter-smog, crop-residue-burning, asbestos-in-air, small-industrial-town-air]
 nodes: [toxic-exposure-class]
 geography: [india]
 lifecycle: operating
@@ -36,7 +36,7 @@ updated: 2026-09-09
 - `silicosis-stone-industry` — the body assigned the "control the dust at source" half, which the leaf's `solution-at-hand-blocked` mechanism is about. Its reach is the registered, permitted industrial set; informal quarrying and stone-cutting — where most exposure sits — are largely outside any environmental permit, so this layer inherits the same `authority-mismatched-to-harm` gap.
 - `north-india-winter-smog` — air-quality suo motu and compliance monitoring; received DPCC's smog-tower assessment.
 - `crop-residue-burning` — directed Punjab/Haryana to prepare time-bound stubble action plans (2024); earlier NGT orders are the basis farmer unions cite for "farmers should not be solely responsible."
-- `asbestos-import-legal` — 30 Oct 2025 order (85 pages) endorsing MoEF&CC's vision to phase out all forms of asbestos and adopt alternatives; directed state Chief Secretaries and PCBs; reiterated *CERC v. UoI* (1995); flagged the NHRC's 2016 closure as resting on an industry-co-funded NIOH study.
+- `asbestos-in-air` — 30 Oct 2025 order (85 pages) endorsing MoEF&CC's vision to phase out all forms of asbestos and adopt alternatives; directed state Chief Secretaries and PCBs; reiterated *CERC v. UoI* (1995); flagged the NHRC's 2016 closure as resting on an industry-co-funded NIOH study.
 - `small-industrial-town-air` — directed UPPCB to control diesel-generator emissions in Ghaziabad/Loni; oversees Critically Polluted Area compliance.
 
 ## Status

@@ -15,7 +15,7 @@ lifecycle: operating
 lifecycle_as_of: 2026-09-07
 sources:
   - {kind: website, url: "https://mopng.gov.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "@PetroleumMin", last_checked: 2026-09-07, status: none-found}
+  - {kind: x, url: "https://x.com/PetroleumMin", handle: "@PetroleumMin", last_checked: 2026-09-07, status: unconfirmed}
 followed: false
 last_checked: 2026-09-07
 updated: 2026-09-07

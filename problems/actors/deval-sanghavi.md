@@ -25,8 +25,8 @@ offers:
 sources:
   - {kind: linkedin, url: "https://www.linkedin.com/in/deval-sanghavi-2084a3a/", handle: "deval-sanghavi-2084a3a", last_checked: 2026-09-10, status: unconfirmed}
 contact_route: "LinkedIn"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-10
 updated: 2026-09-10
 ---

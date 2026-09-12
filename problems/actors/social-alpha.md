@@ -26,8 +26,8 @@ sources:
   - {kind: linkedin, url: "https://in.linkedin.com/company/social-alpha", handle: "social-alpha", last_checked: 2026-09-11, status: live}
   - {kind: website, url: "https://www.socialalpha.org/", last_checked: 2026-09-11, status: live}
 contact_route: "socialalpha.org contact form; warm intro via founder/CEO Manoj Kumar (LinkedIn: in.linkedin.com/in/mkbhatt)"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-11
 last_checked: 2026-09-11
 updated: 2026-09-11
 ---

@@ -11,7 +11,7 @@ leg: [institution]
 affected_led: no
 representation_unit: central-org
 stance: works-the-remedy
-leaves: [{id: silicosis-stone-industry, role: primary}, asbestos-import-legal, ambient-asbestos-demolition-dust]
+leaves: [{id: silicosis-stone-industry, role: primary}, asbestos-in-air]
 nodes: [toxic-exposure-class]
 geography: [india, gujarat]
 lifecycle: operating
@@ -34,8 +34,8 @@ updated: 2026-09-07
 
 ## Scope
 - `silicosis-stone-industry` — holds the one candidate detection technology that could unbundle finding from certifying. As of this record it is a published research output with no product line, no procurement pathway and no field deployment at scale — the detection layer exists in a lab, not in a camp.
-- `asbestos-import-legal` — conducted the asbestos-health study **co-funded by the asbestos industry (~₹16 lakh)** that the NHRC relied on to close the TWA complaint in 2016, and that the NGT flagged as a conflict of interest in its 30 Oct 2025 order. The same "captured institutional study" pattern as elsewhere in the tier.
-- `ambient-asbestos-demolition-dust` — the only Indian body that has done airborne-asbestos fieldwork (unorganised mills, AC plants); the plausible *executor* of an ambient (bystander) monitoring study, i.e. the institution that could work this stub, not one that does.
+- `asbestos-in-air` — conducted the asbestos-health study **co-funded by the asbestos industry (~₹16 lakh)** that the NHRC relied on to close the TWA complaint in 2016, and that the NGT flagged as a conflict of interest in its 30 Oct 2025 order. The same "captured institutional study" pattern as elsewhere in the tier.
+  Also the only Indian body that has done airborne-asbestos fieldwork (unorganised mills, AC plants), and so the plausible *executor* of the ambient (bystander) monitoring study the leaf turns on — the institution that could work this failure, not one that does.
 
 ## Status
 - **Funding** — Government of India (ICMR).

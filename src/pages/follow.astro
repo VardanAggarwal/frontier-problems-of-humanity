@@ -158,7 +158,15 @@ const nUnreachable = rows.filter((r) => r.unreachable).length;
       var q = document.getElementById('q');
       var none = document.getElementById('noresults');
       var counter = document.getElementById('nfollowed');
-      var filter = 'todo';
+      // A reload (an undo, or a corpus edit elsewhere) must not cost the filter.
+      var KEY = 'fph:follow-view';
+      var saved = {};
+      try { saved = JSON.parse(sessionStorage.getItem(KEY) || '{}'); } catch (e) {}
+      var filter = saved.filter || 'todo';
+      if (saved.q) q.value = saved.q;
+      function remember() {
+        try { sessionStorage.setItem(KEY, JSON.stringify({ filter: filter, q: q.value })); } catch (e) {}
+      }
 
       function say(msg, tone) {
         status.textContent = msg || '';
@@ -177,6 +185,7 @@ const nUnreachable = rows.filter((r) => r.unreachable).length;
         var n = 0;
         rows.forEach(function (r) { var ok = pass(r); r.hidden = !ok; if (ok) n++; });
         none.hidden = n > 0;
+        remember();
         counter.textContent = rows.filter(function (r) { return r.dataset.followed === '1'; }).length;
       }
 
@@ -209,6 +218,7 @@ const nUnreachable = rows.filter((r) => r.unreachable).length;
       }
 
       document.querySelectorAll('.f').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.dataset.f === filter));
         b.addEventListener('click', function () {
           filter = b.dataset.f;
           document.querySelectorAll('.f').forEach(function (o) {

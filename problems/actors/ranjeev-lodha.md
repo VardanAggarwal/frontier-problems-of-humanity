@@ -2,7 +2,7 @@
 name: Ranjeev Lodha
 slug: ranjeev-lodha
 type: individual
-depth: registry
+depth: excluded
 aka: []
 parent:
 superseded_by:
@@ -54,3 +54,6 @@ LinkedIn (in.linkedin.com/in/ranjeev-lodha-61b6716); a second, likely distinct, 
 - 2026-09-10 — Record created from Villgro's board page (wave 4 of the Villgro crawl).
 
 <!-- depth: registry — board seat, no stated ask; two same-name LinkedIn profiles found, only the Huhtamaki-matching one recorded. -->
+
+<!-- excluded 2026-09-10 — Link not working
+     was depth: registry. Out of the follow list and out of the crawl; record and edges kept. -->

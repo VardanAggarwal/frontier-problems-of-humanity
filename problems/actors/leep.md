@@ -22,7 +22,7 @@ offers:
 sources:
   - {kind: website, url: "https://leadelimination.org/", handle: "", last_checked: 2026-09-07, status: live}
   - {kind: newsletter, url: "https://leadelimination.org/", handle: "annual reviews", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "@LeadElimination", last_checked: 2026-09-07, status: none-found}
+  - {kind: x, url: "https://x.com/LeadElimination", handle: "@LeadElimination", last_checked: 2026-09-07, status: unconfirmed}
 contact_route: "contact form at leadelimination.org."
 followed: false
 last_checked: 2026-09-07

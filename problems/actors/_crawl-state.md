@@ -556,3 +556,356 @@ Budget stopped after P5. Trestle Labs, PadUp Ventures, GivFunds (P6 UnLtd India 
 
 - 242 actors total on disk (no new files written this pass — all five targeted actions were edits to existing records). `npm run validate`: 0 errors, 70 warnings (identical baseline). `npm run follow`: 165 to follow, 13 unreachable.
 - Next wave's highest-value targets, in order: (1) Trestle Labs (UnLtd India's 3rd portfolio sample, room under the ≤4 cap); (2) 2-4 named Ashoka India Fellows sampled by need-legibility; (3) Global Fund and UNIDO as recurring multilateral nodes; (4) a named successor CEO at UnLtd India, if one surfaces.
+
+# IMPACT ACCELERATORS SEGMENT SWEEP (2026-09-11, roster/breadth pass — not edge-following)
+
+Roster built before research: ~35 candidates enumerated from Atal Innovation Mission listings,
+DST/NSTEDB TBI mentions, a "11 Social Incubators in India" listicle (thebetterindia.com), the
+known-missing list in the task prompt, and follow-on searches (Tata Social Enterprise Challenge,
+AIC RAISE/NCore, GAME, Jindal Centre, Bharat Impact, Impact Hub). Already-covered actors
+(villgro, social-alpha, ciie-co, unltd-india, india-health-fund, menterra, selco-foundation,
+dasra, sankalp-forum, intellecap, aavishkaar-group, ashoka-india, upaya-social-ventures) were
+deduped out before any research spend, per the dedupe rule — `upaya-social-ventures.md` was
+found to already exist and was edited in place, not rewritten.
+
+## WRITTEN (15 new, all `depth: registry`, thin)
+
+- nsrcel.md — IIM Bangalore, Impact Orbit vertical — capacity-builder
+- deshpande-startups.md — Hubballi (Sandbox Startups) — capacity-builder
+- action-for-india.md — New Delhi, AISEA/DST-funded — capacity-builder/convener
+- rtbi-iit-madras.md — Chennai, IIT Madras rural/ICT incubator — capacity-builder (flagged possibly legacy/dormant web presence)
+- startup-oasis.md — Jaipur, RIICO+CIIE.CO joint, 7 Rajasthan centres — capacity-builder
+- marico-innovation-foundation.md — promoted from an investor line in padcare-labs.md — capacity-builder/funder
+- tata-social-enterprise-challenge.md — IIM Calcutta + Tata Sons, since 2012 — capacity-builder/funder
+- aic-raise.md — Coimbatore, AIM/NITI Aayog, SDG-organised — capacity-builder
+- aic-ncore.md — The/Nudge-partnered AIC, poverty-alleviation focus — capacity-builder
+- the-nudge-institute.md — Bangalore, Atul Satija, ₹50L-2cr grants — capacity-builder/funder/field-builder
+- yunus-social-business-india.md — YSB India, joint accelerator with Upaya — capacity-builder/funder
+- game-mass-entrepreneurship.md — MSME field-builder, WEP partner with NITI Aayog/SIDBI — field-builder/capacity-builder
+- jindal-centre-social-innovation-entrepreneurship.md — O.P. Jindal Global University, Tibetan-entrepreneur incubation niche — capacity-builder
+- bharat-impact.md — Jubilant Bhartia Foundation, ₹5L/startup, 200-by-2030 target — capacity-builder/funder
+- impact-hub-hyderabad.md — only confirmed-active India chapter found this pass — capacity-builder/convener
+
+## UPDATED
+
+- upaya-social-ventures.md — added `co-funded → yunus-social-business-india` edge (2022 joint accelerator).
+
+## PRUNED (at harvest, before research spend)
+
+- Khosla Labs — Bengaluru fintech incubator; description reads as having pivoted to being a
+  product/tech company that spins off ventures funded by Khosla Ventures, not a currently
+  operating social-enterprise cohort accelerator. Out on current-operation grounds.
+- IDEX Accelerator — six-month fellowship that places young professionals INSIDE existing
+  social enterprises; doesn't itself select a venture cohort, so fails this pass's unit test
+  (accelerator = selects ventures, not people). A talent-fellowship lead, not this segment's unit.
+- Zone Startups India — Microsoft-backed enterprise/B2B/deep-tech accelerator; no impact thesis
+  found. Out on segment-fit grounds.
+- Ennovent — confirmed closed down end of March 2024 (multiple sources); not currently operating.
+- Artha (fund) — could not verify an impact/social-enterprise thesis distinct from generic
+  venture investing within budget; not written.
+
+## NOT WRITTEN, deliberately
+
+- Impact Hub Bangalore / Impact Hub Delhi — searched for, not confirmed currently active this
+  pass (only Hyderabad chapter turned up a 2026-dated event). Left as unresolved leads rather
+  than folded into or duplicated from impact-hub-hyderabad.md.
+- AIC-GIM, AIC RMP Foundation — named in the initial Atal Incubation Centre search as
+  social-enterprise-relevant AICs but not independently verified/researched — leads only.
+
+## LEADS — next wave, unresearched
+
+- Atul Satija (The/Nudge Institute founder) — named individual, likely has an active personal
+  channel; not verified this pass. Highest-value single lead from this sweep.
+- Impact Hub Bangalore / Delhi — resolve current-activity status before writing.
+- AIC-GIM, AIC RMP Foundation — other social-focus Atal Incubation Centres surfaced in the
+  initial AIM search, not individually checked.
+- Kunal Upadhyay / CIIE.CO's Vipul Patel channel-check — already an open lead from the prior
+  Villgro/CIIE.CO pass (_crawl-state.md, "IMPACT ACCELERATORS SEGMENT CRAWL" section above);
+  not duplicated here.
+
+## STATE (end of this run)
+
+- 257 actors total on disk (242 + 15 written this pass). `npm run validate`: 0 errors, 70
+  warnings (identical baseline). `npm run follow`: 154 to follow, 13 unreachable.
+- This was a breadth/roster sweep per explicit instruction override — no funder/board/portfolio
+  fan-out was followed from any of the 15 new records; edges recorded are prose-only pointers
+  (e.g. `aic-ncore --board--> the-nudge-institute`) for a future wave to pick up if warranted.
+
+# INDIVIDUALS CONSOLIDATION PASS (2026-09-11, on the 15 impact-accelerator orgs)
+
+Unit: named individuals running the 15 orgs written in the segment sweep above, 9 of which had
+a website as their only channel. No new orgs researched, no funder/board/portfolio fan-out
+followed — individuals at these 15 orgs only, per explicit scope.
+
+## WRITTEN (13 individuals, all `depth: registry`)
+
+- atul-satija.md — The/Nudge Institute founder & CEO — X @atulsatija, LinkedIn in/atulsatija
+  (both sighted, `unconfirmed`). Highest-value lead from the prior pass, resolved first.
+- sagar-chandni.md — UnLtd India Incubation Director (top-billed staffer; CEO seat still open) —
+  LinkedIn unconfirmed.
+- sanjay-kadaveru.md — Action for India Founder & President — LinkedIn in/kadaveru, unconfirmed.
+- tamaswati-ghosh.md — CEO, IIT Madras Incubation Cell (RTBI's parent) — LinkedIn unconfirmed.
+- chintan-bakshi.md — Startup Oasis CEO — X @BakshiChintan, LinkedIn, both unconfirmed.
+- nagaraj-balakrishnan.md — AIC RAISE CEO (also CBO, Rathinam Group) — LinkedIn (handle "drbn",
+  sighted via post slug), unconfirmed. Note: an earlier search hit for "B. Nagaraj" was a name
+  variant/byline error for this same person, not a distinct individual.
+- vivek-prakash.md — Head, Jubilant Bhartia Foundation (established Bharat Impact) — LinkedIn
+  unconfirmed.
+- jyoshna-reddy.md — Impact Hub Hyderabad Co-Founder & COO — LinkedIn unconfirmed.
+- nachiket-kulkarni.md — NSRCEL AVP running Impact Orbit — LinkedIn unconfirmed.
+- karthik-sankaran-deshpande.md — Deshpande Startups CEO since 2023-06 — no personal
+  LinkedIn/X disambiguated from same-name false positives; `none-found`, genuinely searched.
+- suranjana-ghosh.md — Head of Marico Innovation Foundation — org bio page found; no personal
+  channel disambiguated; `none-found`, genuinely searched.
+- suresh-k-krishna.md — Co-founder & CEO, Yunus Social Business Fund Bengaluru — LinkedIn
+  unconfirmed.
+- ravi-venkatesan.md — GAME founder (also GEAPP Chairman, ex-Bank of Baroda Chairman, ex-Infosys
+  Co-Chairman) — X @rvenk, LinkedIn, both unconfirmed. Highest-profile pick of this pass.
+
+## UPDATED — reciprocal `board ←` edge added, org's "How to reach them" now names the person
+
+the-nudge-institute, unltd-india, action-for-india, rtbi-iit-madras, startup-oasis, aic-raise,
+bharat-impact, impact-hub-hyderabad, nsrcel, deshpande-startups, marico-innovation-foundation,
+yunus-social-business-india, game-mass-entrepreneurship — all 13 now carry a named human as the
+followable route (or an honest "found the org, no personal channel" note for the two `none-found`
+cases: Deshpande Startups, Marico Innovation Foundation).
+
+## RESOLVED / STILL OPEN, as asked
+
+- **Atul Satija** — done first; X and LinkedIn both sighted (`unconfirmed`, not fetched).
+- **UnLtd India CEO** — still not found (checked again this pass, no new name surfaced beyond
+  the 2022 Bhartia departure already on file). Sagar Chandni (Incubation Director, top-billed
+  on the org's own team page) is now the named followable route instead — an honest partial
+  resolution, not a guess at a successor.
+
+## NOT WRITTEN, deliberately
+
+- Tata Social Enterprise Challenge (IIM Calcutta) — the one individual found (Prof. Ashok
+  Banerjee, "principal mentor, IIM C Innovation Park") moved to IIM Udaipur as director in
+  2022; no current TSEC-specific lead found. Left as an org-only record — a finding, not a gap
+  in the search.
+- Jindal Centre (JSiE) — founding director Jeremy J. Wade moved to Tulsa Community College (US)
+  as of Aug 2022; org's current day-to-day lead not found. Same treatment as TSEC.
+- AIC NCore — hosted/strategically partnered by The/Nudge Institute; Atul Satija's record
+  already covers this org's reach path, so no separate individual was researched.
+
+## STATE (end of this run)
+
+- 270 actors total on disk (257 + 13 written this pass). `npm run validate`: 0 errors, 70
+  warnings (identical baseline — confirmed all 13 new files carry `ecosystem_role`, avoiding
+  the "attaches to nothing" warning). `npm run follow`: 158 to follow, 13 unreachable.
+- Next wave's highest-value targets, if this segment is revisited: a current TSEC/JSiE lead (both
+  orgs lost their named individual to a role change and neither replacement was found this pass).
+
+# PRIVATE ACCELERATORS SEGMENT SWEEP, SECOND PASS (2026-09-11) — closing the institutional blind spot
+
+Unit: India-active, **privately/independently funded** impact accelerators and venture studios —
+deliberately NOT re-hitting AIM/DST/IIM/IIT rosters (first sweep's method). Candidate list built
+from startup press (Inc42, YourStory, thebetterindia, ESG/climate-fund press), LinkedIn/Medium
+cohort posts, and direct searches for "venture studio India impact" / climate-tech accelerator
+coverage — ~27 names surfaced before any record was written, clearing the 25-40 bar.
+
+## WRITTEN (4, all `depth: registry`)
+
+- build3.md — Goa/Pune venture studio + accelerator, ₹25L/startup, 10-week programme, **Cohort
+  11** running (proof case named in the brief; three cohorts in old public coverage was stale —
+  founders Varun Chawla, Alakshi Tomar, Abhimanyu Rathi all named in-file) — capacity-builder/funder
+- rebalance.md — Gurugram, India's first accelerator for women/diverse founders, 15-week cohort
+  twice yearly, 10 cohorts run, founders Aishwarya Malhi & Vikas Kumar named — capacity-builder/funder
+- anthill-ventures.md — Hyderabad, Prasad Vanga (Founder/CEO), VC+6-month accelerator hybrid,
+  health/climate/urban lean but portfolio also generic consumer — written with that caveat stated
+  in-file rather than inflated — capacity-builder/funder
+- 100x100-ventures.md — Singapore HQ, deliberate scope departure (explained in-file): climate
+  venture-builder co-building companies in India (Biora, Ecomet Logistics), $100M Fund II 2026,
+  India-facing partner Subhadeep Sanyal named — capacity-builder/funder
+
+## PRUNED (at harvest, before or after a confirming search — reasons vary, all recorded)
+
+- Sangam Ventures / AIC Sangam — the only accelerator arm (AIC Sangam) is AIM-partnered, i.e.
+  institutional-hosted; Sangam Ventures itself is a pure VC fund with no independent cohort.
+- Wadhwani Foundation (WF Venture Fastrack / ScaleUp) — generic MSME/entrepreneurship capacity
+  building, no impact-specific thesis distinct from the broad startup ecosystem.
+- Bharat Inclusion Initiative / Financial Inclusion Lab — hosted by CIIE.CO under IIM Ahmedabad;
+  institutional host, same layer the first sweep already covered (and CIIE.CO is already on file).
+- Third Derivative (RMI) — global climate accelerator, India is ~15% of portfolio but org is US/
+  global HQ, not India-based; a lead, not a record, per this pass's unit test.
+- ReNew Power "Women for Climate" accelerator — corporate CSR programme run jointly with UNDP and
+  IIT Delhi; institutional partner disqualifies it same as an AIM/DST host would.
+- IHFC-India Accelerator MedTech (IIT Delhi) and I-HEAL (ISB) — both university-hosted, exactly
+  the layer this pass was told to skip.
+- IIHMR Startups — IIHMR is an institute (govt-adjacent health-management research body), same
+  institutional-host reasoning.
+- SAMRIDH — USAID/government-backed grant programme, institutional.
+- POWERED Accelerator — Shell Foundation + Zone Startups, funded by UK DFID + Government of India
+  DST; Zone Startups was already pruned in the first sweep for no impact thesis, and this
+  programme is DST-funded on top of that.
+- Google for Startups Accelerator (incl. Women Founders India) — Google-run corporate global
+  accelerator, not an independent India actor.
+- Avishkar Venture Studio — run by CIE at IIIT Hyderabad; institutional host, deep-tech generalist
+  thesis, no impact focus.
+- Omnivore, Ankur Capital, Bharat Innovation Fund — all confirmed to be VC funds without a
+  standalone cohort/accelerator programme (Bharat Innovation Fund is additionally CIIE.CO/IIMA-
+  hosted); fail the "runs an actual cohort" test in the brief.
+- **Artha (retried per explicit instruction)** — confirmed this pass: "Artha Impact" is Zurich-
+  headquartered, not India-based, made no new investments in 2026, and its cohort vehicle (the
+  Artha Venture Challenge) ran 2013-2017 and is dormant. "Artha Venture Fund" (Mumbai) is a
+  separate, unrelated, generic VC entity despite the similar name. Pruned again, now with dated
+  evidence rather than "thesis unverifiable in budget."
+- Meraki Labs (Bengaluru venture studio) — claims education/sustainability/inclusion sectors but
+  named portfolio (Groww, Skyroot, NextLeap) reads as a generic tech studio; no founder name
+  confirmed within budget (LinkedIn/Tracxn/PitchBook all returned team-size only). Genuinely
+  searched, thesis not sourced as impact-specific — pruned, not written.
+- Biome (Hyderabad venture studio, ₹100cr) — founders named (Srinivas Kollipara, Madhu Poomalil,
+  Kaustubh Patekar, Zaran Bhagwagar) but stated sectors ("infrastructure, enterprise solutions,
+  innovation") are generic, no impact thesis found.
+- Innovations Venture Studio (Manish Khurana, Delhi NCR) — portfolio (NewsReach, Cricstudio,
+  Maverick Simulation) is generic tech/PR-tech; "ethical and sustainable growth" is marketing
+  copy, not a sourced thesis.
+- Indigram Labs — private-company-structure but DST/NSTEDB/BIRAC-funded agritech incubator;
+  institutional-host layer, same as the first sweep's exclusions.
+- Rainmatter Foundation — Zerodha-founder-backed climate/livelihoods grantmaker; genuinely
+  private and unfunded-by-government, but it is a foundation making grants/partnerships, not an
+  accelerator running a cohort programme — fails this pass's unit test on model, not on funding
+  source. Worth a separate funder-segment pass, not this one.
+
+## NOT WRITTEN, deliberately
+- Rainmatter Foundation, Meraki Labs, Biome, Innovations Venture Studio — see PRUNED, each with
+  its own specific reason (model mismatch, or thesis unconfirmed within budget).
+
+## LEADS — next wave, unresearched
+- Varun Chawla, Prasad Vanga individual records — both have confirmed LinkedIn and are the
+  clearest named humans from this pass; worth a follow-up individuals-consolidation pass like the
+  one run on the first accelerator sweep.
+- Subhadeep Sanyal (100x100's India-facing partner) — no personal channel found this pass; worth
+  a dedicated search.
+- A genuinely India-HQ climate venture-builder (100x100's shape, minus the Singapore HQ) — not
+  found this pass; if one exists, it would be the strongest single addition to this segment.
+
+## JUDGEMENT — is the privately-run layer bigger than the institutional one?
+
+**No — smaller, and the reason is structural, not a search-budget artifact.** Of ~27 candidates
+surfaced, all but 4 collapsed into one of three buckets that are NOT this segment: (1) an
+institutional host (IIT/IIM/ISB/CIIE.CO/AIM/DST) wearing a private-sounding brand name — this was
+the single largest bucket and the exact blind spot the first sweep had, just with better search
+terms; (2) a corporate CSR programme (Google, ReNew, Shell Foundation) with a government or
+multilateral co-sponsor; (3) a generic VC fund or venture studio with no sourced impact thesis,
+where "impact" turns out to be marketing copy over a portfolio of ordinary consumer/enterprise
+bets (Meraki Labs, Biome, Innovations Venture Studio, Anthill's non-core portfolio). Genuinely
+independent, privately-funded, cohort-running, impact-thesis-sourced accelerators are rare in
+India specifically because the capital-plus-impact-thesis combination is usually easier to fund
+via an institutional host (a university brand lowers founder-acquisition cost, a government tag
+unlocks grant capital) than to sustain on a founder's own balance sheet. build3 and Rebalance are
+the clean cases; Anthill and 100x100 are honest half-fits written with their caveats stated. The
+first sweep had, in fact, already caught most of the *institutional-adjacent* segment; this pass's
+real yield is proving the independent layer is thin, not large — a finding, not a gap in the
+search.
+
+## STATE (end of this run)
+
+- 274 actors total on disk (270 + 4 written this pass). `npm run validate`: 0 errors, 70 warnings
+  (identical baseline). `npm run follow`: 161 to follow, 13 unreachable.
+
+---
+
+## PASS — 2026-09-11 — Job A (individuals) + Job B (impact investors / venture studios segment)
+
+### JOB A — individual records
+- `prasad-vanga.md` written (Founder & CEO, Anthill Ventures) — LinkedIn confirmed via search
+  (in.linkedin.com/in/prasadvanga), `unconfirmed` (sighted, not fetched). Reciprocal `board ←`
+  edge added to `anthill-ventures.md`.
+- `subhadeep-sanyal.md` written (India-facing Partner, 100x100 Ventures; ex-Omnivore Partner,
+  2011–2026, Delhi office, ran the technical-assistance facility) — re-searched per instruction;
+  this pass found BOTH a LinkedIn (in.linkedin.com/in/subhadeep-sanyal-4021261a) and an X handle
+  (@subhadeepsanyal), both `unconfirmed` (sighted, not fetched) — an upgrade from the prior pass's
+  genuine "none found." Reciprocal `board ←` edge added to `100x100-ventures.md`.
+- Varun Chawla (Build3) deliberately NOT written this pass, per explicit instruction.
+
+### JOB B — segment sweep: India impact investors and venture studios
+
+**Candidates enumerated: ~35** (IIC's stated ~40-80 member base not itemised by name behind a
+403'd members page; worked instead from a Shizune "Top 50 Impact VC Funds India" list — noting
+that list's quality is mixed, mixing genuine impact-thesis funds with generalist VCs (Accel,
+Elevation, Nexus, Titan Capital, 3one4 all appeared on an "impact" list with no impact thesis —
+none of these were pursued) — plus direct searches per the required-reconsideration list and for
+India-HQ venture studios specifically.
+
+**Prior-pass reinstatement — the 12 named prunes, reconsidered:**
+- **Reinstated and WRITTEN (5):** Omnivore, Ankur Capital, Sangam Ventures, Rainmatter Foundation,
+  Third Derivative. Each had a substantive sourced impact/climate thesis; the only reason they were
+  pruned before was "no standalone cohort," which this pass's brief explicitly does not apply.
+- **Reconsidered and STILL PRUNED, on independent substantive grounds (7):** Bharat Innovation
+  Fund (re-verified — deep-tech generalist thesis, "Building in India for the World," no
+  impact/climate mandate distinct from any deep-tech fund; healthcare/agri/renewables named only as
+  target *sectors* for scalable tech, not as a stated impact thesis), Avishkar Venture Studio
+  (institutional host, CIE @ IIIT-Hyderabad — unchanged), Meraki Labs, Biome, Innovations Venture
+  Studio (all three re-affirmed: no sourced impact thesis, generic tech/consumer portfolios — not
+  re-searched further this pass, prior pass's search was genuine), Indigram Labs (DST/NSTEDB/BIRAC-
+  funded institutional-host incubator — unchanged), Wadhwani Foundation (generic MSME/
+  entrepreneurship capacity-building, no impact-specific mandate — unchanged, not re-searched this
+  pass given budget).
+
+**New candidates found and WRITTEN (8):** Avaana Capital ($135M Avaana Climate & Sustainability
+Fund, closed Oct 2024, GCF/DFC/UKIDCF/SIDBI/Azim Premji Trust LPs — Anjali Bansal), Lok Capital
+($350M+ across 4 funds since 2004, financial inclusion/health/agri — Venky Natarajan), Infuse
+Ventures (₹110 Cr CIIE.CO-hosted cleantech fund, one of India's first, 2013), Acumen (global,
+India office since 2001, patient capital, off-grid energy/agri/dignity-of-work), Caspian Impact
+Investments (~₹4,500 Cr cumulative MSME debt since 2013 — **note: merged into BlackSoil Capital,
+rebranded Udhyam Debt effective 2025-11-01; recorded as a distinct historical actor with the
+lifecycle change flagged**), Blue Ashva Capital (>$100M AUM, Singapore/Mumbai, climate+deep-tech,
+Satya Bansal), Climate Angels (SEBI Cat-I climate angel syndicate, 20+ startups, Shailesh Vickram
+Singh), **NOW Venture Studio** (Bengaluru, India-HQ climate/deep-tech venture studio, $2M studio
+fund, Gayathri Kuppendra Reddy — this is the genuinely India-HQ venture-builder the prior pass
+explicitly flagged as missing and worth finding).
+
+**NOT WRITTEN, deliberately:**
+- Impact India Investment Partners — appeared only in the low-quality Shizune synthetic list with
+  a generic description ("Health Care, Waste Management, Biotechnology"); a direct search returned
+  no independently verifiable organisation of that name distinct from noise (C4D Partners,
+  Brookings/ORF policy papers). Not written — no verifiable source.
+- Momentum Capital, Transition Venture Capital, Shastra VC, Echo River Capital, Impact India
+  Investment Partners, Aureolis Ventures, KFW DEG — all appeared on the Shizune list but not
+  independently searched this pass for a sourced thesis, given budget; carried to LEADS below
+  rather than written speculatively.
+- build3, Varun Chawla — already on file / deliberately excluded from this pass per instruction.
+
+**Reciprocal edges:** `prasad-vanga` ↔ `anthill-ventures`; `subhadeep-sanyal` ↔ `100x100-ventures`.
+No new board/team edges surfaced for the 13 org records this pass beyond the founder names already
+in each record's prose (Job B rule: name individuals in prose, don't spin up files for them).
+
+### LEADS — next wave, unresearched
+- Momentum Capital, Transition Venture Capital, Shastra VC, Echo River Capital, Aureolis Ventures
+  — appeared on a generalist "impact VC" aggregator list, thesis not yet independently verified;
+  worth one search each before writing.
+- KFW DEG — German DFI active in India across energy/fintech; global institution, in-scope test
+  (funds into India) likely satisfied but not verified this pass.
+- Named individuals not yet given their own files: Anjali Bansal (Avaana), Venky Natarajan (Lok
+  Capital), Karthik Chandrasekar (Sangam Ventures), Satya Bansal (Blue Ashva), Shailesh Vickram
+  Singh (Climate Angels), Gayathri Kuppendra Reddy (NOW Venture Studio), S. Viswanatha Prasad
+  (Caspian) — all named in org prose this pass per the Job B rule against individual records; worth
+  a dedicated "movers of this segment" individuals-consolidation pass, same shape as the one run
+  after the first accelerator sweep.
+- Rainmatter Capital's remaining ~40 India climate investments (43 total, 3 sampled this pass).
+- Third Derivative's remaining India cohort companies (6 of 26 in most recent cohort, 0 named/
+  sampled this pass — page not fetched, budget discipline).
+
+### JUDGEMENT — is this segment now well covered?
+
+**Reasonably well covered for equity/debt impact investors; still has a visible gap in venture
+studios.** The impact-investor sub-segment now has 12 records spanning agri/food (Omnivore, Ankur
+Capital), climate/decarbonisation (Avaana, Blue Ashva, Climate Angels), financial inclusion/
+diversified impact (Lok Capital, Caspian), patient/grant capital (Rainmatter, Acumen), and one
+India-hosted institutional-origin cleantech fund (Infuse Ventures) — plus the prior sweep's
+100x100 and build3. That is a genuinely broad, thesis-differentiated map of who moves capital into
+Indian impact enterprises. The venture-studio sub-segment remains thin: NOW Venture Studio is the
+only clean India-HQ case found across two passes: the segment appears genuinely small in India
+(the capital-plus-hands-on-building model is capital- and talent-intensive, and most attempts
+either fold into an institutional host — Avishkar/IIIT-H — or turn out to be generic tech studios
+with impact-adjacent marketing copy, not a sourced thesis). Recommend one more targeted wave
+specifically on venture studios before considering that sub-segment closed; the investor
+sub-segment does not need another wave at this cap.
+
+## STATE (end of this run)
+
+- 289 actors total on disk (274 + 2 individuals + 13 org records this pass). `npm run validate`:
+  0 errors, 70 warnings (identical baseline, none newly introduced). `npm run follow`: 176 to
+  follow, 13 unreachable.

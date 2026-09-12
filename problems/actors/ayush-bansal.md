@@ -23,8 +23,8 @@ offers: []
 sources:
   - {kind: linkedin, url: "https://www.linkedin.com/posts/ayushbansal1_idreamcareercom-is-hiring-if-you-want-activity-6998991700723445760-XNf1", handle: "ayushbansal1", last_checked: 2026-09-10, status: unconfirmed}
 contact_route: "LinkedIn (ayushbansal1); via idreamcareer.com"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-10
 updated: 2026-09-10
 ---

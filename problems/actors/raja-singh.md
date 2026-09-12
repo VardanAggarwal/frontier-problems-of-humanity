@@ -14,7 +14,7 @@ leg: [activism]
 affected_led: no
 representation_unit: central-org
 stance: works-the-remedy
-leaves: [{id: ambient-asbestos-demolition-dust, role: primary}, asbestos-import-legal]
+leaves: [{id: asbestos-in-air, role: primary}]
 nodes: [toxic-exposure-class, construction]
 geography: [india, rajasthan, usa]
 lifecycle: operating
@@ -47,8 +47,8 @@ updated: 2026-09-09
 **What they do.** Researcher and litigant on Indian asbestos exposure, working the exposure route that the ban campaign does not cover: the already-installed asbestos-cement stock re-entering the air as it weathers, is renovated and is demolished. Visiting faculty at the School of Planning and Architecture, New Delhi, and attached to the Department of Environmental and Occupational Health at Drexel's Dornsife School of Public Health. He is unusual in this registry in doing both halves of the work himself — he filed and argued *Dr. Raja Singh v. Union of India* (O.A. 298/2023) before the NGT **as party-in-person**, against MoEF&CC, MoHUA, MoE, CPCB and the manufacturers' association, and he is first author of the only Indian transmission-electron-microscopy measurement of asbestos in ambient dust published in the last decade.
 
 ## Scope
-- `ambient-asbestos-demolition-dust` — **primary**. The judgment of 30 October 2025 is the first Indian instrument to name this exposure route, and it produced the CPCB re-entrainment SOP direction (XVI) and the MoEF&CC phase-out policy direction (XVII). The IJERPH 2025 paper is the only Indian ambient-adjacent TEM measurement on the leaf.
-- `asbestos-import-legal` — supporting. Adjacent, and the same carrier and node, but the litigation targets installed stock rather than the import trade that BANI works.
+- `asbestos-in-air` — **primary**. The judgment of 30 October 2025 is the first Indian instrument to name this exposure route, and it produced the CPCB re-entrainment SOP direction (XVI) and the MoEF&CC phase-out policy direction (XVII). The IJERPH 2025 paper is the only Indian ambient-adjacent TEM measurement on the leaf.
+  Within the merged leaf his work is route 2 (the installed stock); the import trade BANI works is route 1, same carrier and node, different blocker.
 
 ## Status
 - **Funding** — none identified. Argued to judgment as party-in-person; the IJERPH paper's funding is unverified as of 2026-09-09.
@@ -65,7 +65,7 @@ Email, not a feed. A channel search on 2026-09-09 found **no social presence at 
 
 ## Recent updates
 <!-- reverse-chron, fixed format, appended by the monitoring agent -->
-- 2026-09-09 — added to the registry from the `ambient-asbestos-demolition-dust` leaf pass; channel search returned Scholar + email only, X and LinkedIn confirmed `none-found`.
+- 2026-09-09 — added to the registry from the `asbestos-in-air` leaf pass; channel search returned Scholar + email only, X and LinkedIn confirmed `none-found`.
 - 2026 — "Commentary on Notification and Recordkeeping of Occupational Mesothelioma in India", *American Journal of Industrial Medicine* — listed on his Scholar profile; not independently verified as of 2026-09-09. Directly on the detection-layer question this leaf turns on.
 - 2025-11-10 — FCPMA press release via ANI framed the judgment as "NGT Upholds Safety of Asbestos-Cement Roofing", carried by Business Standard and The Wire — https://www.business-standard.com/content/press-releases-ani/ngt-upholds-safety-of-asbestos-cement-roofing-no-evidence-of-public-health-risk-125111000674_1.html
 - 2025-10-30 — NGT disposes O.A. 298/2023 with 17 remedial directions; relief on immediate replacement in schools refused — https://fcpma.in/wp-content/uploads/2025/11/Judgement_Raja-Singh-v-UOI-and-ors1.pdf

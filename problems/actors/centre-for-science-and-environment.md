@@ -21,7 +21,7 @@ offers:
   - {kind: credibility, text: "40+ year institution with policy access across MoEFCC and state governments"}
 sources:
   - {kind: website, url: "https://www.cseindia.org/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "@CSEINDIA", last_checked: 2026-09-07, status: none-found}
+  - {kind: x, url: "https://x.com/CSEINDIA", handle: "@CSEINDIA", last_checked: 2026-09-07, status: unconfirmed}
   - {kind: website, url: "https://www.downtoearth.org.in/", handle: "Down To Earth", last_checked: 2026-09-07, status: live}
 contact_route: "cseindia.org; Anumita Roychowdhury via CSE press."
 followed: true

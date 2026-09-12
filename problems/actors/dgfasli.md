@@ -11,7 +11,7 @@ leg: [institution]
 affected_led: no
 representation_unit: central-org
 stance: works-the-remedy
-leaves: [silicosis-stone-industry, ambient-asbestos-demolition-dust]
+leaves: [silicosis-stone-industry, asbestos-in-air]
 nodes: [toxic-exposure-class]
 geography: [india]
 lifecycle: operating
@@ -42,5 +42,5 @@ updated: 2026-09-09
 Institutional — dgfasli.gov.in.
 
 ## Recent updates
-- 2026-09-09 — Linked to `ambient-asbestos-demolition-dust`: its 2019 *National Study on Occupational Safety, Health and Working Environment in asbestos-cement product industries* (50 plants; 35 within 0.1 f/ml, 15 at 0.2–0.4 f/ml) is one of only two Indian asbestos air-measurement datasets, and both are occupational — which is why the NGT expert committee had to substitute a Sri Lankan household study.
+- 2026-09-09 — Linked to `asbestos-in-air`: its 2019 *National Study on Occupational Safety, Health and Working Environment in asbestos-cement product industries* (50 plants; 35 within 0.1 f/ml, 15 at 0.2–0.4 f/ml) is one of only two Indian asbestos air-measurement datasets, and both are occupational — which is why the NGT expert committee had to substitute a Sri Lankan household study.
 - 2026-09-07 — Record created from the `silicosis-stone-industry` leaf sweep. — https://dgfasli.gov.in/

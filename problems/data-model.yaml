@@ -133,7 +133,7 @@ enums:
 
   node_status: [open, fix-known, fix-partial, fix-done]
 
-  leg: [activism, institution, enterprise]
+  leg: [activism, institution, enterprise, service]
 
   affected_led: [yes, no, partial]
 
@@ -438,6 +438,11 @@ entities:
         # office in a body with authority over the source. A proxy activist, litigator or
         # policy-shaper without a seat is `activism` — model their institutional influence
         # via an `affiliations` entry to the org/board record, not a second leg.
+        # `enterprise` is market-payer only: beneficiary/customer pays, unit economics
+        # must close. `service` is donor/philanthropy-funded delivery with no earned
+        # revenue — the beneficiary doesn't pay, a third party does. A hybrid org
+        # (e.g. BRAC) carries both: its trading arm is `enterprise`, its grant-funded
+        # programmes are `service` — not one leg with a footnote.
       affected_led:        {type: enum.affected_led, required: true}
       representation_unit: {type: enum.representation_unit, required: true}
       stance:              {type: enum.stance, required: true, default: works-the-remedy}

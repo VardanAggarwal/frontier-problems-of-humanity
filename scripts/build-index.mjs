@@ -85,7 +85,7 @@ CREATE TABLE node (record_id INTEGER PRIMARY KEY REFERENCES record(id),
                    sub_levers TEXT, status TEXT NOT NULL);
 CREATE TABLE actor (
   record_id INTEGER PRIMARY KEY REFERENCES record(id),
-  name TEXT NOT NULL, type TEXT, depth TEXT CHECK (depth IN ('registry','tracked')),
+  name TEXT NOT NULL, type TEXT, depth TEXT CHECK (depth IN ('registry','tracked','excluded')),
   legs TEXT, affected_led TEXT, representation_unit TEXT,
   stance TEXT CHECK (stance IN ('works-the-remedy','neutral','organised-against-remedy','ambiguous')),
   geography TEXT, lifecycle TEXT, lifecycle_as_of TEXT,

@@ -7,7 +7,7 @@ aka: []
 parent:
 superseded_by:
 affiliations: []           # individuals: [{actor: <slug>, role: , from: , to: }]
-leg: []                    # activism | institution | enterprise
+leg: []                    # activism | institution | enterprise | service
 affected_led: no           # yes | no | partial
 representation_unit:       # local-affected | central-org | enterprise | central-at-named-legitimacy-cost
 stance: works-the-remedy   # works-the-remedy | neutral | organised-against-remedy | ambiguous

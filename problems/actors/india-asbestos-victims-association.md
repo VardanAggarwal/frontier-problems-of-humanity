@@ -10,7 +10,7 @@ leg: [activism]
 affected_led: yes
 representation_unit: central-org
 stance: works-the-remedy
-leaves: [asbestos-import-legal, ambient-asbestos-demolition-dust]
+leaves: [asbestos-in-air]
 nodes: [toxic-exposure-class]
 geography: [india]
 lifecycle: operating
@@ -32,10 +32,10 @@ updated: 2026-09-09
 **What they do.** The victims' body inside the BANI-IAVA formation — affected-led standing on the asbestos issue, but non-autonomous, operating through BANI with no independent channel.
 
 ## Scope
-- `asbestos-import-legal` — the affected-led voice in the alliance; that it has no channel of its own is itself a finding about who is reachable.
+- `asbestos-in-air` — the affected-led voice in the alliance; that it has no channel of its own is itself a finding about who is reachable.
 
 ## How to reach them
 Via BANI.
 
 ## Recent updates
-- 2026-09-07 — Record created from the `asbestos-import-legal` retrofit. — https://www.asbestosfreeindia.org/
+- 2026-09-07 — Record created from the `asbestos-in-air` retrofit. — https://www.asbestosfreeindia.org/

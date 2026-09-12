@@ -24,8 +24,8 @@ offers:
 sources:
   - {kind: linkedin, url: "https://in.linkedin.com/in/ashwin-mahalingam-084b3b216", handle: "ashwin-mahalingam-084b3b216", last_checked: 2026-09-10, status: unconfirmed}
 contact_route: "LinkedIn; IIT Madras Dept of Civil Engineering"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-10
 updated: 2026-09-10
 ---

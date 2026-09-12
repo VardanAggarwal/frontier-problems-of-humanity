@@ -25,10 +25,10 @@ offers:
 sources:
   - {kind: linkedin, url: "https://in.linkedin.com/in/mkbhatt", handle: "mkbhatt", last_checked: 2026-09-11, status: live}
 contact_route: "LinkedIn DM (in.linkedin.com/in/mkbhatt); Social Alpha contact form"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-11
-updated: 2026-09-11
+updated: 2026-09-10
 ---
 
 # Manoj Kumar

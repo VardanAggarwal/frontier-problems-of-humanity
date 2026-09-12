@@ -116,19 +116,21 @@ Rules:
 
 Run by `process-leaf`, once per failure instance — **not at tier time**. The tier file's only leg-symmetric obligation is `### Where it worked` (positive controls). Everything below produces leaf body §D and the `gap:` line.
 
-A failure is not neglected because the state is failing at it, and not solved because a company sells something adjacent. Before characterising any failure, establish who is *already* working it, across all three legs. One pass, three sub-blocks, same five questions:
+A failure is not neglected because the state is failing at it, and not solved because a company sells something adjacent. Before characterising any failure, establish who is *already* working it, across all four legs. One pass, four sub-blocks, same five questions. **Enterprise is market-payer only** (beneficiary/customer pays, unit economics must close); **service is donor/philanthropy-funded direct delivery** (no earned revenue, a third party pays). A hybrid org (BRAC, Aravind) carries both legs, one per revenue stream — not one leg with a footnote.
 
 1. **Who is active** — named actors, formation, funding source, status. → produces / updates an actor record (`problems/actors/<slug>.md`).
 2. **What makes the actor viable** — the leg-specific core:
-   - *Commercial:* who the paying customer is.
+   - *Enterprise:* who the paying customer is.
+   - *Service:* who pays (donor/philanthropy), and whether that funding survives donor exit.
    - *Activism:* whether leadership represents the harmed (affected-led vs proxy / NGO-staffed).
    - *Institution:* whether the body's authority contains the source, and its reporting unit is the harm unit.
 3. **Where effort deployed and failed, and why** —
-   - *Commercial:* unit economics, distribution cost, margin — the capital graveyard.
+   - *Enterprise:* unit economics, distribution cost, margin — the capital graveyard.
+   - *Service:* donor-dependency as the model rather than a transitional phase; grant-cycle horizon shorter than the problem's; donor priorities substituting for beneficiary voice.
    - *Activism:* won the law, lost the execution; blocker moved once vs institutionalised; movement organised *against* the remedy.
    - *Institution:* spend mismatched to source; the second half never built; disbursal rate.
 4. **Over-served / over-represented / over-institutionalised** — density disproportionate to measured harm. Diagnostic: usually means the served population is not the harmed one.
-5. **Failure modes with no actor of that leg** — and whether the reason is structural: harmed party cannot pay (commercial); harm latent / diffuse / the harmed benefit from the cause (activism); no administrative unit maps the harm (institution).
+5. **Failure modes with no actor of that leg** — and whether the reason is structural: harmed party cannot pay, and no donor will fund it either (enterprise + service); harm latent / diffuse / the harmed benefit from the cause (activism); no administrative unit maps the harm (institution).
 
 `affected-led` is a tag on the actor, not a leg — leg and unit are independent assignments.
 

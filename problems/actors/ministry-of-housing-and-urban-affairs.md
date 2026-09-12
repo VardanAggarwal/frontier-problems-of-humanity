@@ -11,7 +11,7 @@ leg: [institution]
 affected_led: no
 representation_unit: central-org
 stance: neutral
-leaves: [ambient-asbestos-demolition-dust]
+leaves: [asbestos-in-air]
 nodes: [construction]
 geography: [india]
 lifecycle: operating
@@ -32,4 +32,4 @@ updated: 2026-09-09
 **What they do.** Owns the Construction and Demolition Waste Management Rules 2016 and the urban local bodies that execute them — the instrument in which asbestos has no separate stream, no pre-demolition survey requirement and no wet-removal protocol. Respondent no. 2 in *Dr. Raja Singh v. Union of India* (NGT, O.A. 298/2023) and one of the four bodies required to file an Action Taken Report, due around 31 May 2026 and not on the public record as of 2026-09-09.
 
 ## Scope
-- `ambient-asbestos-demolition-dust` — the ministry whose rules would have to carry a pre-demolition asbestos survey; ATR filer under NGT ¶125.
+- `asbestos-in-air` — the ministry whose rules would have to carry a pre-demolition asbestos survey; ATR filer under NGT ¶125.

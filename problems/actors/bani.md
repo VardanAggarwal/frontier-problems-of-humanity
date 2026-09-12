@@ -8,7 +8,7 @@ leg: [activism]
 affected_led: partial
 representation_unit: central-org
 stance: works-the-remedy
-leaves: [asbestos-import-legal, ambient-asbestos-demolition-dust]
+leaves: [asbestos-in-air]
 nodes: [toxic-exposure-class]
 geography: [india]
 lifecycle: operating
@@ -26,8 +26,9 @@ sources:
   - {kind: x, url: "", handle: "", last_checked: 2026-09-07, status: none-found}
 contact_route: "via asbestosfreeindia.org / Gopal Krishna (see individual record)."
 followed: false
+followed_date:
 last_checked: 2026-09-07
-updated: 2026-09-09
+updated: 2026-09-10
 ---
 
 # Ban Asbestos Network of India
@@ -35,7 +36,7 @@ updated: 2026-09-09
 **What they do.** People's alliance for an asbestos-free India (~2000); convenes IAVA (victims), OEHNI, doctors and unions. Ran the 2011 NHRC complaint (via TWA) and fed the 2025 NGT proceeding.
 
 ## Scope
-- `asbestos-import-legal` — present, central, at the correct unit, and unmoved on the core object for ~25 years: it has forced apex rulings (1995 SC, 2025 NGT) but never moved the import trade or India's Rotterdam veto. This is why the leaf's gap resolves to `none` with a named isolated blocker, not `representation`.
+- `asbestos-in-air` — present, central, at the correct unit, and unmoved on the core object for ~25 years: it has forced apex rulings (1995 SC, 2025 NGT) but never moved the import trade or India's Rotterdam veto. This is why the merged leaf's import route resolves to representation *eliminated* with a named isolated blocker, rather than a missing actor. (Correction 2026-09-09: this bullet previously read "the leaf's gap resolves to `none`", the verdict of the pre-merge `asbestos-import-legal` leaf; `asbestos-in-air` is `gap: representation`, carried by the installed-stock route.)
 
 ## Status
 - **Funding** — thin; advocate-convened, no disclosed budget.
@@ -46,4 +47,4 @@ asbestosfreeindia.org / Gopal Krishna.
 
 ## Recent updates
 - 2025-11 — Posted on the NGT's 30 Oct 2025 order endorsing MoEF&CC's phase-out vision. — https://www.asbestosfreeindia.org/2025/11/national-green-tribunal-reiterates.html
-- 2026-09-07 — Record created from the `asbestos-import-legal` retrofit. — https://www.asbestosfreeindia.org/
+- 2026-09-07 — Record created from the `asbestos-in-air` retrofit. — https://www.asbestosfreeindia.org/

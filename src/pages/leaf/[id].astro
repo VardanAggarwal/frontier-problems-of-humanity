@@ -3,9 +3,17 @@ import Base from '../../layouts/Base.astro';
 import { corpus, md, mdInline, statusTag, gapTag } from '../../lib/site.mjs';
 
 export function getStaticPaths() {
-  return corpus.allLeaves.map((l) => ({ params: { id: l.id }, props: { l } }));
+  // Real leaf ids, plus every former id in `aliases:` as a redirect stub, so that
+  // merging or renaming a leaf does not strand links to the old URL.
+  const out = [];
+  for (const l of corpus.allLeaves) {
+    out.push({ params: { id: l.id }, props: { l } });
+    for (const a of l.aliases ?? []) out.push({ params: { id: a }, props: { l, redirectTo: l.url } });
+  }
+  return out;
 }
-const { l } = Astro.props;
+const { l, redirectTo } = Astro.props;
+if (redirectTo) return Astro.redirect(redirectTo, 301);
 const need = l.need ? corpus.needs.find((n) => n.id === l.need) : null;
 const axis = l.axis ? corpus.axes.find((a) => a.id === l.axis) : null;
 const crumb = need

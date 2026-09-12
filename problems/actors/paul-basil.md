@@ -25,8 +25,8 @@ offers:
 sources:
   - {kind: linkedin, url: "https://www.linkedin.com/in/paul-basil-73736a12/", handle: "paul-basil-73736a12", last_checked: 2026-09-10, status: live}
 contact_route: "LinkedIn DM; via Menterra"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-10
 updated: 2026-09-10
 ---

@@ -25,8 +25,8 @@ offers:
 sources:
   - {kind: linkedin, url: "https://in.linkedin.com/in/harish-hande-67b226", handle: "harish-hande-67b226", last_checked: 2026-09-10, status: unconfirmed}
 contact_route: "via SELCO Foundation (selcofoundation.org) or Transforming Rural India Foundation (trif.in)"
-followed: false
-followed_date:
+followed: true
+followed_date: 2026-09-10
 last_checked: 2026-09-10
 updated: 2026-09-10
 ---

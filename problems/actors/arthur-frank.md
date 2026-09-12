@@ -11,7 +11,7 @@ leg: [activism]
 affected_led: no
 representation_unit: central-org
 stance: works-the-remedy
-leaves: [ambient-asbestos-demolition-dust, asbestos-import-legal]
+leaves: [asbestos-in-air]
 nodes: [toxic-exposure-class]
 geography: [usa, india]
 lifecycle: operating
@@ -32,8 +32,7 @@ updated: 2026-09-09
 **What they do.** Occupational and environmental health physician-epidemiologist at Drexel's Dornsife School of Public Health, with a long record on asbestos and a sustained India engagement; co-author of the Rajsamand tremolite paper (IJERPH, Feb 2025). `registry` — evidence-base author, per the ground test.
 
 ## Scope
-- `ambient-asbestos-demolition-dust` — co-author of the only Indian TEM asbestos-dust measurement on this leaf.
-- `asbestos-import-legal` — supporting; part of the international expert base the Indian ban campaign draws on.
+- `asbestos-in-air` — co-author of the only Indian TEM asbestos-dust measurement on this leaf, and part of the international expert base the Indian ban campaign draws on.
 
 ## How to reach them
 Drexel faculty route; or via `raja-singh`, his co-author and departmental colleague.

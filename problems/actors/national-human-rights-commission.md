@@ -11,7 +11,7 @@ leg: [institution]
 affected_led: no
 representation_unit: central-org
 stance: works-the-remedy
-leaves: [silicosis-stone-industry, asbestos-import-legal]
+leaves: [silicosis-stone-industry, asbestos-in-air]
 nodes: [toxic-exposure-class]
 geography: [india]
 lifecycle: operating
@@ -34,7 +34,7 @@ updated: 2026-09-07
 
 ## Scope
 - `silicosis-stone-industry` — assigned the compensation-oversight function. Consistent with the leaf's `compensation-substitutes-for-counting` finding, its mandate is over the payout layer, not the detection layer: it supervises whether certified claimants are paid, not whether the uncertified are found.
-- `asbestos-import-legal` — held the TWA/BANI asbestos complaint 2011–2016 (61 recorded actions); closed it on 8 Aug 2016 citing an NIOH study later found to have been co-funded by the asbestos industry; criticised by the NGT in 2025 for that closure.
+- `asbestos-in-air` — held the TWA/BANI asbestos complaint 2011–2016 (61 recorded actions); closed it on 8 Aug 2016 citing an NIOH study later found to have been co-funded by the asbestos industry; criticised by the NGT in 2025 for that closure.
 
 ## Status
 - **Funding** — Government of India (statutory grant).

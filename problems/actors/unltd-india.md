@@ -36,6 +36,7 @@ updated: 2026-09-11
 
 ## Scope
 - board ← pooja-warier-hamilton (co-founder, unresearched depth — lead only)
+- board ← sagar-chandni (Incubation Director — top-billed staffer, followable route in CEO's absence)
 - incubatee → padcare-labs (menstrual-waste processing hardware)
 - incubatee → recircle (dry-waste recycling/Safai Saathi network)
 - portfolio → ~4 active companies (Tracxn, 2026), 2 sampled here; Trestle Labs (assistive tech for the visually impaired) is the third notable name, not sampled
@@ -51,8 +52,9 @@ No stated public ask found this pass.
 Free nine-month incubation, seed-stage grant support, and mentor/funder network access for early-stage Indian social enterprises.
 
 ## How to reach them
-unltdindia.org contact form; current CEO not named in any source found — route through the general contact form rather than a named leadership contact.
+unltdindia.org contact form; current CEO still not named in any source found. Sagar Chandni, Incubation Director (`sagar-chandni.md`), is the top-billed named staffer on the org's own team page and is the followable route until a CEO successor surfaces.
 
 ## Recent updates
 - 2026-09-11 — Record created. LinkedIn company page found but recency unconfirmed. Leadership succession (Bhartia → ?) not resolved this pass; flagged as a dead end.
 - 2026-09-11 — Close-out pass, P3 resolved: Anshu Bhartia's own LinkedIn confirms she has left — UnLtd India is a past role, current title is CEO of Exper Executive Education (unrelated org). No successor name surfaced. The contradiction is resolved (she is not current CEO); the gap (who is) remains open and is recorded above rather than picked silently.
+- 2026-09-11 — Individuals consolidation pass: CEO successor still not found (checked again — no new name). Added `board ← sagar-chandni` (Incubation Director) as the org's followable route; `sagar-chandni.md` written.

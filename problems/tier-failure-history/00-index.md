@@ -12,7 +12,7 @@ Each need file keeps its threat history, evolution, and `### Where it worked`. P
 - **[Tier 1 summary](tier1-physiological/00-summary.md)** — what survived the six files: mechanisms, latent set, positive controls. Read this first. (Still carries a shortlist section, superseded by the catalyst reframe — see `../../README.md` TODO.)
 - [Food/caloric intake](tier1-physiological/01-food.md) — 1 leaf (`food/residual-childhood-lead.md`, researched; moved from `air/` 2026-09-08)
 - [Water/fluid balance](tier1-physiological/02-water.md)
-- [Air/breathable environment](tier1-physiological/03-air.md) — *leafed* (8 leaves, `air/`: 7 researched, 1 stub — `ambient-asbestos-demolition-dust`, held on the leafability gate)
+- [Air/breathable environment](tier1-physiological/03-air.md) — *leafed* (6 leaves in `air/`, all researched; `asbestos-in-air` merges the former `asbestos-import-legal` and `ambient-asbestos-demolition-dust`, 2026-09-09)
 - [Shelter & thermoregulation](tier1-physiological/04-shelter-thermoregulation.md)
 - [Sanitation & disease](tier1-physiological/05-sanitation-disease.md)
 - [Sleep/circadian regulation](tier1-physiological/06-sleep-circadian.md)

@@ -130,7 +130,7 @@ This is the platform's differentiator (`00-plan.md` goal 3) and the thing the wh
 - `depth: registry | tracked` — **the field that makes the volume survivable.** A `registry` actor is one cited in a leaf: identity, scope and leg, nothing more, and not in the monitoring rotation. A `tracked` actor is a catalyst target: `needs`, `offers`, `contact_route` required, monitored, eligible to appear in a connection. Without this split, a vendor mentioned once in a table costs the same as an org you intend to introduce.
 - `aka` (former names, acronyms — the dedup key) · `parent` (chapter/programme → parent org) · `superseded_by` (merged, renamed, absorbed)
 - `affiliations` — for individuals, **dated and role-bearing**: `{actor, role, from, to}`. An undated affiliation goes silently wrong the moment the person leaves.
-- `leg:` `activism` / `institution` / `enterprise` — may be multiple
+- `leg:` `activism` / `institution` / `enterprise` / `service` — may be multiple. `enterprise` = market-payer (beneficiary/customer pays); `service` = donor/philanthropy-funded direct delivery, no earned revenue. A hybrid org carries both legs, one per revenue stream — not one leg with a footnote.
 - `affected-led: yes | no | partial` — a tag, not a leg
 - `representation unit:` `local-affected` / `central-org` / `enterprise` / `central-at-named-legitimacy-cost`
 - `stance:` `works-the-remedy` / `neutral` / `organised-against-remedy` / `ambiguous`. An actor organised *against* the remedy is a first-class finding of the §D pass, not a disqualification — the model has to be able to hold one.
