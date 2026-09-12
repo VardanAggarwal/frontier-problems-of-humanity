@@ -24,8 +24,9 @@ meal-system/data/
 # directory up separately. See problems/schema.md → The private layer.
 problems/private/
 
-# engine
-engine/.venv/
+# engine. Glob, not a literal: a second interpreter's venv
+# (engine/.venv312) slipped past `engine/.venv/` on 2026-09-13.
+engine/.venv*/
 engine/tests/fixtures/live/
 
 # Engine v2 graph. Derived from problems/ by engine/migrate/from_corpus.py in

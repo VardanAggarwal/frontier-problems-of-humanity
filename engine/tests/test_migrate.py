@@ -69,18 +69,38 @@ def test_primary_role_survives_as_weight(migrated):
     weights = dict(conn.execute(
         "SELECT relevance, count(*) FROM edge WHERE kind = 'works_on' GROUP BY 1"))
     assert weights.get(3, 0) >= 13, "role: primary lost its weight"
-    assert weights.get(2, 0) >= 280
+    assert weights.get(2, 0) >= 279
 
 
-def test_dangling_leaf_reference_becomes_a_stub_not_a_drop(migrated):
-    conn, _ = migrated
-    row = conn.execute(
-        "SELECT status, doc FROM problem WHERE id = 'asbestos-import-legal'"
-    ).fetchone()
-    assert (row["status"], row["doc"]) == ("stub", None)
-    assert conn.execute("""
-        SELECT count(*) c FROM edge WHERE dst_id = 'asbestos-import-legal'
-          AND kind = 'works_on'""").fetchone()["c"] >= 1
+def test_dangling_leaf_reference_becomes_a_stub_not_a_drop(tmp_path):
+    """Constructed, not observed. This used to assert against two real dangling
+    ids in the corpus; they were repointed on 2026-09-13, and a test that only
+    holds while the corpus is in debt stops testing the mechanism the moment
+    the debt is paid. Inventing a parent for an unwritten leaf would be
+    inventing research, so the stub with no parent is the designed outcome."""
+    actors = tmp_path / "actors"
+    actors.mkdir(parents=True)
+    (actors / "ghost-org.md").write_text(
+        "---\nslug: ghost-org\nname: Ghost Org\ntype: org\nleg: [activism]\n"
+        "leaves: [never-written-leaf]\n---\n\n# Ghost Org\n")
+    (tmp_path / "tier-failure-history").mkdir()
+    (tmp_path / "tier-failure-history" / "needs.yaml").write_text("needs: []\n")
+
+    out = tmp_path / "graph.db"
+    run(tmp_path, out)
+    conn = db.connect(out, create=False)
+    try:
+        row = conn.execute(
+            "SELECT status, doc FROM problem WHERE id = 'never-written-leaf'"
+        ).fetchone()
+        assert (row["status"], row["doc"]) == ("stub", None)
+        assert conn.execute(
+            "SELECT count(*) c FROM edge WHERE dst_id = 'never-written-leaf' "
+            "AND kind = 'works_on'").fetchone()["c"] == 1
+        assert any("never-written-leaf" in line for line in db.validate(conn)), \
+            "an unparented stub must show as validation debt, not pass silently"
+    finally:
+        conn.close()
 
 
 def test_yaml_booleans_come_back_as_words(migrated):
@@ -128,12 +148,14 @@ def test_coverage_floor_is_coarser_than_the_recorded_finding(migrated):
                                       "gap_missing_leg")
 
 
-def test_migration_leaves_only_known_validation_debt(migrated):
+def test_migration_leaves_no_validation_debt(migrated):
+    """Was two known orphans — `asbestos-import-legal` and
+    `ambient-asbestos-demolition-dust`, merged into `asbestos-in-air` on
+    2026-09-09 but still named by actor/gopal-krishna until 2026-09-13. Now
+    empty, and it should stay that way: anything here is a real reference to a
+    record that does not exist, which is a corpus fix, not a test to update."""
     conn, _ = migrated
-    assert sorted(db.validate(conn)) == [
-        "problem/ambient-asbestos-demolition-dust: orphan — no parent and not a root kind",
-        "problem/asbestos-import-legal: orphan — no parent and not a root kind",
-    ]
+    assert db.validate(conn) == []
 
 
 def test_every_write_is_in_the_event_log(migrated):
