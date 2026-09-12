@@ -1,0 +1,5 @@
+# Tier 0-1 local primitives. Everything here runs on the machine, no API.
+trafilatura>=2.2          # boilerplate stripping / main-content extraction
+lxml_html_clean           # trafilatura -> justext -> lxml.html.clean, split out of lxml 6
+pytest>=8
+PyYAML>=6
