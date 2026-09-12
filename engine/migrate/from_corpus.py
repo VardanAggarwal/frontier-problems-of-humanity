@@ -218,12 +218,14 @@ def migrate_leaves(conn, root: Path, report: Report, needs: dict) -> dict[str, d
     return leaves
 
 
+CROSS_CUTTING = {"01-freedom-autonomy.md": "autonomy", "02-leisure-play.md": "leisure"}
+
+
 def migrate_cross_cutting(conn, root: Path, report: Report) -> None:
     # The two axis essays carry no frontmatter at all — they predate the record
     # schema. They migrate as problems with a title and a doc and nothing else,
     # which is a real hole in the corpus, not a migration shortcut.
-    mapping = {"01-freedom-autonomy.md": "autonomy", "02-leisure-play.md": "leisure"}
-    for name, pid in mapping.items():
+    for name, pid in CROSS_CUTTING.items():
         path = root / "tier-failure-history/cross-cutting" / name
         if not path.exists():
             report.note(f"cross-cutting/{pid}: file missing — {name}")
@@ -455,6 +457,41 @@ def set_needs_legs(conn, report: Report) -> None:
 
 
 # ------------------------------------------------------------------- driver --
+# Everything the migration reads — derived the way `run` derives it, not by a
+# wider glob that happens to contain it. The wider version was 18 files too
+# broad, and one of the 18 was `follow-list.md`, which `npm run follow`
+# regenerates inside every build: the guard would have fired on a build that
+# changed no record at all, and a guard that cries wolf is answered with
+# `--stale-ok` until it means nothing. Under-coverage is the opposite failure
+# and the worse one — a record source missing here makes the fingerprint lie by
+# omission — so `tests/test_guard.py` instruments a real migration and fails if
+# the two sets differ in *either* direction.
+def corpus_files(corpus: Path) -> list[Path]:
+    tfh = corpus / "tier-failure-history"
+    seen: set[Path] = set()
+
+    registry = tfh / "needs.yaml"                     # migrate_needs
+    if registry.is_file():
+        seen.add(registry)
+        rows = (yaml.safe_load(registry.read_text()) or {}).get("needs") or []
+        seen.update(p for p in (tfh / r["file"] for r in rows if r.get("file"))
+                    if p.is_file())
+
+    seen.update(p for p in tfh.glob("*/*/*.md")       # migrate_leaves
+                if p.is_file() and not p.name.startswith("_"))
+    seen.update(p for p in (tfh / "cross-cutting" / n for n in CROSS_CUTTING)
+                if p.is_file())                       # migrate_cross_cutting
+    seen.update(p for p in (corpus / "cross-need-nodes").glob("*.md")
+                if p.is_file() and not p.name.startswith("00-"))   # migrate_nodes
+    seen.update(p for p in (corpus / "actors").glob("*.md")
+                if p.is_file() and not p.name.startswith("_"))     # migrate_actors
+    return sorted(seen)
+
+
+def corpus_fingerprint(corpus: Path) -> str:
+    return db.fingerprint(corpus_files(corpus), root=corpus)
+
+
 def run(corpus: Path, out: Path, *, force: bool = False) -> Report:
     """`force=False` is the safe default for a caller writing to a real path;
     main() flips it on --force. Callers who already know they want a fresh
@@ -470,6 +507,7 @@ def run(corpus: Path, out: Path, *, force: bool = False) -> Report:
         if side.exists():
             side.unlink()
     conn = db.connect(out)
+    db.stamp(conn, corpus_fingerprint(corpus))
 
     needs = migrate_needs(conn, corpus, report)
     leaves = migrate_leaves(conn, corpus, report, needs)

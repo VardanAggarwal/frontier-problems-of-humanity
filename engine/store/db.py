@@ -8,6 +8,7 @@ this is one place instead.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import sqlite3
@@ -18,6 +19,7 @@ from . import tags
 
 SCHEMA = Path(__file__).with_name("schema.sql")
 SCHEMA_VERSION = "1"
+FINGERPRINT = "corpus_fingerprint"
 
 class _Clear:
     """Sentinel for `link()`: pass CLEAR to set a field to NULL. Plain None means
@@ -321,3 +323,46 @@ def counts(conn: sqlite3.Connection) -> dict[str, int]:
              "ask", "candidate", "population", "event")
     return {n: conn.execute(f"SELECT count(*) c FROM {n}").fetchone()["c"]
             for n in names}
+
+
+# ------------------------------------------------------- corpus freshness --
+# The store is derived from `problems/` and nothing re-derives it automatically,
+# so it can fall behind a commit and stay behind silently. It did: a store built
+# 45 minutes before the migration code was finalised carried two problems the
+# corpus had already retired, and a whole session of vectors and measurements
+# was built on top without anything noticing. Content hashes, not mtimes —
+# a checkout or a touch moves an mtime without changing a byte.
+
+def fingerprint(paths: Iterable[Path], *, root: Path) -> str:
+    h = hashlib.sha256()
+    for path in sorted(paths):
+        h.update(str(path.relative_to(root)).encode())
+        h.update(b"\0")
+        h.update(hashlib.sha256(path.read_bytes()).digest())
+    return h.hexdigest()[:32]
+
+
+def stamp(conn: sqlite3.Connection, value: str) -> None:
+    conn.execute("INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)",
+                 (FINGERPRINT, value))
+
+
+def stamped(conn: sqlite3.Connection) -> str | None:
+    row = conn.execute("SELECT value FROM meta WHERE key = ?", (FINGERPRINT,)).fetchone()
+    return row[0] if row else None
+
+
+def check_fresh(conn: sqlite3.Connection, current: str) -> str | None:
+    """-> None when the store matches the corpus, else a sentence saying so.
+
+    A store with no stamp at all is reported too: it predates this check, which
+    is exactly the case that went wrong."""
+    have = stamped(conn)
+    if have is None:
+        return ("this store carries no corpus fingerprint, so it predates the "
+                "freshness check and may not match problems/")
+    if have != current:
+        return (f"this store was built from a different corpus "
+                f"(stamped {have[:12]}, corpus is now {current[:12]}) — "
+                "re-run engine/migrate/from_corpus.py")
+    return None

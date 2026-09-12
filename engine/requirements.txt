@@ -1,5 +1,13 @@
 # Tier 0-1 local primitives. Everything here runs on the machine, no API.
+#
+# Interpreter: needs a python whose sqlite3 was NOT built with
+# SQLITE_OMIT_LOAD_EXTENSION, or sqlite-vec cannot be loaded at all. The
+# python.org macOS 3.11 build omits it; Homebrew's python3.12 has it.
+#   python3 -c "import sqlite3; sqlite3.connect(':memory:').enable_load_extension"
 trafilatura>=2.2          # boilerplate stripping / main-content extraction
 lxml_html_clean           # trafilatura -> justext -> lxml.html.clean, split out of lxml 6
-pytest>=8
 PyYAML>=6
+sqlite-vec>=0.1.9         # vec0 virtual tables, in the same file as the graph
+sentence-transformers>=3  # tier 1 encoder, local
+numpy
+pytest>=8

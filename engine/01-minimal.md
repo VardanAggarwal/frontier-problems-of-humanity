@@ -209,6 +209,22 @@ were paywalled abstracts, block pages and stubs. This inverts the original
 plan. SimHash covers the long-document minority; **embeddings are the primary
 dedup path for roughly half the corpus**, not a cross-lingual special case.
 
+**Corrected 2026-09-13, on the same labels.** The sentence above was a
+hypothesis and tier 1 falsifies half of it. Run against these 21 fixtures, the
+11 usable documents give 2 same-work pairs and 53 different-work pairs, and
+they **overlap**: the lowest same-work pair scores 0.943 (04~06, the PMC/Ovid
+renderings SimHash missed at distance 17 — so embeddings do see that case) and
+the highest different-work pair scores 0.953 (13~16, two distinct articles
+about one settlement). No cutoff catches both true pairs without merging the
+pair `test_two_articles_on_one_event_stay_distinct` exists to keep apart. The
+true pair is still ranked first overall, so the *ordering* is good and the
+*decision* is not available from the vector alone. Embeddings are therefore a
+**shortlist**, and the merge verdict stays with gate 0, identifiers and the
+number/proper-noun check below. n=2 positive pairs is thin — but it is the
+same evidence the original claim was made on, so it is at least as good. Pinned
+as a failing-if-it-changes test (`test_embeddings_alone_do_not_separate_
+same_work_from_same_topic`).
+
 **3. Identifiers are free and catch the case text comparison cannot.** The DOI
 was sitting in the Ovid URL itself. Union-find across DOI / PMID / PMC merges
 renderings of one work regardless of length. Run before any text comparison.
@@ -313,6 +329,47 @@ Exact hashing catches almost nothing — timestamps, session ids and rotating ba
 
    **Thresholds get measured here, not inherited.** e5 compresses similarity into a narrow high band — unrelated text still scores around 0.7 — so a cutoff lifted from a paper will be wrong in a way that looks like it is working. Same discipline that moved `MIN_SHINGLES` from a guessed 16 to a measured 150.
 
+   **Measured 2026-09-13** over the whole store (`embed/calibrate.py`, 53 problems · 286 actors · 89 sources), the band is narrower than even that warning suggests:
+
+   | population | p1 | p50 | p99 | max |
+   |---|---|---|---|---|
+   | problem × problem, all pairs (n=1,275) | 0.761 | 0.817 | 0.875 | 0.917 |
+   | actor × actor, all pairs (n=40,755) | 0.795 | 0.841 | 0.897 | 0.971 |
+   | full documents, all pairs (n=55) | 0.841 | 0.897 | — | 0.976 |
+
+   Two unrelated actors sit at **0.841 median**. The entire usable range is roughly 0.76–0.98, so a threshold expressed to two decimals is a threshold with about twenty distinguishable settings, and the first decimal carries no information at all.
+
+   **The gate-1 screen ranks well and thresholds badly**, and the distinction is the whole finding. Scored on the 292 `works_on` edges as positives against 20,000 random (actor, problem) pairs: **AUC 0.923**, but the means are only **+0.041** apart, and the positives' median (0.842) is indistinguishable from the actor-pair median above. The cutoff table says the rest:
+
+   | cutoff | recall | kept |
+   |---|---|---|
+   | 0.80 | 98.6% | 50.1% |
+   | 0.82 | 82.9% | 15.9% |
+   | 0.84 | 53.4% | 3.3% |
+   | 0.86 | 18.8% | 0.5% |
+
+   There is no setting that is both safe and useful: 0.80 discards half the sweep and keeps almost every true pair, 0.84 discards the sweep and half the true pairs with it. **So gate 1 takes top-*k* per problem, not a global cutoff** — a per-query rank is exactly what an AUC of 0.923 with a 0.041 separation supports, and a global cutoff is exactly what it does not. A single number tuned on one sweep would not transfer to the next one.
+
+   **Entity resolution must not be embedding-first as written.** §*Layer 4* below says "embedding-first, or it dominates everything". Measured on the 228 aliases that differ from their actor's title, cold-encoded and looked up: **rank-1 51.8%, top-5 75.4%**, and the cosine at rank 1 does not tell you which you got — 0.844 median when right, 0.815 when wrong. The existing `alias.norm` exact match is already correct on these. So the order is normalized-string match first, vectors as the *fallback shortlist* that feeds the LLM compare, and the LLM band is wide rather than narrow. Layer 4's cost argument survives intact — it is about avoiding O(N) LLM calls, and a top-5 shortlist at 75.4% does that — but "embedding-first" overstated what the vector decides.
+
+   **Subtracting the common context was tried, and it costs more than it pays.** The obvious response to a 0.10-wide band is that every record shares a topic, so compare the residual: subtract the corpus mean, optionally remove the top-*d* principal directions (`all-but-the-top`), renormalize. Measured 2026-09-13 across all three tasks at once — `embed/calibrate.py --centre --drop N`:
+
+   | | actor band p50 | spread (p99−p1) | gate-1 AUC | alias rank-1 |
+   |---|---|---|---|---|
+   | baseline | 0.841 | 0.102 | **0.9234** | **51.8%** |
+   | centred | −0.004 | 0.492 | 0.9017 | 47.8% |
+   | centred, drop top-1 | −0.009 | 0.442 | 0.8162 | 43.0% |
+   | centred, drop top-4 | −0.007 | 0.373 | 0.6095 | 46.9% |
+   | centred, drop top-12 | −0.005 | 0.325 | 0.5047 | 50.0% |
+
+   It does everything it promises to the *numbers* — the band stops being a strip at 0.84 and spreads five-fold across zero — and every actual answer gets worse, monotonically. **The common component is not noise; it is the topic, and the topic is a third of what `works_on` means.** Two actors both working Indian environmental health share that because it is true. Strip it and the residual is dominated by genre — funder blurb versus field-org blurb — which is not the question being asked.
+
+   Tested again on the single-topic fixture set, which is the strongest case for the idea because there the shared component really is just "silicosis in Rajasthan": still no separation at any setting, and the true pairs fall from ranks 1 and 4 to 32 and 54 by `drop top-3`. Plain centring happened to preserve the ranking there and still did not separate — **because the overlap is an ordering failure, not a calibration one.** 13~16 genuinely sits closer in this space than 04~06 does, and no rescaling of an axis changes which pair is nearer.
+
+   Which is the argument for top-*k* restated from the other side: reading ranks instead of absolutes is invariant to every rescaling, so it gets the benefit this transform was reaching for without paying the rotation. **The version of the instinct that does work is subtracting the common context in the text, not in the vector** — and that is already the design: the number and proper-noun overlap check below is exactly a residual comparison, run in a discrete space where the residual discriminates instead of dissolving.
+
+   **The nearest-neighbour tail is relationships, not duplicates.** The top actor pairs are `aavishkaar-group ~ intellecap` (0.971), `icmr-nioh ~ icmr-niv` (0.970), `ajaita-shah ~ frontier-markets` (0.964), `indus-action ~ tarun-cherukuri` (0.961). Not one is a duplicate: they are parent/subsidiary, sibling institutes, and founder/organisation — every one of them already an edge in the graph. A dedup pass that trusted rank order would destroy exactly the structure the engine exists to record. **Pairs that already carry an edge must be excluded from dedup candidacy before scoring**, and `prayas-goel ~ prerak-goel` (0.954, two different people with near-identical names) is the reminder that the name channel is not safe on its own either.
+
    Run SimHash first and embed only the survivors — but note finding 2 above:
    on real search output nearly half the pages never clear the SimHash floor at
    all, so the embedding pass carries more of this than originally scoped.
@@ -375,13 +432,104 @@ Build so Mode B drops in later as a **producer**, not a redesign:
    53 problems, 525 edges, 285 tags in 1.0 MB.
    The estimate in this line was wrong on three of five counts before the
    migration corrected it — 7 leaves not 9, 6 nodes not 5, 289 actors not 291.
-2. **Tier 1 embeddings** — port `core/encode.py`, store vectors with
-   `sqlite-vec` (already a `slate_v2` dependency, so they live in the same file
-   as the graph). Promoted by §8 finding 2 from "an optimization" to the
-   primary dedup path for roughly half the corpus. Model settled 2026-09-13:
-   `multilingual-e5-small`, 384-dim, one encoder for every language — see §8
-   finding 2 for why, and for the `query: ` prefix it requires.
+2. **DONE — tier 1 embeddings** (`engine/embed/`, 48 tests, 173 in the suite).
+   `model.py` the encoder, with the e5 prefix as an enforced contract rather
+   than a convention — `role` is keyword-only, and empty or already-prefixed
+   text raises · `index.py` `vec0` tables inside `graph.db`, keyed
+   `"{role}:{id}"` with `role` a partition key, plus an `embedding` table
+   carrying `model` + `text_hash` so backfill is incremental and a model swap
+   is detectable instead of silently mixing two vector spaces · `texts.py` what
+   text stands for an entity, in its own module because it is a judgement and
+   not a port · `backfill.py` one direction, re-runnable · `calibrate.py` the
+   measurement, because a threshold is not allowed to be inherited.
+   **Indexed:** 51 problems, 286 actors (3 `excluded` skipped), 89 sources —
+   426 vectors, 1.0 MB → 5.9 MB. Warm throughput ~66 records/s; the whole
+   corpus re-embeds in about eight seconds.
+   **What the measurement changed** (§8): the "primary dedup path" claim is
+   half wrong — embeddings rank well and decide badly, so they are a shortlist
+   and the merge verdict stays at gate 0; gate 1 takes top-*k* per problem
+   rather than a global cutoff; and "embedding-first" entity resolution is
+   demoted to a fallback behind the existing `alias.norm` exact match.
+   **The store went stale under us, and nothing was watching.** `problems/graph.db`
+   was migrated 45 minutes before the migration code was finalised, so it carried
+   two problems the corpus had already retired — and a whole session of vectors,
+   an all-pairs sweep and a set of reported thresholds were built on it before
+   anyone re-ran anything. Every headline number survived (AUC 0.9242 → 0.9234,
+   the actor band and alias resolution unchanged); one reported dedup candidate
+   did not, being a pair of phantoms. The fix is not the re-migration, it is
+   `embed/guard.py`: the migration now stamps `meta.corpus_fingerprint` — content
+   hashes over the 359 files it reads, so a checkout that moves every mtime says
+   nothing — and `backfill` and `calibrate` refuse to run against a store that
+   does not match, or that carries no stamp at all, which is the case that
+   actually occurred. `--stale-ok` makes measuring an old store a choice rather
+   than an accident. `validate()` now returns clean for the first time.
+   **A cold review caught eight real defects**, and the two that mattered were
+   both invisible from inside: `put` was two writes, so a rejected vector left a
+   bookkeeping row claiming the entity was current — `stale` said no, `knn`
+   returned nothing, permanently; and `backfill` never dropped, so an actor set
+   to `depth: excluded` kept answering kNN and a source given a `canonical_of`
+   stayed in the index beside its own survivor, which is the exact failure the
+   index exists to prevent. Both are now one savepoint and a `prune` pass, with
+   a regression test each. The other six: a role typo that wrote half a row, a
+   char budget (2,000) against a token limit (512) that silently dropped ~16% of
+   every long Devanagari record, an AUC that scored ties as losses, a rejection
+   sampler that hung when there were no negatives to find, an `n²` dense
+   `nearest` (~28 GB at 50k), and a blank problem that embedded as `query: .`.
+   **The interpreter moved**, which was not optional: the python.org macOS
+   3.11 build compiles `sqlite3` with `SQLITE_OMIT_LOAD_EXTENSION`, so
+   `sqlite-vec` could never have loaded on the old venv. Homebrew's 3.12.13
+   has it — the same interpreter `slate_v2` runs on. `requirements.txt` carries
+   the one-line check, because this fails at import in a way that reads like a
+   packaging problem.
+   **A second review, after the guard**, caught five more, of which three were
+   real costs already being paid. `plan()` token-fitted every row before
+   checking its hash, so the documented cheap case — a re-run with nothing
+   changed — loaded a 470 MB model to conclude it had nothing to do: 21.6s for
+   what is now 0.30s, fixed by keying `text_hash` on the text before truncation
+   (sound, because truncation is a pure function of text and tokenizer, and the
+   tokenizer moves only with `model`, which `stale` already compares). The
+   fingerprint glob was 18 files wider than what the migration actually reads,
+   and one of the 18 was `follow-list.md`, which `npm run follow` regenerates
+   inside every build — so a routine build would have made the store look stale,
+   and a guard that cries wolf is answered with `--stale-ok` until it means
+   nothing; `corpus_files` now mirrors the reader (the needs registry names the
+   tier files, `CROSS_CUTTING` names the axis essays), and the test guarding it
+   instruments a real migration and fails if the two sets differ **in either
+   direction**, because under-coverage is the worse failure and a hand-kept glob
+   drifts toward both. The two CLIs had disagreed about whether a bare run meant
+   `engine/` or the repo root, which is a wrong-store bug wearing a
+   working-command costume; the store flags and the freshness check are now one
+   shared helper, so a tool cannot accept `--stale-ok` and forget to check it.
+   The fifth was latent: `fit` sliced the joint tokenization and dropped
+   `len(tokenize(prefix))` tokens off the front, which assumes a sub-word
+   tokenizer cannot merge across the prefix boundary — it can, and the result is
+   a record quietly embedded starting mid-word. It now binary-searches the body,
+   measuring the whole prefixed string, which is the only length the model sees.
+   **0 of 426 records currently reach the limit**, so nothing measured moved —
+   every figure in §8 reproduced exactly. The 2,000-char clip is what keeps it
+   at zero, and only in English.
 3. **Worker with all four gates + resolver.** Port `core/llm.py`. Two prompts, one loop. Replaces `process-leaf`, `actor-channel-finder`, `impact-network-crawler`.
+3b. **Portal cutover — the corpus stops being parsed twice.** Numbered out of
+   band because it is parallel to step 3, not after it, and because §10 already
+   refers to step 4 by number. Today `src/lib/corpus.mjs` parses the same
+   markdown the migration parses, `scripts/build-index.mjs` emits a second
+   database, and the two loaders can disagree — which is exactly what item 1
+   above looks like from the outside. Two phases, and the first does not wait
+   for the worker:
+   - **A — the portal reads `graph.db`.** `build-index.mjs` and the frontmatter
+     half of `corpus.mjs` are replaced by queries; `node:sqlite`'s
+     `DatabaseSync` is already in use at `scripts/build-index.mjs:13`, so no new
+     dependency. Prose stays on disk and is read through `doc`. The corpus is
+     still the source of truth and the db still a build artifact — this phase
+     only deletes the second parser. Carries one real debt: `npm run validate`
+     currently enforces the A–E section invariant and the warning punch list,
+     and those checks have to land in the store's validator first or they
+     vanish quietly (§12).
+   - **B — the db becomes the source, after step 3.** Once the worker writes
+     records directly, markdown is the prose layer and nothing else, and
+     `from_corpus.py` stops being a build step and becomes a one-time import.
+     The open question is where tier-file bodies live (§12); it should be
+     answered before B, not during.
 4. **~~One registry, enumerated end to end~~ — DEFERRED (§10).** Its role, proving funnel economics on real data before a budget is pointed at it, moves to a labelled fixture set built from Mode A output plus known-hard positives.
 5. **Scheduler + budget ledger.** Autonomy starts.
 6. **Review surface** — sample queue, diff renderer, escalation inbox. Can lag step 5 slightly, not more.
@@ -401,7 +549,12 @@ Deferrable without truncating exploration: mechanism and cross-need-node promoti
 - **The `service` leg has zero actors.** Not one of 289 records carries it, against 176 enterprise, 72 institution and 51 activism. `CLAUDE.md` defines it as a first-class distinction — donor-funded direct delivery, no earned revenue — and holds that a hybrid carries both legs, one per revenue stream. Either the distinction is not being made when records are written, or it is real and 176 enterprise records absorb it silently. The coverage floor reports `service` missing on all seven researched leaves, which is the same fact wearing a different hat.
 - **The two cross-cutting essays carry no frontmatter at all.** They migrated with a title and a doc path and nothing else — no classification, no gap, no sources. They predate the record schema and nothing since has forced the issue.
 - ~~**Two leaf ids are referenced by an actor and have no file.**~~ Resolved 2026-09-13. `asbestos-import-legal` and `ambient-asbestos-demolition-dust` were merged into `asbestos-in-air` on 2026-09-09; `actor/gopal-krishna` was the last file still naming them, and its `leaves:` now points at the merged leaf. Both ids stay live as aliases. `validate()` returns empty, and the migration creates no stubs — the mechanism is now covered by a constructed test rather than by standing corpus debt.
-- **Whether `graph.db` is committed, or only its `.dump`.** The file is 1.0 MB of binary and regenerates from the corpus in two seconds; the dump is readable in a diff. Not yet decided, and `.gitignore` does not mention it.
+- **Decided 2026-09-13: `graph.db` is not committed.** It regenerates from `problems/` in about two seconds and now carries 5.9 MB of vectors that diff as pure noise; readable history comes from `sqlite3 problems/graph.db .dump` when one is wanted. In `.gitignore` with the reasoning.
+- **Every vector in the store is of short text.** Problems average 145 characters, actors 459, sources 116 — the last because no source has been fetched yet, so 89 of 89 are title + org + year. The §8 bands are therefore bands *for short text*, which embeds into a tighter cone than documents do. The full-document measurement on the fixtures is narrower still, so the direction holds, but neither number should be quoted at a document-scale corpus without re-measuring.
+- **`texts.py` is the least-tested judgement in tier 1.** What text stands for an entity determines every cosine downstream, and the rules — title + one_line for a problem, title + lead paragraph for an actor, front-truncation at 2,000 characters — were chosen from the shape of the comparison, not measured against an alternative. Embedding an actor's full record instead of its lead is a one-line change and nobody knows which is better.
+- **`--centre` has no query-side transform.** The alias half of the sweep is deliberately left untransformed, so `--centre` measures a residual index against untouched queries. Fine for the rejection it recorded, wrong for any future attempt — the query would have to be projected through the same basis, which means storing the basis.
+- **`calibrate` uses numpy, not `vec0`, and that is only true of sqlite-vec 0.1.9.** Measured: `vec0` has no ANN index in 0.1.9 — query time is linear in row count (0.30 ms at n=2,000, 1.17 ms at n=8,000) — so an all-pairs sweep is O(n²) either way, and numpy does it ~13× faster (12,000 entities: 1.5 s against 19.9 s) because it is one BLAS call per chunk instead of n SQL statements with per-row deserialization. Same answers, verified. **The day sqlite-vec ships an ANN index this flips**, because `nearest` becomes sub-quadratic through the index while numpy stays quadratic — so it is a revisit condition, not a settled choice. The band percentiles never move: they need the whole distribution, including the far tail, which is not a kNN question.
+- **Nothing yet consumes a vector.** The index exists, is measured and is correct; the gates that would read it are step 3. Until then the vectors are 5.9 MB of unexercised state, and the top-*k* decision above is a design conclusion rather than a running one.
 - **The A–E section invariant loses its hook** when the leaf type collapses. It survives as a validator rule keyed on `status: researched` — but deliberately, or it disappears quietly.
 - **Whether classification tags are compulsory when researched.** As required enums they forced a judgment per leaf, and that forced choice is where the seven mechanisms came from. `required_when: status == researched` in the tag registry keeps the compulsion with none of the structure; probably right.
 - **Where the tier files land** — root-problem bodies, or a separate prose layer the graph links to.
