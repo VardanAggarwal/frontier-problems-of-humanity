@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sqlite3
 import sys
 from pathlib import Path
@@ -24,9 +25,31 @@ from embed.guard import add_store_args, open_store
 from store import db
 from text.preview import Preview, fetch_list, group
 
+from . import depth as depth_mod
 from . import fetch as fetchmod
-from . import gate1, gate2, llm, resolve
+from . import gate1, gate2, llm, problem_emit, resolve
 from .prompts import extract_prompt
+
+# Track B (`04-worker-build-plan.md` §4): predict a depth tier for every
+# actor mention at mint time, and apply the post-extraction ground-test
+# verdict when writing claims. No call site exists yet to feed a live
+# candidate's stored prediction back into `_write_entity` (that plumbing
+# runs through `run_batch`, frozen for this track) — see `_write_entity`'s
+# `predicted_depth` kwarg, which defaults to None and is inert until a
+# caller supplies it. Degrades to: every actor keeps whatever `depth` the
+# model itself claimed (today's behaviour) whenever the three ground-test
+# inputs are absent or `WORKER_DEPTH_TIER` is turned off.
+_DEPTH_TIER_ENABLED = os.getenv("WORKER_DEPTH_TIER", "1") != "0"
+
+# Track A (`04-worker-build-plan.md` §4): an unresolvable `works_on` problem
+# edge now mints a problem candidate instead of being dropped (see
+# `_mint_or_resolve_problem`). `run_batch` is frozen for this track (§4
+# reserves it for track E), so there is no call-site parameter to gate this
+# on; an env var is the switch instead, defaulting ON now that the track has
+# landed. Per §4's "land the fallback before the code that degrades to it":
+# setting `WORKER_PROBLEM_EMISSION=0` reverts `_emit` to today's behaviour
+# (unresolvable problem edge silently dropped) with no code change.
+_PROBLEM_EMISSION_ENABLED = os.getenv("WORKER_PROBLEM_EMISSION", "1") != "0"
 
 # Columns claims may write directly (db.py's _JSON_COLUMNS mirrors these for
 # problem/actor). Anything else in a claim's `field` must be a `tag:` /
@@ -201,12 +224,41 @@ def _safe_put(conn: sqlite3.Connection, kind: str, row: dict, *, by: str,
 
 def _write_entity(conn: sqlite3.Connection, corpus: Path, kind: str, name: str,
                   decision: resolve.ResolveResult, claims: list[dict], *,
-                  by: str, log=print) -> str | None:
+                  by: str, log=print, predicted_depth: str | None = None
+                  ) -> str | None:
     """Apply one candidate's claims per its resolution. -> the written/matched
     entity id, or None when nothing was written — either `ambiguous`
     (module docstring: escalation writes no graph rows) or a catastrophic
-    write failure `_safe_put` could not recover from."""
+    write failure `_safe_put` could not recover from.
+
+    `predicted_depth` (Track B, `03-worker.md` §2): the tier `depth.predict_
+    tier` assigned this actor at intake, if the caller has it — `run_batch`
+    does not yet plumb a candidate's stored prediction through to here (that
+    would touch `run_batch`, frozen for this track), so it defaults to None
+    and `needs_requeue` simply has nothing to compare against on that path.
+    """
     columns, other = _split_claims(kind, claims, log=log)
+
+    if kind == "actor" and _DEPTH_TIER_ENABLED and any(
+            f in columns for f in ("affected_led", "representation_unit", "legs")):
+        # The ground-test verdict (`03-worker.md` §2 / `CLAUDE.md` -> Actor
+        # tracking), applied once the three inputs the model itself just
+        # extracted are on hand. One-way: it can escalate a `registry`
+        # claim (or no claim at all) to `tracked`, never the reverse — same
+        # discipline as `needs_requeue`, and consistent with gate 1's
+        # recall bias (never silently narrow who gets the fuller pass).
+        verdict = depth_mod.verdict_tier(
+            affected_led=columns.get("affected_led"),
+            representation_unit=columns.get("representation_unit"),
+            legs=columns.get("legs"))
+        claimed_depth = columns.get("depth")
+        if verdict == depth_mod.TRACKED_TIER and claimed_depth != depth_mod.TRACKED_TIER:
+            log(f"worker: depth ground-test verdict escalates {name!r} to "
+                f"tracked (model claimed {claimed_depth!r})")
+            columns["depth"] = depth_mod.TRACKED_TIER
+        if predicted_depth is not None and depth_mod.needs_requeue(predicted_depth, verdict):
+            log(f"worker: {name!r} predicted 'registry' at intake but "
+                f"verdicts 'tracked' post-extraction — requeue for a full pass")
 
     if decision.decision == "new":
         entity_id = resolve.new_id(conn, kind, name)
@@ -237,12 +289,72 @@ def _write_entity(conn: sqlite3.Connection, corpus: Path, kind: str, name: str,
     return entity_id
 
 
+def _mint_or_resolve_problem(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
+                             edge: dict, *, log=print) -> tuple[str | None, bool]:
+    """Track A: the destination of a `works_on` edge naming a problem that
+    doesn't resolve via `db.resolve` (exact/alias) or this batch's own
+    writes. -> (dst_id | None, minted). `minted=True` only when a fresh
+    candidate row was inserted — the caller folds that into the same
+    `emitted` counter the `emits` loop above already reports.
+
+    Problem names are descriptions, not proper nouns (03-worker.md §10), so
+    dedupe goes through `resolve.resolve_entity`'s embedding shortlist here
+    rather than stopping at the exact-match miss that got us into this
+    function. `resolve_entity`'s `corpus` parameter is unused by its current
+    implementation (verified in `resolve.py`) — a placeholder is passed
+    rather than threading a real corpus path through `_emit`, whose
+    signature `run_batch` (frozen for this track) already calls with no such
+    argument.
+    """
+    dst_name = edge.get("dst_name") or ""
+    context = edge.get("evidence") or source_candidate["evidence"] or ""
+    decision = resolve.resolve_entity(conn, Path("."), "problem", dst_name, context)
+    action = problem_emit.decide_problem_edge(decision)
+
+    if action == "resolve":
+        if decision.decision == "shortlist_top":
+            # Same caching argument as `_write_entity`'s shortlist_top case:
+            # without this, the same problem-name variant pays for an
+            # encode + kNN again on every future mention.
+            db.alias(conn, "problem", decision.entity_id, dst_name,
+                     by=f"worker:problem_emit:{source_candidate['id']}")
+        return decision.entity_id, False
+
+    if action == "escalate":
+        # `resolve.py`'s own docstring: an ambiguous merge is an escalation,
+        # never an autonomous merge or a new duplicate (the dedupe argument
+        # this track exists to satisfy). Mint nothing, write no edge.
+        db.record(conn, "candidate", str(source_candidate["id"]), "edge",
+                 None, dst_name, by="worker:problem_emit", why=decision.reason)
+        log(f"worker: problem edge to {dst_name!r} ambiguous "
+            f"({decision.reason}) — routed to human review, edge dropped")
+        return None, False
+
+    # action == "new" — mint a problem candidate carrying the four gate
+    # signals captured at extraction time (03-worker.md §10). Leafability is
+    # the orchestrator's decision, not this worker's: signals are captured
+    # and emitted, never gated here.
+    signals = problem_emit.signals_from_edge(edge)
+    conn.execute(
+        "INSERT INTO candidate (kind, name, url, discovered_via, evidence) "
+        "VALUES (?, ?, NULL, ?, ?)",
+        ("problem", dst_name, f"worker:{source_candidate['id']}",
+         json.dumps({"hint": edge.get("evidence", ""), "signals": signals,
+                    "from_candidate": source_candidate["id"]})))
+    return None, True
+
+
 def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
          claims: dict, resolved_this_batch: dict[tuple[str, str], str],
          *, log=print) -> tuple[int, int]:
     """Write `emits` as fresh, unprocessed candidates and `edges` as graph
     links where the destination already resolves — never both for the same
-    name, and never a recursive call into `run_batch` (module docstring)."""
+    name, and never a recursive call into `run_batch` (module docstring).
+
+    Track A: a `works_on` edge naming a problem that doesn't resolve is no
+    longer just dropped — `_mint_or_resolve_problem` either resolves it
+    (existing/shortlist match), escalates it (ambiguous), or mints it as a
+    fresh problem candidate here, same as `emits` does for named actors."""
     emitted = 0
     for e in claims.get("emits", []) or []:
         ekind, ename = e.get("kind"), e.get("name")
@@ -258,12 +370,19 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
             continue
         if resolved_this_batch.get((ekind, db.norm(ename))) is not None:
             continue
+        payload = {"hint": e.get("hint", ""), "from_candidate": source_candidate["id"]}
+        if ekind == "actor" and _DEPTH_TIER_ENABLED:
+            # Track B: the intake-time prediction, stored now so a future
+            # caller processing this candidate can compare it against the
+            # post-extraction verdict (`depth.needs_requeue`) — nothing in
+            # `run_batch` reads this back yet (frozen for this track); it's
+            # captured here so that plumbing has data to read once it does.
+            payload["predicted_depth"] = depth_mod.predict_tier(
+                {"name": ename, "hint": e.get("hint", "")})
         conn.execute(
             "INSERT INTO candidate (kind, name, url, discovered_via, evidence) "
             "VALUES (?, ?, NULL, ?, ?)",
-            (ekind, ename, f"worker:{source_candidate['id']}",
-             json.dumps({"hint": e.get("hint", ""),
-                        "from_candidate": source_candidate["id"]})))
+            (ekind, ename, f"worker:{source_candidate['id']}", json.dumps(payload)))
         emitted += 1
 
     edges_written = 0
@@ -275,9 +394,22 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
         dst_id = db.resolve(conn, dst_kind, dst_name)
         if dst_id is None:
             dst_id = resolved_this_batch.get((dst_kind, db.norm(dst_name)))
+        if dst_id is None and dst_kind == "problem" and _PROBLEM_EMISSION_ENABLED:
+            # Track A: unlike actors (whose `emits` loop above already mints
+            # a candidate for any mentioned name), nothing upstream mints a
+            # problem candidate from a `works_on` destination — this is the
+            # only place one turns into a candidate at all, per
+            # `03-worker.md` §10.
+            dst_id, minted = _mint_or_resolve_problem(conn, source_candidate,
+                                                      e, log=log)
+            if minted:
+                emitted += 1
         if dst_id is None:
-            continue   # not yet an entity — the emits loop above (or a prior
-                       # candidate) is responsible for it turning into one
+            continue   # not yet an entity — the emits loop above, this
+                       # candidate's own mint just above (deferred to a
+                       # future batch), or a prior candidate is responsible
+                       # for it turning into one; an `ambiguous` problem
+                       # match is escalated instead, per §10's dedupe rule
         try:
             db.link(conn, (source_candidate["kind"], source_candidate["resolved_to"]),
                     edge_kind, (dst_kind, dst_id), by=f"worker:{source_candidate['id']}",

@@ -347,12 +347,31 @@ Therefore:
 
 ### Chunking
 
-Chunk to **300–400 tokens with ~15% overlap**, split on paragraph boundaries
+Chunk to **300–400 tokens, no overlap**, split on paragraph boundaries
 where possible. The window is 512 and `fit()` (`embed/model.py:60`) truncates
 correctly — by binary search in the tokenizer's own units, precisely so a
 Devanagari record isn't silently clipped at a character bound — but a chunk
 over the window is still embedded on its head alone. Respect the window when
 chunking rather than relying on `fit()` to rescue it.
+
+**Superseded, 2026-09-13 — the "~15% overlap" above was `CHUNK_OVERLAP = 48`
+and is now 0.** The reasoning it was written on stands and is kept in the
+constants table below: a figure and its denominator really do straddle a
+paragraph break, 284 times over in PoC-1d's count. What the PoC measured is
+that paying for that repair *at chunk time* costs more than it buys — the
+overlapped text lands inside the neighbouring chunk's **embedding**, and this
+corpus averages 5.8 chunks against 4.96 H2 sections per actor file (1,676
+chunks over the PoC's 289 eligible files; 4.96 counted over all 291
+`problems/actors/*.md` today), so nearly
+every chunk is a section's first chunk and nearly every chunk gets
+contaminated with the previous section's tail. Measured cost at overlap=48:
+reach 0.893→0.649, status 0.977→0.837, identity 0.503→0.367, plus 33% of the
+passage budget's source diversity. The same repair is made instead at
+*selection* time — `worker/passages.py:expand_neighbours()` adds chunk n±1 of
+each retrieved chunk to the extraction prompt, so the extraction model sees
+the cut sentence while no embedding is ever polluted. Full evidence and the
+counter-argument (`needs`/`offers` are the two buckets overlap helps):
+`engine/poc/poc1d-results.md`.
 
 ### Selection: top-k per question, never a threshold
 
@@ -401,7 +420,8 @@ All four live together in `worker/config.py`, not scattered as literals:
 | Constant | Start | Why this number |
 |---|---|---|
 | `CHUNK_TOKENS` | 320 | The encoder window is 512 and `fit()` measures the *prefixed* string; 320 leaves room for `passage: ` and the special tokens with margin for a Devanagari chunk, which tokenizes ~20% longer than the same characters in English |
-| `CHUNK_OVERLAP` | 48 (15%) | A figure and its denominator, or a name and its role, routinely straddle a paragraph break; 15% is the cheapest insurance against splitting one |
+| ~~`CHUNK_OVERLAP`~~ | ~~48 (15%)~~ → **0** | A figure and its denominator, or a name and its role, routinely straddle a paragraph break; 15% is the cheapest insurance against splitting one — **falsified by PoC-1d** on cost, not on the premise (see above). There is no `CHUNK_OVERLAP` constant in `worker/config.py`: overlap is not a tunable set to zero, it is a technique this build does not use |
+| `NEIGHBOUR_RADIUS` | 1 | Its replacement, and the only new constant: chunks either side of a retrieved chunk, added to the extraction prompt at selection time. Straddle repair without embedding contamination. Costs prompt tokens — up to 3× per selected chunk — which `PASSAGE_TOKEN_CAP` absorbs by fitting fewer distinct chunks; that trade is unmeasured until track E runs end to end |
 | `TOP_K_PER_QUESTION` | 3 | One chunk is a single point of failure; beyond ~3 the marginal chunk is usually the same paragraph's neighbour |
 | `MAX_SOURCES` | 5 `tracked` / 1 `registry` | Set-cover rarely needs more than 5 to exhaust the covered families |
 | `PASSAGE_TOKEN_CAP` | 9,000 | Bounds the one extraction call; overflow drops lowest-scoring chunks, but never a source's last chunk |
@@ -436,6 +456,19 @@ retrieval look broken when it was the search that found nothing.
 Cap the union at a token budget (~8–10k) and, if it overflows, drop the
 lowest-scoring chunks — while guaranteeing **at least one chunk per source**,
 so a source that made it through set cover is never silently unread.
+
+**That guarantee is narrower than it reads, and PoC-2 walked into the gap.**
+It is a rule about the *cap*, and `worker/passages.py:_cap_tokens` implements
+it exactly as written — over the chunks selection already chose. Nothing
+above it guarantees a source gets a chunk chosen in the first place: top-k
+per bucket ranks the whole pool globally, so a source whose chunks never
+reach any bucket's top-k contributes nothing to the prompt and is never
+"dropped" by anything, because it was never picked up. Set cover can hand
+stage 5 five sources and stage 6 can see two. Whether that is a defect or
+correct behaviour (retrieval judged those pages irrelevant) is a real
+question — but it is currently an unstated, unmeasured outcome, and
+`03-worker.md` reads as though it cannot happen. See
+`04-worker-build-plan.md` §3 correction 4.
 
 ---
 

@@ -527,3 +527,202 @@ def test_call_fails_fast_on_a_missing_provider_package(monkeypatch):
     with pytest.raises(llm.LLMError, match="required package not installed"):
         llm.call("prompt", providers=["claude"])
     assert slept == []   # no backoff sleep — the provider was abandoned, not retried
+
+
+# ------------------------------------------------- track A: problem emission
+
+def _source_candidate(conn, *, resolved_to, evidence=None, kind="actor"):
+    """A candidate row already resolved to a live entity — the shape `_emit`
+    always receives its `source_candidate` in (`run_batch` re-fetches the
+    row right after `_settle` sets `resolved_to`)."""
+    cur = conn.execute(
+        "INSERT INTO candidate (kind, name, url, evidence, admitted, resolved_to) "
+        "VALUES (?, ?, NULL, ?, 1, ?)",
+        (kind, "Src Candidate", evidence, resolved_to))
+    conn.commit()
+    return conn.execute("SELECT * FROM candidate WHERE id = ?",
+                        (cur.lastrowid,)).fetchone()
+
+
+def test_emit_mints_a_problem_candidate_for_an_unresolvable_works_on_edge(
+        conn, monkeypatch):
+    """The hole `03-worker.md` §10 names: before Track A this edge is
+    silently dropped (0 problem candidates minted, ever) — worker.py:279-281."""
+    actor(conn, "src-actor")
+    src = _source_candidate(conn, resolved_to="src-actor")
+
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])  # empty -> new
+
+    claims = {"emits": [], "edges": [{
+        "dst_kind": "problem", "dst_name": "Silicosis in stone quarries",
+        "edge_kind": "works_on", "relevance": 2,
+        "signals": {"harmed_population": "quarry workers", "magnitude": "uncounted",
+                   "agent": "silica dust", "actionable": "dust suppression"}}]}
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert emitted == 1
+    assert edges == 0   # deferred — nothing to link to yet, same as `emits`
+    row = conn.execute(
+        "SELECT * FROM candidate WHERE kind = 'problem' AND "
+        "name = 'Silicosis in stone quarries'").fetchone()
+    assert row is not None
+    assert row["resolved_to"] is None and row["admitted"] is None
+    payload = json.loads(row["evidence"])
+    assert payload["signals"] == {
+        "harmed_population": "quarry workers", "magnitude": "uncounted",
+        "agent": "silica dust", "actionable": "dust suppression"}
+
+
+def test_emit_resolves_a_shortlist_matched_problem_edge_and_links_it(conn, monkeypatch):
+    actor(conn, "src-actor")
+    problem(conn, "silicosis-quarries", title="Silicosis in Stone Quarries")
+    src = _source_candidate(conn, resolved_to="src-actor")
+
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn",
+                        lambda *a, **kw: [("silicosis-quarries", 0.95)])
+
+    claims = {"emits": [], "edges": [{
+        "dst_kind": "problem", "dst_name": "Silicosis in stone quarries",
+        "edge_kind": "works_on", "relevance": 2}]}
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert emitted == 0    # resolved, not minted
+    assert edges == 1
+    linked = conn.execute(
+        "SELECT * FROM edge WHERE src_id = 'src-actor' AND dst_id = 'silicosis-quarries' "
+        "AND kind = 'works_on'").fetchone()
+    assert linked is not None
+    # shortlist_top caches an alias so the next mention hits the free path.
+    assert db.resolve(conn, "problem", "Silicosis in stone quarries") == "silicosis-quarries"
+
+
+def test_emit_ambiguous_problem_edge_escalates_without_minting_a_duplicate(
+        conn, monkeypatch):
+    actor(conn, "src-actor")
+    problem(conn, "existing-problem", title="Existing Problem")
+    src = _source_candidate(conn, resolved_to="src-actor")
+
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    # Below the safe band but lexically overlapping "Existing" -> ambiguous.
+    monkeypatch.setattr(resolve.index, "knn",
+                        lambda *a, **kw: [("existing-problem", 0.85)])
+
+    claims = {"emits": [], "edges": [{
+        "dst_kind": "problem", "dst_name": "Existing Problem, restated",
+        "edge_kind": "works_on", "relevance": 2}]}
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert emitted == 0
+    assert edges == 0
+    # No duplicate problem candidate minted for the ambiguous name.
+    assert conn.execute(
+        "SELECT count(*) c FROM candidate WHERE kind = 'problem'"
+    ).fetchone()["c"] == 0
+    events = conn.execute(
+        "SELECT * FROM event WHERE entity_kind = 'candidate' AND entity_id = ? "
+        "AND field = 'edge'", (str(src["id"]),)).fetchall()
+    assert len(events) == 1
+
+
+def test_emit_problem_emission_disabled_degrades_to_dropping_the_edge(
+        conn, monkeypatch):
+    """`WORKER_PROBLEM_EMISSION=0` reverts to pre-Track-A behaviour: an
+    unresolvable problem edge is dropped, nothing minted — the fallback path
+    `04-worker-build-plan.md` §4 requires landing before the switchable part."""
+    actor(conn, "src-actor")
+    src = _source_candidate(conn, resolved_to="src-actor")
+    monkeypatch.setattr(worker, "_PROBLEM_EMISSION_ENABLED", False)
+
+    def boom(*a, **kw):
+        raise AssertionError("resolve_entity must not run when the flag is off")
+    monkeypatch.setattr(resolve, "encode_one", boom)
+
+    claims = {"emits": [], "edges": [{
+        "dst_kind": "problem", "dst_name": "Some New Problem",
+        "edge_kind": "works_on"}]}
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert emitted == 0 and edges == 0
+    assert conn.execute(
+        "SELECT count(*) c FROM candidate WHERE kind = 'problem'"
+    ).fetchone()["c"] == 0
+
+
+# ---------------------------------------------------------- track B: depth tier
+
+def test_emit_stores_a_predicted_depth_for_an_actor_mention(conn):
+    src = _source_candidate(conn, resolved_to="src-actor", kind="actor")
+    conn.execute("INSERT INTO actor (id, title, type) VALUES ('src-actor', 'S', 'org')")
+    conn.commit()
+    claims = {"emits": [{"kind": "actor", "name": "Quarry Workers Collective",
+                        "hint": "an affected-led collective"}], "edges": []}
+    worker._emit(conn, src, claims, {}, log=lambda *a: None)
+    row = conn.execute(
+        "SELECT * FROM candidate WHERE name = 'Quarry Workers Collective'").fetchone()
+    payload = json.loads(row["evidence"])
+    assert payload["predicted_depth"] == "tracked"
+
+
+def test_emit_predicted_depth_defaults_to_registry(conn):
+    src = _source_candidate(conn, resolved_to="src-actor", kind="actor")
+    conn.execute("INSERT INTO actor (id, title, type) VALUES ('src-actor', 'S', 'org')")
+    conn.commit()
+    claims = {"emits": [{"kind": "actor", "name": "Some Ministry Body",
+                        "hint": "a national commission"}], "edges": []}
+    worker._emit(conn, src, claims, {}, log=lambda *a: None)
+    row = conn.execute(
+        "SELECT * FROM candidate WHERE name = 'Some Ministry Body'").fetchone()
+    payload = json.loads(row["evidence"])
+    assert payload["predicted_depth"] == "registry"
+
+
+def test_write_entity_escalates_depth_per_the_ground_test(conn, tmp_path):
+    """A model claim of `depth: registry` is overridden to `tracked` when
+    the extracted `affected_led`/`representation_unit` say otherwise —
+    escalation only, never a silent narrowing."""
+    decision = resolve.ResolveResult(decision="new", entity_id=None, shortlist=[], reason="")
+    claims = [
+        {"field": "title", "value": "Quarry Workers Collective"},
+        {"field": "depth", "value": "registry"},
+        {"field": "affected_led", "value": "yes"},
+        {"field": "representation_unit", "value": "local-affected"},
+    ]
+    entity_id = worker._write_entity(conn, tmp_path, "actor", "Quarry Workers Collective",
+                                     decision, claims, by="test", log=lambda *a: None)
+    row = conn.execute("SELECT * FROM actor WHERE id = ?", (entity_id,)).fetchone()
+    assert row["depth"] == "tracked"
+
+
+def test_write_entity_leaves_depth_alone_when_ground_test_inputs_absent(conn, tmp_path):
+    decision = resolve.ResolveResult(decision="new", entity_id=None, shortlist=[], reason="")
+    claims = [{"field": "title", "value": "Some Org"}, {"field": "depth", "value": "registry"}]
+    entity_id = worker._write_entity(conn, tmp_path, "actor", "Some Org",
+                                     decision, claims, by="test", log=lambda *a: None)
+    row = conn.execute("SELECT * FROM actor WHERE id = ?", (entity_id,)).fetchone()
+    assert row["depth"] == "registry"
+
+
+def test_write_entity_logs_requeue_when_predicted_registry_verdicts_tracked(
+        conn, tmp_path):
+    decision = resolve.ResolveResult(decision="new", entity_id=None, shortlist=[], reason="")
+    claims = [{"field": "title", "value": "Quarry Workers Collective"},
+             {"field": "affected_led", "value": "yes"}]
+    logged = []
+    worker._write_entity(conn, tmp_path, "actor", "Quarry Workers Collective",
+                         decision, claims, by="test", log=logged.append,
+                         predicted_depth="registry")
+    assert any("requeue" in msg for msg in logged)
+
+
+def test_write_entity_depth_tier_disabled_degrades_to_model_claim(conn, monkeypatch, tmp_path):
+    monkeypatch.setattr(worker, "_DEPTH_TIER_ENABLED", False)
+    decision = resolve.ResolveResult(decision="new", entity_id=None, shortlist=[], reason="")
+    claims = [{"field": "title", "value": "Quarry Workers Collective"},
+             {"field": "depth", "value": "registry"},
+             {"field": "affected_led", "value": "yes"}]
+    entity_id = worker._write_entity(conn, tmp_path, "actor", "Quarry Workers Collective",
+                                     decision, claims, by="test", log=lambda *a: None)
+    row = conn.execute("SELECT * FROM actor WHERE id = ?", (entity_id,)).fetchone()
+    assert row["depth"] == "registry"   # ground test never ran — today's behaviour

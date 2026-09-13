@@ -59,3 +59,31 @@ OPENROUTER_MIN_INTERVAL_S = float(os.getenv("OPENROUTER_MIN_INTERVAL_S", "3.0"))
 OPENROUTER_RATELIMIT_MAX_WAIT = float(os.getenv("OPENROUTER_RATELIMIT_MAX_WAIT", "90"))
 OPENROUTER_RATELIMIT_MAX_RETRIES = int(os.getenv("OPENROUTER_RATELIMIT_MAX_RETRIES", "6"))
 OPENROUTER_RATELIMIT_DEFAULT_WAIT = float(os.getenv("OPENROUTER_RATELIMIT_DEFAULT_WAIT", "6.0"))
+
+# ── Track C — chunking and passage selection (`03-worker.md` §7, starting
+# values, not findings; measured/checked in `engine/poc/poc3-results.md`). ──
+# Encoder window (512) minus special tokens (2) minus the `passage: ` prefix
+# (3) leaves 507 tokens of hard ceiling; 320 leaves 187 tokens of margin,
+# confirmed against the real tokenizer by PoC-3, not assumed.
+CHUNK_TOKENS = int(os.getenv("FPH_CHUNK_TOKENS", "320"))
+# top-k chunks kept per retrieval bucket (§7 "Selection: top-k per question,
+# never a threshold" — applied per bucket per PoC-1c, not per question; see
+# `worker/passages.py`).
+TOP_K_PER_BUCKET = int(os.getenv("FPH_TOP_K_PER_BUCKET", "3"))
+# Bounds the one extraction call (§7); overflow drops lowest-scoring chunks,
+# never a source's last chunk.
+PASSAGE_TOKEN_CAP = int(os.getenv("FPH_PASSAGE_TOKEN_CAP", "9000"))
+# The degrade path when the encoder is unavailable (§13): first-N-chars per
+# source, capped. Character count, not tokens — no tokenizer on this path.
+DEGRADE_CHUNK_CHARS = int(os.getenv("FPH_DEGRADE_CHUNK_CHARS", "2000"))
+# Chunk overlap is 0 — `03-worker.md` §7's `CHUNK_OVERLAP = 48` is superseded
+# by PoC-1d (`engine/poc/poc1d-results.md`), which measured overlap costing
+# the three strongest buckets most of their AUC (reach 0.893→0.649, status
+# 0.977→0.837) and a third of the passage budget's source diversity. There is
+# deliberately no CHUNK_OVERLAP constant: overlap is not a tunable that got
+# set to zero, it is a technique this build does not use. The straddled
+# figure/denominator it existed to repair (284 real instances) is repaired
+# instead at selection time, by including each selected chunk's neighbours in
+# the extraction prompt — contaminated context never enters an embedding.
+# Radius in chunks, each side; 0 disables expansion entirely.
+NEIGHBOUR_RADIUS = int(os.getenv("FPH_NEIGHBOUR_RADIUS", "1"))

@@ -39,3 +39,7 @@ problems/graph.db-shm
 # graph.db is committed, git history is the backup; these are local only.
 problems/graph.db.bak-*
 .env
+
+# PoC scratch database + fetch cache (a PoC run must leave no diff in a
+# tracked db; this is a disposable copy of problems/graph.db)
+engine/poc/poc2-scratch/

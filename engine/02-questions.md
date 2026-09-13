@@ -95,7 +95,7 @@ problem to a cross-need node **only when the text names one** — never infer a
 node from the mechanism alone. Never invent a tier or need id; those come from
 the browse tree.
 
-## `actor` — 16 questions
+## `actor` — 17 questions
 
 ### Identity
 
@@ -125,8 +125,23 @@ national advocacy shops.
 
 | # | Question | Claim field | Multi |
 |---|---|---|---|
-| 10 | Who funds them, at what scale, latest round/grant/budget, and when — one dated sentence. | `funding` | |
+| 10 | At what financial scale do they operate — corpus, budget, or latest round/grant — and as of when? One dated sentence. | `funding` | |
+| 10b | Who funds them — the named funders, each as its own entry. | drives `emits`/`edges` | ✓ |
 | 11 | The **one** checkable number showing actual reach (members, homes, users, revenue, units), dated — flag if self-reported. | `scale_metric` | |
+
+**q10 was split on 2026-09-13, and the two halves are not peers.** *Scale*
+sizes the offer, which is what makes a match legible — a ₹50L need introduced
+to a fund writing $5M cheques is a bad introduction — so it stays a retrieved
+field. *Funder identity* is a relation between two entities, not a property of
+one, and relations arrive as edges through the emit path rather than by
+retrieving a sentence; `impact-network-crawler` already traverses exactly this
+edge. So 10b carries `retrieval: false` in `questions.yaml` — not because the
+fact is unfindable, but because retrieval is the wrong instrument for it.
+
+PoC-0b measured the old bundled question at 3/12 (25%) search coverage among
+actors for which funding demonstrably applies. That is not an argument for
+trying harder: funds do not reliably publish their own funders, and the
+catalyst act does not depend on knowing them.
 
 ### Leg viability — §D q2/q3
 

@@ -1,0 +1,700 @@
+# The question registry — F1, `04-worker-build-plan.md` §1a / §4 contract 2.
+#
+# Single home for the ~35 questions' text, stable ids, claim fields, and tier
+# flags, so `prompts.py` (extraction) and stage 5 (passage retrieval) read the
+# same strings instead of each carrying their own copy. Source of the question
+# set: `engine/02-questions.md` — that file is still the authority on what a
+# `problem`/`actor` record must answer; this file is the join key. Do not add,
+# drop or reword a question here without updating `02-questions.md` first.
+#
+# Retrieval strings and bucket AUCs are measured in `engine/poc/poc1b-results.md`
+# (per-question phrasing sweep) and `engine/poc/poc1c-results.md` (bucket
+# design, revised over 1b) — read those before changing a `retrieval_query` or
+# a bucket's membership. Loader: `engine/worker/questions.py`.
+#
+# id scheme: "p<N>_<slug>" for the 19 problem questions, "q<N>_<slug>" for the
+# 16 actor questions, N matching `02-questions.md`'s own `#` column and the
+# slug matching `claim_field` (tag namespace stripped of `tag:`) — this is
+# also the exact naming PoC-1b/1c already used (p7_channel, q9_contact_route,
+# ...), so ids here are traceable straight back to the measured numbers above
+# without a second mapping table. p/q prefixes are disjoint, so ids are unique
+# across both kinds without a further namespace.
+
+questions:
+
+  # ==================================================== problem — 19 ====
+  # Core (4) — untested by PoC-1c; presumptively inference-only (lead prose
+  # + title carry these), same logic as actor identity, but that is an
+  # assumption per poc1c-results.md §5, not a measurement. Flagged below.
+  - id: p1_one_line
+    kind: problem
+    question: "In one sentence: what is the failure, stated as a browse-card definition?"
+    claim_field: one_line
+    multi: false
+    retrieval: true
+    bucket: problem-core
+    depth_tier: full
+
+  - id: p2_status
+    kind: problem
+    question: "Is this documented enough to call `researched`, or still a `stub`?"
+    claim_field: status
+    multi: false
+    retrieval: true
+    bucket: problem-core
+    depth_tier: full
+
+  - id: p3_geography
+    kind: problem
+    question: "Where does this failure occur — place names or scopes?"
+    claim_field: geography
+    multi: false
+    retrieval: true
+    bucket: problem-core
+    depth_tier: full
+
+  - id: p4_needs_legs
+    kind: problem
+    question: "Which response types does it need — activism, institution, enterprise, service?"
+    claim_field: needs_legs
+    multi: false
+    retrieval: true
+    bucket: problem-core
+    depth_tier: full
+
+  # A · Classification (4) — bucket "problem-classification"
+  - id: p5_onset
+    kind: problem
+    question: "Is the harm acute, chronic, or latent (already incurred, not yet in mortality data)?"
+    claim_field: "tag:onset"
+    multi: false
+    retrieval: true
+    bucket: problem-classification
+    depth_tier: full
+
+  - id: p6_agent
+    kind: problem
+    question: "What triggers the harm — the agent category?"
+    claim_field: "tag:agent"
+    multi: false
+    retrieval: true
+    bucket: problem-classification
+    depth_tier: full
+
+  - id: p7_channel
+    kind: problem
+    question: "Is the harm direct, structural, cultural-normative, or ambient-accidental?"
+    claim_field: "tag:channel"
+    multi: false
+    retrieval: true
+    bucket: problem-classification
+    depth_tier: full
+
+  - id: p8_satisfier_relation
+    kind: problem
+    question: "Is the satisfier absent, a violator, a pseudo-satisfier, maldistributed, or degraded-quality?"
+    claim_field: "tag:satisfier_relation"
+    multi: false
+    retrieval: true
+    bucket: problem-classification
+    depth_tier: full
+
+  # B · Evidence (3) — bucket "problem-evidence"
+  - id: p9_magnitude
+    kind: problem
+    question: >-
+      Magnitude with its denominator, dated and sourced — a number alone is
+      not an answer, it needs what it is a fraction of.
+    claim_field: "tag:magnitude"
+    multi: false
+    retrieval: true
+    bucket: problem-evidence
+    depth_tier: full
+
+  - id: p10_diff_vuln
+    kind: problem
+    question: >-
+      Who is hit harder and why, and why they can't exit or defend (no
+      information / no resources / no standing / benefits from the cause)?
+    claim_field: "tag:differential_vulnerability"
+    multi: false
+    retrieval: true
+    bucket: problem-evidence
+    depth_tier: full
+
+  - id: p11_measurement_state
+    kind: problem
+    question: "Is the harm counted anywhere? If not, say so explicitly — that absence is the finding."
+    claim_field: "tag:measurement_state"
+    multi: false
+    retrieval: true
+    bucket: problem-evidence
+    depth_tier: full
+
+  # C · Diagnosis (3) — bucket "problem-diagnosis"
+  - id: p12_mechanism
+    kind: problem
+    question: "Which of the seven mechanisms does this show — or is it `unclassified` (then say what the pattern actually is)?"
+    claim_field: "tag:mechanism"
+    multi: true
+    retrieval: true
+    bucket: problem-diagnosis
+    depth_tier: full
+
+  - id: p13_burden_note
+    kind: problem
+    question: "Is the visible, reported cause different from the load-bearing one? Which is which."
+    claim_field: "tag:burden_note"
+    multi: false
+    retrieval: true
+    bucket: problem-diagnosis
+    depth_tier: full
+
+  - id: p14_blocker
+    kind: problem
+    question: >-
+      What specifically keeps the known fix from happening — the actual
+      constraint (fiscal, political, technical, organisational), not "lack
+      of will".
+    claim_field: "tag:blocker"
+    multi: false
+    retrieval: true
+    bucket: problem-diagnosis
+    depth_tier: full
+
+  # D · Who works it, and E · Gap
+  - id: p15_representation_verdict
+    kind: problem
+    question: >-
+      Is there an actor at a unit that can perceive and act on this specific
+      harm — not an adjacent or merely national body?
+    claim_field: "tag:representation_verdict"
+    multi: false
+    retrieval: true
+    bucket: problem-who-works-it
+    depth_tier: full
+
+  - id: p16_gap_kind
+    kind: problem
+    question: "Is the gap `none`, `coverage` (someone works it, unfound), or `representation` (no actor at the right unit)?"
+    claim_field: "tag:gap_kind"
+    multi: false
+    retrieval: true
+    bucket: problem-gap
+    depth_tier: full
+
+  - id: p17_gap_missing_leg
+    kind: problem
+    question: "Which leg(s) have nobody working them at all?"
+    claim_field: "tag:gap_missing_leg"
+    multi: true
+    retrieval: true
+    bucket: problem-gap
+    depth_tier: full
+
+  - id: p18_gap_note
+    kind: problem
+    question: "One paragraph on the specific shape of what's missing."
+    claim_field: gap_note
+    multi: false
+    retrieval: true
+    bucket: problem-gap
+    depth_tier: full
+
+  - id: p19_who_working
+    kind: problem
+    question: >-
+      Who is actively working this, on any leg — every actor the text
+      supports, with what they specifically do.
+    claim_field: "emits/edges"   # drives emits/edges, not a bare column or tag
+    multi: true
+    retrieval: true
+    bucket: problem-who-works-it
+    depth_tier: full
+
+  # ===================================================== actor — 16 ====
+  # Identity — split retrieval (q1, q6, q8) vs inference (q2, q3, q5, q7)
+  # per poc1c-results.md §3.
+  - id: q1_one_line
+    kind: actor
+    question: "In one concrete sentence: what does this actor actually do — not a category label."
+    claim_field: one_line
+    multi: false
+    retrieval: true
+    bucket: actor-identity
+    depth_tier: registry   # asked at both tiers; registry gets this cheap pass at minimum
+
+  - id: q2_type
+    kind: actor
+    question: "Org or individual?"
+    claim_field: type
+    multi: false
+    retrieval: false
+    retrieval_note: >-
+      PoC-1c: AUC 0.516 (preamble), 0.466 (Scope), at-or-below chance
+      against every target tested, including the identity bucket's shared
+      query (best 0.657 across the three). An enum classification inferred
+      by reading the whole record, not a fact in one localized passage — no
+      query string retrieves a passage for it. Answer from whatever context
+      the retrieval questions (q1, q6, q8) already pulled.
+    bucket: null
+    depth_tier: registry
+
+  - id: q3_legs
+    kind: actor
+    question: >-
+      Which leg(s) — activism, institution, enterprise (market-payer only),
+      service (donor-funded, no earned revenue)?
+    claim_field: legs
+    multi: true
+    retrieval: false
+    retrieval_note: >-
+      PoC-1c: AUC 0.586 (preamble), 0.451 (Scope) — chance-adjacent
+      everywhere tested. Judgment call synthesizing funding, scope and
+      scale; not localized. Answer from context already fetched by q1/q6/q8.
+    bucket: null
+    depth_tier: registry   # `_template.md`'s `leg: []` frontmatter field carries no "tracked only" comment
+
+  - id: q4_lifecycle
+    kind: actor
+    question: >-
+      Operating, scaling, distressed, dormant, acquired, shut, or
+      won-and-dissolved — and current as of what date?
+    claim_field: lifecycle   # + lifecycle_as_of
+    multi: false
+    retrieval: true
+    bucket: actor-lifecycle
+    depth_tier: registry   # `_template.md`'s `lifecycle`/`lifecycle_as_of` frontmatter fields carry no "tracked only" comment
+
+  - id: q5_ecosystem_role
+    kind: actor
+    question: "Funder, intermediary, capacity-builder, convener, field-builder, researcher, operator, or platform?"
+    claim_field: "tag:ecosystem_role"
+    multi: false
+    retrieval: false
+    retrieval_note: >-
+      PoC-1c: AUC 0.539 (preamble), 0.552 (Scope) — chance-adjacent
+      everywhere tested. Judgment call, not localized. Answer from context
+      already fetched by q1/q6/q8.
+    bucket: null
+    depth_tier: registry
+    depth_tier_resolved: >-
+      Was UNCERTAIN/full (`ecosystem_role` predates `_template.md`'s
+      frontmatter, so neither reading applied). Resolved to `registry`,
+      changed from the `full` default: it's a single cheap categorical
+      judgment from context already fetched by q1/q6/q8 (no extra query),
+      the same shape as q2_type/q3_legs which are already `registry`, and
+      it is orthogonal to leg — useful for crawler-layer classification
+      (funder vs operator) even on a registry-depth actor.
+
+  - id: q6_affected_led
+    kind: actor
+    question: >-
+      Is leadership drawn from the harmed population (yes), an NGO/proxy
+      speaking for them (no), or a mix (partial)?
+    claim_field: affected_led
+    multi: false
+    retrieval: true
+    bucket: actor-identity
+    depth_tier: registry   # `_template.md`'s `affected_led` frontmatter field carries no "tracked only" comment
+
+  - id: q7_representation_unit
+    kind: actor
+    question: "`local-affected`, `central-org`, `enterprise`, or `central-at-named-legitimacy-cost`?"
+    claim_field: representation_unit
+    multi: false
+    retrieval: false
+    retrieval_note: >-
+      PoC-1c: AUC 0.430 (preamble), 0.493 (Scope) — the weakest of the four
+      inference questions, below chance against the preamble. Judgment
+      call, not localized. Answer from context already fetched by q1/q6/q8.
+    bucket: null
+    depth_tier: registry   # `_template.md`'s `representation_unit` frontmatter field carries no "tracked only" comment
+
+  - id: q8_geography
+    kind: actor
+    question: "Where do they operate?"
+    claim_field: geography
+    multi: false
+    retrieval: true
+    bucket: actor-identity
+    depth_tier: registry
+
+  - id: q9_contact_route
+    kind: actor
+    question: "How would you actually reach them?"
+    claim_field: contact_route
+    multi: false
+    retrieval: true
+    bucket: actor-reach
+    depth_tier: full   # `_template.md` marks `contact_route:` explicitly "# tracked only"
+
+  # Status
+  - id: q10_funding
+    kind: actor
+    question: >-
+      At what financial scale do they operate — corpus, budget, or latest
+      round/grant — and as of when? One dated sentence.
+    claim_field: funding
+    multi: false
+    retrieval: true
+    bucket: actor-status
+    depth_tier: full
+    # Narrowed 2026-09-13. This question formerly bundled "who funds them"
+    # with "at what scale". The two halves serve different purposes and only
+    # one pays for itself. Scale sizes the offer, and sizing the offer is
+    # what makes a match legible: a ₹50L need introduced to a fund writing
+    # $5M cheques is a bad introduction. Funder identity moved to
+    # q10b_funder_identity, which is an edge rather than a field — see there.
+    #
+    # PoC-0b measured the old bundled question's search coverage at 3/12
+    # (25%) among actors for which funding demonstrably applies. That number
+    # is not a reason to widen the question; it is mostly a fact about funds,
+    # which do not reliably publish their own funders and for which the
+    # catalyst act does not depend on it.
+    depth_tier_resolved: >-
+      Confirmed `full` (unchanged). A dated funding/scale sentence needs
+      the tracked dive's 3-5 sources, not the registry pass's single
+      identity query — CLAUDE.md's ground test frames this exact digging
+      as tracked-tier, and `_template.md`'s silence on `## Status` doesn't
+      override that: silence there means "not yet annotated," not
+      "registry-eligible" (the fields it does mark are opt-IN to full,
+      not an exhaustive opt-out list).
+
+  - id: q10b_funder_identity
+    kind: actor
+    question: >-
+      Who funds them — the named funders, each as its own entry.
+    claim_field: emits/edges
+    multi: true
+    retrieval: false
+    retrieval_note: >-
+      Not a field about the entity, a relation between two entities: who
+      funds whom is an edge, and edges arrive through the emit path
+      (`worker/problem_emit.py`, `_emit`'s edges loop) from co-occurrence on
+      a page, not by retrieving a funding sentence. `impact-network-crawler`
+      already traverses exactly this edge (funds / board / cohort /
+      portfolio), which is how the catalyst layer is mapped at all.
+      Retrieving a sentence to populate a relationship is the wrong
+      instrument, and PoC-0b's 25% coverage on the applicable set is the
+      cost of using it: search surfaces a funding page for a quarter of the
+      organisations that certainly have funders, while the same fact falls
+      out of the emit path for free wherever a page names both parties.
+      Answer it from whatever context the retrieval questions already pulled,
+      and let the edge carry it.
+    bucket: null
+    depth_tier: full
+
+  - id: q11_scale_metric
+    kind: actor
+    question: >-
+      The one checkable number showing actual reach (members, homes, users,
+      revenue, units), dated — flag if self-reported.
+    claim_field: scale_metric
+    multi: false
+    retrieval: true
+    bucket: actor-status
+    depth_tier: full
+    depth_tier_resolved: "Confirmed `full` (unchanged), same as q10_funding — same `## Status` section, same reasoning: a checkable dated reach number is tracked-dive work."
+
+  # Leg viability — §D q2/q3
+  - id: q12_viability_note
+    kind: actor
+    question: >-
+      What makes them viable on their leg specifically — the paying
+      customer (enterprise), whether donor funding survives donor exit
+      (service), affected-led-ness (activism), or whether their authority
+      contains the harm's source and its reporting unit matches the harm
+      unit (institution)?
+    claim_field: "tag:viability_note"
+    multi: false
+    retrieval: true
+    bucket: actor-status
+    depth_tier: full
+    depth_tier_resolved: >-
+      Confirmed `full` (unchanged). This is the §D leg-viability synthesis
+      itself — it presupposes `legs` and enough source depth to know who
+      pays / whether affected-led / whether authority contains the source,
+      none of which a single registry identity query surfaces. Tracked-only.
+
+  - id: q13_failure_note
+    kind: actor
+    question: "Where has this actor deployed effort and had it fail, and why? Omit if the source shows no failure — don't invent one."
+    claim_field: "tag:failure_note"
+    multi: false
+    retrieval: false
+    retrieval_note: >-
+      PoC-1c: AUC 0.243 against `Status` — below chance. A direct grep
+      found failure vocabulary in only ~10/289 actor files; this is a
+      content/coverage gap in the corpus, not a phrasing or bucketing
+      problem, so no retrieval target is assigned. Currently unanswerable
+      from most sources; answer only when the fetched text plainly states
+      a failure, from whatever context is already in hand.
+    bucket: null
+    depth_tier: full
+    depth_tier_resolved: "Confirmed `full` (unchanged), same as q12_viability_note — same §D pairing: failure-mode diagnosis is tracked-dive synthesis, and coverage is already rare (~10/289) so it's not worth a registry query on top."
+
+  # Catalyst surface
+  - id: q14_ask_need
+    kind: actor
+    question: "What does this actor say it needs (funding, partners, data, policy access)?"
+    claim_field: "ask:need:<kind>"
+    multi: true
+    retrieval: true
+    bucket: actor-needs
+    depth_tier: full   # `_template.md` marks `needs:` explicitly "# tracked only"
+
+  - id: q15_ask_offer
+    kind: actor
+    question: "What can it offer (funding, a channel, a service, distribution)?"
+    claim_field: "ask:offer:<kind>"
+    multi: true
+    retrieval: true
+    bucket: actor-offers
+    depth_tier: full   # `_template.md` marks `offers:` explicitly "# tracked only"
+
+  - id: q16_channel
+    kind: actor
+    question: "What are its live follow channels?"
+    claim_field: "channel:<kind>"
+    multi: true
+    retrieval: true
+    bucket: actor-reach
+    depth_tier: full
+    depth_tier_resolved: >-
+      RESOLVED in favour of CLAUDE.md, per the build instructions: a real
+      conflict existed between `_template.md`'s `sources:` field (not
+      marked "tracked only") and `CLAUDE.md`'s Actor tracking section,
+      which says explicitly "Don't run `actor-channel-finder` for a
+      `registry` actor." CLAUDE.md wins — channel-hunting stays
+      `tracked`-only (`full`, unchanged from the default). `_template.md`'s
+      "no reachable channel -> one row" rule still applies once an actor
+      IS in the tracked pass; it just never triggers a channel search for
+      a registry actor in the first place.
+
+# ============================================================ buckets ====
+# Retrieval buckets — one e5 `query:` string per bucket, swept in
+# `engine/poc/poc1b_phrasing.py` (per-question axes) and merged/revised in
+# `engine/poc/poc1c_buckets.py` (bucket-wide sweep: shared query = whichever
+# candidate, from any question in the bucket, scores best against the
+# bucket's target section). `retrieval_query_source: measured` means the
+# string and its AUC come from one of those two scripts' recorded output;
+# `heuristic` means no PoC measured it and the string instead follows the
+# two rules that generalised across the sweep (PoC-1b finding 2: never name
+# the entity type; prefer noun-phrase/statement-shaped over a question).
+
+buckets:
+
+  # ---- actor side ----------------------------------------------------
+  - id: actor-reach
+    kind: actor
+    questions: [q9_contact_route, q16_channel]
+    target_section: "actor `## How to reach them`"
+    retrieval_query: "contact email website social media handle channel"
+    retrieval_query_source: measured
+    auc: 0.893
+    measured_against: "actor `## How to reach them` (H2-recovered label)"
+    measured_n: 223
+    note: >-
+      poc1b: this string is q9's own keyword_list winner (AUC 0.893 solo).
+      poc1c cross-apply: ties q9's dedicated best (0.893) and beats q16's
+      dedicated best (0.790) by +0.103 — the merge is free.
+
+  - id: actor-status
+    kind: actor
+    questions: [q10_funding, q11_scale_metric, q12_viability_note]
+    target_section: "actor `## Status`"
+    retrieval_query: "funding source, scale, latest round or grant, date"
+    retrieval_query_source: measured
+    auc: 0.977
+    measured_against: "actor `## Status` (H2-recovered label)"
+    measured_n: 205
+    note: >-
+      poc1b: this string is q10's own noun_phrase winner (AUC 0.977 solo).
+      poc1c cross-apply: ties q10's dedicated best (0.977), beats q11's
+      dedicated best (0.931) by +0.046 — merge is free. q12 (viability)
+      moved into this bucket on separate evidence: its own noun_phrase
+      candidate ("viability, unit economics, funding continuity, effort
+      that failed") scores 0.873 against `Status` directly (control:
+      0.835) — not the same string as this bucket's shared query, but high
+      enough that `Status` prose substantively overlaps what q12 asks, so
+      folding it in rather than giving it a dedicated retrieval is
+      reasonable. q12's own AUC (0.873) has not been re-measured against
+      this bucket's exact shared string.
+
+      Split note, 2026-09-13: q10 was narrowed to scale-only and funder
+      identity left this bucket as q10b_funder_identity (retrieval: false,
+      edge-borne). This bucket's retrieval_query is deliberately UNCHANGED
+      and its 0.977 remains valid — the query's job is to find the `##
+      Status` section, and that section carries the scale half as well as
+      the funder half, so narrowing the question does not invalidate a
+      measurement that was never of the funder clause specifically. A
+      re-sweep leading with scale rather than "funding source" may do
+      better and has not been run.
+
+  - id: actor-lifecycle
+    kind: actor
+    questions: [q4_lifecycle]
+    target_section: "actor `## Recent updates`"
+    retrieval_query: "lifecycle status and as-of date"
+    retrieval_query_source: measured
+    auc: 0.919
+    measured_against: "actor `## Recent updates` (H2-recovered label)"
+    measured_n: 282
+    note: >-
+      Retargeted off `Status` (control AUC there: 0.688, best alternative
+      −0.009, CI crosses zero — control would have stayed). Reading actual
+      sections showed `## Status` is almost entirely two fixed bullets
+      (Funding, Scale metric — q10/q11's own content) and rarely states
+      operating/dormant/etc; `## Recent updates` is the reverse-chron log
+      where lifecycle language actually lives. Retargeting + rephrasing
+      together: 0.688 -> 0.919 (+0.231). Single-question bucket: no other
+      question shares this target.
+
+  - id: actor-needs
+    kind: actor
+    questions: [q14_ask_need]
+    target_section: "actor `## What they need`"
+    retrieval_query: "requires funding, seeks partners, needs data or policy access"
+    retrieval_query_source: measured
+    auc: 0.556
+    measured_against: "actor `## What they need` (H2-recovered label)"
+    measured_n: 99
+    caveat: >-
+      Smallest sample of the actor-side sweep (99 of 289 files carry this
+      section, fewest of any). Best of six phrasing axes (vocab_overlap)
+      beats control by only +0.039 (0.518 -> 0.556), both barely above the
+      0.5 chance floor. poc1b's read: content problem, not a phrasing
+      problem — most "What they need" sections are thin/generic ("more
+      funding and partners") and give e5 nothing lexically distinctive to
+      lock onto regardless of query wording. Kept `retrieval: true` because
+      a query does exist and scores (barely) above chance, but downstream
+      consumers should not expect this bucket's retrieval to reliably
+      surface the right passage; a content-coverage fix (matching the
+      whole file rather than one paragraph) was proposed and not built.
+
+  - id: actor-offers
+    kind: actor
+    questions: [q15_ask_offer]
+    target_section: "actor `## What they can offer`"
+    retrieval_query: "Offers funding, a channel, a service, or distribution to partners."
+    retrieval_query_source: measured
+    auc: 0.871
+    measured_against: "actor `## What they can offer` (H2-recovered label)"
+    measured_n: 167
+    note: >-
+      Winning axis: statement_shaped, margin +0.262 over control (0.609),
+      bootstrap 90% CI [+0.236, +0.288] — excludes zero, second-largest win
+      of the PoC-1b sweep.
+
+  - id: actor-identity
+    kind: actor
+    questions: [q1_one_line, q6_affected_led, q8_geography]
+    target_section: "actor preamble (\"What they do.\" lead paragraph, before any H2)"
+    retrieval_query: "In one concrete sentence: what does this actor actually do?"
+    retrieval_query_source: measured
+    auc: 0.917
+    measured_against: "actor preamble (H2-recovered label, empty-heading chunk)"
+    measured_n: 289
+    caveat: >-
+      This is q1's own dedicated control string (`poc1c_run_output.txt`
+      confirms it beats the two other IDENTITY_SHARED_CANDIDATES —
+      noun_phrase 0.502, statement_shaped 0.637 — on the same preamble
+      target). q6 and q8 were not re-scored against this exact shared
+      string; their own dedicated-question AUCs against the preamble are
+      0.777 (q6) and 0.959 (q8) respectively — both comfortably above the
+      chance-adjacent scores every candidate gets on `## Scope` (the only
+      other tested target), which is why the bucket points at the preamble
+      rather than `## Scope` or their union. Sharing q1's string across all
+      three is a judgment call carried over from the identity split, not a
+      separately measured 3-question shared-query AUC.
+
+  # ---- problem side ----------------------------------------------------
+  - id: problem-core
+    kind: problem
+    questions: [p1_one_line, p2_status, p3_geography, p4_needs_legs]
+    target_section: "leaf lead prose (definition + description, before any H2 — the `> ...` blockquote and the paragraph after it, per `_tier-template.md`/corpus.mjs)"
+    retrieval_query: "failure definition, scope, geography, and response types needed"
+    retrieval_query_source: heuristic
+    note: >-
+      Untested — poc1c-results.md §5 explicitly flags these four as
+      "presumptively inference-only... but that is untested, not assumed."
+      No PoC swept this target on the leaf corpus (A-E only). Written per
+      the two rules that generalised across PoC-1b's sweep: never name the
+      entity type ("this problem"/"this failure" was a consistent loser on
+      the actor side), and prefer a noun-phrase/statement-shaped string
+      over question grammar. A single shared query is a judgment call, not
+      a measured merge — resweep before trusting this bucket's AUC, which
+      does not exist yet.
+
+  # ---- problem side (7-leaf sample) -----------------------------------
+  - id: problem-classification
+    kind: problem
+    questions: [p5_onset, p6_agent, p7_channel, p8_satisfier_relation]
+    target_section: "leaf `## A · Classification`"
+    retrieval_query: "Is the harm direct, structural, cultural-normative, or ambient-accidental?"
+    retrieval_query_source: measured
+    auc: 0.957
+    measured_against: "leaf `## A · Classification` (H2-recovered label)"
+    measured_n: 7
+    caveat: >-
+      Measured on the 7 existing leaf files under
+      problems/tier-failure-history/*/*/*.md (129 chunks total) — a small
+      sample, and poc1c-results.md explicitly downgrades this to
+      "directionally consistent with the actor-side result, not
+      independent confirmation." Bootstrap CI excludes zero for this
+      bucket's shared-vs-weakest-dedicated margin (+0.138 over
+      p8_satisfier_relation's 0.818), but treat the absolute AUC as
+      suggestive, not settled, until more leaves exist.
+
+  - id: problem-evidence
+    kind: problem
+    questions: [p9_magnitude, p10_diff_vuln, p11_measurement_state]
+    target_section: "leaf `## B · Evidence`"
+    retrieval_query: "Magnitude with its denominator, dated and sourced."
+    retrieval_query_source: measured
+    auc: 0.644
+    measured_against: "leaf `## B · Evidence` (H2-recovered label)"
+    measured_n: 7
+    caveat: >-
+      7-leaf sample (see problem-classification's caveat for the general
+      caution). p10_diff_vuln itself scored 0.225 in this bucket — poc1c
+      flags this as "a broken question here, not just a bucketing
+      artifact," i.e. the bucket's headline lift (+0.419 over p10) is
+      partly p10 being unusually hard to retrieve on this tiny sample
+      rather than purely a bucketing win.
+
+  - id: problem-diagnosis
+    kind: problem
+    questions: [p12_mechanism, p13_burden_note, p14_blocker]
+    target_section: "leaf `## C · Diagnosis`"
+    retrieval_query: "What specifically keeps the known fix from happening -- the actual constraint?"
+    retrieval_query_source: measured
+    auc: 0.833
+    measured_against: "leaf `## C · Diagnosis` (H2-recovered label)"
+    measured_n: 7
+    caveat: "7-leaf sample; see problem-classification's caveat."
+
+  - id: problem-who-works-it
+    kind: problem
+    questions: [p15_representation_verdict, p19_who_working]
+    target_section: "leaf `## D · Who is working on this`"
+    retrieval_query: >-
+      Who is actively working this, on any leg, and what do they
+      specifically do?
+    retrieval_query_source: measured
+    auc: 0.740
+    measured_against: "leaf `## D · Who is working on this` (H2-recovered label)"
+    measured_n: 7
+    caveat: "7-leaf sample; see problem-classification's caveat."
+
+  - id: problem-gap
+    kind: problem
+    questions: [p16_gap_kind, p17_gap_missing_leg, p18_gap_note]
+    target_section: "leaf `## E · Gap`"
+    retrieval_query: "Is the gap none, coverage, or representation?"
+    retrieval_query_source: measured
+    auc: 0.875
+    measured_against: "leaf `## E · Gap` (H2-recovered label)"
+    measured_n: 7
+    caveat: "7-leaf sample; see problem-classification's caveat."

@@ -1,0 +1,36 @@
+{
+  "with_signals": {
+    "dst_kind": "problem",
+    "dst_name": "Silicosis in stone quarries",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "evidence": "quarry workers develop silicosis from silica dust exposure",
+    "signals": {
+      "harmed_population": "stone quarry workers, Rajasthan",
+      "magnitude": "uncounted",
+      "agent": "silica dust",
+      "actionable": "dust suppression and PPE enforcement at quarry sites"
+    }
+  },
+  "no_signals": {
+    "dst_kind": "problem",
+    "dst_name": "River pollution from industrial effluent",
+    "edge_kind": "works_on",
+    "relevance": 1,
+    "evidence": "the river runs black downstream of the tannery cluster"
+  },
+  "partial_signals": {
+    "dst_kind": "problem",
+    "dst_name": "Groundwater depletion",
+    "edge_kind": "works_on",
+    "signals": {
+      "magnitude": "uncounted"
+    }
+  },
+  "malformed_signals": {
+    "dst_kind": "problem",
+    "dst_name": "Malformed Problem",
+    "edge_kind": "works_on",
+    "signals": "not-an-object"
+  }
+}

@@ -308,7 +308,8 @@ CREATE INDEX candidate_queue_ix ON candidate (admitted, score DESC)
 CREATE TABLE finding (
   id            INTEGER PRIMARY KEY,
   candidate_id  INTEGER NOT NULL REFERENCES candidate (id),
-  question_id   TEXT NOT NULL,        -- key into worker/questions.py's registry
+  question_id   TEXT NOT NULL,        -- key into worker/questions.py's Registry,
+                                       -- loaded from engine/questions.yaml (F1)
   answer        TEXT NOT NULL,
   confidence    REAL CHECK (confidence IS NULL OR confidence BETWEEN 0 AND 1),
   source_url    TEXT,
