@@ -1,0 +1,46 @@
+# Track D (`04-worker-build-plan.md` §5) — the query-family registry.
+#
+# Family ids and query templates are derived from what PoC-0b actually ran
+# (`poc/poc0b_families.yaml`, verified here directly against the `family` and
+# `query` fields recorded across all 120 files in `poc/poc0b-responses/`) —
+# not invented. `{name}` is the actor's display name, substituted verbatim
+# (including surrounding quotes, which are part of the template).
+#
+# PoC-0b's 7th family from `03-worker.md` §3 (`asks`) was dropped from that
+# PoC to land on 20 x 6 = 120 queries — it is not present in the recorded
+# data and is therefore not in this registry. Adding it back is a candidate
+# for later, not done here (track D's brief is to derive from what PoC-0b
+# ran, not to re-add the dropped 7th).
+
+families:
+  - id: identity
+    query_template: '"{name}"'
+    retrievable: true
+
+  - id: money
+    query_template: '"{name}" funding raised grant crore'
+    retrievable: true
+
+  - id: people
+    query_template: '"{name}" founder director leadership'
+    retrievable: true
+
+  - id: viability
+    query_template: '"{name}" revenue customers model'
+    retrievable: true
+
+  - id: reach
+    query_template: '"{name}" contact twitter newsletter'
+    retrievable: true
+
+  - id: failure
+    query_template: '"{name}" shut down closed pivot losses'
+    # PoC-0b finding (poc/poc0b-results.md, "Real-run results — per-family
+    # predicted coverage"): failure scored 28% predicted coverage, the
+    # lowest of all six families, and this independently corroborates PoC-1c
+    # (q13_failure_note AUC 0.243 on labelled-chunk retrieval, failure
+    # vocabulary present in only ~10 of 289 corpus files). Two unrelated
+    # methods agree: organisations do not publish their own failures. Kept
+    # in the registry (per the plan doc's instruction not to delete it) but
+    # flagged non-retrievable rather than treated as a retrieval bug to fix.
+    retrievable: false
