@@ -1,0 +1,104 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\n      \"question_id\": \"q1_one_line\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Anthill Ventures invests in early-stage Health, Urban Consumer, and Urban Tech startups in India and Singapore and helps them scale using its network of channel partners.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q2_type\",\n      \"source_id\": \"S2\",\n      \"answer\": \"org\",\n      \"confidence\": 0.95\n    },\n    {\n      \"question_id\": \"q3_legs\",\n      \"source_id\": \"S2\",\n      \"answer\": \"enterprise\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q5_ecosystem_role\",\n      \"source_id\": \"S2\",\n      \"answer\": \"funder\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q6_affected_led\",\n      \"source_id\": \"S2\",\n      \"answer\": \"no\",\n      \"confidence\": 0.85\n    },\n    {\n      \"question_id\": \"q7_representation_unit\",\n      \"source_id\": \"S2\",\n      \"answer\": \"central-org\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q8_geography\",\n      \"source_id\": \"S2\",\n      \"answer\": \"India and Singapore\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q9_contact_route\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Email (with a personal greeting such as 'Hi John,' or 'Hello XXX Team,')\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q12_viability_note\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Viability comes from limited partners who expect financial returns from successful exits.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q15_ask_offer\",\n      \"source_id\": \"S2\",\n      \"answer\": \"funding\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q15_ask_offer\",\n      \"source_id\": \"S2\",\n      \"answer\": \"scaling assistance via channel partner network\",\n      \"confidence\": 0.9\n    }\n  ],\n  \"claims\": [],\n  \"emits\": [\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Prasad Vangas\",\n      \"hint\": \"Founder/team member of Anthill Ventures\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Venture Capitalist Alpha\",\n      \"hint\": \"Funder mentioned in S4 as providing $100 million to Tech Innovators\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Tech Innovators\",\n      \"hint\": \"Organization that received $100 million funding from Venture Capitalist Alpha per S4\",\n      \"signals\": {}\n    }\n  ],\n  \"edges\": [\n    {\n      \"dst_name\": \"Prasad Vangas\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"member_of\",\n      \"relevance\": 2,\n      \"evidence\": \"Team includes Prasad Vangas\"\n    }\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S2",
+    "answer": "Anthill Ventures invests in early-stage Health, Urban Consumer, and Urban Tech startups in India and Singapore and helps them scale using its network of channel partners.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S2",
+    "answer": "org",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S2",
+    "answer": "enterprise",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S2",
+    "answer": "funder",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S2",
+    "answer": "no",
+    "confidence": 0.85
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S2",
+    "answer": "central-org",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S2",
+    "answer": "India and Singapore",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S2",
+    "answer": "Email (with a personal greeting such as 'Hi John,' or 'Hello XXX Team,')",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S2",
+    "answer": "Viability comes from limited partners who expect financial returns from successful exits.",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S2",
+    "answer": "funding",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S2",
+    "answer": "scaling assistance via channel partner network",
+    "confidence": 0.9
+   }
+  ],
+  "claims": [],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "Prasad Vangas",
+    "hint": "Founder/team member of Anthill Ventures",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Venture Capitalist Alpha",
+    "hint": "Funder mentioned in S4 as providing $100 million to Tech Innovators",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Tech Innovators",
+    "hint": "Organization that received $100 million funding from Venture Capitalist Alpha per S4",
+    "signals": {}
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "Prasad Vangas",
+    "dst_kind": "actor",
+    "edge_kind": "member_of",
+    "relevance": 2,
+    "evidence": "Team includes Prasad Vangas"
+   }
+  ]
+ },
+ "parse_error": null
+}

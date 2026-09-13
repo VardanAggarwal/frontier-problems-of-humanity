@@ -1,0 +1,689 @@
+{
+  "slug": "bku-ekta-ugrahan",
+  "name": "Bharatiya Kisan Union (Ekta Ugrahan)",
+  "family": "viability",
+  "query": "\"Bharatiya Kisan Union (Ekta Ugrahan)\" revenue customers model",
+  "question_ids": [
+    "tag:viability_note",
+    "legs"
+  ],
+  "elapsed_s": 1.741,
+  "timestamp_utc": "2026-09-13T09:00:05.012441+00:00",
+  "request_index_this_run": 88,
+  "seconds_since_run_start": 2252.4,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Bharatiya Kisan Union (Ekta Ugrahan)\" revenue customers model",
+    "results": [
+      {
+        "url": "https://www.360.cn/",
+        "title": "360\u5b98\u7f51 -360\u5b89\u5168\u4e2d\u5fc3 - 360\u5b89\u5168\u8f6f\u4ef6 - 360\u667a\u80fd\u786c\u4ef6 - 360 ...",
+        "content": "Sep 4, 2023 \u00b7 360\u4f01\u4e1a\u5b89\u5168\u4e91 360\u6740\u6bd2 360\u53cd\u52d2\u7d22\u670d\u52a1 360\u5b89\u5168\u6d4f\u89c8\u5668 360\u6781\u901f\u6d4f\u89c8\u5668X 64\u4f4d 360\u5b89\u5168\u4e91\u76d8 360\u641c\u7d22 \u7cfb\u7edf\u6025\u6551\u7bb1 \u91cd\u88c5 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.360.cn",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "BKU (EU) head Joginder Ugrahan - The Caravan",
+        "content": "7 Jan 2021 \u00b7 Since the beginning of the farmers' sit-ins at Delhi's borders in November 2020, the Bharatiya Kisan Union (Ekta Ugrahan)\u2014the largest by far ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://caravanmagazine.in/agriculture/image-that-modi-government-doesnt-retract-statements-is-shattered-bku-ekta-ugrahan-joginder-ugrahan",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "caravanmagazine.in",
+          "/agriculture/image-that-modi-government-doesnt-retract-statements-is-shattered-bku-ekta-ugrahan-joginder-ugrahan",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://sd.360.cn/",
+        "title": "360\u6740\u6bd2_\u9996\u9875",
+        "content": "Dec 11, 2020 \u00b7 \u4f9d\u6258360\u5b89\u5168\u5927\u8111\u63d0\u4f9b\u5b9e\u65f6\u5206\u6790\u80fd\u529b\uff0c\u6740\u6bd2\u53ef\u8ddf\u8e2a\u5206\u6790\u75c5\u6bd2\u5165\u4fb5\u7cfb\u7edf\u7684\u94fe\u8def\uff0c\u9501\u5b9a\u75c5\u6bd2\u6700\u5e38\u5229\u7528\u7684\u76ee\u5f55\u3001\u6587\u4ef6\u3001\u6ce8\u518c\u8868 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "sd.360.cn",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhartiya kissan union #Unionfarmersstrike BKU-Bharti Kisan ...",
+        "content": "1 Jun 2018 \u00b7 Bharatiya Kisan Union (Ekta Ugrahan), one of the biggest farmers' organisations in Punjab, will launch a campaign for alternative policies in ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://www.facebook.com/ETVBharatEnglish/posts/bhartiya-kissan-union-unionfarmersstrike-bku-bharti-kisan-union-ekta-ugraha-kisa/1678255662282351/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/ETVBharatEnglish/posts/bhartiya-kissan-union-unionfarmersstrike-bku-bharti-kisan-union-ekta-ugraha-kisa/1678255662282351/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://dm.weishi.360.cn/home.html?from=homepage",
+        "title": "360\u9a71\u52a8\u5927\u5e08_360\u5b89\u5168\u4e2d\u5fc3\u3001\u5168\u9762\u68c0\u6d4b\u3001\u9a71\u52a8\u68c0\u6d4b\u3001\u9a71\u52a8\u4e0b\u8f7d ...",
+        "content": "Mar 16, 2026 \u00b7 360\u9a71\u52a8\u5927\u5e08\u662f\u4e00\u6b3e\u4e13\u4e1a\u89e3\u51b3\u9a71\u52a8\u5b89\u88c5\u66f4\u65b0\u8f6f\u4ef6\uff0c\u767e\u4e07\u7ea7\u7684\u9a71\u52a8\u5e93\u652f\u6301\uff0c\u9a71\u52a8\u5b89\u88c5\u4e00\u952e\u5316\uff0c\u65e0\u9700\u624b\u52a8\u64cd\u4f5c\uff0c\u9996\u521b\u7684\u9a71\u52a8 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "dm.weishi.360.cn",
+          "/home.html",
+          "",
+          "from=homepage",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "The Haryana Story - Facebook",
+        "content": "11 Jun 2026 \u00b7 ... Bharatiya Kisan Union Ekta (Ugrahan) reached the protest site on Sunday. ... revenue generating areas. The public sector companies will be ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://www.facebook.com/theharyanastory/posts/thousands-of-farmers-under-the-banner-of-bharatiya-kisan-union-ekta-siddhupur-he/122276336804164127/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/theharyanastory/posts/thousands-of-farmers-under-the-banner-of-bharatiya-kisan-union-ekta-siddhupur-he/122276336804164127/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://weishi.360.cn/?r=bd",
+        "title": "360\u5b89\u5168\u536b\u58eb\u5b98\u7f51-\u7535\u8111\u6e05\u7406\u52a0\u901f_\u8f6f\u4ef6\u7ba1\u7406_\u5b89\u5168\u9632\u62a4_AI\u529e\u516c",
+        "content": "6 days ago \u00b7 360\u5b89\u5168\u5927\u8111 \u7f51\u7edc\u7a7a\u95f4\u7684\u300c\u9884\u8b66\u673a\u548c\u53cd\u5bfc\u7cfb\u7edf\u300d \u4e0b\u8f7d\u5b89\u5168\u536b\u58eb \u5b89\u5168\u9632\u62a4\u4e2d\u5fc37.0 \u4e0a\u7f51\u3001\u7cfb\u7edf\u3001\u6d4f\u89c8\u5668\u3001\u9632\u52d2\u7d22\u3001\u5165\u53e3\u9632 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "weishi.360.cn",
+          "/",
+          "",
+          "r=bd",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "BKU (Ekta-Ugrahan) refuses to attend meeting called by ...",
+        "content": "21 Mar 2025 \u00b7 The Bharatiya Kisan Union (Ekta-Ugrahan), which has a significant base in south Punjab, will not be participating in the meeting convened by ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.hindustantimes.com/cities/chandigarh-news/bku-ekta-ugrahan-refuses-to-attend-meeting-called-by-punjab-govt-today-101742546303637.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.hindustantimes.com",
+          "/cities/chandigarh-news/bku-ekta-ugrahan-refuses-to-attend-meeting-called-by-punjab-govt-today-101742546303637.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://baoku.360.cn/qbfl/1.html",
+        "title": "360\u5b89\u5168\u536b\u58eb \u6b63\u5f0f\u7248",
+        "content": "Jun 1, 2026 \u00b7 360\u5b89\u5168\u536b\u58eb\u662f\u5f53\u524d\u529f\u80fd\u66f4\u5f3a\u3001\u6548\u679c\u66f4\u597d\u3001\u66f4\u53d7\u7528\u6237\u6b22\u8fce\u7684\u4e0a\u7f51\u5fc5\u5907\u5b89\u5168\u8f6f\u4ef6\u3002\u4f7f\u7528\u65b9\u4fbf\uff0c\u53e3\u7891\u597d\uff0c\u7d2f\u79ef\u5b88\u62a4\u4ebf\u7ea7\u7528\u6237\u3002 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "baoku.360.cn",
+          "/qbfl/1.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Farmers' union to join Jantar Mantar protest on July 27",
+        "content": "The Bharatiya Kisan Union (Ekta Ugrahan), one of Punjab's major farmers' organisations, has stated that it will travel to Delhi on July 27 to support the ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://newsarenaindia.com/states/farmers-union-to-join-jantar-mantar-protest-on-july-27/83112",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "newsarenaindia.com",
+          "/states/farmers-union-to-join-jantar-mantar-protest-on-july-27/83112",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://baoku.360.cn/sinfo/102112879_4002732.html",
+        "title": "360\u8f6f\u4ef6\u7ba1\u5bb6\u4e0b\u8f7d-360\u8f6f\u4ef6\u7ba1\u5bb6 [\u514d\u8d39\u6700\u65b0\u7248]-360\u8f6f\u4ef6\u5b9d\u5e93",
+        "content": "Jun 4, 2026 \u00b7 360\u8f6f\u4ef6\u7ba1\u5bb6\u662f360\u5b89\u5168\u536b\u58eb\u63d0\u4f9b\u7684\u4e00\u6b3e\u96c6\u4e0b\u8f7d\u3001\u5b89\u88c5\u3001\u5347\u7ea7\u3001\u5378\u8f7d\u3001\u8d2d\u4e70\u8f6f\u4ef6\u7684\u7ba1\u7406\u5de5\u5177\uff1b\u8f6f\u4ef6\u5e93\u4e2d\u6536\u5f55\u4e07\u6b3e\u6b63\u7248\u8f6f \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "baoku.360.cn",
+          "/sinfo/102112879_4002732.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Joginder Sing of Ugrahan Bharatiya Kisan Union (Ekta ...",
+        "content": "22 Mar 2026 \u00b7 Joginder Sing of Ugrahan Bharatiya Kisan Union (Ekta Ugrahan) addresses the Kisan Mahapanchayat at Barnala,Punjab ... Revenue and Land Reforms ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.facebook.com/JaiKisanAndolan/videos/joginder-sing-of-ugrahan-bharatiya-kisan-union-ekta-ugrahan-addresses-the-kisan-/2434806960316291/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/JaiKisanAndolan/videos/joginder-sing-of-ugrahan-bharatiya-kisan-union-ekta-ugrahan-addresses-the-kisan-/2434806960316291/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://weishi.360.cn/sem.html",
+        "title": "360\u5b89\u5168\u536b\u58eb \u6b63\u5f0f\u7248\u514d\u8d39\u4e0b\u8f7d-360\u5b89\u5168\u536b\u58eb \u6b63\u5f0f\u7248 [2026\u6700 ...",
+        "content": "6 days ago \u00b7 360\u5b89\u5168\u536b\u58eb\u662f\u4e00\u6b3e\u5f3a\u5927\u7684\u514d\u8d39\u5b89\u5168\u8f6f\u4ef6\uff0c\u63d0\u4f9b\u591a\u79cd\u529f\u80fd\u4fdd\u62a4\u7535\u8111\u548c\u7f51\u7edc\u5b89\u5168\u3002",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "weishi.360.cn",
+          "/sem.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Farmers of the Bharatiya Kisan Union (Ekta Ugrahan) and BKU ...",
+        "content": "14 Feb 2024 \u00b7 7677 likes, 130 comments - indianexpress on February 14, 2024: \"#FarmersProtest | Farmers of the Bharatiya Kisan Union (Ekta Ugrahan) and ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.instagram.com/p/C3XFDRpxR2G/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/p/C3XFDRpxR2G/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "http://haomashensu.360.cn/index.html",
+        "title": "360\u53f7\u7801\u7533\u8bc9\u6807\u8bb0\u5e73\u53f0",
+        "content": "Sep 6, 2022 \u00b7 \u8bf7\u63d0\u4f9b\u6e05\u6670\u3001\u5b8c\u6574\uff0c\u65e0\u6c34\u5370\u7684\u6267\u7167\u539f\u4ef6\u6570\u7801\u7167\uff0c\u590d\u5370\u4ef6\u9700\u52a0\u76d6\u516c\u53f8\u7ea2\u7ae0\u3002\uff08\u6700\u591a\u4e0a\u4f201\u5f20\uff0c\u6bcf\u5f20\u6700\u592710M\u4e0d\u80fd\u5c0f\u4e8e25K\uff09",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "http",
+          "haomashensu.360.cn",
+          "/index.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Farmers Resist in Punjab - Countercurrents.org",
+        "content": "15 Oct 2021 \u00b7 Five districts of Bharatiya Kisan Union Ekta Ugrahan started protests in front of Finance Minister Manpreet Singh Badal's house from October ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://countercurrents.org/2021/10/bku-ugrahan-resisting-in-punjab/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "countercurrents.org",
+          "/2021/10/bku-ugrahan-resisting-in-punjab/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://sd.360.cn/download_center.html",
+        "title": "360\u6740\u6bd2_\u4e0b\u8f7d\u4e2d\u5fc3",
+        "content": "4 days ago \u00b7 \u589e\u91cf\u75c5\u6bd2\u5e93\u66f4\u65b0\u5305 \u9002\u7528\u4e8e\u5df2\u5b89\u88c5\u672c\u5730\u75c5\u6bd2\u5e93\u7684\u7528\u6237\u3002\u4e0b\u8f7d\u540e\u76f4\u63a5\u8fd0\u884c\uff0c \u53ef\u4ee5\u5c06360\u6740\u6bd2\u7684\u75c5\u6bd2\u5e93\u5347\u7ea7\u5230\u6700\u65b0\u7248\u672c\u3002 [32 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "sd.360.cn",
+          "/download_center.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Sarwan Singh Pandher: 'The government has to first create an ...",
+        "content": "24 Feb 2021 \u00b7 Like the Bharatiya Kisan Union (Ekta-Ugrahan), it enjoys wide support among farmers and agricultural workers in Punjab. On January 29, at ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://frontline.thehindu.com/the-nation/agriculture/interview-sarwan-singh-pandher-kisan-mazdoor-sangharsh-committee-punjab-the-government-has-to-first-create-an-environment-conducive-to-talks-farmers-protests-against-farm-laws-2020/article33904230.ece",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "frontline.thehindu.com",
+          "/the-nation/agriculture/interview-sarwan-singh-pandher-kisan-mazdoor-sangharsh-committee-punjab-the-government-has-to-first-create-an-environment-conducive-to-talks-farmers-protests-against-farm-laws-2020/article33904230.ece",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://youqian.360.cn/",
+        "title": "360\u6709\u94b1\u8054\u76df-360\u5b98\u65b9\u7ebf\u4e0b\u63a8\u5e7f\u5e73\u53f0_\u8f6f\u4ef6\u5b89\u88c5_\u6280\u672f\u5458\u8054\u76df ...",
+        "content": "360\u6709\u94b1\u8054\u76df, \u88c5\u673a\u8054\u76df, \u6280\u672f\u5458\u8054\u76df, \u9886\u85aa\u8054\u76df, \u88c5\u673a\u8d5a\u94b1, \u8f6f\u4ef6\u63a8\u5e7f\u8054\u76df, \u88c5\u673a\u8d5a\u94b1, \u7535\u8111\u88c5\u673a \u5305\u542b\uff1a360\u5b89\u5168\u536b\u58eb, 360\u6740\u6bd2, 360\u5b89\u5168 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "youqian.360.cn",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "On 30th December, various farmer unions in Punjab have ...",
+        "content": "28 Dec 2024 \u00b7 Opposition to anti-farmer policies. Farmer unions involved in the bandh: Bharatiya Kisan Union (Ekta-Ugrahan) Bharatiya Kisan Union (Lakhowal)",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.instagram.com/p/DEHwjBpN5hG/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/p/DEHwjBpN5hG/",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ]
+    ]
+  }
+}

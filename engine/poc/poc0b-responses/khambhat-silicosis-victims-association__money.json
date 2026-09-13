@@ -1,0 +1,337 @@
+{
+  "slug": "khambhat-silicosis-victims-association",
+  "name": "Silicosis Victims Association (Khambhat)",
+  "family": "money",
+  "query": "\"Silicosis Victims Association (Khambhat)\" funding raised grant crore",
+  "question_ids": [
+    "funding",
+    "scale_metric",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.659,
+  "timestamp_utc": "2026-09-13T08:53:51.708303+00:00",
+  "request_index_this_run": 74,
+  "seconds_since_run_start": 1879.0,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Silicosis Victims Association (Khambhat)\" funding raised grant crore",
+    "results": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Silicosis",
+        "title": "Silicosis - Wikipedia",
+        "content": "Silicosis is an occupational lung disease caused by the inhalation of respirable crystalline silica dust. It is characterized by lung \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Silicosis",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://my.clevelandclinic.org/health/diseases/22622-silicosis",
+        "title": "Silicosis: Causes, Symptoms, Diagnosis & Treatment",
+        "content": "Silicosis is a lung disease that can develop from breathing in silica dust, usually around mining and construction sites. Symptoms \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "my.clevelandclinic.org",
+          "/health/diseases/22622-silicosis",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.respiratorytherapyzone.com/silicosis/",
+        "title": "Silicosis: Causes, Symptoms, Diagnosis, and Treatment (2026)",
+        "content": "Sep 2, 2026 \u00b7 Silicosis is a lung disease caused by inhaling tiny silica dust particles, commonly found in industries like mining, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.respiratorytherapyzone.com",
+          "/silicosis/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://rajsilicosis.rajasthan.gov.in/PublicReports/CheckStatus",
+        "title": "Silicosis Grant Disbursement - Rajasthan",
+        "content": "To download your Silicosis Certificate, an OTP will be sent to the mobile number available in your Jan Aadhar. After OTP verification, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rajsilicosis.rajasthan.gov.in",
+          "/PublicReports/CheckStatus",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.merckmanuals.com/professional/pulmonary-disorders/environmental-and-occupational-pulmonary-diseases/silicosis",
+        "title": "Silicosis - Pulmonology - Merck Manual Professional Edition",
+        "content": "Silicosis is caused by inhalation of respirable particles of crystalline silica (usually quartz).",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.merckmanuals.com",
+          "/professional/pulmonary-disorders/environmental-and-occupational-pulmonary-diseases/silicosis",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.lung.org/lung-health-diseases/lung-disease-lookup/silicosis",
+        "title": "Silicosis - American Lung Association",
+        "content": "Silicosis is a type of pulmonary fibrosis, a lung disease caused by breathing in tiny bits of silica, a common mineral found in sand, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.lung.org",
+          "/lung-health-diseases/lung-disease-lookup/silicosis",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.healthdirect.gov.au/silicosis",
+        "title": "Silicosis - symptoms, treatments and causes | healthdirect",
+        "content": "Silicosis is a serious chronic (ongoing) lung condition caused by silica dust. If you work in construction, mining or tunnelling you may \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.healthdirect.gov.au",
+          "/silicosis",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://vajiramandravi.com/current-affairs/silicosis/",
+        "title": "Silicosis, Causes, Symptoms, Treatment, Latest News",
+        "content": "Aug 14, 2026 \u00b7 Nearly 600 workers in California\u2019s engineered-stone countertop industry have been diagnosed with silicosis since \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "vajiramandravi.com",
+          "/current-affairs/silicosis/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.hseblog.com/silicosis-causes-symptoms-prevention/",
+        "title": "Silicosis: Causes, Symptoms, Types & Prevention Guide (2025)",
+        "content": "May 8, 2026 \u00b7 Silicosis causes irreversible lung damage from silica dust. Learn the symptoms, three types, exposure limits \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.hseblog.com",
+          "/silicosis-causes-symptoms-prevention/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.webmd.com/lung/what-is-silicosis",
+        "title": "Silicosis: Symptoms, Causes, Diagnosis, Treatment, Prevention",
+        "content": "Jan 14, 2025 \u00b7 Most people get silicosis from a workplace where they inhale large amounts of silica dust. Learn more about the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.webmd.com",
+          "/lung/what-is-silicosis",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

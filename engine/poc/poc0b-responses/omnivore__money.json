@@ -1,0 +1,337 @@
+{
+  "slug": "omnivore",
+  "name": "Omnivore",
+  "family": "money",
+  "query": "\"Omnivore\" funding raised grant crore",
+  "question_ids": [
+    "funding",
+    "scale_metric",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.685,
+  "timestamp_utc": "2026-09-13T08:41:17.942309+00:00",
+  "request_index_this_run": 44,
+  "seconds_since_run_start": 1125.3,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Omnivore\" funding raised grant crore",
+    "results": [
+      {
+        "url": "https://support.microsoft.com/en-us/windows/how-to-get-help-in-windows-711b6492-0435-0038-8706-7c6b0feb200a",
+        "title": "How to get help in Windows - Microsoft Support",
+        "content": "Here are a few different ways to find help for Windows Search for help - Enter a question or keywords in the search box on the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/windows/how-to-get-help-in-windows-711b6492-0435-0038-8706-7c6b0feb200a",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/en-us/support/get-help/about-get-help",
+        "title": "About Get Help | Microsoft Support",
+        "content": "The Windows Get Help app is a centralized hub for accessing a wide range of resources, including tutorials, FAQs, community \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/support/get-help/about-get-help",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/ja-jp/support/get-help/about-get-help",
+        "title": "\u30d8\u30eb\u30d7\u306b\u3064\u3044\u3066 | Microsoft Support",
+        "content": "Windows Get Help \u30a2\u30d7\u30ea\u306f\u3001\u30c1\u30e5\u30fc\u30c8\u30ea\u30a2\u30eb\u3001FAQ\u3001\u30b3\u30df\u30e5\u30cb\u30c6\u30a3 \u30d5\u30a9\u30fc\u30e9\u30e0\u3001Microsoft \u30b5\u30dd\u30fc\u30c8\u62c5\u5f53\u8005\u304b\u3089\u306e\u76f4\u63a5\u30b5\u30dd\u30fc\u30c8\u306a \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/ja-jp/support/get-help/about-get-help",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/zh-cn/windows/%E5%9C%A8-windows-%E4%B8%AD%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E5%B8%AE%E5%8A%A9-711b6492-0435-0038-8706-7c6b0feb200a",
+        "title": "\u5728 Windows \u4e2d\u5982\u4f55\u83b7\u53d6\u5e2e\u52a9 - Microsoft \u652f\u6301",
+        "content": "\u4ee5\u4e0b\u662f\u67e5\u627e Windows \u5e2e\u52a9\u7684\u591a\u79cd\u4e0d\u540c\u65b9\u6cd5: \u641c\u7d22\u5e2e\u52a9 - \u5728\u4efb\u52a1\u680f\u4e0a\u7684\u641c\u7d22\u6846\u4e2d\u8f93\u5165\u95ee\u9898\u6216\u5173\u952e\u5b57\uff0c\u4ee5\u67e5\u627e\u5e94\u7528\u3001\u6587\u4ef6\u548c\u8bbe\u7f6e\u5e76\u4ece Web \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/zh-cn/windows/%E5%9C%A8-windows-%E4%B8%AD%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E5%B8%AE%E5%8A%A9-711b6492-0435-0038-8706-7c6b0feb200a",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/en-us/windows/windows-update-troubleshooter-19bc41ca-ad72-ae67-af3c-89ce169755dd",
+        "title": "Windows Update Troubleshooter - Microsoft Support",
+        "content": "Run the troubleshooter in Get Help If the troubleshooter in Get Help app is unable to resolve your issue or If you are using an older \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/windows/windows-update-troubleshooter-19bc41ca-ad72-ae67-af3c-89ce169755dd",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/fr-fr/windows/activation/activate-windows",
+        "title": "Activer Windows | Microsoft Support",
+        "content": "Apprenez \u00e0 activer Windows \u00e0 l'aide d'une cl\u00e9 de produit ou d'une licence num\u00e9rique, \u00e0 v\u00e9rifier l'\u00e9tat de votre activation et \u00e0 lier votre \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/fr-fr/windows/activation/activate-windows",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/en-us/windows/hardware/audio/fix-sound-or-audio-problems-in-windows",
+        "title": "Fix sound or audio problems in Windows | Microsoft Support",
+        "content": "Run the Windows audio troubleshooter If you are using a Windows 11 device, start by running the automated audio troubleshooter in \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/windows/hardware/audio/fix-sound-or-audio-problems-in-windows",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/en-us/windows/deployment/install-upgrade/getting-ready-for-the-windows-11-upgrade",
+        "title": "Getting ready for the Windows 11 upgrade | Microsoft Support",
+        "content": "Learn how to get ready for the Windows 11 upgrade, from making sure your device can run Windows 11 to backing up your files and \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/windows/deployment/install-upgrade/getting-ready-for-the-windows-11-upgrade",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/ja-jp/windows/windows-%E3%81%A7%E3%83%98%E3%83%AB%E3%83%97%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95-711b6492-0435-0038-8706-7c6b0feb200a",
+        "title": "Windows \u3067\u30d8\u30eb\u30d7\u3092\u8868\u793a\u3059\u308b\u65b9\u6cd5 - Microsoft \u30b5\u30dd\u30fc\u30c8",
+        "content": "\u3053\u3053\u3067\u306f\u3001Windows \u306e\u30d8\u30eb\u30d7\u3092\u691c\u7d22\u3059\u308b\u3044\u304f\u3064\u304b\u306e\u65b9\u6cd5\u3092\u793a\u3057\u307e\u3059 \u30d8\u30eb\u30d7\u306e\u691c\u7d22 - \u30bf\u30b9\u30af \u30d0\u30fc\u306e\u691c\u7d22\u30dc\u30c3\u30af\u30b9\u306b\u8cea\u554f\u307e\u305f\u306f\u30ad\u30fc \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/ja-jp/windows/windows-%E3%81%A7%E3%83%98%E3%83%AB%E3%83%97%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95-711b6492-0435-0038-8706-7c6b0feb200a",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/en-us/windows/deployment/install-upgrade/upgrade-to-windows-11-faq",
+        "title": "Upgrade to Windows 11: FAQ | Microsoft Support",
+        "content": "How do I upgrade to Windows 11? How do I get help with Windows 11 installation problems? How do I get ready for Windows 11? \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/windows/deployment/install-upgrade/upgrade-to-windows-11-faq",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

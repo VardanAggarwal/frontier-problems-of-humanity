@@ -1,0 +1,154 @@
+PoC-2b — does better prompting fix reconciliation? (within-run comparison: one prompt body per actor, three system prompts fired against it)
+  actors=['bhavreen-kandhari', 'selco-foundation', 'bku-ekta-ugrahan'] variants=['baseline', 'v1', 'v2'] rungs=['openrouter'] repeats=1 radius=1
+
+[1] fetch, select, plant, build — per actor (ONE build, radius 1)
+
+=== bhavreen-kandhari (Bhavreen Kandhari) ===
+  ok            0w cache=1 https://support.google.com/youtube/answer/9158808?hl=es-419&co=GENIE.P  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.linkedin.com/posts/bhavreen-kandhari-80283026a_reducing-em  OFF-TOPIC (gate-2 stand-in)
+  empty         0w cache=1 https://www.amazon.fr/  OFF-TOPIC (gate-2 stand-in)
+  empty         0w cache=1 https://in.linkedin.com/in/bhavreen-kandhari-80283026a  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://x.com/BhavreenMK  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.kaskus.co.id/post/64a408fc26416c27216aad88  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://indiankanoon.org/doc/172487029/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://earlychildhoodmatters.online/fr/community/bhavreen-kandhari/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://support.microsoft.com/en-us/windows/how-to-get-help-in-windows  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.flipkart.com/beauty-and-grooming/womens-personal-hygiene/s  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://www.facebook.com/ihubgujarat/posts/voices-driving-the-clean-ai  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.microsoft.com/en-us/windows/help-and-support?msockid=2fd49  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.amazon.in/Femi9-Ultra-Thin-Sanitary-Pads-Comfortable/dp/B0  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://play.google.com/store/apps/details?id=com.amazon.mShop.android  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://dialogue.earth/en/pollution/inside-a-delhi-warrior-moms-fight-  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://helpdeskgeek.com/how-to-get-help-in-windows/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://podcasts.apple.com/ae/podcast/outrage-optimism/id1459416461  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.cdn.amazon.fr/-/en/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.downtoearth.org.in/author/bhavreen-kandhari  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://www.instagram.com/reel/DWxuEE0hijl/  OFF-TOPIC (gate-2 stand-in)
+  empty         0w cache=1 https://www.amazon.com/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://ecdan.org/blog/moms-lead-global-call-for-climate-action/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.forbesindia.com/article/news/from-advocacy-and-awareness-w  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.addictivetips.com/windows-tips/how-to-get-help-in-windows/  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://www.youtube.com/shorts/v6aL1THUqVg  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://www.meesho.com/femi9-napkin-pack-of-4-l-290mm-9padspkt/p/e8l9j  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://amc.amazon.com/  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://www.jsalaw.com/wp-content/uploads/2024/10/JSA-Newsletter_Envir  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://appuals.com/how-to-get-help-in-windows/  OFF-TOPIC (gate-2 stand-in)
+  thin          0w cache=1 https://www.thequint.com/author/1861922/bhavreen-kandhari  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://femi9.in/blog/best-biodegradable-sanitary-pads-buy-affordable-  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.primevideo.com/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://marmaraurbanforum.org/s/bhavreen-kandhari?l=en  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://geekzag.com/guides/computers/how-to-get-help-in-windows-11-10/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.femelia.in/  OFF-TOPIC (gate-2 stand-in)
+  empty         0w cache=1 https://www.greenpeace.org/static/planet4-india-stateless/2025/06/7945  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://thetechgorilla.com/how-to-get-help-in-windows-11/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://hindi.indiamart.com/proddetail/femi-9-organic-sanitary-napkins  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.aninews.in/news/national/general-news/preventive-measures-  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://iilm.edu/greater-noida/wp-content/uploads/sites/3/2026/05/The-  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://fr.wikipedia.org/wiki/Amazon  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.context.news/just-transition/opinion/toxic-air-is-killing-  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://qz.com/india/1671366/extinction-rebellion-wants-indian-kids-to  OFF-TOPIC (gate-2 stand-in)
+  ok         1817w cache=0 https://inrdeals.com/femi9-xl-330mm-54-pads-ultra-soft-high-absorbency  OFF-TOPIC (gate-2 stand-in)
+  ok        17308w cache=0 https://www.hamropatro.com/en/podcasts/1787214588443
+  blocked       0w cache=0 https://en.wikipedia.org/wiki/Amazon_(company)  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=0 https://muckrack.com/monica-bathija/articles  OFF-TOPIC (gate-2 stand-in)
+  ok         1208w cache=0 https://ourkidsclimate.org/every-third-child-in-delhi-has-damaged-lung
+  ok          951w cache=0 https://en.windowsnoticias.com/How-to-get-help-in-Windows-10-11/  OFF-TOPIC (gate-2 stand-in)
+  ok          375w cache=0 https://indianexpress.com/audio/bvlf-the-early-childhood-project/breat
+  ok          511w cache=0 https://www.purplle.com/collections/menstrual-care-sanitary-pads  OFF-TOPIC (gate-2 stand-in)
+  3 sources, 345 chunks, planted=2000->4000 (people)
+  radius=1: 39 chunks, 978 passage tokens, 4708 chars, source coverage 3/3
+  bhavreen-kandhari: prompt_chars=4708 planted=2000->4000 (people)
+
+=== selco-foundation (SELCO Foundation) ===
+  ok            0w cache=1 https://selcofoundation.org/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://in.linkedin.com/company/selco-foundation  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://www.youtube.com/watch?v=Sj8xpBWb710  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://www.pinkbike.com/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://30rates.com/aed-php  OFF-TOPIC (gate-2 stand-in)
+  missing       0w cache=1 https://www.hanoikayak.com/tsuukin_chatlady/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.lemelson.org/selco-foundation/  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://www.facebook.com/SELCOFoundation/  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://ja.wikipedia.org/wiki/1000000000000  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://www.macfound.org/grantee/selco-foundation-10115236/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://support.google.com/youtube/answer/2802168?hl=en  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.xe.com/en-gb/currencyconverter/convert/?Amount=1&From=AED&  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://ja.wolframalpha.com/input?i=1000000000000000000000000000000000  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://play.google.com/store/apps/details?id=com.google.android.youtu  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.unitconverters.net/currency/aed-to-php.htm  OFF-TOPIC (gate-2 stand-in)
+  missing       0w cache=1 https://www.sdg7forsdg8.selcofoundation.org/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://eziro.com/info/%EC%9C%A0%ED%8A%9C%EB%B8%8C-%ED%99%88%ED%8E%98%  OFF-TOPIC (gate-2 stand-in)
+  thin          0w cache=1 https://themoneyconverter.com/AED/PHP  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.weblio.jp/content/100000000000000000000  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 http://103.145.37.246/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://cases.som.yale.edu/selco-foundation/overview/introduction  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://studio.youtube.com/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://wise.com/gb/currency-converter/aed-to-php-rate  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://www.instagram.com/selcoofficial/?hl=en  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://oandacurrencyconverter.com/aed-to-php  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://ja.textstudio.com/text-generator/00000000000000000000000000000  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.aicselco.org/  OFF-TOPIC (gate-2 stand-in)
+  thin          0w cache=1 https://www.youtubekids.com/?hl=ko  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://www.exchange-rates.org/converter/aed-php  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://mittun-zakki.com/myriad-name-converter/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://skoll.org/organization/selco-foundation/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://smart-review.tistory.com/entry/%EC%9C%A0%ED%8A%9C%EB%B8%8C-%EB  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://exchangerate.guru/aed/php/1/  OFF-TOPIC (gate-2 stand-in)
+  missing       0w cache=1 https://collab.selcofoundation.org/  OFF-TOPIC (gate-2 stand-in)
+  missing       0w cache=0 https://www.selcofoundation.org/structure/  OFF-TOPIC (gate-2 stand-in)
+  thin         24w cache=0 https://music.youtube.com/  OFF-TOPIC (gate-2 stand-in)
+  ok         1383w cache=0 https://www.remitly.com/ae/en/currency-converter/aed-to-php-rate  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=0 https://www.desmos.com/scientific?lang=ja  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=0 https://erp.selcofoundation.org/  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=0 https://namu.wiki/w/%EC%9C%A0%ED%8A%9C%EB%B8%8C  OFF-TOPIC (gate-2 stand-in)
+  ok          518w cache=0 https://cleancooking.org/sector-directory/selco-foundation/
+  ok          503w cache=0 https://energypedia.info/wiki/ACCESS_CSO_-_SELCO_Foundation
+  ok          280w cache=0 https://widgets.weforum.org/lastmiletop50india/selco-foundation/index.
+  blocked       0w cache=0 https://www.developmentaid.org/organizations/view/211221/selco-foundat  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=0 https://www.zoominfo.com/c/selco-foundation/356278973  OFF-TOPIC (gate-2 stand-in)
+  ok          121w cache=0 https://andeglobal.org/organization/selco-foundation/
+  3 sources, 176 chunks, planted=3->6 (billion)
+  radius=1: 35 chunks, 545 passage tokens, 2657 chars, source coverage 2/3
+  selco-foundation: prompt_chars=2657 planted=3->6 (billion)
+
+=== bku-ekta-ugrahan (Bharatiya Kisan Union (Ekta Ugrahan)) ===
+  ok            0w cache=1 https://www.champion-create.com.tw/  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.facebook.com/theharyanastory/posts/thousands-of-farmers-un  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://www.reddit.com/r/BingHomepageQuiz/hot/  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://en.wikipedia.org/wiki/Joginder_Singh_Ugrahan  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://timesofindia.indiatimes.com/city/chandigarh/bku-ekta-ugrahan-a  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://github.com/0xk1h0/ChatGPT_DAN  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=1 https://www.youtube.com/watch?v=a4-TkB1vNjk  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://caravanmagazine.in/agriculture/image-that-modi-government-does  OFF-TOPIC (gate-2 stand-in)
+  missing       0w cache=1 https://typosentinel.com/about  OFF-TOPIC (gate-2 stand-in)
+  ok            0w cache=1 https://www.thehindu.com/news/national/twitter-blocks-several-accounts  OFF-TOPIC (gate-2 stand-in)
+  ok          757w cache=0 https://www.360.cn/  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=0 https://www.k29565511.com.tw/tw  OFF-TOPIC (gate-2 stand-in)
+  ok          749w cache=0 https://www.bhaskar.com/local/punjab/moga/news/members-of-bharatiya-ki
+  ok          407w cache=0 https://newsarenaindia.com/states/farmers-union-to-join-jantar-mantar-
+  blocked       0w cache=0 https://www.vnrvjiet.ac.in/  OFF-TOPIC (gate-2 stand-in)
+  thin        115w cache=0 https://sd.360.cn/  OFF-TOPIC (gate-2 stand-in)
+  thin        113w cache=0 https://www.e-print.com.hk/products_Awards  OFF-TOPIC (gate-2 stand-in)
+  blocked       0w cache=0 https://www.instagram.com/p/DbNVWpPCNS9/?hl=en  OFF-TOPIC (gate-2 stand-in)
+  ok          729w cache=0 https://en.bharatpedia.org/wiki/Joginder_Singh_Ugrahan
+  thin         97w cache=0 https://dm.weishi.360.cn/home.html?from=homepage  OFF-TOPIC (gate-2 stand-in)
+  ok          179w cache=0 https://www.ptrophy.com/  OFF-TOPIC (gate-2 stand-in)
+  ok          165w cache=0 https://www.newsclick.in/bharatiya-kisan-union-ekta-ugrahan
+  4 sources, 292 chunks, planted=2020->4040 (year)
+  radius=1: 33 chunks, 609 passage tokens, 2657 chars, source coverage 3/4
+  bku-ekta-ugrahan: prompt_chars=2657 planted=2020->4040 (year)
+
+[2] calls — same prompt body per actor, 3 system-prompt variants
+  bhavreen-kandhari__baseline__openrouter__0: parsed=True answers=9 valid_id=9 planted_cited=False both_figs=False marker=False truncated=False retry_rescued=None
+  bhavreen-kandhari__v1__openrouter__0: TRANSPORT FAILED LLMError: all providers failed: openrouter empty response: {'id': 'gen-1789320614-ApHDMPzH0MSLGTzfPBLg', 'error': {'message': 'Upstream error from Nvidia: Service tempora
+  bhavreen-kandhari__v2__openrouter__0: parsed=True answers=8 valid_id=8 planted_cited=False both_figs=False marker=True truncated=False retry_rescued=None n_disagreements=0 disagreement_names_both=False disagreement_ids_valid=False
+  selco-foundation__baseline__openrouter__0: TRANSPORT FAILED LLMError: all providers failed: openrouter empty response: {'id': 'gen-1789321292-P4CuWHPkFYjyBqTjMv7G', 'error': {'message': 'Upstream error from Nvidia: Service tempora
+  selco-foundation__v1__openrouter__0: parsed=True answers=8 valid_id=8 planted_cited=True both_figs=True marker=True truncated=False retry_rescued=None
+  selco-foundation__v2__openrouter__0: parsed=True answers=10 valid_id=10 planted_cited=True both_figs=True marker=True truncated=False retry_rescued=None n_disagreements=0 disagreement_names_both=False disagreement_ids_valid=False
+  bku-ekta-ugrahan__baseline__openrouter__0: parsed=True answers=13 valid_id=13 planted_cited=True both_figs=False marker=False truncated=False retry_rescued=None
+  bku-ekta-ugrahan__v1__openrouter__0: parsed=True answers=14 valid_id=14 planted_cited=True both_figs=False marker=False truncated=False retry_rescued=None
+  bku-ekta-ugrahan__v2__openrouter__0: parsed=True answers=28 valid_id=28 planted_cited=True both_figs=False marker=True truncated=False retry_rescued=True n_disagreements=0 disagreement_names_both=False disagreement_ids_valid=False
+
+[3] summary — per variant, pooled across actors
+  baseline: calls 3 (transport-failed 1) | parsed 2/2 | both_figures 0/2 | marker 0/2 | planted_cited 1/2
+  v1: calls 3 (transport-failed 1) | parsed 2/2 | both_figures 1/2 | marker 1/2 | planted_cited 2/2
+  v2: calls 3 (transport-failed 0) | parsed 3/3 | both_figures 1/3 | marker 3/3 | planted_cited 2/3

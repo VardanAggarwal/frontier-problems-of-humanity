@@ -1,0 +1,337 @@
+{
+  "slug": "omnivore",
+  "name": "Omnivore",
+  "family": "people",
+  "query": "\"Omnivore\" founder director leadership",
+  "question_ids": [
+    "affected_led",
+    "representation_unit",
+    "founders"
+  ],
+  "elapsed_s": 1.322,
+  "timestamp_utc": "2026-09-13T08:41:39.404441+00:00",
+  "request_index_this_run": 45,
+  "seconds_since_run_start": 1146.7,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Omnivore\" founder director leadership",
+    "results": [
+      {
+        "url": "https://www.glassdoor.com/index.htm",
+        "title": "Glassdoor | Job Search & Career Community",
+        "content": "Get ahead with Glassdoor We're serving up trusted insights and anonymous conversation, so you'll have the goods you need to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.glassdoor.com",
+          "/index.htm",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.glassdoor.com/Job/index.htm",
+        "title": "Recommended Jobs For You | Glassdoor Job Search",
+        "content": "Search millions of open jobs with Glassdoor job search. Research company ratings, reviews and salaries. Glassdoor helps you find a \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.glassdoor.com",
+          "/Job/index.htm",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.glassdoor.co.uk/index.htm",
+        "title": "Glassdoor | Job Search and Career Community",
+        "content": "Get ahead with Glassdoor We're serving up trusted insights and anonymous conversation, so you'll have the goods you need to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.glassdoor.co.uk",
+          "/index.htm",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.glassdoor.ca/glassdoor",
+        "title": "What is Glassdoor? Company Culture, Mission, Values",
+        "content": "Glassdoor gives you an inside look at what it's like to work at Glassdoor, including salaries, reviews, office photos and more. This is \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.glassdoor.ca",
+          "/glassdoor",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Glassdoor",
+        "title": "Glassdoor - Wikipedia",
+        "content": "In June 2022, Glassdoor lost a defamation lawsuit, forcing it to unmask the identity of users of the Glassdoor website who \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Glassdoor",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.glassdoor.co.in/Community/index.htm",
+        "title": "Career Community & Conversations | Glassdoor",
+        "content": "You deserve a job that loves you back One login to help you get hired Streamline your research and get better job matches across \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.glassdoor.co.in",
+          "/Community/index.htm",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.glassdoor.com/Reviews/index.htm",
+        "title": "Companies & Reviews | Glassdoor",
+        "content": "Glassdoor - Free company reviews for 2,334,000+ companies. All posted anonymously by employees.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.glassdoor.com",
+          "/Reviews/index.htm",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.glassdoor.com/member/profile/login",
+        "title": "Log In | Glassdoor",
+        "content": "Log in to Glassdoor. Sign in to view job alerts, saved jobs, followed companies and more. Don't have an account? Sign up now.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.glassdoor.com",
+          "/member/profile/login",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.glassdoor.com/Salaries/index.htm",
+        "title": "Salaries and Compensation at Top Companies | Glassdoor",
+        "content": "Are you paid fairly? Find out. Know your worth and calculate your salary with Glassdoor's salary estimation tools to learn how much \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.glassdoor.com",
+          "/Salaries/index.htm",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.glassdoor.com/glassdoor",
+        "title": "Working at Glassdoor",
+        "content": "Glassdoor gives you an inside look at what it's like to work at Glassdoor, including salaries, reviews, office photos, and more. This is \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.glassdoor.com",
+          "/glassdoor",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

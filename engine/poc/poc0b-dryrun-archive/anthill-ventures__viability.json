@@ -1,0 +1,336 @@
+{
+  "slug": "anthill-ventures",
+  "name": "Anthill Ventures",
+  "family": "viability",
+  "query": "\"Anthill Ventures\" revenue customers model",
+  "question_ids": [
+    "tag:viability_note",
+    "legs"
+  ],
+  "elapsed_s": 0.337,
+  "timestamp_utc": "2026-09-13T06:34:58.860649+00:00",
+  "request_index_this_run": 4,
+  "seconds_since_run_start": 10.2,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Anthill Ventures\" revenue customers model",
+    "results": [
+      {
+        "url": "https://www.timesnowhindi.com/health/explained-is-copper-bottle-water-good-for-everyone-what-science-says-in-hindi-article-155092934",
+        "title": "\u0915\u094d\u092f\u093e \u0930\u094b\u091c \u0924\u093e\u0902\u092c\u0947 \u0915\u0940 \u092c\u094b\u0924\u0932 \u0915\u093e \u092a\u093e\u0928\u0940 \u092a\u0940\u0928\u093e \u0938\u0939\u0940 \u0939\u0948? \u091c\u093e\u0928\u093f\u090f \u0939\u0930 \u0915\u093f\u0938\u0940 \u0915\u0947 \u0932\u093f\u090f ...",
+        "content": "Is Copper Bottle Water Good For Everyone: \u091c\u094b \u0932\u094b\u0917 \u0930\u094b\u091c \u0924\u093e\u0902\u092c\u0947 \u0915\u0947 \u092c\u0930\u094d\u0924\u0928 \u092f\u093e \u092c\u094b\u0924\u0932 \u092e\u0947\u0902 \u0930\u0916\u093e \u092a\u093e\u0928\u0940 \u092a\u0940\u0924\u0947 \u0939\u0948\u0902 \u0935\u0947 \u0905\u0915\u094d\u0938\u0930 \u092a\u0942\u091b\u0924\u0947 \u0939\u0948\u0902 \u0915\u094d\u092f\u093e \u0924\u093e\u0902\u092c\u0947 \u0915\u0940 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.timesnowhindi.com",
+          "/health/explained-is-copper-bottle-water-good-for-everyone-what-science-says-in-hindi-article-155092934",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://ndtv.in/lifestyle/how-to-use-copper-bottles-safely-copper-bottle-benefits-and-side-effects-tambe-ki-bottle-me-pani-pine-se-kya-hota-hai-9760341",
+        "title": "\u0924\u093e\u0902\u092c\u0947 \u0915\u0940 \u092c\u094b\u0924\u0932 \u0907\u0938\u094d\u0924\u0947\u092e\u093e\u0932 \u0915\u0930\u0928\u0947 \u0915\u093e \u0938\u0939\u0940 \u0924\u0930\u0940\u0915\u093e \u0915\u094d\u092f\u093e \u0939\u0948? \u0915\u094d\u092f\u093e \u0915\u0949\u092a\u0930 \u092c\u094b\u0924\u0932 \u2026",
+        "content": "Dec 6, 2025 \u00b7 \u0924\u093e\u0902\u092c\u0947 \u0915\u0940 \u092c\u094b\u0924\u0932 \u0907\u0938\u094d\u0924\u0947\u092e\u093e\u0932 \u0915\u0930\u0928\u0947 \u0915\u093e \u0938\u0939\u0940 \u0924\u0930\u0940\u0915\u093e \u0915\u094d\u092f\u093e \u0939\u0948? \u0915\u094d\u092f\u093e \u0915\u0949\u092a\u0930 \u092c\u094b\u0924\u0932 \u092e\u0947\u0902 \u0917\u0930\u094d\u092e \u092a\u093e\u0928\u0940 \u092a\u0940\u0928\u093e \u091a\u093e\u0939\u093f\u090f, \u090f\u0915\u094d\u0938\u092a\u0930\u094d\u091f \u0938\u0947 \u091c\u093e\u0928\u093f\u090f \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "ndtv.in",
+          "/lifestyle/how-to-use-copper-bottles-safely-copper-bottle-benefits-and-side-effects-tambe-ki-bottle-me-pani-pine-se-kya-hota-hai-9760341",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.onlymyhealth.com/hindi/correct-way-to-drink-water-stored-in-a-copper-vessel-and-important-tips-shared-by-doctor-12977850068",
+        "title": "Right Way To Drink Water From Copper Vessel - Onlymyhealth",
+        "content": "Sep 3, 2026 \u00b7 Copper Bottle Me Pani Kaise Piye \u0924\u093e\u0902\u092c\u0947 \u0915\u0947 \u092c\u0930\u094d\u0924\u0928 \u092e\u0947\u0902 \u092a\u093e\u0928\u0940 \u092a\u0940\u0928\u0947 \u0915\u093e \u0938\u0939\u0940 \u0924\u0930\u0940\u0915\u093e \u0914\u0930 \u091c\u0930\u0942\u0930\u0940 \u0938\u093e\u0935\u0927\u093e\u0928\u093f\u092f\u093e\u0902 ...",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.onlymyhealth.com",
+          "/hindi/correct-way-to-drink-water-stored-in-a-copper-vessel-and-important-tips-shared-by-doctor-12977850068",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://nari.punjabkesari.in/nari/news/is-copper-water-always-safe-experts-warn-about-hidden-risks-2319339",
+        "title": "\u0924\u093e\u0902\u092c\u0947 \u0915\u0947 \u092c\u0930\u094d\u0924\u0928 \u092e\u0947\u0902 \u092a\u093e\u0928\u0940 \u092a\u0940\u0928\u093e \u0915\u092c \u0939\u094b \u0938\u0915\u0924\u093e \u0939\u0948 \u091c\u093e\u0928\u0932\u0947\u0935\u093e? \u090f\u0915\u094d\u0938\u092a\u0930\u094d\u091f\u094d\u0938 \u0938\u0947 \u2026",
+        "content": "Apr 8, 2026 \u00b7 \u0924\u093e\u0902\u092c\u0947 \u0915\u0947 \u092c\u0930\u094d\u0924\u0928 \u092e\u0947\u0902 \u092a\u093e\u0928\u0940 \u092a\u0940\u0928\u093e \u0915\u092c \u0939\u094b \u0938\u0915\u0924\u093e \u0939\u0948 \u091c\u093e\u0928\u0932\u0947\u0935\u093e? \u090f\u0915\u094d\u0938\u092a\u0930\u094d\u091f\u094d\u0938 \u0938\u0947 \u091c\u093e\u0928\u0947\u0902 Edited By Priya Yadav, Updated: 08 Apr, 2026 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "nari.punjabkesari.in",
+          "/nari/news/is-copper-water-always-safe-experts-warn-about-hidden-risks-2319339",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.aajtak.in/lifestyle/news/story/health-impact-of-daily-used-water-bottles-glass-steel-copper-plastic-safe-choice-tvism-dskc-2433578-2026-01-23",
+        "title": "\u0915\u093e\u0902\u091a, \u0924\u093e\u0902\u092c\u093e, \u0938\u094d\u091f\u0940\u0932 \u0914\u0930 \u092a\u094d\u0932\u093e\u0938\u094d\u091f\u093f\u0915... \u0915\u094c\u0928 \u0938\u0940 \u092a\u093e\u0928\u0940 \u0915\u0940 \u092c\u094b\u0924\u0932 \u0907\u0938\u094d\u0924\u0947\u092e\u093e\u0932 \u2026",
+        "content": "Jan 23, 2026 \u00b7 \u0938\u094d\u091f\u0940\u0932 \u0915\u0940 \u092c\u094b\u0924\u0932 \u0921\u094d\u092f\u0942\u0930\u0947\u092c\u0932, \u0939\u0932\u094d\u0915\u0940 \u0914\u0930 \u0907\u0902\u0938\u0941\u0932\u0947\u091f\u0947\u0921 \u0930\u0939\u0924\u0940 \u0939\u0948 \u091c\u094b \u092a\u093e\u0928\u0940 \u0915\u094b \u0932\u0902\u092c\u0947 \u0938\u092e\u092f \u0924\u0915 \u0920\u0902\u0921\u093e-\u0917\u0930\u094d\u092e \u0930\u0916\u0924\u0940 \u0939\u0948\u0902. \u092f\u0947 \u0928\u0949\u0928-\u091f\u0949\u0915\u094d\u0938\u093f\u0915, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.aajtak.in",
+          "/lifestyle/news/story/health-impact-of-daily-used-water-bottles-glass-steel-copper-plastic-safe-choice-tvism-dskc-2433578-2026-01-23",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://hindi.webdunia.com/health-care/benefits-and-side-effects-of-drinking-copper-water-bottle-124080500062_1.html",
+        "title": "\u0915\u094d\u092f\u093e \u0906\u092a \u092d\u0940 \u0930\u094b\u091c \u092a\u0940\u0924\u0947 \u0939\u0948\u0902 \u0924\u093e\u0902\u092c\u0947 \u0915\u0940 \u092c\u094b\u0924\u0932 \u092e\u0947\u0902 \u092a\u093e\u0928\u0940? \u0939\u094b \u091c\u093e\u090f\u0902 \u0938\u093e\u0935\u0927\u093e\u0928, \u091c\u093e\u0928\u0947\u0902 ...",
+        "content": "Aug 5, 2024 \u00b7 \u0924\u093e\u0902\u092c\u0947 \u0915\u0940 \u092c\u094b\u0924\u0932 \u092e\u0947\u0902 \u092a\u093e\u0928\u0940 \u092a\u0940\u0928\u0947 \u0915\u0947 \u0915\u0941\u091b \u092b\u093e\u092f\u0926\u0947 \u0939\u0948\u0902, \u0932\u0947\u0915\u093f\u0928 \u0907\u0938\u0915\u0947 \u0915\u0941\u091b \u0928\u0941\u0915\u0938\u093e\u0928 \u092d\u0940 \u0939\u0948\u0902\u0964 \u0938\u0941\u0930\u0915\u094d\u0937\u093f\u0924 \u0909\u092a\u092f\u094b\u0917 \u0915\u0947 \u0932\u093f\u090f \u090a\u092a\u0930 \u0926\u093f\u090f \u0917\u090f \u091f\u093f\u092a\u094d\u0938 \u0915\u093e \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "hindi.webdunia.com",
+          "/health-care/benefits-and-side-effects-of-drinking-copper-water-bottle-124080500062_1.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.rashtrapress.com/healthmedicine/copper-and-steel-bottles-health-benefits",
+        "title": "\u0924\u093e\u0902\u092c\u0947 \u0914\u0930 \u0938\u094d\u091f\u0940\u0932 \u0915\u0940 \u092c\u094b\u0924\u0932\u0947\u0902: \u0938\u0947\u0939\u0924 \u0915\u0947 \u0932\u093f\u090f \u0915\u094c\u0928 \u0938\u0940 \u0905\u0927\u093f\u0915 \u092a\u094d\u0930\u092d\u093e\u0935\u0940?",
+        "content": "Mar 30, 2026 \u00b7 \u0938\u094d\u091f\u0940\u0932 \u0915\u0940 \u092c\u094b\u0924\u0932\u0947\u0902 \u091f\u093f\u0915\u093e\u090a \u0914\u0930 \u0938\u0941\u0930\u0915\u094d\u0937\u093f\u0924 \u0939\u094b\u0924\u0940 \u0939\u0948\u0902\u0964 \u092a\u093e\u0928\u0940 \u0915\u0940 \u092c\u094b\u0924\u0932 \u0915\u093e \u091a\u0941\u0928\u093e\u0935 \u0938\u0947\u0939\u0924 \u092a\u0930 \u0905\u0938\u0930 \u0921\u093e\u0932 \u0938\u0915\u0924\u093e \u0939\u0948\u0964 \u0938\u092b\u093e\u0908 \u0915\u093e \u0938\u0939\u0940 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.rashtrapress.com",
+          "/healthmedicine/copper-and-steel-bottles-health-benefits",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.timesnowhindi.com/lifestyle/reuse-water-bottle-safe-when-to-replace-hindi-article-155087278",
+        "title": "\u0930\u094b\u091c \u090f\u0915 \u0939\u0940 \u092a\u093e\u0928\u0940 \u0915\u0940 \u092c\u094b\u0924\u0932 \u0907\u0938\u094d\u0924\u0947\u092e\u093e\u0932 \u0915\u0930\u0928\u093e \u0915\u093f\u0924\u0928\u093e \u0938\u0941\u0930\u0915\u094d\u0937\u093f\u0924 \u0939\u0948, \u091c\u093e\u0928\u093f\u090f \u0915\u092c \u2026",
+        "content": "Jul 13, 2026 \u00b7 \u091c\u093e\u0928\u093f\u090f \u092c\u094b\u0924\u0932 \u0915\u094b \u0915\u093f\u0924\u0928\u0947 \u0938\u092e\u092f \u0924\u0915 \u0907\u0938\u094d\u0924\u0947\u092e\u093e\u0932 \u0915\u0930\u0928\u093e \u0938\u0941\u0930\u0915\u094d\u0937\u093f\u0924 \u0939\u0948, \u0909\u0938\u0947 \u0930\u094b\u091c \u0938\u093e\u092b \u0915\u0930\u0928\u093e \u0915\u094d\u092f\u094b\u0902 \u091c\u0930\u0942\u0930\u0940 \u0939\u0948 \u0914\u0930 \u0915\u093f\u0928 \u0938\u0902\u0915\u0947\u0924\u094b\u0902 \u092a\u0930 \u092a\u0941\u0930\u093e\u0928\u0940 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.timesnowhindi.com",
+          "/lifestyle/reuse-water-bottle-safe-when-to-replace-hindi-article-155087278",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.thehealthsite.com/hindi/diet/what-are-the-health-benefits-of-drinking-water-in-copper-glass-in-hindi-1263894/",
+        "title": "\u0930\u094b\u091c \u0924\u093e\u0902\u092c\u0947 \u0915\u0947 \u092c\u0930\u094d\u0924\u0928 \u0938\u0947 \u092a\u093e\u0928\u0940 \u092a\u0940\u0928\u0947 \u0915\u0940 \u0906\u0926\u0924 \u0921\u093e\u0932 \u0932\u0947\u0902\u0917\u0947 \u0924\u094b \u0936\u0930\u0940\u0930 \u0938\u0947 \u0916\u0924\u094d\u092e \u0939\u094b ...",
+        "content": "Sep 17, 2025 \u00b7 \u0924\u093e\u0902\u092c\u093e \u090f\u0915 \u092a\u094d\u0930\u093e\u0915\u0943\u0924\u093f\u0915 \u090f\u0902\u091f\u0940 \u092c\u0948\u0915\u094d\u091f\u0940\u0930\u093f\u092f\u0932 \u0927\u093e\u0924\u0941 \u0939\u0948, \u091c\u094b \u092a\u093e\u0928\u0940 \u092e\u0947\u0902 \u092e\u094c\u091c\u0942\u0926 \u0939\u093e\u0928\u093f\u0915\u093e\u0930\u0915 \u092c\u0948\u0915\u094d\u091f\u0940\u0930\u093f\u092f\u093e \u0915\u094b \u0928\u0937\u094d\u091f \u0915\u0930 \u0926\u0947\u0924\u093e \u0939\u0948\u0964 \u091c\u092c \u0906\u092a \u0924\u093e\u0902\u092c\u0947 \u0915\u0947 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.thehealthsite.com",
+          "/hindi/diet/what-are-the-health-benefits-of-drinking-water-in-copper-glass-in-hindi-1263894/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.indiatv.in/lifestyle/features/can-we-drink-water-in-copper-bottle-daily-in-hindi-2023-04-17-953097",
+        "title": "\u0915\u094d\u092f\u093e \u0924\u093e\u0902\u092c\u0947 \u0915\u0940 \u092c\u094b\u0924\u0932 \u0915\u093e \u092a\u093e\u0928\u0940 \u092a\u0942\u0930\u0947 \u0926\u093f\u0928 \u092a\u0940 \u0938\u0915\u0924\u0947 \u0939\u0948\u0902, \u091c\u093e\u0928\u0947\u0902 \u0924\u093e\u0902\u092c\u0947 \u0915\u0947 \u092c\u0930\u094d\u0924\u0928 ...",
+        "content": "Apr 17, 2023 \u00b7 \u0915\u094d\u092f\u093e \u0924\u093e\u0902\u092c\u0947 \u0915\u0940 \u092c\u094b\u0924\u0932 \u0915\u093e \u092a\u093e\u0928\u0940 \u092a\u0942\u0930\u0947 \u0926\u093f\u0928 \u092a\u0940 \u0938\u0915\u0924\u0947 \u0939\u0948\u0902, \u0907\u0938 \u0938\u0935\u093e\u0932 \u0915\u0947 \u092c\u093e\u0930\u0947 \u092e\u0947\u0902 \u091c\u093e\u0928\u0928\u093e \u092c\u0947\u0939\u0926 \u091c\u0930\u0942\u0930\u0940 \u0939\u0948 \u0928\u0939\u0940\u0902 \u0924\u094b \u0906\u092a\u0915\u094b \u0938\u0947\u0939\u0924 \u0938\u0947 \u091c\u0941\u0921\u093c\u0947 \u0915\u0941\u091b \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.indiatv.in",
+          "/lifestyle/features/can-we-drink-water-in-copper-bottle-daily-in-hindi-2023-04-17-953097",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

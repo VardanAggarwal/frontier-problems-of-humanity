@@ -1,0 +1,696 @@
+{
+  "slug": "bhavreen-kandhari",
+  "name": "Bhavreen Kandhari",
+  "family": "people",
+  "query": "\"Bhavreen Kandhari\" founder director leadership",
+  "question_ids": [
+    "affected_led",
+    "representation_unit",
+    "founders"
+  ],
+  "elapsed_s": 0.813,
+  "timestamp_utc": "2026-09-13T09:07:40.409393+00:00",
+  "request_index_this_run": 105,
+  "seconds_since_run_start": 2707.7,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "mojeek",
+      "Suspended: access denied"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [],
+  "raw_response": {
+    "query": "\"Bhavreen Kandhari\" founder director leadership",
+    "results": [
+      {
+        "url": "https://support.google.com/docs/answer/3093343?hl=en",
+        "title": "QUERY function - Google Docs Editors Help",
+        "content": "QUERY function Runs a Google Visualization API Query Language query across data. Sample Usage QUERY (A2:E6,\"select avg \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/docs/answer/3093343",
+          "",
+          "hl=en",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari - Early Childhood Matters",
+        "content": "Bhavreen Kandhari is an Indian activist who trained as a copywriter, and is ... Founder and Director, Center for Utilizing Behavioral Insights for Children (CUBIC).",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://earlychildhoodmatters.online/fr/community/bhavreen-kandhari/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "earlychildhoodmatters.online",
+          "/fr/community/bhavreen-kandhari/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/docs/answer/3093343?hl=ja",
+        "title": "QUERY \u95a2\u6570 - Google \u30c9\u30ad\u30e5\u30e1\u30f3\u30c8 \u30a8\u30c7\u30a3\u30bf \u30d8\u30eb\u30d7",
+        "content": "Google Visualization API \u306e\u30af\u30a8\u30ea\u8a00\u8a9e\u3092\u4f7f\u7528\u3057\u3066\u3001\u30c7\u30fc\u30bf\u5168\u4f53\u306b\u5bfe\u3059\u308b\u30af\u30a8\u30ea\u3092\u5b9f\u884c\u3057\u307e\u3059\u3002 \u4f7f\u7528\u4f8b QUERY (A2:E6,\"select avg \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/docs/answer/3093343",
+          "",
+          "hl=ja",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari | LinkedIn - LinkedIn",
+        "content": "Bhavreen Kandhari. Passionate #WarriorMom driving Clean Air mission. 'Our Kids Climate' Parent Fellow 2023, leading impactful public movements for 20+ years.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://in.linkedin.com/in/bhavreen-kandhari-80283026a",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/in/bhavreen-kandhari-80283026a",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/docs/answer/3093343?hl=es-419",
+        "title": "Funci\u00f3n QUERY - Ayuda de Editores de Documentos de Google",
+        "content": "query: Consulta que se va a hacer, escrita en el lenguaje de consultas de la API de visualizaci\u00f3n de Google. El valor de la consulta \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/docs/answer/3093343",
+          "",
+          "hl=es-419",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Inside a Delhi 'Warrior Mom's' fight for clean air - Dialogue Earth",
+        "content": "6 Mar 2025 \u00b7 For International Women's Day, we spotlight Bhavreen Kandhari, co-founder of a network of Indian mothers demanding clean air for their children.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://dialogue.earth/en/pollution/inside-a-delhi-warrior-moms-fight-for-clean-air/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "dialogue.earth",
+          "/en/pollution/inside-a-delhi-warrior-moms-fight-for-clean-air/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/docs/thread/132394436/google-sheets-query-how-to-use-and-and-or-at-the-same-time?hl=en",
+        "title": "Google Sheets QUERY - how to use AND and OR at the same time",
+        "content": "Oct 25, 2021 \u00b7 Hi I'm struggling with Query function that will display all Cells containing certain value and then use several other \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/docs/thread/132394436/google-sheets-query-how-to-use-and-and-or-at-the-same-time",
+          "",
+          "hl=en",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Day 2 at the 13th International Conference on Responsible ...",
+        "content": "5 Apr 2026 \u00b7 Hear from Bhavreen Kandhari (Clean Air Strategist & Founder, Warrior Moms) and Siddhartha Sahu (Associate General Manager, Corporate ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.instagram.com/reel/DWxuEE0hijl/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/reel/DWxuEE0hijl/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/docs/thread/100952191/how-to-select-text-and-number-values-together-when-using-query-function?hl=en",
+        "title": "How to select Text and Number values together when using Query \u2026",
+        "content": "Mar 5, 2021 \u00b7 I would like to see if someone can help me figure this out. I want the query function in sheet 2 to bring both Text and \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/docs/thread/100952191/how-to-select-text-and-number-values-together-when-using-query-function",
+          "",
+          "hl=en",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Environmentalist & warrior moms Bhavreen Khandari and ...",
+        "content": "9 Nov 2025 \u00b7 If I had to tell you, in one word, what is the future I envision for them, it would be 'healthy',\u201d says Bhavreen Kandhari, co- founder of ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://www.facebook.com/IndiaToday/posts/environmentalist-warrior-moms-bhavreen-khandari-and-namrata-yadav-join-us-to-tal/1408691904627687/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/IndiaToday/posts/environmentalist-warrior-moms-bhavreen-khandari-and-namrata-yadav-join-us-to-tal/1408691904627687/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/docs/thread/27235031/query-with-3-conditions?hl=en",
+        "title": "Query with 3 conditions - Google Docs Editors Community",
+        "content": "Jan 31, 2020 \u00b7 =query ('Chat Check - option 1'!A4:F, \"where F is not null\", 1) See Chat Check - option 3 in your sample spreadsheet. \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/docs/thread/27235031/query-with-3-conditions",
+          "",
+          "hl=en",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari Speaks on Delhi-NCR Air Pollution Protest",
+        "content": "18 Nov 2025 \u00b7 ... Founded in Lahore by Sardar Dyal Singh Majithia and now published from ... Bhavreen Kandhari Speaks on Delhi-NCR Air Pollution Protest.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.youtube.com/watch?v=p7IpcY8Cswg",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=p7IpcY8Cswg",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/docs/answer/3093343?hl=es",
+        "title": "QUERY - Ayuda de Editores de Documentos de Google",
+        "content": "QUERY Ejecuta una consulta sobre los datos con el lenguaje de consultas del API de visualizaci\u00f3n de Google. Ejemplo de uso \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/docs/answer/3093343",
+          "",
+          "hl=es",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Malhotra Kandhari - Facebook",
+        "content": "Concerned Citizen, Mother,Environment Activist. Harjeet Singh Kandhari. moment to choose leadership that listens, acts, and delivers. and Harjeet Singh ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.facebook.com/bhavreen.kandhari/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/bhavreen.kandhari/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/docs/thread/24531550/how-to-query-multiple-not-contains-please-help?hl=en",
+        "title": "How to query multiple not contains? Please help - Google Help",
+        "content": "Jan 2, 2020 \u00b7 I do not understand how to query multiple not contains. Please advise.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/docs/thread/24531550/how-to-query-multiple-not-contains-please-help",
+          "",
+          "hl=en",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "From advocacy to awareness: Women-led communities are ...",
+        "content": "1 Jul 2024 \u00b7 (From left): Bhavreen Kandhari, founder of WarriorMoms, with other members Vandana Narang and Chinky Singh, while they collect data of ambient ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.forbesindia.com/article/news/from-advocacy-and-awareness-womenled-communities-are-finding-their-voice-in-the-climate-space/93502/1",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.forbesindia.com",
+          "/article/news/from-advocacy-and-awareness-womenled-communities-are-finding-their-voice-in-the-climate-space/93502/1",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/docs/thread/7814697/google-sheets-query-of-data-with-2-conditions-and-sum-results?hl=en",
+        "title": "Google Sheets: Query of Data with 2 conditions and sum results",
+        "content": "Jun 11, 2019 \u00b7 I'm trying to create a query that sums up each category for a given month, compares the value to the budget and if the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/docs/thread/7814697/google-sheets-query-of-data-with-2-conditions-and-sum-results",
+          "",
+          "hl=en",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Toxic air is killing our kids. Parents must demand clean energy",
+        "content": "26 Mar 2025 \u00b7 Leading a group of mothers, campaigner Bhavreen Kandhari tells WHO conference that children need a quicker energy transition.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://www.context.news/just-transition/opinion/toxic-air-is-killing-our-kids-parents-must-demand-clean-energy",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.context.news",
+          "/just-transition/opinion/toxic-air-is-killing-our-kids-parents-must-demand-clean-energy",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/docs/thread/57904138/query-giving-no-column-error?hl=en",
+        "title": "Query giving No_COLUMN error - Google Docs Editors Community",
+        "content": "Jul 8, 2020 \u00b7 Error: Unable to parse query string for Function QUERY parameter 2: NO_COLUMN: col1",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/docs/thread/57904138/query-giving-no-column-error",
+          "",
+          "hl=en",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Every third child in Delhi has damaged lungs - Our Kids' Climate",
+        "content": "So, in the run up to COP27, Mary De Mocker, a climate activist and author, from Oregon in the USA, spoke to Bhavreen Kandhari, the co-founder of Warrior ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://ourkidsclimate.org/every-third-child-in-delhi-has-damaged-lungs-a-conversation-with-bhavreen-kandhari/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "ourkidsclimate.org",
+          "/every-third-child-in-delhi-has-damaged-lungs-a-conversation-with-bhavreen-kandhari/",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "mojeek",
+        "Suspended: access denied"
+      ]
+    ]
+  }
+}

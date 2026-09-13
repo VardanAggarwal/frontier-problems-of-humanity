@@ -1,0 +1,337 @@
+{
+  "slug": "anthill-ventures",
+  "name": "Anthill Ventures",
+  "family": "people",
+  "query": "\"Anthill Ventures\" founder director leadership",
+  "question_ids": [
+    "affected_led",
+    "representation_unit",
+    "founders"
+  ],
+  "elapsed_s": 0.452,
+  "timestamp_utc": "2026-09-13T06:34:55.562793+00:00",
+  "request_index_this_run": 3,
+  "seconds_since_run_start": 6.9,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Anthill Ventures\" founder director leadership",
+    "results": [
+      {
+        "url": "https://zhidao.baidu.com/question/37273220.html",
+        "title": "\u4f60\u7684\u6837\u5b50 \u6b4c\u8bcd - \u767e\u5ea6\u77e5\u9053",
+        "content": "Nov 26, 2018 \u00b7 \u300a\u4f60\u7684\u6837\u5b50\u300b \u6f14\u5531\uff1a\u7f57\u5927\u4f51 \u6211\u542c\u5230\u4f20\u6765\u7684\u8c01\u7684\u58f0\u97f3 \u50cf\u90a3\u68a6\u91cc\u545c\u54bd\u4e2d\u7684\u5c0f\u6cb3 \u6211\u770b\u5230\u8fdc\u53bb\u7684\u8c01\u7684\u6b65\u4f10 \u906e\u4f4f\u544a\u522b\u65f6\u54c0\u4f24\u7684 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "zhidao.baidu.com",
+          "/question/37273220.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.zhihu.com/question/502243400",
+        "title": "\u5982\u4f55\u5728\u4e0d\u5220\u9664C/D\u76d8\u6587\u4ef6\u7684\u57fa\u7840\u4e0a\u628aC\u76d8\u591a\u4f59\u7684\u7a7a\u95f4\u5206\u7ed9D\u76d8\uff1f",
+        "content": "Dec 1, 2021 \u00b7 \u7b2c\u4e8c\u6b65\u53f3\u952e\u8981\u6269\u5c55\u7684d\u76d8\uff0c\u70b9\u6269\u5c55\u5377\u3002\u7cfb\u7edf\u9ed8\u8ba4\u662f\u628a\u90a3\u4e2a\u672a\u5206\u914d\u7684\u5168\u5206\u7ed9d\uff0c\u4f60\u53ef\u4ee5\u6309\u9700\u6c42\u81ea\u7531\u8c03\u6574\u8981\u5206\u7684G\u6570\u3002\u5982\u679c\u8fd8 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/question/502243400",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://zhidao.baidu.com/question/295692554.html",
+        "title": "\u5728\u7535\u6d41\u516c\u5f0fi=dq/dt\u4e2dd\u662f\u4ec0\u4e48\u610f\u601d - \u767e\u5ea6\u77e5\u9053",
+        "content": "Jul 21, 2011 \u00b7 \u8fd9\u91cc\u7684d\u662f\u5fae\u5206\u4e2d\u7684\u7b26\u53f7\uff0cdq\u8868\u793a\u7535\u91cf\u7684\u6781\u5c0f\u53d8\u5316\u91cf\uff0cdt\u8868\u793a\u6781\u77ed\u7684\u65f6\u95f4\u3002 dq / dt \uff0c\u8868\u793a\u6781\u5c0f\u7684\u7535\u91cf\u53d8\u5316\u4e0e\u6240\u7528\u7684\u6781\u77ed \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "zhidao.baidu.com",
+          "/question/295692554.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://jingyan.baidu.com/article/11c17a2c6c5279b546e39d9d.html",
+        "title": "\u5b54\u660e\u95016\u6839\u7b2c\u4e09\u4ee3d\u56fe\u89e3-\u767e\u5ea6\u7ecf\u9a8c",
+        "content": "Mar 18, 2021 \u00b7 \u5b54\u660e\u95016\u6839\u7b2c\u4e09\u4ee3d\u56fe\u89e3,\u5b54\u660e\u9501\uff0c6\u6839\uff0c\u65b9\u5f62\u67f1 \u5c062\u53f7\u653e\u57281\u53f7\u96f6\u4ef6\u4e2d\u3002 \u8fd9\u91cc2\u53f7\u96f6\u4ef6\u5f62\u5bb9\u6700\u7279\u522b\uff0c\u901a\u8fc72\u53f7\u96f6\u4ef6\u65cb\u8f6c90\u5ea6 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "jingyan.baidu.com",
+          "/article/11c17a2c6c5279b546e39d9d.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.zhihu.com/question/21975531",
+        "title": "\u54f2\u5b66\u535a\u58eb\uff08Ph.D\uff09 \u79d1\u5b66\u535a\u58eb\uff08D.Sc.\uff09\u6709\u4ec0\u4e48\u533a\u522b\uff1f",
+        "content": "Sep 20, 2017 \u00b7 \"Sc.D. is a \" higher doctorate \" awarded in recognition of a substantial and sustained contribution to scientific \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/question/21975531",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://jingyan.baidu.com/article/2d5afd69d1cf99c4a3e28e37.html",
+        "title": "\u7535\u8111\u600e\u4e48\u628a\u9ed8\u8ba4c\u76d8\u6539\u5230d\u76d8-\u767e\u5ea6\u7ecf\u9a8c",
+        "content": "Aug 31, 2022 \u00b7 \u7535\u8111\u4e0a\u628a\u9ed8\u8ba4\u7684C\u76d8\u6539\u5230D\u76d8\u53ef\u4ee5\u5728\u7535\u8111\u7cfb\u7edf\u4e2d\u8fdb\u884c\u4fee\u6539\uff0c\u4e00\u5171\u9700\u89818\u4e2a\u6b65\u9aa4\u6765\u64cd\u4f5c\u5b8c\u6210\uff0cMac\u7cfb\u7edf\u6ca1\u6709C\u76d8\uff0c\u672c\u7b54\u6848\u901a \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "jingyan.baidu.com",
+          "/article/2d5afd69d1cf99c4a3e28e37.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://zhidao.baidu.com/question/493654968988639612.html",
+        "title": "P.C.D\u5728\u673a\u68b0\u5236\u56fe\u7684\u6807\u6ce8\u4e0a\u662f\u4ec0\u4e48\u610f\u601d - \u767e\u5ea6\u77e5\u9053",
+        "content": "Sep 10, 2021 \u00b7 P.C.D \u5168\u79f0Pitch Circle Diameter \u8282\u5706\u76f4\u5f84\uff0c\u8868\u793a\u4e2d\u5fc3\u76f4\u5f84\u7684\u610f\u601d\u3002 \u5728\u673a\u68b0\u5236\u56fe\u4e0a\uff0c\u5047\u5982\u6709\u597d\u51e0\u4e2a\u5b54\u73af\u7ed5\u7740\u540c\u4e00\u70b9\uff0c\u901a \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "zhidao.baidu.com",
+          "/question/493654968988639612.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://zhidao.baidu.com/question/1588845768403835260.html",
+        "title": "\u978b\u5bbd\u6966\u7801\u6570d,2e,3e,4e_\u767e\u5ea6\u77e5\u9053",
+        "content": "Dec 19, 2025 \u00b7 \u978b\u5bbd\u6966\u7801\u6570d,2e,3e,4e\u978b\u5bbd\u6966\u7801\u6570D\u30012E\u30013E\u30014E\u662f\u56fd\u9645\u978b\u7c7b\u901a\u7528\u7684\u5bbd\u5ea6\u6807\u8bc6\uff0c\u6838\u5fc3\u5dee\u5f02\u5728\u4e8e\u9002\u914d\u811a\u578b\u5bbd\u5ea6\u548c\u7537\u5973\u6807 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "zhidao.baidu.com",
+          "/question/1588845768403835260.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://zhidao.baidu.com/question/630282288088214284.html",
+        "title": "\u600e\u6837\u533a\u5206\u7533\u6839\u7b7e\u8bc1A\uff0cB\uff0cC\uff0cD\u7c7b\uff1f_\u767e\u5ea6\u77e5\u9053",
+        "content": "Nov 2, 2018 \u00b7 2\u3001D\u7c7b (TypeD)\uff1a\u6b64\u7c7b\u7b7e\u8bc1\u539f\u5219\u4e0a\u53ea\u5141\u8bb8\u8fdb\u5165\u7b7e\u8bc1\u4e2d\u6ce8\u660e\u7684\u56fd\u5bb6\uff0c\u4f46\u662f\u4e5f\u4f1a\u5141\u8bb8\u5728\u5fc5\u8981\u60c5\u51b5\u4e0b\u4e8e\u5165\u5883\u4e4b\u524d\u4ece\u53e6\u4e00\u4e2a \u7533\u6839 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "zhidao.baidu.com",
+          "/question/630282288088214284.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://zhidao.baidu.com/question/326965684944001165.html",
+        "title": "\u5dddA\u3001\u5dddB\u3001\u5dddC\u3001D\u3001E\u3001F..........U\u3001V\u3001W\u3001\u5dddX\u3001\u5dddY\u3001\u5ddd ...",
+        "content": "Aug 10, 2020 \u00b7 \u5185\u8499\u53e4\u81ea\u6cbb\u533a\uff08\u8499\uff09\u8499A\u547c\u548c\u6d69\u7279\uff0c\u8499B\u5305\u5934\uff0c\u8499C\u4e4c\u6d77\uff0c\u8499D\u8d64\u5cf0\uff0c\u8499E\u547c\u4f26\u8d1d\u5c14\uff0c\u8499F\u5174\u5b89\u76df\uff0c\u8499G\u901a\u8fbd\uff0c\u8499H\u9521\u6797\u90ed \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "zhidao.baidu.com",
+          "/question/326965684944001165.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

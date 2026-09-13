@@ -1,0 +1,337 @@
+{
+  "slug": "warrior-moms",
+  "name": "Warrior Moms",
+  "family": "people",
+  "query": "\"Warrior Moms\" founder director leadership",
+  "question_ids": [
+    "affected_led",
+    "representation_unit",
+    "founders"
+  ],
+  "elapsed_s": 0.603,
+  "timestamp_utc": "2026-09-13T08:51:54.508548+00:00",
+  "request_index_this_run": 69,
+  "seconds_since_run_start": 1761.8,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Warrior Moms\" founder director leadership",
+    "results": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Warrior_(TV_series)",
+        "title": "Warrior (TV series) - Wikipedia",
+        "content": "Set during the Tong Wars in late 1870s San Francisco, the series follows Ah Sahm, a martial arts prodigy who emigrates from China \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Warrior_(TV_series)",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.imdb.com/title/tt5743796/",
+        "title": "Warrior (TV Series 2019\u20132023) - IMDb",
+        "content": "Warrior: Created by Jonathan Tropper. With Andrew Koji, Olivia Cheng, Jason Tobin, Dianne Doan. During the Tong Wars in the late \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.imdb.com",
+          "/title/tt5743796/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://warriorworld.in/",
+        "title": "Warriorworld - Men's Fashion Store",
+        "content": "Founded in 2024 by Uday Patel under Flivaa Lifestyle Pvt. Ltd., Warrior World is an Indian D2C brand offering premium, army \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "warriorworld.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.imdb.com/title/tt1291584",
+        "title": "Warrior (2011) - IMDb",
+        "content": "Warrior gives you so much more than just half-naked men beating the crap out of each other in a pointless martial art. It's about \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.imdb.com",
+          "/title/tt1291584",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://warriorworld.in/collections/t-shirt",
+        "title": "Premium Men's T-Shirts \u2013 Direct from Factory, 100% Cotton",
+        "content": "Shop Warrior World\u2019s premium army based men\u2019s T-shirt collection\u2014Direct from the factory with all-India shipping. Comfortable, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "warriorworld.in",
+          "/collections/t-shirt",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Warrior_(2011_film)",
+        "title": "Warrior (2011 film) - Wikipedia",
+        "content": "It stars Tom Hardy and Joel Edgerton as two estranged brothers whose entrance into a mixed martial arts tournament makes them \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Warrior_(2011_film)",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.netflix.com/Title/80177331",
+        "title": "Watch Warrior | Netflix",
+        "content": "A martial arts expert arrives from China in 19th-century San Francisco, where he joins a powerful crime family and confronts rival \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.netflix.com",
+          "/Title/80177331",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.netflix.com/title/70141653",
+        "title": "Watch Warrior | Netflix",
+        "content": "A former Marine trains with his father for an MMA tournament as his estranged brother fights his way into the event. Their biggest \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.netflix.com",
+          "/title/70141653",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.primevideo.com/detail/0S1PZG8GHH5MM2W2ZHUKN3FF86/",
+        "title": "Prime Video: Warrior - Season 1",
+        "content": "Set against the backdrop of San Francisco's Chinatown in the aftermath of the Civil War, Warrior tells the story of a young martial \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.primevideo.com",
+          "/detail/0S1PZG8GHH5MM2W2ZHUKN3FF86/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.justwatch.com/us/tv-show/warrior-2019",
+        "title": "Warrior - watch tv show streaming online - JustWatch",
+        "content": "1 day ago \u00b7 Find out how and where to watch \"Warrior\" online on Netflix, Prime Video, and Disney+ today \u2013 including 4K and free \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.justwatch.com",
+          "/us/tv-show/warrior-2019",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

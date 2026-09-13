@@ -1,0 +1,695 @@
+{
+  "slug": "bhavreen-kandhari",
+  "name": "Bhavreen Kandhari",
+  "family": "reach",
+  "query": "\"Bhavreen Kandhari\" contact twitter newsletter",
+  "question_ids": [
+    "contact_route",
+    "channel:*"
+  ],
+  "elapsed_s": 0.815,
+  "timestamp_utc": "2026-09-13T09:09:01.088696+00:00",
+  "request_index_this_run": 108,
+  "seconds_since_run_start": 2788.4,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "mojeek",
+      "access denied"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [],
+  "raw_response": {
+    "query": "\"Bhavreen Kandhari\" contact twitter newsletter",
+    "results": [
+      {
+        "url": "https://support.microsoft.com/en-us/windows/how-to-get-help-in-windows-711b6492-0435-0038-8706-7c6b0feb200a",
+        "title": "How to get help in Windows - Microsoft Support",
+        "content": "Search for help on the taskbar, use the Tips app, select the Get help link in the Settings app, or go to support.microsoft.com/windows.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/windows/how-to-get-help-in-windows-711b6492-0435-0038-8706-7c6b0feb200a",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari (@BhavreenMK) / X",
+        "content": "Bhavreen Kandhari. @BhavreenMK. 'What We Think We Become'|Copywriter to ... call or responds to the messages. Pathetic state of affairs @IndiaPostOffice ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://x.com/BhavreenMK",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "x.com",
+          "/BhavreenMK",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.microsoft.com/en-us/windows/help-and-support?msockid=2fd492a36df96f3833a785706c016e80",
+        "title": "Windows help and supportWindows help and support",
+        "content": "Find the Windows help and support you need. From account setup to device support, search for quick answers and helpful resources \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.microsoft.com",
+          "/en-us/windows/help-and-support",
+          "",
+          "msockid=2fd492a36df96f3833a785706c016e80",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari on X: \"Prioritising a fancy wealthy hobby ...",
+        "content": "17 Jul 2024 \u00b7 Bhavreen Kandhari \u00b7 @BhavreenMK. Prioritising a fancy wealthy hobby like importing tulips over critical civic projects that are lagging cannot ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://x.com/BhavreenMK/status/1813780400852115512",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "x.com",
+          "/BhavreenMK/status/1813780400852115512",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://helpdeskgeek.com/how-to-get-help-in-windows/",
+        "title": "How to Get Help in Windows",
+        "content": "Sep 27, 2022 \u00b7 To find it on your computer, open the search menu and type Get Help. You can also click the start button, scroll \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "helpdeskgeek.com",
+          "/how-to-get-help-in-windows/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Press Trust of India on X: \"VIDEO | Delhi: On new EV Policy ...",
+        "content": "VIDEO | Delhi: On new EV Policy, environmentalist Bhavreen Kandhari (@BhavreenMK) says, \"Definitely it is an important decision regarding the clean air, and ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://x.com/PTI_News/status/2071956248753524966",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "x.com",
+          "/PTI_News/status/2071956248753524966",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.microsoft.com/en-us/windows/",
+        "title": "Windows help and learning | Microsoft Support",
+        "content": "Find help and how-to articles for Windows operating systems. Get support for Windows and learn about installation, updates, privacy, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/windows/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Malhotra Kandhari - Facebook",
+        "content": "Concerned Citizen, Mother,Environment Activist. Detailed court hearing here\u2b07\ufe0f https://www.barandbench.com/news/supreme-court- https://twitter. com/bhavreenmk/ ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.facebook.com/bhavreen.kandhari/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/bhavreen.kandhari/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.addictivetips.com/windows-tips/how-to-get-help-in-windows/",
+        "title": "How To Get Help In Windows - Easy 8 Ways To Fix - AddictiveTips",
+        "content": "Jun 12, 2026 \u00b7 Learn how to get help in Windows with 8 practical methods, from Get Help to troubleshooting. Discover the quickest \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.addictivetips.com",
+          "/windows-tips/how-to-get-help-in-windows/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Environmentalist Bhavreen Kandhari urges Supreme Court to ...",
+        "content": "28 Dec 2025 \u00b7 Environmentalist Bhavreen Kandhari urges Supreme Court to define ... twitter.com/ANI \u261b Follow us on Snapchat: https://www.snapchat.com ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://www.youtube.com/shorts/v6aL1THUqVg",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/shorts/v6aL1THUqVg",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://appuals.com/how-to-get-help-in-windows/",
+        "title": "9 Easy Ways to Get Help in Windows 10 & 11 - Appuals",
+        "content": "Feb 9, 2025 \u00b7 Windows has a built-in \u201c Get Help \u201d app that lets you find answers to any queries you may have by scraping through \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "appuals.com",
+          "/how-to-get-help-in-windows/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari on The Quint",
+        "content": "Read exclusive stories, top news articles written by Bhavreen kandhari?quint bot=true on The Quint. Find all exclusive news stories or bylines written by ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.thequint.com/author/1861922/bhavreen-kandhari",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.thequint.com",
+          "/author/1861922/bhavreen-kandhari",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://geekzag.com/guides/computers/how-to-get-help-in-windows-11-10/",
+        "title": "How to Get Help in Windows 11 & 10: 18 Fast Methods",
+        "content": "Jul 13, 2026 \u00b7 Stuck on a PC issue? Learn exactly how to get help in Windows 11 instantly. Discover how to use the built-in app, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "geekzag.com",
+          "/guides/computers/how-to-get-help-in-windows-11-10/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari on X: \"#CAQM on the way back",
+        "content": "Log in with username or email. Relevant people. Avatar \u00b7 Bhavreen Kandhari@BhavreenMKFollow. 'What We Think We Become'|Copywriter to ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://x.com/BhavreenMK/status/1379961345185959936",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "x.com",
+          "/BhavreenMK/status/1379961345185959936",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://thetechgorilla.com/how-to-get-help-in-windows-11/",
+        "title": "How To Get Help In Windows 11 (All Methods)",
+        "content": "Aug 15, 2026 \u00b7 Learn how to get help in Windows 11 with built-in support tools, troubleshooting guides, and Microsoft's virtual \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "thetechgorilla.com",
+          "/how-to-get-help-in-windows-11/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "ECDAN | - Instagram",
+        "content": "20 Jun 2025 \u00b7 ... Bhavreen Kandhari has emerged as a powerful champion for ... Read the newsletter here https://mailchi.mp/ecdan.org/ecdan-newsletter-july",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.instagram.com/p/DLIS9rVMuLr/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/p/DLIS9rVMuLr/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=uxAJTsEgxmw",
+        "title": "MICROSOFT Windows \u2013 How to Get Help in Windows",
+        "content": "Sep 15, 2025 \u00b7 Learn how to access the built-in Get Help feature through the Start menu and Settings, describe your issue, and use \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=uxAJTsEgxmw",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Global movement Extinction Rebellion is spawning India's ...",
+        "content": "Bhavreen Kandhari was closely watching the climate change rebellion unfurl on Twitter. An environmental activist based in Delhi, she was following the ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://qz.com/india/1671366/extinction-rebellion-wants-indian-kids-to-battle-climate-change",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "qz.com",
+          "/india/1671366/extinction-rebellion-wants-indian-kids-to-battle-climate-change",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.windowsnoticias.com/How-to-get-help-in-Windows-10-11/",
+        "title": "How to get help in Windows 10 and 11?",
+        "content": "Do you need help with Windows? We'll tell you how you can access it quickly and easily to resolve your queries.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.windowsnoticias.com",
+          "/How-to-get-help-in-Windows-10-11/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Breathing Clean: Protecting Babies from Air Pollution with ...",
+        "content": "7 Nov 2023 \u00b7 Join Bhavreen Kandhari, co-founder of Warrior Moms, as she sheds light on the profound impact of air pollution on children's health and ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://indianexpress.com/audio/bvlf-the-early-childhood-project/breathing-clean-protecting-babies-from-air-pollution-with-bhavreen-kandhari/9017153/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "indianexpress.com",
+          "/audio/bvlf-the-early-childhood-project/breathing-clean-protecting-babies-from-air-pollution-with-bhavreen-kandhari/9017153/",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "mojeek",
+        "access denied"
+      ]
+    ]
+  }
+}

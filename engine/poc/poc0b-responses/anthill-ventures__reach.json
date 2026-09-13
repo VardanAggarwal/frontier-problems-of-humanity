@@ -1,0 +1,755 @@
+{
+  "slug": "anthill-ventures",
+  "name": "Anthill Ventures",
+  "family": "reach",
+  "query": "\"Anthill Ventures\" contact twitter newsletter",
+  "question_ids": [
+    "contact_route",
+    "channel:*"
+  ],
+  "elapsed_s": 0.729,
+  "timestamp_utc": "2026-09-13T08:24:39.870300+00:00",
+  "request_index_this_run": 6,
+  "seconds_since_run_start": 127.2,
+  "n_results": 25,
+  "unresponsive_engines": [
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "brave"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Anthill Ventures\" contact twitter newsletter",
+    "results": [
+      {
+        "url": "https://www.anthillventures.com/",
+        "title": "Anthill Ventures | Speed, Urban & Climate Tech VC",
+        "content": "Contact \u00b7 Ramanaidu Studios Road 79, Jubilee Hills Hyderabad, 500096 \u00b7 IND | USA | SG \u00b7 Info@anthillventures.com \u00b7 Subscribe to our weekly newsletter for updates and news \u00b7 You are now subscribed! Oops! Something went wrong. Our Vision \u00b7 Read more \u00b7 Fueling Big Ideas, Scaling Impact.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.anthillventures.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "brave",
+          "bing"
+        ],
+        "positions": [
+          3,
+          1
+        ],
+        "score": 2.6666666666666665,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://x.com/AnthillVentures",
+        "title": "Anthill Ventures (@AnthillVentures) / X",
+        "content": "We are proud to introduce you to the 1st cohort of #IndusX, the #UrbanTech scaling platform by Anthill Ventures. Meet our \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "x.com",
+          "/AnthillVentures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.zoominfo.com/c/anthill-ventures/381395529",
+        "title": "Anthill Ventures - Overview, News & Similar companies | ZoomInfo.com",
+        "content": "With programs tailored for various sectors including healthcare, media, urban sustainability, and consumer preferences, Anthill focuses on nurturing courageous entrepreneurs to drive significant change. Their mission is to enable a better future for generations by supporting disruptive innovation across diverse industries.Explore moreAnthill Ventures's Social Media ... View contact profiles from Anthill VenturesPopular SearchesAnthill VenturesAnt Hill Ventures LLCAnthall InvestGloball ConceptUnite Tva Global AnthallSIC Code 67,679NAICS Code 52,523Show more",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.zoominfo.com",
+          "/c/anthill-ventures/381395529",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          4,
+          7
+        ],
+        "score": 0.7857142857142857,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.anthillventures.com/contact",
+        "title": "Contact Anthill Ventures | Get Info & Connect",
+        "content": "Contact Anthill Ventures for info & strategic partnerships. Explore our philosophy, subscribe to updates, and connect from home or \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.anthillventures.com",
+          "/contact",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://twitter.com/anthillventures/media",
+        "title": "Media Tweets by Anthill Ventures (@AnthillVentures) | Twitter",
+        "content": "The latest media Tweets from Anthill Ventures (@AnthillVentures). A Speed Scaling Ecosystem by Anthill: Providing Market Access to Tech Startups. Sourcing Innovation for Corporates. Curating Smart Opportunities for Investors. Hyderabad, India",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "twitter.com",
+          "/anthillventures/media",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://mintround.com/firms/anthill-ventures",
+        "title": "Anthill Ventures investors - emails & contacts | Mintround",
+        "content": "Everyone at Anthill Ventures on Mintround: partners, team and verified email contacts. Reveal any email with lifetime access - no \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "mintround.com",
+          "/firms/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://aeroleads.com/c/anthill-ventures",
+        "title": "Anthill Ventures Company Contacts: Email, Phone & Employees",
+        "content": "Contact data was last refreshed in June 2026. Find Anthill Ventures's verified employee emails, phone numbers, headquarters \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "aeroleads.com",
+          "/c/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://datapile.co/venture-capital/firms/anthill-ventures",
+        "title": "Anthill Ventures: Partners, Team & Contacts (2026) | Datapile",
+        "content": "Reach the 7 investment professionals at Anthill Ventures. See partner names, titles, locations and investment focus \u2014 then unlock \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "datapile.co",
+          "/venture-capital/firms/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://twitter.com/anthillventures",
+        "title": "Anthill Ventures (@AnthillVentures) / ...",
+        "content": "The latest tweets from Anthill Ventures (@AnthillVentures)",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "twitter.com",
+          "/anthillventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://x.com/anthillventures",
+        "title": "Anthill Ventures (@AnthillVentures) on X",
+        "content": "A Speed Scaling Ecosystem by Anthill: Providing Market Access to Tech Startups. Sourcing Innovation for Corporates. Curating Smart Opportunities for Investors.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/J5hCY2T92kgc-KdpgyLcEfkz2XIAFXaRdUnyi1-saxk/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9wYnMu/dHdpbWcuY29tL3By/b2ZpbGVfaW1hZ2Vz/Lzc1ODkxODU5NTA2/NTc0OTUwNS9CZlRx/eTJkbF8yMDB4MjAw/LmpwZw",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "x.com",
+          "/anthillventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://twitter.com/AnthillVCap",
+        "title": "Anthill Ventures (@AnthillVCap) / ...",
+        "content": "18 followers \u00b7 3 following. Joined Sep 2023. See the latest conversations with @AnthillVCap",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/3jEBUtbQeHw5iGIbwpHWd_Vk5BaAgYsa1PVeTHR8Ouc/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9wYnMu/dHdpbWcuY29tL3By/b2ZpbGVfaW1hZ2Vz/LzE3NDIxMTUxNzUz/NjMxNTM5MjAvbnhu/MFFQRDVfMjAweDIw/MC5qcGc",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "twitter.com",
+          "/AnthillVCap",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.datanyze.com/companies/anthill-ventures/381395529",
+        "title": "Anthill Ventures Company Profile | Management and Employees List",
+        "content": "Find contact information for Anthill Ventures. Learn about their Venture Capital & Private Equity, Finance market share, competitors, and Anthill Ventures's email format.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/1GvANmxXt-qNhPwAoB14B2ashghXL1MFUnpNL6ZbMFY/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9yZXMu/Y2xvdWRpbmFyeS5j/b20vem9vbWluZm8t/Y29tL2ltYWdlL3Vw/bG9hZC93XzcwLGhf/NzAsY19maXQvYW50/aGlsbHZlbnR1cmVz/LmNvbQ",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.datanyze.com",
+          "/companies/anthill-ventures/381395529",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.lusha.com/business/3c8c18efb6993ab8/",
+        "title": "Anthill ventures - Email Address & Phone Number - Lusha",
+        "content": "Reach decision-makers at Anthill Ventures. Find their phone numbers & email addresses. It\u2019s free. - Lusha",
+        "publishedDate": "2025-08-25T00:00:00",
+        "thumbnail": "https://imgs.search.brave.com/Z2MIVzgYESICWuJKr7AVOJtA0b193KnfQ048MAvUD9w/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly93d3cu/bHVzaGEuY29tL3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDI1LzAy/L1dlYnNpdGUtdGh1/bWJuYWlsLTU2MHgy/OTItMS5wbmc",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.lusha.com",
+          "/business/3c8c18efb6993ab8/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          12
+        ],
+        "score": 0.08333333333333333,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2025-08-25 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.linkedin.com/posts/anthill-ventures_scalewithspeed-anthillupdates-startups-activity-7128360804675899392-uUI5",
+        "title": "Anthill Ventures on LinkedIn: #scalewithspeed #anthillupdates #startups #newsletter #businessupdates\u2026",
+        "content": "Sign up now for exciting updates on entrepreneurs who #scalewithspeed Link: https://lnkd.in/dSieP2Hw #anthillupdates #startups #newsletter #businessupdates #diwali2023 #theantenna #portfolioupdate \u00b7 20 \u00b7 Like \u00b7 Comment \u00b7 Share \u00b7 Copy \u00b7 LinkedIn \u00b7 Facebook \u00b7 Twitter \u00b7 To view or add a comment, sign in \u00b7 Anthill Ventures \u00b7",
+        "publishedDate": "2023-11-09T00:00:00",
+        "thumbnail": "https://imgs.search.brave.com/PIg0hxaRVIan8-Jw2zhC-bCUnLRD-08z5_xUyXNAqXc/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5saWNkbi5jb20v/ZG1zL2ltYWdlL0Q0/RDA1QVFGQjBWaXE5/Wk9YTncvdmlkZW9j/b3Zlci1oaWdoLzAv/MTY5OTUzMzY0OTE5/MD9lPTIxNDc0ODM2/NDcmdj1iZXRhJnQ9/cFptRXpFZ3h3TUp6/RHRjNFNOVno0a3dQ/NzVyTmQ0X1pJa2NR/anJ5ZFBCUQ",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/posts/anthill-ventures_scalewithspeed-anthillupdates-startups-activity-7128360804675899392-uUI5",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          13
+        ],
+        "score": 0.07692307692307693,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2023-11-09 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://tracxn.com/d/venture-capital/anthill-ventures/__U1uwoQMDcpmDZDsGni1VtaDiDeUy2E3zHWflW7tAv20",
+        "title": "Anthill Ventures - 2026 Investor Profile, Portfolio, Team & Investment Trends - Tracxn",
+        "content": "Anthill Ventures is a venture capital firm founded in 2015. It is primarily based out of Hyderabad, India. As of Apr 2026, Anthill Ventures is an active investor, having invested in 78 companies, with 3 new investments in the last 12 months.",
+        "publishedDate": "2026-07-16T00:00:00",
+        "thumbnail": "https://imgs.search.brave.com/3_Gi97RHghAuHwblUNf5qfhy_T2Wssbymzss2KDkWx4/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9jZG4u/dHJhY3huLmNvbS9p/bWFnZXMvc2VvL3Nv/Y2lhbC92ZW50dXJl/LWNhcGl0YWwvYW50/aGlsbHZlbnR1cmVz/LW92ZXJ2aWV3LTE3/NzgzNTIwODMzMDgu/d2VicA",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "tracxn.com",
+          "/d/venture-capital/anthill-ventures/__U1uwoQMDcpmDZDsGni1VtaDiDeUy2E3zHWflW7tAv20",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          14
+        ],
+        "score": 0.07142857142857142,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2026-07-16 00:00:00"
+      },
+      {
+        "url": "https://www.anthillventures.com/portfolio",
+        "title": "Anthill Ventures | Tech, Urban, Consumer, Health, Media",
+        "content": "Info@anthillventures.com. Subscribe to our weekly newsletter for updates and news. You are now subscribed! Oops! Something \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.anthillventures.com",
+          "/portfolio",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://contactout.com/company/Anthill-Ventures-4665",
+        "title": "Anthill Ventures - Company Profile & Staff Directory | ContactOut",
+        "content": "You can reach out to Anthill Ventures through the contact form on their website or by emailing their investment team directly at [email \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "contactout.com",
+          "/company/Anthill-Ventures-4665",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.crunchbase.com/organization/anthill-ventures",
+        "title": "Anthill Ventures - Crunchbase Company Profile & Funding",
+        "content": "Anthill Ventures is a Speed Scaling Ecosystem that helps early growth global startups in Urbantech & Lifestyle, Healthtech & Mediatech from Pre-Series A stage to go to Series \u2018A\u2019 & \u2018B\u2019 in 1-2 years through India & SEA Market Access by providing Scale up Capital Funding, Market Access Platform & Venture Returns Maximization",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.crunchbase.com",
+          "/organization/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.crunchbase.com/organization/anthill-ventures/profiles_and_contacts",
+        "title": "Anthill Ventures - Profiles & Contacts - Crunchbase",
+        "content": "Anthill Ventures is a Speed Scaling Ecosystem which helps early growth startups in Pre-Series 'A'. We source, invest, scale and \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.crunchbase.com",
+          "/organization/anthill-ventures/profiles_and_contacts",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://heyzine.com/flip-book/ff8b2ed3a8.html",
+        "title": "OVRMAFC September 2026 Website Newsletter - heyzine.com",
+        "content": "Created with the Heyzine flipbook maker",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "heyzine.com",
+          "/flip-book/ff8b2ed3a8.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://in.linkedin.com/company/anthill-ventures",
+        "title": "Anthill Ventures | LinkedIn",
+        "content": "Anthill Ventures | 20,625 followers on LinkedIn. Funding & scaling support for early growth stage startups- Urban Lifestyle Brands | UrbanTech | MediaTech | HealthTech | | Anthilll Ventures is an investment and scaling platform for early growth stage startups that want to scale with speed in ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/company/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.privateequityinternational.com/institution-profiles/anthill-ventures.html",
+        "title": "Anthill Ventures | Institution Profile | Private Equity International",
+        "content": "Use Private Equity International's platform to access the latest news, analysis, insights and fund data for Anthill Ventures, as well as key contact information.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.privateequityinternational.com",
+          "/institution-profiles/anthill-ventures.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          11
+        ],
+        "score": 0.09090909090909091,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://rocketreach.co/anthill-ventures-profile_b556222af61628ae",
+        "title": "Anthill Ventures Information",
+        "content": "Anthill Ventures is a Finance, Venture Capital, and Venture Capital and Private Equity Principals company located in Hyderabad, Telangana with $6.8 million in revenue and 35 employees. Find top employees, contact details and business statistics at RocketReach.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "rocketreach.co",
+          "/anthill-ventures-profile_b556222af61628ae",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          15
+        ],
+        "score": 0.06666666666666667,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://e27.co/investor/anthill-ventures/",
+        "title": "Anthill Ventures - e27 Investor Profile",
+        "content": "Anthilll Ventures is an investment and scaling platform for early growth stage startups that want to scale with speed in Indian markets.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "e27.co",
+          "/investor/anthill-ventures/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          16
+        ],
+        "score": 0.0625,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://leadiq.com/c/anthill-ventures/5a1dd3e82300005200ddd130",
+        "title": "Anthill Ventures Company Overview, Contact Details & Competitors | LeadIQ",
+        "content": "As of July 2025, Anthill Ventures has approximately 42 employees across 3 continents, including AsiaNorth AmericaEurope. Key team members include Head Of Strategy: G.Founder & Chief Accelerator: P. V.General Partner: S.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "leadiq.com",
+          "/c/anthill-ventures/5a1dd3e82300005200ddd130",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          17
+        ],
+        "score": 0.058823529411764705,
+        "category": "general",
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

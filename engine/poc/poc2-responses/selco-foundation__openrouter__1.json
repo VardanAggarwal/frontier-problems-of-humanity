@@ -1,0 +1,456 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\"question_id\": \"q1_one_line\", \"source_id\": \"S3\", \"answer\": \"SELCO Foundation designs and deploys solar-powered livelihood solutions and strengthens decentralized healthcare services for underserved communities in India.\", \"confidence\": 0.9},\n    {\"question_id\": \"q2_type\", \"source_id\": \"S1\", \"answer\": \"org\", \"confidence\": 0.95},\n    {\"question_id\": \"q3_legs\", \"source_id\": \"S1\", \"answer\": \"service\", \"confidence\": 0.9},\n    {\"question_id\": \"q4_lifecycle\", \"source_id\": \"S4\", \"answer\": \"operating as of 2024\", \"confidence\": 0.85},\n    {\"question_id\": \"q5_ecosystem_role\", \"source_id\": \"S1\", \"answer\": \"capacity-builder\", \"confidence\": 0.8},\n    {\"question_id\": \"q6_affected_led\", \"source_id\": \"S1\", \"answer\": \"no\", \"confidence\": 0.8},\n    {\"question_id\": \"q7_representation_unit\", \"source_id\": \"S1\", \"answer\": \"central-org\", \"confidence\": 0.85},\n    {\"question_id\": \"q8_geography\", \"source_id\": \"S1\", \"answer\": \"India (particularly Karnataka and other rural areas)\", \"confidence\": 0.9},\n    {\"question_id\": \"q9_contact_route\", \"source_id\": \"S1\", \"answer\": \"Via LinkedIn (https://in.linkedin.com/company/selco-foundation)\", \"confidence\": 0.9},\n    {\"question_id\": \"q10b_funder_identity\", \"source_id\": \"S1\", \"answer\": \"IKEA Foundation\", \"confidence\": 0.95},\n    {\"question_id\": \"q10b_funder_identity\", \"source_id\": \"S1\", \"answer\": \"Waverley Street Foundation\", \"confidence\": 0.95},\n    {\"question_id\": \"q10b_funder_identity\", \"source_id\": \"S1\", \"answer\": \"The Lemelson Foundation\", \"confidence\": 0.95},\n    {\"question_id\": \"q10b_funder_identity\", \"source_id\": \"S1\", \"answer\": \"The DOEN Foundation\", \"confidence\": 0.95},\n    {\"question_id\": \"q10b_funder_identity\", \"source_id\": \"S1\", \"answer\": \"Good Energies Foundation\", \"confidence\": 0.95},\n    {\"question_id\": \"q10b_funder_identity\", \"source_id\": \"S1\", \"answer\": \"Axis Bank Foundation\", \"confidence\": 0.95},\n    {\"question_id\": \"q10b_funder_identity\", \"source_id\": \"S1\", \"answer\": \"Dhruvi Shah\", \"confidence\": 0.95},\n    {\"question_id\": \"q10b_funder_identity\", \"source_id\": \"S1\", \"answer\": \"Harshvardhan Dhawan\", \"confidence\": 0.95},\n    {\"question_id\": \"q10b_funder_identity\", \"source_id\": \"S1\", \"answer\": \"Solomon J Manohar\", \"confidence\": 0.95},\n    {\"question_id\": \"q11_scale_metric\", \"source_id\": \"S4\", \"answer\": \"5 lakh (500,000) students eating nutritious food as of 2024 (independent assessment)\", \"confidence\": 0.9},\n    {\"question_id\": \"q12_viability_note\", \"source_id\": \"S1\", \"answer\": \"Viability depends on continued donor funding; if donors exit, service may not survive\", \"confidence\": 0.85},\n    {\"question_id\": \"q14_ask_need\", \"source_id\": \"S1\", \"answer\": \"Partners to collaborate on millets, sustainable agriculture, clean energy, food processing, women's livelihoods, farmer-led enterprises, and climate-resilient healthcare systems\", \"confidence\": 0.9},\n    {\"question_id\": \"q15_ask_offer\", \"source_id\": \"S1\", \"answer\": \"Offers skilling and access to finance for entrepreneurs\", \"confidence\": 0.9},\n    {\"question_id\": \"q15_ask_offer\", \"source_id\": \"S3\", \"answer\": \"Provides solar-powered livelihood machines (e.g., coir yarn making machine, pottery wheel)\", \"confidence\": 0.9},\n    {\"question_id\": \"q15_ask_offer\", \"source_id\": \"S1\", \"answer\": \"Offers a platform for collaboration on clean energy, healthcare, and livelihood initiatives\", \"confidence\": 0.9},\n    {\"question_id\": \"q16_channel\", \"source_id\": \"S1\", \"answer\": \"LinkedIn: https://in.linkedin.com/company/selco-foundation\", \"confidence\": 0.95},\n    {\"question_id\": \"q16_channel\", \"source_id\": \"S3\", \"answer\": \"Website: https://selcofoundation.org\", \"confidence\": 0.95}\n  ],\n  \"claims\": [\n    {\"field\": \"title\", \"value\": \"SELCO Foundation\", \"confidence\": 0.95},\n    {\"field\": \"type\", \"value\": \"org\", \"confidence\": 0.95},\n    {\"field\": \"legs\", \"value\": \"[\\\"service\\\"]\", \"confidence\": 0.9},\n    {\"field\": \"depth\", \"value\": \"tracked\", \"confidence\": 0.8},\n    {\"field\": \"lifecycle\", \"value\": \"operating\", \"confidence\": 0.85},\n    {\"field\": \"ecosystem_role\", \"value\": \"[\\\"capacity-builder\\\"]\", \"confidence\": 0.8},\n    {\"field\": \"affected_led\", \"value\": \"no\", \"confidence\": 0.8},\n    {\"field\": \"representation_unit\", \"value\": \"central-org\", \"confidence\": 0.85},\n    {\"field\": \"geography\", \"value\": \"India\", \"confidence\": 0.9},\n    {\"field\": \"contact_route\", \"value\": \"https://in.linkedin.com/company/selco-foundation\", \"confidence\": 0.9},\n    {\"field\": \"ask:need:partners\", \"value\": \"Partners to collaborate on millets, sustainable agriculture, clean energy, food processing, women's livelihoods, farmer-led enterprises, and climate-resilient healthcare systems\", \"confidence\": 0.9},\n    {\"field\": \"ask:offer:skilling\", \"value\": \"Offers skilling and access to finance for entrepreneurs\", \"confidence\": 0.9},\n    {\"field\": \"ask:offer:solar_livelihood_machines\", \"value\": \"Provides solar-powered livelihood machines (e.g., coir yarn making machine, pottery wheel)\", \"confidence\": 0.9},\n    {\"field\": \"ask:offer:collaboration_platform\", \"value\": \"Offers a platform for collaboration on clean energy, healthcare, and livelihood initiatives\", \"confidence\": 0.9},\n    {\"field\": \"channel:linkedin\", \"value\": \"https://in.linkedin.com/company/selco-foundation\", \"confidence\": 0.95},\n    {\"field\": \"channel:website\", \"value\": \"https://selcofoundation.org\", \"confidence\": 0.95}\n  ],\n  \"emits\": [\n    {\"kind\": \"actor\", \"name\": \"IKEA Foundation\", \"hint\": \"funder\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"Waverley Street Foundation\", \"hint\": \"funder\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"The Lemelson Foundation\", \"hint\": \"funder\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"The DOEN Foundation\", \"hint\": \"funder\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"Good Energies Foundation\", \"hint\": \"funder\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"Axis Bank Foundation\", \"hint\": \"funder\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"Dhruvi Shah\", \"hint\": \"individual\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"Harshvardhan Dhawan\", \"hint\": \"individual\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"Solomon J Manohar\", \"hint\": \"individual\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"Raghuram Kulal\", \"hint\": \"individual\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"Somaiya Vidyavihar University\", \"hint\": \"academic institution\", \"signals\": {}}\n  ],\n  \"edges\": [\n    {\"dst_name\": \"millets\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 3, \"evidence\": \"S1: \\\"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\\\"\"},\n    {\"dst_name\": \"sustainable agriculture\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 3, \"evidence\": \"S1: \\\"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\\\"\"},\n    {\"dst_name\": \"clean energy\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 3, \"evidence\": \"S1 and S3 mention work on clean energy.\"},\n    {\"dst_name\": \"food processing\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 3, \"evidence\": \"S1: \\\"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\\\"\"},\n    {\"dst_name\": \"women's livelihoods\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 3, \"evidence\": \"S1: \\\"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\\\"\"},\n    {\"dst_name\": \"farmer-led enterprises\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 3, \"evidence\": \"S1: \\\"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\\\"\"},\n    {\"dst_name\": \"climate-resilient healthcare\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 3, \"evidence\": \"S1: \\\"Let's strengthen climate-resilient healthcare systems together...\\\".\"},\n    {\"dst_name\": \"decentralized healthcare\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 3, \"evidence\": \"S3: \\\"Decentralised Healthcare and Sustainable Energy\\\".\"},\n    {\"dst_name\": \"sustainable energy\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 3, \"evidence\": \"S3: \\\"Decentralised Healthcare and Sustainable Energy\\\".\"},\n    {\"dst_name\": \"livelihood\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 3, \"evidence\": \"S3 describes solar-powered livelihood machines; S1 mentions livelihood focus.\"},\n    {\"dst_name\": \"PwD Entrepreneurship & Livelihood Mela\", \"dst_kind\": \"actor\", \"edge_kind\": \"convenes\", \"relevance\": 2, \"evidence\": \"S1: \\\"The PwD Entrepreneurship & Livelihood Mela, held on September 4, 2026, in Raichur, Karnataka, brought these pieces together in one place.\\\"\"},\n    {\"dst_name\": \"IKEA Foundation\", \"dst_kind\": \"actor\", \"edge_kind\": \"affiliated\", \"relevance\": 2, \"evidence\": \"S1 lists IKEA Foundation as a funder.\"},\n    {\"dst_name\": \"Waverley Street Foundation\", \"dst_kind\": \"actor\", \"edge_kind\": \"affiliated\", \"relevance\": 2, \"evidence\": \"S1 lists Waverley Street Foundation as a funder.\"},\n    {\"dst_name\": \"The Lemelson Foundation\", \"dst_kind\": \"actor\", \"edge_kind\": \"affiliated\", \"relevance\": 2, \"evidence\": \"S1 lists The Lemelson Foundation as a funder.\"},\n    {\"dst_name\": \"The DOEN Foundation\", \"dst_kind\": \"actor\", \"edge_kind\": \"affiliated\", \"relevance\": 2, \"evidence\": \"S1 lists The DOEN Foundation as a funder.\"},\n    {\"dst_name\": \"Good Energies Foundation\", \"dst_kind\": \"actor\", \"edge_kind\": \"affiliated\", \"relevance\": 2, \"evidence\": \"S1 lists Good Energies Foundation as a funder.\"},\n    {\"dst_name\": \"Axis Bank Foundation\", \"dst_kind\": \"actor\", \"edge_kind\": \"affiliated\", \"relevance\": 2, \"evidence\": \"S1 lists Axis Bank Foundation as a funder.\"},\n    {\"dst_name\": \"Dhruvi Shah\", \"dst_kind\": \"actor\", \"edge_kind\": \"affiliated\", \"relevance\": 2, \"evidence\": \"S1 lists Dhruvi Shah as a funder.\"},\n    {\"dst_name\": \"Harshvardhan Dhawan\", \"dst_kind\": \"actor\", \"edge_kind\": \"affiliated\", \"relevance\": 2, \"evidence\": \"S1 lists Harshvardhan Dhawan as a funder.\"},\n    {\"dst_name\": \"Solomon J Manohar\", \"dst_kind\": \"actor\", \"edge_kind\": \"affiliated\", \"relevance\": 2, \"evidence\": \"S1 lists Solomon J Manohar as a funder.\"}\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S3",
+    "answer": "SELCO Foundation designs and deploys solar-powered livelihood solutions and strengthens decentralized healthcare services for underserved communities in India.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S1",
+    "answer": "org",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S1",
+    "answer": "service",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S4",
+    "answer": "operating as of 2024",
+    "confidence": 0.85
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S1",
+    "answer": "capacity-builder",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S1",
+    "answer": "no",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S1",
+    "answer": "central-org",
+    "confidence": 0.85
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S1",
+    "answer": "India (particularly Karnataka and other rural areas)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S1",
+    "answer": "Via LinkedIn (https://in.linkedin.com/company/selco-foundation)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "IKEA Foundation",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Waverley Street Foundation",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "The Lemelson Foundation",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "The DOEN Foundation",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Good Energies Foundation",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Axis Bank Foundation",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Dhruvi Shah",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Harshvardhan Dhawan",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Solomon J Manohar",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q11_scale_metric",
+    "source_id": "S4",
+    "answer": "5 lakh (500,000) students eating nutritious food as of 2024 (independent assessment)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S1",
+    "answer": "Viability depends on continued donor funding; if donors exit, service may not survive",
+    "confidence": 0.85
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S1",
+    "answer": "Partners to collaborate on millets, sustainable agriculture, clean energy, food processing, women's livelihoods, farmer-led enterprises, and climate-resilient healthcare systems",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S1",
+    "answer": "Offers skilling and access to finance for entrepreneurs",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S3",
+    "answer": "Provides solar-powered livelihood machines (e.g., coir yarn making machine, pottery wheel)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S1",
+    "answer": "Offers a platform for collaboration on clean energy, healthcare, and livelihood initiatives",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S1",
+    "answer": "LinkedIn: https://in.linkedin.com/company/selco-foundation",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S3",
+    "answer": "Website: https://selcofoundation.org",
+    "confidence": 0.95
+   }
+  ],
+  "claims": [
+   {
+    "field": "title",
+    "value": "SELCO Foundation",
+    "confidence": 0.95
+   },
+   {
+    "field": "type",
+    "value": "org",
+    "confidence": 0.95
+   },
+   {
+    "field": "legs",
+    "value": "[\"service\"]",
+    "confidence": 0.9
+   },
+   {
+    "field": "depth",
+    "value": "tracked",
+    "confidence": 0.8
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating",
+    "confidence": 0.85
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "[\"capacity-builder\"]",
+    "confidence": 0.8
+   },
+   {
+    "field": "affected_led",
+    "value": "no",
+    "confidence": 0.8
+   },
+   {
+    "field": "representation_unit",
+    "value": "central-org",
+    "confidence": 0.85
+   },
+   {
+    "field": "geography",
+    "value": "India",
+    "confidence": 0.9
+   },
+   {
+    "field": "contact_route",
+    "value": "https://in.linkedin.com/company/selco-foundation",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:partners",
+    "value": "Partners to collaborate on millets, sustainable agriculture, clean energy, food processing, women's livelihoods, farmer-led enterprises, and climate-resilient healthcare systems",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:offer:skilling",
+    "value": "Offers skilling and access to finance for entrepreneurs",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:offer:solar_livelihood_machines",
+    "value": "Provides solar-powered livelihood machines (e.g., coir yarn making machine, pottery wheel)",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:offer:collaboration_platform",
+    "value": "Offers a platform for collaboration on clean energy, healthcare, and livelihood initiatives",
+    "confidence": 0.9
+   },
+   {
+    "field": "channel:linkedin",
+    "value": "https://in.linkedin.com/company/selco-foundation",
+    "confidence": 0.95
+   },
+   {
+    "field": "channel:website",
+    "value": "https://selcofoundation.org",
+    "confidence": 0.95
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "IKEA Foundation",
+    "hint": "funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Waverley Street Foundation",
+    "hint": "funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "The Lemelson Foundation",
+    "hint": "funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "The DOEN Foundation",
+    "hint": "funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Good Energies Foundation",
+    "hint": "funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Axis Bank Foundation",
+    "hint": "funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Dhruvi Shah",
+    "hint": "individual",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Harshvardhan Dhawan",
+    "hint": "individual",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Solomon J Manohar",
+    "hint": "individual",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Raghuram Kulal",
+    "hint": "individual",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Somaiya Vidyavihar University",
+    "hint": "academic institution",
+    "signals": {}
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "millets",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: \"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\""
+   },
+   {
+    "dst_name": "sustainable agriculture",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: \"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\""
+   },
+   {
+    "dst_name": "clean energy",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1 and S3 mention work on clean energy."
+   },
+   {
+    "dst_name": "food processing",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: \"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\""
+   },
+   {
+    "dst_name": "women's livelihoods",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: \"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\""
+   },
+   {
+    "dst_name": "farmer-led enterprises",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: \"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\""
+   },
+   {
+    "dst_name": "climate-resilient healthcare",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: \"Let's strengthen climate-resilient healthcare systems together...\"."
+   },
+   {
+    "dst_name": "decentralized healthcare",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S3: \"Decentralised Healthcare and Sustainable Energy\"."
+   },
+   {
+    "dst_name": "sustainable energy",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S3: \"Decentralised Healthcare and Sustainable Energy\"."
+   },
+   {
+    "dst_name": "livelihood",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S3 describes solar-powered livelihood machines; S1 mentions livelihood focus."
+   },
+   {
+    "dst_name": "PwD Entrepreneurship & Livelihood Mela",
+    "dst_kind": "actor",
+    "edge_kind": "convenes",
+    "relevance": 2,
+    "evidence": "S1: \"The PwD Entrepreneurship & Livelihood Mela, held on September 4, 2026, in Raichur, Karnataka, brought these pieces together in one place.\""
+   },
+   {
+    "dst_name": "IKEA Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "S1 lists IKEA Foundation as a funder."
+   },
+   {
+    "dst_name": "Waverley Street Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "S1 lists Waverley Street Foundation as a funder."
+   },
+   {
+    "dst_name": "The Lemelson Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "S1 lists The Lemelson Foundation as a funder."
+   },
+   {
+    "dst_name": "The DOEN Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "S1 lists The DOEN Foundation as a funder."
+   },
+   {
+    "dst_name": "Good Energies Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "S1 lists Good Energies Foundation as a funder."
+   },
+   {
+    "dst_name": "Axis Bank Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "S1 lists Axis Bank Foundation as a funder."
+   },
+   {
+    "dst_name": "Dhruvi Shah",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "S1 lists Dhruvi Shah as a funder."
+   },
+   {
+    "dst_name": "Harshvardhan Dhawan",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "S1 lists Harshvardhan Dhawan as a funder."
+   },
+   {
+    "dst_name": "Solomon J Manohar",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "S1 lists Solomon J Manohar as a funder."
+   }
+  ]
+ },
+ "parse_error": null
+}

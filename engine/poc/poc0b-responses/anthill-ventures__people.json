@@ -1,0 +1,866 @@
+{
+  "slug": "anthill-ventures",
+  "name": "Anthill Ventures",
+  "family": "people",
+  "query": "\"Anthill Ventures\" founder director leadership",
+  "question_ids": [
+    "affected_led",
+    "representation_unit",
+    "founders"
+  ],
+  "elapsed_s": 2.046,
+  "timestamp_utc": "2026-09-13T08:23:23.352101+00:00",
+  "request_index_this_run": 3,
+  "seconds_since_run_start": 50.7,
+  "n_results": 29,
+  "unresponsive_engines": [
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "brave"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Anthill Ventures\" founder director leadership",
+    "results": [
+      {
+        "url": "https://gssp.gujarat.gov.in/",
+        "title": "Digital Gujarat",
+        "content": "Applications are invited online for the Post-Matric Scholarship and allied educational schemes for the academic year 2026-27 for \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "gssp.gujarat.gov.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.anthillventures.com/team",
+        "title": "Anthill Team for Growth & Portfolio Investments",
+        "content": "Info@anthillventures.com \u00b7 Subscribe to our weekly newsletter for updates and news \u00b7 You are now subscribed! Oops! Something went wrong. Our Leadership \u00b7 Prasad Vanga \u00b7 Founder & CEO \u00b7 Prasad Vanga brings strategic growth and venture-building expertise, having transformed companies like ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.anthillventures.com",
+          "/team",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.zoominfo.com/p/Prasad-Vanga/9586773848",
+        "title": "Contact Prasad Vanga, Email: p***@anthillventures.com & Phone Number | Founder & Accelerator Chief at Anthill Ventures - ZoomInfo",
+        "content": "Prasad Vanga works in the industry of Finance, Venture Capital & Private Equity. ... Some of Prasad Vanga\u2019s colleagues are Abhinav Sohani, Raghuveer Patruni, Mohammed Fazal, Lasya Nadimpally.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.zoominfo.com",
+          "/p/Prasad-Vanga/9586773848",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          4,
+          10
+        ],
+        "score": 0.7,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.digitalgujarat.gov.in/loginapp/CitizenLogin.aspx",
+        "title": "DigitalGujarat CSP-7",
+        "content": "8 hours ago \u00b7 Filling Post Metric Scholarship Forms on Digital Gujarat Portal for Academic Year 2026-27 is Open for SC/OBC \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.digitalgujarat.gov.in",
+          "/loginapp/CitizenLogin.aspx",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://leadiq.com/c/anthill-ventures/5a1dd3e82300005200ddd130/employee-directory",
+        "title": "Anthill Ventures Employee Directory, Headcount & Staff | LeadIQ",
+        "content": "As of July 2026, Anthill Ventures's key employees include: Founder & Chief Accelerator: P.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "leadiq.com",
+          "/c/anthill-ventures/5a1dd3e82300005200ddd130/employee-directory",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://gssp.gujarat.gov.in/SchemPortal/AboutUs.aspx",
+        "title": "Gujarat State Scholarship Portal",
+        "content": "Dec 22, 2025 \u00b7 Gujarat State Scholarship Portal empowers students to access and track government Schemes anytime, anywhere.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "gssp.gujarat.gov.in",
+          "/SchemPortal/AboutUs.aspx",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.anthillventures.com/about",
+        "title": "About Anthill: Speed & Strategic Portfolio Growth",
+        "content": "Prasad Vanga brings strategic growth and venture-building expertise, having transformed companies like GE Capital into Genpact. Over the past decade, he has led Anthill to a 5.4\u00d7 scale, guiding a portfolio of over 80 successful startup investments.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.anthillventures.com",
+          "/about",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.digitalgujarat.gov.in/GSSP/",
+        "title": "Digital Gujarat",
+        "content": "Mar 23, 2026 \u00b7 These holidays are as per the orders issued by the State Government. \u00a9 Copyright 2026 Digital Gujarat All Rights \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.digitalgujarat.gov.in",
+          "/GSSP/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://digitalgujarat.in/digital-gujarat-scholarship-login/",
+        "title": "Digital Gujarat Scholarship 2025\u20132026: Login, Status Check, Last \u2026",
+        "content": "Digital Gujarat Scholarship is an online initiative by the Government of Gujarat that allows eligible students to apply for various pre \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "digitalgujarat.in",
+          "/digital-gujarat-scholarship-login/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://in.linkedin.com/company/anthill-ventures",
+        "title": "Anthill Ventures | LinkedIn",
+        "content": "Our LieutenANTS deliver an exclusive sneakpeek #scalewithspeed #anthill #team #venturecapital #teambonding #teamspirit Prasad Vanga Sailesh Sigatapu Tvisha Mehta Pranali Mehta Yaashna Punia Anupam Pandey Zairik Irfan Nagendra Khatri Aashmita Nayar Prapti Patel Akaar Bellaney Bhargav Panguluri Gaurav Bomma Shoriya Agrawal Shreya Bhatnagar Deeksha Narendra Kumar Sanghiti Chakraborty \u2026see more",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/company/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://digitalgujarat.in/",
+        "title": "Digital Gujarat \u2013 Online Government Services Guide & Information Portal",
+        "content": "Digital Gujarat is an official online portal launched by the Government of Gujarat to provide multiple citizen services in one place. \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "digitalgujarat.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.cbinsights.com/investor/anthill-ventures",
+        "title": "Anthill Ventures Portfolio Investments, Anthill Ventures Funds, Anthill Ventures Exits",
+        "content": "Moderated by Deepak Ajwani, Editor of EconomicTimes.com, the panel brought together a strong lineup of founders and investors: Dr. Raj Narayanam of Zaggle, GV Keshav Reddy, Founder of Equal and Board Member at Reddy Ventures, Prasad Vanga, Founder and CEO of Anthill Ventures, Sandeep Maheshwari ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.cbinsights.com",
+          "/investor/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.indiascholarships.in/scholarships/digital-gujarat-scholarship-portal",
+        "title": "Digital Gujarat Scholarship Portal (Pre-Matric & Post-Matric)",
+        "content": "Digital Gujarat Portal is the official unified platform for applying, renewing, and tracking state government scholarships in Gujarat.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.indiascholarships.in",
+          "/scholarships/digital-gujarat-scholarship-portal",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.egovtschemes.com/digital-gujarat-scholarship-login/",
+        "title": "Digital Gujarat Scholarship Login 2026-27 \u2014 Apply Online & Status \u2026",
+        "content": "Jun 6, 2026 \u00b7 Digital Gujarat Scholarship \u2014 Government of Gujarat\u2019s centralized online scholarship platform at digitalgujarat.gov.in. \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.egovtschemes.com",
+          "/digital-gujarat-scholarship-login/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://gujaratgr.in/digital-gujarat-scholarship-2026-gssp-portal-apply-online/",
+        "title": "Digital Gujarat Scholarship 2026 (GSSP Portal): \u0a93\u0aa8\u0ab2\u0abe\u0a88\u0aa8 \u0a85\u0ab0\u0a9c\u0ac0, \u2026",
+        "content": "Jun 1, 2026 \u00b7 \u0a97\u0ac1\u0a9c\u0ab0\u0abe\u0aa4 \u0ab8\u0ab0\u0a95\u0abe\u0ab0 \u0aa6\u0acd\u0ab5\u0abe\u0ab0\u0abe \u0ab0\u0abe\u0a9c\u0acd\u0aaf\u0aa8\u0abe \u0ab5\u0abf\u0aa6\u0acd\u0aaf\u0abe\u0ab0\u0acd\u0aa5\u0ac0\u0a93\u0aa8\u0ac7 \u0a89\u0a9a\u0acd\u0a9a \u0ab6\u0abf\u0a95\u0acd\u0ab7\u0aa3 \u0aae\u0abe\u0a9f\u0ac7 \u0aaa\u0acd\u0ab0\u0acb\u0aa4\u0acd\u0ab8\u0abe\u0ab9\u0abf\u0aa4 \u0a95\u0ab0\u0ab5\u0abe \u0a85\u0aa8\u0ac7 \u0aa4\u0ac7\u0aae\u0aa8\u0ac7 \u0a86\u0ab0\u0acd\u0aa5\u0abf\u0a95 \u0aae\u0aa6\u0aa6 \u0aaa\u0ac2\u0ab0\u0ac0 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "gujaratgr.in",
+          "/digital-gujarat-scholarship-2026-gssp-portal-apply-online/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.buddy4study.com/article/digital-gujarat-scholarship",
+        "title": "Digital Gujarat Scholarship 2026 - Applications Open, Apply Now!",
+        "content": "5 days ago \u00b7 The Digital Gujarat Scholarship unifies various scholarships on a single platform, providing students from diverse \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.buddy4study.com",
+          "/article/digital-gujarat-scholarship",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.equitylist.co/partner/anthill-ventures",
+        "title": "Powering Anthill Ventures portfolio",
+        "content": "Co-Founder & CEO \u00b7 We believe ... growth. Data analysis and pool utilization views enable us to use the remaining stock option pool effectively! Kaushal Pawar \u00b7 Director People & Culture \u00b7...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.equitylist.co",
+          "/partner/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          11
+        ],
+        "score": 0.09090909090909091,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.crunchbase.com/organization/anthill-ventures",
+        "title": "Anthill Ventures - Crunchbase Company Profile & Funding",
+        "content": "Anthill Ventures is a Speed Scaling Ecosystem which helps early growth startups in Pre-Series 'A'. We source, invest, scale and syndicate.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.crunchbase.com",
+          "/organization/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          13
+        ],
+        "score": 0.07692307692307693,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.linkedin.com/in/prasadvanga/",
+        "title": "Prasad Vanga - Anthill Ventures | LinkedIn",
+        "content": "Join Us Fireside Chat 1: The Promoter\u2019s Second Journey From Building Businesses to Investing Capital Moderator Prasad Vanga, Founder & Chief Executive Officer, Anthill Ventures Panel Members Shashank Randev, Head of Investments, Randev Ventures ...",
+        "publishedDate": "2026-05-01T00:00:00",
+        "thumbnail": "https://imgs.search.brave.com/wX1VYp00C92O8MWhuWK7ZD2P_a4omk7VwMbQ6I_gdlE/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5saWNkbi5jb20v/ZG1zL2ltYWdlL3Yy/L0M1MTAzQVFGSmFo/VE82VE8zUlEvcHJv/ZmlsZS1kaXNwbGF5/cGhvdG8tc2hyaW5r/XzIwMF8yMDAvcHJv/ZmlsZS1kaXNwbGF5/cGhvdG8tc2hyaW5r/XzIwMF8yMDAvMC8x/NTcwMjg4Njg1ODI5/P2U9MjE0NzQ4MzY0/NyZhbXA7dj1iZXRh/JmFtcDt0PXNJaTc0/dWg0SG02MVdaZndP/R1ZmeGUzWkxIRkJq/a0xYT0p5cUEwdjRT/Zmc",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/in/prasadvanga/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2026-05-01 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://tracxn.com/d/venture-capital/anthill-ventures/__U1uwoQMDcpmDZDsGni1VtaDiDeUy2E3zHWflW7tAv20",
+        "title": "Anthill Ventures - 2026 Investor Profile, Portfolio, Team & Investment Trends - Tracxn",
+        "content": "Anthill Ventures is a venture capital firm founded in 2015. It is primarily based out of Hyderabad, India. As of Apr 2026, Anthill Ventures is an active investor, having invested in 78 companies, with 3 new investments in the last 12 months. It primarily invests in Seed round in India based startups.",
+        "publishedDate": "2026-07-16T00:00:00",
+        "thumbnail": "https://imgs.search.brave.com/3_Gi97RHghAuHwblUNf5qfhy_T2Wssbymzss2KDkWx4/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9jZG4u/dHJhY3huLmNvbS9p/bWFnZXMvc2VvL3Nv/Y2lhbC92ZW50dXJl/LWNhcGl0YWwvYW50/aGlsbHZlbnR1cmVz/LW92ZXJ2aWV3LTE3/NzgzNTIwODMzMDgu/d2VicA",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "tracxn.com",
+          "/d/venture-capital/anthill-ventures/__U1uwoQMDcpmDZDsGni1VtaDiDeUy2E3zHWflW7tAv20",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2026-07-16 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://superscout.co/investor/anthill-ventures",
+        "title": "Anthill Ventures: The Early Stage Founder's Guide",
+        "content": "This portfolio reflects Anthill Ventures' strategic focus on health tech, climate solutions, and urban innovation, with companies that are positioned for significant growth and impact. ... Prasad Vanga - Founder & CEO.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/f3Kd1nFD8hZeMTrPXECxgd_Fpec-tTb9mKZ7tgEYoF4/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9jZG4u/cHJvZC53ZWJzaXRl/LWZpbGVzLmNvbS82/MGIzNDQ0ODhhMGE5/NTJiNmFiMTQxYzYv/NjlkYWM1N2JlYjU4/YTZlODJjZThkOWFm/X2FudGhpbGx2ZW50/dXJlcy5hdmlm",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "superscout.co",
+          "/investor/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.datanyze.com/companies/anthill-ventures/381395529",
+        "title": "Anthill Ventures Company Profile | Management and Employees List",
+        "content": "Anthill Ventures is a speed-scaling venture capital firm that accelerates startups in Urban, Climate, Media, and Health Tech sectors. They provide capital, guidance, and global access to help founders create impactful companies aimed at improving the lives of a billion people.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/1GvANmxXt-qNhPwAoB14B2ashghXL1MFUnpNL6ZbMFY/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9yZXMu/Y2xvdWRpbmFyeS5j/b20vem9vbWluZm8t/Y29tL2ltYWdlL3Vw/bG9hZC93XzcwLGhf/NzAsY19maXQvYW50/aGlsbHZlbnR1cmVz/LmNvbQ",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.datanyze.com",
+          "/companies/anthill-ventures/381395529",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          12
+        ],
+        "score": 0.08333333333333333,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.indianstartuptimes.com/interviews/building-globally-scalable-locally-relevant-startups-prasad-vangas-anthill-ventures-playbook/",
+        "title": "Building Globally Scalable, Locally Relevant Startups: Prasad Vanga\u2019s Anthill Ventures Playbook - Indian Startup Times",
+        "content": "The Indian startup ecosystem continues to evolve at an unprecedented pace, with visionaries like Prasad Vanga, Founder & CEO of Anthill Ventures, playing",
+        "publishedDate": "2025-08-18T00:00:00",
+        "thumbnail": "https://imgs.search.brave.com/C0y5Cv-elMv_gNNJlrvz7AcZ55HFo-BngCxpazp47EA/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9pMC53/cC5jb20vd3d3Lmlu/ZGlhbnN0YXJ0dXB0/aW1lcy5jb20vd3At/Y29udGVudC91cGxv/YWRzLzIwMjUvMDgv/UHJhc2FkLVZhbmdh/LTEuanBnP2ZpdD0x/OTIwJTJDMTA4MCZh/bXA7c3NsPTE",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.indianstartuptimes.com",
+          "/interviews/building-globally-scalable-locally-relevant-startups-prasad-vangas-anthill-ventures-playbook/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          15
+        ],
+        "score": 0.06666666666666667,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2025-08-18 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://pitchbook.com/profiles/investor/117843-49",
+        "title": "Anthill Ventures investment portfolio | PitchBook",
+        "content": "Anthill Ventures was founded in 2015.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/MTnsERnHFA5XRbe6xq2SXfoPVTOXsNdlBJQU01mbIRM/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9waXRj/aGJvb2suY29tL2lt/Zy9zbS9QaXRjaEJv/b2stUHJvZmlsZS5q/cGc_dXE9cUp1TW9q/Smc",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "pitchbook.com",
+          "/profiles/investor/117843-49",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          20
+        ],
+        "score": 0.05,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.d2cindia.in/prasad.php",
+        "title": "Prasad Vanga, Founder & CEO, Anthill",
+        "content": "Prasad Vanga is the founder & CEO of Anthill Ventures, a speed scaling platform for early growth stage start-ups in Urban Lifestyle. Anthill Ventures has built a global portfolio of 75 companies across India, US, Europe, Israel and SE Asia. With 1 unicorn, 1 Spac and 1 IPO under its belt, this ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.d2cindia.in",
+          "/prasad.php",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          14
+        ],
+        "score": 0.07142857142857142,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.privateequityinternational.com/institution-profiles/anthill-ventures.html",
+        "title": "Anthill Ventures | Institution Profile | Private Equity International",
+        "content": "Founded in 2015, Anthill Ventures is an early stage venture capital firm that invests into SMEs across India.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.privateequityinternational.com",
+          "/institution-profiles/anthill-ventures.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          16
+        ],
+        "score": 0.0625,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.anthillventures.com/",
+        "title": "Anthill Ventures | Speed, Urban & Climate Tech VC",
+        "content": "Anthill Ventures: Speed-scaling VC accelerating portfolio startups in Urban, Climate, Media & Health Tech. Our expert team offers capital, guidance & global access for rapid growth.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.anthillventures.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          17
+        ],
+        "score": 0.058823529411764705,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://rocketreach.co/anthill-ventures-profile_b556222af61628ae",
+        "title": "Anthill Ventures Information",
+        "content": "Sailesh Sigatapu is the General Partner of Anthill Ventures.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "rocketreach.co",
+          "/anthill-ventures-profile_b556222af61628ae",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          18
+        ],
+        "score": 0.05555555555555555,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.owler.com/company/anthillventures",
+        "title": "Anthill\u2019s Competitors, Revenue, Number of Employees, Funding, Acquisitions & News - Owler Company Profile",
+        "content": "Read more \u00b7 Founder & CEO \u00b7 Prasad Vanga \u00b7 CEO Approval Rating \u00b7 91/100Weigh In \u00b7 2015 \u00b7 SingaporeCentral Singapore \u00b7 Private \u00b7 Banking, Financial Services and Insurance \u00b7 Diversified Investment ServicesInvestment Banking and Securities ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.owler.com",
+          "/company/anthillventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          19
+        ],
+        "score": 0.05263157894736842,
+        "category": "general",
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

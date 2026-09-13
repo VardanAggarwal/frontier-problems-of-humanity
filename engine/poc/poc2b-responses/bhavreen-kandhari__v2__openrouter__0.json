@@ -1,0 +1,148 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\"question_id\": \"q1_one_line\", \"source_id\": \"S1\", \"answer\": \"She co-founded Warrior Moms, a group of mothers advocating for clean air in India.\", \"confidence\": 0.9},\n    {\"question_id\": \"q2_type\", \"source_id\": \"S1\", \"answer\": \"individual\", \"confidence\": 0.95},\n    {\"question_id\": \"q3_legs\", \"source_id\": \"S1\", \"answer\": \"activism\", \"confidence\": 0.9},\n    {\"question_id\": \"q5_ecosystem_role\", \"source_id\": \"S1\", \"answer\": \"operator\", \"confidence\": 0.7},\n    {\"question_id\": \"q6_affected_led\", \"source_id\": \"S1\", \"answer\": \"yes\", \"confidence\": 0.9},\n    {\"question_id\": \"q7_representation_unit\", \"source_id\": \"S1\", \"answer\": \"local-affected\", \"confidence\": 0.8},\n    {\"question_id\": \"q8_geography\", \"source_id\": \"S1\", \"answer\": \"Delhi, India\", \"confidence\": 0.9},\n    {\"question_id\": \"q12_viability_note\", \"source_id\": \"S1\", \"answer\": \"affected-led-ness\", \"confidence\": 0.9}\n  ],\n  \"claims\": [\n    {\"field\": \"type\", \"value\": \"individual\", \"confidence\": 0.95},\n    {\"field\": \"legs\", \"value\": \"[\\\"activism\\\"]\", \"confidence\": 0.9},\n    {\"field\": \"depth\", \"value\": \"tracked\", \"confidence\": 0.8},\n    {\"field\": \"lifecycle\", \"value\": \"operating\", \"confidence\": 0.8},\n    {\"field\": \"ecosystem_role\", \"value\": \"operator\", \"confidence\": 0.7},\n    {\"field\": \"affected_led\", \"value\": \"yes\", \"confidence\": 0.9},\n    {\"field\": \"representation_unit\", \"value\": \"local-affected\", \"confidence\": 0.8},\n    {\"field\": \"stance\", \"value\": \"works-the-remedy\", \"confidence\": 0.8},\n    {\"field\": \"geography\", \"value\": \"Delhi, India\", \"confidence\": 0.9}\n  ],\n  \"emits\": [\n    {\"kind\": \"actor\", \"name\": \"Warrior Moms\", \"hint\": \"Grassroots mothers' group demanding clean air in India\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"Mary De Mocker\", \"hint\": \"Climate activist and author from Oregon, interviewed Bhavreen Kandhari\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"Rowan Ryrie\", \"hint\": \"UK activist creating a love-led culture for parent climate activists\", \"signals\": {}}\n  ],\n  \"edges\": [\n    {\"dst_name\": \"Warrior Moms\", \"dst_kind\": \"actor\", \"edge_kind\": \"affiliated\", \"relevance\": null, \"evidence\": \"Bhavreen Kandhari is the co-founder of Warrior Moms in India.\"},\n    {\"dst_name\": \"Global Climate Parent Movement\", \"dst_kind\": \"actor\", \"edge_kind\": \"member_of\", \"relevance\": null, \"evidence\": \"She is part of the global climate parent movement.\"},\n    {\"dst_name\": \"Air pollution in Delhi\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 3, \"evidence\": \"Every third child in Delhi has damaged lungs and she advocates for clean air.\"}\n  ],\n  \"disagreements\": []\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S1",
+    "answer": "She co-founded Warrior Moms, a group of mothers advocating for clean air in India.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S1",
+    "answer": "individual",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S1",
+    "answer": "activism",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S1",
+    "answer": "operator",
+    "confidence": 0.7
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S1",
+    "answer": "yes",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S1",
+    "answer": "local-affected",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S1",
+    "answer": "Delhi, India",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S1",
+    "answer": "affected-led-ness",
+    "confidence": 0.9
+   }
+  ],
+  "claims": [
+   {
+    "field": "type",
+    "value": "individual",
+    "confidence": 0.95
+   },
+   {
+    "field": "legs",
+    "value": "[\"activism\"]",
+    "confidence": 0.9
+   },
+   {
+    "field": "depth",
+    "value": "tracked",
+    "confidence": 0.8
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating",
+    "confidence": 0.8
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "operator",
+    "confidence": 0.7
+   },
+   {
+    "field": "affected_led",
+    "value": "yes",
+    "confidence": 0.9
+   },
+   {
+    "field": "representation_unit",
+    "value": "local-affected",
+    "confidence": 0.8
+   },
+   {
+    "field": "stance",
+    "value": "works-the-remedy",
+    "confidence": 0.8
+   },
+   {
+    "field": "geography",
+    "value": "Delhi, India",
+    "confidence": 0.9
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "Warrior Moms",
+    "hint": "Grassroots mothers' group demanding clean air in India",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Mary De Mocker",
+    "hint": "Climate activist and author from Oregon, interviewed Bhavreen Kandhari",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Rowan Ryrie",
+    "hint": "UK activist creating a love-led culture for parent climate activists",
+    "signals": {}
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "Warrior Moms",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": null,
+    "evidence": "Bhavreen Kandhari is the co-founder of Warrior Moms in India."
+   },
+   {
+    "dst_name": "Global Climate Parent Movement",
+    "dst_kind": "actor",
+    "edge_kind": "member_of",
+    "relevance": null,
+    "evidence": "She is part of the global climate parent movement."
+   },
+   {
+    "dst_name": "Air pollution in Delhi",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "Every third child in Delhi has damaged lungs and she advocates for clean air."
+   }
+  ],
+  "disagreements": []
+ },
+ "parse_error": null,
+ "truncated": false
+}

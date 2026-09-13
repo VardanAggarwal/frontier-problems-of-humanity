@@ -1,0 +1,336 @@
+{
+  "slug": "villgro",
+  "name": "Villgro",
+  "family": "failure",
+  "query": "\"Villgro\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.617,
+  "timestamp_utc": "2026-09-13T08:34:29.260506+00:00",
+  "request_index_this_run": 29,
+  "seconds_since_run_start": 716.6,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Villgro\" shut down closed pivot losses",
+    "results": [
+      {
+        "url": "https://xiaoheihe.cn/",
+        "title": "\u5c0f\u9ed1\u76d2 - \u73a9\u5bb6\u9ad8\u80fd\u805a\u96c6\u5730",
+        "content": "3 days ago \u00b7 \u767e\u79d1\u5de5\u5177\u3001\u6218\u7ee9\u67e5\u8be2\u3001\u5708\u5185\u8981\u95fb\u3001\u6e38\u620f\u8d44\u8baf\u3001\u5185\u5bb9\u793e\u533a\u3001\u4fbf\u5229\u5546\u57ce\uff0c \u4e13\u4e1a\u5b9a\u5236\u3001\u9ad8\u5ea6\u96c6\u6210\uff0c\u4e00\u7ad9\u53d8\u8eab\u73a9\u5bb6\u8fbe\u4eba\uff01",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "xiaoheihe.cn",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://chat.xiaoheihe.cn/",
+        "title": "\u9ed1\u76d2\u8bed\u97f3\uff0c\u73a9\u5bb6\u5f00\u9ed1\u5927\u672c\u8425",
+        "content": "\u9ed1\u76d2\u8bed\u97f3\uff0c\u73a9\u5bb6\u5f00\u9ed1\u5927\u672c\u8425\u3002\u5728\u8fd9\u91cc\uff0c\u4f60\u53ef\u4ee5\u4eab\u53d7\u968f\u65f6\u5f00\u9ed1\u7684\u5feb\u4e50\uff0c\u4f53\u9a8c\u9ad8\u8d28\u91cf\u8bed\u97f3\u901a\u8bdd\u3002\u5728\u8fd9\u91cc\uff0c\u4f60\u53ef\u4ee5\u5efa\u7acb\u81ea\u5df1\u7684\u4e13\u5c5e\u623f\u95f4\uff0c\u4e0e \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "chat.xiaoheihe.cn",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://acc.xiaoheihe.cn/pc",
+        "title": "\u5c0f\u9ed1\u76d2\u52a0\u901f\u5668 - \u5168\u7403\u4e13\u7ebf\u52a0\u901f\uff0c\u6e38\u620f\u7f51\u7edc\u4e13\u5bb6",
+        "content": "\u5c0f\u9ed1\u76d2\u52a0\u901f\u5668 - \u5168\u7403\u4e13\u7ebf\u52a0\u901f\uff0c\u6e38\u620f\u7f51\u7edc\u4e13\u5bb6\u3002\u5168\u9762\u652f\u6301\u7edd\u5730\u6c42\u751f\u3001DOTA2\u3001\u5200\u5854\u81ea\u8d70\u68cb\u3001Steam\u3001\u5f69\u8679\u516d\u53f7\u3001CSGO\u3001Apex\u3001LOL \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "acc.xiaoheihe.cn",
+          "/pc",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://workshop.xiaoheihe.cn/",
+        "title": "\u9ed1\u76d2\u5de5\u574a - \u8f7b\u677e\u7ba1\u7406\u4f60\u7684\u9b54\u517d\u63d2\u4ef6\uff0c\u7545\u6e38\u827e\u6cfd\u62c9\u65af",
+        "content": "Feb 5, 2025 \u00b7 \u9ed1\u76d2\u5de5\u574a\uff0c\u8f7b\u677e\u7ba1\u7406\u4f60\u7684\u9b54\u517d\u63d2\u4ef6\uff0c\u7545\u6e38\u827e\u6cfd\u62c9\u65af\u3002\u540c\u65f6\u652f\u6301\u6b63\u5f0f\u670d\u4ee5\u53ca\u6000\u65e7\u670d\uff0c\u672c\u5730\u63d2\u4ef6\u8f7b\u677e\u7ba1\u7406\uff0c\u6d77\u91cf\u63d2\u4ef6\u5728\u7ebf\u5b89 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "workshop.xiaoheihe.cn",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://login.xiaoheihe.cn/",
+        "title": "xiaoheihe.cn",
+        "content": "Aug 4, 2026 \u00b7 \u4e2d\u56fd +86 \u4e2d\u56fd\u9999\u6e2f +852 \u4e2d\u56fd\u6fb3\u95e8 +853 \u4e2d\u56fd\u53f0\u6e7e +886 \u963f\u5c14\u5df4\u5c3c\u4e9a +355 \u963f\u5c14\u53ca\u5229\u4e9a +213 \u963f\u5bcc\u6c57 +93 \u963f\u6839\u5ef7 +54 \u963f \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "login.xiaoheihe.cn",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://api.xiaoheihe.cn/wiki/get_homepage_info_for_app/?wiki_id=381210&is_share=1",
+        "title": "\u5c0f\u9ed1\u76d2\u300a\u9ece\u660e\u6740\u673a\u300b\u767e\u79d1 - xiaoheihe.cn",
+        "content": "We're sorry but page doesn't work properly without JavaScript enabled. Please enable it to continue.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "api.xiaoheihe.cn",
+          "/wiki/get_homepage_info_for_app/",
+          "",
+          "wiki_id=381210&is_share=1",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.xiaoheihe.cn/creator/content_management/home",
+        "title": "\u5c0f\u9ed1\u76d2 - \u73a9\u5bb6\u9ad8\u80fd\u805a\u96c6\u5730",
+        "content": "3 days ago \u00b7 \u5c0f\u9ed1\u76d2\u662f\u4e00\u4e2a\u4e3a\u73a9\u5bb6\u63d0\u4f9b\u9ad8\u80fd\u805a\u96c6\u5730\u7684\u5e73\u53f0\uff0c\u81f4\u529b\u4e8e\u4e3a\u7528\u6237\u5e26\u6765\u66f4\u597d\u7684\u6e38\u620f\u4f53\u9a8c\u548c\u670d\u52a1\u3002",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.xiaoheihe.cn",
+          "/creator/content_management/home",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://api.xiaoheihe.cn/heybox/open/ad_serving",
+        "title": "\u5c0f\u9ed1\u76d2-\u5343\u4e07\u73a9\u5bb6\u4e13\u5c5e\u4e50\u56ed",
+        "content": "\u5c0f\u9ed1\u76d2-\u5343\u4e07\u73a9\u5bb6\u4e13\u5c5e\u4e50\u56ed ... \u4e0b\u8f7d",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "api.xiaoheihe.cn",
+          "/heybox/open/ad_serving",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://c.xiaoheihe.cn/",
+        "title": "\u5c0f\u9ed1\u76d2\u8fd0\u8425\u7ba1\u7406\u5e73\u53f0",
+        "content": "4 days ago \u00b7 \u5c0f\u9ed1\u76d2\u8fd0\u8425\u7ba1\u7406\u5e73\u53f0\uff0c\u63d0\u4f9b\u6e38\u620f\u8d44\u8baf\u3001\u653b\u7565\u3001\u767e\u79d1\u548c\u793e\u533a\u670d\u52a1\uff0c\u4e3a\u73a9\u5bb6\u63d0\u4f9b\u4e00\u7ad9\u5f0f\u6e38\u620f\u4f53\u9a8c\u3002",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "c.xiaoheihe.cn",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://web.xiaoheihe.cn/activity/anniversary_2025",
+        "title": "\u5c0f\u9ed1\u76d2\u516b\u5468\u5e74\u4e3b\u9898\u6d3b\u52a8",
+        "content": "Jun 4, 2026 \u00b7 \u5e86\u795d\u5c0f\u9ed1\u76d2\u516b\u5468\u5e74\uff0c\u76d2\u4f60\u4e00\u8d77\u8d70\u8fc7\u7684\u6bcf\u4e00\u6b65\u90fd\u7b97\u6570\uff01",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "web.xiaoheihe.cn",
+          "/activity/anniversary_2025",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,216 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\"question_id\": \"q1_one_line\", \"source_id\": \"S2\", \"answer\": \"They organized a dharna (sit-in protest) to make a toll plaza free, causing financial loss to the toll company.\", \"confidence\": 0.9},\n    {\"question_id\": \"q2_type\", \"source_id\": \"S2\", \"answer\": \"Org\", \"confidence\": 0.9},\n    {\"question_id\": \"q3_legs\", \"source_id\": \"S2\", \"answer\": \"activism\", \"confidence\": 0.9},\n    {\"question_id\": \"q4_lifecycle\", \"source_id\": \"S4\", \"answer\": \"operating as of 2024\", \"confidence\": 0.8},\n    {\"question_id\": \"q5_ecosystem_role\", \"source_id\": \"S2\", \"answer\": \"operator\", \"confidence\": 0.8},\n    {\"question_id\": \"q6_affected_led\", \"source_id\": \"S2\", \"answer\": \"yes\", \"confidence\": 0.8},\n    {\"question_id\": \"q7_representation_unit\", \"source_id\": \"S2\", \"answer\": \"local-affected\", \"confidence\": 0.8},\n    {\"question_id\": \"q8_geography\", \"source_id\": \"S2\", \"answer\": \"Punjab, India\", \"confidence\": 0.9},\n    {\"question_id\": \"q12_viability_note\", \"source_id\": \"S2\", \"answer\": \"Their viability stems from being affected-led, giving them legitimacy to mobilize farmers.\", \"confidence\": 0.8},\n    {\"question_id\": \"q14_ask_need\", \"source_id\": \"S4\", \"answer\": \"MSP guarantee law\", \"confidence\": 0.8},\n    {\"question_id\": \"q14_ask_need\", \"source_id\": \"S4\", \"answer\": \"Loan waiver\", \"confidence\": 0.8},\n    {\"question_id\": \"q14_ask_need\", \"source_id\": \"S4\", \"answer\": \"Electricity amendment bill 4040 withdrawal\", \"confidence\": 0.8},\n    {\"question_id\": \"q14_ask_need\", \"source_id\": \"S4\", \"answer\": \"Compensation and jobs for families of dead farmers from Lakhimpur Kheri\", \"confidence\": 0.8}\n  ],\n  \"claims\": [\n    {\"field\": \"title\", \"value\": \"Bharatiya Kisan Union (Ekta Ugrahan)\", \"confidence\": 0.9},\n    {\"field\": \"type\", \"value\": \"org\", \"confidence\": 0.9},\n    {\"field\": \"legs\", \"value\": \"[\\\"activism\\\"]\", \"confidence\": 0.9},\n    {\"field\": \"depth\", \"value\": \"tracked\", \"confidence\": 0.8},\n    {\"field\": \"lifecycle\", \"value\": \"operating\", \"confidence\": 0.8},\n    {\"field\": \"ecosystem_role\", \"value\": \"operator\", \"confidence\": 0.8},\n    {\"field\": \"affected_led\", \"value\": \"yes\", \"confidence\": 0.8},\n    {\"field\": \"representation_unit\", \"value\": \"local-affected\", \"confidence\": 0.8},\n    {\"field\": \"stance\", \"value\": \"works-the-remedy\", \"confidence\": 0.8},\n    {\"field\": \"geography\", \"value\": \"Punjab, India\", \"confidence\": 0.9},\n    {\"field\": \"ask:need:policy_access\", \"value\": \"MSP guarantee law\", \"confidence\": 0.8},\n    {\"field\": \"ask:need:policy_access\", \"value\": \"Loan waiver\", \"confidence\": 0.8},\n    {\"field\": \"ask:need:policy_access\", \"value\": \"Electricity amendment bill 4040 withdrawal\", \"confidence\": 0.8},\n    {\"field\": \"ask:need:policy_access\", \"value\": \"Compensation and jobs for families of dead farmers from Lakhimpur Kheri\", \"confidence\": 0.8}\n  ],\n  \"emits\": [\n    {\"kind\": \"actor\", \"name\": \"Joginder Singh Ugrahan\", \"hint\": \"Leader mentioned in S1\"},\n    {\"kind\": \"actor\", \"name\": \"Gurmeet Singh Kishanpura\", \"hint\": \"District mahasachiv of BKU Ekta Ugrahan mentioned in S2\"},\n    {\"kind\": \"actor\", \"name\": \"Central Government of India\", \"hint\": \"Referenced in S4 as the party whose policies are being protested\"},\n    {\"kind\": \"problem\", \"name\": \"Lakhimpur Kheri incident\", \"hint\": \"Referenced in S4 as event demanding justice and compensation\"},\n    {\"kind\": \"problem\", \"name\": \"Toll plaza fee collection at Firozpur Road near Darapur\", \"hint\": \"Target of dharna causing financial loss to company per S2\"}\n  ],\n  \"edges\": [\n    {\n      \"dst_name\": \"Toll plaza fee collection at Firozpur Road near Darapur\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"S2: district committee gave Gurmeet Singh Kishanpura leadership of dharna to make toll plaza free; farmers' dharna caused toll company loss of 8 lakh rupees.\"\n    },\n    {\n      \"dst_name\": \"Farmer income insecurity (MSP, loan waiver)\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"S4: BKU Ekta Ugrahan demands MSP guarantee law, loan waiver, electricity bill withdrawal, compensation for Lakhimpur Kheri victims.\"\n    },\n    {\n      \"dst_name\": \"Lakhimpur Kheri incident\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"S4: they demand punishment for Lakhimpur Kheri incident accused and compensation/jobs for victims' families.\"\n    },\n    {\n      \"dst_name\": \"Gurmeet Singh Kishanpura\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"board\",\n      \"relevance\": 3,\n      \"evidence\": \"S2: Gurmeet Singh Kishanpura chaired the dharna as district mahasachiv.\"\n    }\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S2",
+    "answer": "They organized a dharna (sit-in protest) to make a toll plaza free, causing financial loss to the toll company.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S2",
+    "answer": "Org",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S2",
+    "answer": "activism",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S4",
+    "answer": "operating as of 2024",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S2",
+    "answer": "operator",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S2",
+    "answer": "yes",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S2",
+    "answer": "local-affected",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S2",
+    "answer": "Punjab, India",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S2",
+    "answer": "Their viability stems from being affected-led, giving them legitimacy to mobilize farmers.",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "MSP guarantee law",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Loan waiver",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Electricity amendment bill 4040 withdrawal",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Compensation and jobs for families of dead farmers from Lakhimpur Kheri",
+    "confidence": 0.8
+   }
+  ],
+  "claims": [
+   {
+    "field": "title",
+    "value": "Bharatiya Kisan Union (Ekta Ugrahan)",
+    "confidence": 0.9
+   },
+   {
+    "field": "type",
+    "value": "org",
+    "confidence": 0.9
+   },
+   {
+    "field": "legs",
+    "value": "[\"activism\"]",
+    "confidence": 0.9
+   },
+   {
+    "field": "depth",
+    "value": "tracked",
+    "confidence": 0.8
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating",
+    "confidence": 0.8
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "operator",
+    "confidence": 0.8
+   },
+   {
+    "field": "affected_led",
+    "value": "yes",
+    "confidence": 0.8
+   },
+   {
+    "field": "representation_unit",
+    "value": "local-affected",
+    "confidence": 0.8
+   },
+   {
+    "field": "stance",
+    "value": "works-the-remedy",
+    "confidence": 0.8
+   },
+   {
+    "field": "geography",
+    "value": "Punjab, India",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:policy_access",
+    "value": "MSP guarantee law",
+    "confidence": 0.8
+   },
+   {
+    "field": "ask:need:policy_access",
+    "value": "Loan waiver",
+    "confidence": 0.8
+   },
+   {
+    "field": "ask:need:policy_access",
+    "value": "Electricity amendment bill 4040 withdrawal",
+    "confidence": 0.8
+   },
+   {
+    "field": "ask:need:policy_access",
+    "value": "Compensation and jobs for families of dead farmers from Lakhimpur Kheri",
+    "confidence": 0.8
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "Joginder Singh Ugrahan",
+    "hint": "Leader mentioned in S1"
+   },
+   {
+    "kind": "actor",
+    "name": "Gurmeet Singh Kishanpura",
+    "hint": "District mahasachiv of BKU Ekta Ugrahan mentioned in S2"
+   },
+   {
+    "kind": "actor",
+    "name": "Central Government of India",
+    "hint": "Referenced in S4 as the party whose policies are being protested"
+   },
+   {
+    "kind": "problem",
+    "name": "Lakhimpur Kheri incident",
+    "hint": "Referenced in S4 as event demanding justice and compensation"
+   },
+   {
+    "kind": "problem",
+    "name": "Toll plaza fee collection at Firozpur Road near Darapur",
+    "hint": "Target of dharna causing financial loss to company per S2"
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "Toll plaza fee collection at Firozpur Road near Darapur",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S2: district committee gave Gurmeet Singh Kishanpura leadership of dharna to make toll plaza free; farmers' dharna caused toll company loss of 8 lakh rupees."
+   },
+   {
+    "dst_name": "Farmer income insecurity (MSP, loan waiver)",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S4: BKU Ekta Ugrahan demands MSP guarantee law, loan waiver, electricity bill withdrawal, compensation for Lakhimpur Kheri victims."
+   },
+   {
+    "dst_name": "Lakhimpur Kheri incident",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S4: they demand punishment for Lakhimpur Kheri incident accused and compensation/jobs for victims' families."
+   },
+   {
+    "dst_name": "Gurmeet Singh Kishanpura",
+    "dst_kind": "actor",
+    "edge_kind": "board",
+    "relevance": 3,
+    "evidence": "S2: Gurmeet Singh Kishanpura chaired the dharna as district mahasachiv."
+   }
+  ]
+ },
+ "parse_error": null,
+ "truncated": false
+}

@@ -1,0 +1,133 @@
+CHUNK_TOKENS=320  overlaps=[0, 32, 48, 64]  PASSAGE_TOKEN_CAP=9000
+
+Actor corpus: 289 files
+Actor base chunks (overlap=0): 1676
+
+======================================================================
+SECTION-LEVEL BUCKET AUC -- actor corpus
+======================================================================
+
+-- overlap=0 tokens (actor) --
+   chunks=1676  total_tokens=105562  mean_tokens/chunk=63.0  chunks_fitting_in_cap(9000)=142.9
+   [             reach] top1= 66.8% top3= 95.1% AUC=0.893  n_elig=223  | 'contact email website social media handle channel'
+   [            status] top1= 86.3% top3= 99.5% AUC=0.977  n_elig=205  | 'funding source, scale, latest round or grant, date'
+   [         lifecycle] top1= 89.7% top3= 99.3% AUC=0.917  n_elig=281  | 'lifecycle status and as-of date'
+   [             needs] top1= 33.3% top3= 51.5% AUC=0.518  n_elig= 99  | 'What does this actor say it needs (funding, partners, data, polic'
+   [            offers] top1= 22.8% top3= 46.7% AUC=0.610  n_elig=167  | 'What can it offer (funding, a channel, a service, distribution)?'
+   [          identity] top1= 14.9% top3= 55.0% AUC=0.503  n_elig=289  | 'what this actor does, org or individual, leg, role, geography'
+
+-- overlap=32 tokens (actor) --
+   chunks=1676  total_tokens=144854  mean_tokens/chunk=86.4  chunks_fitting_in_cap(9000)=104.1
+   [             reach] top1= 21.1% top3= 68.6% AUC=0.652  n_elig=223  | 'contact email website social media handle channel'
+   [            status] top1= 59.0% top3= 96.6% AUC=0.882  n_elig=205  | 'funding source, scale, latest round or grant, date'
+   [         lifecycle] top1= 81.1% top3= 97.5% AUC=0.868  n_elig=281  | 'lifecycle status and as-of date'
+   [             needs] top1=  2.0% top3= 20.2% AUC=0.401  n_elig= 99  | 'What does this actor say it needs (funding, partners, data, polic'
+   [            offers] top1= 25.1% top3= 64.7% AUC=0.688  n_elig=167  | 'What can it offer (funding, a channel, a service, distribution)?'
+   [          identity] top1=  5.2% top3= 40.8% AUC=0.385  n_elig=289  | 'what this actor does, org or individual, leg, role, geography'
+
+-- overlap=48 tokens (actor) --
+   chunks=1676  total_tokens=157766  mean_tokens/chunk=94.1  chunks_fitting_in_cap(9000)=95.6
+   [             reach] top1= 18.4% top3= 71.3% AUC=0.649  n_elig=223  | 'contact email website social media handle channel'
+   [            status] top1= 33.2% top3= 94.6% AUC=0.837  n_elig=205  | 'funding source, scale, latest round or grant, date'
+   [         lifecycle] top1= 81.9% top3= 97.9% AUC=0.894  n_elig=281  | 'lifecycle status and as-of date'
+   [             needs] top1=  7.1% top3= 31.3% AUC=0.520  n_elig= 99  | 'What does this actor say it needs (funding, partners, data, polic'
+   [            offers] top1= 25.7% top3= 67.1% AUC=0.682  n_elig=167  | 'What can it offer (funding, a channel, a service, distribution)?'
+   [          identity] top1=  5.2% top3= 38.1% AUC=0.367  n_elig=289  | 'what this actor does, org or individual, leg, role, geography'
+
+-- overlap=64 tokens (actor) --
+   chunks=1676  total_tokens=167029  mean_tokens/chunk=99.7  chunks_fitting_in_cap(9000)=90.3
+   [             reach] top1= 16.1% top3= 73.5% AUC=0.655  n_elig=223  | 'contact email website social media handle channel'
+   [            status] top1= 21.5% top3= 93.2% AUC=0.822  n_elig=205  | 'funding source, scale, latest round or grant, date'
+   [         lifecycle] top1= 85.8% top3= 98.2% AUC=0.909  n_elig=281  | 'lifecycle status and as-of date'
+   [             needs] top1= 14.1% top3= 44.4% AUC=0.604  n_elig= 99  | 'What does this actor say it needs (funding, partners, data, polic'
+   [            offers] top1= 28.1% top3= 68.3% AUC=0.709  n_elig=167  | 'What can it offer (funding, a channel, a service, distribution)?'
+   [          identity] top1=  7.3% top3= 41.2% AUC=0.377  n_elig=289  | 'what this actor does, org or individual, leg, role, geography'
+
+Leaf corpus: 7 files: asbestos-in-air, cookfire-smoke, crop-residue-burning, north-india-winter-smog, silicosis-stone-industry, small-industrial-town-air, residual-childhood-lead
+Leaf base chunks (overlap=0): 228
+
+======================================================================
+SECTION-LEVEL BUCKET AUC -- leaf corpus
+======================================================================
+
+-- overlap=0 tokens (leaf) --
+   chunks=228  total_tokens=44353  mean_tokens/chunk=194.5  chunks_fitting_in_cap(9000)=46.3
+   [  A_classification] top1=100.0% top3=100.0% AUC=0.895  n_elig=  7  | 'Is the harm direct, structural, cultural-normative, or ambient-ac'
+   [        B_evidence] top1= 28.6% top3= 85.7% AUC=0.578  n_elig=  7  | 'Magnitude with its denominator, dated and sourced.'
+   [       C_diagnosis] top1= 28.6% top3=100.0% AUC=0.814  n_elig=  7  | 'What specifically keeps the known fix from happening -- the actua'
+   [       D_who_works] top1= 71.4% top3=100.0% AUC=0.707  n_elig=  7  | 'Who is actively working this, on any leg, and what do they specif'
+   [             E_gap] top1= 85.7% top3=100.0% AUC=0.884  n_elig=  7  | 'Is the gap none, coverage, or representation?'
+
+-- overlap=32 tokens (leaf) --
+   chunks=228  total_tokens=51410  mean_tokens/chunk=225.5  chunks_fitting_in_cap(9000)=39.9
+   [  A_classification] top1=100.0% top3=100.0% AUC=0.957  n_elig=  7  | 'Is the harm direct, structural, cultural-normative, or ambient-ac'
+   [        B_evidence] top1= 28.6% top3= 85.7% AUC=0.576  n_elig=  7  | 'Magnitude with its denominator, dated and sourced.'
+   [       C_diagnosis] top1= 42.9% top3= 71.4% AUC=0.758  n_elig=  7  | 'What specifically keeps the known fix from happening -- the actua'
+   [       D_who_works] top1= 42.9% top3=100.0% AUC=0.724  n_elig=  7  | 'Who is actively working this, on any leg, and what do they specif'
+   [             E_gap] top1= 85.7% top3=100.0% AUC=0.942  n_elig=  7  | 'Is the gap none, coverage, or representation?'
+
+-- overlap=48 tokens (leaf) --
+   chunks=228  total_tokens=54642  mean_tokens/chunk=239.7  chunks_fitting_in_cap(9000)=37.6
+   [  A_classification] top1=100.0% top3=100.0% AUC=0.954  n_elig=  7  | 'Is the harm direct, structural, cultural-normative, or ambient-ac'
+   [        B_evidence] top1= 42.9% top3= 57.1% AUC=0.545  n_elig=  7  | 'Magnitude with its denominator, dated and sourced.'
+   [       C_diagnosis] top1= 14.3% top3= 57.1% AUC=0.774  n_elig=  7  | 'What specifically keeps the known fix from happening -- the actua'
+   [       D_who_works] top1= 28.6% top3= 85.7% AUC=0.709  n_elig=  7  | 'Who is actively working this, on any leg, and what do they specif'
+   [             E_gap] top1= 85.7% top3=100.0% AUC=0.943  n_elig=  7  | 'Is the gap none, coverage, or representation?'
+
+-- overlap=64 tokens (leaf) --
+   chunks=228  total_tokens=57628  mean_tokens/chunk=252.8  chunks_fitting_in_cap(9000)=35.6
+   [  A_classification] top1=100.0% top3=100.0% AUC=0.983  n_elig=  7  | 'Is the harm direct, structural, cultural-normative, or ambient-ac'
+   [        B_evidence] top1= 42.9% top3= 85.7% AUC=0.549  n_elig=  7  | 'Magnitude with its denominator, dated and sourced.'
+   [       C_diagnosis] top1= 28.6% top3= 71.4% AUC=0.772  n_elig=  7  | 'What specifically keeps the known fix from happening -- the actua'
+   [       D_who_works] top1= 28.6% top3= 71.4% AUC=0.694  n_elig=  7  | 'Who is actively working this, on any leg, and what do they specif'
+   [             E_gap] top1= 85.7% top3= 85.7% AUC=0.937  n_elig=  7  | 'Is the gap none, coverage, or representation?'
+
+======================================================================
+STRADDLE TEST -- figure/denominator split across a chunk boundary
+======================================================================
+
+Actor corpus: 217 candidate straddle instances found
+   accion chunk#1: figure='2021'  next_head='- **Funding** — Accion Ventures Fund II: $61.6M committed capital (global, not I'
+   acumen chunk#5: figure='11'  next_head="- 2026-09-11 — Record created, this pass's segment sweep."
+   amrinder-singh-farm2fuel chunk#0: figure='20,000'  next_head='- `crop-residue-burning` — the individual behind the Farm2Fuel aggregation opera'
+   anand-bodh chunk#0: figure='2020,'  next_head='- `crop-residue-burning` — co-founder of the funded enterprise on the fungal/myc'
+   ankur-capital chunk#1: figure='30'  next_head='- **Funding** — ~$260M across three funds; Fund III targeting ~₹1,200 Cr ($150M+'
+   annapurna-finance chunk#0: figure='2021'  next_head='- funded-by → accion ($35M raise, with Encourage Capital and Oikocredit, Dec 202'
+   annapurna-finance chunk#1: figure='2021'  next_head='- **Funding** — $35M raised (Accion, Encourage Capital, Oikocredit, Dec 2021). -'
+   antarang-foundation chunk#0: figure='2026'  next_head='- attends → skoll-world-forum (2026, with selco-foundation and dasra, Northeast '
+   antarang-foundation chunk#1: figure='2026,'  next_head='- **Funding** — not disclosed this pass. - **Scale metric** — 185,000+ students '
+   arthur-frank chunk#0: figure='2025'  next_head='- `asbestos-in-air` — co-author of the only Indian TEM asbestos-dust measurement'
+   asbestos-cement-products-manufacturers-association chunk#1: figure='25'  next_head="Correction 2026-09-09 — this bullet previously cited the leaf's verdict as `gap:"
+   atul-satija chunk#4: figure='11'  next_head='- 2026-09-11 — Record created (individuals consolidation pass). Handles sighted '
+   avaana-capital chunk#0: figure='11'  next_head='- `portfolio → 20–25 planned investments under this fund; none named/sampled yet'
+   avaana-capital chunk#1: figure='25'  next_head='- **Funding** — $135M Avaana Climate and Sustainability Fund, final close Octobe'
+   bani chunk#0: figure='2025'  next_head='- `asbestos-in-air` — present, central, at the correct unit, and unmoved on the '
+   ... and 202 more
+
+Leaf corpus: 67 candidate straddle instances found
+   asbestos-in-air chunk#6: figure='2024'  next_head='- **End use.** The overwhelming majority is AC roofing sheet and pipe. India has'
+   asbestos-in-air chunk#8: figure='121'  next_head='- **The one Indian TEM measurement is near-source, not urban.** Singh, Fitzgeral'
+   asbestos-in-air chunk#10: figure='50,000'  next_head='Global reference points: WHO puts asbestos-related deaths above 200,000/year wor'
+   asbestos-in-air chunk#11: figure='0.4'  next_head='The third, and the only household-ambient one, was **Sri Lankan** — the National'
+   asbestos-in-air chunk#12: figure='287'  next_head='This is the strongest instance in tier 1 of absence of measurement being load-be'
+   asbestos-in-air chunk#16: figure='485,000'  next_head='Data note — death toll is written as a range with both ends named (official 0 vs'
+   asbestos-in-air chunk#17: figure='50,000'  next_head='Data note — no trend is asserted on imports; the 2014→2023→2024 series is not mo'
+   asbestos-in-air chunk#18: figure='2024'  next_head='Data note — "68–70 countries" is the widely cited IBAS/WHO ban count as of 2023–'
+   asbestos-in-air chunk#19: figure='24,'  next_head='Data note — the ~7 Mt stock figure is a 2010 *Lancet* vintage and the ">100 mill'
+   asbestos-in-air chunk#23: figure='2025,'  next_head='- **Mechanism — `solution-at-hand-blocked`.** On route 1 the fix is not to use i'
+   asbestos-in-air chunk#28: figure='2025'  next_head="**The ATR was due around 31 May 2026; as of this leaf's date, 9 September 2026, "
+   asbestos-in-air chunk#29: figure='126'  next_head="Real recent movement on the first two: the **NGT's 30 October 2025 order** (85 p"
+   asbestos-in-air chunk#30: figure='2016'  next_head='**Activism** — present, central, at the correct unit, unmoved on the import trad'
+   asbestos-in-air chunk#35: figure='2019'  next_head='- **The NGT judgment of 30 October 2025** is the first Indian instrument that na'
+   asbestos-in-air chunk#36: figure='4.3'  next_head='- **XV — Ministry of Education** to advise schools to maintain existing sheets i'
+
+-- repair rate by overlap setting --
+total straddle instances (both corpora): 284
+   overlap=  0: actor repaired 0/217   leaf repaired 0/67   total 0/284 (0.0%)
+   overlap= 32: actor repaired 177/217   leaf repaired 50/67   total 227/284 (79.9%)
+   overlap= 48: actor repaired 210/217   leaf repaired 62/67   total 272/284 (95.8%)
+   overlap= 64: actor repaired 217/217   leaf repaired 67/67   total 284/284 (100.0%)
+
+======================================================================
+DONE
+======================================================================

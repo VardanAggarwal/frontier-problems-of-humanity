@@ -1,0 +1,695 @@
+{
+  "slug": "bhavreen-kandhari",
+  "name": "Bhavreen Kandhari",
+  "family": "viability",
+  "query": "\"Bhavreen Kandhari\" revenue customers model",
+  "question_ids": [
+    "tag:viability_note",
+    "legs"
+  ],
+  "elapsed_s": 0.69,
+  "timestamp_utc": "2026-09-13T09:08:08.279131+00:00",
+  "request_index_this_run": 106,
+  "seconds_since_run_start": 2735.6,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "too many requests"
+    ],
+    [
+      "mojeek",
+      "Suspended: access denied"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [],
+  "raw_response": {
+    "query": "\"Bhavreen Kandhari\" revenue customers model",
+    "results": [
+      {
+        "url": "https://www.flipkart.com/beauty-and-grooming/womens-personal-hygiene/sanitary-pad/femi9~brand/pr?sid=g9b%2Ciph%2Cjth",
+        "title": "Femi9 Sanitary Pad - Buy Femi9 Sanitary Pad Online at Best ... - Flipkart",
+        "content": "Femi9 Sanitary Pad - Buy Femi9 Sanitary Pad at India's Best Online Shopping Store. Check Price in India and Shop Online. Free \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.flipkart.com",
+          "/beauty-and-grooming/womens-personal-hygiene/sanitary-pad/femi9~brand/pr",
+          "",
+          "sid=g9b%2Ciph%2Cjth",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Protecting Mature Trees as Critical Public Infrastructure | Bhavreen ...",
+        "content": "Protecting Mature Trees as Critical Public Infrastructure. View profile for Bhavreen Kandhari \u00b7 Bhavreen Kandhari. Passionate #WarriorMom driving Clean Air ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://www.linkedin.com/posts/bhavreen-kandhari-80283026a_trees-dont-just-fall-they-are-failed-by-activity-7483146816977281024-4Whn",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/posts/bhavreen-kandhari-80283026a_trees-dont-just-fall-they-are-failed-by-activity-7483146816977281024-4Whn",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.amazon.in/Femi9-Ultra-Thin-Sanitary-Pads-Comfortable/dp/B0H8FG6KJV",
+        "title": "Buy Femi9 Ultra-Thin Sanitary Pads - L(290mm) | Pack of 6 Pads",
+        "content": "Femi9 Ultra-Thin Sanitary Pads - L(290mm) | Pack of 6 Pads (Pack of 2)| 100% Toxin-Free | Comfortable All-Day | No Rashes & \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.amazon.in",
+          "/Femi9-Ultra-Thin-Sanitary-Pads-Comfortable/dp/B0H8FG6KJV",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari on X",
+        "content": "27 Aug 2026 \u00b7 The goal must be fewer cars, cleaner air and a more equitable Delhi, not another government cess/revenue stream.\" @BhavreenMK. Bhavreen Kandhari.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://x.com/BhavreenMK/status/2092996016643756086",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "x.com",
+          "/BhavreenMK/status/2092996016643756086",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.amazon.in/Femi9-Ultra-Thin-Sanitary-Pads-Comfortable/dp/B0H7S6ZYW7",
+        "title": "Buy Femi9 Ultra-Thin Sanitary Pads - L(290mm) - Amazon",
+        "content": "Femi9 Ultra-Thin Sanitary Pads - L(290mm) | Pack of 6 Pads | 100% Toxin-Free | Comfortable All-Day | No Rashes & Itching | Soft \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.amazon.in",
+          "/Femi9-Ultra-Thin-Sanitary-Pads-Comfortable/dp/B0H7S6ZYW7",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari on X: \" -Low income areas hit hardest by ...",
+        "content": "7 Apr 2024 \u00b7 -Low income blame vehicles/construction, high income blame waste burning.\" @BhavreenMK \u00b7 Bhavreen Kandhari \u00b7 @BhavreenMK. -Low income areas ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://x.com/BhavreenMK/status/1776909797352202716",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "x.com",
+          "/BhavreenMK/status/1776909797352202716",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.flipkart.com/femi9-soft-rash-free-pads-290mm-pack-4-safe-comfortable-protection-sanitary-pad/p/itmed2a3dcceaba4",
+        "title": "Femi9 Soft & Rash-Free Pads 290mm Pack of 4 - Flipkart",
+        "content": "Flipkart.com is offering Femi9 Soft & Rash-Free Pads 290mm Pack of 4 | Safe & Comfortable Protection Sanitary Pad only for Rs \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.flipkart.com",
+          "/femi9-soft-rash-free-pads-290mm-pack-4-safe-comfortable-protection-sanitary-pad/p/itmed2a3dcceaba4",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari vs Govt Of Nct Of Delhi & Ors on 2 August ...",
+        "content": "Bhavreen Kandhari vs Govt Of Nct Of Delhi & Ors on 2 August, 2022. Bench: Chief Justice, Subramonium Prasad. $~24 to 28 * IN THE HIGH COURT OF DELHI AT NEW ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://indiankanoon.org/doc/114541508/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "indiankanoon.org",
+          "/doc/114541508/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.meesho.com/femi9-napkin-pack-of-4-l-290mm-9padspkt/p/e8l9j8",
+        "title": "Femi9 Napkin pack of 4 (L-290mm) (9pads/pkt) - Meesho",
+        "content": "Name: Femi9 Napkin pack of 4 (L-290mm) (9pads/pkt) Product Width: 8 Product Length: 12 Product Dimension Unit: cm Generic \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.meesho.com",
+          "/femi9-napkin-pack-of-4-l-290mm-9padspkt/p/e8l9j8",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "From advocacy to awareness: Women-led communities are ...",
+        "content": "1 Jul 2024 \u00b7 Delhi-based environmentalist Bhavreen Kandhari has been fighting for clean air since the early 2000s. But it was under the clear, ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://www.forbesindia.com/article/news/from-advocacy-and-awareness-womenled-communities-are-finding-their-voice-in-the-climate-space/93502/1",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.forbesindia.com",
+          "/article/news/from-advocacy-and-awareness-womenled-communities-are-finding-their-voice-in-the-climate-space/93502/1",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://femi9.in/blog/best-biodegradable-sanitary-pads-buy-affordable-disposable-online",
+        "title": "Best Biodegradable Sanitary Pads: Affordable & Disposable Online",
+        "content": "Looking for the best disposable sanitary pads? Here's how to buy affordable, biodegradable, and environmentally friendly pads online \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "femi9.in",
+          "/blog/best-biodegradable-sanitary-pads-buy-affordable-disposable-online",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "GRAP-3 (Graded Response Action Plan) curbs lifted in Delhi ...",
+        "content": "27 Nov 2025 \u00b7 ... Bhavreen Kandhari has to say. Full Podcast Coming Soon. . . [ GRAP ... revenue source, noting India's expected funding from developed nations.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.facebook.com/ZEESwitch/videos/grap-3-graded-response-action-plan-curbs-lifted-in-delhi-ncr-but-should-we-relax/1338812610746936/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/ZEESwitch/videos/grap-3-graded-response-action-plan-curbs-lifted-in-delhi-ncr-but-should-we-relax/1338812610746936/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.femelia.in/",
+        "title": "Femelia",
+        "content": "Explore Femelia for premium sanitary pads, bamboo toothbrushes, neem combs, and a range of baby & adult diapers. Trusted by \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.femelia.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Delhi's Silent Crisis: A Mother's Fight Against India's Air Pollution",
+        "content": "18 Nov 2025 \u00b7 ... Bhavreen Kandhari: A Mother Turned Clean-Air Advocate** Guest ... Profits & Who Suffers** How industries benefit, why roads keep ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.youtube.com/watch?v=LbMaysAFo3A&vl=en",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=LbMaysAFo3A&vl=en",
+          ""
+        ]
+      },
+      {
+        "url": "https://hindi.indiamart.com/proddetail/femi-9-organic-sanitary-napkins-320mm-2854865860273.html",
+        "title": "\"\u0905\u0932\u094d\u091f\u094d\u0930\u093e \u0925\u093f\u0928 \u0915\u0949\u091f\u0928 \u092b\u0947\u092e\u0940 9 \u0911\u0930\u094d\u0917\u0947\u0928\u093f\u0915 \u0938\u0948\u0928\u093f\u091f\u0930\u0940 \u0928\u0948\u092a\u0915\u093f\u0928 320mm\"",
+        "content": "\u0913\u0928\u093f\u0915\u094d\u0938 \u0935\u0930\u094d\u0932\u094d\u0921 \u0926\u094d\u0935\u093e\u0930\u093e \u20b9249/\u092a\u0948\u0915 \u092a\u0930 \"\u0905\u0932\u094d\u091f\u094d\u0930\u093e \u0925\u093f\u0928 \u0915\u0949\u091f\u0928 \u092b\u0947\u092e\u0940 9 \u0911\u0930\u094d\u0917\u0947\u0928\u093f\u0915 \u0938\u0948\u0928\u093f\u091f\u0930\u0940 \u0928\u0948\u092a\u0915\u093f\u0928 320mm\",\u0915\u094b\u092f\u0902\u092c\u091f\u0942\u0930, \u0924\u092e\u093f\u0932\u0928\u093e\u0921\u0941 \u092e\u0947\u0902 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "hindi.indiamart.com",
+          "/proddetail/femi-9-organic-sanitary-napkins-320mm-2854865860273.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Preventive measures better than reactive ones - ANI News",
+        "content": "22 Dec 2025 \u00b7 Speaking to ANI, Bhavreen Kandhari said, \"Preventive measures are better than the reactive measures, such as what are you doing about the ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.aninews.in/news/national/general-news/preventive-measures-better-than-reactive-ones-environmentalist-bhavreen-kandhari-on-pollution-crisis20251222202042/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.aninews.in",
+          "/news/national/general-news/preventive-measures-better-than-reactive-ones-environmentalist-bhavreen-kandhari-on-pollution-crisis20251222202042/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://inrdeals.com/femi9-xl-330mm-54-pads-ultra-soft-high-absorbency-overnight-sanitary-padpack-of-54-at-lowest-price-in-online-india-SPPHMQGPJCWA35H8-offer",
+        "title": "Femi9 XL - 330mm - 54 Pads | Ultra Soft & High Absorbency",
+        "content": "The Flipkart discount makes it possible to buy Sanitary Pads under 1300 price range which is a good deal to buy! Generally, the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "inrdeals.com",
+          "/femi9-xl-330mm-54-pads-ultra-soft-high-absorbency-overnight-sanitary-padpack-of-54-at-lowest-price-in-online-india-SPPHMQGPJCWA35H8-offer",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari calls for Ecologist-led committee as SC ...",
+        "content": "29 Dec 2025 \u00b7 Bhavreen Kandhari calls for Ecologist-led committee as SC pauses ... model (Jharkhand). - ICFRE has yet to identify, district-wise ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://www.facebook.com/ANINEWS.IN/posts/bhavreen-kandhari-calls-for-ecologist-led-committee-as-sc-pauses-aravalli-defini/1329875062673140/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/ANINEWS.IN/posts/bhavreen-kandhari-calls-for-ecologist-led-committee-as-sc-pauses-aravalli-defini/1329875062673140/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.purplle.com/collections/menstrual-care-sanitary-pads",
+        "title": "Sanitary Padss: Buy Sanitary Pads Online at Best Prices in India",
+        "content": "Buy Sanitary Pads Online: Shop from a wide range of Sanitary Padss at affordable prices only at Purplle. \ufe0fFree Pan-India Delivery \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.purplle.com",
+          "/collections/menstrual-care-sanitary-pads",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Delhi's polluted public spaces threaten street life | Bhavreen ...",
+        "content": "Delhi's polluted public spaces threaten street life. View profile for Bhavreen Kandhari \u00b7 Bhavreen Kandhari. Passionate #WarriorMom driving Clean Air mission ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.linkedin.com/posts/bhavreen-kandhari-80283026a_as-i-said-in-the-article-clean-air-has-become-activity-7429333933173157888-yZAK",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/posts/bhavreen-kandhari-80283026a_as-i-said-in-the-article-clean-air-has-become-activity-7429333933173157888-yZAK",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "too many requests"
+      ],
+      [
+        "mojeek",
+        "Suspended: access denied"
+      ]
+    ]
+  }
+}

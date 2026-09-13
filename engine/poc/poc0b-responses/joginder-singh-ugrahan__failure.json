@@ -1,0 +1,689 @@
+{
+  "slug": "joginder-singh-ugrahan",
+  "name": "Joginder Singh Ugrahan",
+  "family": "failure",
+  "query": "\"Joginder Singh Ugrahan\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.615,
+  "timestamp_utc": "2026-09-13T09:03:02.961775+00:00",
+  "request_index_this_run": 95,
+  "seconds_since_run_start": 2430.3,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Joginder Singh Ugrahan\" shut down closed pivot losses",
+    "results": [
+      {
+        "url": "https://www.youtube.com/channel/UCSOYgLuAvj64O64Q9h9P5-w",
+        "title": "Thara bhai Jogindar - YouTube",
+        "content": "Thara Bhai Joginder Vlog Channel \ufe0fInstagram Username - @thara.Bhai.jogindar ( 20 Million ) Facebook - Thara Bhai Joginder ( 10 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/channel/UCSOYgLuAvj64O64Q9h9P5-w",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "The Haryana Story - Facebook",
+        "content": "11 Jun 2026 \u00b7 Reliance,closing down their petrolpumps,malls and throwing or ... Joginder Singh Ugrahan, Gurnam Singh Charuni, Rakesh Tikait, Jagjit ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://www.facebook.com/theharyanastory/posts/thousands-of-farmers-under-the-banner-of-bharatiya-kisan-union-ekta-siddhupur-he/122276336804164127/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/theharyanastory/posts/thousands-of-farmers-under-the-banner-of-bharatiya-kisan-union-ekta-siddhupur-he/122276336804164127/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.instagram.com/thara.bhai.jogindar/",
+        "title": "Thara Bhai Jogindar ( Jogindar Yadav ) (@thara.bhai ... - Instagram",
+        "content": "19M Followers, 347 Following, 1,397 Posts - See Instagram photos and videos from Thara Bhai Jogindar ( Jogindar Yadav ) \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/thara.bhai.jogindar/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Press Note 7 September 2024, Hissar *Haryana Workers and ...",
+        "content": "7 Sept 2024 \u00b7 It was addressed by AIKS National President Dr Ashok Dhawale, BKU (Ekta Ugrahan) President Joginder Singh Ugrahan, CITU Haryana State President ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://www.facebook.com/CITUHQ/posts/press-note7-september-2024-hissar-haryana-workers-and-farmers-called-up-on-the-p/982004617059914/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/CITUHQ/posts/press-note7-september-2024-hissar-haryana-workers-and-farmers-called-up-on-the-p/982004617059914/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://starsunfolded.com/thara-bhai-joginder/",
+        "title": "Thara Bhai Joginder Age, Wife, Family, Biography & More",
+        "content": "In 2020, he created a YouTube channel, Thara Bhai Joginder; the channel has more than 125k subscribers. He is very active on \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "starsunfolded.com",
+          "/thara-bhai-joginder/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "333 days & over 600 deaths later, struggle still strong",
+        "content": "26 Oct 2021 \u00b7 ... Joginder Singh Ugrahan, who is amongst the leaders at the forefront of the struggle. \u201cWe will keep fighting till the end without any remorse ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://timesofindia.indiatimes.com/city/chandigarh/333-days-over-600-deaths-later-struggle-still-strong/articleshow/87265814.cms",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "timesofindia.indiatimes.com",
+          "/city/chandigarh/333-days-over-600-deaths-later-struggle-still-strong/articleshow/87265814.cms",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Joginder_Sharma",
+        "title": "Joginder Sharma - Wikipedia",
+        "content": "DSP Joginder Sharma \u24d8 (born 23 October 1983) is an Indian police officer and former professional cricketer who currently serves as \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Joginder_Sharma",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Modi withdrew farm laws, but has no word on 'pro-corporate ...",
+        "content": "24 Nov 2021 \u00b7 In a statement issued to media, Joginder Singh Ugrahan and Sukhdev Singh Kokri Kalan, president and general secretary, respectively, said ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.counterview.net/2021/11/modi-withdrew-farm-laws-but-has-no-word.html?m=1",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.counterview.net",
+          "/2021/11/modi-withdrew-farm-laws-but-has-no-word.html",
+          "",
+          "m=1",
+          ""
+        ]
+      },
+      {
+        "url": "https://wikibio.in/thara-bhai-joginder/",
+        "title": "Thara Bhai Joginder Wiki, Age, Wife, Family, Biography & More",
+        "content": "Nov 27, 1994 \u00b7 He started posting videos containing dialogues. One such dialogue which became his signature style was \u2018Thara Bhai \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "wikibio.in",
+          "/thara-bhai-joginder/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Meeting between CM Mann, SKM leaders remain inconclusive ...",
+        "content": "3 Mar 2025 \u00b7 After the meeting, SKM leader Joginder Singh Ugrahan informed that Chief Minister Bhagwant Mann left the meeting after two hours, citing an eye ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://www.babushahi.com/view-news.php?id=200204",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.babushahi.com",
+          "/view-news.php",
+          "",
+          "id=200204",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=U-44HVu4qe8",
+        "title": "Best Of Bhai Joginder Singh Ji Riar Vol 2 - YouTube",
+        "content": "Feb 11, 2016 \u00b7 Most Popular Kirtan By Bhai Joginder Singh Ji Riar : \u2022 Vin Boleya Sabh Kish Janda - Bhai Joginder...",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=U-44HVu4qe8",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "'Solution requires meeting with Union Agriculture Minister ...",
+        "content": "16 Aug 2026 \u00b7 ... shut from 10am to 4 pm. They claimed that all the mandis in the ... Joginder Singh Ugrahan and Jhanda Singh Jethuke, President and ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.facebook.com/ANINEWS.IN/posts/solution-requires-meeting-with-union-agriculture-minister-farmer-leader-jagjit-s/1547444990916145/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/ANINEWS.IN/posts/solution-requires-meeting-with-union-agriculture-minister-farmer-leader-jagjit-s/1547444990916145/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Joginder",
+        "title": "Joginder - Wikipedia",
+        "content": "Joginder (real name Joginder Shelly) was an Indian actor, director, producer, writer, singer, songwriter and distributor. Two Hindi \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Joginder",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Meet those who led the farmers' movement - Rediff.com",
+        "content": "19 Nov 2021 \u00b7 Joginder Singh Ugrahan, president, BKU (Ugrahan). Photograph: Harmeet Sodhi/ANI Photo. The ex-Army man, viewed as one of the more popular farm ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://m.rediff.com/news/report/pix-meet-those-who-led-the-farmers-movement/20211119.htm",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "m.rediff.com",
+          "/news/report/pix-meet-those-who-led-the-farmers-movement/20211119.htm",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.facebook.com/Thara.Bhai.Joginder/reels/",
+        "title": "Thara Bhai Joginder - Facebook",
+        "content": "Yo Joginder Thara Bhai Joginder \u092e\u0926\u0924 \u0915\u0947 \u0932\u093f\u090f WhatsApp.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/Thara.Bhai.Joginder/reels/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "#FarmersProtest updates | SikhPA",
+        "content": "3 Mar 2021 \u00b7 Joginder Singh Ugrahan of the Ugrahan group has tested negative for corona and was discharged last night. He will return to lead the morcha ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.sikhpa.com/farmersprotestupdates/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.sikhpa.com",
+          "/farmersprotestupdates/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.instagram.com/jogi23sharma/",
+        "title": "Joginder Sharma (@jogi23sharma) \u2022 Instagram photos and videos",
+        "content": "151K Followers, 423 Following, 1,527 Posts - \ud83c\udfcfJoginder Sharma \ud83c\udfcf (@jogi23sharma) on Instagram: \"Joginder Sharma \ud83c\udfcf Cricketer \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/jogi23sharma/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Farmers Movement Special Issue SRJ Vol 6 No. 2",
+        "content": "... Joginder Singh Ugrahan, President of. Bharatiya Kisan Union Ekta (Ugrahan), it is important to remain vigilant of the. government because the struggle is far ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://www.researchgate.net/publication/361250509_Farmers_Movement_Special_Issue_SRJ_Vol_6_No_2",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.researchgate.net",
+          "/publication/361250509_Farmers_Movement_Special_Issue_SRJ_Vol_6_No_2",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.sarkarinaukriexams.com/joginder-net-worth-bio-bp",
+        "title": "Thara bhai Joginder Net Worth, Biography, Family, Girlfriend, Age",
+        "content": "Jul 31, 2023 \u00b7 Joginder Yadav, an extraordinary Indian YouTuber known for his captivating character, Thara Bhai Joginder, was born \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.sarkarinaukriexams.com",
+          "/joginder-net-worth-bio-bp",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Unstinted public support a vital cog in ryots' victory - Tehelka",
+        "content": "16 Dec 2021 \u00b7 ... Joginder Singh Ugrahan, Shiv Kumar Sharma 'Kakkaji', Yudhvir Singh, Yogendra Yadav \u2013\u2013 formally announced suspension of current agitation ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://tehelka.com/unstinted-public-support-a-vital-cog-in-ryots-victory/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "tehelka.com",
+          "/unstinted-public-support-a-vital-cog-in-ryots-victory/",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,214 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\n      \"question_id\": \"q1_one_line\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Bharatiya Kisan Union (Ekta Ugrahan) organizes farmer protests, mobilizes members through block and village meetings, and advocates for policy changes such as MSP guarantee and repeal of farm laws.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q2_type\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Org\",\n      \"confidence\": 1.0\n    },\n    {\n      \"question_id\": \"q3_legs\",\n      \"source_id\": \"S1\",\n      \"answer\": \"activism\",\n      \"confidence\": 1.0\n    },\n    {\n      \"question_id\": \"q4_lifecycle\",\n      \"source_id\": \"S3\",\n      \"answer\": \"operating as of January 7, 2021\",\n      \"confidence\": 1.0\n    },\n    {\n      \"question_id\": \"q5_ecosystem_role\",\n      \"source_id\": \"S1\",\n      \"answer\": \"capacity-builder\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q6_affected_led\",\n      \"source_id\": \"S1\",\n      \"answer\": \"yes\",\n      \"confidence\": 1.0\n    },\n    {\n      \"question_id\": \"q7_representation_unit\",\n      \"source_id\": \"S1\",\n      \"answer\": \"local-affected\",\n      \"confidence\": 1.0\n    },\n    {\n      \"question_id\": \"q8_geography\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Patiala district, Punjab\",\n      \"confidence\": 1.0\n    },\n    {\n      \"question_id\": \"q12_viability_note\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Viability derives from being farmer-led (affected-led) membership base that can mobilize protests.\",\n      \"confidence\": 0.9\n    }\n  ],\n  \"claims\": [\n    {\n      \"field\": \"title\",\n      \"value\": \"Bharatiya Kisan Union (Ekta Ugrahan)\",\n      \"confidence\": 1.0\n    },\n    {\n      \"field\": \"type\",\n      \"value\": \"org\",\n      \"confidence\": 1.0\n    },\n    {\n      \"field\": \"legs\",\n      \"value\": \"[\\\"activism\\\"]\",\n      \"confidence\": 1.0\n    },\n    {\n      \"field\": \"depth\",\n      \"value\": \"tracked\",\n      \"confidence\": 1.0\n    },\n    {\n      \"field\": \"lifecycle\",\n      \"value\": \"operating (as of 2021-01-07)\",\n      \"confidence\": 1.0\n    },\n    {\n      \"field\": \"ecosystem_role\",\n      \"value\": \"capacity-builder\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"affected_led\",\n      \"value\": \"yes\",\n      \"confidence\": 1.0\n    },\n    {\n      \"field\": \"representation_unit\",\n      \"value\": \"local-affected\",\n      \"confidence\": 1.0\n    },\n    {\n      \"field\": \"geography\",\n      \"value\": \"Patiala district, Punjab\",\n      \"confidence\": 1.0\n    }\n  ],\n  \"emits\": [\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Jagdeep Singh Chhanna\",\n      \"hint\": \"district vice-president of BKU (Ekta Ugrahan)\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Punjab State Power Corporation Limited (PSPCL)\",\n      \"hint\": \"targeted for demonstrations outside its offices\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Land Mortgage Bank\",\n      \"hint\": \"targeted for demonstrations\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Dr Balbir Singh\",\n      \"hint\": \"Punjab health minister who gave public assurances on crop compensation\",\n      \"signals\": {}\n    }\n  ],\n  \"edges\": [\n    {\n      \"dst_name\": \"anti-farmer policies of the central and state governments\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"will launch a district-level indefinite protest in Patiala on August 30 against the alleged anti-farmer policies of the central and state govts.\"\n    },\n    {\n      \"dst_name\": \"proposed India-US trade agreement\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"Union demanded scrapping of the proposed India-US trade agreement\"\n    },\n    {\n      \"dst_name\": \"four labour codes\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"repeal of the four labour codes\"\n    },\n    {\n      \"dst_name\": \"Electricity Amendment Bill\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"withdrawal of the Electricity Amendment Bill\"\n    },\n    {\n      \"dst_name\": \"Seed Bill\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"withdrawal of the Seed Bill\"\n    },\n    {\n      \"dst_name\": \"land pooling policy\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"demanded scrapping of the land pooling policy\"\n    },\n    {\n      \"dst_name\": \"lack of statutory guarantee for Minimum Support Price (MSP)\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"statutory guarantee for Minimum Support Price (MSP)\"\n    },\n    {\n      \"dst_name\": \"incarcerated intellectuals and activists\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"BKU (EU) is the only prominent union to vocally demand the release of incarcerated intellectuals and activists during the protests\"\n    },\n    {\n      \"dst_name\": \"Punjab State Power Corporation Limited (PSPCL)\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 1,\n      \"evidence\": \"stage demonstrations outside the offices and residences of local MLAs, ministers, the Punjab State Power Corporation Limited (PSPCL), and the Land Mortgage Bank\"\n    },\n    {\n      \"dst_name\": \"Land Mortgage Bank\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 1,\n      \"evidence\": \"stage demonstrations outside the offices and residences of local MLAs, ministers, the Punjab State Power Corporation Limited (PSPCL), and the Land Mortgage Bank\"\n    },\n    {\n      \"dst_name\": \"local MLAs, ministers\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 1,\n      \"evidence\": \"stage demonstrations outside the offices and residences of local MLAs, ministers, the Punjab State Power Corporation Limited (PSPCL), and the Land Mortgage Bank\"\n    }\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S1",
+    "answer": "Bharatiya Kisan Union (Ekta Ugrahan) organizes farmer protests, mobilizes members through block and village meetings, and advocates for policy changes such as MSP guarantee and repeal of farm laws.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S1",
+    "answer": "Org",
+    "confidence": 1.0
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S1",
+    "answer": "activism",
+    "confidence": 1.0
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S3",
+    "answer": "operating as of January 7, 2021",
+    "confidence": 1.0
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S1",
+    "answer": "capacity-builder",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S1",
+    "answer": "yes",
+    "confidence": 1.0
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S1",
+    "answer": "local-affected",
+    "confidence": 1.0
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S1",
+    "answer": "Patiala district, Punjab",
+    "confidence": 1.0
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S1",
+    "answer": "Viability derives from being farmer-led (affected-led) membership base that can mobilize protests.",
+    "confidence": 0.9
+   }
+  ],
+  "claims": [
+   {
+    "field": "title",
+    "value": "Bharatiya Kisan Union (Ekta Ugrahan)",
+    "confidence": 1.0
+   },
+   {
+    "field": "type",
+    "value": "org",
+    "confidence": 1.0
+   },
+   {
+    "field": "legs",
+    "value": "[\"activism\"]",
+    "confidence": 1.0
+   },
+   {
+    "field": "depth",
+    "value": "tracked",
+    "confidence": 1.0
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating (as of 2021-01-07)",
+    "confidence": 1.0
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "capacity-builder",
+    "confidence": 0.9
+   },
+   {
+    "field": "affected_led",
+    "value": "yes",
+    "confidence": 1.0
+   },
+   {
+    "field": "representation_unit",
+    "value": "local-affected",
+    "confidence": 1.0
+   },
+   {
+    "field": "geography",
+    "value": "Patiala district, Punjab",
+    "confidence": 1.0
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "Jagdeep Singh Chhanna",
+    "hint": "district vice-president of BKU (Ekta Ugrahan)",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Punjab State Power Corporation Limited (PSPCL)",
+    "hint": "targeted for demonstrations outside its offices",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Land Mortgage Bank",
+    "hint": "targeted for demonstrations",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Dr Balbir Singh",
+    "hint": "Punjab health minister who gave public assurances on crop compensation",
+    "signals": {}
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "anti-farmer policies of the central and state governments",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "will launch a district-level indefinite protest in Patiala on August 30 against the alleged anti-farmer policies of the central and state govts."
+   },
+   {
+    "dst_name": "proposed India-US trade agreement",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "Union demanded scrapping of the proposed India-US trade agreement"
+   },
+   {
+    "dst_name": "four labour codes",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "repeal of the four labour codes"
+   },
+   {
+    "dst_name": "Electricity Amendment Bill",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "withdrawal of the Electricity Amendment Bill"
+   },
+   {
+    "dst_name": "Seed Bill",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "withdrawal of the Seed Bill"
+   },
+   {
+    "dst_name": "land pooling policy",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "demanded scrapping of the land pooling policy"
+   },
+   {
+    "dst_name": "lack of statutory guarantee for Minimum Support Price (MSP)",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "statutory guarantee for Minimum Support Price (MSP)"
+   },
+   {
+    "dst_name": "incarcerated intellectuals and activists",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "BKU (EU) is the only prominent union to vocally demand the release of incarcerated intellectuals and activists during the protests"
+   },
+   {
+    "dst_name": "Punjab State Power Corporation Limited (PSPCL)",
+    "dst_kind": "actor",
+    "edge_kind": "works_on",
+    "relevance": 1,
+    "evidence": "stage demonstrations outside the offices and residences of local MLAs, ministers, the Punjab State Power Corporation Limited (PSPCL), and the Land Mortgage Bank"
+   },
+   {
+    "dst_name": "Land Mortgage Bank",
+    "dst_kind": "actor",
+    "edge_kind": "works_on",
+    "relevance": 1,
+    "evidence": "stage demonstrations outside the offices and residences of local MLAs, ministers, the Punjab State Power Corporation Limited (PSPCL), and the Land Mortgage Bank"
+   },
+   {
+    "dst_name": "local MLAs, ministers",
+    "dst_kind": "actor",
+    "edge_kind": "works_on",
+    "relevance": 1,
+    "evidence": "stage demonstrations outside the offices and residences of local MLAs, ministers, the Punjab State Power Corporation Limited (PSPCL), and the Land Mortgage Bank"
+   }
+  ]
+ },
+ "parse_error": null
+}

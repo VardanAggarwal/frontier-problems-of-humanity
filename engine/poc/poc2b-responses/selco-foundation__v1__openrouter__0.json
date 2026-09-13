@@ -1,0 +1,174 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\n      \"question_id\": \"q1_one_line\",\n      \"source_id\": \"S1\",\n      \"answer\": \"SELCO Foundation demonstrates and researches biomass cook stoves while promoting decentralised energy, energy efficiency, and last-mile solutions for poor communities.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q2_type\",\n      \"source_id\": \"S1\",\n      \"answer\": \"org\",\n      \"confidence\": 0.95\n    },\n    {\n      \"question_id\": \"q3_legs\",\n      \"source_id\": \"S2\",\n      \"answer\": \"service\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q4_lifecycle\",\n      \"source_id\": \"S3\",\n      \"answer\": \"operating as of 2024\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q5_ecosystem_role\",\n      \"source_id\": \"S1\",\n      \"answer\": \"researcher\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q8_geography\",\n      \"source_id\": \"S1\",\n      \"answer\": \"rural South Karnataka and urban slums (migrants from North Karnataka)\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q9_contact_route\",\n      \"source_id\": \"S1\",\n      \"answer\": \"[email protected]\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q11_scale_metric\",\n      \"source_id\": \"S3\",\n      \"answer\": \"6 billion poor people\",\n      \"confidence\": 0.8\n    }\n  ],\n  \"claims\": [\n    {\n      \"field\": \"title\",\n      \"value\": \"Lead Designer\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"type\",\n      \"value\": \"org\",\n      \"confidence\": 0.95\n    },\n    {\n      \"field\": \"legs\",\n      \"value\": \"service\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"lifecycle\",\n      \"value\": \"operating as of 2024\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"ecosystem_role\",\n      \"value\": \"researcher\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"geography\",\n      \"value\": \"rural South Karnataka and urban slums (migrants from North Karnataka)\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"contact_route\",\n      \"value\": \"[email protected]\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"scale_metric\",\n      \"value\": \"6 billion poor people\",\n      \"confidence\": 0.8\n    }\n  ],\n  \"emits\": [\n    {\n      \"kind\": \"actor\",\n      \"name\": \"SELCO Labs\",\n      \"hint\": \"involved in demonstration and user research of small biomass cook stoves\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Catholic Agency for Overseas Development (CAFOD)\",\n      \"hint\": \"ACCESS coalition partner\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Hivos\",\n      \"hint\": \"ACCESS coalition partner\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"World Wildlife Foundation (WWF)\",\n      \"hint\": \"ACCESS coalition partner\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"World Resources Institute (WRI)\",\n      \"hint\": \"ACCESS coalition partner\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Sarah Alexander\",\n      \"hint\": \"contact person for SELCO Foundation\",\n      \"signals\": {}\n    }\n  ],\n  \"edges\": [\n    {\n      \"dst_name\": \"SELCO Labs\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"part_of\",\n      \"relevance\": 2,\n      \"evidence\": \"In the past, SELCO Labs has been involved in the demonstration and user research of small biomass cook stoves.\"\n    },\n    {\n      \"dst_name\": \"Catholic Agency for Overseas Development (CAFOD)\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 2,\n      \"evidence\": \"We work together with the following ACCESS coalition partners: Catholic Agency for Overseas Development (CAFOD), Hivos, World Wildlife Foundation (WWF), World Resources Institute (WRI).\"\n    },\n    {\n      \"dst_name\": \"Hivos\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 2,\n      \"evidence\": \"We work together with the following ACCESS coalition partners: Catholic Agency for Overseas Development (CAFOD), Hivos, World Wildlife Foundation (WWF), World Resources Institute (WRI).\"\n    },\n    {\n      \"dst_name\": \"World Wildlife Foundation (WWF)\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 2,\n      \"evidence\": \"We work together with the following ACCESS coalition partners: Catholic Agency for Overseas Development (CAFOD), Hivos, World Wildlife Foundation (WWF), World Resources Institute (WRI).\"\n    },\n    {\n      \"dst_name\": \"World Resources Institute (WRI)\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 2,\n      \"evidence\": \"We work together with the following ACCESS coalition partners: Catholic Agency for Overseas Development (CAFOD), Hivos, World Wildlife Foundation (WWF), World Resources Institute (WRI).\"\n    }\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S1",
+    "answer": "SELCO Foundation demonstrates and researches biomass cook stoves while promoting decentralised energy, energy efficiency, and last-mile solutions for poor communities.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S1",
+    "answer": "org",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S2",
+    "answer": "service",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S3",
+    "answer": "operating as of 2024",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S1",
+    "answer": "researcher",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S1",
+    "answer": "rural South Karnataka and urban slums (migrants from North Karnataka)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S1",
+    "answer": "[email protected]",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q11_scale_metric",
+    "source_id": "S3",
+    "answer": "6 billion poor people",
+    "confidence": 0.8
+   }
+  ],
+  "claims": [
+   {
+    "field": "title",
+    "value": "Lead Designer",
+    "confidence": 0.9
+   },
+   {
+    "field": "type",
+    "value": "org",
+    "confidence": 0.95
+   },
+   {
+    "field": "legs",
+    "value": "service",
+    "confidence": 0.8
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating as of 2024",
+    "confidence": 0.8
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "researcher",
+    "confidence": 0.9
+   },
+   {
+    "field": "geography",
+    "value": "rural South Karnataka and urban slums (migrants from North Karnataka)",
+    "confidence": 0.9
+   },
+   {
+    "field": "contact_route",
+    "value": "[email protected]",
+    "confidence": 0.9
+   },
+   {
+    "field": "scale_metric",
+    "value": "6 billion poor people",
+    "confidence": 0.8
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "SELCO Labs",
+    "hint": "involved in demonstration and user research of small biomass cook stoves",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Catholic Agency for Overseas Development (CAFOD)",
+    "hint": "ACCESS coalition partner",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Hivos",
+    "hint": "ACCESS coalition partner",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "World Wildlife Foundation (WWF)",
+    "hint": "ACCESS coalition partner",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "World Resources Institute (WRI)",
+    "hint": "ACCESS coalition partner",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Sarah Alexander",
+    "hint": "contact person for SELCO Foundation",
+    "signals": {}
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "SELCO Labs",
+    "dst_kind": "actor",
+    "edge_kind": "part_of",
+    "relevance": 2,
+    "evidence": "In the past, SELCO Labs has been involved in the demonstration and user research of small biomass cook stoves."
+   },
+   {
+    "dst_name": "Catholic Agency for Overseas Development (CAFOD)",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "We work together with the following ACCESS coalition partners: Catholic Agency for Overseas Development (CAFOD), Hivos, World Wildlife Foundation (WWF), World Resources Institute (WRI)."
+   },
+   {
+    "dst_name": "Hivos",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "We work together with the following ACCESS coalition partners: Catholic Agency for Overseas Development (CAFOD), Hivos, World Wildlife Foundation (WWF), World Resources Institute (WRI)."
+   },
+   {
+    "dst_name": "World Wildlife Foundation (WWF)",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "We work together with the following ACCESS coalition partners: Catholic Agency for Overseas Development (CAFOD), Hivos, World Wildlife Foundation (WWF), World Resources Institute (WRI)."
+   },
+   {
+    "dst_name": "World Resources Institute (WRI)",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "We work together with the following ACCESS coalition partners: Catholic Agency for Overseas Development (CAFOD), Hivos, World Wildlife Foundation (WWF), World Resources Institute (WRI)."
+   }
+  ]
+ },
+ "parse_error": null,
+ "truncated": false
+}

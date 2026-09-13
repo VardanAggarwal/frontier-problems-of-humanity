@@ -1,0 +1,336 @@
+{
+  "slug": "omnivore",
+  "name": "Omnivore",
+  "family": "viability",
+  "query": "\"Omnivore\" revenue customers model",
+  "question_ids": [
+    "tag:viability_note",
+    "legs"
+  ],
+  "elapsed_s": 0.677,
+  "timestamp_utc": "2026-09-13T08:42:03.840874+00:00",
+  "request_index_this_run": 46,
+  "seconds_since_run_start": 1171.2,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Omnivore\" revenue customers model",
+    "results": [
+      {
+        "url": "https://www.microsoft.com/en-us?msockid=1d2030f3f5cd6b8e0d262720f4366a96",
+        "title": "Microsoft \u2013 AI, Cloud, Productivity, Computing, Gaming & Apps",
+        "content": "Explore Microsoft products and services and support for your home or business. Shop Microsoft 365, Copilot, Teams, Xbox, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.microsoft.com",
+          "/en-us",
+          "",
+          "msockid=1d2030f3f5cd6b8e0d262720f4366a96",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://account.microsoft.com/account",
+        "title": "Microsoft account | Sign In or Create Your Account Today \u2013 Microsoft",
+        "content": "Get access to free online versions of Outlook, Word, Excel, and PowerPoint.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "account.microsoft.com",
+          "/account",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://myaccount.microsoft.com/",
+        "title": "Sign in to your account",
+        "content": "Access and manage your Microsoft account, subscriptions, and settings all in one place.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "myaccount.microsoft.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Microsoft",
+        "title": "Microsoft - Wikipedia",
+        "content": "Microsoft Corporation is an American multinational technology company headquartered in Redmond, Washington. The company \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Microsoft",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.microsoft.com/en-us/microsoft-365?msockid=1d2030f3f5cd6b8e0d262720f4366a96",
+        "title": "Microsoft 365 for Individuals: Subscription for Productivity Apps",
+        "content": "Microsoft 365 (formerly Office 365) subscriptions offer a suite of productivity tools and cloud services with world-class security and \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.microsoft.com",
+          "/en-us/microsoft-365",
+          "",
+          "msockid=1d2030f3f5cd6b8e0d262720f4366a96",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://signup.live.com/",
+        "title": "Create your Microsoft account",
+        "content": "Create your Microsoft account to access various services and features.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "signup.live.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://account.microsoft.com/?mkt=en-US",
+        "title": "Microsoft",
+        "content": "",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "account.microsoft.com",
+          "/",
+          "",
+          "mkt=en-US",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://careers.microsoft.com/",
+        "title": "Home | Microsoft Careers",
+        "content": "Do what you love. Create the future you want. Explore the career options that Microsoft has to offer Stage.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "careers.microsoft.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://apps.microsoft.com/home?hl=en-US&gl=US",
+        "title": "Microsoft Store - Download apps, games & more for your Windows PC",
+        "content": "Explore the Microsoft Store for apps and games on Windows. Enjoy exclusive deals, new releases, and your favorite content all in \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "apps.microsoft.com",
+          "/home",
+          "",
+          "hl=en-US&gl=US",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://apps.microsoft.com/detail/9wzdncrfjbmp",
+        "title": "Download and install Microsoft Store app on Windows",
+        "content": "The new Microsoft Store is your single trusted location for apps and content to watch, create, play, work and learn. It\u2019s been rebuilt \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "apps.microsoft.com",
+          "/detail/9wzdncrfjbmp",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,704 @@
+{
+  "slug": "india-asbestos-victims-association",
+  "name": "India Asbestos Victims Association",
+  "family": "failure",
+  "query": "\"India Asbestos Victims Association\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.781,
+  "timestamp_utc": "2026-09-13T09:05:48.697655+00:00",
+  "request_index_this_run": 101,
+  "seconds_since_run_start": 2596.0,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "mojeek",
+      "access denied"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [],
+  "raw_response": {
+    "query": "\"India Asbestos Victims Association\" shut down closed pivot losses",
+    "results": [
+      {
+        "url": "https://en.wikipedia.org/wiki/India",
+        "title": "India - Wikipedia",
+        "content": "India, officially the Republic of India, [j][20] is a country in South Asia. It is the world's seventh-largest country by area and the largest \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/India",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "'We are all exposed to it': the human face of India's asbestos ...",
+        "content": "19 Dec 2022 \u00b7 If the firm shuts down or moves away, the community loses jobs. India's notoriously slow legal system \u2013 trial courts had 40 million cases ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://www.theguardian.com/global-development/2022/dec/19/we-are-all-exposed-to-it-the-human-face-of-indias-asbestos-timebomb",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.theguardian.com",
+          "/global-development/2022/dec/19/we-are-all-exposed-to-it-the-human-face-of-indias-asbestos-timebomb",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.india.gov.in/",
+        "title": "Home | National Portal of India",
+        "content": "1 day ago \u00b7 Details on India\u2019s trade infrastructure, regulations, and policies are provided to support both domestic and international \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.india.gov.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Analysis of the Indian Government's position on the use of ...",
+        "content": "18 May 2023 \u00b7 We present the views of the Indian Government with respect to its stance on asbestos, its use and its health effects. This analysis is based on ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://theunion.org/news/analysis-of-the-indian-government%E2%80%99s-position-on-the-use-of-asbestos-and-its-health-effects",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "theunion.org",
+          "/news/analysis-of-the-indian-government%E2%80%99s-position-on-the-use-of-asbestos-and-its-health-effects",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.britannica.com/place/India",
+        "title": "India | History, Maps, Population, Economy, & Facts | Britannica",
+        "content": "1 day ago \u00b7 India is a country that occupies the greater part of South Asia. It is a constitutional republic that represents a highly \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.britannica.com",
+          "/place/India",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "India Says No to Asbestos",
+        "content": "The Secretary of the Indian Association of Occupational Health reiterated his organization's support for a national ban on the use and mining of asbestos. His ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://www.ibasecretariat.org/lka-india-says-no-to-asbestos.php",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.ibasecretariat.org",
+          "/lka-india-says-no-to-asbestos.php",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/History_of_India",
+        "title": "History of India - Wikipedia",
+        "content": "Policies of company rule in India led to the Indian Rebellion of 1857. India was afterwards ruled directly by the British Crown, in the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/History_of_India",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "The ongoing asbestos trade & hidden disease in India | Confront",
+        "content": "India is failing to diagnose and compensate people who fall ill from the large amounts of asbestos it continues to import.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://confrontpower.org/asbestos-and-india/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "confrontpower.org",
+          "/asbestos-and-india/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.ndtv.com/india",
+        "title": "India News | Today's latest updates and breaking news from India, \u2026",
+        "content": "28 minutes ago \u00b7 Today's top India news headlines, news on Indian politics, elections, government, business, technology, and \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.ndtv.com",
+          "/india",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "How Canada Changed from Exporting Asbestos to Banning ...",
+        "content": "27 Sept 2017 \u00b7 Both asbestos mines closed down. All mining and export of asbestos ... In India, asbestos victims, trade unionists, and health ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5664636/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "pmc.ncbi.nlm.nih.gov",
+          "/articles/PMC5664636/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://simple.wikipedia.org/wiki/India",
+        "title": "India - Simple English Wikipedia, the free encyclopedia",
+        "content": "India also fought a war to capture Goa, a Portuguese-built port and a city that was not a part of India until 1961. The Portuguese \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "simple.wikipedia.org",
+          "/wiki/India",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Asbestos ban may go, protests - India Together",
+        "content": "1 May 2005 \u00b7 The Indian Association of Occupational Health had passed a resolution demanding an immediate ban on all the activities related to asbestos and ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://indiatogether.org/direct/2005/cdr-000055/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "indiatogether.org",
+          "/direct/2005/cdr-000055/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.incredibleindia.gov.in/en",
+        "title": "Discover Incredible India: Travel Guide & Tourism Info | Incredible India",
+        "content": "Experience the vibrant culture and scenic beauty of India. Plan your trip with Incredible India & explore tourist destinations, cultural \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.incredibleindia.gov.in",
+          "/en",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Asbestos - World Health Organization (WHO)",
+        "content": "11 Aug 2026 \u00b7 Globally, more than 200 000 deaths are estimated to be caused by occupational exposure to asbestos \u2013 more than 70% of all deaths from work- ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.who.int/news-room/fact-sheets/detail/asbestos",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.who.int",
+          "/news-room/fact-sheets/detail/asbestos",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.mapsofindia.com/",
+        "title": "India Map |Free Map of India With States, UTs and Capital Cities",
+        "content": "India has 28 states and 8 union territories and shares borders with 7 countries. It provides a clear visual overview of states, union \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.mapsofindia.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Mesothelioma, Asbestosis, and India's Asbestos Timebomb",
+        "content": "19 Dec 2022 \u00b7 India banned the material's mining in 1993, but it continues to import 44% of the world's asbestos, largely from Russia and Brazil. Contact us ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://mesothelioma.net/mesothelioma-news/mesothelioma-asbestosis-and-indias-asbestos-timebomb/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "mesothelioma.net",
+          "/mesothelioma-news/mesothelioma-asbestosis-and-indias-asbestos-timebomb/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.mapsofindia.com/india/",
+        "title": "India - Know all about India including its History, Geography, Culture, etc",
+        "content": "India information portal featuring detailed maps, states, union territories, districts, geography, history, culture, economy, tourism, road \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.mapsofindia.com",
+          "/india/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "What year was Asbestos Banned in India? - Elchemy",
+        "content": "10 Apr 2026 \u00b7 India banned asbestos mining in the year 1993. The country, however, remains one of the world's largest importers of chrysotile asbestos.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://elchemy.com/blogs/chemical-market/what-year-was-asbestos-banned-in-india",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "elchemy.com",
+          "/blogs/chemical-market/what-year-was-asbestos-banned-in-india",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://timesofindia.indiatimes.com/india",
+        "title": "India News | Latest India News Today & Real-time News from India, India ...",
+        "content": "India News Today: Get latest India news and breaking news from India on Times of India. TOI brings the top news headlines from \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "timesofindia.indiatimes.com",
+          "/india",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Asbestos Hurts Developing Nations The Most",
+        "content": "17 Feb 2016 \u00b7 More than 50 nations have banned asbestos over the past three decades, but that fact provides little comfort to Sharad Vittnal Sawant of ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.mesothelioma.com/blog/asbestos-hurts-developing-nations-the-most/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.mesothelioma.com",
+          "/blog/asbestos-hurts-developing-nations-the-most/",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [
+      "asbestos india kolkata",
+      "asbestos banned countries",
+      "india asbestos import",
+      "asbestos mining in india",
+      "asbestos india reddit",
+      "why asbestos banned in india",
+      "why asbestos is banned",
+      "asbestos in indian homes"
+    ],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "mojeek",
+        "access denied"
+      ]
+    ]
+  }
+}

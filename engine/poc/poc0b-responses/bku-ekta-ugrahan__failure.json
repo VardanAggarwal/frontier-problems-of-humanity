@@ -1,0 +1,661 @@
+{
+  "slug": "bku-ekta-ugrahan",
+  "name": "Bharatiya Kisan Union (Ekta Ugrahan)",
+  "family": "failure",
+  "query": "\"Bharatiya Kisan Union (Ekta Ugrahan)\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.638,
+  "timestamp_utc": "2026-09-13T09:00:29.273800+00:00",
+  "request_index_this_run": 89,
+  "seconds_since_run_start": 2276.6,
+  "n_results": 19,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Bharatiya Kisan Union (Ekta Ugrahan)\" shut down closed pivot losses",
+    "results": [
+      {
+        "url": "https://www.champion-create.com.tw/",
+        "title": "\u51a0\u8ecd\u5275\u9020|\u5ba2\u88fd\u5316\u79ae\u8d08\u54c1|\u5bae\u5edf\u7d50\u7de3\u54c1|\u734e\u76c3\u734e\u724c\u8a02\u88fd",
+        "content": "\u6750\u8cea\uff1a\u5408\u91d1 \u984f\u8272\uff1a\u91d1\u8272 / \u9280\u8272 \u91cd\u91cf\uff1a\u7d04 350g \u5c3a\u5bf8\uff1a21.5X7.2cm LOGO\u5448\u73fe\u65b9\u5f0f\uff1a\u96f7\u5c04\u96d5\u523b / UV\u5f69\u8272\u5370\u5237 \u9069\u7528\u5834\u5408\uff1a\u4f01\u696d\u9812\u734e\u3001\u9ad4 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.champion-create.com.tw",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "The Haryana Story - Facebook",
+        "content": "11 Jun 2026 \u00b7 ... Bharatiya Kisan Union Ekta (Ugrahan) reached the protest site on Sunday. ... Reliance,closing down their petrolpumps,malls and throwing or ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://www.facebook.com/theharyanastory/posts/thousands-of-farmers-under-the-banner-of-bharatiya-kisan-union-ekta-siddhupur-he/122276336804164127/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/theharyanastory/posts/thousands-of-farmers-under-the-banner-of-bharatiya-kisan-union-ekta-siddhupur-he/122276336804164127/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.k29565511.com.tw/tw",
+        "title": "\u5168\u76db\u79ae\u54c1\u793e\uff5c\u6c34\u6676\u7409\u7483\u734e\u76c3\u3001\u734e\u724c\u3001\u734e\u5ea7\u8a02\u88fd\u88fd\u4f5c-\u5ba2\u88fd\u5316\u9812\u734e\u79ae\u54c1",
+        "content": "\u5168\u76db\u79ae\u54c1\u793e\u6210\u7acb\u65bc1999\u5e74\uff0c\u5275\u696d\u8fc4\u4eca\u5df2\u670920\u5e7e\u5e74\u7684\u734e\u76c3\u3001\u734e\u724c\u3001\u734e\u5ea7\u8207\u5404\u7a2e\u79ae\u54c1\u8a02\u88fd\u7684\u5c08\u696d\u7d93\u9a57\uff0c\u8207\u53f0\u5317\u5e02\u653f\u5e9c\u3001\u65b0\u5317\u5e02\u653f\u5e9c\u3001\u53ca\u5404 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.k29565511.com.tw",
+          "/tw",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Ruldu Singh Mansa, Jasbir Kaur Natt, Sukhdarshan ... - Facebook",
+        "content": "13 Dec 2021 \u00b7 It was organised by the Bharatiya Kisan Union (Ekta Ugrahan)\u2014the largest by far of the many farmers' unions protesting the laws. The Punjab ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://www.facebook.com/cpimlliberation/posts/ruldu-singh-mansa-jasbir-kaur-natt-sukhdarshan-singh-natt-and-other-leaders-and-/2976591229255690/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/cpimlliberation/posts/ruldu-singh-mansa-jasbir-kaur-natt-sukhdarshan-singh-natt-and-other-leaders-and-/2976591229255690/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.e-print.com.hk/products_Awards",
+        "title": "\u734e\u76c3\u3001\u734e\u5ea7\u3001\u734e\u724c\u3001\u734e\u72c0\u3001\u8b49\u66f8\u7b49\u734e\u9805\u985e\u7522\u54c1 \u6b61\u8fce\u8a02\u88fd - e-print",
+        "content": "e-print\u7db2\u4e0a\u5370\u5237\u516c\u53f8\uff0c\u63d0\u4f9b\u5c08\u696d\u7684\u5370\u5237\u670d\u52d9\uff0c\u5305\u62ec\u5404\u5f0f\u5404\u6a23\u7684\u734e\u9805\u985e\u7522\u54c1\uff0c\u5982\uff1a\u734e\u76c3\u3001\u734e\u5ea7\u3001\u6c34\u6676\u734e\u5ea7\u3001\u734e\u724c\u8a02\u88fd\uff0c\u8b49\u66f8\u53ca\u734e\u72c0 ...",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.e-print.com.hk",
+          "/products_Awards",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bharatiya Kisan Union Organises Kisan Diwas Programme at ...",
+        "content": "26 Aug 2026 \u00b7 8) Provide adequate compensation for job losses in the private sector. ... Bharatiya Kisan Union Ekta(Ugrahan)The words of the speakers ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://www.facebook.com/61556726154408/posts/bharatiya-kisan-union-organises-kisan-diwas-programme-at-warapora-soporewarapora/122316266474224205/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/61556726154408/posts/bharatiya-kisan-union-organises-kisan-diwas-programme-at-warapora-soporewarapora/122316266474224205/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.ptrophy.com/",
+        "title": "\u5353\u8d8a\u734e\u54c1 | \u9999\u6e2f\u7cbe\u88fd\u734e\u76c3\u30fb\u734e\u724c\u30fb\u4f01\u696d\u79ae\u54c1\u8a02\u88fd",
+        "content": "\u7cbe\u9078\u7522\u54c1\u5206\u985e \u5353\u8d8a\u734e\u54c1 Premier Trophy \u70ba\u9999\u6e2f\u4f01\u696d\u3001\u5b78\u6821\u3001\u6a5f\u69cb\u53ca\u5927\u578b\u6d3b\u52d5\u63d0\u4f9b\u734e\u76c3\u3001\u6c34\u6676\u734e\u5ea7\u3001\u734e\u724c\u3001\u6728\u76fe\u3001\u724c\u533e\u53ca\u4f01\u696d\u79ae\u54c1\u8a02\u88fd \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.ptrophy.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bharat Kisan Union Announces National Movement on ...",
+        "content": "20 Aug 2026 \u00b7 ... down on this account . He reminded Gandhi Ji's words that India ... Bharatiya Kisan Union (Ekta Ugrahan) during an interview with The ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.facebook.com/dainiksaverajammu/posts/bharat-kisan-union-announces-national-movement-on-farmers-issues-jk-statehood-an/122258548598091098/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/dainiksaverajammu/posts/bharat-kisan-union-announces-national-movement-on-farmers-issues-jk-statehood-an/122258548598091098/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.completes.com.tw/",
+        "title": "\u734e\u76c3\u8a02\u88fd\u3010\u8d08\u54c1\u7db2\u3011\u5ee3\u544a\u7b46\u5370\u5237\u3001\u570d\u88d9\u3001\u79ae\u8d08\u54c1\u8a2d\u8a08\u5de5\u5ee0",
+        "content": "\u5c08\u696d\u7af6\u8cfd\u734e\u76c3\u8a02\u88fd\u3001\u91d1\u5c6c\u734e\u76c3\u88fd\u4f5c\u3002\u5c08\u4eba\u5c0d\u7a3f\u3001\u79ae\u8d08\u54c1\u8a2d\u8a08\u670d\u52d9\u8cbc\u5fc3\u3001\u734e\u76c3\u8a02\u88fd\u5bc4\u4ef6\u8fc5\u901f\uff0c\u8209\u8fa6\u6bd4\u8cfd\u7684\u5c08\u696d\u597d\u4f19\u4f34\u3002\u6df1\u5f97\u5404\u754c\u597d\u8a55\uff0c \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.completes.com.tw",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "A Kisan Mahapanchayat was held regarding a permanent ...",
+        "content": "4 Jun 2026 \u00b7 The meeting condoled the tragic death of three women farmers belonging to Bharatiya Kisan Union Ekta (Ugrahan) in an accident while ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://www.facebook.com/comradevoix/posts/a-kisan-mahapanchayat-was-held-regarding-a-permanent-solution-to-the-hisar-ghagg/1514713330682980/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/comradevoix/posts/a-kisan-mahapanchayat-was-held-regarding-a-permanent-solution-to-the-hisar-ghagg/1514713330682980/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://trophyawards.com.tw/",
+        "title": "\u734e\u76c3\u734e\u724c\u5b9a\u5236\u5c08\u5bb6\uff5c\u5c08\u696d\u8a2d\u8a08\u8207\u88fd\u4f5c\u670d\u52d9 - \u53f0\u7063\u512a\u9078",
+        "content": "\u5c08\u696d\u63d0\u4f9b\u53f0\u7063\u5e02\u5834\u7684\u734e\u76c3\u3001\u734e\u724c\u53ca\u734e\u76c3\u5b9a\u5236\u670d\u52d9\uff0c\u5f9e\u8a2d\u8a08\u5230\u88fd\u4f5c\u4e00\u689d\u9f8d\uff0c\u6eff\u8db3\u5404\u985e\u6d3b\u52d5\u8207\u9812\u734e\u9700\u6c42\u3002\u591a\u6a23\u6750\u8cea\u9078\u64c7\uff0c\u7cbe\u7dfb\u5de5\u85dd\uff0c\u6253\u9020 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "trophyawards.com.tw",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Farmers Movement Special Issue SRJ Vol 6 No. 2",
+        "content": "... Bharatiya Kisan Union Ekta (Ugrahan), it is important to remain vigilant of the. government because the struggle is far from over.1 Samyukt Kisan Morcha, an.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.researchgate.net/publication/361250509_Farmers_Movement_Special_Issue_SRJ_Vol_6_No_2",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.researchgate.net",
+          "/publication/361250509_Farmers_Movement_Special_Issue_SRJ_Vol_6_No_2",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://winyangtrophy.com/",
+        "title": "\u6587\u6d0b\u79ae\u54c1 - \u5ba2\u88fd\u5316\u734e\u76c3\u3001\u7dad\u4fee\uff5c\u570b\u969b\u8cfd\u4e8b\uff5c\u5c08\u696d\u8a2d\u8a08",
+        "content": "\u6587\u6d0b\u662f\u4e00\u5bb6\u64c1\u6709\u591a\u5e74\u7d93\u9a57\u7684\u5ba2\u88fd\u5316\u734e\u76c3\u8a2d\u8a08\u516c\u53f8\uff0c\u63d0\u4f9b\u5404\u5f0f\u9ad8\u54c1\u8cea\u734e\u76c3\uff0c\u4e26\u63d0\u4f9b\u5ba2\u88fd\u5316\u8a2d\u8a08\u53ca\u7dad\u4fee\u670d\u52d9\u3002\u6211\u5011\u8207\u570b\u969b\u793e\u5718\u3001\u4f01\u696d\u54c1\u724c \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "winyangtrophy.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Crystallization of Mass Revolutionary Movement in Punjab in ...",
+        "content": "18 Oct 2020 \u00b7 A remarkable phenomena in recent times in Punjab is the manner the mass movement led by the Bharatiya Kisan Union Ekta (Ugrahan) which has ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://countercurrents.org/2020/10/crystallization-of-mass-revolutionary-movement-in-punjab-in-the-last-25-years-tribute-to-the-mass-line-of-t-nagi-reddy/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "countercurrents.org",
+          "/2020/10/crystallization-of-mass-revolutionary-movement-in-punjab-in-the-last-25-years-tribute-to-the-mass-line-of-t-nagi-reddy/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://trophy.com.hk/",
+        "title": "\u9999\u6e2f\u734e\u54c1\u79ae\u54c1\u516c\u53f8-\u6c34\u6676\u734e\u5ea7,\u6c34\u6676\u734e\u54c1,\u6c34\u6676\u5ea7,\u734e\u724c,\u7d00\u5ff5\u734e\u5ea7,Crystal trophy,\u6c34\u6676\u734e\u76c3,\u6c34\u6676\u734e\u724c,Medal,\u734e\u676f\u2026",
+        "content": "\u9999\u6e2f\u734e\u54c1\u984c\u4f9b\u5404\u5f0f \u734e\u5ea7,\u734e\u724c,\u6c34\u6676\u734e\u5ea7,Crystal,\u734e\u76c3,\u8a02\u9020\u734e\u54c1,Trophy,\u6c34\u6676\u734e\u724c,\u6c34\u6676\u734e\u76c3,\u79ae\u54c1,\u9326\u65d7,\u570b\u65d7\u5340\u65d7,\u9280\u789f,\u91d1\u5c6c\u8b49\u66f8,\u6728\u734e ...",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "trophy.com.hk",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Thousands of farmers marched towards Delhi on ... - Facebook",
+        "content": "21 Jul 2026 \u00b7 Farmers in India have shut down significant parts of the ... Bharatiya Kisan Union Ekta (Ugrahan) reached the protest site on Sunday.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.facebook.com/littleletterslinked/posts/thousands-of-farmers-marched-towards-delhi-on-monday-to-protest-against-the-prop/1687664262956019/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/littleletterslinked/posts/thousands-of-farmers-marched-towards-delhi-on-monday-to-protest-against-the-prop/1687664262956019/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://trophyhkstore.com/product-category/trophy_cup/",
+        "title": "100 designs \u734e\u76c3\u8a02\u88fd Stylish and Decent",
+        "content": "\u734e\u676f\u8a02\u9020\u9999\u6e2f \u734e\u76c3 \u7cbe\u5de5\u6253\u9020\uff5c\u5c08\u696d\u734e\u76c3\u8a02\u88fd\u670d\u52d9 \u70ba\u6d3b\u52d5\u589e\u6dfb\u69ae\u8000\uff0c\u5f9e\u4e00\u5ea7\u734e\u76c3\u958b\u59cb\u3002 \u5728\u6bcf\u4e00\u5834\u6bd4\u8cfd\u3001\u6bcf\u4e00\u6b21\u8868\u63da\u3001\u6bcf\u4e00\u500b\u503c\u5f97\u7d00\u5ff5 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "trophyhkstore.com",
+          "/product-category/trophy_cup/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "\u0938\u093e\u0917\u0930 \u092e\u0947\u0902 \u0915\u093f\u0938\u093e\u0928\u094b\u0902 \u0915\u093e \u092c\u0921\u093c\u093e \u0939\u0902\u0917\u093e\u092e\u093e \u092e\u094c\u0915\u0947 \u092a\u0930 \u0935\u093e\u0939\u0928\u094b\u0902 \u0915\u0940 \u092d\u0940\u0921\u093c \u0926\u0947\u0916 \u0926\u0902\u0917 \u0930\u0939 \u091c\u093e\u090f\u0902\u0917\u0947",
+        "content": "12 May 2026 \u00b7 Such things make farmers think that it's a conspiracy to shut FCI,\" he said. ... Bharatiya Kisan Union Ekta (Ugrahan) reached the protest site on ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://www.facebook.com/sagarexpressnews/posts/%E0%A4%B8%E0%A4%BE%E0%A4%97%E0%A4%B0-%E0%A4%AE%E0%A5%87%E0%A4%82-%E0%A4%95%E0%A4%BF%E0%A4%B8%E0%A4%BE%E0%A4%A8%E0%A5%8B%E0%A4%82-%E0%A4%95%E0%A4%BE-%E0%A4%AC%E0%A4%A1%E0%A4%BC%E0%A4%BE-%E0%A4%B9%E0%A4%82%E0%A4%97%E0%A4%BE%E0%A4%AE%E0%A4%BE-%E0%A4%AE%E0%A5%8C%E0%A4%95%E0%A5%87-%E0%A4%AA%E0%A4%B0-%E0%A4%B5%E0%A4%BE%E0%A4%B9%E0%A4%A8%E0%A5%8B%E0%A4%82-%E0%A4%95%E0%A5%80-%E0%A4%AD%E0%A5%80%E0%A4%A1%E0%A4%BC-%E0%A4%A6%E0%A5%87%E0%A4%96-%E0%A4%A6%E0%A4%82%E0%A4%97-%E0%A4%B0%E0%A4%B9-%E0%A4%9C%E0%A4%BE%E0%A4%8F%E0%A4%82%E0%A4%97%E0%A5%87sagar-ex/1300304895644448/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/sagarexpressnews/posts/%E0%A4%B8%E0%A4%BE%E0%A4%97%E0%A4%B0-%E0%A4%AE%E0%A5%87%E0%A4%82-%E0%A4%95%E0%A4%BF%E0%A4%B8%E0%A4%BE%E0%A4%A8%E0%A5%8B%E0%A4%82-%E0%A4%95%E0%A4%BE-%E0%A4%AC%E0%A4%A1%E0%A4%BC%E0%A4%BE-%E0%A4%B9%E0%A4%82%E0%A4%97%E0%A4%BE%E0%A4%AE%E0%A4%BE-%E0%A4%AE%E0%A5%8C%E0%A4%95%E0%A5%87-%E0%A4%AA%E0%A4%B0-%E0%A4%B5%E0%A4%BE%E0%A4%B9%E0%A4%A8%E0%A5%8B%E0%A4%82-%E0%A4%95%E0%A5%80-%E0%A4%AD%E0%A5%80%E0%A4%A1%E0%A4%BC-%E0%A4%A6%E0%A5%87%E0%A4%96-%E0%A4%A6%E0%A4%82%E0%A4%97-%E0%A4%B0%E0%A4%B9-%E0%A4%9C%E0%A4%BE%E0%A4%8F%E0%A4%82%E0%A4%97%E0%A5%87sagar-ex/1300304895644448/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "template": "default.html",
+        "title": "MA Khan has been appointed as the Vice President ... - Facebook",
+        "content": "12 Jul 2025 \u00b7 Bharatiya Kisan Union (Ekta Ugrahan), one of the biggest farmers' organisations in Punjab, will launch a campaign for alternative policies in ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.facebook.com/100089659303875/posts/ma-khan-has-been-appointed-as-the-vice-president-of-bharatiya-kisan-union-bku-jk/706210699044234/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/100089659303875/posts/ma-khan-has-been-appointed-as-the-vice-president-of-bharatiya-kisan-union-bku-jk/706210699044234/",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ]
+    ]
+  }
+}

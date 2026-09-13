@@ -1,0 +1,68 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\n      \"question_id\": \"q1_one_line\",\n      \"source_id\": \"S2\",\n      \"answer\": \"She advocates for climate action by promoting tree planting, supporting conservation, and pushing for policies that reduce fossil fuel emissions.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q2_type\",\n      \"source_id\": \"S2\",\n      \"answer\": \"individual\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q3_legs\",\n      \"source_id\": \"S2\",\n      \"answer\": \"activism\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q5_ecosystem_role\",\n      \"source_id\": \"S2\",\n      \"answer\": \"capacity-builder\",\n      \"confidence\": 0.7\n    },\n    {\n      \"question_id\": \"q9_contact_route\",\n      \"source_id\": \"S2\",\n      \"answer\": \"LinkedIn profile\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q15_ask_offer\",\n      \"source_id\": \"S2\",\n      \"answer\": \"offers educational resources (blog post, whitepaper) and advocacy outreach via LinkedIn\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q16_channel\",\n      \"source_id\": \"S4\",\n      \"answer\": \"Twitter/X (@BhavreenMK)\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q16_channel\",\n      \"source_id\": \"S2\",\n      \"answer\": \"LinkedIn profile\",\n      \"confidence\": 0.9\n    }\n  ],\n  \"claims\": [],\n  \"emits\": [],\n  \"edges\": [\n    {\n      \"dst_name\": \"climate change mitigation\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"LinkedIn post advocating reducing fossil fuel use, supporting policies promoting renewable energy, and tree planting to protect the planet.\",\n      \"stance\": null\n    }\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S2",
+    "answer": "She advocates for climate action by promoting tree planting, supporting conservation, and pushing for policies that reduce fossil fuel emissions.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S2",
+    "answer": "individual",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S2",
+    "answer": "activism",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S2",
+    "answer": "capacity-builder",
+    "confidence": 0.7
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S2",
+    "answer": "LinkedIn profile",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S2",
+    "answer": "offers educational resources (blog post, whitepaper) and advocacy outreach via LinkedIn",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S4",
+    "answer": "Twitter/X (@BhavreenMK)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S2",
+    "answer": "LinkedIn profile",
+    "confidence": 0.9
+   }
+  ],
+  "claims": [],
+  "emits": [],
+  "edges": [
+   {
+    "dst_name": "climate change mitigation",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "LinkedIn post advocating reducing fossil fuel use, supporting policies promoting renewable energy, and tree planting to protect the planet.",
+    "stance": null
+   }
+  ]
+ },
+ "parse_error": null
+}

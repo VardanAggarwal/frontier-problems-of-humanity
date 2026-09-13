@@ -1,0 +1,198 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\n      \"question_id\": \"q1_one_line\",\n      \"source_id\": \"S2\",\n      \"answer\": \"They held a protest (dharna) to make a toll plaza free of ticket charges.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q2_type\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Org\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q3_legs\",\n      \"source_id\": \"S2\",\n      \"answer\": \"activism\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q4_lifecycle\",\n      \"source_id\": \"S4\",\n      \"answer\": \"operating (as of 2024)\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q5_ecosystem_role\",\n      \"source_id\": \"S2\",\n      \"answer\": \"operator\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q6_affected_led\",\n      \"source_id\": \"S2\",\n      \"answer\": \"yes\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q7_representation_unit\",\n      \"source_id\": \"S2\",\n      \"answer\": \"local-affected\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q8_geography\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Punjab, India\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q9_contact_route\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Contact via district secretary Gurmeet Singh Kishanpura (named)\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q14_ask_need\",\n      \"source_id\": \"S4\",\n      \"answer\": \"Enact a law guaranteeing MSP for all crops\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q14_ask_need\",\n      \"source_id\": \"S4\",\n      \"answer\": \"Waive farmers' loans\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q14_ask_need\",\n      \"source_id\": \"S4\",\n      \"answer\": \"Withdraw electricity amendment bill 4040\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q14_ask_need\",\n      \"source_id\": \"S4\",\n      \"answer\": \"Punish those responsible for Lakhimpur Kheri incident\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q14_ask_need\",\n      \"source_id\": \"S4\",\n      \"answer\": \"Provide compensation and jobs to families of deceased farmers from Delhi Chalo agitation\",\n      \"confidence\": 0.9\n    }\n  ],\n  \"claims\": [\n    {\n      \"field\": \"title\",\n      \"value\": \"Bharatiya Kisan Union (Ekta Ugrahan)\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"type\",\n      \"value\": \"org\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"legs\",\n      \"value\": \"[\\\"activism\\\"]\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"depth\",\n      \"value\": \"tracked\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"lifecycle\",\n      \"value\": \"operating\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ecosystem_role\",\n      \"value\": \"[\\\"operator\\\"]\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"affected_led\",\n      \"value\": \"yes\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"representation_unit\",\n      \"value\": \"local-affected\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"stance\",\n      \"value\": \"works-the-remedy\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"geography\",\n      \"value\": \"Punjab, India\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"contact_route\",\n      \"value\": \"Contact via district secretary Gurmeet Singh Kishanpura (named)\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"ask:need:msp_guarantee\",\n      \"value\": \"Enact a law guaranteeing MSP for all crops\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:need:loan_waiver\",\n      \"value\": \"Waive farmers' loans\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:need:electricity_bill_withdrawal\",\n      \"value\": \"Withdraw electricity amendment bill 4040\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:need:punish_lakhimpur_kheri\",\n      \"value\": \"Punish those responsible for Lakhimpur Kheri incident\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:need:compensation_jobs\",\n      \"value\": \"Provide compensation and jobs to families of deceased farmers from Delhi Chalo agitation\",\n      \"confidence\": 0.9\n    }\n  ],\n  \"emits\": [\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Joginder Singh Ugrahan\",\n      \"hint\": \"Leader of Bharatiya Kisan Union (Ekta Ugrahan)\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Gurmeet Singh Kishanpura\",\n      \"hint\": \"District secretary of BKU Ekta Ugrahan mentioned in protest\",\n      \"signals\": {}\n    }\n  ],\n  \"edges\": [\n    {\n      \"dst_name\": \"Toll plaza fee issue\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"S2: किसानों के धरने के कारण टोल प्लाजा कंपनी को इस दो दिनों में साढ़े सात साल से 8 लाख रुपए का नुकसान झेलना पड़ा है।\"\n    }\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S2",
+    "answer": "They held a protest (dharna) to make a toll plaza free of ticket charges.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S2",
+    "answer": "Org",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S2",
+    "answer": "activism",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S4",
+    "answer": "operating (as of 2024)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S2",
+    "answer": "operator",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S2",
+    "answer": "yes",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S2",
+    "answer": "local-affected",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S2",
+    "answer": "Punjab, India",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S2",
+    "answer": "Contact via district secretary Gurmeet Singh Kishanpura (named)",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Enact a law guaranteeing MSP for all crops",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Waive farmers' loans",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Withdraw electricity amendment bill 4040",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Punish those responsible for Lakhimpur Kheri incident",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Provide compensation and jobs to families of deceased farmers from Delhi Chalo agitation",
+    "confidence": 0.9
+   }
+  ],
+  "claims": [
+   {
+    "field": "title",
+    "value": "Bharatiya Kisan Union (Ekta Ugrahan)",
+    "confidence": 0.9
+   },
+   {
+    "field": "type",
+    "value": "org",
+    "confidence": 0.9
+   },
+   {
+    "field": "legs",
+    "value": "[\"activism\"]",
+    "confidence": 0.9
+   },
+   {
+    "field": "depth",
+    "value": "tracked",
+    "confidence": 0.8
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating",
+    "confidence": 0.9
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "[\"operator\"]",
+    "confidence": 0.8
+   },
+   {
+    "field": "affected_led",
+    "value": "yes",
+    "confidence": 0.9
+   },
+   {
+    "field": "representation_unit",
+    "value": "local-affected",
+    "confidence": 0.8
+   },
+   {
+    "field": "stance",
+    "value": "works-the-remedy",
+    "confidence": 0.8
+   },
+   {
+    "field": "geography",
+    "value": "Punjab, India",
+    "confidence": 0.9
+   },
+   {
+    "field": "contact_route",
+    "value": "Contact via district secretary Gurmeet Singh Kishanpura (named)",
+    "confidence": 0.8
+   },
+   {
+    "field": "ask:need:msp_guarantee",
+    "value": "Enact a law guaranteeing MSP for all crops",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:loan_waiver",
+    "value": "Waive farmers' loans",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:electricity_bill_withdrawal",
+    "value": "Withdraw electricity amendment bill 4040",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:punish_lakhimpur_kheri",
+    "value": "Punish those responsible for Lakhimpur Kheri incident",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:compensation_jobs",
+    "value": "Provide compensation and jobs to families of deceased farmers from Delhi Chalo agitation",
+    "confidence": 0.9
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "Joginder Singh Ugrahan",
+    "hint": "Leader of Bharatiya Kisan Union (Ekta Ugrahan)",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Gurmeet Singh Kishanpura",
+    "hint": "District secretary of BKU Ekta Ugrahan mentioned in protest",
+    "signals": {}
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "Toll plaza fee issue",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S2: किसानों के धरने के कारण टोल प्लाजा कंपनी को इस दो दिनों में साढ़े सात साल से 8 लाख रुपए का नुकसान झेलना पड़ा है।"
+   }
+  ]
+ },
+ "parse_error": null,
+ "truncated": false
+}

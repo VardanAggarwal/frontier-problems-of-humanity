@@ -1,0 +1,38 @@
+# PoC-0b throwaway query-family templates. NOT engine/search/families.yaml
+# (track D owns that file; this is a disposable copy for the 120-query spike).
+#
+# Family definitions drawn verbatim from 03-worker.md §3 "Actor families" table.
+# `{name}` is the only slot needed for actor-anchored queries (all 20 sample
+# actors are actor-kind, not problem-kind, so the problem-family templates from
+# §3 are out of scope for this PoC).
+
+families:
+  - id: identity
+    template: '"{name}"'
+    question_ids: [one_line, type, legs, geography]
+
+  - id: money
+    template: '"{name}" funding raised grant crore'
+    question_ids: [funding, scale_metric, lifecycle]
+
+  - id: people
+    template: '"{name}" founder director leadership'
+    question_ids: [affected_led, representation_unit, founders]
+
+  - id: viability
+    template: '"{name}" revenue customers model'
+    question_ids: ["tag:viability_note", legs]
+
+  - id: failure
+    template: '"{name}" shut down closed pivot losses'
+    question_ids: ["tag:failure_note", lifecycle]
+
+  - id: reach
+    template: '"{name}" contact twitter newsletter'
+    question_ids: [contact_route, "channel:*"]
+
+# Note: 03-worker.md §3 lists a 7th actor family, "asks" (`"<name>" partnership
+# hiring seeking support`, targeting ask:need:* / ask:offer:*). The task brief
+# asked for ~6 families; "asks" is dropped from this throwaway PoC run to hit
+# 20 actors x 6 families = 120 queries exactly. Re-add for the real family set
+# in engine/search/families.yaml if track D wants full §3 coverage.

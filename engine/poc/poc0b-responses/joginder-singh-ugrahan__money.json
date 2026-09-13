@@ -1,0 +1,690 @@
+{
+  "slug": "joginder-singh-ugrahan",
+  "name": "Joginder Singh Ugrahan",
+  "family": "money",
+  "query": "\"Joginder Singh Ugrahan\" funding raised grant crore",
+  "question_ids": [
+    "funding",
+    "scale_metric",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.672,
+  "timestamp_utc": "2026-09-13T09:01:39.792447+00:00",
+  "request_index_this_run": 92,
+  "seconds_since_run_start": 2347.1,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "too many requests"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Joginder Singh Ugrahan\" funding raised grant crore",
+    "results": [
+      {
+        "url": "https://www.youtube.com/channel/UCSOYgLuAvj64O64Q9h9P5-w",
+        "title": "Thara bhai Jogindar - YouTube",
+        "content": "Thara Bhai Joginder Vlog Channel \ufe0fInstagram Username - @thara.Bhai.jogindar ( 20 Million ) Facebook - Thara Bhai Joginder ( 10 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/channel/UCSOYgLuAvj64O64Q9h9P5-w",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "The Tatva - Facebook",
+        "content": "22 Feb 2021 \u00b7 In a shocking development, Bharatiya Kisan Union (Ekta-Ugrahan) president Joginder Singh Ugrahan has dared police personnel of Delhi and Punjab ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://www.facebook.com/thetatvaindia/posts/in-a-shocking-development-bharatiya-kisan-union-ekta-ugrahan-president-joginder-/290170475858605/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/thetatvaindia/posts/in-a-shocking-development-bharatiya-kisan-union-ekta-ugrahan-president-joginder-/290170475858605/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.instagram.com/thara.bhai.jogindar/",
+        "title": "Thara Bhai Jogindar ( Jogindar Yadav ) (@thara.bhai ... - Instagram",
+        "content": "19M Followers, 347 Following, 1,397 Posts - See Instagram photos and videos from Thara Bhai Jogindar ( Jogindar Yadav ) \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/thara.bhai.jogindar/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "5 Crore Row, ED's 3rd Letter, Govt vs Employees, Farmers ...",
+        "content": "1 Sept 2026 \u00b7 Leaders of the Samyukt Kisan Morcha, including Balbir Singh Rajewal, Joginder Singh Ugrahan ... In other words rats literally eat away lakhs of ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://www.facebook.com/ConnectMnetwork/posts/punjab-news-5-crore-row-eds-3rd-letter-govt-vs-employees-farmers-protest-power-c/1310923275442995/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/ConnectMnetwork/posts/punjab-news-5-crore-row-eds-3rd-letter-govt-vs-employees-farmers-protest-power-c/1310923275442995/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://starsunfolded.com/thara-bhai-joginder/",
+        "title": "Thara Bhai Joginder Age, Wife, Family, Biography & More",
+        "content": "In 2020, he created a YouTube channel, Thara Bhai Joginder; the channel has more than 125k subscribers. He is very active on \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "starsunfolded.com",
+          "/thara-bhai-joginder/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Farmer Protests: Bhartiya Kisan Union (Ekta-Ugrahan) Under ...",
+        "content": "20 Dec 2020 \u00b7 BKU President Joginder Singh Ugrahan said, \u201cBKU is being targeted by the central authorities for evoking a massive response from Indians and ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://swarajyamag.com/insta/farmer-protests-bhartiya-kisan-union-ekta-ugrahan-under-fcra-lens-over-foreign-funding",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "swarajyamag.com",
+          "/insta/farmer-protests-bhartiya-kisan-union-ekta-ugrahan-under-fcra-lens-over-foreign-funding",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Joginder_Sharma",
+        "title": "Joginder Sharma - Wikipedia",
+        "content": "DSP Joginder Sharma \u24d8 (born 23 October 1983) is an Indian police officer and former professional cricketer who currently serves as \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Joginder_Sharma",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Farmers' union to join Jantar Mantar protest on July 27",
+        "content": "BKU (Ekta Ugrahan) president Joginder Singh Ugrahan said on Friday that the union had joined the movement late but would now stand firmly with the protesters.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://newsarenaindia.com/states/farmers-union-to-join-jantar-mantar-protest-on-july-27/83112",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "newsarenaindia.com",
+          "/states/farmers-union-to-join-jantar-mantar-protest-on-july-27/83112",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://wikibio.in/thara-bhai-joginder/",
+        "title": "Thara Bhai Joginder Wiki, Age, Wife, Family, Biography & More",
+        "content": "Nov 27, 1994 \u00b7 He started posting videos containing dialogues. One such dialogue which became his signature style was \u2018Thara Bhai \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "wikibio.in",
+          "/thara-bhai-joginder/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "MoS Agriculture Bhagirath Choudhary responds to \u20b999 Lakh ...",
+        "content": "27 Jun 2026 \u00b7 ... raised from Rs 15,000 crore to Rs 18,000 crore. The government ... Joginder Singh Ugrahan, Shivkumar Sharma 'Kakkaji', Yudhvir Singh ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://www.facebook.com/ANINEWS.IN/posts/mos-agriculture-bhagirath-choudhary-responds-to-99-lakh-farm-subsidy-report-deni/1493218496338795/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/ANINEWS.IN/posts/mos-agriculture-bhagirath-choudhary-responds-to-99-lakh-farm-subsidy-report-deni/1493218496338795/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=U-44HVu4qe8",
+        "title": "Best Of Bhai Joginder Singh Ji Riar Vol 2 - YouTube",
+        "content": "Feb 11, 2016 \u00b7 Most Popular Kirtan By Bhai Joginder Singh Ji Riar : \u2022 Vin Boleya Sabh Kish Janda - Bhai Joginder...",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=U-44HVu4qe8",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Joint meeting of kisan organisations to be held on July 6th ...",
+        "content": "1 Jul 2022 \u00b7 ... Joginder Singh Ugrahan and State General Secretary Sukhdev Singh ... The subsidy amount should be increased to Rs 20,000 crore from the existing ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.facebook.com/bkuektaugrahan/posts/joint-meeting-of-kisan-organisations-to-be-held-on-july-6th-water-crisis-of-punj/1423263971526075/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/bkuektaugrahan/posts/joint-meeting-of-kisan-organisations-to-be-held-on-july-6th-water-crisis-of-punj/1423263971526075/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Joginder",
+        "title": "Joginder - Wikipedia",
+        "content": "Joginder (real name Joginder Shelly) was an Indian actor, director, producer, writer, singer, songwriter and distributor. Two Hindi \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Joginder",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "February | 2021 - Sanjha Morcha",
+        "content": "21 Feb 2021 \u00b7 Addressing the gathering, Bharti Kisan Union (Ekta Ugrahan) president Joginder Singh Ugrahan slammed the BJP-led Centre for bringing the three \u201c ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.sanjhamorcha.com/2021/02/page/7/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.sanjhamorcha.com",
+          "/2021/02/page/7/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.facebook.com/Thara.Bhai.Joginder/reels/",
+        "title": "Thara Bhai Joginder - Facebook",
+        "content": "Yo Joginder Thara Bhai Joginder \u092e\u0926\u0924 \u0915\u0947 \u0932\u093f\u090f WhatsApp.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/Thara.Bhai.Joginder/reels/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN) - Facebook",
+        "content": "19 Jun 2026 \u00b7 Prime Minister will also release equity grant of more than 14 crore ... Joginder Singh Ugrahan, Shivkumar Sharma 'Kakkaji', Yudhvir Singh ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.facebook.com/agriGoI/posts/pradhan-mantri-kisan-samman-nidhi-pm-kisan-23rd-installmentanother-significant-s/1327145222915964/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/agriGoI/posts/pradhan-mantri-kisan-samman-nidhi-pm-kisan-23rd-installmentanother-significant-s/1327145222915964/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.instagram.com/jogi23sharma/",
+        "title": "Joginder Sharma (@jogi23sharma) \u2022 Instagram photos and videos",
+        "content": "151K Followers, 423 Following, 1,527 Posts - \ud83c\udfcfJoginder Sharma \ud83c\udfcf (@jogi23sharma) on Instagram: \"Joginder Sharma \ud83c\udfcf Cricketer \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/jogi23sharma/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Farmers: No Need for Freebies, But Sound Policies - Krishi Jagran",
+        "content": "... about them,\" stated Joginder Singh Ugrahan, president of BKU (Ekta Ugrahan). Media Poster. Loading... Loading... Oops! Something went wrong. Enable sound.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://krishijagran.com/agriculture-world/farmers-no-need-for-freebies-but-sound-policies/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "krishijagran.com",
+          "/agriculture-world/farmers-no-need-for-freebies-but-sound-policies/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.sarkarinaukriexams.com/joginder-net-worth-bio-bp",
+        "title": "Thara bhai Joginder Net Worth, Biography, Family, Girlfriend, Age",
+        "content": "Jul 31, 2023 \u00b7 Joginder Yadav, an extraordinary Indian YouTuber known for his captivating character, Thara Bhai Joginder, was born \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.sarkarinaukriexams.com",
+          "/joginder-net-worth-bio-bp",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "CPI(ML) MP Sudama Prasad, speaking in the Lok Sabha on ...",
+        "content": "18 Mar 2026 \u00b7 ... Joginder Singh Ugrahan, Shivkumar Sharma 'Kakkaji', Yudhvir Singh ... raised from Rs 15,000 crore to Rs 18,000 crore. The government ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.facebook.com/cpimlliberation/posts/cpiml-mp-sudama-prasad-speaking-in-the-lok-sabha-on-the-demands-for-grants-for-a/1452945536184960/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/cpimlliberation/posts/cpiml-mp-sudama-prasad-speaking-in-the-lok-sabha-on-the-demands-for-grants-for-a/1452945536184960/",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "too many requests"
+      ]
+    ]
+  }
+}

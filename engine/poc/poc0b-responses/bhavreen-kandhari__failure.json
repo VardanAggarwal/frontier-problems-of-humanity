@@ -1,0 +1,695 @@
+{
+  "slug": "bhavreen-kandhari",
+  "name": "Bhavreen Kandhari",
+  "family": "failure",
+  "query": "\"Bhavreen Kandhari\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.693,
+  "timestamp_utc": "2026-09-13T09:08:30.743140+00:00",
+  "request_index_this_run": 107,
+  "seconds_since_run_start": 2758.1,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "mojeek",
+      "Suspended: access denied"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [],
+  "raw_response": {
+    "query": "\"Bhavreen Kandhari\" shut down closed pivot losses",
+    "results": [
+      {
+        "url": "https://support.google.com/youtube/answer/9158808?hl=es-419&co=GENIE.Platform%3DDesktop",
+        "title": "Obt\u00e9n un descuento para estudiantes de YouTube Premium o \u2026",
+        "content": "Ofrecemos varias opciones para ampliar tu experiencia en YouTube. Puedes registrarte para obtener una membres\u00eda para \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/answer/9158808",
+          "",
+          "hl=es-419&co=GENIE.Platform%3DDesktop",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Super pollutants: the \"emergency brake\" on climate change ...",
+        "content": "Super pollutants: the \"emergency brake\" on climate change. View profile for Bhavreen Kandhari \u00b7 Bhavreen Kandhari. Passionate #WarriorMom driving Clean Air ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://www.linkedin.com/posts/bhavreen-kandhari-80283026a_reducing-emissions-of-super-pollutants-activity-7310353077897699328-L6IS",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/posts/bhavreen-kandhari-80283026a_reducing-emissions-of-super-pollutants-activity-7310353077897699328-L6IS",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/youtubemusic/answer/6313529?hl=de",
+        "title": "Was ist YouTube Music? - YouTube Music-Hilfe - Google Help",
+        "content": "Mit der YouTube Music App kannst du dir Musikvideos ansehen, \u00fcber deine Lieblingsk\u00fcnstler informiert bleiben und auf allen deinen \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtubemusic/answer/6313529",
+          "",
+          "hl=de",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "iHub Gujarat - Facebook",
+        "content": "19 Mar 2026 \u00b7 ... Bhavreen Kandhari to see if we can offer solutions to bring down vehicular pollution, execute GRAP and much more. #PollutionCrisis ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://www.facebook.com/ihubgujarat/posts/voices-driving-the-clean-air-conversation-at-air-commons-2026-speakers-bring-tog/1382764010556772/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/ihubgujarat/posts/voices-driving-the-clean-air-conversation-at-air-commons-2026-speakers-bring-tog/1382764010556772/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/youtubemusic/answer/11418178?hl=ja&co=GENIE.Platform%3DAndroid",
+        "title": "YouTube Music \u30cf\u30a4\u30e9\u30a4\u30c8\u3092\u8868\u793a\u3059\u308b",
+        "content": "YouTube \u3067 [\u3042\u306a\u305f\u306e\u30cf\u30a4\u30e9\u30a4\u30c8] \u3092\u958b\u304f YouTube \u3068 YouTube Music \u30cf\u30a4\u30e9\u30a4\u30c8\u306e\u4e21\u65b9\u306e\u3054\u5229\u7528\u5bfe\u8c61\u3068\u306a\u3063\u3066\u3044\u308b\u5834\u5408\u306f\u3001\u6b21\u306e\u624b \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtubemusic/answer/11418178",
+          "",
+          "hl=ja&co=GENIE.Platform%3DAndroid",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "So Asees & #Asheer join the #youngvoices on #BBCWorld just ...",
+        "content": "11 Jun 2021 \u00b7 power puff gals ! ... So, if you're interested, comment the issue you want to work on and the region you're from down below and we'll get back to ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://www.facebook.com/bhavreen.kandhari/posts/so-asees-asheer-join-the-youngvoices-on-bbcworld-just-ahead-of-the-g7summit-to-d/10222484593296386/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/bhavreen.kandhari/posts/so-asees-asheer-join-the-youngvoices-on-bbcworld-just-ahead-of-the-g7summit-to-d/10222484593296386/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/youtubemusic/answer/9231765?hl=es-419&co=GENIE.Platform%3DDesktop",
+        "title": "Usa YouTube Music en otras apps y dispositivos",
+        "content": "YouTube Music se integra en varias apps y servicios para que puedas disfrutar de una excelente experiencia de reproducci\u00f3n en \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtubemusic/answer/9231765",
+          "",
+          "hl=es-419&co=GENIE.Platform%3DDesktop",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Outrage + Optimism - Apple Podcasts",
+        "content": "We meet Bhavreen Kandhari, who stopped relying on the government's air quality figures and started keeping her own. Now, she says, every citizen is a scientist.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://podcasts.apple.com/ae/podcast/outrage-optimism/id1459416461",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "podcasts.apple.com",
+          "/ae/podcast/outrage-optimism/id1459416461",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/youtubemusic/answer/6313542?hl=es-419",
+        "title": "Personaliza tu m\u00fasica y tus podcasts - Ayuda de YouTube Music",
+        "content": "Para descubrir m\u00fasica y podcasts m\u00e1s personalizados, accede a YouTube Music con tu Cuenta de Google. Obtendr\u00e1s \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtubemusic/answer/6313542",
+          "",
+          "hl=es-419",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Day 5 Session by Ms Bhargavi Rao, Mr Ranjan ... - Instagram",
+        "content": "10 Jun 2024 \u00b7 Day 5 Session by Ms Bhargavi Rao, Mr Ranjan Panda, Ms Bhavreen Kandhari & Prof Shyamala Mani & Mr Verhaen Khanna",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://www.instagram.com/p/C8CbfS0PpGR/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/p/C8CbfS0PpGR/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/youtubemusic/answer/9027741?hl=fr",
+        "title": "R\u00e9soudre les probl\u00e8mes li\u00e9s \u00e0 YouTube Music",
+        "content": "Consultez les probl\u00e8mes courants li\u00e9s \u00e0 YouTube Music et les \u00e9tapes de d\u00e9pannage pour les r\u00e9soudre. Pour r\u00e9soudre un grand \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtubemusic/answer/9027741",
+          "",
+          "hl=fr",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "[PDF] Caring for children and the planet The Climate Issue",
+        "content": "Bhavreen Kandhari is an Indian activist who trained as a copywriter, and is the mother of 17-year- old twins. She helps to run campaigns including.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://earlychildhoodmatters.online/wp-content/uploads/2021/12/ECM2021_WEB_single-pages.pdf",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "earlychildhoodmatters.online",
+          "/wp-content/uploads/2021/12/ECM2021_WEB_single-pages.pdf",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/youtubemusic/answer/9716522?hl=de",
+        "title": "Musik in deine YouTube Music-Mediathek hochladen",
+        "content": "YouTube Music Premium-Mitglieder k\u00f6nnen hochgeladene Inhalte auch streamen und \u00fcber smarte Lautsprecher und Sonos \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtubemusic/answer/9716522",
+          "",
+          "hl=de",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "What It Takes to Get Government Support for Clean Air",
+        "content": "6 days ago \u00b7 ... Bhavreen Kandhari to see if we can offer solutions to bring down vehicular pollution, execute GRAP and much more. #PollutionCrisis ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.facebook.com/Outlookbusiness/posts/what-it-takes-to-get-government-support-for-clean-air-outlook-businesshow-can-ci/1487715893376788/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/Outlookbusiness/posts/what-it-takes-to-get-government-support-for-clean-air-outlook-businesshow-can-ci/1487715893376788/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/youtubemusic/?hl=id",
+        "title": "Bantuan YouTube Music - Google Help",
+        "content": "Pusat Bantuan YouTube Music resmi tempat Anda dapat menemukan kiat dan tutorial tentang cara menggunakan produk dan \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtubemusic/",
+          "",
+          "hl=id",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "[PDF] Final Annual Report 2022_Original - Greenpeace",
+        "content": "15 Jun 2025 \u00b7 As Bhavreen Kandhari of Warrior Moms noted,. \u201cPollution is exacerbating health complications, especially for women and children. It's no ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.greenpeace.org/static/planet4-india-stateless/2025/06/79455ef7-final-annual-report-2022.pdf",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.greenpeace.org",
+          "/static/planet4-india-stateless/2025/06/79455ef7-final-annual-report-2022.pdf",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/youtubemusic/answer/9231765?hl=th&co=GENIE.Platform%3DDesktop",
+        "title": "\u0e43\u0e0a\u0e49 YouTube Music \u0e1a\u0e19\u0e41\u0e2d\u0e1b\u0e41\u0e25\u0e30\u0e2d\u0e38\u0e1b\u0e01\u0e23\u0e13\u0e4c\u0e2d\u0e37\u0e48\u0e19\u0e46",
+        "content": "\u0e2b\u0e21\u0e32\u0e22\u0e40\u0e2b\u0e15\u0e38: \u0e1b\u0e23\u0e30\u0e2a\u0e1a\u0e01\u0e32\u0e23\u0e13\u0e4c\u0e01\u0e32\u0e23\u0e43\u0e0a\u0e49\u0e07\u0e32\u0e19 YouTube Music \u0e1a\u0e19\u0e2d\u0e38\u0e1b\u0e01\u0e23\u0e13\u0e4c\u0e17\u0e35\u0e48\u0e40\u0e0a\u0e37\u0e48\u0e2d\u0e21\u0e15\u0e48\u0e2d\u0e08\u0e30\u0e2d\u0e34\u0e07\u0e15\u0e32\u0e21\u0e01\u0e32\u0e23\u0e15\u0e31\u0e49\u0e07\u0e04\u0e48\u0e32\u0e04\u0e27\u0e32\u0e21\u0e40\u0e1b\u0e47\u0e19\u0e2a\u0e48\u0e27\u0e19\u0e15\u0e31\u0e27\u0e02\u0e2d\u0e07 Google \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtubemusic/answer/9231765",
+          "",
+          "hl=th&co=GENIE.Platform%3DDesktop",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "[PDF] The Prism: April Issue - IILM University",
+        "content": "Bhavreen Kandhari of Warrior Moms and Abhishek Jain of the Council on Energy, Environment and Water (CEEW) explored how citizen action, data-informed.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://iilm.edu/greater-noida/wp-content/uploads/sites/3/2026/05/The-Prism-April-Issue.pdf",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "iilm.edu",
+          "/greater-noida/wp-content/uploads/sites/3/2026/05/The-Prism-April-Issue.pdf",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://support.google.com/youtube/answer/13401025?hl=zh-Hant",
+        "title": "\u5728 YouTube Music \u641c\u5c0b\u97f3\u6a02\u548c Podcast",
+        "content": "\u900f\u904e\u300c\u9996\u9801\u300d\u5206\u9801\u63a2\u7d22\u97f3\u6a02\u548c Podcast \u4f7f\u7528 Google \u5e33\u6236\u767b\u5165 YouTube Music \u5f8c\uff0c\u5c31\u80fd\u67e5\u770b\u81ea\u8a02\u96fb\u53f0\uff0c\u7cfb\u7d71\u4e5f\u6703\u4f9d\u4f60\u7576\u4e0b\u7684\u5fc3\u60c5\u3001\u6d3b \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/answer/13401025",
+          "",
+          "hl=zh-Hant",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "The Climate Question \u2014 Hamro Patro Podcasts",
+        "content": "Her guests are Bhavreen Kandhari, a clean air campaigner from Delhi; Dr Susan Chomba, a Kenyan forest scientist and environmentalist; and Dr Elizabeth ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.hamropatro.com/en/podcasts/1787214588443",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.hamropatro.com",
+          "/en/podcasts/1787214588443",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "mojeek",
+        "Suspended: access denied"
+      ]
+    ]
+  }
+}

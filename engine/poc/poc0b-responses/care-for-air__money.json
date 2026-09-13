@@ -1,0 +1,343 @@
+{
+  "slug": "care-for-air",
+  "name": "Care for Air",
+  "family": "money",
+  "query": "\"Care for Air\" funding raised grant crore",
+  "question_ids": [
+    "funding",
+    "scale_metric",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.298,
+  "timestamp_utc": "2026-09-13T09:12:28.806601+00:00",
+  "request_index_this_run": 116,
+  "seconds_since_run_start": 2996.1,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ],
+    [
+      "mojeek",
+      "Suspended: access denied"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [],
+  "raw_response": {
+    "query": "\"Care for Air\" funding raised grant crore",
+    "results": [
+      {
+        "url": "https://www.careinsurance.com/",
+        "title": "Care Insurance - Awarded as Best Claim Settlement Company of the \u2026",
+        "content": "Care Insurance is one of the best health insurance companies in India, offering various types of health and travel insurance to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.careinsurance.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://selfcare.careinsurance.com/",
+        "title": "Care Health Insurance - Self Help Portal",
+        "content": "Our Products Health Insurance Family Health Insurance Senior Citizen Health Insurance Critical Illness Insurance 1 Crore Health \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "selfcare.careinsurance.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.careinsurance.com/health-insurance/",
+        "title": "Health Insurance \u2013 Buy Best Medical Insurance Plans Online",
+        "content": "As one of the leading health insurance providers in India, Care Health Insurance offers tailor-made services, swift claim settlements, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.careinsurance.com",
+          "/health-insurance/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://dictionary.cambridge.org/dictionary/english/care",
+        "title": "CARE | English meaning - Cambridge Dictionary",
+        "content": "in the care ofThe childrenwere leftin the care of a neighbour. Synonyms. charge(CONTROL) custody(CARE)",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "dictionary.cambridge.org",
+          "/dictionary/english/care",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.merriam-webster.com/dictionary/care",
+        "title": "CARE Definition & Meaning - Merriam-Webster",
+        "content": "6 days ago \u00b7 care implies oppression of the mind weighed down by responsibility or disquieted by apprehension. concern implies a \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.merriam-webster.com",
+          "/dictionary/care",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.care.org/",
+        "title": "CARE - Fighting Global Poverty and World Hunger",
+        "content": "CARE is an international humanitarian organization fighting global poverty and world hunger by working alongside women and girls. \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.care.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.thefreedictionary.com/Care",
+        "title": "Care - definition of care by The Free Dictionary",
+        "content": "A concerned or troubled state of mind, as that arising from serious responsibility; worry. b. An object or source of worry, attention, or \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.thefreedictionary.com",
+          "/Care",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.dictionary.com/browse/care",
+        "title": "CARE Definition & Meaning | Dictionary.com",
+        "content": "Address my mail in care of the American Embassy. grief; suffering; sorrow. to be concerned or solicitous; have thought or regard. \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.dictionary.com",
+          "/browse/care",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://dictionary.cambridge.org/us/dictionary/english/care",
+        "title": "CARE | definition in the Cambridge English Dictionary",
+        "content": "in the care of The children were left in the care of a neighbor. take good care Take good care of that girl of yours, Patrick - she's very \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "dictionary.cambridge.org",
+          "/us/dictionary/english/care",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.vocabulary.com/dictionary/care",
+        "title": "Care - Definition, Meaning & Synonyms | Vocabulary.com",
+        "content": "To care is to feel concern, and care is attention given, tending, or upkeep. If you care about how your garden grows, you will take \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.vocabulary.com",
+          "/dictionary/care",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ],
+      [
+        "mojeek",
+        "Suspended: access denied"
+      ]
+    ]
+  }
+}

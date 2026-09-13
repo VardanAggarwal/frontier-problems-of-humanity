@@ -1,0 +1,690 @@
+{
+  "slug": "bku-ekta-ugrahan",
+  "name": "Bharatiya Kisan Union (Ekta Ugrahan)",
+  "family": "money",
+  "query": "\"Bharatiya Kisan Union (Ekta Ugrahan)\" funding raised grant crore",
+  "question_ids": [
+    "funding",
+    "scale_metric",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.691,
+  "timestamp_utc": "2026-09-13T08:59:10.945634+00:00",
+  "request_index_this_run": 86,
+  "seconds_since_run_start": 2198.3,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Bharatiya Kisan Union (Ekta Ugrahan)\" funding raised grant crore",
+    "results": [
+      {
+        "template": "default.html",
+        "title": "BKU (Ekta Ugrahan) announces indefinite stir in Patiala on Aug ...",
+        "content": "26 Aug 2026 \u00b7 Patiala: The Bharatiya Kisan Union (Ekta Ugrahan) will launch a district-level indefinite protest in Patiala on August 30 against the ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://timesofindia.indiatimes.com/city/chandigarh/bku-ekta-ugrahan-announces-indefinite-stir-in-patiala-on-aug-30/articleshow/133523025.cms",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "timesofindia.indiatimes.com",
+          "/city/chandigarh/bku-ekta-ugrahan-announces-indefinite-stir-in-patiala-on-aug-30/articleshow/133523025.cms",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://github.com/0xk1h0/ChatGPT_DAN",
+        "title": "GitHub - 0xk1h0/ChatGPT_DAN: ChatGPT DAN, Jailbreaks prompt",
+        "content": "ChatGPT DAN, Jailbreaks prompt. Contribute to 0xk1h0/ChatGPT_DAN development by creating an account on GitHub.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "github.com",
+          "/0xk1h0/ChatGPT_DAN",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Farmers' union to join Jantar Mantar protest on July 27",
+        "content": "The Bharatiya Kisan Union (Ekta Ugrahan), one of Punjab's major farmers' organisations, has stated that it will travel to Delhi on July 27 to support the ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://newsarenaindia.com/states/farmers-union-to-join-jantar-mantar-protest-on-july-27/83112",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "newsarenaindia.com",
+          "/states/farmers-union-to-join-jantar-mantar-protest-on-july-27/83112",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.reddit.com/r/AITAH/",
+        "title": "r/AITAH - Reddit",
+        "content": "this is a community like r/AmITheAsshole except unlike that subreddit here you can post interpersonal conflicts, anything that's AITA \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.reddit.com",
+          "/r/AITAH/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Patiala :- The Bharti Kisan Union (Ekta-Sidhupur) appeared to ...",
+        "content": "7 Jan 2026 \u00b7 Bharatiya Kisan Union (Ekta Ugrahan), one of the biggest farmers' organisations in Punjab, will launch a campaign for alternative policies in ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://www.facebook.com/PaigaamNews/posts/patiala-the-bharti-kisan-union-ekta-sidhupur-appeared-to-split-into-two-factions/1413882317416394/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/PaigaamNews/posts/patiala-the-bharti-kisan-union-ekta-sidhupur-appeared-to-split-into-two-factions/1413882317416394/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.reddit.com/r/ChatGPT/top/",
+        "title": "ChatGPT - Reddit",
+        "content": "Dec 1, 2022 \u00b7 r/ChatGPT: Subreddit to discuss about ChatGPT and AI. Not affiliated with OpenAI.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.reddit.com",
+          "/r/ChatGPT/top/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Farmers under the banner of Bhartiya Kisan Union took out a ...",
+        "content": "24 Jan 2021 \u00b7 corporations give thousands of crores of election money, bribes ... The Bharatiya Kisan Union (Ekta Ugrahan)'s tractor convoy is going ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.facebook.com/TimesofIndia/posts/farmers-under-the-banner-of-bhartiya-kisan-union-took-out-a-tractor-rally-in-bho/10159449852667139/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/TimesofIndia/posts/farmers-under-the-banner-of-bhartiya-kisan-union-took-out-a-tractor-rally-in-bho/10159449852667139/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.zhihu.com/question/2075903044676315058",
+        "title": "\u77e5\u4e4e",
+        "content": "",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/question/2075903044676315058",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "'Khet Bachao Abhiyaan' held in Siliguri in collaboration with ...",
+        "content": "6 Jul 2026 \u00b7 ... raised. Comrades Hannan Mollah, Ashok Bhattacharya, Jibesh Sarkar ... Bharatiya Kisan Union (Ekta Ugrahan) during an interview with The ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://www.facebook.com/siliguritimes/posts/khet-bachao-abhiyaan-held-in-siliguri-in-collaboration-with-cofam-and-bharatiya-/1372569321682459/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/siliguritimes/posts/khet-bachao-abhiyaan-held-in-siliguri-in-collaboration-with-cofam-and-bharatiya-/1372569321682459/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://github.com/miuuyy/codex-chatgpt-web",
+        "title": "GitHub - miuuyy/codex-chatgpt-web: Use ChatGPT Web (including \u2026",
+        "content": "Use ChatGPT Web (including Pro) as a native model in Codex \u2014 with context, tools, streaming and images, without using Codex \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "github.com",
+          "/miuuyy/codex-chatgpt-web",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "The Tatva - Facebook",
+        "content": "22 Feb 2021 \u00b7 In a shocking development, Bharatiya Kisan Union (Ekta-Ugrahan) ... crore farmers supported the laws.\u201d \u2022 out of the 73 farmers ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.facebook.com/thetatvaindia/posts/in-a-shocking-development-bharatiya-kisan-union-ekta-ugrahan-president-joginder-/290170475858605/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/thetatvaindia/posts/in-a-shocking-development-bharatiya-kisan-union-ekta-ugrahan-president-joginder-/290170475858605/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.zhihu.com/question/67273658",
+        "title": "\u6709\u6ca1\u6709\u597d\u7684\u79bb\u7ebf\u7ffb\u8bd1\u8f6f\u4ef6\uff0c\u7535\u8111\u7684\uff1f - \u77e5\u4e4e",
+        "content": "\u5148\u8bf4\u7ed3\u8bba:\u6709 \u7531\u4e8e\u4f20\u7edf\u7814\u53d1\u7ffb\u8bd1\u5f15\u64ce\u9700\u8981\u5de8\u989d\u6295\u5165\uff0c\u4e00\u76f4\u88ab\u5927\u5382\u6280\u672f\u5784\u65ad\uff0c\u6240\u4ee5\u8fd9\u4e48\u591a\u5e74\u6765\uff0c\u90fd\u6ca1\u6709\u4e00\u6b3e\u771f\u6b63\u79bb\u7ebf\u7ffb\u8bd1\u30022024\u5e74\u4e4b\u524d\u6240 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/question/67273658",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Farmers protest: MSP law demand is connected to an ... - Scroll.in",
+        "content": "17 Feb 2024 \u00b7 ... Bharatiya Kisan Union Ekta Ugrahan, one of the farmer groups participating in the protest. \u201cOn the other hand, they are telling us to take ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://scroll.in/article/1063821/the-farmers-demand-for-an-msp-law-is-linked-to-an-environmental-crisis-heres-how",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "scroll.in",
+          "/article/1063821/the-farmers-demand-for-an-msp-law-is-linked-to-an-environmental-crisis-heres-how",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://github.com/karpathy/nanochat",
+        "title": "NanoChat \u2013 The best ChatGPT that $100 can buy - GitHub",
+        "content": "Oct 13, 2025 \u00b7 The best ChatGPT that $100 can buy. Contribute to karpathy/nanochat development by creating an account on GitHub.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "github.com",
+          "/karpathy/nanochat",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Crystallization of Mass Revolutionary Movement in Punjab in ...",
+        "content": "18 Oct 2020 \u00b7 It was jointly held by the Bharatiya Kisan Union-Ekta(Ugrahan) and the Punjab Khet Mazdoor Union. ... Join Countercurrents Annual Fund Raising ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://countercurrents.org/2020/10/crystallization-of-mass-revolutionary-movement-in-punjab-in-the-last-25-years-tribute-to-the-mass-line-of-t-nagi-reddy/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "countercurrents.org",
+          "/2020/10/crystallization-of-mass-revolutionary-movement-in-punjab-in-the-last-25-years-tribute-to-the-mass-line-of-t-nagi-reddy/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://github.com/f/prompts.chat",
+        "title": "GitHub - f/prompts.chat: f.k.a. Awesome ChatGPT Prompts. Share ...",
+        "content": "f.k.a. Awesome ChatGPT Prompts. Share, discover, and collect prompts from the community. Free and open source \u2014 self-host for \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "github.com",
+          "/f/prompts.chat",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "The Panjab University Bachao Morcha extended heartfelt gratitude ...",
+        "content": "... Bharatiya Kisan Union Ekta(Ugrahan)The words of the speakers literally melted the hearts of the audiences making them relate their day to day class issues ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://www.facebook.com/pupulse1/posts/the-panjab-university-bachao-morcha-extended-heartfelt-gratitude-to-the-people-o/122235553046247566/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/pupulse1/posts/the-panjab-university-bachao-morcha-extended-heartfelt-gratitude-to-the-people-o/122235553046247566/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.reddit.com/r/londonontario/",
+        "title": "London, Ontario - Reddit",
+        "content": "LONDON, ON (March 22, 2019) \u2013 The now 18-year-old son of murder victim Lisa Leckie, and police investigators pleaded today for \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.reddit.com",
+          "/r/londonontario/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "\u0a2e\u0a3e\u0a28 \u0a38\u0a30\u0a15\u0a3e\u0a30 \u0a26\u0a40 \u0a32\u0a48\u0a02\u0a21 \u0a2a\u0a42\u0a32\u0a3f\u0a70\u0a17 \u0a2a\u0a3e\u0a32\u0a3f\u0a38\u0a40 \u0a28\u0a42\u0a70 ...",
+        "content": "I am Gurpartap Singh, Block President of Purana Shalla, Bharatiya Kisan Union (Ekta Ugrahan). Yesterday, they brought four vehicles full of goons along with ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.instagram.com/p/DMMw-QJtvZi/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/p/DMMw-QJtvZi/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://github.com/rasbt/LLMs-from-scratch",
+        "title": "GitHub - rasbt/LLMs-from-scratch: Implement a ChatGPT-like LLM in ...",
+        "content": "This repository contains the code for developing, pretraining, and finetuning a GPT-like LLM and is the official code repository for the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "github.com",
+          "/rasbt/LLMs-from-scratch",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ]
+    ]
+  }
+}

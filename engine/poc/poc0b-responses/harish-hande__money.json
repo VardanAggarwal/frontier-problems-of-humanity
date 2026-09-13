@@ -1,0 +1,337 @@
+{
+  "slug": "harish-hande",
+  "name": "Harish Hande",
+  "family": "money",
+  "query": "\"Harish Hande\" funding raised grant crore",
+  "question_ids": [
+    "funding",
+    "scale_metric",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.687,
+  "timestamp_utc": "2026-09-13T08:43:49.284310+00:00",
+  "request_index_this_run": 50,
+  "seconds_since_run_start": 1276.6,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Harish Hande\" funding raised grant crore",
+    "results": [
+      {
+        "url": "https://harishprojects.com/",
+        "title": "Harish Projects - Think | Build | Achieve",
+        "content": "Harish Projects' vision is to make India a global leader in practical education (arduino-sensor based working science project), \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "harishprojects.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Harish_Kalyan",
+        "title": "Harish Kalyan - Wikipedia",
+        "content": "1.1Career beginnings (2010\u20132017) 1.2Breakthrough (2018\u2013present) 2Other work. 3Personal life. 4Filmography. Toggle Filmography \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Harish_Kalyan",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Harish_Kumar_(actor)",
+        "title": "Harish Kumar (actor) - Wikipedia",
+        "content": "Harish Kumar born 1 August 1975 is an Indian actor and film producer. He is known for his works in Telugu and Hindi movies, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Harish_Kumar_(actor)",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://harishprojects.com/collections/all",
+        "title": "Products \u2013 Harish Projects",
+        "content": "Harish Projects' vision is to make India a global leader in practical education (arduino-sensor based working science project), \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "harishprojects.com",
+          "/collections/all",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.imdb.com/name/nm4945396/",
+        "title": "Harish Kalyan - IMDb",
+        "content": "Harish Kalyan, is an Indian actor, recognized primarily for his contributions to Tamil cinema. He did his schooling at Balalok \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.imdb.com",
+          "/name/nm4945396/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.instagram.com/iamharishkalyan/",
+        "title": "Harish Kalyan (@iamharishkalyan) \u2022 Instagram photos and videos",
+        "content": "2M Followers, 127 Following, 201 Posts - Harish Kalyan (@iamharishkalyan) on Instagram: \"Committed to doing my best \ud83d\udcab \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/iamharishkalyan/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.youtube.com/@HarishShorts",
+        "title": "Harish Shorts - YouTube",
+        "content": "How to Make Mini Writing & Drawing Machine Order Now - HarishProjects.com Harish Projects official website \u092f\u0939\u093e\u0902 \u0938\u0947 \u0916\u0930\u0940\u0926\u0947\u0902 - \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/@HarishShorts",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.instagram.com/hachu.k/",
+        "title": "Harish Kumar (@hachu.k) \u2022 Instagram photos and videos",
+        "content": "73K Followers, 3,076 Following, 301 Posts - Harish Kumar (@hachu.k) on Instagram: \"hi/bye\"",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/hachu.k/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://starsunfolded.com/harish-kalyan/",
+        "title": "Harish Kalyan Height, Age, Girlfriend, Wife, Family, Biography & More",
+        "content": "Oct 28, 2022 \u00b7 Harish Kalyan is a South Indian playback singer and actor who has mainly worked in Tamil and Telugu films. Some of \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "starsunfolded.com",
+          "/harish-kalyan/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.hri.res.in/",
+        "title": "Harish-Chandra Research Institute, Prayagraj (Allahabad)",
+        "content": "8 hours ago \u00b7 The Harish-Chandra Research Institute (HRI) is a premier institution dedicated to research in Mathematics and \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.hri.res.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

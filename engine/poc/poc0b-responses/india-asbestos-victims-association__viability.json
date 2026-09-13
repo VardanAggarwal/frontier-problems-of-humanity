@@ -1,0 +1,698 @@
+{
+  "slug": "india-asbestos-victims-association",
+  "name": "India Asbestos Victims Association",
+  "family": "viability",
+  "query": "\"India Asbestos Victims Association\" revenue customers model",
+  "question_ids": [
+    "tag:viability_note",
+    "legs"
+  ],
+  "elapsed_s": 0.875,
+  "timestamp_utc": "2026-09-13T09:05:20.469596+00:00",
+  "request_index_this_run": 100,
+  "seconds_since_run_start": 2567.8,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"India Asbestos Victims Association\" revenue customers model",
+    "results": [
+      {
+        "url": "https://en.wikipedia.org/wiki/India",
+        "title": "India - Wikipedia",
+        "content": "India, officially the Republic of India, [j][20] is a country in South Asia. It is the world's seventh-largest country by area and the largest \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/India",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Analysis of the Indian Government's position on the use of ...",
+        "content": "18 May 2023 \u00b7 We present the views of the Indian Government with respect to its stance on asbestos, its use and its health effects. This analysis is based on ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://theunion.org/news/analysis-of-the-indian-government%E2%80%99s-position-on-the-use-of-asbestos-and-its-health-effects",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "theunion.org",
+          "/news/analysis-of-the-indian-government%E2%80%99s-position-on-the-use-of-asbestos-and-its-health-effects",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.india.gov.in/",
+        "title": "Home | National Portal of India",
+        "content": "1 day ago \u00b7 Details on India\u2019s trade infrastructure, regulations, and policies are provided to support both domestic and international \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.india.gov.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "[PDF] India's Asbestos Time Bomb",
+        "content": "20 Dec 2007 \u00b7 IBAS produces written material and organizes conferences to raise the profile of asbestos issues. The work of IBAS is coordinated by Laurie ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://www.ibasecretariat.org/india_asb_time_bomb.pdf",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.ibasecretariat.org",
+          "/india_asb_time_bomb.pdf",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.britannica.com/place/India",
+        "title": "India | History, Maps, Population, Economy, & Facts | Britannica",
+        "content": "1 day ago \u00b7 India is a country that occupies the greater part of South Asia. It is a constitutional republic that represents a highly \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.britannica.com",
+          "/place/India",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Asbestosis in an asbestos composite mill at Mumbai - PMC - NIH",
+        "content": "31 Oct 2005 \u00b7 Of an estimated 100000 workers exposed to asbestos in India, less than 30 have been compensated. The reasons for such a small number are: ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1289287/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "pmc.ncbi.nlm.nih.gov",
+          "/articles/PMC1289287/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/History_of_India",
+        "title": "History of India - Wikipedia",
+        "content": "Policies of company rule in India led to the Indian Rebellion of 1857. India was afterwards ruled directly by the British Crown, in the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/History_of_India",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "'We are all exposed to it': the human face of India's asbestos ...",
+        "content": "19 Dec 2022 \u00b7 Experts say country's vulnerability to asbestos-related diseases is putting the health of millions of people at risk.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.theguardian.com/global-development/2022/dec/19/we-are-all-exposed-to-it-the-human-face-of-indias-asbestos-timebomb",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.theguardian.com",
+          "/global-development/2022/dec/19/we-are-all-exposed-to-it-the-human-face-of-indias-asbestos-timebomb",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.ndtv.com/india",
+        "title": "India News | Today's latest updates and breaking news from India, \u2026",
+        "content": "28 minutes ago \u00b7 Today's top India news headlines, news on Indian politics, elections, government, business, technology, and \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.ndtv.com",
+          "/india",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "The ongoing asbestos trade & hidden disease in India | Confront",
+        "content": "India is failing to diagnose and compensate people who fall ill from the large amounts of asbestos it continues to import.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://confrontpower.org/asbestos-and-india/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "confrontpower.org",
+          "/asbestos-and-india/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://simple.wikipedia.org/wiki/India",
+        "title": "India - Simple English Wikipedia, the free encyclopedia",
+        "content": "India also fought a war to capture Goa, a Portuguese-built port and a city that was not a part of India until 1961. The Portuguese \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "simple.wikipedia.org",
+          "/wiki/India",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Current Asbestos Exposure and Future Need for Palliative Care ...",
+        "content": "The paper also discusses the organization of this future problem of ARDs and possible action points toward future access to palliative care for ARD patients.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://jpalliativecare.com/current-asbestos-exposure-and-future-need-for-palliative-care-in-india/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "jpalliativecare.com",
+          "/current-asbestos-exposure-and-future-need-for-palliative-care-in-india/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.incredibleindia.gov.in/en",
+        "title": "Discover Incredible India: Travel Guide & Tourism Info | Incredible India",
+        "content": "Experience the vibrant culture and scenic beauty of India. Plan your trip with Incredible India & explore tourist destinations, cultural \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.incredibleindia.gov.in",
+          "/en",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Asbestos: India's Silent Killer | Preview - YouTube",
+        "content": "21 Nov 2024 \u00b7 India is the world's largest importer of asbestos, a substance deemed toxic to humans and with proven links to cancers and death.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.youtube.com/watch?v=SbDGiGsYOC0",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=SbDGiGsYOC0",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.mapsofindia.com/",
+        "title": "India Map |Free Map of India With States, UTs and Capital Cities",
+        "content": "India has 28 states and 8 union territories and shares borders with 7 countries. It provides a clear visual overview of states, union \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.mapsofindia.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Asbestos - Is the whole world wrong? - The Dollar Business",
+        "content": "Even though banned in over 50 countries, India is the largest importer of asbestos. According to Ministry of Commerce, GoI, in FY2013, India imported $349.01 ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://in.thedollarbusiness.com/magazine/asbestos-is-the-whole-world-wrong/13057",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "in.thedollarbusiness.com",
+          "/magazine/asbestos-is-the-whole-world-wrong/13057",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.mapsofindia.com/india/",
+        "title": "India - Know all about India including its History, Geography, Culture, etc",
+        "content": "India information portal featuring detailed maps, states, union territories, districts, geography, history, culture, economy, tourism, road \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.mapsofindia.com",
+          "/india/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "India Ban Asbestos Network launched!",
+        "content": "31 Jan 2018 \u00b7 India is currently the second largest consumer of asbestos in the world. Latest trade data suggests imports of almost 308,000 tonnes of asbestos ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://apheda.org.au/india-ban-asbestos-network-launched/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "apheda.org.au",
+          "/india-ban-asbestos-network-launched/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://timesofindia.indiatimes.com/india",
+        "title": "India News | Latest India News Today & Real-time News from India, India ...",
+        "content": "India News Today: Get latest India news and breaking news from India on Times of India. TOI brings the top news headlines from \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "timesofindia.indiatimes.com",
+          "/india",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Comparison of Asbestos Victim Relief Available Outside ... - MDPI",
+        "content": "The asbestos victim relief schemes were introduced to resolve the issue of victims of asbestos-related diseases not receiving compensation through ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.mdpi.com/1660-4601/18/10/5236",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.mdpi.com",
+          "/1660-4601/18/10/5236",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [
+      "asbestos india kolkata",
+      "india asbestos import",
+      "asbestos banned countries",
+      "asbestos mining in india",
+      "asbestos india reddit",
+      "is asbestos sheet dangerous",
+      "why asbestos is banned",
+      "asbestos is banned in india"
+    ],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ]
+    ]
+  }
+}

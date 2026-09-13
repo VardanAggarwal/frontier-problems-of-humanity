@@ -1,0 +1,900 @@
+{
+  "slug": "jyoti-pande-lavakare",
+  "name": "Jyoti Pande Lavakare",
+  "family": "failure",
+  "query": "\"Jyoti Pande Lavakare\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 1.182,
+  "timestamp_utc": "2026-09-13T09:11:12.276855+00:00",
+  "request_index_this_run": 113,
+  "seconds_since_run_start": 2919.6,
+  "n_results": 30,
+  "unresponsive_engines": [
+    [
+      "google",
+      "CAPTCHA"
+    ],
+    [
+      "mojeek",
+      "Suspended: access denied"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "brave"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [],
+  "raw_response": {
+    "query": "\"Jyoti Pande Lavakare\" shut down closed pivot losses",
+    "results": [
+      {
+        "url": "https://jyoti.co.in/",
+        "title": "Jyoti CNC Automation Limited | cnc machine, cnc lathe, vmc machine, \u2026",
+        "content": "Jyoti CNC is the largest CNC machine tool manufacturing company of India and having a subsidiary \"Huron\" based at Strasbourg, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "jyoti.co.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.jyotipande.in/",
+        "title": "Writer | Jyoti Pande Lavakare",
+        "content": "An important book with a deeply moving personal story on one of the big challenges of our time\u2014pollution and the environment\u2014by (I am proud add) a one-time student of mine, Jyoti Pande Lavakare. A compelling first person account of the campaign to bring India\u2019s air pollution crisis to ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.jyotipande.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Jyoti_Amge",
+        "title": "Jyoti Amge - Wikipedia",
+        "content": "Jyoti Kishanji Amge (born 16 December 1993) [1] is an Indian model and actress notable for being the world's shortest living woman \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Jyoti_Amge",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.business-standard.com/author/search/keyword/jyoti-pande-lavakare",
+        "title": "Author - Jyoti Pande Lavakare | Business Standard",
+        "content": "Sebi to introduce more safeguards for F&O as traders' losses mount \u00b7 Budget process reaches final stage with Halwa ceremony on Thursday \u00b7 Republic Day 2023: This year's Parade to witness many first-time events \u00b7 High-frequency traders must be highly cost-conscious while choosing brokers \u00b7 Shankar Mishra accused of urinating on woman on AI flight moves court \u00b7 You are here \u00bb Home \u00bb Author \u00bb Jyoti Pande Lavakare ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.business-standard.com",
+          "/author/search/keyword/jyoti-pande-lavakare",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.jyotiindia.com/",
+        "title": "Jyoti Home Appliances \u2013 JYOTI INDIA",
+        "content": "Jyoti Home Appliances Pvt Ltd, First Floor, SN-10/4/3A, Kondhwa Road, Opp. Mauli Stone Crusher, Yewale Wadi, Pune, Pune, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.jyotiindia.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://economictimes.indiatimes.com/topic/Jyoti-Pande-Lavakare/news",
+        "title": "Jyoti Pande Lavakare News and Updates from The Economic Times - Page 1",
+        "content": "Jyoti Pande Lavakare News and Updates from The Economictimes.com",
+        "publishedDate": "2023-09-24T00:00:00",
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "economictimes.indiatimes.com",
+          "/topic/Jyoti-Pande-Lavakare/news",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2023-09-24 00:00:00"
+      },
+      {
+        "url": "https://jyoti.co.in/ourproduct/",
+        "title": "CNC Machines | Product Range by Jyoti CNC Automation Limited",
+        "content": "Explore our complete range of high-performance CNC machines, including turning centers, VMCs, 5-axis machines, and automation \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "jyoti.co.in",
+          "/ourproduct/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.instagram.com/p/Ca1-Ciopu4b/",
+        "title": "Down to Earth With Jyoti Pande Lavakare ...",
+        "content": "Create an account or log in to Instagram - Share what you're into with the people who get you.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/p/Ca1-Ciopu4b/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.instagram.com/jyoti_amge/",
+        "title": "Jyoti Amge (@jyoti_amge) \u2022 Instagram photos and videos",
+        "content": "2M Followers, 742 Following, 2,228 Posts - Jyoti Amge (@jyoti_amge) on Instagram: \"Actor\ud83e\udd37\u200d\u2640| World Shortest Woman \ud83c\udfc5| Icon \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/jyoti_amge/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://economictimes.indiatimes.com/topic/jyoti-pande-lavakare",
+        "title": "jyoti pande lavakare: Latest News & Videos, Photos about jyoti pande lavakare | The Economic Times - Page 1",
+        "content": "jyoti pande lavakare Latest Breaking News, Pictures, Videos, and Special Reports from The Economic Times. jyoti pande lavakare Blogs, Comments and Archive News on Economictimes.com",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "economictimes.indiatimes.com",
+          "/topic/jyoti-pande-lavakare",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.jyoti.com/",
+        "title": "Jyoti Ltd.",
+        "content": "The Jyoti Group of Companies is a conglomeration of industrial units involved in manufacturing and marketing a wide range of \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.jyoti.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://muckrack.com/jyoti-pande-lavakare",
+        "title": "Jyoti Pande Lavakare\u2019s Profile | The Economic Times, Hindustan Times, NDTV Journalist | Muck Rack",
+        "content": "Find Jyoti Pande Lavakare's articles, email address, contact information, Twitter and more",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "muckrack.com",
+          "/jyoti-pande-lavakare",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Jyoti",
+        "title": "Jyoti - Wikipedia",
+        "content": "Jyoti means \"divine light\" in many Indian languages. Jyoti and spelling variants may refer to: This disambiguation page lists articles \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Jyoti",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.linkedin.com/company/jyoti-ltd.",
+        "title": "Jyoti Ltd. - LinkedIn",
+        "content": "Established in 1943, Jyoti Ltd. is a leading ISO 9001: 2008 engineering company offering reliable quality products and services to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/company/jyoti-ltd.",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.jyotiindia.com/pages/about-us",
+        "title": "About Us \u2013 JYOTI INDIA",
+        "content": "From gas stoves, kitchen chimneys, built-in hobs, and oil extractors to gas and electric water heaters, atta makers, and built-in \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.jyotiindia.com",
+          "/pages/about-us",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.thequint.com/author/388269/jyoti-pande-lavakare",
+        "title": "Jyoti Pande Lavakare on The Quint",
+        "content": "Read Jyoti Pande Lavakare Latest News Stories on TheQuint, Exclusive News Articles, Most Read Stories, Latest Jyoti Pande Lavakare Most Read Famous News Articles, Get All the Latest News Updates on TheQuint",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.thequint.com",
+          "/author/388269/jyoti-pande-lavakare",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.screener.in/company/JYOTICNC/consolidated/",
+        "title": "Jyoti CNC Automation Ltd share price - Screener",
+        "content": "Jyoti CNC Automation is a leading manufacturer of simultaneous 5-axis CNC machines in India, with a 10% market share in the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.screener.in",
+          "/company/JYOTICNC/consolidated/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://in.linkedin.com/in/jyoti-pande-lavakare-a3a9b3a",
+        "title": "Jyoti Pande Lavakare - \"Breathing Here Is Injurious To ...",
+        "content": "We cannot provide a description for this page right now",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/in/jyoti-pande-lavakare-a3a9b3a",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.ndtv.com/author/jyoti-pande-lavakare",
+        "title": "Jyoti Pande Lavakare \u2013 Author, NDTV.com",
+        "content": "Jyoti Pande Lavakare profile and articles published at NDTV.com. Read all of the posts by Jyoti Pande Lavakare.",
+        "publishedDate": "2025-11-04T00:00:00",
+        "thumbnail": "https://imgs.search.brave.com/V-xC2F-sJ2pL8scNY7gXg7T1Yevv3bPITbcQE30Fchw/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly93d3cu/bmR0di5jb20vc3Rh/dGljL25ld3MvaW1h/Z2VzL2NvbV9PRy5w/bmc",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.ndtv.com",
+          "/author/jyoti-pande-lavakare",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2025-11-04 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://timesofindia.indiatimes.com/topic/jyoti-pande-lavakare/news",
+        "title": "Jyoti Pande Lavakare News | Latest News on Jyoti Pande Lavakare - Times of India",
+        "content": "Check out for the latest news on jyoti pande lavakare along with jyoti pande lavakare live news at Times of India",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/Ik0SfQU8MXaQNLn5P5U6wguz8BlsQWQYP2R5p3lhO9Q/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudG9paW1nLmNv/bS9waG90by80NzUy/OTMwMC5jbXM",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "timesofindia.indiatimes.com",
+          "/topic/jyoti-pande-lavakare/news",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://theprint.in/author/jyoti-pande-lavakare/",
+        "title": "Jyoti Pande Lavakare Author at ThePrint",
+        "content": "Home Authors Posts by Jyoti Pande Lavakare \u00b7 1 POSTS \u00b7 Jyoti Pande Lavakare - December 23, 2020 \u00b7 \u2715 \u00b7 30 \u00b7 Here the author, while narrating issues like air pollution, compared two different scenario namely India and first world countries. starting with India, the author gave almost all references related Delhi.",
+        "publishedDate": "2020-12-23T00:00:00",
+        "thumbnail": "https://imgs.search.brave.com/MYFlKCide6hPSs1lgAlL9iU_F4ViexHDqUmviQ-EYNo/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWNwcmludGVuZ2xp/c2gudGhlcHJpbnQu/aW4vd3AtY29udGVu/dC91cGxvYWRzLzIw/MjAvMTAvZGVsaGkt/cG9sbHV0aW9uLTEw/MjR4NTc2LTEuanBl/Zw",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "theprint.in",
+          "/author/jyoti-pande-lavakare/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          14
+        ],
+        "score": 0.07142857142857142,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2020-12-23 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.linkedin.com/posts/jyoti-pande-lavakare-a3a9b3a_linkedin-socialmedia-greed-activity-6969982461833302016-PKId",
+        "title": "Jyoti Pande Lavakare on LinkedIn: #linkedin #socialmedia #greed #corruption #noida #civilsociety\u2026",
+        "content": "Jyoti Pande Lavakare \u00b7 \"Breathing Here Is Injurious To Your Health\" available on Amazon/bookstores. Author website jyotipande.in Looking for a dynamic literary agent to sell international rights. Also searching for Indian language publishers. 1y \u00b7 Report this post \u00b7",
+        "publishedDate": "2022-08-29T00:00:00",
+        "thumbnail": "https://imgs.search.brave.com/nVvVeUda0JbqFPZxa7b0p-412jph7-brLQeJXaVDaww/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMubGljZG4uY29t/L2Flcm8tdjEvc2Mv/aC9jNDVmeTM0Nmp3/MDk2ejlwYnBoeXlo/ZHo3",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/posts/jyoti-pande-lavakare-a3a9b3a_linkedin-socialmedia-greed-activity-6969982461833302016-PKId",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          18
+        ],
+        "score": 0.05555555555555555,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2022-08-29 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "http://live.outlookindia.com/people/jyoti-pande-lavakare/13237",
+        "title": "Jyoti Pande Lavakare: Latest News on Jyoti Pande Lavakare, Jyoti Pande Lavakare Photos | Outlookindia",
+        "content": "See Jyoti Pande Lavakare Latest News, Latest updates Photos of Jyoti Pande Lavakare on Outlook India.",
+        "publishedDate": "2019-12-23T00:00:00",
+        "thumbnail": "https://imgs.search.brave.com/vqqMadyXDXNlLy5oQ08UdW0rGViElbriplBgiJyaOf8/rs:fit:200:200:1:0/g:ce/aHR0cDovL2xpdmUu/b3V0bG9va2luZGlh/LmNvbS9wZW9wbGUv/anlvdGktcGFuZGUt/bGF2YWthcmUvMTMy/Mzc",
+        "engine": "brave",
+        "parsed_url": [
+          "http",
+          "live.outlookindia.com",
+          "/people/jyoti-pande-lavakare/13237",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          19
+        ],
+        "score": 0.05263157894736842,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2019-12-23 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://science.thewire.in/author/jplavakare/",
+        "title": "Jyoti Pande Lavakare \u2013 The Wire Science",
+        "content": "by Jyoti Pande Lavakare \u00b7 03/11/2021 \u00b7 7 mins Read \u00b7 0 Shares \u00b7 Environment \u00b7 by Jyoti Pande Lavakare \u00b7 08/04/2021 \u00b7 3 mins Read \u00b7 0 Shares \u00b7 Environment \u00b7 by Jyoti Pande Lavakare \u00b7 17/03/2021 \u00b7 5 mins Read \u00b7 0 Shares \u00b7 Facebook \u00b7 Twitter \u00b7 The Sciences \u00b7",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "science.thewire.in",
+          "/author/jplavakare/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          11
+        ],
+        "score": 0.09090909090909091,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.jyotipande.in/pollution",
+        "title": "Pollution | Jyoti Pande Lavakare",
+        "content": "In a powerful ruling that could increase transparency and thus, industry compliance, India\u2019s National Green Tribunal has directed state and central pollution control boards to chart and openly share with the public detailed data from online continuous emissions/effluents monitoring systems ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.jyotipande.in",
+          "/pollution",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          12
+        ],
+        "score": 0.08333333333333333,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://amitavghosh.com/jyoti-pande-lavakares-breathing-here-is-injurious-to-your-health/",
+        "title": "Jyoti Pande Lavakare\u2019s \u2018Breathing Here Is Injurious To Your Health\u2019 \u2013 Amitav Ghosh",
+        "content": "Packed with information, this ... personal losses caused by the subcontinent\u2019s poisoned air. Particularly striking are the author\u2019s descriptions of the many forms of denial that India\u2019s air pollution activists have to deal with: assertions that \u2018you\u2019re over-reacting\u2019, or that Indians have developed immunities to bad air, and so on. As Lavakare points out: ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "amitavghosh.com",
+          "/jyoti-pande-lavakares-breathing-here-is-injurious-to-your-health/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          13
+        ],
+        "score": 0.07692307692307693,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://m.thewire.in/author/Jyoti-Pande-Lavakare",
+        "title": "The Wire: The Wire News India, Latest News,News from India, Politics, External Affairs, Science, Economics, Gender and Culture",
+        "content": "Jyoti Pande Lavakare \u00b7 Politics \u00b7 Nothing has been done so far that focuses on systemic reforms to actually reduce emissions at source. Sep 30, 2024 \u00b7 Science \u00b7 Nov 09, 2023 \u00b7 Science \u00b7 Nov 03, 2023 \u00b7 Science \u00b7 Nov 01, 2023 \u00b7 Science \u00b7 Oct 31, 2023 \u00b7",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "m.thewire.in",
+          "/author/Jyoti-Pande-Lavakare",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          15
+        ],
+        "score": 0.06666666666666667,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.linkedin.com/posts/jyoti-pande-lavakare-a3a9b3a_for-those-who-believe-that-moving-from-delhi-activity-7266010828934447104-rTk7",
+        "title": "Jyoti Pande Lavakare's Post",
+        "content": "Login to LinkedIn to keep in touch with people you know, share ideas, and build your career.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/posts/jyoti-pande-lavakare-a3a9b3a_for-those-who-believe-that-moving-from-delhi-activity-7266010828934447104-rTk7",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          16
+        ],
+        "score": 0.0625,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://timesofindia.indiatimes.com/topic/jyoti-pande-lavakare",
+        "title": "Jyoti Pande Lavakare: Latest News, Videos and Photos of Jyoti Pande Lavakare | Times of India",
+        "content": "jyoti pande lavakare News: Latest and Breaking News on jyoti pande lavakare. Explore jyoti pande lavakare profile at Times of India for photos, videos and latest news of jyoti pande lavakare. Also find news, photos and videos on jyoti pande lavakare",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "timesofindia.indiatimes.com",
+          "/topic/jyoti-pande-lavakare",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          17
+        ],
+        "score": 0.058823529411764705,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.facebook.com/thewire.in/posts/jyoti-pande-lavakare-explains-that-the-ncrs-air-pollution-problem-has-to-do-with/4441982152542747/",
+        "title": "TheWire.in - Jyoti Pande Lavakare explains that the NCR's...",
+        "content": "TheWire.in. 1,265,923 likes \u00b7 142,148 talking about this. An independent publication carrying authoritative opinion and the best of Indian reportage.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/thewire.in/posts/jyoti-pande-lavakare-explains-that-the-ncrs-air-pollution-problem-has-to-do-with/4441982152542747/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          20
+        ],
+        "score": 0.05,
+        "category": "general",
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "google",
+        "CAPTCHA"
+      ],
+      [
+        "mojeek",
+        "Suspended: access denied"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,336 @@
+{
+  "slug": "villgro",
+  "name": "Villgro",
+  "family": "viability",
+  "query": "\"Villgro\" revenue customers model",
+  "question_ids": [
+    "tag:viability_note",
+    "legs"
+  ],
+  "elapsed_s": 0.672,
+  "timestamp_utc": "2026-09-13T08:34:05.933781+00:00",
+  "request_index_this_run": 28,
+  "seconds_since_run_start": 693.3,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Villgro\" revenue customers model",
+    "results": [
+      {
+        "url": "https://www.weblio.jp/content/%E3%83%9E%E3%82%B6%E3%83%BC%E3%83%95%E3%82%A1%E3%83%83%E3%82%AB%E3%83%BC",
+        "title": "\u300c\u30de\u30b6\u30fc\u30d5\u30a1\u30c3\u30ab\u30fc\u300d\u306e\u610f\u5473\u3084\u4f7f\u3044\u65b9 \u308f\u304b\u308a\u3084\u3059\u304f\u89e3\u8aac Weblio\u8f9e\u66f8",
+        "content": "\u30de\u30b6\u30fc\u30d5\u30a1\u30c3\u30ab\u30fc\u3068\u306f\u3001\u82f1\u8a9e\u306e motherfucker \u3092\u30ab\u30bf\u30ab\u30ca\u306b\u3057\u305f\u8868\u73fe\u3067\u3042\u308a\u3001\u975e\u5e38\u306b\u5f37\u3044\u4fae\u8fb1\u3084\u7f75\u5012\u3092\u793a\u3059\u30b9\u30e9\u30f3\u30b0\u3067\u3042\u308b\u3002 Weblio \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.weblio.jp",
+          "/content/%E3%83%9E%E3%82%B6%E3%83%BC%E3%83%95%E3%82%A1%E3%83%83%E3%82%AB%E3%83%BC",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "http://foxforcegames.com/",
+        "title": "FoxForceGames - Home",
+        "content": "We are an indy game studio founded in 2017. Our focus is fast paced multiplayer action games.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "http",
+          "foxforcegames.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://dic.pixiv.net/a/%E3%83%9E%E3%82%B6%E3%83%BC%E3%83%95%E3%82%A1%E3%83%83%E3%82%AB%E3%83%BC",
+        "title": "\u30de\u30b6\u30fc\u30d5\u30a1\u30c3\u30ab\u30fc (\u307e\u3056\u30fc\u3075\u3041\u3063\u304b\u30fc)\u3068\u306f\u3010\u30d4\u30af\u30b7\u30d6\u767e\u79d1\u4e8b\u5178\u3011",
+        "content": "\u30de\u30b6\u30fc\u30d5\u30a1\u30c3\u30ab\u30fc\uff08motherfucker\uff09\u3068\u306f\u3001\u82f1\u8a9e\u570f\u306e\u30b9\u30e9\u30f3\u30b0\u3002 \uff08\u66d6\u6627\u3055\u56de\u907f\u3042\u308a\uff09 \u82f1\u8a9e\u570f\u306e \u30b9\u30e9\u30f3\u30b0 \u306e\u4e00\u7a2e\u3002 \u4fae\u8fb1\u7528\u8a9e\u3002 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "dic.pixiv.net",
+          "/a/%E3%83%9E%E3%82%B6%E3%83%BC%E3%83%95%E3%82%A1%E3%83%83%E3%82%AB%E3%83%BC",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.weblio.jp/content/%E3%83%9E%E3%82%B6%E3%83%BC%20%E3%83%95%E3%82%A1%E3%83%83%E3%82%AB%E3%83%BC",
+        "title": "\u300c\u30de\u30b6\u30fc \u30d5\u30a1\u30c3\u30ab\u30fc\u300d\u306e\u610f\u5473\u3084\u4f7f\u3044\u65b9 \u308f\u304b\u308a\u3084\u3059\u304f\u89e3\u8aac Weblio\u8f9e\u66f8",
+        "content": "\u300cmotherfucker\u300d\u3068\u306f\u3001\u82f1\u8a9e\u570f\u3067\u975e\u5e38\u306b\u5f37\u3044\u4fae\u8fb1\u8a9e\u3068\u3057\u3066\u4f7f\u308f\u308c\u308b\u8a00\u8449\u3067\u3042\u308b\u3002Weblio\u56fd\u8a9e\u8f9e\u5178\u3067\u306f\u300c\u30de\u30b6\u30fc \u30d5\u30a1\u30c3\u30ab\u30fc\u300d\u306e\u610f\u5473 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.weblio.jp",
+          "/content/%E3%83%9E%E3%82%B6%E3%83%BC%20%E3%83%95%E3%82%A1%E3%83%83%E3%82%AB%E3%83%BC",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.youtube.com/@megachebu",
+        "title": "FoxForceGames - YouTube",
+        "content": "I'm an indy game developer focusing on multiplayer action games. Currently working on my third title, Respawn Kingdom, that is \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/@megachebu",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://belcy.jp/57640",
+        "title": "\u30de\u30b6\u30fc\u30d5\u30a1\u30c3\u30ab\u30fc\u306e\u610f\u5473\u30fb\u8a9e\u6e90\u3068\u306f\uff1f\u82f1\u8a9e\u306e\u6c5a\u3044\u8a00\u8449 ...",
+        "content": "Jun 21, 2019 \u00b7 \u300e\u30de\u30b6\u30fc\u30d5\u30a1\u30c3\u30ab\u30fc (motherfucker)\u300f\u3068\u3044\u3046\u82f1\u8a9e\u306e\u8a00\u8449\u3092\u805e\u3044\u305f\u3053\u3068\u304c\u3042\u308a\u307e\u3059\u304b\uff1f \u6620\u753b\u3084\u30c6\u30ec\u30d3\u756a\u7d44\u3067\u3088\u304f\u8033\u306b\u3059 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "belcy.jp",
+          "/57640",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.pixiv.net/tags/foxforcegames%E3%80%80motherfucker",
+        "title": "#foxforcegames motherfucker\u306e\u4eba\u6c17\u30a4\u30e9\u30b9\u30c8\u3084\u30de\u30f3\u30ac - pixiv",
+        "content": "#foxforcegames motherfucker\u306e\u30a4\u30e9\u30b9\u30c8\u3084\u30de\u30f3\u30ac\u306f0\u4ef6\u3001#foxforcegames motherfucker\u306e\u5c0f\u8aac\u3001SS\u306f0\u4ef6\u6295\u7a3f\u3055\u308c\u3066\u3044\u307e\u3059\u3002",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.pixiv.net",
+          "/tags/foxforcegames%E3%80%80motherfucker",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://03kurata01.com/2417",
+        "title": "[\u30e2\u30f3\u30cf\u30f3\u30ef\u30a4\u30eb\u30baSteam\u7248]\u5727\u5012\u7684\u4e0d\u8a55\u306e\u7406\u7531\u306f\uff1f\u4eba\u304c\u3044\u306a\u304f\u3066 ...",
+        "content": "May 7, 2026 \u00b7 \u30e2\u30f3\u30cf\u30f3\u30ef\u30a4\u30eb\u30baSteam\u7248\u306f\u3001 PC\u6700\u9069\u5316\u306e\u4e0d\u5099 \u3084 \u6df1\u523b\u306a\u30d0\u30b0\u30fb\u30af\u30e9\u30c3\u30b7\u30e5\u306e\u591a\u767a \u304c\u539f\u56e0\u3067\u3001\u591a\u304f\u306e\u30e6\u30fc\u30b6\u30fc\u304b\u3089\u4e0d \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "03kurata01.com",
+          "/2417",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://steamdb.info/developer/FoxForceGames/",
+        "title": "Games by FoxForceGames on Steam \u00b7 SteamDB",
+        "content": "All games developed by FoxForceGames on Steam. Browse their catalog with prices, discounts, and player counts.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "steamdb.info",
+          "/developer/FoxForceGames/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://play.google.com/store/apps/dev?id=7596791120012794269&hl=en-US",
+        "title": "Android Apps by FoxForceGames on Google Play",
+        "content": "nothing personal, just fun",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "play.google.com",
+          "/store/apps/dev",
+          "",
+          "id=7596791120012794269&hl=en-US",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

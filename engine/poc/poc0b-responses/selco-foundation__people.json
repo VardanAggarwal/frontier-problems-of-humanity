@@ -1,0 +1,337 @@
+{
+  "slug": "selco-foundation",
+  "name": "SELCO Foundation",
+  "family": "people",
+  "query": "\"SELCO Foundation\" founder director leadership",
+  "question_ids": [
+    "affected_led",
+    "representation_unit",
+    "founders"
+  ],
+  "elapsed_s": 0.698,
+  "timestamp_utc": "2026-09-13T08:26:00.266736+00:00",
+  "request_index_this_run": 9,
+  "seconds_since_run_start": 207.6,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"SELCO Foundation\" founder director leadership",
+    "results": [
+      {
+        "url": "https://www.youtube.com/",
+        "title": "YouTube",
+        "content": "Enjoy the videos and music you love, upload original content, and share it all with friends, family, and the world on YouTube.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.youtube.com/feed/ko",
+        "title": "YouTube",
+        "content": "AboutPressCopyrightContact usCreatorsAdvertiseDevelopersTermsPrivacyPolicy & SafetyHow YouTube worksTest new \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/feed/ko",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://play.google.com/store/apps/details?id=com.google.android.youtube&hl=ko",
+        "title": "YouTube - Google Play \uc571",
+        "content": "Android \uc2a4\ub9c8\ud2b8\ud3f0 \ubc0f \ud0dc\ube14\ub9bf\uc5d0 \uacf5\uc2dd YouTube \uc571\uc744 \ub2e4\uc6b4\ub85c\ub4dc\ud558\uc138\uc694. \uac00\uc7a5 \uc778\uae30 \uc788\ub294 \ubba4\uc9c1 \ube44\ub514\uc624\uc5d0\uc11c\ubd80\ud130 \uac8c\uc784, \ud328\uc158, \ubdf0\ud2f0, \ub274\uc2a4, \ud559\uc2b5 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "play.google.com",
+          "/store/apps/details",
+          "",
+          "id=com.google.android.youtube&hl=ko",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://eziro.com/info/%EC%9C%A0%ED%8A%9C%EB%B8%8C-%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%B0%94%EB%A1%9C%EA%B0%80%EA%B8%B0",
+        "title": "\uc720\ud29c\ube0c \ud648\ud398\uc774\uc9c0 \ubc14\ub85c\uac00\uae30",
+        "content": "Jul 22, 2026 \u00b7 \uc720\ud29c\ube0c \ud648\ud398\uc774\uc9c0 \ubc14\ub85c\uac00\uae30 \ubc0f \uc774\uc6a9 \uc548\ub0b4\uc785\ub2c8\ub2e4. youtube \uc720\ud29c\ube0c\ub294 \uc804 \uc138\uacc4\uc801\uc73c\ub85c \uac00\uc7a5 \uc778\uae30 \uc788\ub294 \ub3d9\uc601\uc0c1 \ud50c\ub7ab\ud3fc\uc73c\ub85c, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "eziro.com",
+          "/info/%EC%9C%A0%ED%8A%9C%EB%B8%8C-%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%B0%94%EB%A1%9C%EA%B0%80%EA%B8%B0",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://studio.youtube.com/",
+        "title": "YouTube",
+        "content": "Share your videos with friends, family, and the world.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "studio.youtube.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://play.google.com/store/apps/details?id=com.google.android.youtube&hl=en-US",
+        "title": "YouTube - Apps on Google Play",
+        "content": "Enjoy your favorite videos and channels with the official YouTube app.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "play.google.com",
+          "/store/apps/details",
+          "",
+          "id=com.google.android.youtube&hl=en-US",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.youtubekids.com/?hl=ko",
+        "title": "YouTube Kids",
+        "content": "YouTube Kids\ub294 \uc544\ub3d9\uc774 YouTube\ub97c \ud0d0\uc0c9\ud558\ub294 \ub370 \uc788\uc5b4 \ubcf4\ub2e4 \uc81c\ud55c\uc801\uc778 \ud658\uacbd\uc744 \uc81c\uacf5\ud558\uba70, \ubcf4\ud638\uc790\uc640 \uc591\uc721\uc790\uac00 \uc544\ub3d9\uc758 YouTube \uc774\uc6a9\uc744 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtubekids.com",
+          "/",
+          "",
+          "hl=ko",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://smart-review.tistory.com/entry/%EC%9C%A0%ED%8A%9C%EB%B8%8C-%EB%B0%94%EB%A1%9C%EA%B0%80%EA%B8%B0-wwwyoutubecom",
+        "title": "\uc720\ud29c\ube0c \ubc14\ub85c\uac00\uae30 www.youtube.com",
+        "content": "May 2, 2024 \u00b7 \uc720\ud29c\ube0c\uc5d0\uc11c \ub3d9\uc601\uc0c1 \ubc0f \uc1fc\uce20\ub97c \uc790\uc8fc \uc2dc\uccad\ud55c\ub2e4\uba74 \ud3c9\uc18c\uc5d0 \uc0ac\uc6a9\ud558\ub294 \uc6f9 \ube0c\ub77c\uc6b0\uc800\uc5d0 \uc720\ud29c\ube0c \ubc14\ub85c\uac00\uae30\ub97c \uc124\uc815\ud574 \ub450\uac70\ub098 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "smart-review.tistory.com",
+          "/entry/%EC%9C%A0%ED%8A%9C%EB%B8%8C-%EB%B0%94%EB%A1%9C%EA%B0%80%EA%B8%B0-wwwyoutubecom",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://music.youtube.com/",
+        "title": "YouTube Music",
+        "content": "With the YouTube Music app, enjoy over 100 million songs at your fingertips, plus albums, playlists, remixes, music videos, live \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "music.youtube.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://namu.wiki/w/%EC%9C%A0%ED%8A%9C%EB%B8%8C",
+        "title": "\uc720\ud29c\ube0c - \ub098\ubb34\uc704\ud0a4",
+        "content": "Sep 6, 2026 \u00b7 \uadf8\ub7f0\ub370 \uc804\uccb4\ud654\uba74\uc774 \uc548 \ub418\ub294 \uc0c1\ud669\uc774 \uc0c1\ub2f9\ud788 \ub9ce\uc774 \ub098\uc640\uc11c \ubd88\ud3b8\ud558\ub2e4\ub294 \uc758\uacac\ub3c4 \uc788\ub294\ub370 \uc774\ub294 \ucc3d \uc124\uc815\uc744 \uc601\ud654\uad00 \ubaa8\ub4dc\ub85c \ud558\uace0 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "namu.wiki",
+          "/w/%EC%9C%A0%ED%8A%9C%EB%B8%8C",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

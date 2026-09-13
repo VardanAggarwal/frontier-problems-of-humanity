@@ -1,0 +1,336 @@
+{
+  "slug": "dasra",
+  "name": "Dasra",
+  "family": "failure",
+  "query": "\"Dasra\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.631,
+  "timestamp_utc": "2026-09-13T08:31:57.034927+00:00",
+  "request_index_this_run": 23,
+  "seconds_since_run_start": 564.4,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Dasra\" shut down closed pivot losses",
+    "results": [
+      {
+        "url": "https://dasra.org/",
+        "title": "Driving Systems Change & Accelerating Indian Philanthropy | Dasra",
+        "content": "Dasra accelerates Indian philanthropy and amplifies community voices to drive social change and equity across India through \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "dasra.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://dasra.org/about",
+        "title": "About Dasra: Leading Systems Orchestrator in India\u2019s Social Sector",
+        "content": "Dasra is a social impact organization in India, empowering change through capacity building, nurturing leadership, and strengthening \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "dasra.org",
+          "/about",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://in.linkedin.com/company/dasra",
+        "title": "Dasra | LinkedIn",
+        "content": "Dasra meaning \u2018enlightened giving\u2019 in Sanskrit, is a pioneering strategic philanthropic organization that aims to transform India where \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/company/dasra",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.linkedin.com/company/dasra",
+        "title": "Dasra - LinkedIn",
+        "content": "Dasra meaning \u2018enlightened giving\u2019 in Sanskrit, is a pioneering strategic philanthropic organization that aims to transform India where \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/company/dasra",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.dasraus.org/",
+        "title": "Dasra US",
+        "content": "Dasra works with philanthropists, families, and corporate foundations to support them in amplifying their giving impact through \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.dasraus.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://rohininilekaniphilanthropies.org/grantees/dasra-impact-foundation/",
+        "title": "Dasra (Impact Foundation) - Rohini Nilekani Philanthropies",
+        "content": "A leading strategic philanthropy foundation, Dasra\u2019s focus is on creating large-scale social change in India. Dasra drives collaborative \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rohininilekaniphilanthropies.org",
+          "/grantees/dasra-impact-foundation/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://dasraphilanthropyweek.org/",
+        "title": "Dasra Philanthropy Week",
+        "content": "Taking place during Dasra Philanthropy Week, IPF Mumbai brings together voices from across geographies to reflect on emerging \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "dasraphilanthropyweek.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://dasra.org/resources",
+        "title": "Resources | Strategic Philanthropy Insights | Dasra",
+        "content": "Featuring 25+ years of Dasra\u2019s research and thought leadership, this repository combines on-ground data, sectoral wisdom, and \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "dasra.org",
+          "/resources",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://dasra.org/index.php/what-we-do",
+        "title": "What We Do: Driving Collective Action Across Sectors | Dasra",
+        "content": "Discover how Dasra drives systems change by working with nonprofits, philanthropists, and ecosystem enablers to create \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "dasra.org",
+          "/index.php/what-we-do",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://dasra.org/our-team",
+        "title": "Dasra Team | Driving social change",
+        "content": "Competence and compassion go hand in hand at team Dasra. Driven by purpose, Team Dasra combines expertise and empathy to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "dasra.org",
+          "/our-team",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,336 @@
+{
+  "slug": "anthill-ventures",
+  "name": "Anthill Ventures",
+  "family": "failure",
+  "query": "\"Anthill Ventures\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.313,
+  "timestamp_utc": "2026-09-13T06:35:01.418972+00:00",
+  "request_index_this_run": 5,
+  "seconds_since_run_start": 12.8,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Anthill Ventures\" shut down closed pivot losses",
+    "results": [
+      {
+        "url": "https://www.sites.google.com/",
+        "title": "Google Drive: Sign-in",
+        "content": "Access Google Drive with a Google account (for personal use) or Google Workspace account (for business use).",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.sites.google.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://sites.google.com/new?hl=ES",
+        "title": "Google Sites",
+        "content": "Crie e personalize sites com Google Sites, integrando-os ao Google Workspace para colabora\u00e7\u00e3o eficiente.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "sites.google.com",
+          "/new",
+          "",
+          "hl=ES",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://m.sites.google.com/site/unblockedgamesportal/portal",
+        "title": "Unblocked Games Portal - Portal - m.sites.google.com",
+        "content": "Portal unblocked Game Portal Unblocked is a mind-bending puzzle platform that challenges players to think creatively using the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "m.sites.google.com",
+          "/site/unblockedgamesportal/portal",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://m.sites.google.com/site/unblockedgamesportal/racing-games",
+        "title": "Unblocked Games Portal - Racing Games - m.sites.google.com",
+        "content": "Racing Unblocked Games Play unblocked Racing games, Car games, Drift and many more, Play here coolest online games",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "m.sites.google.com",
+          "/site/unblockedgamesportal/racing-games",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://sites.google.com/?hl=pt-br",
+        "title": "Google Drive: login",
+        "content": "Acesse o Google Drive com uma Conta do Google pessoal ou uma conta do Google Workspace, para uso comercial.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "sites.google.com",
+          "/",
+          "",
+          "hl=pt-br",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://sites.google.com/moe.gov.bt/thinley/home",
+        "title": "ICT CURRICULUM - Google Sites",
+        "content": "The ICT curriculum for classes PP-XII aspires to achieve three key goals for Bhutanese students at the end of their school education.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "sites.google.com",
+          "/moe.gov.bt/thinley/home",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://sites.google.com/moe.gov.bt/thinley/resources/class-ix-x",
+        "title": "ICT CURRICULUM - Class IX - X - Google Sites",
+        "content": "The ICT curriculum expects students of classes IX and X to achieve certain competencies that are listed below at the year. Teachers \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "sites.google.com",
+          "/moe.gov.bt/thinley/resources/class-ix-x",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://sites.google.com/view/informatica-areista-jhorman/octavo",
+        "title": "INFORMATICA-ARE - OCTAVO - Google Sites",
+        "content": "Lic. JHORMAN H. PINZON Page updated",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "sites.google.com",
+          "/view/informatica-areista-jhorman/octavo",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://sites.google.com/site/horstwebdesign/home-1",
+        "title": "Google Sites",
+        "content": "Google Analytics installation and monitoring to measure adoption, engagement and site flow. Support for the client organization's \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "sites.google.com",
+          "/site/horstwebdesign/home-1",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://sites.google.com/view/sitedesafio/inicio",
+        "title": "Google Sites",
+        "content": "Google Sites es una aplicaci\u00f3n en l\u00ednea gratuita ofrecida por la empresa estadounidense Google como parte de la suite de \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "sites.google.com",
+          "/view/sitedesafio/inicio",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

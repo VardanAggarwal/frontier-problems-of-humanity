@@ -1,0 +1,136 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\n      \"question_id\": \"q1_one_line\",\n      \"source_id\": \"S2\",\n      \"answer\": \"She co-founds Care for Air India and works as an independent journalist to highlight environmental health impacts of air pollution.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q2_type\",\n      \"source_id\": \"S2\",\n      \"answer\": \"individual\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q3_legs\",\n      \"source_id\": \"S2\",\n      \"answer\": \"activism\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q5_ecosystem_role\",\n      \"source_id\": \"S2\",\n      \"answer\": \"researcher\",\n      \"confidence\": 0.7\n    },\n    {\n      \"question_id\": \"q6_affected_led\",\n      \"source_id\": \"S2\",\n      \"answer\": \"no\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q7_representation_unit\",\n      \"source_id\": \"S2\",\n      \"answer\": \"central-org\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q8_geography\",\n      \"source_id\": \"S2\",\n      \"answer\": \"India\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q12_viability_note\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Affected-led-ness determines viability for activism leg.\",\n      \"confidence\": 0.7\n    }\n  ],\n  \"claims\": [\n    {\n      \"field\": \"title\",\n      \"value\": \"Jyoti Pande Lavakare\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"type\",\n      \"value\": \"individual\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"legs\",\n      \"value\": \"activism\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"depth\",\n      \"value\": \"registry\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"ecosystem_role\",\n      \"value\": \"researcher\",\n      \"confidence\": 0.7\n    },\n    {\n      \"field\": \"affected_led\",\n      \"value\": \"no\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"representation_unit\",\n      \"value\": \"central-org\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"stance\",\n      \"value\": \"works-the-remedy\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"geography\",\n      \"value\": \"India\",\n      \"confidence\": 0.9\n    }\n  ],\n  \"emits\": [\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Care for Air India\",\n      \"hint\": \"clean air advocacy NGO co-founded by Jyoti Pande Lavakare\"\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Nirmala Sitharaman\",\n      \"hint\": \"India's Finance Minister who allocated clean air budget\"\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"15th Finance Commission\",\n      \"hint\": \"Indian constitutional body recommending finance grants, mentioned in clean air budget context\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"dst_name\": \"air pollution\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"Jyoti Pande Lavakare is the co-founder of Care for Air India. She is an independent journalist focusing on environmental health issues.\"\n    },\n    {\n      \"dst_name\": \"Care for Air India\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 3,\n      \"evidence\": \"Jyoti Pande Lavakare is the co-founder of Care for Air India.\"\n    }\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S2",
+    "answer": "She co-founds Care for Air India and works as an independent journalist to highlight environmental health impacts of air pollution.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S2",
+    "answer": "individual",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S2",
+    "answer": "activism",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S2",
+    "answer": "researcher",
+    "confidence": 0.7
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S2",
+    "answer": "no",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S2",
+    "answer": "central-org",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S2",
+    "answer": "India",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S2",
+    "answer": "Affected-led-ness determines viability for activism leg.",
+    "confidence": 0.7
+   }
+  ],
+  "claims": [
+   {
+    "field": "title",
+    "value": "Jyoti Pande Lavakare",
+    "confidence": 0.9
+   },
+   {
+    "field": "type",
+    "value": "individual",
+    "confidence": 0.9
+   },
+   {
+    "field": "legs",
+    "value": "activism",
+    "confidence": 0.8
+   },
+   {
+    "field": "depth",
+    "value": "registry",
+    "confidence": 0.8
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "researcher",
+    "confidence": 0.7
+   },
+   {
+    "field": "affected_led",
+    "value": "no",
+    "confidence": 0.8
+   },
+   {
+    "field": "representation_unit",
+    "value": "central-org",
+    "confidence": 0.8
+   },
+   {
+    "field": "stance",
+    "value": "works-the-remedy",
+    "confidence": 0.8
+   },
+   {
+    "field": "geography",
+    "value": "India",
+    "confidence": 0.9
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "Care for Air India",
+    "hint": "clean air advocacy NGO co-founded by Jyoti Pande Lavakare"
+   },
+   {
+    "kind": "actor",
+    "name": "Nirmala Sitharaman",
+    "hint": "India's Finance Minister who allocated clean air budget"
+   },
+   {
+    "kind": "actor",
+    "name": "15th Finance Commission",
+    "hint": "Indian constitutional body recommending finance grants, mentioned in clean air budget context"
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "air pollution",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "Jyoti Pande Lavakare is the co-founder of Care for Air India. She is an independent journalist focusing on environmental health issues."
+   },
+   {
+    "dst_name": "Care for Air India",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 3,
+    "evidence": "Jyoti Pande Lavakare is the co-founder of Care for Air India."
+   }
+  ]
+ },
+ "parse_error": null
+}

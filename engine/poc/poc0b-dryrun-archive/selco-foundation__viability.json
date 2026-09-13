@@ -1,0 +1,84 @@
+{
+  "slug": "selco-foundation",
+  "name": "SELCO Foundation",
+  "family": "viability",
+  "query": "\"SELCO Foundation\" revenue customers model",
+  "question_ids": [
+    "tag:viability_note",
+    "legs"
+  ],
+  "elapsed_s": 0.258,
+  "timestamp_utc": "2026-09-13T06:35:16.965246+00:00",
+  "request_index_this_run": 10,
+  "seconds_since_run_start": 28.3,
+  "n_results": 1,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"SELCO Foundation\" revenue customers model",
+    "results": [
+      {
+        "url": "https://www.ja.live.missav.com/HIKARI_x0/photos",
+        "title": "www.ja.live.missav.com",
+        "content": "",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.ja.live.missav.com",
+          "/HIKARI_x0/photos",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,689 @@
+{
+  "slug": "joginder-singh-ugrahan",
+  "name": "Joginder Singh Ugrahan",
+  "family": "viability",
+  "query": "\"Joginder Singh Ugrahan\" revenue customers model",
+  "question_ids": [
+    "tag:viability_note",
+    "legs"
+  ],
+  "elapsed_s": 0.608,
+  "timestamp_utc": "2026-09-13T09:02:33.615486+00:00",
+  "request_index_this_run": 94,
+  "seconds_since_run_start": 2401.0,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Joginder Singh Ugrahan\" revenue customers model",
+    "results": [
+      {
+        "url": "https://www.youtube.com/channel/UCSOYgLuAvj64O64Q9h9P5-w",
+        "title": "Thara bhai Jogindar - YouTube",
+        "content": "Thara Bhai Joginder Vlog Channel \ufe0fInstagram Username - @thara.Bhai.jogindar ( 20 Million ) Facebook - Thara Bhai Joginder ( 10 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/channel/UCSOYgLuAvj64O64Q9h9P5-w",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Joint meeting of kisan organisations to be held on July 6th ...",
+        "content": "1 Jul 2022 \u00b7 ... model required Chandigarh 1 July ( ) Bharti Kisan Union ( Ekta- Ugrahan) State President Joginder Singh Ugrahan and State General Secretary ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://www.facebook.com/bkuektaugrahan/posts/joint-meeting-of-kisan-organisations-to-be-held-on-july-6th-water-crisis-of-punj/1423263971526075/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/bkuektaugrahan/posts/joint-meeting-of-kisan-organisations-to-be-held-on-july-6th-water-crisis-of-punj/1423263971526075/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.instagram.com/thara.bhai.jogindar/",
+        "title": "Thara Bhai Jogindar ( Jogindar Yadav ) (@thara.bhai ... - Instagram",
+        "content": "19M Followers, 347 Following, 1,397 Posts - See Instagram photos and videos from Thara Bhai Jogindar ( Jogindar Yadav ) \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/thara.bhai.jogindar/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "BKU (EU) head Joginder Ugrahan - The Caravan",
+        "content": "7 Jan 2021 \u00b7 Joginder Singh Ugrahan founded the BKU (EU), which wields influence in Punjab's Malwa region, in 2002. He has been leading farmers' protests ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://caravanmagazine.in/agriculture/image-that-modi-government-doesnt-retract-statements-is-shattered-bku-ekta-ugrahan-joginder-ugrahan",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "caravanmagazine.in",
+          "/agriculture/image-that-modi-government-doesnt-retract-statements-is-shattered-bku-ekta-ugrahan-joginder-ugrahan",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://starsunfolded.com/thara-bhai-joginder/",
+        "title": "Thara Bhai Joginder Age, Wife, Family, Biography & More",
+        "content": "In 2020, he created a YouTube channel, Thara Bhai Joginder; the channel has more than 125k subscribers. He is very active on \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "starsunfolded.com",
+          "/thara-bhai-joginder/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Release leaders by Feb 14 or we will intensify stir, warns ...",
+        "content": "9 Feb 2026 \u00b7 A case of attempt to murder and abduction was registered against 11 union leaders, including president Joginder Singh Ugrahan. But one year ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://www.hindustantimes.com/cities/chandigarh-news/release-leaders-by-feb-14-or-we-will-intensify-stir-warns-farmer-leader-ugrahan-101770577285202.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.hindustantimes.com",
+          "/cities/chandigarh-news/release-leaders-by-feb-14-or-we-will-intensify-stir-warns-farmer-leader-ugrahan-101770577285202.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Joginder_Sharma",
+        "title": "Joginder Sharma - Wikipedia",
+        "content": "DSP Joginder Sharma \u24d8 (born 23 October 1983) is an Indian police officer and former professional cricketer who currently serves as \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Joginder_Sharma",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "JOGINDER SINGH UGRAHAN \u0a26\u0a40 CM MANN \u0a28\u0a42\u0a70 \u0a38\u0a32\u0a3e\u0a39",
+        "content": "10 Mar 2025 \u00b7 JOGINDER SINGH UGRAHAN \u0a26\u0a40 CM MANN \u0a28\u0a42\u0a70 \u0a38\u0a32\u0a3e\u0a39 | #shorts #FarmersProtest #jogindersinghugrahan #bku #SKMvsGovt #MSP #punjabgovernment ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.facebook.com/juspunjabitvofficial/posts/joginder-singh-ugrahan-%E0%A8%A6%E0%A9%80-cm-mann-%E0%A8%A8%E0%A9%82%E0%A9%B0-%E0%A8%B8%E0%A8%B2%E0%A8%BE%E0%A8%B9-shorts-farmersprotest-jogindersinghug/1073556594792159/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/juspunjabitvofficial/posts/joginder-singh-ugrahan-%E0%A8%A6%E0%A9%80-cm-mann-%E0%A8%A8%E0%A9%82%E0%A9%B0-%E0%A8%B8%E0%A8%B2%E0%A8%BE%E0%A8%B9-shorts-farmersprotest-jogindersinghug/1073556594792159/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://wikibio.in/thara-bhai-joginder/",
+        "title": "Thara Bhai Joginder Wiki, Age, Wife, Family, Biography & More",
+        "content": "Nov 27, 1994 \u00b7 He started posting videos containing dialogues. One such dialogue which became his signature style was \u2018Thara Bhai \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "wikibio.in",
+          "/thara-bhai-joginder/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Farmers' Struggle Gathers Momentum | Countercurrents",
+        "content": "16 Dec 2020 \u00b7 With great authority and conviction Joginder Singh Ugrahan refuted the allegations of the agitation been influenced or infiltrated by Maoists ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://countercurrents.org/2020/12/farmers-struggle-gathers-momentum/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "countercurrents.org",
+          "/2020/12/farmers-struggle-gathers-momentum/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=U-44HVu4qe8",
+        "title": "Best Of Bhai Joginder Singh Ji Riar Vol 2 - YouTube",
+        "content": "Feb 11, 2016 \u00b7 Most Popular Kirtan By Bhai Joginder Singh Ji Riar : \u2022 Vin Boleya Sabh Kish Janda - Bhai Joginder...",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=U-44HVu4qe8",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Repeal of Two Laws, Putting on Hold Other One Could Have ...",
+        "content": "9 Mar 2021 \u00b7 Repeal of Two Laws, Putting on Hold Other One Could Have Us Shift from Delhi\u2014Joginder Singh Ugrahan ... revenue loss of Rs. 1,000 for a day ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.newsclick.in/repeal-one-law-putting-hold-other-two-have-shift-delhi-Joginder-singh-ugrahan",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.newsclick.in",
+          "/repeal-one-law-putting-hold-other-two-have-shift-delhi-Joginder-singh-ugrahan",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Joginder",
+        "title": "Joginder - Wikipedia",
+        "content": "Joginder (real name Joginder Shelly) was an Indian actor, director, producer, writer, singer, songwriter and distributor. Two Hindi \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Joginder",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Modi: Promise To Double Income Just A Jumla: Ugrahan ...",
+        "content": "Farm group BKU Ekta Ugrahan president Joginder Singh Ugrahan said that the promise of doubling farmer income by 2022 has proved to be hollow. \u201cThis ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://timesofindia.indiatimes.com/city/chandigarh/promise-to-double-income-just-a-jumla-ugrahan/articleshow/88641166.cms",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "timesofindia.indiatimes.com",
+          "/city/chandigarh/promise-to-double-income-just-a-jumla-ugrahan/articleshow/88641166.cms",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.facebook.com/Thara.Bhai.Joginder/reels/",
+        "title": "Thara Bhai Joginder - Facebook",
+        "content": "Yo Joginder Thara Bhai Joginder \u092e\u0926\u0924 \u0915\u0947 \u0932\u093f\u090f WhatsApp.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/Thara.Bhai.Joginder/reels/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "A Case Study of Bharti Kisan Union (Ekta Ugrahan) in Punjab",
+        "content": "29 Apr 2024 \u00b7 Pishaura Singh Sidhupur led the former, while Joginder Singh Ugrahan led BKU (Ekta Ugrahan) (Gill, 2004; Van Dyke, 2021, 2023). Another split in ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://journals.sagepub.com/doi/10.1177/09763996241244559",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "journals.sagepub.com",
+          "/doi/10.1177/09763996241244559",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.instagram.com/jogi23sharma/",
+        "title": "Joginder Sharma (@jogi23sharma) \u2022 Instagram photos and videos",
+        "content": "151K Followers, 423 Following, 1,527 Posts - \ud83c\udfcfJoginder Sharma \ud83c\udfcf (@jogi23sharma) on Instagram: \"Joginder Sharma \ud83c\udfcf Cricketer \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/jogi23sharma/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Govt-farmer meeting inconclusive again; Next round on ...",
+        "content": "Farmer leader Joginder Singh Ugrahan told reporters after the meeting that the unions urged the government to repeal the three laws, but the Centre was ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://www.nationalheraldindia.com/national/govt-farmer-meeting-inconclusive-again-next-round-on-january-19",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.nationalheraldindia.com",
+          "/national/govt-farmer-meeting-inconclusive-again-next-round-on-january-19",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.sarkarinaukriexams.com/joginder-net-worth-bio-bp",
+        "title": "Thara bhai Joginder Net Worth, Biography, Family, Girlfriend, Age",
+        "content": "Jul 31, 2023 \u00b7 Joginder Yadav, an extraordinary Indian YouTuber known for his captivating character, Thara Bhai Joginder, was born \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.sarkarinaukriexams.com",
+          "/joginder-net-worth-bio-bp",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Acupuncturist, ex-Army man, doctor \u2014 5 farmer leaders who ...",
+        "content": "2 Dec 2020 \u00b7 ... Joginder Singh Ugrahan, Satnam Singh Pannu and Darshan Pal ... Now, they look to Punjab and Haryana for their agricultural model.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://theprint.in/india/acupuncturist-ex-army-man-doctor-5-farmer-leaders-who-shaped-protest-against-farm-laws/555363/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "theprint.in",
+          "/india/acupuncturist-ex-army-man-doctor-5-farmer-leaders-who-shaped-protest-against-farm-laws/555363/",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ]
+    ]
+  }
+}

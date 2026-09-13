@@ -1,0 +1,264 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\n      \"question_id\": \"q1_one_line\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Bharatiya Kisan Union (Ekta Ugrahan) organizes farmer protests and mobilizes farmers through block-level meetings and village outreach to demand policy changes and compensation.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q2_type\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Org\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q3_legs\",\n      \"source_id\": \"S1\",\n      \"answer\": \"activism\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q5_ecosystem_role\",\n      \"source_id\": \"S1\",\n      \"answer\": \"operator\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q6_affected_led\",\n      \"source_id\": \"S1\",\n      \"answer\": \"yes\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q7_representation_unit\",\n      \"source_id\": \"S1\",\n      \"answer\": \"local-affected\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q8_geography\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Patiala, Punjab, India\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q12_viability_note\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Viability stems from being farmer-led (affected-led), which sustains activism through mobilization of farmers.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q14_ask_need\",\n      \"source_id\": \"S1\",\n      \"answer\": \"They need scrapping of proposed India-US trade agreement, repeal of four labour codes, withdrawal of Electricity Amendment Bill and Seed Bill, immediate release of compensation for paddy crops damaged by dwarf virus, scrapping of land pooling policy, grant of proprietary rights to tenant cultivators, financial relief for suicide-victim farm families, statutory guarantee for MSP, fair distribution of river waters, elimination of corporate control over water resources, assured canal water supply to every field, provision of clean drinking water to all households, and unconditional dismissal of all criminal cases and stubble-burning FIRs registered against farmers.\",\n      \"confidence\": 0.9\n    }\n  ],\n  \"claims\": [\n    {\n      \"field\": \"title\",\n      \"value\": \"Bharatiya Kisan Union (Ekta Ugrahan)\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"type\",\n      \"value\": \"org\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"legs\",\n      \"value\": \"[\\\"activism\\\"]\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"depth\",\n      \"value\": \"tracked\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"lifecycle\",\n      \"value\": \"operating\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ecosystem_role\",\n      \"value\": \"operator\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"affected_led\",\n      \"value\": \"yes\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"representation_unit\",\n      \"value\": \"local-affected\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"geography\",\n      \"value\": \"Patiala, Punjab, India\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:need:policy_change\",\n      \"value\": \"scrapping of proposed India-US trade agreement and repeal of four labour codes\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:need:compensation\",\n      \"value\": \"immediate release of compensation for paddy crops damaged by dwarf virus\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:need:land_rights\",\n      \"value\": \"grant of proprietary rights to tenant cultivators and scrapping of land pooling policy\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:need:msp\",\n      \"value\": \"statutory guarantee for Minimum Support Price\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:need:water\",\n      \"value\": \"fair distribution of river waters, elimination of corporate control over water resources, assured canal water supply, clean drinking water for all households\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:need:legal_relief\",\n      \"value\": \"unconditional dismissal of all criminal cases and stubble-burning FIRs registered against farmers\",\n      \"confidence\": 0.9\n    }\n  ],\n  \"emits\": [\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Jagdeep Singh Chhanna\",\n      \"hint\": \"district vice-president of BKU Ekta Ugrahan\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Joginder Ugrahan\",\n      \"hint\": \"leader of BKU Ekta Ugrahan\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Dr Balbir Singh\",\n      \"hint\": \"Punjab health minister cited by BKU Ekta Ugrahan\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"org\",\n      \"name\": \"Punjab State Power Corporation Limited (PSPCL)\",\n      \"hint\": \"utility targeted in protests\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"org\",\n      \"name\": \"Land Mortgage Bank\",\n      \"hint\": \"financial institution targeted in protests\",\n      \"signals\": {}\n    }\n  ],\n  \"edges\": [\n    {\n      \"dst_name\": \"anti-farmer policies of central and state govt\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"S1: BKU Ekta Ugrahan will launch indefinite protest against alleged anti-farmer policies of central and state govts.\"\n    },\n    {\n      \"dst_name\": \"lack of compensation for paddy crop damage\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"S1: demands immediate release of compensation for paddy crops damaged by dwarf virus.\"\n    },\n    {\n      \"dst_name\": \"absence of statutory MSP guarantee\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"S1: demands statutory guarantee for Minimum Support Price.\"\n    },\n    {\n      \"dst_name\": \"land pooling policy\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"S1: demands scrapping of land pooling policy.\"\n    },\n    {\n      \"dst_name\": \"corporate control over water resources\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"S1: demands elimination of corporate control over water resources.\"\n    },\n    {\n      \"dst_name\": \"unfair water distribution\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"S1: demands fair distribution of river waters and assured canal water supply to every field.\"\n    },\n    {\n      \"dst_name\": \"lack of clean drinking water\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"S1: demands provision of clean drinking water to all households.\"\n    },\n    {\n      \"dst_name\": \"criminal cases and stubble-burning FIRs against farmers\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"S1: demands unconditional dismissal of all criminal cases and stubble-burning FIRs registered against farmers.\"\n    },\n    {\n      \"dst_name\": \"Gurdwara Dhaithal Sahib\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"convenes\",\n      \"relevance\": 2,\n      \"evidence\": \"S1: decision finalised at district committee meeting held at Gurdwara Dhaithal Sahib.\"\n    },\n    {\n      \"dst_name\": \"Punjab State Power Corporation Limited (PSPCL)\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 2,\n      \"evidence\": \"S1: will stage demonstrations outside offices of PSPCL.\"\n    },\n    {\n      \"dst_name\": \"Land Mortgage Bank\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 2,\n      \"evidence\": \"S1: will stage demonstrations outside offices of Land Mortgage Bank.\"\n    },\n    {\n      \"dst_name\": \"Dr Balbir Singh\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 2,\n      \"evidence\": \"S1: cites public assurances earlier made by Punjab health minister Dr Balbir Singh.\"\n    },\n    {\n      \"dst_name\": \"Jagdeep Singh Chhanna\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 2,\n      \"evidence\": \"S1: meeting chaired by district vice-president Jagdeep Singh Chhanna.\"\n    }\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S1",
+    "answer": "Bharatiya Kisan Union (Ekta Ugrahan) organizes farmer protests and mobilizes farmers through block-level meetings and village outreach to demand policy changes and compensation.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S1",
+    "answer": "Org",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S1",
+    "answer": "activism",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S1",
+    "answer": "operator",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S1",
+    "answer": "yes",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S1",
+    "answer": "local-affected",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S1",
+    "answer": "Patiala, Punjab, India",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S1",
+    "answer": "Viability stems from being farmer-led (affected-led), which sustains activism through mobilization of farmers.",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S1",
+    "answer": "They need scrapping of proposed India-US trade agreement, repeal of four labour codes, withdrawal of Electricity Amendment Bill and Seed Bill, immediate release of compensation for paddy crops damaged by dwarf virus, scrapping of land pooling policy, grant of proprietary rights to tenant cultivators, financial relief for suicide-victim farm families, statutory guarantee for MSP, fair distribution of river waters, elimination of corporate control over water resources, assured canal water supply to every field, provision of clean drinking water to all households, and unconditional dismissal of all criminal cases and stubble-burning FIRs registered against farmers.",
+    "confidence": 0.9
+   }
+  ],
+  "claims": [
+   {
+    "field": "title",
+    "value": "Bharatiya Kisan Union (Ekta Ugrahan)",
+    "confidence": 0.9
+   },
+   {
+    "field": "type",
+    "value": "org",
+    "confidence": 0.9
+   },
+   {
+    "field": "legs",
+    "value": "[\"activism\"]",
+    "confidence": 0.9
+   },
+   {
+    "field": "depth",
+    "value": "tracked",
+    "confidence": 0.9
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating",
+    "confidence": 0.9
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "operator",
+    "confidence": 0.9
+   },
+   {
+    "field": "affected_led",
+    "value": "yes",
+    "confidence": 0.9
+   },
+   {
+    "field": "representation_unit",
+    "value": "local-affected",
+    "confidence": 0.9
+   },
+   {
+    "field": "geography",
+    "value": "Patiala, Punjab, India",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:policy_change",
+    "value": "scrapping of proposed India-US trade agreement and repeal of four labour codes",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:compensation",
+    "value": "immediate release of compensation for paddy crops damaged by dwarf virus",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:land_rights",
+    "value": "grant of proprietary rights to tenant cultivators and scrapping of land pooling policy",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:msp",
+    "value": "statutory guarantee for Minimum Support Price",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:water",
+    "value": "fair distribution of river waters, elimination of corporate control over water resources, assured canal water supply, clean drinking water for all households",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:legal_relief",
+    "value": "unconditional dismissal of all criminal cases and stubble-burning FIRs registered against farmers",
+    "confidence": 0.9
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "Jagdeep Singh Chhanna",
+    "hint": "district vice-president of BKU Ekta Ugrahan",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Joginder Ugrahan",
+    "hint": "leader of BKU Ekta Ugrahan",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Dr Balbir Singh",
+    "hint": "Punjab health minister cited by BKU Ekta Ugrahan",
+    "signals": {}
+   },
+   {
+    "kind": "org",
+    "name": "Punjab State Power Corporation Limited (PSPCL)",
+    "hint": "utility targeted in protests",
+    "signals": {}
+   },
+   {
+    "kind": "org",
+    "name": "Land Mortgage Bank",
+    "hint": "financial institution targeted in protests",
+    "signals": {}
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "anti-farmer policies of central and state govt",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: BKU Ekta Ugrahan will launch indefinite protest against alleged anti-farmer policies of central and state govts."
+   },
+   {
+    "dst_name": "lack of compensation for paddy crop damage",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: demands immediate release of compensation for paddy crops damaged by dwarf virus."
+   },
+   {
+    "dst_name": "absence of statutory MSP guarantee",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: demands statutory guarantee for Minimum Support Price."
+   },
+   {
+    "dst_name": "land pooling policy",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: demands scrapping of land pooling policy."
+   },
+   {
+    "dst_name": "corporate control over water resources",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: demands elimination of corporate control over water resources."
+   },
+   {
+    "dst_name": "unfair water distribution",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: demands fair distribution of river waters and assured canal water supply to every field."
+   },
+   {
+    "dst_name": "lack of clean drinking water",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: demands provision of clean drinking water to all households."
+   },
+   {
+    "dst_name": "criminal cases and stubble-burning FIRs against farmers",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S1: demands unconditional dismissal of all criminal cases and stubble-burning FIRs registered against farmers."
+   },
+   {
+    "dst_name": "Gurdwara Dhaithal Sahib",
+    "dst_kind": "actor",
+    "edge_kind": "convenes",
+    "relevance": 2,
+    "evidence": "S1: decision finalised at district committee meeting held at Gurdwara Dhaithal Sahib."
+   },
+   {
+    "dst_name": "Punjab State Power Corporation Limited (PSPCL)",
+    "dst_kind": "actor",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "evidence": "S1: will stage demonstrations outside offices of PSPCL."
+   },
+   {
+    "dst_name": "Land Mortgage Bank",
+    "dst_kind": "actor",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "evidence": "S1: will stage demonstrations outside offices of Land Mortgage Bank."
+   },
+   {
+    "dst_name": "Dr Balbir Singh",
+    "dst_kind": "actor",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "evidence": "S1: cites public assurances earlier made by Punjab health minister Dr Balbir Singh."
+   },
+   {
+    "dst_name": "Jagdeep Singh Chhanna",
+    "dst_kind": "actor",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "evidence": "S1: meeting chaired by district vice-president Jagdeep Singh Chhanna."
+   }
+  ]
+ },
+ "parse_error": null
+}

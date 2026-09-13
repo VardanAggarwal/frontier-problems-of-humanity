@@ -1,0 +1,465 @@
+{
+  "slug": "bku-ekta-ugrahan",
+  "name": "Bharatiya Kisan Union (Ekta Ugrahan)",
+  "family": "reach",
+  "query": "\"Bharatiya Kisan Union (Ekta Ugrahan)\" contact twitter newsletter",
+  "question_ids": [
+    "contact_route",
+    "channel:*"
+  ],
+  "elapsed_s": 0.611,
+  "timestamp_utc": "2026-09-13T09:00:51.368982+00:00",
+  "request_index_this_run": 90,
+  "seconds_since_run_start": 2298.7,
+  "n_results": 12,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Bharatiya Kisan Union (Ekta Ugrahan)\" contact twitter newsletter",
+    "results": [
+      {
+        "url": "https://typosentinel.com/about",
+        "title": "TypoSentinel - AI-Powered Supply Chain Defense",
+        "content": "Defend your digital supply chain with artificial intelligence. Advanced typosquatting detection and package security.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "typosentinel.com",
+          "/about",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Twitter blocks several accounts posting messages in support of ...",
+        "content": "1 Feb 2021 \u00b7 The official handle of the Kisan Ekta Morcha and the Bharatiya Kisan Union-Ekta (Ugrahan) were withheld. CPI(M) Polit Bureau member and ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://www.thehindu.com/news/national/twitter-blocks-several-accounts-posting-messages-in-support-of-farmers-stir-restores-most-of-them-later/article33717312.ece",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.thehindu.com",
+          "/news/national/twitter-blocks-several-accounts-posting-messages-in-support-of-farmers-stir-restores-most-of-them-later/article33717312.ece",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://typosentinel.com/pricing",
+        "title": "TypoSentinel - AI-Powered Supply Chain Defense",
+        "content": "TypoSentinel - AI-Powered Supply Chain Defense. Protect your dependencies from typosquatting attacks with advanced machine \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "typosentinel.com",
+          "/pricing",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "On Thursday, the Bharatiya Kisan Union (Ekta-Ugrahan), marked ...",
+        "content": "On Thursday, the Bharatiya Kisan Union (Ekta- Ugrahan), marked Human Rights Day by demanding the release of all rights activists and intellectuals who are ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://www.facebook.com/thewire.in/posts/on-thursday-the-bharatiya-kisan-union-ekta-ugrahan-marked-human-rights-day-by-de/4676613162412977/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/thewire.in/posts/on-thursday-the-bharatiya-kisan-union-ekta-ugrahan-marked-human-rights-day-by-de/4676613162412977/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "template": "default.html",
+        "title": "Bharatiya Kisan Union (Ekta Ugrahan) has announced that it ...",
+        "content": "25 Jul 2026 \u00b7 Bharatiya Kisan Union (Ekta Ugrahan) has announced that it will join the Cockroach Janta Party protest in Delhi.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://www.instagram.com/p/DbNVWpPCNS9/?hl=en",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/p/DbNVWpPCNS9/",
+          "",
+          "hl=en",
+          ""
+        ]
+      },
+      {
+        "template": "default.html",
+        "title": "BKU's Ugrahan faction to boycott all-party meeting on land ...",
+        "content": "10 Jul 2025 \u00b7 The Bharatiya Kisan Union (Ekta-Ugrahan) has announced that it will boycott the all-party meeting scheduled for July 18 in Chandigarh, ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.hindustantimes.com/cities/chandigarh-news/bkus-ugrahan-faction-to-boycott-all-party-meeting-on-land-pooling-policy-101752087713648.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.hindustantimes.com",
+          "/cities/chandigarh-news/bkus-ugrahan-faction-to-boycott-all-party-meeting-on-land-pooling-policy-101752087713648.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "template": "default.html",
+        "title": "Multiple Twitter Accounts Censored in India Including of ...",
+        "content": "1 Feb 2021 \u00b7 ... Bharatiya Kisan Union (Ekta Ugrahan). News agency ANI quoted sources and said that the Ministry of Electronics and Information Technology ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://www.newsclick.in/Multiple-Twitter-Accounts-Censored-India-Including-Farmers-Unions-Media-House",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.newsclick.in",
+          "/Multiple-Twitter-Accounts-Censored-India-Including-Farmers-Unions-Media-House",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "template": "default.html",
+        "title": "The Haryana Story - Facebook",
+        "content": "11 Jun 2026 \u00b7 ... Bharatiya Kisan Union Ekta (Ugrahan) reached the protest site on Sunday. Ahead of the talks, the Working Group of All-India Kisan Sangharsh ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.facebook.com/theharyanastory/posts/thousands-of-farmers-under-the-banner-of-bharatiya-kisan-union-ekta-siddhupur-he/122276336804164127/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/theharyanastory/posts/thousands-of-farmers-under-the-banner-of-bharatiya-kisan-union-ekta-siddhupur-he/122276336804164127/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "template": "default.html",
+        "title": "BKU Ekta Ugrahan plans August 20 protests at three corporate ...",
+        "content": "11 Aug 2026 \u00b7 Chandigarh, Aug 11 (Neeraj Bali) Punjab's Bharatiya Kisan union (Ekta Ugrahan) will take its campaign against corporate-linked policies to ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.uniindia.com/bku-ekta-ugrahan-plans-august-20-protests-at-three-corporate-sites-in-punjab/north/news/3940388.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.uniindia.com",
+          "/bku-ekta-ugrahan-plans-august-20-protests-at-three-corporate-sites-in-punjab/north/news/3940388.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "template": "default.html",
+        "title": "Twitter restores Caravan, Kisan Ekta Morcha and many other ...",
+        "content": "1 Feb 2021 \u00b7 These include farmers' group Bharatiya Kisan Union Ekta Ugrahan and Tractor to Twitter. CPI(M) Puducherry's handle was also withheld ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://scroll.in/latest/985648/twitter-withholds-accounts-of-caravan-kisan-ekta-morcha-and-others-in-response-to-legal-request",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "scroll.in",
+          "/latest/985648/twitter-withholds-accounts-of-caravan-kisan-ekta-morcha-and-others-in-response-to-legal-request",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "template": "default.html",
+        "title": "BKU (Ekta-Ugrahan) supports farm unions' decision to reject ...",
+        "content": "21 Feb 2024 \u00b7 Bharatiya Kisan Union (Ekta-Ugrahan) on Wednesday appreciated the decision of protesting farmer unions to reject Central Government's offer ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://www.tribuneindia.com/news/punjab/bku-ekta-ugrahan-supports-farm-unions-decision-to-reject-govts-offer-oppose-use-of-force-on-peaceful-protest-593104/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.tribuneindia.com",
+          "/news/punjab/bku-ekta-ugrahan-supports-farm-unions-decision-to-reject-govts-offer-oppose-use-of-force-on-peaceful-protest-593104/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "template": "default.html",
+        "title": "Foreign Funds Received By Bharatiya Kisan Union ... - YouTube",
+        "content": "21 Dec 2020 \u00b7 The government has sought details of foreign funds received by the Bharatiya Kisan Union (Ekta-Ugrahan) ... Twitter: https://twitter.com ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.youtube.com/watch?v=yUosbO2DvyM",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=yUosbO2DvyM",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ]
+    ]
+  }
+}

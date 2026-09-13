@@ -1,0 +1,336 @@
+{
+  "slug": "rainmatter-foundation",
+  "name": "Rainmatter Foundation",
+  "family": "failure",
+  "query": "\"Rainmatter Foundation\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.737,
+  "timestamp_utc": "2026-09-13T08:40:02.147531+00:00",
+  "request_index_this_run": 41,
+  "seconds_since_run_start": 1049.5,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Rainmatter Foundation\" shut down closed pivot losses",
+    "results": [
+      {
+        "url": "https://rainmatter.com/",
+        "title": "Rainmatter by Zerodha \u2013 Indian fintech and health fund",
+        "content": "We back Indian founders that are working on helping Indians make better choices with their money and health. At the end of the day, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rainmatter.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.rainmeter.net/",
+        "title": "Rainmeter, desktop customization tool",
+        "content": "May 20, 2026 \u00b7 Rainmeter uses very little hardware resources and will run perfectly well on any PC using Microsoft Windows 7 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.rainmeter.net",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://rainmatter.com/about/",
+        "title": "Rainmatter by Zerodha \u2013 Indian fintech and health fund",
+        "content": "The first platform to build on top of Kite APIs was smallcase, and the Rainmatter journey started from there. Fast-forward to today, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rainmatter.com",
+          "/about/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://rainmatter.org/",
+        "title": "Home - Rainmatter Foundation Blog",
+        "content": "Founded in 2019, we are a non-profit organisation in India that supports organisations and projects for climate action, a healthier \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rainmatter.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://in.linkedin.com/company/rainmatterin",
+        "title": "Rainmatter by Zerodha | LinkedIn",
+        "content": "Rainmatter by Zerodha | 78,833 followers on LinkedIn. Rainmatter backs Indian fintech, climate, and health startups. Have the next \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/company/rainmatterin",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://rainmatter.org/about/",
+        "title": "About us - Rainmatter Foundation Blog",
+        "content": "Founded in 2021, we are a non-profit organisation that supports organisations and projects for climate action, a healthier \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rainmatter.org",
+          "/about/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.youtube.com/@rainmatterin",
+        "title": "Rainmatter by Zerodha - YouTube",
+        "content": "Kunal Shah's (Cred) playbook for hiring & retaining great talent. Ep 1 of Built From Scratch is live on @Rainmatter Originals! Think \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/@rainmatterin",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://zerodha.com/z-connect/rainmatter/introducing-rainmatter",
+        "title": "Introducing Rainmatter \u2013 Z-Connect by Zerodha",
+        "content": "Apr 2, 2019 \u00b7 This was our reason for setting up Rainmatter \u2014 an incubator, partner, investor, and co-founder for different investment \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "zerodha.com",
+          "/z-connect/rainmatter/introducing-rainmatter",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://discuss.rainmatter.com/",
+        "title": "Rainmatter - All things Rainmatter",
+        "content": "Desi Khand is good for health? Does Rainmatter also invest in DeepTech? Wearable users: which one metric do you actually act on \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "discuss.rainmatter.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://rainmatter.com/health/",
+        "title": "Rainmatter by Zerodha \u2013 Indian fintech and health fund",
+        "content": "Provide delicious, sustainable, and easy-to-cook plant-based ingredients to make home-cooked meals protein-rich. Platform to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rainmatter.com",
+          "/health/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

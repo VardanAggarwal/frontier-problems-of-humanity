@@ -1,0 +1,181 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\"question_id\": \"q1_one_line\", \"source_id\": \"S1\", \"answer\": \"SELCO Foundation demonstrates and researches small biomass cook stoves with end-user testing to improve energy efficiency and renewable energy cooking solutions.\", \"confidence\": 0.9},\n    {\"question_id\": \"q2_type\", \"source_id\": \"S2\", \"answer\": \"org\", \"confidence\": 0.95},\n    {\"question_id\": \"q3_legs\", \"source_id\": \"S2\", \"answer\": \"service\", \"confidence\": 0.8},\n    {\"question_id\": \"q4_lifecycle\", \"source_id\": \"S3\", \"answer\": \"operating as of 2024\", \"confidence\": 0.9},\n    {\"question_id\": \"q5_ecosystem_role\", \"source_id\": \"S1\", \"answer\": \"researcher\", \"confidence\": 0.85},\n    {\"question_id\": \"q6_affected_led\", \"source_id\": \"S1\", \"answer\": \"no\", \"confidence\": 0.6},\n    {\"question_id\": \"q7_representation_unit\", \"source_id\": \"S1\", \"answer\": \"central-org\", \"confidence\": 0.7},\n    {\"question_id\": \"q8_geography\", \"source_id\": \"S1\", \"answer\": \"rural South Karnataka and urban slums (migrants from North Karnataka)\", \"confidence\": 0.8},\n    {\"question_id\": \"q9_contact_route\", \"source_id\": \"S1\", \"answer\": \"Email: [email protected]; Phone: +91 96866 81504\", \"confidence\": 0.9},\n    {\"question_id\": \"q16_channel\", \"source_id\": \"S2\", \"answer\": \"Website (external link)\", \"confidence\": 0.6}\n  ],\n  \"claims\": [\n    {\"field\": \"title\", \"value\": \"Lead Designer\", \"confidence\": 0.8},\n    {\"field\": \"type\", \"value\": \"org\", \"confidence\": 0.95},\n    {\"field\": \"legs\", \"value\": \"service\", \"confidence\": 0.8},\n    {\"field\": \"depth\", \"value\": \"tracked\", \"confidence\": 0.7},\n    {\"field\": \"lifecycle\", \"value\": \"operating as of 2024\", \"confidence\": 0.9},\n    {\"field\": \"ecosystem_role\", \"value\": \"researcher\", \"confidence\": 0.85},\n    {\"field\": \"affected_led\", \"value\": \"no\", \"confidence\": 0.6},\n    {\"field\": \"representation_unit\", \"value\": \"central-org\", \"confidence\": 0.7},\n    {\"field\": \"stance\", \"value\": \"works-the-remedy\", \"confidence\": 0.7},\n    {\"field\": \"geography\", \"value\": \"rural South Karnataka and urban slums (migrants from North Karnataka)\", \"confidence\": 0.8},\n    {\"field\": \"contact_route\", \"value\": \"Email: [email protected]; Phone: +91 96866 81504\", \"confidence\": 0.9}\n  ],\n  \"emits\": [\n    {\"kind\": \"actor\", \"name\": \"CAFOD\", \"hint\": \"ACCESS coalition partner\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"Hivos\", \"hint\": \"ACCESS coalition partner\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"WWF\", \"hint\": \"ACCESS coalition partner\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"WRI\", \"hint\": \"ACCESS coalition partner\", \"signals\": {}},\n    {\"kind\": \"individual\", \"name\": \"Sarah Alexander\", \"hint\": \"Contact person mentioned\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"SELCO Labs\", \"hint\": \"Lab division involved in cook stove demonstration and research\", \"signals\": {}}\n  ],\n  \"edges\": [\n    {\n      \"dst_name\": \"efficient cook stoves problem\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 2,\n      \"evidence\": \"SELCO Labs has been involved in the demonstration and user research of small biomass cook stoves... efficient cook stoves continue to be an unsolved problem in many regions of India.\"\n    },\n    {\n      \"dst_name\": \"ACCESS coalition\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"member_of\",\n      \"relevance\": 2,\n      \"evidence\": \"We work together with the following ACCESS coalition partners: Catholic Agency for Overseas Development (CAFOD), Hivos, World Wildlife Foundation (WWF), World Resources Institute (WRI).\"\n    }\n  ],\n  \"disagreements\": []\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S1",
+    "answer": "SELCO Foundation demonstrates and researches small biomass cook stoves with end-user testing to improve energy efficiency and renewable energy cooking solutions.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S2",
+    "answer": "org",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S2",
+    "answer": "service",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S3",
+    "answer": "operating as of 2024",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S1",
+    "answer": "researcher",
+    "confidence": 0.85
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S1",
+    "answer": "no",
+    "confidence": 0.6
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S1",
+    "answer": "central-org",
+    "confidence": 0.7
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S1",
+    "answer": "rural South Karnataka and urban slums (migrants from North Karnataka)",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S1",
+    "answer": "Email: [email protected]; Phone: +91 96866 81504",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S2",
+    "answer": "Website (external link)",
+    "confidence": 0.6
+   }
+  ],
+  "claims": [
+   {
+    "field": "title",
+    "value": "Lead Designer",
+    "confidence": 0.8
+   },
+   {
+    "field": "type",
+    "value": "org",
+    "confidence": 0.95
+   },
+   {
+    "field": "legs",
+    "value": "service",
+    "confidence": 0.8
+   },
+   {
+    "field": "depth",
+    "value": "tracked",
+    "confidence": 0.7
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating as of 2024",
+    "confidence": 0.9
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "researcher",
+    "confidence": 0.85
+   },
+   {
+    "field": "affected_led",
+    "value": "no",
+    "confidence": 0.6
+   },
+   {
+    "field": "representation_unit",
+    "value": "central-org",
+    "confidence": 0.7
+   },
+   {
+    "field": "stance",
+    "value": "works-the-remedy",
+    "confidence": 0.7
+   },
+   {
+    "field": "geography",
+    "value": "rural South Karnataka and urban slums (migrants from North Karnataka)",
+    "confidence": 0.8
+   },
+   {
+    "field": "contact_route",
+    "value": "Email: [email protected]; Phone: +91 96866 81504",
+    "confidence": 0.9
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "CAFOD",
+    "hint": "ACCESS coalition partner",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Hivos",
+    "hint": "ACCESS coalition partner",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "WWF",
+    "hint": "ACCESS coalition partner",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "WRI",
+    "hint": "ACCESS coalition partner",
+    "signals": {}
+   },
+   {
+    "kind": "individual",
+    "name": "Sarah Alexander",
+    "hint": "Contact person mentioned",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "SELCO Labs",
+    "hint": "Lab division involved in cook stove demonstration and research",
+    "signals": {}
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "efficient cook stoves problem",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "evidence": "SELCO Labs has been involved in the demonstration and user research of small biomass cook stoves... efficient cook stoves continue to be an unsolved problem in many regions of India."
+   },
+   {
+    "dst_name": "ACCESS coalition",
+    "dst_kind": "actor",
+    "edge_kind": "member_of",
+    "relevance": 2,
+    "evidence": "We work together with the following ACCESS coalition partners: Catholic Agency for Overseas Development (CAFOD), Hivos, World Wildlife Foundation (WWF), World Resources Institute (WRI)."
+   }
+  ],
+  "disagreements": []
+ },
+ "parse_error": null,
+ "truncated": false
+}

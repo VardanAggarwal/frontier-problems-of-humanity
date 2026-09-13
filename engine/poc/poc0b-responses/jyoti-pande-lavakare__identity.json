@@ -1,0 +1,697 @@
+{
+  "slug": "jyoti-pande-lavakare",
+  "name": "Jyoti Pande Lavakare",
+  "family": "identity",
+  "query": "\"Jyoti Pande Lavakare\"",
+  "question_ids": [
+    "one_line",
+    "type",
+    "legs",
+    "geography"
+  ],
+  "elapsed_s": 0.648,
+  "timestamp_utc": "2026-09-13T09:09:31.768309+00:00",
+  "request_index_this_run": 109,
+  "seconds_since_run_start": 2819.1,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "mojeek",
+      "Suspended: access denied"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [],
+  "raw_response": {
+    "query": "\"Jyoti Pande Lavakare\"",
+    "results": [
+      {
+        "url": "https://jyoti.co.in/",
+        "title": "Jyoti CNC Automation Limited | cnc machine, cnc lathe, vmc machine, \u2026",
+        "content": "Jyoti CNC is the largest CNC machine tool manufacturing company of India and having a subsidiary \"Huron\" based at Strasbourg, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "jyoti.co.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Jyoti Pande Lavakare - LinkedIn",
+        "content": "Jyoti Pande Lavakare. \"Breathing Here Is Injurious To Your Health\" available on Amazon/bookstores. Author website jyotipande.in Looking for a dynamic literary ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://in.linkedin.com/in/jyoti-pande-lavakare-a3a9b3a",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/in/jyoti-pande-lavakare-a3a9b3a",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Jyoti_Amge",
+        "title": "Jyoti Amge - Wikipedia",
+        "content": "Jyoti Kishanji Amge (born 16 December 1993) [1] is an Indian model and actress notable for being the world's shortest living woman \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Jyoti_Amge",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Jyoti Pande Lavakare: Writer",
+        "content": "Jyoti Pande Lavakare is a journalist, author and clean air evangelist who has lived and worked in Britain, the United States and India. As a financial ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://www.jyotipande.in/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.jyotipande.in",
+          "/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.jyotiindia.com/",
+        "title": "Jyoti Home Appliances \u2013 JYOTI INDIA",
+        "content": "Jyoti Home Appliances Pvt Ltd, First Floor, SN-10/4/3A, Kondhwa Road, Opp. Mauli Stone Crusher, Yewale Wadi, Pune, Pune, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.jyotiindia.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Co-Founders Team - Delhi - Care for Air",
+        "content": "Jyoti Pande Lavakare is a columnist, financial journalist and writer who has lived and worked in Britain, the United States and India.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "http://www.careforair.org/co-founders-team.html",
+        "engine": "google",
+        "parsed_url": [
+          "http",
+          "www.careforair.org",
+          "/co-founders-team.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://jyoti.co.in/ourproduct/",
+        "title": "CNC Machines | Product Range by Jyoti CNC Automation Limited",
+        "content": "Explore our complete range of high-performance CNC machines, including turning centers, VMCs, 5-axis machines, and automation \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "jyoti.co.in",
+          "/ourproduct/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Jyoti Pande Lavakare I Journo I Author I Clean ... - Instagram",
+        "content": "6 Jan 2026 \u00b7 ... followers \u00b7 103 following \u00b7 41 posts \u00b7 @jyotipandelavakare ... Jyoti Pande Lavakare I Journo I Author I Clean Living Advocate. 192 ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.instagram.com/jyotipandelavakare/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/jyotipandelavakare/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.instagram.com/jyoti_amge/",
+        "title": "Jyoti Amge (@jyoti_amge) \u2022 Instagram photos and videos",
+        "content": "2M Followers, 742 Following, 2,228 Posts - Jyoti Amge (@jyoti_amge) on Instagram: \"Actor\ud83e\udd37\u200d\u2640| World Shortest Woman \ud83c\udfc5| Icon \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/jyoti_amge/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "About | Jyoti Pande Lavakare",
+        "content": "Jyoti Pande Lavakare is a financial journalist, air pollution evangelist and author of Breathing Here is Injurious to Your Health.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://www.jyotipande.in/about",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.jyotipande.in",
+          "/about",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.jyoti.com/",
+        "title": "Jyoti Ltd.",
+        "content": "The Jyoti Group of Companies is a conglomeration of industrial units involved in manufacturing and marketing a wide range of \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.jyoti.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Articles By Jyoti Pande Lavakare | The Wire",
+        "content": "Articles By Jyoti Pande Lavakare | The Wire: The Wire News India, Latest News,News from India, Politics, External Affairs, Science, Economics, ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://thewire.in/author/jplavakare",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "thewire.in",
+          "/author/jplavakare",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Jyoti",
+        "title": "Jyoti - Wikipedia",
+        "content": "Jyoti means \"divine light\" in many Indian languages. Jyoti and spelling variants may refer to: This disambiguation page lists articles \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Jyoti",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Down to Earth With Jyoti Pande Lavakare @careforair.india ...",
+        "content": "8 Mar 2022 \u00b7 Jyoti Pande Lavakare is an independent journalist, author and clean air evangelist. She is the co-founder of @careforair.india which works in ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.instagram.com/reel/Ca1-Ciopu4b/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/reel/Ca1-Ciopu4b/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.linkedin.com/company/jyoti-ltd.",
+        "title": "Jyoti Ltd. - LinkedIn",
+        "content": "Established in 1943, Jyoti Ltd. is a leading ISO 9001: 2008 engineering company offering reliable quality products and services to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/company/jyoti-ltd.",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Breathing Here Is Injurious to Your Health: The Human Cost of ...",
+        "content": "Rating 4.7 (31)When Jyoti Pande Lavakare's otherwise healthy mother is diagnosed with Stage IV lung cancer in 2017, the connection of her mother's terminal illness to air ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.amazon.in/Breathing-Here-Injurious-Your-Health-ebook/dp/B08NTNLJ8W",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.amazon.in",
+          "/Breathing-Here-Injurious-Your-Health-ebook/dp/B08NTNLJ8W",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.jyotiindia.com/pages/about-us",
+        "title": "About Us \u2013 JYOTI INDIA",
+        "content": "From gas stoves, kitchen chimneys, built-in hobs, and oil extractors to gas and electric water heaters, atta makers, and built-in \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.jyotiindia.com",
+          "/pages/about-us",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Jyoti Pande Lavakare...on being a clean air evangelist in Delhi ...",
+        "content": "Abhay is joined for a post-Divali conversation by Jyoti Pande Lavakare, the co-founder of CARE for AIR, and the author of the powerful memoir, \"Breathing Here ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://abhaydandekar.transistor.fm/83",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "abhaydandekar.transistor.fm",
+          "/83",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.screener.in/company/JYOTICNC/consolidated/",
+        "title": "Jyoti CNC Automation Ltd share price - Screener",
+        "content": "Jyoti CNC Automation is a leading manufacturer of simultaneous 5-axis CNC machines in India, with a 10% market share in the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.screener.in",
+          "/company/JYOTICNC/consolidated/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Reviving indigenous wisdom | Jyoti Lavakare | TEDxYouth@HIXS",
+        "content": "30 May 2024 \u00b7 ... Jyoti Pande Lavakare is an independent financial journalist, author, and clean air advocate. She began her career as a radio journalist in ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.youtube.com/watch?v=POw8vypKBRA",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=POw8vypKBRA",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "mojeek",
+        "Suspended: access denied"
+      ]
+    ]
+  }
+}

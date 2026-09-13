@@ -1,0 +1,20 @@
+PoC-2 — batched extraction
+  actors=['anthill-ventures']
+  calls: 2 repeats x 2 rungs x 1 actors at radius 1 = 4 calls
+  the radius comparison is BUILD-TIME only — prompt size is deterministic and needs no call
+
+[1-2] fetch, select, plant, build — per actor
+
+=== anthill-ventures (Anthill Ventures) ===
+  [pinned] 2 sources loaded from fixture, 0 HTTP
+  2 sources, 180 chunks, planted=2030->4060 (year)
+  radius=1: 23 chunks, 464 passage tokens, 2287 chars, source coverage 2/2
+  radius=0: 10 chunks, 228 passage tokens, 1284 chars, source coverage 2/2
+
+[3] calls — skipped (--no-calls); no LLM calls made
+
+[4] summary — per rung, pooled across actors
+
+[5] per actor — source coverage and neighbour-expansion cost (no calls involved)
+  anthill-ventures         radius=0:  10 chunks,    228 passage tokens,   1284 chars, sources in prompt 2/2
+  anthill-ventures         radius=1:  23 chunks,    464 passage tokens,   2287 chars, sources in prompt 2/2

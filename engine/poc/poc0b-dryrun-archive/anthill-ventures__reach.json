@@ -1,0 +1,336 @@
+{
+  "slug": "anthill-ventures",
+  "name": "Anthill Ventures",
+  "family": "reach",
+  "query": "\"Anthill Ventures\" contact twitter newsletter",
+  "question_ids": [
+    "contact_route",
+    "channel:*"
+  ],
+  "elapsed_s": 0.345,
+  "timestamp_utc": "2026-09-13T06:35:04.136352+00:00",
+  "request_index_this_run": 6,
+  "seconds_since_run_start": 15.5,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Anthill Ventures\" contact twitter newsletter",
+    "results": [
+      {
+        "url": "https://x.com/AnthillVentures",
+        "title": "Anthill Ventures (@AnthillVentures) / X",
+        "content": "We are proud to introduce you to the 1st cohort of #IndusX, the #UrbanTech scaling platform by Anthill Ventures. Meet our \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "x.com",
+          "/AnthillVentures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.anthillventures.com/contact",
+        "title": "Contact Anthill Ventures | Get Info & Connect",
+        "content": "Contact Anthill Ventures for info & strategic partnerships. Explore our philosophy, subscribe to updates, and connect from home or \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.anthillventures.com",
+          "/contact",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.anthillventures.com/",
+        "title": "Anthill Ventures | Speed, Urban & Climate Tech VC",
+        "content": "To pitch your idea to Anthill, show how it aligns with living healthy, mitigating climate change or enhancing urban lifestyle, and can be \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.anthillventures.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://mintround.com/firms/anthill-ventures",
+        "title": "Anthill Ventures investors - emails & contacts | Mintround",
+        "content": "Everyone at Anthill Ventures on Mintround: partners, team and verified email contacts. Reveal any email with lifetime access - no \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "mintround.com",
+          "/firms/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://aeroleads.com/c/anthill-ventures",
+        "title": "Anthill Ventures Company Contacts: Email, Phone & Employees",
+        "content": "Contact data was last refreshed in June 2026. Find Anthill Ventures's verified employee emails, phone numbers, headquarters \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "aeroleads.com",
+          "/c/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://datapile.co/venture-capital/firms/anthill-ventures",
+        "title": "Anthill Ventures: Partners, Team & Contacts (2026) | Datapile",
+        "content": "Reach the 7 investment professionals at Anthill Ventures. See partner names, titles, locations and investment focus \u2014 then unlock \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "datapile.co",
+          "/venture-capital/firms/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.anthillventures.com/portfolio",
+        "title": "Anthill Ventures | Tech, Urban, Consumer, Health, Media",
+        "content": "Info@anthillventures.com. Subscribe to our weekly newsletter for updates and news. You are now subscribed! Oops! Something \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.anthillventures.com",
+          "/portfolio",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://contactout.com/company/Anthill-Ventures-4665",
+        "title": "Anthill Ventures - Company Profile & Staff Directory | ContactOut",
+        "content": "You can reach out to Anthill Ventures through the contact form on their website or by emailing their investment team directly at [email \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "contactout.com",
+          "/company/Anthill-Ventures-4665",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.crunchbase.com/organization/anthill-ventures/profiles_and_contacts",
+        "title": "Anthill Ventures - Profiles & Contacts - Crunchbase",
+        "content": "Anthill Ventures is a Speed Scaling Ecosystem which helps early growth startups in Pre-Series 'A'. We source, invest, scale and \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.crunchbase.com",
+          "/organization/anthill-ventures/profiles_and_contacts",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://heyzine.com/flip-book/ff8b2ed3a8.html",
+        "title": "OVRMAFC September 2026 Website Newsletter - heyzine.com",
+        "content": "Created with the Heyzine flipbook maker",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "heyzine.com",
+          "/flip-book/ff8b2ed3a8.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

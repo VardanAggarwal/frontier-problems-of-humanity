@@ -1,0 +1,441 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\n      \"question_id\": \"q1_one_line\",\n      \"source_id\": \"S3\",\n      \"answer\": \"SELCO Foundation deploys solar-powered technologies and supports last-mile livelihood and healthcare initiatives in rural India.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q2_type\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Org\",\n      \"confidence\": 0.95\n    },\n    {\n      \"question_id\": \"q3_legs\",\n      \"source_id\": \"S1\",\n      \"answer\": \"service\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q4_lifecycle\",\n      \"source_id\": \"S4\",\n      \"answer\": \"Operating as of 2024\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q5_ecosystem_role\",\n      \"source_id\": \"S1\",\n      \"answer\": \"capacity-builder\",\n      \"confidence\": 0.85\n    },\n    {\n      \"question_id\": \"q6_affected_led\",\n      \"source_id\": \"S1\",\n      \"answer\": \"no\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q7_representation_unit\",\n      \"source_id\": \"S1\",\n      \"answer\": \"central-org\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q8_geography\",\n      \"source_id\": \"S1\",\n      \"answer\": \"India (including Karnataka, Meghalaya, Raichur)\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q9_contact_route\",\n      \"source_id\": \"S1\",\n      \"answer\": \"https://in.linkedin.com/company/selco-foundation\",\n      \"confidence\": 0.95\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"IKEA Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Waverley Street Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"The Lemelson Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"The DOEN Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Good Energies Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Axis Bank Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Dhruvi Shah\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Harshvardhan Dhawan\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Solomon J Manohar\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q11_scale_metric\",\n      \"source_id\": \"S4\",\n      \"answer\": \"5 lakh (500,000) students eating nutritious food as of 2024\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q12_viability_note\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Viability stems from a diversified donor base reducing reliance on any single funder.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q14_ask_need\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Partners for millets, sustainable agriculture, clean energy, food processing, women's livelihoods, farmer-led enterprises\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q14_ask_need\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Partners for clean energy, climate adaptation, healthcare innovation, public health infrastructure in India\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q15_ask_offer\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Collaboration opportunities with SELCO Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q15_ask_offer\",\n      \"source_id\": \"S3\",\n      \"answer\": \"Access to livelihood and healthcare programs (e.g., solar-powered machinery, decentralized health services)\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q15_ask_offer\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Platform to showcase innovations via events like the PwD Entrepreneurship & Livelihood Mela\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q16_channel\",\n      \"source_id\": \"S1\",\n      \"answer\": \"LinkedIn: https://in.linkedin.com/company/selco-foundation\",\n      \"confidence\": 0.95\n    },\n    {\n      \"question_id\": \"q16_channel\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Video: https://lnkd.in/gD-qJxQz\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q16_channel\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Video: https://lnkd.in/gnMT7wH9\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q16_channel\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Video: https://lnkd.in/gaDEJrUe\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q16_channel\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Video: https://lnkd.in/dPTAXbwD\",\n      \"confidence\": 0.9\n    }\n  ],\n  \"claims\": [\n    {\n      \"field\": \"title\",\n      \"value\": \"SELCO Foundation\",\n      \"confidence\": 0.95\n    },\n    {\n      \"field\": \"type\",\n      \"value\": \"org\",\n      \"confidence\": 0.95\n    },\n    {\n      \"field\": \"legs\",\n      \"value\": \"[\\\"service\\\"]\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"depth\",\n      \"value\": \"tracked\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"lifecycle\",\n      \"value\": \"operating\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ecosystem_role\",\n      \"value\": \"[\\\"capacity-builder\\\", \\\"operator\\\"]\",\n      \"confidence\": 0.85\n    },\n    {\n      \"field\": \"affected_led\",\n      \"value\": \"no\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"representation_unit\",\n      \"value\": \"central-org\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"stance\",\n      \"value\": \"works-the-remedy\",\n      \"confidence\": 0.85\n    },\n    {\n      \"field\": \"geography\",\n      \"value\": \"India\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"contact_route\",\n      \"value\": \"https://in.linkedin.com/company/selco-foundation\",\n      \"confidence\": 0.95\n    },\n    {\n      \"field\": \"ask:need:partners\",\n      \"value\": \"Partners for millets, sustainable agriculture, clean energy, food processing, women's livelihoods, farmer-led enterprises\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:need:partners\",\n      \"value\": \"Partners for clean energy, climate adaptation, healthcare innovation, public health infrastructure in India\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:offer:collaboration\",\n      \"value\": \"Collaboration opportunities with SELCO Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:offer:access_to_programs\",\n      \"value\": \"Access to livelihood and healthcare programs (e.g., solar-powered machinery, decentralized health services)\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"ask:offer:platform_for_showcasing\",\n      \"value\": \"Platform to showcase innovations via events like the PwD Entrepreneurship & Livelihood Mela\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"channel:linkedin\",\n      \"value\": \"https://in.linkedin.com/company/selco-foundation\",\n      \"confidence\": 0.95\n    },\n    {\n      \"field\": \"channel:video1\",\n      \"value\": \"https://lnkd.in/gD-qJxQz\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"channel:video2\",\n      \"value\": \"https://lnkd.in/gnMT7wH9\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"channel:video3\",\n      \"value\": \"https://lnkd.in/gaDEJrUe\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"channel:video4\",\n      \"value\": \"https://lnkd.in/dPTAXbwD\",\n      \"confidence\": 0.9\n    }\n  ],\n  \"emits\": [\n    {\n      \"kind\": \"actor\",\n      \"name\": \"IKEA Foundation\",\n      \"hint\": \"funder\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Waverley Street Foundation\",\n      \"hint\": \"funder\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"The Lemelson Foundation\",\n      \"hint\": \"funder\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"The DOEN Foundation\",\n      \"hint\": \"funder\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Good Energies Foundation\",\n      \"hint\": \"funder\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Axis Bank Foundation\",\n      \"hint\": \"funder\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Dhruvi Shah\",\n      \"hint\": \"individual donor\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Harshvardhan Dhawan\",\n      \"hint\": \"individual donor\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Solomon J Manohar\",\n      \"hint\": \"individual donor\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Somaiya Vidyavihar University\",\n      \"hint\": \"partner/event collaborator\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"PRIMERural\",\n      \"hint\": \"partner\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"riidl\",\n      \"hint\": \"partner\",\n      \"signals\": {}\n    }\n  ],\n  \"edges\": [\n    {\n      \"dst_name\": \"PwD Entrepreneurship & Livelihood Mela\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"convenes\",\n      \"relevance\": 2,\n      \"evidence\": \"The PwD Entrepreneurship & Livelihood Mela, held on September 4, 2026, in Raichur, Karnataka, brought these pieces together in one place.\"\n    },\n    {\n      \"dst_name\": \"IKEA Foundation\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 2,\n      \"evidence\": \"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"\n    },\n    {\n      \"dst_name\": \"Waverley Street Foundation\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 2,\n      \"evidence\": \"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"\n    },\n    {\n      \"dst_name\": \"The Lemelson Foundation\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 2,\n      \"evidence\": \"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"\n    },\n    {\n      \"dst_name\": \"The DOEN Foundation\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 2,\n      \"evidence\": \"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"\n    },\n    {\n      \"dst_name\": \"Good Energies Foundation\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 2,\n      \"evidence\": \"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"\n    },\n    {\n      \"dst_name\": \"Axis Bank Foundation\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 2,\n      \"evidence\": \"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"\n    },\n    {\n      \"dst_name\": \"Dhruvi Shah\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 2,\n      \"evidence\": \"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"\n    },\n    {\n      \"dst_name\": \"Harshvardhan Dhawan\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 2,\n      \"evidence\": \"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"\n    },\n    {\n      \"dst_name\": \"Solomon J Manohar\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"affiliated\",\n      \"relevance\": 2,\n      \"evidence\": \"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"\n    }\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S3",
+    "answer": "SELCO Foundation deploys solar-powered technologies and supports last-mile livelihood and healthcare initiatives in rural India.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S1",
+    "answer": "Org",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S1",
+    "answer": "service",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S4",
+    "answer": "Operating as of 2024",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S1",
+    "answer": "capacity-builder",
+    "confidence": 0.85
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S1",
+    "answer": "no",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S1",
+    "answer": "central-org",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S1",
+    "answer": "India (including Karnataka, Meghalaya, Raichur)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S1",
+    "answer": "https://in.linkedin.com/company/selco-foundation",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "IKEA Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Waverley Street Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "The Lemelson Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "The DOEN Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Good Energies Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Axis Bank Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Dhruvi Shah",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Harshvardhan Dhawan",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Solomon J Manohar",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q11_scale_metric",
+    "source_id": "S4",
+    "answer": "5 lakh (500,000) students eating nutritious food as of 2024",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S1",
+    "answer": "Viability stems from a diversified donor base reducing reliance on any single funder.",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S1",
+    "answer": "Partners for millets, sustainable agriculture, clean energy, food processing, women's livelihoods, farmer-led enterprises",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S1",
+    "answer": "Partners for clean energy, climate adaptation, healthcare innovation, public health infrastructure in India",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S1",
+    "answer": "Collaboration opportunities with SELCO Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S3",
+    "answer": "Access to livelihood and healthcare programs (e.g., solar-powered machinery, decentralized health services)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S1",
+    "answer": "Platform to showcase innovations via events like the PwD Entrepreneurship & Livelihood Mela",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S1",
+    "answer": "LinkedIn: https://in.linkedin.com/company/selco-foundation",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S1",
+    "answer": "Video: https://lnkd.in/gD-qJxQz",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S1",
+    "answer": "Video: https://lnkd.in/gnMT7wH9",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S1",
+    "answer": "Video: https://lnkd.in/gaDEJrUe",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S1",
+    "answer": "Video: https://lnkd.in/dPTAXbwD",
+    "confidence": 0.9
+   }
+  ],
+  "claims": [
+   {
+    "field": "title",
+    "value": "SELCO Foundation",
+    "confidence": 0.95
+   },
+   {
+    "field": "type",
+    "value": "org",
+    "confidence": 0.95
+   },
+   {
+    "field": "legs",
+    "value": "[\"service\"]",
+    "confidence": 0.9
+   },
+   {
+    "field": "depth",
+    "value": "tracked",
+    "confidence": 0.8
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating",
+    "confidence": 0.9
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "[\"capacity-builder\", \"operator\"]",
+    "confidence": 0.85
+   },
+   {
+    "field": "affected_led",
+    "value": "no",
+    "confidence": 0.8
+   },
+   {
+    "field": "representation_unit",
+    "value": "central-org",
+    "confidence": 0.9
+   },
+   {
+    "field": "stance",
+    "value": "works-the-remedy",
+    "confidence": 0.85
+   },
+   {
+    "field": "geography",
+    "value": "India",
+    "confidence": 0.9
+   },
+   {
+    "field": "contact_route",
+    "value": "https://in.linkedin.com/company/selco-foundation",
+    "confidence": 0.95
+   },
+   {
+    "field": "ask:need:partners",
+    "value": "Partners for millets, sustainable agriculture, clean energy, food processing, women's livelihoods, farmer-led enterprises",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:partners",
+    "value": "Partners for clean energy, climate adaptation, healthcare innovation, public health infrastructure in India",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:offer:collaboration",
+    "value": "Collaboration opportunities with SELCO Foundation",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:offer:access_to_programs",
+    "value": "Access to livelihood and healthcare programs (e.g., solar-powered machinery, decentralized health services)",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:offer:platform_for_showcasing",
+    "value": "Platform to showcase innovations via events like the PwD Entrepreneurship & Livelihood Mela",
+    "confidence": 0.9
+   },
+   {
+    "field": "channel:linkedin",
+    "value": "https://in.linkedin.com/company/selco-foundation",
+    "confidence": 0.95
+   },
+   {
+    "field": "channel:video1",
+    "value": "https://lnkd.in/gD-qJxQz",
+    "confidence": 0.9
+   },
+   {
+    "field": "channel:video2",
+    "value": "https://lnkd.in/gnMT7wH9",
+    "confidence": 0.9
+   },
+   {
+    "field": "channel:video3",
+    "value": "https://lnkd.in/gaDEJrUe",
+    "confidence": 0.9
+   },
+   {
+    "field": "channel:video4",
+    "value": "https://lnkd.in/dPTAXbwD",
+    "confidence": 0.9
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "IKEA Foundation",
+    "hint": "funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Waverley Street Foundation",
+    "hint": "funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "The Lemelson Foundation",
+    "hint": "funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "The DOEN Foundation",
+    "hint": "funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Good Energies Foundation",
+    "hint": "funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Axis Bank Foundation",
+    "hint": "funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Dhruvi Shah",
+    "hint": "individual donor",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Harshvardhan Dhawan",
+    "hint": "individual donor",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Solomon J Manohar",
+    "hint": "individual donor",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Somaiya Vidyavihar University",
+    "hint": "partner/event collaborator",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "PRIMERural",
+    "hint": "partner",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "riidl",
+    "hint": "partner",
+    "signals": {}
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "PwD Entrepreneurship & Livelihood Mela",
+    "dst_kind": "actor",
+    "edge_kind": "convenes",
+    "relevance": 2,
+    "evidence": "The PwD Entrepreneurship & Livelihood Mela, held on September 4, 2026, in Raichur, Karnataka, brought these pieces together in one place."
+   },
+   {
+    "dst_name": "IKEA Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "Waverley Street Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "The Lemelson Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "The DOEN Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "Good Energies Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "Axis Bank Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "Dhruvi Shah",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "Harshvardhan Dhawan",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "Solomon J Manohar",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   }
+  ]
+ },
+ "parse_error": null
+}

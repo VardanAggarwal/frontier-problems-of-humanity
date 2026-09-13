@@ -1,0 +1,782 @@
+{
+  "slug": "anthill-ventures",
+  "name": "Anthill Ventures",
+  "family": "identity",
+  "query": "\"Anthill Ventures\"",
+  "question_ids": [
+    "one_line",
+    "type",
+    "legs",
+    "geography"
+  ],
+  "elapsed_s": 0.724,
+  "timestamp_utc": "2026-09-13T06:34:48.654302+00:00",
+  "request_index_this_run": 1,
+  "seconds_since_run_start": 0.0,
+  "n_results": 26,
+  "unresponsive_engines": [
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "brave"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Anthill Ventures\"",
+    "results": [
+      {
+        "template": "default.html",
+        "url": "https://www.crunchbase.com/organization/anthill-ventures",
+        "title": "Anthill Ventures - Crunchbase Company Profile & Funding",
+        "content": "Anthill Ventures is a Speed Scaling Ecosystem that helps early growth global startups in Urbantech & Lifestyle, Healthtech & Mediatech from Pre-Series A stage to go to Series \u2018A\u2019 & \u2018B\u2019 in 1-2 years through India & SEA Market Access by ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.crunchbase.com",
+          "/organization/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          3,
+          4
+        ],
+        "score": 1.1666666666666665,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.merriam-webster.com/thesaurus/happy",
+        "title": "HAPPY Synonyms: 297 Similar and Opposite Words - Merriam-Webster",
+        "content": "2 days ago \u00b7 Synonyms for HAPPY: delighted, pleased, glad, satisfied, thankful, joyful, joyous, blissful; Antonyms of HAPPY: \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.merriam-webster.com",
+          "/thesaurus/happy",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.anthillventures.com/",
+        "title": "Anthill Ventures | Speed, Urban & Climate Tech VC",
+        "content": "At Anthill, we accelerate innovation through speed-scaling investments. Our portfolio comprises over 80 breakthrough startups in health tech, climate solutions, urban innovation, and media across ten countries.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.anthillventures.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.powerthesaurus.org/happy/antonyms",
+        "title": "HAPPY Antonyms: 3 617 Opposite Words & Phrases - Power Thesaurus",
+        "content": "Discover 3 617 antonyms of Happy to express ideas with clarity and contrast.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.powerthesaurus.org",
+          "/happy/antonyms",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://in.linkedin.com/company/anthill-ventures",
+        "title": "Anthill Ventures | LinkedIn",
+        "content": "Funding & scaling support for early ... HealthTech | | Anthilll Ventures is an investment and scaling platform for early growth stage startups that want to scale with speed in Indian markets....",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/company/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://differentwordfor.com/opposite/happy",
+        "title": "Opposite of Happy \u2014 6 Antonyms with Meanings",
+        "content": "1 day ago \u00b7 Looking for the opposite of \"happy\"? Find 6 antonyms with meanings, frequency, and usage context. The right opposite \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "differentwordfor.com",
+          "/opposite/happy",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://englishstudyhere.com/antonyms-opposite-words/opposite-of-happy-antonym-of-happy-24-opposite-words-for-happy/",
+        "title": "Opposite of Happy, Antonym of Happy, 24 Opposite Words For Happy",
+        "content": "Jan 10, 2022 \u00b7 Opposites of Happy. Synonym for Happy. Example Sentences. I\u2019m so happy to see you that I can\u2019t explain. All she \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "englishstudyhere.com",
+          "/antonyms-opposite-words/opposite-of-happy-antonym-of-happy-24-opposite-words-for-happy/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.wordhippo.com/what-is/the-opposite-of/happy.html",
+        "title": "What is the opposite of happy? - WordHippo",
+        "content": "Find 1,435 opposite words and antonyms for happy based on 18 separate contexts from our thesaurus.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.wordhippo.com",
+          "/what-is/the-opposite-of/happy.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.thesaurus.com/browse/happy",
+        "title": "HAPPY Synonyms & Antonyms - 164 words | Thesaurus.com",
+        "content": "Find 164 different ways to say HAPPY, along with antonyms, related words, and example sentences at Thesaurus.com.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.thesaurus.com",
+          "/browse/happy",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://tracxn.com/d/venture-capital/anthill-ventures/__U1uwoQMDcpmDZDsGni1VtaDiDeUy2E3zHWflW7tAv20",
+        "title": "Anthill Ventures - 2026 Investor Profile, Portfolio, Team & Investment Trends - Tracxn",
+        "content": "Anthill Ventures is a venture capital firm founded in 2015. It is primarily based out of Hyderabad, India. As of Apr 2026, Anthill Ventures is an active investor, having invested in 78 companies, with 3 new investments in the last 12 months.",
+        "publishedDate": "2026-07-16T00:00:00",
+        "thumbnail": "https://imgs.search.brave.com/3_Gi97RHghAuHwblUNf5qfhy_T2Wssbymzss2KDkWx4/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9jZG4u/dHJhY3huLmNvbS9p/bWFnZXMvc2VvL3Nv/Y2lhbC92ZW50dXJl/LWNhcGl0YWwvYW50/aGlsbHZlbnR1cmVz/LW92ZXJ2aWV3LTE3/NzgzNTIwODMzMDgu/d2VicA",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "tracxn.com",
+          "/d/venture-capital/anthill-ventures/__U1uwoQMDcpmDZDsGni1VtaDiDeUy2E3zHWflW7tAv20",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2026-07-16 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.capboard.io/en/investor/anthill-ventures",
+        "title": "Anthill Ventures - Capboard",
+        "content": "Anthill Ventures is a venture capital firm based in Hyderabad, India. Founded in 2015, the firm invests in early growth global startups and provides them with access to capital, mentors, and networks.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/lNZ4X4oEgxlGBzahqb9siPVeS_QaD1gz9e6kCn-z1WA/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly93d3cu/Y2FwYm9hcmQuaW8v/dW5sb2dnZWRfYXNz/ZXRzL2ltZy9zb2Np/YWxfcHJldmlld19l/bi5wbmc",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.capboard.io",
+          "/en/investor/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://pitchbook.com/profiles/investor/117843-49",
+        "title": "Anthill Ventures investment portfolio | PitchBook",
+        "content": "Founded in 2015, Anthill Ventures is a venture capital firm based in Hyderabad, India. The firm has an additional office in Singapore.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/MTnsERnHFA5XRbe6xq2SXfoPVTOXsNdlBJQU01mbIRM/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9waXRj/aGJvb2suY29tL2lt/Zy9zbS9QaXRjaEJv/b2stUHJvZmlsZS5q/cGc_dXE9cUp1TW9q/Smc",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "pitchbook.com",
+          "/profiles/investor/117843-49",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://superscout.co/investor/anthill-ventures",
+        "title": "Anthill Ventures: The Early Stage Founder's Guide",
+        "content": "Founded in 2015, Anthill Ventures is an early-stage investment firm headquartered in Hyderabad, India, with additional operations in the USA and Singapore. The firm has established itself as a 'speed-scaling VC', focusing on rapidly growing ...",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/f3Kd1nFD8hZeMTrPXECxgd_Fpec-tTb9mKZ7tgEYoF4/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9jZG4u/cHJvZC53ZWJzaXRl/LWZpbGVzLmNvbS82/MGIzNDQ0ODhhMGE5/NTJiNmFiMTQxYzYv/NjlkYWM1N2JlYjU4/YTZlODJjZThkOWFm/X2FudGhpbGx2ZW50/dXJlcy5hdmlm",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "superscout.co",
+          "/investor/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://venturecapitalarchive.com/venture-funds/anthill-ventures-anthillventures-com",
+        "title": "Anthill Ventures Fund I | 2015 VC Fund",
+        "content": "About Anthill Ventures is a speed-scaling ecosystem investing in Media, Urban Tech, and Health Tech.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/pdI3_mnao4tHvTWhdz2DTzBD19vVovoaHRmWFC4Gkh8/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly92ZW50/dXJlY2FwaXRhbGFy/Y2hpdmUuY29tL3Zl/bnR1cmUtZnVuZHMv/YW50aGlsbC12ZW50/dXJlcy1hbnRoaWxs/dmVudHVyZXMtY29t/L29wZW5ncmFwaC1p/bWFnZS0xcHFpamM_/YTY5YTA4Y2Q1ZWM2/MDRhMw",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "venturecapitalarchive.com",
+          "/venture-funds/anthill-ventures-anthillventures-com",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          12
+        ],
+        "score": 0.08333333333333333,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://x.com/anthillventures",
+        "title": "Anthill Ventures (@AnthillVentures) / ...",
+        "content": "A Speed Scaling Ecosystem by Anthill: Providing Market Access to Tech Startups. Sourcing Innovation for Corporates. Curating Smart Opportunities for Investors.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/J5hCY2T92kgc-KdpgyLcEfkz2XIAFXaRdUnyi1-saxk/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9wYnMu/dHdpbWcuY29tL3By/b2ZpbGVfaW1hZ2Vz/Lzc1ODkxODU5NTA2/NTc0OTUwNS9CZlRx/eTJkbF8yMDB4MjAw/LmpwZw",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "x.com",
+          "/anthillventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          13
+        ],
+        "score": 0.07692307692307693,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.prodevs.io/accelerators/anthill-ventures",
+        "title": "Anthill Ventures \u2014 How to Apply, Focus & Funding | ProDevs Directory",
+        "content": "Anthill Ventures is a Speed Scaling Ecosystem that assists early growth startups in the Pre-Series 'A' stage. The primary objective of Anthill Ventures is to source, invest, scale, and syndicate promising startups.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/GV3vQpBa56J-DNfEQVqYp6aiXBRRUH16p_0_onm1eUs/rs:fit:200:200:1:0/g:ce/aHR0cDovL3Byb2Rl/dnMuaW8vaW1hZ2Vz/L3Byb2RldnMtZmxh/dC5qcGc",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.prodevs.io",
+          "/accelerators/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          14
+        ],
+        "score": 0.07142857142857142,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.openvc.app/fund/Anthill%20Ventures",
+        "title": "Anthill Ventures | Investor Profile, Funding Criteria & Team",
+        "content": "We invest in companies that are at an early stage and we help in scaling start-ups using the unique network of channel partners we have. We invest in companies in the Health, Urban Consumer and Urban Tech start-up who have a pre revenue stage.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/zYiWakgCseSHjhCYPhztjdlr3JLWUz1SA4DeXCk9CC4/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly93d3cu/b3BlbnZjLmFwcC9p/bWFnZXMvdHdpdHRl/cl9jYXJkLnBuZw",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.openvc.app",
+          "/fund/Anthill%20Ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          16
+        ],
+        "score": 0.0625,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.merriam-webster.com/thesaurus/happiness",
+        "title": "HAPPINESS Synonyms: 174 Similar and Opposite Words - Merriam-Webster",
+        "content": "2 days ago \u00b7 Synonyms for HAPPINESS: joy, bliss, blissfulness, enjoyment, joyfulness, beatitude, pleasure, blessedness; Antonyms \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.merriam-webster.com",
+          "/thesaurus/happiness",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://dictionary.cambridge.org/thesaurus/happy",
+        "title": "HAPPY - 82 Synonyms and Antonyms - Cambridge English",
+        "content": "She's been a bit sad ever since her dog died. Go to the thesaurus article about these synonyms and antonyms of happy.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "dictionary.cambridge.org",
+          "/thesaurus/happy",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://vc-mapping.gilion.com/vc-firms/anthill-ventures",
+        "title": "Anthill Ventures \u2013 Info, Investments & Portfolio - VC Mapping",
+        "content": "nthill Ventures is an early-stage venture capital firm established in 2015, headquartered in Hyderabad, India. The firm specializes in 'speed scaling'\u2014a unique approach that combines investment with strategic interventions to accelerate the growth of startups.",
+        "publishedDate": "2026-04-08T00:00:00",
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "vc-mapping.gilion.com",
+          "/vc-firms/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2026-04-08 00:00:00"
+      },
+      {
+        "url": "https://www.applied-grammar.com/opposite-of-happy/",
+        "title": "Opposite of HAPPY - 35 Antonyms With Sentence Examples",
+        "content": "Mar 7, 2024 \u00b7 Antonyms for happy refer to words or phrases that express the opposite of joy, contentment, or pleasure. When looking \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.applied-grammar.com",
+          "/opposite-of-happy/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://thesaurus.plus/antonyms/happy",
+        "title": "More 140 Happy Antonyms. Full list of opposite words of happy.",
+        "content": "What are opposite words of Happy? Sad, unhappy, miserable, sorrowful. Full list of antonyms for Happy is here.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "thesaurus.plus",
+          "/antonyms/happy",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.cbinsights.com/investor/anthill-ventures",
+        "title": "Anthill Ventures Portfolio Investments, Anthill Ventures Funds, Anthill Ventures Exits",
+        "content": "Anthill Ventures engages in the speed-scaling ecosystem that invests in and scales early-stage companies within the technology and innovation sectors. It offers investment and support to startups in media, urban tech, health tech, consumer tech, and the alcoholic beverage industry, aiming to ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.cbinsights.com",
+          "/investor/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://unicorn-nest.com/funds/anthill-ventures/",
+        "title": "Anthill Ventures \u2013 Investors Database \u2013 Unicorn Nest",
+        "content": "Anthill Ventures appeared to be the VC, which was created in 2014. The leading representative office of defined VC is situated in the Singapore. The venture was found in Asia in Singapore. This organization was formed by Doug Shinsato, Prasad Vanga, Rimpal Chawla, Sailesh Sigatapu.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "unicorn-nest.com",
+          "/funds/anthill-ventures/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          11
+        ],
+        "score": 0.09090909090909091,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.zoominfo.com/c/anthill-ventures/381395529",
+        "title": "Anthill Ventures - Overview, News & Similar companies | ZoomInfo.com",
+        "content": "Anthill Ventures is a Speed Scaling Ecosystem dedicated to investing in and scaling early-stage companies, specifically in Media Tech, Urban Tech, and Health Tech. The company provides valuable resources and connections through partnerships with global corporations and governments, aiming to ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.zoominfo.com",
+          "/c/anthill-ventures/381395529",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          15
+        ],
+        "score": 0.06666666666666667,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.bloomberg.com/profile/company/1404712D:IN",
+        "title": "AntHill Ventures - Company Profile and News - Bloomberg Markets",
+        "content": "AntHill Ventures operates as a venture capital firm. The Company focuses on technology, educational, e-commerce, automobile, and other related sectors.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.bloomberg.com",
+          "/profile/company/1404712D:IN",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          17
+        ],
+        "score": 0.058823529411764705,
+        "category": "general",
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

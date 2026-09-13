@@ -1,0 +1,864 @@
+{
+  "slug": "anthill-ventures",
+  "name": "Anthill Ventures",
+  "family": "failure",
+  "query": "\"Anthill Ventures\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.858,
+  "timestamp_utc": "2026-09-13T08:24:11.853376+00:00",
+  "request_index_this_run": 5,
+  "seconds_since_run_start": 99.2,
+  "n_results": 29,
+  "unresponsive_engines": [
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "brave"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Anthill Ventures\" shut down closed pivot losses",
+    "results": [
+      {
+        "template": "default.html",
+        "url": "https://tracxn.com/d/venture-capital/anthill-ventures/__U1uwoQMDcpmDZDsGni1VtaDiDeUy2E3zHWflW7tAv20",
+        "title": "Anthill Ventures - 2026 Investor Profile, Portfolio, Team & Investment Trends - Tracxn",
+        "content": "Anthill Ventures is a venture capital firm founded in 2015. It is primarily based out of Hyderabad, India. As of Apr 2026, Anthill Ventures is an active investor, having invested in 78 companies, with 3 new investments in the last 12 months. It primarily invests in Seed round in India based startups.",
+        "publishedDate": "2026-07-16T00:00:00",
+        "thumbnail": "https://imgs.search.brave.com/3_Gi97RHghAuHwblUNf5qfhy_T2Wssbymzss2KDkWx4/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9jZG4u/dHJhY3huLmNvbS9p/bWFnZXMvc2VvL3Nv/Y2lhbC92ZW50dXJl/LWNhcGl0YWwvYW50/aGlsbHZlbnR1cmVz/LW92ZXJ2aWV3LTE3/NzgzNTIwODMzMDgu/d2VicA",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "tracxn.com",
+          "/d/venture-capital/anthill-ventures/__U1uwoQMDcpmDZDsGni1VtaDiDeUy2E3zHWflW7tAv20",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          2,
+          4
+        ],
+        "score": 1.5,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2026-07-16 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://pitchbook.com/profiles/fund/18953-02F",
+        "title": "Anthill Ventures Fund II: Performance | PitchBook",
+        "content": "Anthill Ventures Fund II is closed.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/I4efDyXXlKQpYJkKE99jlJppEkOKwwWeF3DzBf3qzAg/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9waXRj/aGJvb2suY29tL2lt/Zy9zbS9QaXRjaEJv/b2stUHJvZmlsZS5q/cGc_dXE9bzRBN1h6/M3k",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "pitchbook.com",
+          "/profiles/fund/18953-02F",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.capboard.io/en/investor/anthill-ventures",
+        "title": "Anthill Ventures - Capboard",
+        "content": "Anthill Ventures is a venture capital firm based in Hyderabad, India. Founded in 2015, the firm invests in early growth global startups and provides them with access to capital, mentors, and networks. The firm's portfolio includes companies in the fields of e-commerce, business intelligence, ...",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/lNZ4X4oEgxlGBzahqb9siPVeS_QaD1gz9e6kCn-z1WA/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly93d3cu/Y2FwYm9hcmQuaW8v/dW5sb2dnZWRfYXNz/ZXRzL2ltZy9zb2Np/YWxfcHJldmlld19l/bi5wbmc",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.capboard.io",
+          "/en/investor/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          11
+        ],
+        "score": 0.09090909090909091,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.ipoplatform.com/investors/anthill-ventures",
+        "title": "Anthill Ventures Investor Group | AIF, PMS for Startup and IPO",
+        "content": "Anthill Ventures is an investor group operating 2 Alternative Investment Fund schemes . It has also invested in 8 startup ventures enabling them to achieve their next level of growth. Through structured AIF strategies and tailored PMS offerings, the group provides investors access to private equity, venture funding, and public market opportunities.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/jx65xV5bDJ7iUt4j5irvlRzA7UItQlfe7XLo8QC79zo/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly93d3cu/aXBvcGxhdGZvcm0u/Y29tL2ltYWdlcy9p/cG9wbGF0Zm9ybS5q/cGVn",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.ipoplatform.com",
+          "/investors/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          13
+        ],
+        "score": 0.07692307692307693,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.zhihu.com/question/509011663",
+        "title": "\u77e5\u4e4e - \u6709\u95ee\u9898\uff0c\u5c31\u4f1a\u6709\u7b54\u6848",
+        "content": "\u8be5\u9875\u9762\u8ba8\u8bba\u4e86\u7f51\u5740 http://potplayer.tv/?lang=zh_CN \u662f\u5426\u4e3a potplayer \u5b98\u65b9\u7f51\u7ad9\u3002",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/question/509011663",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://pitchbook.com/profiles/fund/16210-09F",
+        "title": "Anthill Capital Ventures Fund: Performance | PitchBook",
+        "content": "Anthill Capital Ventures Fund is closed.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "pitchbook.com",
+          "/profiles/fund/16210-09F",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.zhihu.com/question/58763087",
+        "title": "\u5982\u4f55\u8bc4\u4ef7 Microsoft To-Do\uff08\u5fae\u8f6f\u5f85\u529e\uff09\uff1f - \u77e5\u4e4e",
+        "content": "Microsoft To-Do \u662f\u5fae\u8f6f\u63a8\u51fa\u7684\u5f85\u529e\u4e8b\u9879\u7ba1\u7406\u5de5\u5177\uff0c\u65e8\u5728\u53d6\u4ee3 Wunderlist\uff0c\u5e2e\u52a9\u7528\u6237\u9ad8\u6548\u7ba1\u7406\u4efb\u52a1\u548c\u65f6\u95f4\u3002",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/question/58763087",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/accounts/?hl=th",
+        "title": "\u0e1a\u0e31\u0e0d\u0e0a\u0e35 Google \u0e04\u0e27\u0e32\u0e21\u0e0a\u0e48\u0e27\u0e22\u0e40\u0e2b\u0e25\u0e37\u0e2d",
+        "content": "\u0e28\u0e39\u0e19\u0e22\u0e4c\u0e0a\u0e48\u0e27\u0e22\u0e40\u0e2b\u0e25\u0e37\u0e2d\u0e2d\u0e22\u0e48\u0e32\u0e07\u0e40\u0e1b\u0e47\u0e19\u0e17\u0e32\u0e07\u0e01\u0e32\u0e23\u0e02\u0e2d\u0e07 \u0e1a\u0e31\u0e0d\u0e0a\u0e35 Google \u0e17\u0e35\u0e48\u0e04\u0e38\u0e13\u0e2a\u0e32\u0e21\u0e32\u0e23\u0e16\u0e1e\u0e1a ...",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/accounts/",
+          "",
+          "hl=th",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.anthillventures.com/",
+        "title": "Anthill Ventures | Speed, Urban & Climate Tech VC",
+        "content": "At Anthill, we accelerate innovation through speed-scaling investments. Our portfolio comprises over 80 breakthrough startups in health tech, climate solutions, urban innovation, and media across ten countries.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.anthillventures.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/a/answer/6301076?hl=en",
+        "title": "SAML app error messages | Apps & integrations - Google Help",
+        "content": "3 days ago \u00b7 You must be signed in as a super administrator for this task. Get the idpid string from the end of the Entity ID URL. \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/a/answer/6301076",
+          "",
+          "hl=en",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.zhihu.com/question/302863894",
+        "title": "win10\u7cfb\u7edf\u7684\u5e94\u7528\u5546\u5e97\u4e0d\u89c1\u4e86\u600e\u4e48\u5b89\u88c5\u56de\u6765\uff1f - \u77e5\u4e4e",
+        "content": "\u5728\u5fae\u8f6f\u5b98\u65b9\u95ee\u7b54\u4e2d\u627e\u5230\u4e86\u7b54\u6848\uff0c\u7b2c\u4e00\u6761\u547d\u4ee4\u6267\u884c\u5931\u8d25\uff0c\u4f46\u7ee7\u7eed\u8f93\u5165\u7b2c\u4e8c\u6761\u547d\u4ee4\uff0c\u6267\u884c\u6210\u529f\u4e86\uff0c\u5fae\u8f6f\u5546\u5e97\u53c8\u56de\u6765\u4e86\u3002 \u60a8\u597d\uff0c\u6211\u662f\u5fae\u8f6f\u793e \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/question/302863894",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.crunchbase.com/organization/anthill-ventures",
+        "title": "Anthill Ventures - Crunchbase Company Profile & Funding",
+        "content": "Anthill Ventures is a Speed Scaling Ecosystem which helps early growth startups in Pre-Series 'A'. We source, invest, scale and syndicate.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.crunchbase.com",
+          "/organization/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.zhihu.com/question/442298657",
+        "title": "win10\u5982\u4f55\u5b89\u88c5Microsoft store\uff1f - \u77e5\u4e4e",
+        "content": "\u5982\u679c\u7535\u8111Windows10\u4e2d\u6ca1\u6709Microsoft store\uff0c\u53ef\u4ee5\u7528\u4ee5\u4e0b\u65b9\u6cd5\u5b89\u88c5\u3002 \u6309 Win + Q \u6253\u5f00\u641c\u7d22\uff0c\u8f93\u5165 powershell\uff0c\u7136\u540e\u4ee5\u7ba1\u7406\u5458\u8eab\u4efd\u8fd0 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/question/442298657",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.cbinsights.com/investor/anthill-ventures",
+        "title": "Anthill Ventures Portfolio Investments, Anthill Ventures Funds, Anthill Ventures Exits",
+        "content": "Anthill Ventures engages in the speed-scaling ecosystem that invests in and scales early-stage companies within the technology and innovation sectors. It offers investment and support to startups in media, urban tech, health tech, consumer tech, and the alcoholic beverage industry, aiming to prepare them for series A funding.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.cbinsights.com",
+          "/investor/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.zhihu.com/question/35213048",
+        "title": "\u627e\u4e0d\u5230\u9760\u8c31\u7684visio\u4e0b\u8f7d\u5730\u5740\uff1f - \u77e5\u4e4e",
+        "content": "\u200c Microsoft Visio\u200c \u662f\u4e00\u6b3e\u529f\u80fd\u5f3a\u5927\u4e14\u5341\u5206\u4e13\u4e1a\u200c\u7684\u6d41\u7a0b\u56fe\u548c\u77e2\u91cf\u7ed8\u56fe\u8f6f\u4ef6\u200c\uff0c\u4e3b\u8981\u7528\u4e8e\u521b\u5efa\u5404\u79cd\u7c7b\u578b\u7684\u56fe\u8868\u6765\u53ef\u89c6\u5316\u590d\u6742\u4fe1\u606f\u3001\u6d41\u7a0b\u548c\u5173\u7cfb \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/question/35213048",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://vc-mapping.gilion.com/vc-firms/anthill-ventures",
+        "title": "Anthill Ventures \u2013 Info, Investments & Portfolio - VC Mapping",
+        "content": "nthill Ventures is an early-stage venture capital firm established in 2015, headquartered in Hyderabad, India. The firm specializes in 'speed scaling'\u2014a unique approach that combines investment with strategic interventions to accelerate the growth of startups.",
+        "publishedDate": "2026-04-08T00:00:00",
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "vc-mapping.gilion.com",
+          "/vc-firms/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2026-04-08 00:00:00"
+      },
+      {
+        "url": "https://www.zhihu.com/question/59942275",
+        "title": "Windows\u7684Onedrive\u600e\u4e48\u7528\uff1f - \u77e5\u4e4e",
+        "content": "Windows\u7684Onedrive\u600e\u4e48\u7528\uff1f\u6709\u70b9\u4e0d\u592a\u61c2\u5fae\u8f6f\u7684\u610f\u601d\uff0c\u65e2\u7136\u662f\u4f5c\u4e3a\u7f51\u7edc\u5b58\u50a8\uff0c\u90a3\u4e0a\u4f20\u6587\u4ef6\u80af\u5b9a\u662f\u60f3\u8282\u7701\u672c\u5730\u78c1\u76d8\u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/question/59942275",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.zhihu.com/question/56247025",
+        "title": "\u600e\u6837\u89e3\u51b3 win10 \u4e8b\u4ef6 ID\u4e3a:10016 \u7684\u9519\u8bef\uff1f - \u77e5\u4e4e",
+        "content": "\u600e\u6837\u89e3\u51b3 win10 \u4e8b\u4ef6 ID\u4e3a:10016 \u7684\u9519\u8bef\uff1f \u7535\u8111\u91cd\u65b0\u5b89\u88c5\u4e86win10\u4e4b\u540e\u4e8b\u4ef6\u67e5\u770b\u5668\u91cc\u4e00\u76f4\u6709\u8fd9\u4e2a\u95ee\u9898 \u63cf\u8ff0: \u8ba1\u7b97\u673a-\u9ed8\u8ba4 \u6743\u9650\u8bbe\u7f6e\u5e76\u672a\u5411 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/question/56247025",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://rocketreach.co/anthill-ventures-profile_b556222af61628ae",
+        "title": "Anthill Ventures Information",
+        "content": "Anthill Ventures is a Finance, Venture Capital, and Venture Capital and Private Equity Principals company located in Hyderabad, Telangana with $6.8 million in revenue and 35 employees. Find top employees, contact details and business statistics at RocketReach.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "rocketreach.co",
+          "/anthill-ventures-profile_b556222af61628ae",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.zhihu.com/question/356074827",
+        "title": "\u5982\u4f55\u53d6\u6d88Microsoft team\u5f00\u673a\u81ea\u542f? - \u77e5\u4e4e",
+        "content": "\u6bcf\u6b21\u5f00\u673a\u90fd\u5f39\u51faMicrosoft team\u7684\u9875\u9762\uff0c\u6709\u529e\u6cd5\u53ef\u4ee5\u89e3\u51b3\u5417\uff1f",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/question/356074827",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.indianvcs.com/investor/anthill-ventures",
+        "title": "Anthill Ventures",
+        "content": "Started in 2015, Anthill Ventures is a venture capital firm based in India, focusing on Consumer, Media, Health, among other sectors. The firm has invested in over 81 companies across the early stage. Anthill Ventures' key portfolio includes Boldcare, Zypp, etc.\u200d",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.indianvcs.com",
+          "/investor/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://pitchbook.com/profiles/investor/117843-49",
+        "title": "Anthill Ventures investment portfolio | PitchBook",
+        "content": "Anthill Ventures has around in total assets under management.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "pitchbook.com",
+          "/profiles/investor/117843-49",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          12
+        ],
+        "score": 0.08333333333333333,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://in.linkedin.com/company/anthill-ventures",
+        "title": "Anthill Ventures | LinkedIn",
+        "content": "Anthill Ventures | 20,625 followers on LinkedIn. Funding & scaling support for early growth stage startups- Urban Lifestyle Brands | UrbanTech | MediaTech | HealthTech | | Anthilll Ventures is an investment and scaling platform for early growth stage startups that want to scale with speed in ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/company/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          14
+        ],
+        "score": 0.07142857142857142,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.zoominfo.com/c/anthill-ventures/381395529",
+        "title": "Anthill Ventures - Overview, News & Similar companies | ZoomInfo.com",
+        "content": "Anthill Ventures is a Speed Scaling Ecosystem dedicated to investing in and scaling early-stage companies, specifically in Media Tech, Urban Tech, and Health Tech. The company provides valuable resources and connections through partnerships with global corporations and governments, aiming to facilitate rapid growth for innovative startups.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.zoominfo.com",
+          "/c/anthill-ventures/381395529",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          15
+        ],
+        "score": 0.06666666666666667,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://unicorn-nest.com/funds/anthill-ventures/",
+        "title": "Anthill Ventures \u2013 Investors Database \u2013 Unicorn Nest",
+        "content": "Anthill Ventures appeared to be the VC, which was created in 2014. The leading representative office of defined VC is situated in the Singapore. The venture was found in Asia in Singapore. This organization was formed by Doug Shinsato, Prasad Vanga, Rimpal Chawla, Sailesh Sigatapu.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "unicorn-nest.com",
+          "/funds/anthill-ventures/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          16
+        ],
+        "score": 0.0625,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://e27.co/investor/anthill-ventures/",
+        "title": "Anthill Ventures - e27 Investor Profile",
+        "content": "Anthilll Ventures is an investment and scaling platform for early growth stage startups that want to scale with speed in Indian markets.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "e27.co",
+          "/investor/anthill-ventures/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          18
+        ],
+        "score": 0.05555555555555555,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.privateequityinternational.com/institution-profiles/anthill-ventures.html",
+        "title": "Anthill Ventures | Institution Profile | Private Equity International",
+        "content": "Founded in 2015, Anthill Ventures is an early stage venture capital firm that invests into SMEs across India.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.privateequityinternational.com",
+          "/institution-profiles/anthill-ventures.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          19
+        ],
+        "score": 0.05263157894736842,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.owler.com/company/anthillventures",
+        "title": "Anthill\u2019s Competitors, Revenue, Number of Employees, Funding, Acquisitions & News - Owler Company Profile",
+        "content": "Anthill\u2019s Profile, Revenue and Employees. Anthill Ventures is a venture capital firm that focuses on investing in startup companies. Anthill\u2019s primary competitors include Endiya Partners, Blume, Helion Venture Partners and 14 more.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.owler.com",
+          "/company/anthillventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          20
+        ],
+        "score": 0.05,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://superscout.co/investor/anthill-ventures",
+        "title": "Anthill Ventures: The Early Stage Founder's Guide",
+        "content": "Founded in 2015, Anthill Ventures is an early-stage investment firm headquartered in Hyderabad, India, with additional operations in the USA and Singapore. The firm has established itself as a 'speed-scaling VC', focusing on rapidly growing startups across various sectors, including healthcare, climate change, and urban lifestyle.",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/f3Kd1nFD8hZeMTrPXECxgd_Fpec-tTb9mKZ7tgEYoF4/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9jZG4u/cHJvZC53ZWJzaXRl/LWZpbGVzLmNvbS82/MGIzNDQ0ODhhMGE5/NTJiNmFiMTQxYzYv/NjlkYWM1N2JlYjU4/YTZlODJjZThkOWFm/X2FudGhpbGx2ZW50/dXJlcy5hdmlm",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "superscout.co",
+          "/investor/anthill-ventures",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          17
+        ],
+        "score": 0.058823529411764705,
+        "category": "general",
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

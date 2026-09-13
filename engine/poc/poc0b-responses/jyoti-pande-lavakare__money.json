@@ -1,0 +1,696 @@
+{
+  "slug": "jyoti-pande-lavakare",
+  "name": "Jyoti Pande Lavakare",
+  "family": "money",
+  "query": "\"Jyoti Pande Lavakare\" funding raised grant crore",
+  "question_ids": [
+    "funding",
+    "scale_metric",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.727,
+  "timestamp_utc": "2026-09-13T09:09:59.115734+00:00",
+  "request_index_this_run": 110,
+  "seconds_since_run_start": 2846.5,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "mojeek",
+      "Suspended: access denied"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [],
+  "raw_response": {
+    "query": "\"Jyoti Pande Lavakare\" funding raised grant crore",
+    "results": [
+      {
+        "url": "https://jyoti.co.in/",
+        "title": "Jyoti CNC Automation Limited | cnc machine, cnc lathe, vmc machine, \u2026",
+        "content": "Jyoti CNC is the largest CNC machine tool manufacturing company of India and having a subsidiary \"Huron\" based at Strasbourg, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "jyoti.co.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Indian Clean Air Advocates Slam Supreme Court Order ...",
+        "content": "5 Aug 2020 \u00b7 Already in February, Finance minister Nirmala Sitharaman allocated \u20b94,400 crore ... Jyoti Pande Lavakare is the co-founder of Care for Air India.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://healthpolicy-watch.news/indian-clean-air-advocates-bitterly-critical-of-supreme-court-decision-pushing-questionable-smog-tower-technology/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "healthpolicy-watch.news",
+          "/indian-clean-air-advocates-bitterly-critical-of-supreme-court-decision-pushing-questionable-smog-tower-technology/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Jyoti_Amge",
+        "title": "Jyoti Amge - Wikipedia",
+        "content": "Jyoti Kishanji Amge (born 16 December 1993) [1] is an Indian model and actress notable for being the world's shortest living woman \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Jyoti_Amge",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "It's been 5 years of the National Clean Air Programme. This is ...",
+        "content": "2 Sept 2024 \u00b7 ... funds out of Rs. 10,566.47 crores are unused. \u201cIt means there's no strong intent to deal with the problem,\u201d said Jyoti Pande Lavakare ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://india.mongabay.com/2024/09/its-been-5-years-of-the-national-clean-air-programme-this-is-why-it-hasnt-worked/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "india.mongabay.com",
+          "/2024/09/its-been-5-years-of-the-national-clean-air-programme-this-is-why-it-hasnt-worked/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.jyotiindia.com/",
+        "title": "Jyoti Home Appliances \u2013 JYOTI INDIA",
+        "content": "Jyoti Home Appliances Pvt Ltd, First Floor, SN-10/4/3A, Kondhwa Road, Opp. Mauli Stone Crusher, Yewale Wadi, Pune, Pune, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.jyotiindia.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Incentivising farmers 'can solve' the problem of Delhi's yearly ...",
+        "content": "12 Nov 2020 \u00b7 ... Jyoti Pande Lavakare, Co-Founder of Care for Air, who will soon ... The government has given almost `1,200 crore for Turbo Happy ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://www.newindianexpress.com/cities/delhi/2020/Nov/12/incentivising-farmers-can-solve-the-problem-of-delhis-yearly-air-pollution-woes-2222756.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.newindianexpress.com",
+          "/cities/delhi/2020/Nov/12/incentivising-farmers-can-solve-the-problem-of-delhis-yearly-air-pollution-woes-2222756.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://jyoti.co.in/ourproduct/",
+        "title": "CNC Machines | Product Range by Jyoti CNC Automation Limited",
+        "content": "Explore our complete range of high-performance CNC machines, including turning centers, VMCs, 5-axis machines, and automation \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "jyoti.co.in",
+          "/ourproduct/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Voices shaping the clean air conversation The speakers at AIR ...",
+        "content": "18 Mar 2026 \u00b7 ... Jyoti Pande Lavakare, journalist, columnist and author of 'Breathing Here Is Injurious to Your Health: The Human Cost of Air Pollution' and ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.facebook.com/ihubgujarat/posts/voices-shaping-the-clean-air-conversation-the-speakers-at-air-commons-2026-bring/1382025017297338/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/ihubgujarat/posts/voices-shaping-the-clean-air-conversation-the-speakers-at-air-commons-2026-bring/1382025017297338/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.instagram.com/jyoti_amge/",
+        "title": "Jyoti Amge (@jyoti_amge) \u2022 Instagram photos and videos",
+        "content": "2M Followers, 742 Following, 2,228 Posts - Jyoti Amge (@jyoti_amge) on Instagram: \"Actor\ud83e\udd37\u200d\u2640| World Shortest Woman \ud83c\udfc5| Icon \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/jyoti_amge/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Why Indian startups like Bugworks, Vitas Pharma have entered ...",
+        "content": "18 Jan 2015 \u00b7 By Jyoti Pande Lavakare. Talk to anyone associated with public health ... The next round of funding will be initiated in 12 months to raise Rs 20 ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://m.economictimes.com/industry/healthcare/biotech/pharmaceuticals/why-indian-startups-like-bugworks-vitas-pharma-have-entered-the-field-of-drug-discovery/articleshow/45924496.cms",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "m.economictimes.com",
+          "/industry/healthcare/biotech/pharmaceuticals/why-indian-startups-like-bugworks-vitas-pharma-have-entered-the-field-of-drug-discovery/articleshow/45924496.cms",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.jyoti.com/",
+        "title": "Jyoti Ltd.",
+        "content": "The Jyoti Group of Companies is a conglomeration of industrial units involved in manufacturing and marketing a wide range of \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.jyoti.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Kiran Bedi on air pollution.. - Facebook",
+        "content": "17 Dec 2025 \u00b7 ... crore in traffic snarls and its vehicles produce 115 ... Care For Air #breathinghereisinjurioustoyourhealth - with Jyoti Pande Lavakare.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.facebook.com/groups/1243727423782907/posts/1472896744199306/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/groups/1243727423782907/posts/1472896744199306/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Jyoti",
+        "title": "Jyoti - Wikipedia",
+        "content": "Jyoti means \"divine light\" in many Indian languages. Jyoti and spelling variants may refer to: This disambiguation page lists articles \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Jyoti",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Head, Strategy Planning and Policy at the Air Pollution Action ...",
+        "content": "12 Mar 2026 \u00b7 ... Jyoti Pande Lavakare, journalist, columnist and author of 'Breathing Here Is Injurious to Your Health: The Human Cost of Air Pollution' and ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.facebook.com/SBIFoundationIndia/posts/at-the-conserw-conclave-ms-kritika-choudhary-associate-director-head-strategy-pl/1424654426367473/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/SBIFoundationIndia/posts/at-the-conserw-conclave-ms-kritika-choudhary-associate-director-head-strategy-pl/1424654426367473/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.linkedin.com/company/jyoti-ltd.",
+        "title": "Jyoti Ltd. - LinkedIn",
+        "content": "Established in 1943, Jyoti Ltd. is a leading ISO 9001: 2008 engineering company offering reliable quality products and services to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/company/jyoti-ltd.",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "women empowerment.pptx - Slideshare",
+        "content": "ACHIEVEMENTS Women special bus services started in DELHI In 2021 total 5000 crore fund allocated Delhi ... Jyoti Pande Lavakare. 32. ACHIEVEMENTS It is themost ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.slideshare.net/slideshow/women-empowermentpptx-255562430/255562430",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.slideshare.net",
+          "/slideshow/women-empowermentpptx-255562430/255562430",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.jyotiindia.com/pages/about-us",
+        "title": "About Us \u2013 JYOTI INDIA",
+        "content": "From gas stoves, kitchen chimneys, built-in hobs, and oil extractors to gas and electric water heaters, atta makers, and built-in \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.jyotiindia.com",
+          "/pages/about-us",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Costlier green crackers may just dampen Delhi's Diwali spirits",
+        "content": "26 Oct 2019 \u00b7 The group's president Jyoti Pande Lavakare points out that the petition also highlighted other causes of air pollution such as crop burning and ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://m.rediff.com/business/special/costlier-green-crackers-may-dampen-delhis-diwali/20191026.htm",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "m.rediff.com",
+          "/business/special/costlier-green-crackers-may-dampen-delhis-diwali/20191026.htm",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.screener.in/company/JYOTICNC/consolidated/",
+        "title": "Jyoti CNC Automation Ltd share price - Screener",
+        "content": "Jyoti CNC Automation is a leading manufacturer of simultaneous 5-axis CNC machines in India, with a 10% market share in the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.screener.in",
+          "/company/JYOTICNC/consolidated/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Job Quality and Unemployment in India | PDF - Scribd",
+        "content": "Author Name: Jyoti Pande Lavakare ABOUT: PMUY i.e. Pradhan Mantri Ujjwala Yojna, is one of the most effective yet under- acknowledged schemes of government ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.scribd.com/document/431146061/DCPD-Editorial-E-Book-Till-Sep-29-19",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.scribd.com",
+          "/document/431146061/DCPD-Editorial-E-Book-Till-Sep-29-19",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "mojeek",
+        "Suspended: access denied"
+      ]
+    ]
+  }
+}

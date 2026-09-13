@@ -1,0 +1,337 @@
+{
+  "slug": "villgro",
+  "name": "Villgro",
+  "family": "money",
+  "query": "\"Villgro\" funding raised grant crore",
+  "question_ids": [
+    "funding",
+    "scale_metric",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.81,
+  "timestamp_utc": "2026-09-13T08:33:18.390298+00:00",
+  "request_index_this_run": 26,
+  "seconds_since_run_start": 645.7,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Villgro\" funding raised grant crore",
+    "results": [
+      {
+        "url": "https://support.google.com/youtube/?hl=en",
+        "title": "YouTube Help",
+        "content": "Official YouTube Help Center where you can find tips and tutorials on using YouTube and other answers to frequently asked questions.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/",
+          "",
+          "hl=en",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/answer/161805?hl=en&co=GENIE.Platform%3DDesktop",
+        "title": "Create an account on YouTube - Computer - YouTube Help",
+        "content": "Once you've signed in to YouTube with your Google Account, you can create a YouTube channel on your account. YouTube \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/answer/161805",
+          "",
+          "hl=en&co=GENIE.Platform%3DDesktop",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/answer/6308116?hl=ko&co=GENIE.Platform%3DDesktop",
+        "title": "YouTube Premium \ud61c\ud0dd \uc0ac\uc6a9\ud558\uae30 - \ucef4\ud4e8\ud130 - YouTube \uace0\uac1d\uc13c\ud130",
+        "content": "YouTube Premium\uc740 \ud55c\uce35 \ub354 \uc5c5\uadf8\ub808\uc774\ub4dc\ub41c YouTube \ud658\uacbd\uc744 \uc81c\uacf5\ud558\ub294 \uc720\ub8cc \uba64\ubc84\uc2ed\uc785\ub2c8\ub2e4. \uc544\ub798\uc5d0\uc11c Premium \ud61c\ud0dd\uc744 \uc790\uc138\ud788 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/answer/6308116",
+          "",
+          "hl=ko&co=GENIE.Platform%3DDesktop",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/answer/3227660?hl=ko&co=GENIE.Platform%3DAndroid",
+        "title": "YouTube \ubaa8\ubc14\uc77c \uc571 \ub2e4\uc6b4\ub85c\ub4dc - Android - YouTube \uace0\uac1d\uc13c\ud130",
+        "content": "YouTube \uc571\uc744 \ub2e4\uc6b4\ub85c\ub4dc\ud558\uc5ec \ud734\ub300\uae30\uae30\uc5d0\uc11c \uc2dc\uccad \ud658\uacbd\uc744 \ub354\uc6b1 \ub2e4\ucc44\ub86d\uac8c \uc990\uae30\uc138\uc694. \uc571 \ub2e4\uc6b4\ub85c\ub4dc \ucc38\uace0: \uc571\uc744 \ub2e4\uc6b4\ub85c\ub4dc\ud558\ub824\uba74 Android 9.0 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/answer/3227660",
+          "",
+          "hl=ko&co=GENIE.Platform%3DAndroid",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/answer/6000976?hl=ko",
+        "title": "\ub313\uae00 \ubcf4\uae30, \uc815\ub82c \ub610\ub294 \uc0ad\uc81c - YouTube \uace0\uac1d\uc13c\ud130",
+        "content": "YouTube\uc5d0 \ub313\uae00\uc744 \uc62c\ub9ac\uace0 \ub313\uae00\uc5d0 \ucc38\uc5ec\ud558\ub294 \ubc29\ubc95 YouTube\uc640 \uad00\ub828\ub41c \ucd5c\uc2e0 \uc18c\uc2dd\uacfc \uc5c5\ub370\uc774\ud2b8, \ud301 \ub4f1\uc744 \ud655\uc778\ud558\ub824\uba74 YouTube Viewers \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/answer/6000976",
+          "",
+          "hl=ko",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/thread/411449797/%EC%9C%A0%ED%8A%9C%EB%B8%8C-%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84%EC%9D%84-%EC%82%AC%EC%9A%A9-%EC%A4%91%EC%9D%B8%EB%8D%B0-%EC%99%9C-%EC%87%BC%EC%B8%A0%EC%97%90-%EA%B4%91%EA%B3%A0%EA%B0%80-%EB%9C%A8%EB%82%98%EC%9A%94?hl=ko",
+        "title": "\uc720\ud29c\ube0c \ud504\ub9ac\ubbf8\uc5c4\uc744 \uc0ac\uc6a9 \uc911\uc778\ub370 \uc65c \uc1fc\uce20\uc5d0 \uad11\uace0\uac00 \ub728\ub098\uc694 ...",
+        "content": "\uc774\uacf3\uc740 \uc720\ud29c\ube0c \uc6b4\uc601\uc790 \ubc0f \uc9c1\uc6d0\uc774 \uc9c1\uc811 \ub2f5\ubcc0\uc744 \ud558\ub294 \uacf3\uc774 \uc544\ub2cc \uad6c\uae00/\uc720\ud29c\ube0c \uc0ac\uc6a9\uc790\uac00 \uc9c1\uc811 \ub2f5\ubcc0\uc744 \uc81c\uacf5\ud574\ub4dc\ub9ac\ub294 \ud0c0 \ucee4\ubba4\ub2c8\ud2f0 (Nav00)\uc758 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/thread/411449797/%EC%9C%A0%ED%8A%9C%EB%B8%8C-%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84%EC%9D%84-%EC%82%AC%EC%9A%A9-%EC%A4%91%EC%9D%B8%EB%8D%B0-%EC%99%9C-%EC%87%BC%EC%B8%A0%EC%97%90-%EA%B4%91%EA%B3%A0%EA%B0%80-%EB%9C%A8%EB%82%98%EC%9A%94",
+          "",
+          "hl=ko",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/thread/203474908/%EC%9C%A0%ED%8A%9C%EB%B8%8C-%ED%83%90%EC%83%89%EB%B0%94-%EC%82%AC%EB%9D%BC%EC%A7%90?hl=ko",
+        "title": "\uc720\ud29c\ube0c \ud0d0\uc0c9\ubc14 \uc0ac\ub77c\uc9d0 - YouTube \ucee4\ubba4\ub2c8\ud2f0 - Google Help",
+        "content": "YouTube \uacc4\uc815\ub9c8\ub2e4 YouTube \uae30\ub2a5\uc774 \ub2e4\ub974\uac8c \ubcf4\uc774\ub294 \uacbd\uc6b0\uac00 \uc788\uc2b5\ub2c8\ub2e4. \uc774\ub294 \uc571\uc744 \ucd5c\uc2e0 \ubc84\uc804\uc73c\ub85c \uc5c5\ub370\uc774\ud2b8 \ud558\uc9c0 \uc54a\uc558\uae30 \ub54c\ubb38\uc77c \uc218\ub3c4 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/thread/203474908/%EC%9C%A0%ED%8A%9C%EB%B8%8C-%ED%83%90%EC%83%89%EB%B0%94-%EC%82%AC%EB%9D%BC%EC%A7%90",
+          "",
+          "hl=ko",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/answer/6342839?hl=ko",
+        "title": "\ub9de\ucda4 \ub3d9\uc601\uc0c1 \ubc0f \uac80\uc0c9 \uacb0\uacfc \uad00\ub9ac - YouTube \uace0\uac1d\uc13c\ud130",
+        "content": "\ub9de\ucda4 \ub3d9\uc601\uc0c1 \uc870\uc815 \ub9de\ucda4 \ub3d9\uc601\uc0c1\uc5d0 \uc601\ud5a5\uc744 \uc8fc\ub294 \ubc29\ubc95 \uac00\uc6b4\ub370 \ud558\ub098\ub294 \ub098\uc640 \ub0b4 \uad00\uc2ec\ubd84\uc57c\uc5d0 \ub300\ud55c \uad00\ub828\uc131\uc774 \ub354 \ub192\uc740 \ucf58\ud150\uce20\uac00 \ud45c\uc2dc\ub418\ub3c4\ub85d \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/answer/6342839",
+          "",
+          "hl=ko",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/thread/322580163/%EC%9C%A0%ED%8A%9C%EB%B8%8C%EB%B2%84%EC%A0%84%EC%9D%B4-%EC%98%A4%EB%9E%98%EB%90%98%EC%97%88%EC%9C%BC%EB%A9%B0-%EC%82%AC%EC%9A%A9%EB%90%98%EB%8A%94-%EA%B8%B0%EA%B8%B0%EC%97%90-%EC%A0%9C%EA%B3%B5%EB%90%98%EB%8A%94-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EA%B0%80-%EC%97%86%EC%8A%B5%EB%8B%88%EB%8B%A4-%EC%9D%B8%ED%84%B0%EB%84%B7%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80%EB%A5%BC-%ED%86%B5%ED%95%B4-%EC%A0%91%EC%86%8D%ED%95%98%EC%84%B8%EC%9A%94-%EB%9D%BC%EA%B3%A0-%EB%9C%B9%EB%8B%88%EB%8B%A4-%EC%98%A4%EB%8A%98-%EA%B0%91%EC%9E%90%EA%B8%B0-%EC%9D%B4%EB%A0%87%EA%B2%8C-%EB%90%90%EA%B3%A0-%EA%B5%AC%EA%B8%80%ED%94%8C%EB%A0%88%EC%9D%B4%EC%97%90%EC%84%9C-%EC%96%B4%ED%94%8C-%EC%A0%9C%EA%B1%B0%ED%9B%84-%EC%9E%AC%EC%84%A4%EC%B9%98-%EC%97%85%EB%8D%B0?hl=ko",
+        "title": "\uc720\ud29c\ube0c\ubc84\uc804\uc774 \uc624\ub798\ub418\uc5c8\uc73c\uba70 \uc0ac\uc6a9\ub418\ub294 \uae30\uae30\uc5d0 \uc81c\uacf5\ub418\ub294 ...",
+        "content": "\ub2f5\ub2f5\ud558\ub124 \uc544\uc774\ud328\ub4dc\ub294 \ub85c\uadf8\uc778\ub3c4 \uc548\ub418\uace0 \uacc4\uc18d \ucd5c\uc2e0\ubc84\uc804 \uae54\uc73c\ub77c\ub124 \ucd5c\uc2e0\ubc84\uc804 \uc9c0\uc6d0\uc774 \uc548\ub418\ub294\ub370 \uc65c\uc790\uafb8 \ucd5c\uc2e0\ubc84\uc804\uc73c\ub85c \ub9c9\uc544\ub193\ub0d0 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/thread/322580163/%EC%9C%A0%ED%8A%9C%EB%B8%8C%EB%B2%84%EC%A0%84%EC%9D%B4-%EC%98%A4%EB%9E%98%EB%90%98%EC%97%88%EC%9C%BC%EB%A9%B0-%EC%82%AC%EC%9A%A9%EB%90%98%EB%8A%94-%EA%B8%B0%EA%B8%B0%EC%97%90-%EC%A0%9C%EA%B3%B5%EB%90%98%EB%8A%94-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%EA%B0%80-%EC%97%86%EC%8A%B5%EB%8B%88%EB%8B%A4-%EC%9D%B8%ED%84%B0%EB%84%B7%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80%EB%A5%BC-%ED%86%B5%ED%95%B4-%EC%A0%91%EC%86%8D%ED%95%98%EC%84%B8%EC%9A%94-%EB%9D%BC%EA%B3%A0-%EB%9C%B9%EB%8B%88%EB%8B%A4-%EC%98%A4%EB%8A%98-%EA%B0%91%EC%9E%90%EA%B8%B0-%EC%9D%B4%EB%A0%87%EA%B2%8C-%EB%90%90%EA%B3%A0-%EA%B5%AC%EA%B8%80%ED%94%8C%EB%A0%88%EC%9D%B4%EC%97%90%EC%84%9C-%EC%96%B4%ED%94%8C-%EC%A0%9C%EA%B1%B0%ED%9B%84-%EC%9E%AC%EC%84%A4%EC%B9%98-%EC%97%85%EB%8D%B0",
+          "",
+          "hl=ko",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/answer/6308278?hl=ko&co=GENIE.Platform%3DAndroid",
+        "title": "YouTube Premium \ub610\ub294 YouTube Music Premium \ucde8\uc18c\ud558\uae30",
+        "content": "YouTube Premium \ubc0f YouTube Music Premium \uad6c\ub3c5\uc790\ub294 \uc5b8\uc81c\ub4e0\uc9c0 \uc720\ub8cc \uba64\ubc84\uc2ed\uc744 \ucde8\uc18c, \uc77c\uc2dc\uc911\uc9c0 \ub610\ub294 \uc7ac\uac1c\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4. \uc5f0\uac04 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/answer/6308278",
+          "",
+          "hl=ko&co=GENIE.Platform%3DAndroid",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

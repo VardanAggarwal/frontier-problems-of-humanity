@@ -1,0 +1,28 @@
+Verification run, 2026-09-13, session 2 — replaces the previous log in this
+file (that run's script had a bug: `declare -A` is invalid on macOS's default
+bash 3.2, and its printed "23/10" per-engine summary is not a valid count out
+of 10 queries — the qualitative table in the addendum below was written from
+the container logs' error strings, not from that broken counter).
+
+Method: 10 real actor queries (5 families x 2 actors: Anthill Ventures,
+Aavishkaar Group, Acumen, Accion, Action for India), issued via
+GET /search?q=...&format=json, jittered 2.5-4.0s apart. Engine set at time of
+run: brave, google, bing, mojeek (duckduckgo and qwant already dropped from
+settings.yml as structurally blocked — see addendum).
+
+0 identity  "Anthill Ventures"                                        results=32 unresponsive=[]
+1 money     "Anthill Ventures" funding raised grant crore              results=40 unresponsive=[]
+2 people    "Aavishkaar Group" founder director leadership             results=30 unresponsive=[google CAPTCHA]
+3 asks      "Aavishkaar Group" partnership hiring seeking support      results=25 unresponsive=[google Suspended:CAPTCHA]
+4 reach     "Aavishkaar Group" contact twitter newsletter               results=25 unresponsive=[google Suspended:CAPTCHA]
+5 identity  "Acumen" India                                              results=26 unresponsive=[google Suspended:CAPTCHA]
+6 money     "Acumen" funding raised grant crore                        results=31 unresponsive=[google Suspended:CAPTCHA]
+7 people    "Accion" founder director leadership                       results=10 unresponsive=[brave too_many_requests, google Suspended:CAPTCHA]
+8 asks      "Action for India" partnership hiring seeking support      results=10 unresponsive=[brave Suspended:too_many_requests, google Suspended:CAPTCHA]
+9 reach     "Action for India" contact twitter newsletter               results=10 unresponsive=[brave Suspended:too_many_requests, google Suspended:CAPTCHA]
+
+=== per-engine success over these 10 queries ===
+bing:   10/10
+mojeek: 10/10
+brave:   7/10
+google:  2/10

@@ -1,0 +1,342 @@
+{
+  "slug": "jyoti-pande-lavakare",
+  "name": "Jyoti Pande Lavakare",
+  "family": "reach",
+  "query": "\"Jyoti Pande Lavakare\" contact twitter newsletter",
+  "question_ids": [
+    "contact_route",
+    "channel:*"
+  ],
+  "elapsed_s": 0.386,
+  "timestamp_utc": "2026-09-13T09:11:39.473621+00:00",
+  "request_index_this_run": 114,
+  "seconds_since_run_start": 2946.8,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ],
+    [
+      "mojeek",
+      "Suspended: access denied"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [],
+  "raw_response": {
+    "query": "\"Jyoti Pande Lavakare\" contact twitter newsletter",
+    "results": [
+      {
+        "url": "https://jyoti.co.in/",
+        "title": "Jyoti CNC Automation Limited | cnc machine, cnc lathe, vmc machine, \u2026",
+        "content": "Jyoti CNC is the largest CNC machine tool manufacturing company of India and having a subsidiary \"Huron\" based at Strasbourg, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "jyoti.co.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Jyoti_Amge",
+        "title": "Jyoti Amge - Wikipedia",
+        "content": "Jyoti Kishanji Amge (born 16 December 1993) [1] is an Indian model and actress notable for being the world's shortest living woman \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Jyoti_Amge",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.jyotiindia.com/",
+        "title": "Jyoti Home Appliances \u2013 JYOTI INDIA",
+        "content": "Jyoti Home Appliances Pvt Ltd, First Floor, SN-10/4/3A, Kondhwa Road, Opp. Mauli Stone Crusher, Yewale Wadi, Pune, Pune, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.jyotiindia.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://jyoti.co.in/ourproduct/",
+        "title": "CNC Machines | Product Range by Jyoti CNC Automation Limited",
+        "content": "Explore our complete range of high-performance CNC machines, including turning centers, VMCs, 5-axis machines, and automation \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "jyoti.co.in",
+          "/ourproduct/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.instagram.com/jyoti_amge/",
+        "title": "Jyoti Amge (@jyoti_amge) \u2022 Instagram photos and videos",
+        "content": "2M Followers, 742 Following, 2,228 Posts - Jyoti Amge (@jyoti_amge) on Instagram: \"Actor\ud83e\udd37\u200d\u2640| World Shortest Woman \ud83c\udfc5| Icon \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/jyoti_amge/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.jyoti.com/",
+        "title": "Jyoti Ltd.",
+        "content": "The Jyoti Group of Companies is a conglomeration of industrial units involved in manufacturing and marketing a wide range of \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.jyoti.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Jyoti",
+        "title": "Jyoti - Wikipedia",
+        "content": "Jyoti means \"divine light\" in many Indian languages. Jyoti and spelling variants may refer to: This disambiguation page lists articles \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Jyoti",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.linkedin.com/company/jyoti-ltd.",
+        "title": "Jyoti Ltd. - LinkedIn",
+        "content": "Established in 1943, Jyoti Ltd. is a leading ISO 9001: 2008 engineering company offering reliable quality products and services to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/company/jyoti-ltd.",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.jyotiindia.com/pages/about-us",
+        "title": "About Us \u2013 JYOTI INDIA",
+        "content": "From gas stoves, kitchen chimneys, built-in hobs, and oil extractors to gas and electric water heaters, atta makers, and built-in \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.jyotiindia.com",
+          "/pages/about-us",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.screener.in/company/JYOTICNC/consolidated/",
+        "title": "Jyoti CNC Automation Ltd share price - Screener",
+        "content": "Jyoti CNC Automation is a leading manufacturer of simultaneous 5-axis CNC machines in India, with a 10% market share in the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.screener.in",
+          "/company/JYOTICNC/consolidated/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ],
+      [
+        "mojeek",
+        "Suspended: access denied"
+      ]
+    ]
+  }
+}

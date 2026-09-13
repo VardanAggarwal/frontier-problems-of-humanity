@@ -1,0 +1,338 @@
+{
+  "slug": "rainmatter-foundation",
+  "name": "Rainmatter Foundation",
+  "family": "identity",
+  "query": "\"Rainmatter Foundation\"",
+  "question_ids": [
+    "one_line",
+    "type",
+    "legs",
+    "geography"
+  ],
+  "elapsed_s": 0.637,
+  "timestamp_utc": "2026-09-13T08:38:09.276950+00:00",
+  "request_index_this_run": 37,
+  "seconds_since_run_start": 936.6,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Rainmatter Foundation\"",
+    "results": [
+      {
+        "url": "https://rainmatter.org/",
+        "title": "Home - Rainmatter Foundation Blog",
+        "content": "Founded in 2019, we are a non-profit organisation in India that supports organisations and projects for climate action, a healthier \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rainmatter.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://rainmatter.com/",
+        "title": "Rainmatter by Zerodha \u2013 Indian fintech and health fund",
+        "content": "We back founders in fintech, climate, health, and media. We help with funding, mentorship, financial APIs, industry networks, and \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rainmatter.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://rainmatter.org/about/",
+        "title": "About us - Rainmatter Foundation Blog",
+        "content": "Founded in 2021, we are a non-profit organisation that supports organisations and projects for climate action, a healthier \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rainmatter.org",
+          "/about/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://rainmatter.com/climate/",
+        "title": "Rainmatter by Zerodha - Indian fintech and health fund",
+        "content": "Investing in climate startups in coordination with Rainmatter Foundation. Akshayakalpa is a farmer-entrepreneurship initiative and \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rainmatter.com",
+          "/climate/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://rainmatter.org/focus-areas/",
+        "title": "Focus Areas - Rainmatter Foundation Blog",
+        "content": "The Foundation seeks to address India\u2019s conservation and restoration opportunities and challenges through a collaborative \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rainmatter.org",
+          "/focus-areas/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://rainmatter.org/partners/",
+        "title": "Partnerships and grants - Rainmatter Foundation Blog",
+        "content": "At Rainmatter Foundation, we believe open systems and shared commons are key to solving complex challenges. Through this \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rainmatter.org",
+          "/partners/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.linkedin.com/company/rainmatter-foundation",
+        "title": "Rainmatter Foundation - LinkedIn",
+        "content": "Supporting individuals/organizations working on climate change, with a focus on afforestation, ecology, and livelihoods. Rainmatter \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/company/rainmatter-foundation",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.facebook.com/rainmatterorg/",
+        "title": "Rainmatter Foundation - Facebook",
+        "content": "Aug 13, 2026 \u00b7 In Marathi, Vaphasa (\u0935\u093e\u092b\u0938\u093e) describes a very specific moment in the soil - not wet, not dry, but perfectly balanced to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/rainmatterorg/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.instagram.com/rainmatterorg/",
+        "title": "Rainmatter Foundation by Zerodha (@rainmatterorg) - Instagram",
+        "content": "16K Followers, 138 Following, 562 Posts - Rainmatter Foundation by Zerodha (@rainmatterorg) on Instagram: \"Supporting \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/rainmatterorg/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://rainmatter.org/blog/introducing-rainmatter-foundation/",
+        "title": "Introducing the Rainmatter Foundation",
+        "content": "Jan 7, 2021 \u00b7 To attempt this, we have set up the Rainmatter Foundation, a non-profit foundation that aims to support grassroots \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rainmatter.org",
+          "/blog/introducing-rainmatter-foundation/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

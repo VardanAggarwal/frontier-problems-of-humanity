@@ -1,0 +1,700 @@
+{
+  "slug": "bku-ekta-ugrahan",
+  "name": "Bharatiya Kisan Union (Ekta Ugrahan)",
+  "family": "identity",
+  "query": "\"Bharatiya Kisan Union (Ekta Ugrahan)\"",
+  "question_ids": [
+    "one_line",
+    "type",
+    "legs",
+    "geography"
+  ],
+  "elapsed_s": 0.857,
+  "timestamp_utc": "2026-09-13T08:58:49.447639+00:00",
+  "request_index_this_run": 85,
+  "seconds_since_run_start": 2176.8,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Bharatiya Kisan Union (Ekta Ugrahan)\"",
+    "results": [
+      {
+        "url": "https://www.reddit.com/r/BingHomepageQuiz/hot/",
+        "title": "BingHomepageQuiz - Reddit",
+        "content": "Microsoft Bing Homepage daily quiz questions and their answers",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.reddit.com",
+          "/r/BingHomepageQuiz/hot/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Joginder Singh Ugrahan - Wikipedia",
+        "content": "He is president of farm union Bharatiya Kisan Union (Ekta Ugrahan) and one of the most popular farm leaders in the country. ... He founded Bharatiya Kisan Union ( ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://en.wikipedia.org/wiki/Joginder_Singh_Ugrahan",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Joginder_Singh_Ugrahan",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.reddit.com/r/MicrosoftRewards/comments/1bwl8ci/start_home_page_daily_quiz/",
+        "title": "Start home page daily quiz : r/MicrosoftRewards - Reddit",
+        "content": "It's the Bing home page/ image quiz. It gives 10 points on a desktop browser. I haven't been able to get the quiz to work from the iOS \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.reddit.com",
+          "/r/MicrosoftRewards/comments/1bwl8ci/start_home_page_daily_quiz/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "\u092d\u093e\u0930\u0924\u0940\u092f \u0915\u093f\u0938\u093e\u0928 \u092f\u0942\u0928\u093f\u092f\u0928 \u090f\u0915\u0924\u093e \u0909\u0917\u0930\u093e\u0939\u093e\u0902 \u0915\u0947 \u0938\u0926\u0938\u094d\u092f\u094b\u0902 \u0928\u0947 \u0915\u093f\u092f\u093e \u090f\u0932\u093e\u0928",
+        "content": "Rating 4.1 (5,87,000) \u00b7 Free \u00b7 AndroidMembers Of Bharatiya Kisan Union Ekta Ugrahan Announced. \u092d\u093e\u0930\u0924\u0940\u092f \u0915\u093f\u0938\u093e\u0928 \u092f\u0942\u0928\u093f\u092f\u0928 \u090f\u0915\u0924\u093e \u0909\u0917\u0930\u093e\u0939\u093e\u0902 \u0915\u0947 \u0938\u0926\u0938\u094d\u092f\u094b\u0902 \u0928\u0947 \u0915\u093f\u092f\u093e ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://www.bhaskar.com/local/punjab/moga/news/members-of-bharatiya-kisan-union-ekta-ugrahan-announced-132606405.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.bhaskar.com",
+          "/local/punjab/moga/news/members-of-bharatiya-kisan-union-ekta-ugrahan-announced-132606405.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.reddit.com/r/MicrosoftRewards/comments/roq1db/us_bing_homepage_quiz_12262021/",
+        "title": "[US] Bing Homepage Quiz (12-26-2021) : r/MicrosoftRewards - Reddit",
+        "content": "Dec 26, 2021 \u00b7 All three are answered with B today Where did Boxing Day originate? Answer: B) United Kingdom These days, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.reddit.com",
+          "/r/MicrosoftRewards/comments/roq1db/us_bing_homepage_quiz_12262021/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Joginder Sing of Ugrahan Bharatiya Kisan Union (Ekta ...",
+        "content": "22 Mar 2026 \u00b7 Joginder Sing of Ugrahan Bharatiya Kisan Union (Ekta Ugrahan) addresses the Kisan Mahapanchayat at Barnala,Punjab.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://www.facebook.com/JaiKisanAndolan/videos/joginder-sing-of-ugrahan-bharatiya-kisan-union-ekta-ugrahan-addresses-the-kisan-/2434806960316291/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/JaiKisanAndolan/videos/joginder-sing-of-ugrahan-bharatiya-kisan-union-ekta-ugrahan-addresses-the-kisan-/2434806960316291/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.reddit.com/r/MicrosoftRewards/comments/rtcbye/us_bing_homepage_quiz_01012022/",
+        "title": "[US] Bing Homepage Quiz (01-01-2022) : r/MicrosoftRewards - Reddit",
+        "content": "Jan 1, 2022 \u00b7 What type of seal is this? The answer is: A) Harp seal Each year, thousands of people take the Polar Bear Plunge at \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.reddit.com",
+          "/r/MicrosoftRewards/comments/rtcbye/us_bing_homepage_quiz_01012022/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bharatiya Kisan Union \u2013 Ekta Ugrahan | NewsClick",
+        "content": "Farmers, led by Bharatiya Kisan Union - Ekta Ugrahan, laid siege to mansions of \u00b7 India \u00b7 Farmers Plan Strikes, Road Blockades, 'Rail Roko' Protests Against 3 ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.newsclick.in/bharatiya-kisan-union-ekta-ugrahan",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.newsclick.in",
+          "/bharatiya-kisan-union-ekta-ugrahan",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.reddit.com/r/MicrosoftRewards/comments/r8qjk5/bing_homepage_quiz/",
+        "title": "Bing homepage quiz : r/MicrosoftRewards - Reddit",
+        "content": "Dec 4, 2021 \u00b7 While these are the right answers and this quiz is still currently bugged, you don't lose points for wrong answers on this \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.reddit.com",
+          "/r/MicrosoftRewards/comments/r8qjk5/bing_homepage_quiz/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bharatiya Kisan Union (Ekta Ugrahan) has announced that it ...",
+        "content": "25 Jul 2026 \u00b7 Bharatiya Kisan Union (Ekta Ugrahan) has announced that it will join the Cockroach Janta Party protest in Delhi.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://www.instagram.com/p/DbNVWpPCNS9/?hl=en",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/p/DbNVWpPCNS9/",
+          "",
+          "hl=en",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.reddit.com/r/MicrosoftRewards/comments/slpn2d/us_bing_homepage_quiz_020622/",
+        "title": "[US] Bing homepage quiz [02-06-22] : r/MicrosoftRewards - Reddit",
+        "content": "Feb 6, 2022 \u00b7 Siberia Coldest place in the Northern Hemisphere Southern",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.reddit.com",
+          "/r/MicrosoftRewards/comments/slpn2d/us_bing_homepage_quiz_020622/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bharatiya Kisan Union (Ekta Ugrahan) | The Caravan",
+        "content": "content.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://caravanmagazine.in/tag/bharatiya-kisan-union-ekta-ugrahan",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "caravanmagazine.in",
+          "/tag/bharatiya-kisan-union-ekta-ugrahan",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.reddit.com/r/MicrosoftRewards/comments/s55aoc/us_bing_homepage_quiz_011622/",
+        "title": "[US] Bing homepage quiz [01-16-22] : r/MicrosoftRewards - Reddit",
+        "content": "Jan 16, 2022 \u00b7 Question: Have a glass of milk handy\u2014it's International Hot and Spicy Food Day. What's the name of the compound \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.reddit.com",
+          "/r/MicrosoftRewards/comments/s55aoc/us_bing_homepage_quiz_011622/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Licensable picture: Farmers from Bharatiya Kisan Union Ekta stage ...",
+        "content": "Amritsar, Jun 26 (ANI): Farmers from Bharatiya Kisan Union Ekta (Ugrahan) stage a protest march against the Indo-US Trade Agreement, rising fuel prices, ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.reutersconnect.com/item/farmers-from-bharatiya-kisan-union-ekta-stage-a-protest-march-against-the-indo-us-trade-agreement/dGFnOnJldXRlcnMuY29tLDIwMjY6bmV3c21sX01UMUFTTkVXUzIwMjYwNjI2MTQ0TA",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.reutersconnect.com",
+          "/item/farmers-from-bharatiya-kisan-union-ekta-stage-a-protest-march-against-the-indo-us-trade-agreement/dGFnOnJldXRlcnMuY29tLDIwMjY6bmV3c21sX01UMUFTTkVXUzIwMjYwNjI2MTQ0TA",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.reddit.com/r/EveryDayBingQuiz/comments/1celjyr/bing_homepage_quiz_4282024/",
+        "title": "Bing Homepage Quiz (4-28-2024) : r/EveryDayBingQuiz - Reddit",
+        "content": "Which limestone peak in the US is seen in today's image? A El Capitan B Notch Peak C Limestone Mountain The correct answer is\u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.reddit.com",
+          "/r/EveryDayBingQuiz/comments/1celjyr/bing_homepage_quiz_4282024/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Selection of 21 member committee of Bharatiya Kisan Union (Ekta ...",
+        "content": "Selection Of 21 Member Committee Of Bharatiya Kisan Union (Ekta Ugrahan). \u092e\u0940\u091f\u093f\u0902\u0917:\u092d\u093e\u0930\u0924\u0940\u092f \u0915\u093f\u0938\u093e\u0928 \u092f\u0942\u0928\u093f\u092f\u0928 (\u090f\u0915\u0924\u093e \u0909\u0917\u0930\u093e\u0939\u093e\u0902) \u0915\u0940 21 ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.bhaskar.com/local/punjab/bathinda/jalalabad/news/selection-of-21-member-committee-of-bharatiya-kisan-union-ekta-ugrahan-128132624.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.bhaskar.com",
+          "/local/punjab/bathinda/jalalabad/news/selection-of-21-member-committee-of-bharatiya-kisan-union-ekta-ugrahan-128132624.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.reddit.com/r/BingQuizAnswers/comments/wt50sx/bing_homepage_quiz_8212022/",
+        "title": "Bing Homepage Quiz (8-21-2022) : r/BingQuizAnswers - Reddit",
+        "content": "Bing Homepage Quiz (8-21-2022) Bing Homepage Quiz Answers (8/21/2022): 21 August 2022 1- Known as the Coast of Death, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.reddit.com",
+          "/r/BingQuizAnswers/comments/wt50sx/bing_homepage_quiz_8212022/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Akashdeep Thind on X: \"Bharatiya Kisan Union (Ekta Ugrahan ...",
+        "content": "24 Jul 2026 \u00b7 Bharatiya Kisan Union (Ekta Ugrahan) has announced that it will join the ongoing students' protest at Jantar Mantar in Delhi.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://x.com/thind_akashdeep/status/2080690073688015306",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "x.com",
+          "/thind_akashdeep/status/2080690073688015306",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.reddit.com/r/BingHomepageQuiz/comments/rysc10/us_in_2016_the_american_bison_was_declared_what/",
+        "title": "[US] In 2016, the American bison was declared what? - MS Bing Quiz",
+        "content": "[1-8-2022] Microsoft Rewards Bing Homepage Quiz Questions and Answers: Question: Today we're befriending a frosty bison \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.reddit.com",
+          "/r/BingHomepageQuiz/comments/rysc10/us_in_2016_the_american_bison_was_declared_what/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "\u092d\u093e\u0930\u0924\u0940\u092f \u0915\u093f\u0938\u093e\u0928 \u092f\u0942\u0928\u093f\u092f\u0928 \u090f\u0915\u0924\u093e \u0909\u0917\u094d\u0930\u093e\u0939\u093e\u0902 \u0915\u0947 \u092b\u0948\u0938\u0932\u0947 \u0938\u0947 \u092a\u0902\u091c\u093e\u092c \u0915\u0947 \u0930\u093e\u091c\u0928\u0940\u0924\u093f\u0915 ...",
+        "content": "11 Jan 2022 \u00b7 Punjab Chunav 2022 \u092d\u093e\u0930\u0924\u0940\u092f \u0915\u093f\u0938\u093e\u0928 \u092f\u0942\u0928\u093f\u092f\u0928 \u090f\u0915\u0924\u093e \u0909\u0917\u094d\u0930\u093e\u0939\u093e\u0902 \u0928\u0947 \u092a\u0902\u091c\u093e\u092c \u091a\u0941\u0928\u093e\u0935 \u0915\u093e\u0947 \u0932\u0947\u0915\u0930 \u092c\u0921\u093c\u093e \u092b\u0948\u0938\u0932\u093e",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.jagran.com/punjab/ludhiana-punjab-assembly-election-2022-bhartiya-kisan-union-ekta-ugrahan-will-not-contest-punjab-assembly-elections-22371583.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.jagran.com",
+          "/punjab/ludhiana-punjab-assembly-election-2022-bhartiya-kisan-union-ekta-ugrahan-will-not-contest-punjab-assembly-elections-22371583.html",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [
+      "bharatiya kisan union bhanu",
+      "krantikari kisan union",
+      "list of kisan union in punjab",
+      "kisan union rakesh ticket",
+      "bhartiya kisan union tikait logo",
+      "bharti kisan union",
+      "kisan union batch",
+      "kisan dharna"
+    ],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ]
+    ]
+  }
+}

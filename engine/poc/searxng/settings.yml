@@ -1,0 +1,82 @@
+# fph engine PoC-0 — SearXNG local instance, private, JSON-only client.
+# Not a public instance: AGPL-3.0 network clause does not bind an unmodified
+# internal build-time service never exposed to portal visitors (03-worker.md §4 "Licensing").
+
+use_default_settings:
+  engines:
+    # General category, 4 engines (2026-09-13, down from an attempted 5 — see
+    # poc0a-results.md dated addendum for the full diagnosis). Each answers
+    # with no API key; together they bias toward actually indexing small
+    # Indian NGO/org sites rather than only large aggregators:
+    #   - brave: enabled by default, independent index (not a Bing/Google
+    #     reskin), no key, sometimes surfaces pages the big two miss.
+    #   - google: broadest index of the four; best odds of surfacing a small
+    #     org's own site or a news mention of a specific actor by name.
+    #   - bing: second broad index, no key, complements google's crawl gaps
+    #     (in particular for .in domains and Indian press coverage). Was
+    #     failing "HTTP connection error" on every query — root cause was
+    #     HTTP/3 (QUIC) breaking under this Docker/colima network
+    #     (`ngtcp2_conn_writev_stream ... ERR_DRAINING`), not an IP block.
+    #     Fixed below by forcing bing off HTTP/3.
+    #   - mojeek: small independent index, no key; throttle-sensitive but not
+    #     blocked outright — needs >=2s between requests to this engine (see
+    #     the throttle note in poc0a-results.md's dated addendum).
+    #
+    #   Dropped, both structurally blocked from this environment regardless
+    #   of config (see poc0a-results.md addendum for evidence):
+    #   - duckduckgo: SearXNG's DDG scraper CAPTCHAs on every single request,
+    #     first request included. Known SearXNG/DDG pain point.
+    #   - qwant: tried as the replacement. SearXNG's qwant engine calls
+    #     api.qwant.com behind a `datadome` anti-bot cookie challenge; every
+    #     request through that path came back "access denied" (raw requests
+    #     to the plain www.qwant.com HTML front end succeed fine — the block
+    #     is specific to the API path SearXNG actually uses).
+    #   Also considered and rejected without trying (see task constraints):
+    #   startpage (ships inactive upstream — CPU-bound Anubis proof-of-work
+    #   challenge page, not a simple fetch), marginalia (its public API now
+    #   requires a signup API key), wikipedia/openalex/crossref (not general
+    #   web indexes — poor swap for an NGO/news-site-biased engine).
+    keep_only:
+      - brave
+      - google
+      - bing
+      - mojeek
+
+search:
+  safe_search: 0
+  autocomplete: ""
+  favicon_resolver: ""
+  formats:
+    - html
+    - json   # required: worker calls GET /search?...&format=json (03-worker.md §4)
+
+server:
+  secret_key: "poc0-local-only-not-for-production"
+  limiter: false   # explicit: this is a private local instance, not a public one
+  public_instance: false
+
+# engines: re-enable the ones that ship `disabled: true` / `inactive: true`
+# upstream by default (google, bing, mojeek) now that keep_only has already
+# trimmed the category to the four above.
+engines:
+  - name: google
+    disabled: false
+  - name: bing
+    disabled: false
+    # bing.py sets `enable_http3 = True` at module level. In this
+    # colima/Docker network, curl_cffi's QUIC path to bing.com fails on
+    # every attempt (curl error 56, ngtcp2 ERR_DRAINING) with no automatic
+    # fallback to HTTP/2 — SearXNG's client forces the exact protocol
+    # version given, it doesn't downgrade on failure. This setattr's
+    # `enable_http3` on the loaded engine object (searx/engines/__init__.py
+    # load_engine() applies every settings.yml key onto the engine via
+    # setattr), same mechanism as `disabled`. Confirmed fix: raw curl_cffi
+    # calls with http_version=V3 fail 4/4 against bing.com; the same calls
+    # with no explicit version (HTTP/2) succeed 6/6.
+    enable_http3: false
+  - name: mojeek
+    disabled: false
+
+outgoing:
+  request_timeout: 6.0
+  max_request_timeout: 12.0

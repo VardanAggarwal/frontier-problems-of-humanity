@@ -1,0 +1,53 @@
+{
+ "rows": [],
+ "actors": [
+  {
+   "slug": "anthill-ventures",
+   "name": "Anthill Ventures",
+   "built": {
+    "1": {
+     "labels": {
+      "4128ceaeaf6bf0f0": "S1",
+      "f84d7f97eff97305": "S2",
+      "PLANTED": "S3"
+     },
+     "plant": {
+      "original": "2030",
+      "altered": "4060",
+      "unit": "year",
+      "sentence": "Focused on living healthy, mitigating climate change and enhancing urban lifestyle, we back ventures driving meaningful, sustainable impact for India 2030.",
+      "altered_sentence": "Focused on living healthy, mitigating climate change and enhancing urban lifestyle, we back ventures driving meaningful, sustainable impact for India 4060.",
+      "from_chunk": "4128ceaeaf6bf0f0:21",
+      "last_resort": true
+     },
+     "n_chunks": 23,
+     "passage_tokens": 464,
+     "chars": 2287,
+     "n_sources_fetched": 2,
+     "n_sources_in_prompt": 2
+    },
+    "0": {
+     "labels": {
+      "4128ceaeaf6bf0f0": "S1",
+      "f84d7f97eff97305": "S2",
+      "PLANTED": "S3"
+     },
+     "plant": {
+      "original": "2030",
+      "altered": "4060",
+      "unit": "year",
+      "sentence": "Focused on living healthy, mitigating climate change and enhancing urban lifestyle, we back ventures driving meaningful, sustainable impact for India 2030.",
+      "altered_sentence": "Focused on living healthy, mitigating climate change and enhancing urban lifestyle, we back ventures driving meaningful, sustainable impact for India 4060.",
+      "from_chunk": "4128ceaeaf6bf0f0:21",
+      "last_resort": true
+     },
+     "n_chunks": 10,
+     "passage_tokens": 228,
+     "chars": 1284,
+     "n_sources_fetched": 2,
+     "n_sources_in_prompt": 2
+    }
+   }
+  }
+ ]
+}

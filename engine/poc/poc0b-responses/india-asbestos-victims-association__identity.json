@@ -1,0 +1,655 @@
+{
+  "slug": "india-asbestos-victims-association",
+  "name": "India Asbestos Victims Association",
+  "family": "identity",
+  "query": "\"India Asbestos Victims Association\"",
+  "question_ids": [
+    "one_line",
+    "type",
+    "legs",
+    "geography"
+  ],
+  "elapsed_s": 0.764,
+  "timestamp_utc": "2026-09-13T09:03:54.689491+00:00",
+  "request_index_this_run": 97,
+  "seconds_since_run_start": 2482.0,
+  "n_results": 19,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"India Asbestos Victims Association\"",
+    "results": [
+      {
+        "url": "https://en.wikipedia.org/wiki/India",
+        "title": "India - Wikipedia",
+        "content": "India, officially the Republic of India, [j][20] is a country in South Asia. It is the world's seventh-largest country by area and the largest \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/India",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Honey trap used to sell asbestos laden Russian ship to India ...",
+        "content": "3 Jun 2026 \u00b7 ... India Asbestos Victims Association(IAVA). Asbestos Free India campaign of BANI is inspired by trade union movement and right to health ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://www.asbestosfreeindia.org/2026/06/honey-trap-used-to-sell-asbestos-laden.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.asbestosfreeindia.org",
+          "/2026/06/honey-trap-used-to-sell-asbestos-laden.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.india.gov.in/",
+        "title": "Home | National Portal of India",
+        "content": "1 day ago \u00b7 Details on India\u2019s trade infrastructure, regulations, and policies are provided to support both domestic and international \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.india.gov.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "\u0926\u0947\u0936 \u092d\u0930 \u092e\u0947\u0902 \u090f\u0938\u094d\u092c\u0947\u0938\u094d\u091f\u0938 \u092b\u0948\u0932\u093e \u0930\u0939\u093e \u0939\u0948 \u0932\u0902\u0917 \u0915\u0948\u0902\u0938\u0930 - Ban-Asbestos-India",
+        "content": "19 Oct 2008 \u00b7 ... India Asbestos Victims Association(IAVA). Asbestos Free India campaign of BANI is inspired by trade union movement and right to health ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://www.asbestosfreeindia.org/2008/10/blog-post.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.asbestosfreeindia.org",
+          "/2008/10/blog-post.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.britannica.com/place/India",
+        "title": "India | History, Maps, Population, Economy, & Facts | Britannica",
+        "content": "1 day ago \u00b7 India is a country that occupies the greater part of South Asia. It is a constitutional republic that represents a highly \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.britannica.com",
+          "/place/India",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Ban-Asbestos-India",
+        "content": "Journal of Ban Asbestos Network of India(BANI) and India Asbestos Victims Association(IAVA). Asbestos Free India campaign of BANI is inspired by trade union ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://www.asbestosfreeindia.org/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.asbestosfreeindia.org",
+          "/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/History_of_India",
+        "title": "History of India - Wikipedia",
+        "content": "Policies of company rule in India led to the Indian Rebellion of 1857. India was afterwards ruled directly by the British Crown, in the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/History_of_India",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "BANI Condemns Police Brutality on Anti-Asbestos Villagers",
+        "content": "23 Jan 2011 \u00b7 Ban-Asbestos-India. Journal of Ban Asbestos Network of India(BANI) and India Asbestos Victims Association(IAVA). Asbestos Free India campaign ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://banasbestosindia.blogspot.com/2011/01/bani-condemns-police-brutality-on-anti.html?m=1",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "banasbestosindia.blogspot.com",
+          "/2011/01/bani-condemns-police-brutality-on-anti.html",
+          "",
+          "m=1",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.ndtv.com/india",
+        "title": "India News | Today's latest updates and breaking news from India, \u2026",
+        "content": "26 minutes ago \u00b7 Today's top India news headlines, news on Indian politics, elections, government, business, technology, and \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.ndtv.com",
+          "/india",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Victory of Parti Qu\u00e9b\u00e9cois (PQ) and new ... - Ban-Asbestos-India",
+        "content": "... India Asbestos Victims Association(IAVA). Asbestos Free India campaign of BANI is inspired by trade union movement and right to health campaign. BANI has ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://banasbestosindia.blogspot.com/2012/09/victory-of-parti-quebecois-pq-and-new.html?m=1",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "banasbestosindia.blogspot.com",
+          "/2012/09/victory-of-parti-quebecois-pq-and-new.html",
+          "",
+          "m=1",
+          ""
+        ]
+      },
+      {
+        "url": "https://simple.wikipedia.org/wiki/India",
+        "title": "India - Simple English Wikipedia, the free encyclopedia",
+        "content": "India also fought a war to capture Goa, a Portuguese-built port and a city that was not a part of India until 1961. The Portuguese \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "simple.wikipedia.org",
+          "/wiki/India",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "July 2025 - Ban-Asbestos-India",
+        "content": "8 Jul 2025 \u00b7 Journal of Ban Asbestos Network of India(BANI) and India Asbestos Victims Association(IAVA). Asbestos Free India campaign of BANI is ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.asbestosfreeindia.org/2025/07/?m=0",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.asbestosfreeindia.org",
+          "/2025/07/",
+          "",
+          "m=0",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.incredibleindia.gov.in/en",
+        "title": "Discover Incredible India: Travel Guide & Tourism Info | Incredible India",
+        "content": "Experience the vibrant culture and scenic beauty of India. Plan your trip with Incredible India & explore tourist destinations, cultural \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.incredibleindia.gov.in",
+          "/en",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "DM orders immediate stay on Vaishali's white asbestos plant",
+        "content": "19 Jun 2012 \u00b7 Ban-Asbestos-India. Journal of Ban Asbestos Network of India(BANI) and India Asbestos Victims Association(IAVA). Asbestos Free India campaign ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.asbestosfreeindia.org/2012/06/dm-orders-immediate-stay-on-vaishalis.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.asbestosfreeindia.org",
+          "/2012/06/dm-orders-immediate-stay-on-vaishalis.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.mapsofindia.com/",
+        "title": "India Map |Free Map of India With States, UTs and Capital Cities",
+        "content": "India has 28 states and 8 union territories and shares borders with 7 countries. It provides a clear visual overview of states, union \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.mapsofindia.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "David Rosner is no more but his message for an asbestos-free ...",
+        "content": "26 May 2026 \u00b7 ... India Asbestos Victims Association(IAVA). Asbestos Free India campaign of BANI is inspired by trade union movement and right to health ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.asbestosfreeindia.org/2026/05/david-rosner-is-no-more-but-his-message.html?m=1",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.asbestosfreeindia.org",
+          "/2026/05/david-rosner-is-no-more-but-his-message.html",
+          "",
+          "m=1",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.mapsofindia.com/india/",
+        "title": "India - Know all about India including its History, Geography, Culture, etc",
+        "content": "India information portal featuring detailed maps, states, union territories, districts, geography, history, culture, economy, tourism, road \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.mapsofindia.com",
+          "/india/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Epstein files show Stephan Schmidheiny, owner of Eternit ...",
+        "content": "3 Feb 2026 \u00b7 ... India Asbestos Victims Association(IAVA). Asbestos Free India campaign of BANI is inspired by trade union movement and right to health ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://www.asbestosfreeindia.org/2026/02/epstein-files-show-stephan-schmidheiny.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.asbestosfreeindia.org",
+          "/2026/02/epstein-files-show-stephan-schmidheiny.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://timesofindia.indiatimes.com/india",
+        "title": "India News | Latest India News Today & Real-time News from India, India ...",
+        "content": "India News Today: Get latest India news and breaking news from India on Times of India. TOI brings the top news headlines from \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "timesofindia.indiatimes.com",
+          "/india",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ]
+    ]
+  }
+}

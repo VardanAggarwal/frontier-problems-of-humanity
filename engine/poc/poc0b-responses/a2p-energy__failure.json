@@ -1,0 +1,336 @@
+{
+  "slug": "a2p-energy",
+  "name": "A2P Energy Solution Pvt Ltd",
+  "family": "failure",
+  "query": "\"A2P Energy Solution Pvt Ltd\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.692,
+  "timestamp_utc": "2026-09-13T08:47:43.459486+00:00",
+  "request_index_this_run": 59,
+  "seconds_since_run_start": 1510.8,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"A2P Energy Solution Pvt Ltd\" shut down closed pivot losses",
+    "results": [
+      {
+        "url": "https://www.textline.com/blog/a2p-messaging",
+        "title": "A2P messaging: What it is and how it differs from P2P - Textline",
+        "content": "Application-to-person messaging refers to sending a text message from a software application to a mobile phone user. A2P \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.textline.com",
+          "/blog/a2p-messaging",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.techtarget.com/whatis/definition/A2P-messaging-application-to-person-messaging",
+        "title": "What is A2P messaging (application-to-person messaging)?",
+        "content": "Jun 11, 2025 \u00b7 A2P messaging (application-to-person messaging) is a type of SMSmessaging technique in which a person receives \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.techtarget.com",
+          "/whatis/definition/A2P-messaging-application-to-person-messaging",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://simpletexting.com/blog/what-is-a2p-sms-messaging/",
+        "title": "What Is A2P (Application-to-person) messaging? | SimpleTexting",
+        "content": "Oct 9, 2019 \u00b7 A2P (application-to-person) messaging is defined as the process of sending text messages from an application, such \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "simpletexting.com",
+          "/blog/what-is-a2p-sms-messaging/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.calilio.com/blogs/what-is-a2p-messaging",
+        "title": "What is A2P Messaging? Benefits, Methods & Real-world Examples",
+        "content": "Jan 30, 2026 \u00b7 A2P messaging, also known as Application-to-Person messaging, is a mobile te\u00adlecommunications practice where \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.calilio.com",
+          "/blogs/what-is-a2p-messaging",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.twilio.com/docs/glossary/what-a2p-sms-application-person-messaging",
+        "title": "Application-to-Person Messaging - Twilio",
+        "content": "Application-to-Person messaging (A2P) is any kind of message traffic in which a person is receiving messages from an application \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.twilio.com",
+          "/docs/glossary/what-a2p-sms-application-person-messaging",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.tatacommunications.com/knowledge-base/cpaas/a2p-messaging",
+        "title": "A2P Messaging Demystified: The Complete Guide for Businesses",
+        "content": "In this age where effective communication is crucial to success, it's essential to understand what A2P messaging is and how it can \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.tatacommunications.com",
+          "/knowledge-base/cpaas/a2p-messaging",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://a2pwizard.com/",
+        "title": "A2P Wizard 2.5 \u2013 Fast 10DLC Registration & SMS Compliance",
+        "content": "We instantly generate A2P compliant websites with approved domains \u2014 no client website access required \u2014 so your campaigns \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "a2pwizard.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.infobip.com/glossary/a2p-application-to-person-sms-messaging",
+        "title": "What is A2P (Application-to-Person) SMS Messaging - Infobip",
+        "content": "Application-to-person messaging, or A2P messaging, is the process of sending mobile messages from a business application to a \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.infobip.com",
+          "/glossary/a2p-application-to-person-sms-messaging",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://d7networks.com/blog/a2p-sms-messaging-application-to-person-messaging/",
+        "title": "A2P Messaging? Benefits, Use Cases and How It Works",
+        "content": "Aug 12, 2026 \u00b7 A2P (Application-to-Person) SMS is used for business purposes, such as transactional or marketing messages sent \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "d7networks.com",
+          "/blog/a2p-sms-messaging-application-to-person-messaging/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://textgrid.com/blog/a2p-messaging/",
+        "title": "What is A2P Messaging: Everything You Need to Know [2023]",
+        "content": "Naturally, the A2P (Application-to-Person) software can be summarised as a type of messaging, where SMS communication \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "textgrid.com",
+          "/blog/a2p-messaging/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

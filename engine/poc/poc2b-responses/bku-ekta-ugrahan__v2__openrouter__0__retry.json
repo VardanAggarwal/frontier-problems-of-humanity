@@ -1,0 +1,371 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\"question_id\":\"q1_one_line\",\"source_id\":\"S2\",\"answer\":\"They organized a sit-in (dharna) to demand removal of toll charges at a toll plaza near Darapur village on Ferozpur road in Moga, Punjab.\",\"confidence\":0.9},\n    {\"question_id\":\"q2_type\",\"source_id\":\"S2\",\"answer\":\"Org\",\"confidence\":0.95},\n    {\"question_id\":\"q3_legs\",\"source_id\":\"S2\",\"answer\":\"activism\",\"confidence\":0.9},\n    {\"question_id\":\"q5_ecosystem_role\",\"source_id\":\"S2\",\"answer\":\"convener\",\"confidence\":0.8},\n    {\"question_id\":\"q6_affected_led\",\"source_id\":\"S2\",\"answer\":\"yes\",\"confidence\":0.95},\n    {\"question_id\":\"q7_representation_unit\",\"source_id\":\"S2\",\"answer\":\"local-affected\",\"confidence\":0.9},\n    {\"question_id\":\"q8_geography\",\"source_id\":\"S2\",\"answer\":\"Moga district, Punjab, India\",\"confidence\":0.9},\n    {\"question_id\":\"q12_viability_note\",\"source_id\":\"S2\",\"answer\":\"Their viability as an activism group stems from being led by affected farmers themselves.\",\"confidence\":0.85},\n    {\"question_id\":\"q14_ask_need\",\"source_id\":\"S2\",\"answer\":\"Removal of toll charges at the Darapur toll plaza\",\"confidence\":0.9},\n    {\"question_id\":\"q15_ask_offer\",\"source_id\":\"S2\",\"answer\":\"Protest mobilization capacity\",\"confidence\":0.8},\n    {\"question_id\":\"q1_one_line\",\"source_id\":\"S4\",\"answer\":\"They organized an indefinite dharna (sit-in) to protest central government policies and demand toll-free plaza, MSP guarantee, debt waiver, withdrawal of electricity amendment bill 4040, punishment for Lakhimpur Kheri incident perpetrators, compensation/jobs for families of farmers killed in Delhi Chalo agitation, and restoration of right to peaceful struggle.\",\"confidence\":0.9},\n    {\"question_id\":\"q2_type\",\"source_id\":\"S4\",\"answer\":\"Org\",\"confidence\":0.95},\n    {\"question_id\":\"q3_legs\",\"source_id\":\"S4\",\"answer\":\"activism\",\"confidence\":0.9},\n    {\"question_id\":\"q4_lifecycle\",\"source_id\":\"S4\",\"answer\":\"operating as of 2024\",\"confidence\":0.8},\n    {\"question_id\":\"q5_ecosystem_role\",\"source_id\":\"S4\",\"answer\":\"convener\",\"confidence\":0.8},\n    {\"question_id\":\"q6_affected_led\",\"source_id\":\"S4\",\"answer\":\"yes\",\"confidence\":0.95},\n    {\"question_id\":\"q7_representation_unit\",\"source_id\":\"S4\",\"answer\":\"local-affected\",\"confidence\":0.9},\n    {\"question_id\":\"q8_geography\",\"source_id\":\"S4\",\"answer\":\"Punjab, India (with national advocacy)\",\"confidence\":0.9},\n    {\"question_id\":\"q12_viability_note\",\"source_id\":\"S4\",\"answer\":\"Their viability as an activism group stems from being led by affected farmers themselves.\",\"confidence\":0.85},\n    {\"question_id\":\"q14_ask_need\",\"source_id\":\"S4\",\"answer\":\"Law guaranteeing MSP for all crops\",\"confidence\":0.9},\n    {\"question_id\":\"q14_ask_need\",\"source_id\":\"S4\",\"answer\":\"Waiver of farmer debts\",\"confidence\":0.9},\n    {\"question_id\":\"q14_ask_need\",\"source_id\":\"S4\",\"answer\":\"Withdrawal of electricity amendment bill 4040\",\"confidence\":0.9},\n    {\"question_id\":\"q14_ask_need\",\"source_id\":\"S4\",\"answer\":\"Punishment for those responsible for Lakhimpur Kheri incident\",\"confidence\":0.9},\n    {\"question_id\":\"q14_ask_need\",\"source_id\":\"S4\",\"answer\":\"Compensation and jobs for families of farmers killed in Delhi Chalo agitation\",\"confidence\":0.9},\n    {\"question_id\":\"q14_ask_need\",\"source_id\":\"S4\",\"answer\":\"Restoration of the right to peaceful struggle\",\"confidence\":0.9},\n    {\"question_id\":\"q14_ask_need\",\"source_id\":\"S4\",\"answer\":\"Removal of toll charges at the Darapur toll plaza\",\"confidence\":0.9},\n    {\"question_id\":\"q15_ask_offer\",\"source_id\":\"S4\",\"answer\":\"Ability to mobilize farmers for protests and dharnas\",\"confidence\":0.8},\n    {\"question_id\":\"q15_ask_offer\",\"source_id\":\"S4\",\"answer\":\"Policy advocacy and lobbying for farmer rights\",\"confidence\":0.8}\n  ],\n  \"claims\": [\n    {\"field\":\"title\",\"value\":\"Bharatiya Kisan Union (Ekta Ugrahan)\",\"confidence\":0.95},\n    {\"field\":\"type\",\"value\":\"org\",\"confidence\":0.95},\n    {\"field\":\"legs\",\"value\":\"[\\\"activism\\\"]\",\"confidence\":0.9},\n    {\"field\":\"depth\",\"value\":\"tracked\",\"confidence\":0.9},\n    {\"field\":\"lifecycle\",\"value\":\"operating\",\"confidence\":0.85},\n    {\"field\":\"ecosystem_role\",\"value\":\"[\\\"convener\\\"]\",\"confidence\":0.8},\n    {\"field\":\"affected_led\",\"value\":\"yes\",\"confidence\":0.95},\n    {\"field\":\"representation_unit\",\"value\":\"local-affected\",\"confidence\":0.9},\n    {\"field\":\"stance\",\"value\":\"works-the-remedy\",\"confidence\":0.9},\n    {\"field\":\"geography\",\"value\":\"Punjab, India\",\"confidence\":0.9},\n    {\"field\":\"ask:need:toll plaza free\",\"value\":\"Removal of toll charges at Darapur toll plaza\",\"confidence\":0.9},\n    {\"field\":\"ask:need:MSP guarantee\",\"value\":\"Law guaranteeing MSP for all crops\",\"confidence\":0.9},\n    {\"field\":\"ask:need:debt waiver\",\"value\":\"Waiver of farmer debts\",\"confidence\":0.9},\n    {\"field\":\"ask:need:electricity bill withdrawal\",\"value\":\"Withdrawal of electricity amendment bill 4040\",\"confidence\":0.9},\n    {\"field\":\"ask:need:Lakhimpur Kheri punishment\",\"value\":\"Punishment for those responsible for Lakhimpur Kheri incident\",\"confidence\":0.9},\n    {\"field\":\"ask:need:Delhi Chalo compensation\",\"value\":\"Compensation and jobs for families of farmers killed in Delhi Chalo agitation\",\"confidence\":0.9},\n    {\"field\":\"ask:need:peaceful struggle right\",\"value\":\"Restoration of the right to peaceful struggle\",\"confidence\":0.9},\n    {\"field\":\"ask:offer:mobilization\",\"value\":\"Ability to mobilize farmers for protests and dharnas\",\"confidence\":0.8},\n    {\"field\":\"ask:offer:advocacy\",\"value\":\"Policy advocacy and lobbying for farmer rights\",\"confidence\":0.8}\n  ],\n  \"emits\": [\n    {\"kind\":\"actor\",\"name\":\"Joginder Singh Ugrahan\",\"hint\":\"Leader of Bharatiya Kisan Union (Ekta Ugrahan)\"},\n    {\"kind\":\"actor\",\"name\":\"Gurmeet Singh Kishanpura\",\"hint\":\"District secretary of BKU Ekta Ugrahan, led dharna at Darapur toll plaza\"},\n    {\"kind\":\"actor\",\"name\":\"Balour Singh Ghalkalan\",\"hint\":\"District finance secretary of BKU Ekta Ugrahan, spoke on demands\"}\n  ],\n  \"edges\": [\n    {\"dst_name\":\"toll plaza charges\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":3,\"evidence\":\"S2: district committee under Gurmeet Singh Kishanpura gave dharna to make toll plaza free near Darapur village.\"},\n    {\"dst_name\":\"central government anti-farmer policies\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":3,\"evidence\":\"S4: they protested against central government policies and made dharna indefinite.\"},\n    {\"dst_name\":\"lack of MSP guarantee\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":3,\"evidence\":\"S4: demand for law guaranteeing MSP for all crops.\"},\n    {\"dst_name\":\"farmer debt\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":3,\"evidence\":\"S4: demand for waiver of farmer debts.\"},\n    {\"dst_name\":\"electricity amendment bill 4040\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":3,\"evidence\":\"S4: demand withdrawal of electricity amendment bill 4040.\"},\n    {\"dst_name\":\"Lakhimpur Kheri incident impunity\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":3,\"evidence\":\"S4: demand punishment for those responsible for Lakhimpur Kheri incident.\"},\n    {\"dst_name\":\"lack of compensation/jobs for Delhi Chalo victims\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":3,\"evidence\":\"S4: demand compensation and jobs for families of farmers killed in Delhi Chalo agitation.\"},\n    {\"dst_name\":\"restriction on right to peaceful struggle\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":3,\"evidence\":\"S4: demand restoration of right to peaceful struggle.\"},\n    {\"dst_name\":\"Joginder Singh Ugrahan\",\"dst_kind\":\"actor\",\"edge_kind\":\"member_of\",\"relevance\":2,\"evidence\":\"S1 mentions Joginder Singh Ugrahan (presumably a leader of BKU Ekta Ugrahan).\"},\n    {\"dst_name\":\"Gurmeet Singh Kishanpura\",\"dst_kind\":\"actor\",\"edge_kind\":\"board\",\"relevance\":2,\"evidence\":\"S2: district secretary Gurmeet Singh Kishanpura led the dharna.\"},\n    {\"dst_name\":\"Balour Singh Ghalkalan\",\"dst_kind\":\"actor\",\"edge_kind\":\"board\",\"relevance\":2,\"evidence\":\"S4: district finance secretary Balour Singh Ghalkalan spoke on demands.\"}\n  ],\n  \"disagreements\": []\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S2",
+    "answer": "They organized a sit-in (dharna) to demand removal of toll charges at a toll plaza near Darapur village on Ferozpur road in Moga, Punjab.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S2",
+    "answer": "Org",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S2",
+    "answer": "activism",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S2",
+    "answer": "convener",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S2",
+    "answer": "yes",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S2",
+    "answer": "local-affected",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S2",
+    "answer": "Moga district, Punjab, India",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S2",
+    "answer": "Their viability as an activism group stems from being led by affected farmers themselves.",
+    "confidence": 0.85
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S2",
+    "answer": "Removal of toll charges at the Darapur toll plaza",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S2",
+    "answer": "Protest mobilization capacity",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S4",
+    "answer": "They organized an indefinite dharna (sit-in) to protest central government policies and demand toll-free plaza, MSP guarantee, debt waiver, withdrawal of electricity amendment bill 4040, punishment for Lakhimpur Kheri incident perpetrators, compensation/jobs for families of farmers killed in Delhi Chalo agitation, and restoration of right to peaceful struggle.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S4",
+    "answer": "Org",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S4",
+    "answer": "activism",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S4",
+    "answer": "operating as of 2024",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S4",
+    "answer": "convener",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S4",
+    "answer": "yes",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S4",
+    "answer": "local-affected",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S4",
+    "answer": "Punjab, India (with national advocacy)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S4",
+    "answer": "Their viability as an activism group stems from being led by affected farmers themselves.",
+    "confidence": 0.85
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Law guaranteeing MSP for all crops",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Waiver of farmer debts",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Withdrawal of electricity amendment bill 4040",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Punishment for those responsible for Lakhimpur Kheri incident",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Compensation and jobs for families of farmers killed in Delhi Chalo agitation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Restoration of the right to peaceful struggle",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S4",
+    "answer": "Removal of toll charges at the Darapur toll plaza",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S4",
+    "answer": "Ability to mobilize farmers for protests and dharnas",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S4",
+    "answer": "Policy advocacy and lobbying for farmer rights",
+    "confidence": 0.8
+   }
+  ],
+  "claims": [
+   {
+    "field": "title",
+    "value": "Bharatiya Kisan Union (Ekta Ugrahan)",
+    "confidence": 0.95
+   },
+   {
+    "field": "type",
+    "value": "org",
+    "confidence": 0.95
+   },
+   {
+    "field": "legs",
+    "value": "[\"activism\"]",
+    "confidence": 0.9
+   },
+   {
+    "field": "depth",
+    "value": "tracked",
+    "confidence": 0.9
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating",
+    "confidence": 0.85
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "[\"convener\"]",
+    "confidence": 0.8
+   },
+   {
+    "field": "affected_led",
+    "value": "yes",
+    "confidence": 0.95
+   },
+   {
+    "field": "representation_unit",
+    "value": "local-affected",
+    "confidence": 0.9
+   },
+   {
+    "field": "stance",
+    "value": "works-the-remedy",
+    "confidence": 0.9
+   },
+   {
+    "field": "geography",
+    "value": "Punjab, India",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:toll plaza free",
+    "value": "Removal of toll charges at Darapur toll plaza",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:MSP guarantee",
+    "value": "Law guaranteeing MSP for all crops",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:debt waiver",
+    "value": "Waiver of farmer debts",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:electricity bill withdrawal",
+    "value": "Withdrawal of electricity amendment bill 4040",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:Lakhimpur Kheri punishment",
+    "value": "Punishment for those responsible for Lakhimpur Kheri incident",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:Delhi Chalo compensation",
+    "value": "Compensation and jobs for families of farmers killed in Delhi Chalo agitation",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:peaceful struggle right",
+    "value": "Restoration of the right to peaceful struggle",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:offer:mobilization",
+    "value": "Ability to mobilize farmers for protests and dharnas",
+    "confidence": 0.8
+   },
+   {
+    "field": "ask:offer:advocacy",
+    "value": "Policy advocacy and lobbying for farmer rights",
+    "confidence": 0.8
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "Joginder Singh Ugrahan",
+    "hint": "Leader of Bharatiya Kisan Union (Ekta Ugrahan)"
+   },
+   {
+    "kind": "actor",
+    "name": "Gurmeet Singh Kishanpura",
+    "hint": "District secretary of BKU Ekta Ugrahan, led dharna at Darapur toll plaza"
+   },
+   {
+    "kind": "actor",
+    "name": "Balour Singh Ghalkalan",
+    "hint": "District finance secretary of BKU Ekta Ugrahan, spoke on demands"
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "toll plaza charges",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S2: district committee under Gurmeet Singh Kishanpura gave dharna to make toll plaza free near Darapur village."
+   },
+   {
+    "dst_name": "central government anti-farmer policies",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S4: they protested against central government policies and made dharna indefinite."
+   },
+   {
+    "dst_name": "lack of MSP guarantee",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S4: demand for law guaranteeing MSP for all crops."
+   },
+   {
+    "dst_name": "farmer debt",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S4: demand for waiver of farmer debts."
+   },
+   {
+    "dst_name": "electricity amendment bill 4040",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S4: demand withdrawal of electricity amendment bill 4040."
+   },
+   {
+    "dst_name": "Lakhimpur Kheri incident impunity",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S4: demand punishment for those responsible for Lakhimpur Kheri incident."
+   },
+   {
+    "dst_name": "lack of compensation/jobs for Delhi Chalo victims",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S4: demand compensation and jobs for families of farmers killed in Delhi Chalo agitation."
+   },
+   {
+    "dst_name": "restriction on right to peaceful struggle",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "S4: demand restoration of right to peaceful struggle."
+   },
+   {
+    "dst_name": "Joginder Singh Ugrahan",
+    "dst_kind": "actor",
+    "edge_kind": "member_of",
+    "relevance": 2,
+    "evidence": "S1 mentions Joginder Singh Ugrahan (presumably a leader of BKU Ekta Ugrahan)."
+   },
+   {
+    "dst_name": "Gurmeet Singh Kishanpura",
+    "dst_kind": "actor",
+    "edge_kind": "board",
+    "relevance": 2,
+    "evidence": "S2: district secretary Gurmeet Singh Kishanpura led the dharna."
+   },
+   {
+    "dst_name": "Balour Singh Ghalkalan",
+    "dst_kind": "actor",
+    "edge_kind": "board",
+    "relevance": 2,
+    "evidence": "S4: district finance secretary Balour Singh Ghalkalan spoke on demands."
+   }
+  ],
+  "disagreements": []
+ },
+ "parse_error": null,
+ "truncated": false
+}

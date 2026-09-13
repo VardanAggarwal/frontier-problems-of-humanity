@@ -1,0 +1,336 @@
+{
+  "slug": "selco-foundation",
+  "name": "SELCO Foundation",
+  "family": "failure",
+  "query": "\"SELCO Foundation\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.698,
+  "timestamp_utc": "2026-09-13T08:26:43.449008+00:00",
+  "request_index_this_run": 11,
+  "seconds_since_run_start": 250.8,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"SELCO Foundation\" shut down closed pivot losses",
+    "results": [
+      {
+        "url": "https://www.youtube.com/watch?v=Sj8xpBWb710",
+        "title": "00000000000000000000000000000000000000000000000000 ...",
+        "content": "Apr 1, 2019 \u00b7 Check out this funny Talking Tom video!",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=Sj8xpBWb710",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://ja.wikipedia.org/wiki/1000000000000",
+        "title": "1000000000000 - Wikipedia",
+        "content": "1000000000000\u306f \u5408\u6210\u6570 \u3067\u3042\u308a\u3001\u7279\u306b \u904e\u5270\u6570 \u3067\u3042\u308b\u3002169\u500b\u306e\u7d04\u6570\u3092\u3082\u3064\u3002 1000000000000 = 1000000 2 1000000\u756a\u76ee\u306e \u5e73\u65b9\u6570 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "ja.wikipedia.org",
+          "/wiki/1000000000000",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://ja.wolframalpha.com/input?i=1000000000000000000000000000000000000",
+        "title": "1000000000000000000000000000000000000 - Wolfram|Alpha",
+        "content": "\u4f55\u767e\u4e07\u4eba\u3082\u306e\u5b66\u751f\u3084\u30d7\u30ed\u30d5\u30a7\u30c3\u30b7\u30e7\u30ca\u30eb\u306b\u4fe1\u983c\u3055\u308c\u3066\u3044\u308bWolfram\u306e\u753b\u671f\u7684\u306a\u30c6\u30af\u30ce\u30ed\u30b8\u30fc\u3068\u77e5\u8b58\u30d9\u30fc\u30b9\u3092\u4f7f\u3063\u3066\u7b54\u3092\u8a08\u7b97\u3057\u307e\u3059\uff0e \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "ja.wolframalpha.com",
+          "/input",
+          "",
+          "i=1000000000000000000000000000000000000",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=vWKeoWVscCg",
+        "title": "00000000000000000000000000000000000000000000000000 ...",
+        "content": "Oct 19, 2016 \u00b7 Enjoy the videos and music you love, upload original content, and share it all with friends, family, and the world on \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=vWKeoWVscCg",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.weblio.jp/content/100000000000000000000",
+        "title": "100000000000000000000\u3068\u306f - \u308f\u304b\u308a\u3084\u3059\u304f\u89e3\u8aac Weblio\u8f9e\u66f8",
+        "content": "100000000000000000000\u3068\u306f? .mw-parser-output .ambox {border:1px solid #a2a9b1;border-left:10px solid #36c;background \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.weblio.jp",
+          "/content/100000000000000000000",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://ja.wolframalpha.com/",
+        "title": "Wolfram|Alpha \u65e5\u672c\u8a9e\u7248\uff1a\u8a08\u7b97\u77e5\u80fd",
+        "content": "Wolfram|Alpha\u306f\uff0c\u3042\u3089\u3086\u308b\u8077\u7a2e\uff0c\u3042\u3089\u3086\u308b\u6559\u80b2\u30ec\u30d9\u30eb\u306e\uff0c\u3067\u304d\u308b\u3060\u3051\u5e83\u3044\u7bc4\u56f2\u306e\u4eba\u3005\u306b\uff0c\u5c02\u9580\u5bb6\u30ec\u30d9\u30eb\u306e\u77e5\u8b58\u3068\u6a5f\u80fd\u3092\u304a\u5c4a\u3051\u3057 ...",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "ja.wolframalpha.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://ja.textstudio.com/text-generator/000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000........................................................................................................................................................000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000..............................................................................................000000000000000000000000000000000000000000000000000000................................................",
+        "title": "00000000000000000000000000000000000000000000000000 ...",
+        "content": "\u6570\u767e\u306e\u30b9\u30bf\u30a4\u30eb\u304c\u5229\u7528\u53ef\u80fd\u306a\u30a4\u30f3\u30b9\u30bf\u30f3\u30c83D\u30c6\u30ad\u30b9\u30c8\u30b8\u30a7\u30cd\u30ec\u30fc\u30bf\u3067\u3059\u3002",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "ja.textstudio.com",
+          "/text-generator/000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000........................................................................................................................................................000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000..............................................................................................000000000000000000000000000000000000000000000000000000................................................",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://mittun-zakki.com/myriad-name-converter/",
+        "title": "\u547d\u6570\u6cd5\u5909\u63db\u30c4\u30fc\u30eb\uff5c\u5927\u304d\u306a\u6570\u306e\u8aad\u307f\u65b9\u3092\u5104\u30fb\u5146\u30fb\u4eac\u30fb\u7121\u91cf\u5927\u6570 ...",
+        "content": "5 days ago \u00b7 \u547d\u6570\u6cd5\u5909\u63db\u30c4\u30fc\u30eb \u4f7f\u3044\u65b9 \u5165\u529b\u65b9\u6cd5 \u5bfe\u5fdc\u7bc4\u56f2 \u63a1\u7528\u3057\u3066\u3044\u308b\u4f53\u7cfb\uff1a\u4e07\u9032\u6cd5 \u5927\u304d\u306a\u6570\u306e\u5358\u4f4d\u4e00\u89a7\uff08\u4e07\u9032\u6cd5\uff09 \u5404\u5358\u4f4d\u306e\u8a9e\u6e90 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "mittun-zakki.com",
+          "/myriad-name-converter/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://ja.wikipedia.org/wiki/%E3%82%B0%E3%83%BC%E3%82%B4%E3%83%AB%E3%83%97%E3%83%AC%E3%83%83%E3%82%AF%E3%82%B9",
+        "title": "\u30b0\u30fc\u30b4\u30eb\u30d7\u30ec\u30c3\u30af\u30b9 - Wikipedia",
+        "content": "\u30b0\u30fc\u30b4\u30eb\u3068\u30b0\u30fc\u30b4\u30eb\u30d7\u30ec\u30c3\u30af\u30b9\u306b\u95a2\u3059\u308b\u7d4c\u7def\u306f\u3001 1940\u5e74 \u306b \u30a8\u30c9\u30ef\u30fc\u30c9\u30fb\u30ab\u30b9\u30ca\u30fc \u3068 \u30b8\u30a7\u30fc\u30e0\u30ba\u30fb\u30cb\u30e5\u30fc\u30de\u30f3 \uff08\u82f1\u8a9e\u7248\uff09 \u306e\u8457\u66f8 \" \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "ja.wikipedia.org",
+          "/wiki/%E3%82%B0%E3%83%BC%E3%82%B4%E3%83%AB%E3%83%97%E3%83%AC%E3%83%83%E3%82%AF%E3%82%B9",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.desmos.com/scientific?lang=ja",
+        "title": "Desmos | \u95a2\u6570\u96fb\u5353",
+        "content": "\u4f7f\u3044\u3084\u3059\u3044\u7121\u6599\u306e\u30aa\u30f3\u30e9\u30a4\u30f3\u95a2\u6570\u96fb\u5353\u3002\u30d1\u30fc\u30bb\u30f3\u30c8\u3068\u5206\u6570\u306e\u8a08\u7b97\u3001\u6307\u6570\u3001\u5bfe\u6570\u3001\u4e09\u89d2\u95a2\u6570\u3001\u7d71\u8a08\u95a2\u6570\u306a\u3069\u3001\u4fbf\u5229\u306a\u6a5f\u80fd\u591a\u6570\u3002",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.desmos.com",
+          "/scientific",
+          "",
+          "lang=ja",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,337 @@
+{
+  "slug": "shell-foundation",
+  "name": "Shell Foundation",
+  "family": "people",
+  "query": "\"Shell Foundation\" founder director leadership",
+  "question_ids": [
+    "affected_led",
+    "representation_unit",
+    "founders"
+  ],
+  "elapsed_s": 0.719,
+  "timestamp_utc": "2026-09-13T08:28:29.606733+00:00",
+  "request_index_this_run": 15,
+  "seconds_since_run_start": 356.9,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Shell Foundation\" founder director leadership",
+    "results": [
+      {
+        "url": "https://www.shell.in/",
+        "title": "Shell in India",
+        "content": "Shell is one of the most diversified international oil company in India's energy sector. It is a major private sector supplier of crude \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.shell.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.shell.com/",
+        "title": "Shell Global",
+        "content": "Sep 2, 2026 \u00b7 Shell is a global group of energy and petrochemical companies. Learn more about Shell on our global website.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.shell.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.shell.com/careers.html",
+        "title": "Careers at Shell - Shell Global",
+        "content": "Jun 1, 2026 \u00b7 A job at Shell means the chance to power your progress while you help to tackle the energy transition.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.shell.com",
+          "/careers.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Shell_plc",
+        "title": "Shell plc - Wikipedia",
+        "content": "Shell plc is a British multinational oil and gas company, headquartered in London, England. [5] Shell is a public limited company with \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Shell_plc",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.shell.in/about-us/careers.html",
+        "title": "Careers at Shell | About us",
+        "content": "Are you ready to explore opportunities to take your career to the next level? Discover the impact you could make with a career at Shell.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.shell.in",
+          "/about-us/careers.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://find.shell.com/in/fuel/locations/en_IN",
+        "title": "Shell Stations in India",
+        "content": "Find the nearest petrol, diesel, gas, LNG and hydrogen station or charging point (or fast charger) in India. View the available fuels, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "find.shell.com",
+          "/in/fuel/locations/en_IN",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.linkedin.com/company/shell/",
+        "title": "Shell - LinkedIn",
+        "content": "Shell is a global group of energy and petrochemical companies, employing 96,000 people across 70+ countries. We serve around 1 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.linkedin.com",
+          "/company/shell/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://in.linkedin.com/company/shell",
+        "title": "Shell | LinkedIn",
+        "content": "Shell is a global group of energy and petrochemical companies, employing 96,000 people across 70+ countries. We serve around 1 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/company/shell",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://find.shell.com/en_IN",
+        "title": "Shell Locations",
+        "content": "View the available fuels, EV charging options at Shell Recharge and in-store offers at the station. Navigate easily and directly to a \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "find.shell.com",
+          "/en_IN",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.shell.in/business/mobility/business-opportunity-shell-retailership.html",
+        "title": "Self-Employed Retailers | Business - Shell",
+        "content": "If you\u2019re a natural leader with a passion for customer service, Shell can offer you exciting and rewarding opportunities to operate a \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.shell.in",
+          "/business/mobility/business-opportunity-shell-retailership.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

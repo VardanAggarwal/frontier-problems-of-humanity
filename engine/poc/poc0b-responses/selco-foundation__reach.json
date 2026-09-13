@@ -1,0 +1,336 @@
+{
+  "slug": "selco-foundation",
+  "name": "SELCO Foundation",
+  "family": "reach",
+  "query": "\"SELCO Foundation\" contact twitter newsletter",
+  "question_ids": [
+    "contact_route",
+    "channel:*"
+  ],
+  "elapsed_s": 1.255,
+  "timestamp_utc": "2026-09-13T08:27:12.553376+00:00",
+  "request_index_this_run": 12,
+  "seconds_since_run_start": 279.9,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"SELCO Foundation\" contact twitter newsletter",
+    "results": [
+      {
+        "url": "https://30rates.com/aed-php",
+        "title": "AED TO PHP TODAY AND FORECAST TOMORROW, MONTH, \u2026",
+        "content": "1 day ago \u00b7 Actual AED to PHP exchange rate and AED to PHP forecast for tomorrow, near days, week, month, and 2026, 2027, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "30rates.com",
+          "/aed-php",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.xe.com/en-gb/currencyconverter/convert/?Amount=1&From=AED&To=PHP",
+        "title": "1 AED to PHP - Convert Emirati Dirhams to Philippine Pesos",
+        "content": "1 AED equals 17.06 PHP using the current mid-market exchange rate of \u20b117.0600. If you're looking to send 1 AED to PHP, check if \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.xe.com",
+          "/en-gb/currencyconverter/convert/",
+          "",
+          "Amount=1&From=AED&To=PHP",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.unitconverters.net/currency/aed-to-php.htm",
+        "title": "Convert AED to PHP - Unit Converter",
+        "content": "2 days ago \u00b7 Instant free online tool for AED to PHP conversion or vice versa. The AED [United Arab Emirates Dirham] to PHP \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.unitconverters.net",
+          "/currency/aed-to-php.htm",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://themoneyconverter.com/AED/PHP",
+        "title": "Convert United Arab Emirates Dirham to Philippine Peso | AED to PHP ...",
+        "content": "2 days ago \u00b7 Currency converter to convert from United Arab Emirates Dirham (AED) to Philippine Peso (PHP) including the latest \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "themoneyconverter.com",
+          "/AED/PHP",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://wise.com/gb/currency-converter/aed-to-php-rate",
+        "title": "United Arab Emirates dirhams to Philippine pesos Exchange Rate",
+        "content": "Convert AED to PHP with the Wise Currency Converter. Analyze historical currency charts or live United Arab Emirates dirham / \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "wise.com",
+          "/gb/currency-converter/aed-to-php-rate",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://oandacurrencyconverter.com/aed-to-php",
+        "title": "AED to Philippine Piso Exchange Rate Today | Real-Time Currency \u2026",
+        "content": "Convert AED to PHP with real-time exchange rates. Free, fast currency converter with up-to-date rates for United Arab Emirates \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "oandacurrencyconverter.com",
+          "/aed-to-php",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.exchange-rates.org/converter/aed-php",
+        "title": "AED to PHP - United Arab Emirates Dirham to Philippine Peso \u2026",
+        "content": "Use the AED to PHP currency converter at Exchange-Rates.org for accurate and up-to-date exchange rates. Easily convert United \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.exchange-rates.org",
+          "/converter/aed-php",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://exchangerate.guru/aed/php/1/",
+        "title": "1 AED to PHP - Exchange Rate",
+        "content": "Sep 3, 2026 \u00b7 Learn the value of 1 United Arab Emirates Dirham (AED) in Philippine Pesos (PHP) today. The dynamics of the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "exchangerate.guru",
+          "/aed/php/1/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.remitly.com/ae/en/currency-converter/aed-to-php-rate",
+        "title": "AED to PHP Exchange Rates - Remitly",
+        "content": "Remitly offers dependable exchange rates for AED to PHP with no hidden fees. Join today and get a promotional rate of 17.12 PHP \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.remitly.com",
+          "/ae/en/currency-converter/aed-to-php-rate",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://wise.com/gb/currency-converter/aed-to-php-rate/history",
+        "title": "United Arab Emirates dirham to Philippine pesos Exchange Rate",
+        "content": "1 day ago \u00b7 Dive into historical exchange rates for AED to PHP with Wise's currency converter. Analyse past currency performance, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "wise.com",
+          "/gb/currency-converter/aed-to-php-rate/history",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

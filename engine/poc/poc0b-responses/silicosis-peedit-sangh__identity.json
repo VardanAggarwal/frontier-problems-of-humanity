@@ -1,0 +1,691 @@
+{
+  "slug": "silicosis-peedit-sangh",
+  "name": "Silicosis Peedit Sangh",
+  "family": "identity",
+  "query": "\"Silicosis Peedit Sangh\"",
+  "question_ids": [
+    "one_line",
+    "type",
+    "legs",
+    "geography"
+  ],
+  "elapsed_s": 1.923,
+  "timestamp_utc": "2026-09-13T08:56:07.382521+00:00",
+  "request_index_this_run": 79,
+  "seconds_since_run_start": 2014.7,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Silicosis Peedit Sangh\"",
+    "results": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Silicosis",
+        "title": "Silicosis - Wikipedia",
+        "content": "Silicosis is an occupational lung disease caused by the inhalation of respirable crystalline silica dust. It is characterized by lung \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Silicosis",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Amulya Nidhi",
+        "content": "Since 2006, Silicosis Peedit Sangh has been furthering the cause of silicosis victims by combining action research, public interest litigation, community ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://hhsrn.org/blog/Amulya-Nidhi/4820/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "hhsrn.org",
+          "/blog/Amulya-Nidhi/4820/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://my.clevelandclinic.org/health/diseases/22622-silicosis",
+        "title": "Silicosis: Causes, Symptoms, Diagnosis & Treatment",
+        "content": "Silicosis is a lung disease that can develop from breathing in silica dust, usually around mining and construction sites. Symptoms \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "my.clevelandclinic.org",
+          "/health/diseases/22622-silicosis",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Choking to Death: Silica Dust from India's Industries Is Killing Its ...",
+        "content": "31 Aug 2024 \u00b7 The Silicosis Peedit Sangh, an NGO, had organised the meeting on the occasion of Labour Day, in May this year. Image by Sibtain Hyder/The ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://pulitzercenter.org/stories/choking-death-silica-dust-indias-industries-killing-its-workers",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "pulitzercenter.org",
+          "/stories/choking-death-silica-dust-indias-industries-killing-its-workers",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.respiratorytherapyzone.com/silicosis/",
+        "title": "Silicosis: Causes, Symptoms, Diagnosis, and Treatment (2026)",
+        "content": "Sep 2, 2026 \u00b7 Silicosis is a lung disease caused by inhaling tiny silica dust particles, commonly found in industries like mining, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.respiratorytherapyzone.com",
+          "/silicosis/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "AMULYA NIDHI on X",
+        "content": "1 May 2024 \u00b7 Silicosis peedit sangh is fighting the case of workers suffering from silicosis in M P, UP & other parts of the country Supreme court of India ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://x.com/AMULYANIDHI4/status/1785685068586897426",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "x.com",
+          "/AMULYANIDHI4/status/1785685068586897426",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://rajsilicosis.rajasthan.gov.in/PublicReports/CheckStatus",
+        "title": "Silicosis Grant Disbursement - Rajasthan",
+        "content": "To download your Silicosis Certificate, an OTP will be sent to the mobile number available in your Jan Aadhar. After OTP verification, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "rajsilicosis.rajasthan.gov.in",
+          "/PublicReports/CheckStatus",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "No Respite for Migrant Tribal Farmers - The Wire Science",
+        "content": "26 Oct 2019 \u00b7 In 2008, social workers in the district formed the Silicosis Peedit Sangh, a union of those afflicted by silicosis. \u201cIn the last 15 years ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://science.thewire.in/health/from-drought-to-deadly-disease-no-respite-for-migrant-tribal-farmers/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "science.thewire.in",
+          "/health/from-drought-to-deadly-disease-no-respite-for-migrant-tribal-farmers/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.merckmanuals.com/professional/pulmonary-disorders/environmental-and-occupational-pulmonary-diseases/silicosis",
+        "title": "Silicosis - Pulmonology - Merck Manual Professional Edition",
+        "content": "Silicosis is caused by inhalation of respirable particles of crystalline silica (usually quartz).",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.merckmanuals.com",
+          "/professional/pulmonary-disorders/environmental-and-occupational-pulmonary-diseases/silicosis",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Occupational Health Crisis in India: Silicosis and Beyond",
+        "content": "15 Apr 2026 \u00b7 ... Silicosis Peedit Sangh (as of 2017). The court has also mandated that the legal heirs of informal-sector workers who have died of silicosis ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://frontline.thehindu.com/the-nation/occupational-health-crisis-india-informal-workers-silicosis/article70793947.ece",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "frontline.thehindu.com",
+          "/the-nation/occupational-health-crisis-india-informal-workers-silicosis/article70793947.ece",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.lung.org/lung-health-diseases/lung-disease-lookup/silicosis",
+        "title": "Silicosis - American Lung Association",
+        "content": "Silicosis is a type of pulmonary fibrosis, a lung disease caused by breathing in tiny bits of silica, a common mineral found in sand, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.lung.org",
+          "/lung-health-diseases/lung-disease-lookup/silicosis",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Destined to Die: Silicosis Kills Madhya Pradesh Tribals ...",
+        "content": "15 May 2017 \u00b7 Silicosis Peedit Sangh, in their affidavits, provided status of silicosis in other states too, namely Uttar Pradesh, Gujarat, Telangana ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.thecitizen.in/index.php/en/newsdetail/index/10/10690/destined-to-die:-silicosis-kills-madhya-pradesh-tribals-working-in--gujarats-quartz-crushing-factories-no-compensation",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.thecitizen.in",
+          "/index.php/en/newsdetail/index/10/10690/destined-to-die:-silicosis-kills-madhya-pradesh-tribals-working-in--gujarats-quartz-crushing-factories-no-compensation",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.healthdirect.gov.au/silicosis",
+        "title": "Silicosis - symptoms, treatments and causes | healthdirect",
+        "content": "Silicosis is a serious chronic (ongoing) lung condition caused by silica dust. If you work in construction, mining or tunnelling you may \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.healthdirect.gov.au",
+          "/silicosis",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "MP: NGOs welcome SC order for relief to silicosis victims",
+        "content": "5 May 2016 \u00b7 ... Silicosis Peedit Sangh (Alirajpur and Jhabua based NGO), Shamarukh Dhara and Rakesh Chandore from Nai Shuruwat (Indore-based NGO) and Amulya ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.hindustantimes.com/bhopal/mp-ngos-welcome-sc-order-for-relief-to-silicosis-victims/story-8r6721wTbUPQ0a6M8VDYxH.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.hindustantimes.com",
+          "/bhopal/mp-ngos-welcome-sc-order-for-relief-to-silicosis-victims/story-8r6721wTbUPQ0a6M8VDYxH.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://vajiramandravi.com/current-affairs/silicosis/",
+        "title": "Silicosis, Causes, Symptoms, Treatment, Latest News",
+        "content": "Aug 14, 2026 \u00b7 Nearly 600 workers in California\u2019s engineered-stone countertop industry have been diagnosed with silicosis since \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "vajiramandravi.com",
+          "/current-affairs/silicosis/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "589 silicosis deaths in 3 MP districts. Reason: Distress tribal ...",
+        "content": "Done in association with Silicosis Peedit Sangh and Jan Swasthya Abhiyan, the survey, which seeks to give the overall socio-economic status of 1,219 ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.counterview.net/2016/07/589-silicosis-deaths-in-3-madhya.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.counterview.net",
+          "/2016/07/589-silicosis-deaths-in-3-madhya.html",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.hseblog.com/silicosis-causes-symptoms-prevention/",
+        "title": "Silicosis: Causes, Symptoms, Types & Prevention Guide (2025)",
+        "content": "May 8, 2026 \u00b7 Silicosis causes irreversible lung damage from silica dust. Learn the symptoms, three types, exposure limits \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.hseblog.com",
+          "/silicosis-causes-symptoms-prevention/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "MP rights panel issues notices over silicosis deaths | Indore News",
+        "content": "25 Jun 2016 \u00b7 The Silicosis Peedit Sangh had alleged that the official figures of silicosis patients showed just the tip of the iceberg. They disease has ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://timesofindia.indiatimes.com/city/indore/mp-rights-panel-issues-notices-over-silicosis-deaths/articleshow/52920282.cms",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "timesofindia.indiatimes.com",
+          "/city/indore/mp-rights-panel-issues-notices-over-silicosis-deaths/articleshow/52920282.cms",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.webmd.com/lung/what-is-silicosis",
+        "title": "Silicosis: Symptoms, Causes, Diagnosis, Treatment, Prevention",
+        "content": "Jan 14, 2025 \u00b7 Most people get silicosis from a workplace where they inhale large amounts of silica dust. Learn more about the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.webmd.com",
+          "/lung/what-is-silicosis",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Peoples Rights And Social Research ... vs Union Of India & Ors ...",
+        "content": "The Hon'ble Supreme Court apart from other parties had also impleaded the Silicosis Peedit Sangh and had finally issued the following directions: \"6. Having ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://indiankanoon.org/doc/122372485/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "indiankanoon.org",
+          "/doc/122372485/",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ]
+    ]
+  }
+}

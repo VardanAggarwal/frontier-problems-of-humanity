@@ -1,0 +1,337 @@
+{
+  "slug": "acumen",
+  "name": "Acumen",
+  "family": "money",
+  "query": "\"Acumen\" funding raised grant crore",
+  "question_ids": [
+    "funding",
+    "scale_metric",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.635,
+  "timestamp_utc": "2026-09-13T08:35:54.355938+00:00",
+  "request_index_this_run": 32,
+  "seconds_since_run_start": 801.7,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Acumen\" funding raised grant crore",
+    "results": [
+      {
+        "url": "https://acumen.org/",
+        "title": "Acumen | Investing in Change to End Poverty",
+        "content": "Transform lives through impact investing. Acumen partners with visionary entrepreneurs to create dignified pathways out of poverty.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "acumen.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://acumengroup.in/",
+        "title": "SEBI Registered Stock Broker in Kerala | Acumen Capital",
+        "content": "Acumen Capital Market is a SEBI-registered stockbroker headquartered in Kochi and serving investors across India since 1995. We \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "acumengroup.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://acumenfc.co.in/",
+        "title": "ACUMEN M&A Advisors",
+        "content": "Acumen: Your Trusted Partner in Mergers And Acquisitions. Acumen specializes in mergers and acquisitions (\u2018M&A\u2019) transaction \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "acumenfc.co.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://acumen.education/",
+        "title": "Home - Acumen",
+        "content": "Acumen representatives are brand evangelists for your institution, championing your institution with potential students. Their energy \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "acumen.education",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://acumen.org/regions/india/",
+        "title": "India Impact Investment | Change The Trajectory Of Poverty | Acumen",
+        "content": "Find the catalytic capital and community you need to take your business to the next level. Discover how Acumen's impact investing in \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "acumen.org",
+          "/regions/india/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.merriam-webster.com/dictionary/acumen",
+        "title": "ACUMEN Definition & Meaning - Merriam-Webster",
+        "content": "In its earliest English uses, acumen referred specifically to a sharpness of wit. In modern English, it conveys the sense that someone \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.merriam-webster.com",
+          "/dictionary/acumen",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://mod.app.acumen.me/",
+        "title": "Acumen",
+        "content": "Don\u2019t have an account? Get Started! If you\u2019re facing any trouble while logging in, please contact us through acumen live chat or \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "mod.app.acumen.me",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.acumenfiscalagent.com/",
+        "title": "Acumen | Home Page",
+        "content": "Acumen provides employee services that include Electronic Visit Verification (EVV), payroll, taxes and notifications regarding \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.acumenfiscalagent.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://en.m.wikipedia.org/wiki/Acumen_(organization)",
+        "title": "Acumen (organization) - Wikipedia",
+        "content": "Acumen is a global impact investment organization that brings together investors, entrepreneurs, and philanthropists to address \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.m.wikipedia.org",
+          "/wiki/Acumen_(organization)",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://app.acumen.me/",
+        "title": "Acumen",
+        "content": "Acumen offers a platform for users to access and manage their accounts efficiently.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "app.acumen.me",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

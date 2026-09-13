@@ -1,0 +1,690 @@
+{
+  "slug": "joginder-singh-ugrahan",
+  "name": "Joginder Singh Ugrahan",
+  "family": "people",
+  "query": "\"Joginder Singh Ugrahan\" founder director leadership",
+  "question_ids": [
+    "affected_led",
+    "representation_unit",
+    "founders"
+  ],
+  "elapsed_s": 0.686,
+  "timestamp_utc": "2026-09-13T09:02:05.459434+00:00",
+  "request_index_this_run": 93,
+  "seconds_since_run_start": 2372.8,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Joginder Singh Ugrahan\" founder director leadership",
+    "results": [
+      {
+        "url": "https://www.youtube.com/channel/UCSOYgLuAvj64O64Q9h9P5-w",
+        "title": "Thara bhai Jogindar - YouTube",
+        "content": "Thara Bhai Joginder Vlog Channel \ufe0fInstagram Username - @thara.Bhai.jogindar ( 20 Million ) Facebook - Thara Bhai Joginder ( 10 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/channel/UCSOYgLuAvj64O64Q9h9P5-w",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Joginder Singh Ugrahan - Wikipedia",
+        "content": "Joginder Singh Ugrahan is an Indian ex-army man, communist leader and farm union leader, was born in 1945 in Sunam, Punjab. He is president of farm union ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://en.wikipedia.org/wiki/Joginder_Singh_Ugrahan",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Joginder_Singh_Ugrahan",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.instagram.com/thara.bhai.jogindar/",
+        "title": "Thara Bhai Jogindar ( Jogindar Yadav ) (@thara.bhai ... - Instagram",
+        "content": "19M Followers, 347 Following, 1,397 Posts - See Instagram photos and videos from Thara Bhai Jogindar ( Jogindar Yadav ) \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/thara.bhai.jogindar/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Joginder Singh Ugrahan - Bharatpedia",
+        "content": "Joginder Singh Ugrahan an ex-army man and a farmer leader, was born in 1945 in Sunam, Punjab. He is president of farm union Bharatiya Kisan Union (Ekta ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://en.bharatpedia.org/wiki/Joginder_Singh_Ugrahan",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "en.bharatpedia.org",
+          "/wiki/Joginder_Singh_Ugrahan",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://starsunfolded.com/thara-bhai-joginder/",
+        "title": "Thara Bhai Joginder Age, Wife, Family, Biography & More",
+        "content": "In 2020, he created a YouTube channel, Thara Bhai Joginder; the channel has more than 125k subscribers. He is very active on \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "starsunfolded.com",
+          "/thara-bhai-joginder/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "BKU (EU) head Joginder Ugrahan - The Caravan",
+        "content": "7 Jan 2021 \u00b7 Joginder Singh Ugrahan founded the BKU (EU), which wields influence in Punjab's Malwa region, in 2002. He has been leading farmers' protests ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://caravanmagazine.in/agriculture/image-that-modi-government-doesnt-retract-statements-is-shattered-bku-ekta-ugrahan-joginder-ugrahan",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "caravanmagazine.in",
+          "/agriculture/image-that-modi-government-doesnt-retract-statements-is-shattered-bku-ekta-ugrahan-joginder-ugrahan",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Joginder_Sharma",
+        "title": "Joginder Sharma - Wikipedia",
+        "content": "DSP Joginder Sharma \u24d8 (born 23 October 1983) is an Indian police officer and former professional cricketer who currently serves as \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Joginder_Sharma",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "An exclusive talk with Joginder Singh Ugrahan, Founder of ...",
+        "content": "1 Dec 2020 \u00b7 Dalit Camera speaks with Joginder Singh Ugrahan, founder of Bhartiya Kisaan Union (Ugrahan) . In this exclusive interview, we understand how BKU ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.facebook.com/DalitCameraDC/videos/an-exclusive-talk-with-joginder-singh-ugrahan-founder-of-bhartiya-kisan-union-ug/679510139623311/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/DalitCameraDC/videos/an-exclusive-talk-with-joginder-singh-ugrahan-founder-of-bhartiya-kisan-union-ug/679510139623311/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://wikibio.in/thara-bhai-joginder/",
+        "title": "Thara Bhai Joginder Wiki, Age, Wife, Family, Biography & More",
+        "content": "Nov 27, 1994 \u00b7 He started posting videos containing dialogues. One such dialogue which became his signature style was \u2018Thara Bhai \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "wikibio.in",
+          "/thara-bhai-joginder/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Joginder Singh, the Face of Farmer Protest - The Quint",
+        "content": "30 Nov 2020 \u00b7 One of them was Joginder Singh Ugrahan, who is the head of the Bharatiya Kisan Union (Ugrahan). This 75-year-old is now emerging to be the face ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://www.thequint.com/news/india/soldier-turned-farmer-joginder-singh-the-face-of-farmer-protest",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.thequint.com",
+          "/news/india/soldier-turned-farmer-joginder-singh-the-face-of-farmer-protest",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.youtube.com/watch?v=U-44HVu4qe8",
+        "title": "Best Of Bhai Joginder Singh Ji Riar Vol 2 - YouTube",
+        "content": "Feb 11, 2016 \u00b7 Most Popular Kirtan By Bhai Joginder Singh Ji Riar : \u2022 Vin Boleya Sabh Kish Janda - Bhai Joginder...",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=U-44HVu4qe8",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Ugrahan's 'stir helped BJP' remark triggers war of words with ...",
+        "content": "24 Sept 2025 \u00b7 The bitter exchange of words began with BKU (Ekta Ugrahan) president Joginder Singh Ugrahan claiming that the narrative being set against ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://timesofindia.indiatimes.com/city/chandigarh/ugrahans-stir-helped-bjp-remark-triggers-war-of-words-with-dallewal/articleshow/124077809.cms",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "timesofindia.indiatimes.com",
+          "/city/chandigarh/ugrahans-stir-helped-bjp-remark-triggers-war-of-words-with-dallewal/articleshow/124077809.cms",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Joginder",
+        "title": "Joginder - Wikipedia",
+        "content": "Joginder (real name Joginder Shelly) was an Indian actor, director, producer, writer, singer, songwriter and distributor. Two Hindi \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Joginder",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "The Tatva - Facebook",
+        "content": "22 Feb 2021 \u00b7 In a shocking development, Bharatiya Kisan Union (Ekta-Ugrahan) president Joginder Singh Ugrahan has dared police personnel of Delhi and Punjab ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.facebook.com/thetatvaindia/posts/in-a-shocking-development-bharatiya-kisan-union-ekta-ugrahan-president-joginder-/290170475858605/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/thetatvaindia/posts/in-a-shocking-development-bharatiya-kisan-union-ekta-ugrahan-president-joginder-/290170475858605/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.facebook.com/Thara.Bhai.Joginder/reels/",
+        "title": "Thara Bhai Joginder - Facebook",
+        "content": "Yo Joginder Thara Bhai Joginder \u092e\u0926\u0924 \u0915\u0947 \u0932\u093f\u090f WhatsApp.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/Thara.Bhai.Joginder/reels/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Joginder Singh Ugrahan Kisan Leader Seen Editorial Stock ...",
+        "content": "Joginder Singh Ugrahan, Kisan Leader seen during the National Convention of Workers and Farmers, jointly organized by the Central Trade Unions/Federations ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.shutterstock.com/editorial/image-editorial/joginder-singh-ugrahan-kisan-leader-seen-during-14067867j",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.shutterstock.com",
+          "/editorial/image-editorial/joginder-singh-ugrahan-kisan-leader-seen-during-14067867j",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.instagram.com/jogi23sharma/",
+        "title": "Joginder Sharma (@jogi23sharma) \u2022 Instagram photos and videos",
+        "content": "151K Followers, 423 Following, 1,527 Posts - \ud83c\udfcfJoginder Sharma \ud83c\udfcf (@jogi23sharma) on Instagram: \"Joginder Sharma \ud83c\udfcf Cricketer \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/jogi23sharma/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "'MSP Should Be Legally Enforceable': Farmer Leader Joginder ...",
+        "content": "23 Nov 2021 \u00b7 Joginder Singh Ugrahan \u0a26\u0a3e \u0a39\u0a41\u0a23 \u0a24\u0a71\u0a15 \u0a26\u0a3e \u0a38\u0a2d \u0a24\u0a4b\u0a02 \u0a27\u0a2e\u0a3e\u0a15\u0a47\u0a26\u0a3e\u0a30 \u0a2d\u0a3e\u0a38\u0a3c\u0a23. Pro Punjab Tv\u2022974 views \u00b7 7:46 \u00b7 Go to channel News18 ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://www.youtube.com/watch?v=DJM7riC2lLg",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=DJM7riC2lLg",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.sarkarinaukriexams.com/joginder-net-worth-bio-bp",
+        "title": "Thara bhai Joginder Net Worth, Biography, Family, Girlfriend, Age",
+        "content": "Jul 31, 2023 \u00b7 Joginder Yadav, an extraordinary Indian YouTuber known for his captivating character, Thara Bhai Joginder, was born \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.sarkarinaukriexams.com",
+          "/joginder-net-worth-bio-bp",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Punjab farm union leader Joginder Singh Ugrahan tests ...",
+        "content": "20 Mar 2021 \u00b7 Punjab farm union leader Joginder Singh Ugrahan tests positive for Covid-19. Hospitalised in Bathinda with fever and breathlessness, 75-year ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.hindustantimes.com/cities/chandigarh-news/punjab-farm-union-leader-joginder-singh-ugrahan-tests-positive-for-covid19-101616241274282.html",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.hindustantimes.com",
+          "/cities/chandigarh-news/punjab-farm-union-leader-joginder-singh-ugrahan-tests-positive-for-covid19-101616241274282.html",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ]
+    ]
+  }
+}

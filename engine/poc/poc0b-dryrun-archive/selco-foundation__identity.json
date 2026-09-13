@@ -1,0 +1,338 @@
+{
+  "slug": "selco-foundation",
+  "name": "SELCO Foundation",
+  "family": "identity",
+  "query": "\"SELCO Foundation\"",
+  "question_ids": [
+    "one_line",
+    "type",
+    "legs",
+    "geography"
+  ],
+  "elapsed_s": 0.331,
+  "timestamp_utc": "2026-09-13T06:35:07.135652+00:00",
+  "request_index_this_run": 7,
+  "seconds_since_run_start": 18.5,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"SELCO Foundation\"",
+    "results": [
+      {
+        "url": "https://selcofoundation.org/",
+        "title": "Selco Foundation: Empowering Environmental Sustainability",
+        "content": "SELCO Foundation seeks to inspire and implement solutions that alleviate poverty by improving access to sustainable energy to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "selcofoundation.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://selcofoundation.org/selco-foundation-vision/",
+        "title": "SELCO Foundation: Vision - Selco Foundation",
+        "content": "SELCO Foundation seeks to inspire and implement solutions that alleviate poverty by improving access to sustainable energy to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "selcofoundation.org",
+          "/selco-foundation-vision/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://in.linkedin.com/company/selco-foundation",
+        "title": "SELCO Foundation | LinkedIn",
+        "content": "SELCO Foundation envisions a socially sustainable society: we seek to create avenues for asset building, enhancement in quality of \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/company/selco-foundation",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.sdg7forsdg8.selcofoundation.org/",
+        "title": "SDG7 FOR SDG8 | SELCO Foundation",
+        "content": "SELCO Foundation seeks to inspire and implement socially, financially and environmentally inclusive solutions by improving access \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.sdg7forsdg8.selcofoundation.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "http://103.145.37.246/",
+        "title": "SELCO Foundation \u2014 Energy for Human Dignity",
+        "content": "Explore sustainable decentralized energy interventions powering livelihoods and essential services. Browse 2\u20133 active project \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "http",
+          "103.145.37.246",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.facebook.com/SELCOFoundation/",
+        "title": "SELCO Foundation | Bangalore - Facebook",
+        "content": "So, at SELCO Foundation, we ask a different question: how can we improve the conditions around the craft without changing the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/SELCOFoundation/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.aicselco.org/",
+        "title": "AIC-SELCO Foundation",
+        "content": "Atal Incubation Centre-SELCO Foundation in Guwahati is a centre that enables and empowers sustainable energy based innovators \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.aicselco.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.lemelson.org/selco-foundation/",
+        "title": "SELCO Foundation | The Lemelson Foundation",
+        "content": "Oct 14, 2025 \u00b7 The SELCO Foundation is a nonprofit headquartered in India that develops and deploys clean energy solutions to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.lemelson.org",
+          "/selco-foundation/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://collab.selcofoundation.org/",
+        "title": "Home - Collab",
+        "content": "SELCO Foundation seeks to inspire and implement solutions that alleviate poverty by improving access to sustainable energy to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "collab.selcofoundation.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://erp.selcofoundation.org/",
+        "title": "Selco Foundation - Login",
+        "content": "You need to enable JavaScript for your app to work. To enable it follow the instructions in the following link: enable-javascript.com. \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "erp.selcofoundation.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

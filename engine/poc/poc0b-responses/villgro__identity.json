@@ -1,0 +1,338 @@
+{
+  "slug": "villgro",
+  "name": "Villgro",
+  "family": "identity",
+  "query": "\"Villgro\"",
+  "question_ids": [
+    "one_line",
+    "type",
+    "legs",
+    "geography"
+  ],
+  "elapsed_s": 0.685,
+  "timestamp_utc": "2026-09-13T08:32:52.188978+00:00",
+  "request_index_this_run": 25,
+  "seconds_since_run_start": 619.5,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Villgro\"",
+    "results": [
+      {
+        "url": "https://support.microsoft.com/de-de/accounts-billing/manage/how-to-sign-in-to-hotmail",
+        "title": "Anmelden bei Hotmail | Microsoft Support",
+        "content": "Microsoft h\u00e4lt immer ein Auge auf ungew\u00f6hnliche Anmeldeaktivit\u00e4ten, nur f\u00fcr den Fall, dass jemand anderes versucht, auf Ihr Konto \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/de-de/accounts-billing/manage/how-to-sign-in-to-hotmail",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/en-us/servicing/os/windows/docs/2026/03/microsoft-support-and-recovery-assistant-sara-command-line-utility-removal-from-windows",
+        "title": "Microsoft Support and Recovery Assistant (SaRA) command-line utility ...",
+        "content": "Mar 31, 2026 \u00b7 Microsoft has officially removed the SaRA utility from all in-support versions of Windows updates released on and \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/servicing/os/windows/docs/2026/03/microsoft-support-and-recovery-assistant-sara-command-line-utility-removal-from-windows",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://techcommunity.microsoft.com/discussions/windowsinsiderprogram/windows-8-1-iso-download-for-64-and-32-bit/4454650",
+        "title": "Windows 8.1 ISO download for 64 and 32 bit | Microsoft Community Hub",
+        "content": "Sep 16, 2025 \u00b7 We have a couple of Windows 7 laptops and desktop PCs to upgraded to Windows 8.1 for software testing. It seems \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "techcommunity.microsoft.com",
+          "/discussions/windowsinsiderprogram/windows-8-1-iso-download-for-64-and-32-bit/4454650",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://techcommunity.microsoft.com/blog/exchange/exchange-online-ews-your-time-is-almost-up/4492361",
+        "title": "Sign in to your account - techcommunity.microsoft.com",
+        "content": "We wanted to provide an update on Exchange Online EWS deprecation.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "techcommunity.microsoft.com",
+          "/blog/exchange/exchange-online-ews-your-time-is-almost-up/4492361",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/en-us/accounts-billing/manage/sign-out-of-hotmail-or-outlook-com",
+        "title": "Sign out of Hotmail or Outlook.com | Microsoft Support",
+        "content": "Tip If you don't see your picture at the top of screen, check to see if ad blocking is turned on. Sometimes this prevents the picture \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/accounts-billing/manage/sign-out-of-hotmail-or-outlook-com",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/en-us/windows/hardware/display-graphics/change-the-refresh-rate-on-your-monitor-in-windows",
+        "title": "Change the refresh rate on your monitor in Windows | Microsoft Support",
+        "content": "Learn how to change the refresh rate for your display in Windows to determine how smoothly motion appears on your screen.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/windows/hardware/display-graphics/change-the-refresh-rate-on-your-monitor-in-windows",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/en-us/outlook/training/share-your-calendar-in-outlook",
+        "title": "Share your calendar in Outlook | Microsoft Support",
+        "content": "Training: In Microsoft Outlook, you can share your calendar with other people and open a shared calendar. Learn how in this online \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/outlook/training/share-your-calendar-in-outlook",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/en-us/accounts-billing/manage/close-your-outlook-com-account",
+        "title": "Close your Outlook.com account | Microsoft Support",
+        "content": "Important When you close your Microsoft account, your email and contacts are deleted from our servers and can't be recovered. If \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/accounts-billing/manage/close-your-outlook-com-account",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/en-us/outlook/get-help-with-outlook-com",
+        "title": "Get help with Outlook.com | Microsoft Support",
+        "content": "Outlook (or Office Outlook) is the Microsoft desktop email client. It can be used with Outlook.com email addresses or with any other \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/outlook/get-help-with-outlook-com",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.microsoft.com/en-us/accounts-billing/manage/how-to-change-a-birth-date-on-a-microsoft-account",
+        "title": "How to change a birth date on a Microsoft account",
+        "content": "Guide me in setting up birth date on a Microsoft account Tell me about overview of What is a Microsoft account. What do I need to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.microsoft.com",
+          "/en-us/accounts-billing/manage/how-to-change-a-birth-date-on-a-microsoft-account",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,176 @@
+Loading + chunking actor corpus...
+Actor files: 289   chunks: 1672
+Encoding actor passage matrix ONCE...
+Actor passage matrix: (1672, 384)
+
+======================================================================
+TASK 1 -- q4_lifecycle: Status vs Recent updates vs union
+======================================================================
+
+-- target: Status (n_pos=205) --
+  [         control] top1= 14.6% top3= 79.0% AUC=0.688  n_elig=205  | 'Operating, scaling, distressed, dormant, acquired, shut, or won-a'
+  [     noun_phrase] top1=  0.0% top3= 33.2% AUC=0.370  n_elig=205  | 'lifecycle status and as-of date'
+  [statement_shaped] top1= 22.0% top3= 69.3% AUC=0.679  n_elig=205  | 'Currently operating and scaling, as of a stated date.'
+  [    keyword_list] top1=  5.4% top3= 55.6% AUC=0.566  n_elig=205  | 'status operating scaling distressed dormant shut acquired dissolv'
+  [entity_type_word] top1=  2.0% top3= 22.4% AUC=0.280  n_elig=205  | "What is this actor's current lifecycle status?"
+  [   vocab_overlap] top1=  7.3% top3= 55.6% AUC=0.547  n_elig=205  | 'operating scaling distressed dormant acquired shut dissolved curr'
+  best-vs-control: statement_shaped margin=-0.009  boot90%CI=[-0.028,+0.010] excludes_zero=False
+
+-- target: Recent updates (n_pos=394) --
+  [         control] top1= 76.2% top3= 97.9% AUC=0.881  n_elig=281  | 'Operating, scaling, distressed, dormant, acquired, shut, or won-a'
+  [     noun_phrase] top1= 89.7% top3= 99.6% AUC=0.919  n_elig=281  | 'lifecycle status and as-of date'
+  [statement_shaped] top1= 51.6% top3= 86.8% AUC=0.766  n_elig=281  | 'Currently operating and scaling, as of a stated date.'
+  [    keyword_list] top1= 80.8% top3= 98.9% AUC=0.915  n_elig=281  | 'status operating scaling distressed dormant shut acquired dissolv'
+  [entity_type_word] top1= 72.6% top3= 96.4% AUC=0.827  n_elig=281  | "What is this actor's current lifecycle status?"
+  [   vocab_overlap] top1= 66.5% top3= 94.3% AUC=0.850  n_elig=281  | 'operating scaling distressed dormant acquired shut dissolved curr'
+  best-vs-control: noun_phrase margin=+0.037  boot90%CI=[+0.023,+0.052] excludes_zero=True
+
+-- target: Status ∪ Recent updates (n_pos=599) --
+  [         control] top1= 86.8% top3= 99.3% AUC=0.887  n_elig=281  | 'Operating, scaling, distressed, dormant, acquired, shut, or won-a'
+  [     noun_phrase] top1= 89.7% top3= 99.6% AUC=0.767  n_elig=281  | 'lifecycle status and as-of date'
+  [statement_shaped] top1= 67.6% top3= 93.2% AUC=0.792  n_elig=281  | 'Currently operating and scaling, as of a stated date.'
+  [    keyword_list] top1= 84.7% top3= 99.6% AUC=0.856  n_elig=281  | 'status operating scaling distressed dormant shut acquired dissolv'
+  [entity_type_word] top1= 74.0% top3= 97.2% AUC=0.653  n_elig=281  | "What is this actor's current lifecycle status?"
+  [   vocab_overlap] top1= 71.9% top3= 98.2% AUC=0.796  n_elig=281  | 'operating scaling distressed dormant acquired shut dissolved curr'
+  best-vs-control: keyword_list margin=-0.031  boot90%CI=[-0.040,-0.022] excludes_zero=True
+
+======================================================================
+TASK 2 -- cross-apply: reach bucket, status bucket
+======================================================================
+
+-- bucket: reach  target='How to reach them'  n_pos=224 --
+  q9_contact_route dedicated best: [keyword_list] top1= 66.8% top3= 95.1% AUC=0.893  n_elig=223  | 'contact email website social media handle channel'
+  q16_channel dedicated best: [noun_phrase] top1= 39.0% top3= 86.1% AUC=0.790  n_elig=223  | 'live follow channels'
+  SHARED (bucket-best, from q9_contact_route/keyword_list): top1= 66.8% top3= 95.1% AUC=0.893  n_elig=223  | 'contact email website social media handle channel'
+    vs q9_contact_route dedicated (keyword_list, AUC=0.893): shared costs +0.000
+    vs q16_channel dedicated (noun_phrase, AUC=0.790): shared costs -0.103
+
+-- bucket: status  target='Status'  n_pos=205 --
+  q10_funding dedicated best: [noun_phrase] top1= 86.3% top3= 99.5% AUC=0.977  n_elig=205  | 'funding source, scale, latest round or grant, date'
+  q11_scale_metric dedicated best: [noun_phrase] top1= 75.1% top3= 98.5% AUC=0.931  n_elig=205  | 'reach metric, members, users, revenue, dated'
+  SHARED (bucket-best, from q10_funding/noun_phrase): top1= 86.3% top3= 99.5% AUC=0.977  n_elig=205  | 'funding source, scale, latest round or grant, date'
+    vs q10_funding dedicated (noun_phrase, AUC=0.977): shared costs +0.000
+    vs q11_scale_metric dedicated (noun_phrase, AUC=0.931): shared costs -0.047
+
+======================================================================
+TASK 3 -- identity and viability buckets (no single H2)
+======================================================================
+
+-- content check (grep-style, already done manually; recorded here) --
+  preamble ('What they do.' paragraph) carries: what it does, org/
+  individual framing, founding, sometimes geography and role.
+  '## Scope' bullets are mostly typed edges (funds/board/funded-by) or
+  leaf-specific notes -- heterogeneous, not clean identity prose.
+  Viability/failure vocabulary (unit economics, donor exit, 'failed',
+  'distressed') appears in only ~20/289 and ~10/289 files respectively
+  -- no dedicated H2 exists for it at all in this corpus.
+
+-- identity target: preamble only (n_pos=291) --
+  [      control_q1] top1= 73.0% top3= 98.6% AUC=0.917  n_elig=289  | 'In one concrete sentence: what does this actor actually do?'
+  [     noun_phrase] top1= 14.9% top3= 55.0% AUC=0.502  n_elig=289  | 'what this actor does, org or individual, leg, role, geography'
+  [statement_shaped] top1= 19.4% top3= 76.8% AUC=0.637  n_elig=289  | 'A description of what this organisation or individual does, its t'
+  [dedicated:             q1_one_line] top1= 73.0% top3= 98.6% AUC=0.917  n_elig=289  | 'In one concrete sentence: what does this actor actually do?'
+  [dedicated:                 q2_type] top1= 15.6% top3= 61.2% AUC=0.516  n_elig=289  | 'Org or individual?'
+  [dedicated:                 q3_legs] top1= 20.1% top3= 72.0% AUC=0.586  n_elig=289  | 'Which leg(s) -- activism, institution, enterprise (market-payer o'
+  [dedicated:       q5_ecosystem_role] top1= 21.5% top3= 67.1% AUC=0.539  n_elig=289  | 'Funder, intermediary, capacity-builder, convener, field-builder, '
+  [dedicated:         q6_affected_led] top1= 42.2% top3= 92.7% AUC=0.777  n_elig=289  | 'Is leadership drawn from the harmed population (yes), an NGO/prox'
+  [dedicated:  q7_representation_unit] top1=  7.6% top3= 49.5% AUC=0.430  n_elig=289  | 'local-affected, central-org, enterprise, or central-at-named-legi'
+  [dedicated:            q8_geography] top1= 87.2% top3= 99.7% AUC=0.959  n_elig=289  | 'Where do they operate?'
+  [dedicated:      q12_viability_note] top1= 34.9% top3= 87.9% AUC=0.737  n_elig=289  | 'What makes them viable on their leg specifically -- the paying cu'
+  [dedicated:        q13_failure_note] top1= 31.5% top3= 90.3% AUC=0.746  n_elig=289  | 'Where has this actor deployed effort and had it fail, and why?'
+
+-- identity target: Scope only (n_pos=292) --
+  [      control_q1] top1=  2.1% top3= 40.8% AUC=0.335  n_elig=289  | 'In one concrete sentence: what does this actor actually do?'
+  [     noun_phrase] top1= 13.1% top3= 48.8% AUC=0.395  n_elig=289  | 'what this actor does, org or individual, leg, role, geography'
+  [statement_shaped] top1= 32.2% top3= 65.7% AUC=0.600  n_elig=289  | 'A description of what this organisation or individual does, its t'
+  [dedicated:             q1_one_line] top1=  2.1% top3= 40.8% AUC=0.335  n_elig=289  | 'In one concrete sentence: what does this actor actually do?'
+  [dedicated:                 q2_type] top1= 15.2% top3= 52.9% AUC=0.466  n_elig=289  | 'Org or individual?'
+  [dedicated:                 q3_legs] top1= 15.9% top3= 52.2% AUC=0.451  n_elig=289  | 'Which leg(s) -- activism, institution, enterprise (market-payer o'
+  [dedicated:       q5_ecosystem_role] top1= 22.8% top3= 65.4% AUC=0.552  n_elig=289  | 'Funder, intermediary, capacity-builder, convener, field-builder, '
+  [dedicated:         q6_affected_led] top1= 14.9% top3= 51.9% AUC=0.477  n_elig=289  | 'Is leadership drawn from the harmed population (yes), an NGO/prox'
+  [dedicated:  q7_representation_unit] top1= 21.5% top3= 52.6% AUC=0.493  n_elig=289  | 'local-affected, central-org, enterprise, or central-at-named-legi'
+  [dedicated:            q8_geography] top1=  0.0% top3= 38.8% AUC=0.316  n_elig=289  | 'Where do they operate?'
+  [dedicated:      q12_viability_note] top1=  9.0% top3= 47.1% AUC=0.430  n_elig=289  | 'What makes them viable on their leg specifically -- the paying cu'
+  [dedicated:        q13_failure_note] top1=  7.3% top3= 41.2% AUC=0.340  n_elig=289  | 'Where has this actor deployed effort and had it fail, and why?'
+
+-- identity target: preamble ∪ Scope (n_pos=583) --
+  [      control_q1] top1= 75.1% top3= 98.6% AUC=0.659  n_elig=289  | 'In one concrete sentence: what does this actor actually do?'
+  [     noun_phrase] top1= 28.0% top3= 71.3% AUC=0.434  n_elig=289  | 'what this actor does, org or individual, leg, role, geography'
+  [statement_shaped] top1= 51.6% top3= 91.7% AUC=0.650  n_elig=289  | 'A description of what this organisation or individual does, its t'
+  [dedicated:             q1_one_line] top1= 75.1% top3= 98.6% AUC=0.659  n_elig=289  | 'In one concrete sentence: what does this actor actually do?'
+  [dedicated:                 q2_type] top1= 30.8% top3= 79.9% AUC=0.489  n_elig=289  | 'Org or individual?'
+  [dedicated:                 q3_legs] top1= 36.0% top3= 89.6% AUC=0.523  n_elig=289  | 'Which leg(s) -- activism, institution, enterprise (market-payer o'
+  [dedicated:       q5_ecosystem_role] top1= 44.3% top3= 89.3% AUC=0.557  n_elig=289  | 'Funder, intermediary, capacity-builder, convener, field-builder, '
+  [dedicated:         q6_affected_led] top1= 57.1% top3= 96.2% AUC=0.661  n_elig=289  | 'Is leadership drawn from the harmed population (yes), an NGO/prox'
+  [dedicated:  q7_representation_unit] top1= 29.1% top3= 71.6% AUC=0.451  n_elig=289  | 'local-affected, central-org, enterprise, or central-at-named-legi'
+  [dedicated:            q8_geography] top1= 87.2% top3= 99.7% AUC=0.674  n_elig=289  | 'Where do they operate?'
+  [dedicated:      q12_viability_note] top1= 43.9% top3= 92.0% AUC=0.606  n_elig=289  | 'What makes them viable on their leg specifically -- the paying cu'
+  [dedicated:        q13_failure_note] top1= 38.8% top3= 93.1% AUC=0.554  n_elig=289  | 'Where has this actor deployed effort and had it fail, and why?'
+
+-- viability target: Status (weak proxy) (n_pos=205) --
+  [     control_q12] top1= 50.7% top3= 83.4% AUC=0.835  n_elig=205  | 'What makes them viable on their leg specifically -- the paying cu'
+  [     noun_phrase] top1= 52.2% top3= 90.7% AUC=0.873  n_elig=205  | 'viability, unit economics, funding continuity, effort that failed'
+  [dedicated:      q12_viability_note] top1= 50.7% top3= 83.4% AUC=0.835  n_elig=205  | 'What makes them viable on their leg specifically -- the paying cu'
+  [dedicated:        q13_failure_note] top1=  1.0% top3= 11.7% AUC=0.243  n_elig=205  | 'Where has this actor deployed effort and had it fail, and why?'
+
+======================================================================
+TASK 4 -- problem side (7 leaf files), A-E buckets
+======================================================================
+Leaf files: 7   chunks: 129
+Files: asbestos-in-air, cookfire-smoke, crop-residue-burning, north-india-winter-smog, silicosis-stone-industry, small-industrial-town-air, residual-childhood-lead
+Encoding leaf passage matrix ONCE...
+Leaf passage matrix: (129, 384)
+
+-- bucket A (target='A · Classification', n_pos=8) --
+  p5_onset: top1= 42.9% top3= 71.4% AUC=0.849  n_elig=  7  | 'Is the harm acute, chronic, or latent?'
+  p6_agent: top1= 42.9% top3= 71.4% AUC=0.874  n_elig=  7  | 'What triggers the harm -- the agent category?'
+  p7_channel: top1=100.0% top3=100.0% AUC=0.957  n_elig=  7  | 'Is the harm direct, structural, cultural-normative, or ambient-ac'
+  p8_satisfier_relation: top1= 42.9% top3= 71.4% AUC=0.818  n_elig=  7  | 'Is the satisfier absent, a violator, a pseudo-satisfier, maldistr'
+  SHARED (bucket-best, from p7_channel): top1=100.0% top3=100.0% AUC=0.957  n_elig=  7  | 'Is the harm direct, structural, cultural-normative, or ambient-ac'
+  (bootstrap over 7 files -- CI will be very wide, interpret with caution)
+    shared vs p5_onset dedicated: diff=-0.107 boot90%CI=[-0.14781746031746024,-0.04806408544726304] excludes_zero=True
+    shared vs p6_agent dedicated: diff=-0.083 boot90%CI=[-0.11391129032258063,-0.04982517482517479] excludes_zero=True
+    shared vs p7_channel dedicated: diff=+0.000 boot90%CI=[0.0,0.0] excludes_zero=False
+    shared vs p8_satisfier_relation dedicated: diff=-0.138 boot90%CI=[-0.22191400832177532,-0.052631578947368474] excludes_zero=True
+
+-- bucket B (target='B · Evidence', n_pos=37) --
+  p9_magnitude: top1= 42.9% top3= 85.7% AUC=0.644  n_elig=  7  | 'Magnitude with its denominator, dated and sourced.'
+  p10_diff_vuln: top1= 28.6% top3= 28.6% AUC=0.225  n_elig=  7  | "Who is hit harder and why, and why they can't exit or defend?"
+  p11_measurement_state: top1= 28.6% top3= 57.1% AUC=0.501  n_elig=  7  | 'Is the harm counted anywhere?'
+  SHARED (bucket-best, from p9_magnitude): top1= 42.9% top3= 85.7% AUC=0.644  n_elig=  7  | 'Magnitude with its denominator, dated and sourced.'
+  (bootstrap over 7 files -- CI will be very wide, interpret with caution)
+    shared vs p9_magnitude dedicated: diff=+0.000 boot90%CI=[0.0,0.0] excludes_zero=False
+    shared vs p10_diff_vuln dedicated: diff=-0.419 boot90%CI=[-0.47378516624040923,-0.3532272325375774] excludes_zero=True
+    shared vs p11_measurement_state dedicated: diff=-0.142 boot90%CI=[-0.22063492063492068,-0.06837871287128716] excludes_zero=True
+
+-- bucket C (target='C · Diagnosis', n_pos=9) --
+  p12_mechanism: top1= 71.4% top3=100.0% AUC=0.819  n_elig=  7  | 'Which of the seven mechanisms does this show -- or is it unclassi'
+  p13_burden_note: top1=  0.0% top3= 28.6% AUC=0.575  n_elig=  7  | 'Is the visible, reported cause different from the load-bearing on'
+  p14_blocker: top1= 42.9% top3=100.0% AUC=0.833  n_elig=  7  | 'What specifically keeps the known fix from happening -- the actua'
+  SHARED (bucket-best, from p14_blocker): top1= 42.9% top3=100.0% AUC=0.833  n_elig=  7  | 'What specifically keeps the known fix from happening -- the actua'
+  (bootstrap over 7 files -- CI will be very wide, interpret with caution)
+    shared vs p12_mechanism dedicated: diff=-0.014 boot90%CI=[-0.09212376933895916,0.057991513437057995] excludes_zero=False
+    shared vs p13_burden_note dedicated: diff=-0.258 boot90%CI=[-0.37057522123893805,-0.1291208791208791] excludes_zero=True
+    shared vs p14_blocker dedicated: diff=+0.000 boot90%CI=[0.0,0.0] excludes_zero=False
+
+-- bucket D (target='D · Who is working on this', n_pos=46) --
+  p15_representation_verdict: top1= 71.4% top3=100.0% AUC=0.628  n_elig=  7  | 'Is there an actor at a unit that can perceive and act on this spe'
+  p19_who_working: top1= 57.1% top3=100.0% AUC=0.740  n_elig=  7  | 'Who is actively working this, on any leg, and what do they specif'
+  SHARED (bucket-best, from p19_who_working): top1= 57.1% top3=100.0% AUC=0.740  n_elig=  7  | 'Who is actively working this, on any leg, and what do they specif'
+  (bootstrap over 7 files -- CI will be very wide, interpret with caution)
+    shared vs p15_representation_verdict dedicated: diff=-0.112 boot90%CI=[-0.2197293447293447,-0.02155555555555555] excludes_zero=True
+    shared vs p19_who_working dedicated: diff=+0.000 boot90%CI=[0.0,0.0] excludes_zero=False
+
+-- bucket E (target='E · Gap', n_pos=20) --
+  p16_gap_kind: top1= 85.7% top3=100.0% AUC=0.875  n_elig=  7  | 'Is the gap none, coverage, or representation?'
+  p17_gap_missing_leg: top1= 28.6% top3= 57.1% AUC=0.710  n_elig=  7  | 'Which leg(s) have nobody working them at all?'
+  p18_gap_note: top1= 85.7% top3=100.0% AUC=0.800  n_elig=  7  | "One paragraph on the specific shape of what's missing."
+  SHARED (bucket-best, from p16_gap_kind): top1= 85.7% top3=100.0% AUC=0.875  n_elig=  7  | 'Is the gap none, coverage, or representation?'
+  (bootstrap over 7 files -- CI will be very wide, interpret with caution)
+    shared vs p16_gap_kind dedicated: diff=+0.000 boot90%CI=[0.0,0.0] excludes_zero=False
+    shared vs p17_gap_missing_leg dedicated: diff=-0.165 boot90%CI=[-0.2820388349514563,-0.07811663991439277] excludes_zero=True
+    shared vs p18_gap_note dedicated: diff=-0.075 boot90%CI=[-0.17464377055169888,0.024659863945578286] excludes_zero=False
+
+======================================================================
+DONE
+======================================================================

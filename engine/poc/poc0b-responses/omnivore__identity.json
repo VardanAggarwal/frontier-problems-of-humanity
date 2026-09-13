@@ -1,0 +1,338 @@
+{
+  "slug": "omnivore",
+  "name": "Omnivore",
+  "family": "identity",
+  "query": "\"Omnivore\"",
+  "question_ids": [
+    "one_line",
+    "type",
+    "legs",
+    "geography"
+  ],
+  "elapsed_s": 0.613,
+  "timestamp_utc": "2026-09-13T08:40:51.700264+00:00",
+  "request_index_this_run": 43,
+  "seconds_since_run_start": 1099.0,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Omnivore\"",
+    "results": [
+      {
+        "url": "https://www.thewindowsclub.com/basic-notepad-tips",
+        "title": "Notepad Tips and Tricks for Windows users",
+        "content": "Jun 30, 2026 \u00b7 The Notepad in Windows is a basic text editor. Use these basic & simple, yet cool & interesting Notepad tips & tricks \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.thewindowsclub.com",
+          "/basic-notepad-tips",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.thewindowsclub.com/new-features-in-notepad-in-windows-10-v1809",
+        "title": "New features in Notepad in Windows 11 - The Windows Club",
+        "content": "Jun 13, 2026 \u00b7 The Notepad in Windows 11/10 gets several new features. You can search selected text with Bing, Delete previously \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.thewindowsclub.com",
+          "/new-features-in-notepad-in-windows-10-v1809",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.tenforums.com/tutorials/140422-install-uninstall-microsoft-wordpad-windows-10-a.html",
+        "title": "Install or Uninstall Microsoft WordPad in Windows 10",
+        "content": "May 16, 2020 \u00b7 Published by Shawn Brink Category: Apps & Features 16 May 2020 How to Install or Uninstall Microsoft WordPad in \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.tenforums.com",
+          "/tutorials/140422-install-uninstall-microsoft-wordpad-windows-10-a.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.tenforums.com/tutorials/114308-find-replace-text-notepad-windows-10-a.html",
+        "title": "Find and Replace Text in Notepad in Windows 10 | Tutorials",
+        "content": "May 12, 2021 \u00b7 How to Find and Replace Text in Notepad in Windows 10 Notepad is a simple text editor included in Windows and a \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.tenforums.com",
+          "/tutorials/114308-find-replace-text-notepad-windows-10-a.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.thewindowsclub.com/how-to-count-words-in-notepad",
+        "title": "How to count words in Notepad - The Windows Club",
+        "content": "Dec 9, 2022 \u00b7 Notepad does not have a word counter. If you wish to count words in a Notepad TXT file, here are some workarounds \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.thewindowsclub.com",
+          "/how-to-count-words-in-notepad",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.thewindowsclub.com/tag/notepad",
+        "title": "Notepad Posts - The Windows Club",
+        "content": "Jan 31, 2026 \u00b7 Read our posts about Notepad. They offer actionable troubleshooting advice and clear explanations about the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.thewindowsclub.com",
+          "/tag/notepad",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.tenforums.com/software-apps/207965-find-search-notepad.html",
+        "title": "Find or Search in NotePad - Windows 10 Help Forums",
+        "content": "Sep 29, 2023 \u00b7 For windows 10. Does anyone have this issue besides me? I can do a FIND in notepad and and it works fine one \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.tenforums.com",
+          "/software-apps/207965-find-search-notepad.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.tenforums.com/general-support/85480-notepad-help.html",
+        "title": "Notepad help? - Windows 10 Forums",
+        "content": "May 27, 2017 \u00b7 Notepad help? I swear there was a way to search for a certain word or phrase in notepad and replace it? any \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.tenforums.com",
+          "/general-support/85480-notepad-help.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.thewindowsclub.com/how-to-change-the-default-character-encoding-in-notepad-on-windows-10",
+        "title": "Change default Character Encoding in Notepad on Windows 11",
+        "content": "Feb 4, 2026 \u00b7 If you want to change the default character encoding in Notepad in Windows 11/10, this tutorial will guide you through \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.thewindowsclub.com",
+          "/how-to-change-the-default-character-encoding-in-notepad-on-windows-10",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.tenforums.com/customization/85891-open-notepad-administrator-context-menu.html",
+        "title": "Open Notepad as Administrator with Context Menu? - Windows 10 \u2026",
+        "content": "Jun 1, 2017 \u00b7 Don't know if it's what you are looking for but I right-clicked the Desktop, chose New, Shortcut then located notepad.exe \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.tenforums.com",
+          "/customization/85891-open-notepad-administrator-context-menu.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

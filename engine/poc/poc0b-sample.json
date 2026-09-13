@@ -1,0 +1,265 @@
+{
+  "_selection_rule": "20 actors drawn from problems/actors/*.md (not the candidate queue) so every query has a written answer key to check against. 12 rich actors selected by having both a substantive '## Status' (funding/scale) and a substantive '## How to reach them' section, spanning catalyst-layer funders/VCs/accelerators, one enterprise, one individual founder, and one institutional/government body. 8 actors are deliberately thin: affected-led victims' associations and informal collectives with sparse or no independent channel, one activism union, three individual affected-led activists, and one small donation-funded NGO -- per 04-worker-build-plan.md PoC-0's explicit question of whether thin/affected-led candidates surface anything at all. Answer-key snippets below are extracted verbatim from each actor's own file (the ground truth the recorded SearXNG results are checked against, not independently re-verified).",
+  "actors": [
+    {
+      "slug": "anthill-ventures",
+      "name": "Anthill Ventures",
+      "category": "rich",
+      "answer_key": {
+        "identity": "Hyderabad-based, privately-run investment-and-scaling platform founded 2015 by Prasad Vanga (Founder & CEO); health tech, climate tech, urban innovation focus",
+        "money": "No disclosed single fund corpus; portfolio companies collectively raised $1bn+ in follow-on capital (aggregate, not Anthill's own deployment)",
+        "people": "Founded by Prasad Vanga (Founder & CEO); board <- prasad-vanga",
+        "viability_asks": "No sourced ask found (needs: []); offers capital plus a stated 12-month path to Series A scaling service",
+        "failure": "not stated in file",
+        "reach": "Prasad Vanga LinkedIn in/prasadvanga (unconfirmed); org LinkedIn /company/anthill-ventures"
+      }
+    },
+    {
+      "slug": "selco-foundation",
+      "name": "SELCO Foundation",
+      "category": "rich",
+      "answer_key": {
+        "identity": "Bengaluru non-profit spun out 2010 by Dr Harish Hande, applies decentralised renewable energy to healthcare/education/livelihoods",
+        "money": "Funders: IKEA Foundation (Energy for Health), Lemelson Foundation, DOEN Foundation; specific annual budget not found",
+        "people": "Founder & CEO Harish Hande (Ramon Magsaysay Award 2011); also founder of for-profit SELCO India (1995)",
+        "viability_asks": "None stated publicly; offers deep decentralised-energy technical/deployment expertise and convening (Skoll World Forum 2026, Mizoram MoU)",
+        "failure": "not stated in file",
+        "reach": "selcofoundation.org; LinkedIn and X both confirmed live with 2026-dated posts (Mizoram MoU March 2026, Skoll World Forum April 2026)"
+      }
+    },
+    {
+      "slug": "shell-foundation",
+      "name": "Shell Foundation",
+      "category": "rich",
+      "answer_key": {
+        "identity": "UK-registered charitable foundation (funded by Shell, independently governed) that funds/de-risks clean-energy and livelihoods enterprises in India and sub-Saharan Africa",
+        "money": "ClimaFii Alliance cohort grants ~USD $45,000 per enterprise; second cohort applications opened Dec 2025; AUM not itemised this pass",
+        "people": "no individual named this pass",
+        "viability_asks": "None stated -- a funder; offers milestone-based catalytic grants and credit-partner introductions",
+        "failure": "not stated in file",
+        "reach": "shellfoundation.org contact form; X @ShellFoundation and LinkedIn company page active in 2026 (India Energy Week MoU, CInI/Govind Dairy)"
+      }
+    },
+    {
+      "slug": "dasra",
+      "name": "Dasra",
+      "category": "rich",
+      "answer_key": {
+        "identity": "India's leading strategic-philanthropy intermediary/systems orchestrator, co-founded by Neera Nundy and Deval Sanghavi",
+        "money": "Operates as intermediary/advisory-convening body, not a fund; GivingPi managed-capital scale not disclosed",
+        "people": "Co-founders Neera Nundy and Deval Sanghavi",
+        "viability_asks": "None stated; offers India-wide convening + intelligence layer (India Philanthropy Report with Bain & Company)",
+        "failure": "not stated in file",
+        "reach": "dasra.org; LinkedIn confirmed live (India Philanthropy Report 2026 launch, IPF London 2026); X handle found, recency unconfirmed"
+      }
+    },
+    {
+      "slug": "villgro",
+      "name": "Villgro",
+      "category": "rich",
+      "answer_key": {
+        "identity": "India's oldest social-enterprise incubator, founded 2001 in Chennai (originally Rural Innovations Network)",
+        "money": "Capital from Lemelson Foundation, DOEN Foundation, Shell Foundation, Government of India/DFID; Menterra Social Impact Fund I was a Rs40 crore closed-end vehicle (2016)",
+        "people": "Founder Paul Basil (Ashoka Fellow, now Menterra co-founder); CEO Srinivas Ramanujam; board members Deval Sanghavi, Ashwin Mahalingam, Bharti Gupta Ramola, and others",
+        "viability_asks": "Not a fundraising target itself (grant recipient/fund manager); offers seed-stage grants, incubation, market-access, 25-year deal-flow pipeline",
+        "failure": "not stated in file",
+        "reach": "villgro.org contact form; CEO Srinivas Ramanujam LinkedIn linkedin.com/in/srinivas1729; board chair Paul Basil as warm-intro path"
+      }
+    },
+    {
+      "slug": "acumen",
+      "name": "Acumen",
+      "category": "rich",
+      "answer_key": {
+        "identity": "Global impact-investment fund (US HQ), operating in India since 2001 out of Mumbai; patient capital, off-grid energy/resilient agriculture/dignity of work",
+        "money": "Global fund corpus not itemised by India-only figure; do not conflate global fund with India office deployment",
+        "people": "no individual India-office partner name confirmed this pass",
+        "viability_asks": "No sourced ask found; offers patient/concessionary capital plus two-decade India operating history and global convening network",
+        "failure": "not stated in file",
+        "reach": "acumen.org/regions/india -- live, checked 2026-09-11; no individual name confirmed"
+      }
+    },
+    {
+      "slug": "rainmatter-foundation",
+      "name": "Rainmatter Foundation",
+      "category": "rich",
+      "answer_key": {
+        "identity": "Zerodha-founder-backed (Nithin Kamath) climate/environment/livelihoods grantmaking foundation, launched with $100M commitment grown to $200M endowment",
+        "money": "$200M endowment; sibling Rainmatter Capital has Rs350 Cr committed across 43 investments as of 2026 -- separate figure, do not conflate",
+        "people": "Founder-backer Nithin Kamath (Zerodha)",
+        "viability_asks": "No sourced ask found; offers patient, no-board-seat, no-exit-mandate capital plus grants",
+        "failure": "not stated in file",
+        "reach": "rainmatter.org -- live, checked 2026-09-11; no individual programme-lead confirmed"
+      }
+    },
+    {
+      "slug": "omnivore",
+      "name": "Omnivore",
+      "category": "rich",
+      "answer_key": {
+        "identity": "Mumbai-headquartered VC firm founded 2011 by Mark Kahn and Jinesh Shah, investing exclusively in agritech/food systems/climate-agri-sustainability",
+        "money": "Fund III (Agritech & Climate Sustainability Fund) $150M corpus, first close 2023-06-28",
+        "people": "Founders Mark Kahn and Jinesh Shah; Subhadeep Sanyal was Delhi-office partner, now at 100x100-ventures",
+        "viability_asks": "No sourced ask found; offers capital plus sector-specific agri/food/climate operating expertise",
+        "failure": "not stated in file",
+        "reach": "org website and LinkedIn listed; no individual partner channel independently fetched -- both unconfirmed"
+      }
+    },
+    {
+      "slug": "harish-hande",
+      "name": "Harish Hande",
+      "category": "rich",
+      "answer_key": {
+        "identity": "Co-founded SELCO India in 1995 (for-profit, solar energy access), stepped back 2014, founded/leads SELCO Foundation (2010); Ramon Magsaysay Award laureate 2011",
+        "money": "not personally applicable; see selco-foundation.md for org funders",
+        "people": "Also board member, Transforming Rural India Foundation",
+        "viability_asks": "None stated publicly, personally; offers deep personal expertise in decentralised-energy deployment, 30+ years, convening role (SAFDE, Climate Group, SSIR)",
+        "failure": "not stated in file",
+        "reach": "LinkedIn profile harish-hande-67b226 found but recency unconfirmed (status: unconfirmed); no personal X handle; institutional route via SELCO Foundation/TRIF more reliable"
+      }
+    },
+    {
+      "slug": "a2p-energy",
+      "name": "A2P Energy Solution Pvt Ltd",
+      "category": "rich",
+      "answer_key": {
+        "identity": "Founded 2018 by Sukhmeet Singh and Dr Robert Berry; satellite-imagery/ML-driven crop-waste-to-fuel-pellet market builder",
+        "money": "Impact/early-stage; Miller Center (Santa Clara) accelerator alumnus; Cisco CSR profile",
+        "people": "Founders Sukhmeet Singh, Dr Robert Berry",
+        "viability_asks": "Needs procurement working capital and offtake contracts; offers satellite/ML field targeting and farm-gate procurement + chatbot operation",
+        "failure": "not stated in file",
+        "reach": "a2penergy.com; LinkedIn /company/a2penergy; channel search pending"
+      }
+    },
+    {
+      "slug": "employees-state-insurance-corporation",
+      "name": "Employees' State Insurance Corporation",
+      "category": "rich",
+      "answer_key": {
+        "identity": "Statutory social-insurance body for organised-sector workers (medical care, disablement, dependants' benefits)",
+        "money": "Contributory ESI fund (employer + employee)",
+        "people": "no individual named",
+        "viability_asks": "Assigned oversight of silicosis compensation/rehabilitation under PRASAR v. Union of India (2024 INSC 582); no mechanism extending cover to informal quarry workers as of this leaf's date",
+        "failure": "authority-mismatched-to-harm: covered population is registered/contributory/organised-sector, silica-exposed workforce is overwhelmingly informal/piece-rate/unregistered",
+        "reach": "Institutional -- esic.gov.in"
+      }
+    },
+    {
+      "slug": "warrior-moms",
+      "name": "Warrior Moms",
+      "category": "rich",
+      "answer_key": {
+        "identity": "Mothers' collective founded 2020 by five Delhi women; leading affected-led voice in clean-air litigation/consultations",
+        "money": "Volunteer; small philanthropic grants (Clean Air Fund ecosystem); latest grant not disclosed",
+        "people": "Five co-founders including Bhavreen Kandhari (most public); others Sherebanu Frosh, Anuja Bali, Nina Subramaniam, Midhili Ravikumar (low/no public feeds)",
+        "viability_asks": "not separately stated (no ## What they need / offer sections in file)",
+        "failure": "not stated in file",
+        "reach": "DM/tag Bhavreen Kandhari on X (@BhavreenMK); Instagram @warriormoms.in (primary); X @Warriormomsin; WordPress blog with email subscribe; 1,500+ members across 13 states (2024-25)"
+      }
+    },
+    {
+      "slug": "khambhat-silicosis-victims-association",
+      "name": "Silicosis Victims Association (Khambhat)",
+      "category": "thin_affected_led",
+      "answer_key": {
+        "identity": "Association of agate-industry silicosis victims and bereaved families in Khambhat, Gujarat; affected population organising in its own name",
+        "money": "None independent; supported in kind by PTRC",
+        "people": "no named individual spokesperson surfaced (channel sweep found none)",
+        "viability_asks": "not stated in file",
+        "failure": "no independent reachable channel -- itself a finding about which affected groups get to be reachable",
+        "reach": "Only via PTRC (peoplestraining.org); no Facebook/WhatsApp/YouTube/Instagram found"
+      }
+    },
+    {
+      "slug": "silicosis-peedit-sangh",
+      "name": "Silicosis Peedit Sangh",
+      "category": "thin_affected_led",
+      "answer_key": {
+        "identity": "Informal, village-level collective of silicosis-affected Bhil Adivasi migrant workers in Jhabua/Alirajpur/Dhar districts, MP; formed ~2006, formalised ~2008",
+        "money": "None disclosed; unregistered collective, operates on JSA/Swasthya Adhikar Manch support",
+        "people": "Public voice is Amulya Nidhi (@AMULYANIDHI4)",
+        "viability_asks": "Needs enforcement of MPHRC/Supreme Court orders into disbursed compensation, and money to sustain the collective independent of JSA; offers the affected community's own voice, documented death toll, 18-year co-petitioner standing",
+        "failure": "no org-owned channel; affected-led voice is mediated -- only public feed belongs to a non-affected activist (Amulya Nidhi), and that feed is stale since ~Dec 2022",
+        "reach": "No organisational channel; via Amulya Nidhi or Jan Swasthya Abhiyan (@jsa_india) / Swasthya Adhikar Manch, Indore. SPS-linked 2015-16 survey: 1,721 silicosis cases across 743 families, 589 deaths"
+      }
+    },
+    {
+      "slug": "bku-ekta-ugrahan",
+      "name": "Bharatiya Kisan Union (Ekta Ugrahan)",
+      "category": "thin_activism",
+      "answer_key": {
+        "identity": "Largest farmer union in Punjab by membership (lakhs), concentrated in Malwa cotton/paddy belt; lead constituent of 2020-21 farm-laws agitation",
+        "money": "Member subscriptions / mobilisation",
+        "people": "President Joginder Singh Ugrahan; general secretary Sukhdev Singh Kokri Kalan",
+        "viability_asks": "not stated in file (standing demand noted in Scope: per-quintal bonus or free machinery)",
+        "failure": "organised-against-remedy on the penalty regime (FIRs, red-entries) for crop-residue burning, not against the burn itself",
+        "reach": "Punjab district union offices; press spokespersons"
+      }
+    },
+    {
+      "slug": "joginder-singh-ugrahan",
+      "name": "Joginder Singh Ugrahan",
+      "category": "thin_individual",
+      "answer_key": {
+        "identity": "Former Army serviceman; founded the Ekta Ugrahan faction of BKU in 2002, now largest farmer union in Punjab by membership",
+        "money": "not stated in file",
+        "people": "self -- president of BKU (Ekta Ugrahan)",
+        "viability_asks": "Leads demand for FIR/red-entry withdrawal and support-linked residue management",
+        "failure": "not stated in file",
+        "reach": "Via BKU (Ekta Ugrahan) district offices / press spokespersons"
+      }
+    },
+    {
+      "slug": "india-asbestos-victims-association",
+      "name": "India Asbestos Victims Association",
+      "category": "thin_affected_led",
+      "answer_key": {
+        "identity": "The victims' body inside the BANI-IAVA formation; affected-led standing on asbestos, non-autonomous",
+        "money": "not stated in file",
+        "people": "no individual named",
+        "viability_asks": "not stated in file",
+        "failure": "no independent channel -- itself a finding about who is reachable",
+        "reach": "Via BANI only"
+      }
+    },
+    {
+      "slug": "bhavreen-kandhari",
+      "name": "Bhavreen Kandhari",
+      "category": "thin_individual",
+      "answer_key": {
+        "identity": "Delhi environmental activist and Warrior Moms co-founder; also runs 'Not Without My Trees' tree-protection campaigns",
+        "money": "not applicable / not stated",
+        "people": "self -- most reachable and consistently public individual in Delhi-NCR affected-led clean-air cluster",
+        "viability_asks": "not stated in file",
+        "failure": "not stated in file",
+        "reach": "X @BhavreenMK (real handle; a prior guess @BhavreenMalik was wrong -- name is Bhavreen Malhotra Kandhari), engages daily in season; LinkedIn (...-80283026a) as backup; Down To Earth author page dormant since Nov 2023"
+      }
+    },
+    {
+      "slug": "jyoti-pande-lavakare",
+      "name": "Jyoti Pande Lavakare",
+      "category": "thin_individual",
+      "answer_key": {
+        "identity": "Co-founder of Care for Air; author of Breathing Here is Injurious to Your Health (2020); columnist (Mint, IndiaSpend)",
+        "money": "not applicable / not stated",
+        "people": "self -- co-founder, Care for Air",
+        "viability_asks": "not stated in file",
+        "failure": "not stated in file",
+        "reach": "LinkedIn DM (...-a3a9b3a); via Care for Air (careforairindia@gmail.com); ThePrint / Open Magazine author pages; personal site jyotipande.in dead since 2021"
+      }
+    },
+    {
+      "slug": "care-for-air",
+      "name": "Care for Air",
+      "category": "thin_ngo",
+      "answer_key": {
+        "identity": "Delhi-NCR citizen awareness group, est. 2015; schools programmes and public education on PM2.5, 'right to breathe' advocacy",
+        "money": "Donations / volunteer; no disclosed scale",
+        "people": "Co-founder Jyoti Pande Lavakare; board member Bhargav Krishna (Sustainable Futures Collaborative)",
+        "viability_asks": "not stated in file (small NGO, awareness campaigns and school programmes since 2015)",
+        "failure": "not stated in file",
+        "reach": "Email careforairindia@gmail.com; Instagram @careforair.india (feed to follow first, seasonal Oct-Jan); X @CareForAirIndia active in smog season; website static since 2015, no RSS"
+      }
+    }
+  ]
+}

@@ -1,0 +1,690 @@
+{
+  "slug": "bku-ekta-ugrahan",
+  "name": "Bharatiya Kisan Union (Ekta Ugrahan)",
+  "family": "people",
+  "query": "\"Bharatiya Kisan Union (Ekta Ugrahan)\" founder director leadership",
+  "question_ids": [
+    "affected_led",
+    "representation_unit",
+    "founders"
+  ],
+  "elapsed_s": 0.809,
+  "timestamp_utc": "2026-09-13T08:59:35.040968+00:00",
+  "request_index_this_run": 87,
+  "seconds_since_run_start": 2222.4,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Bharatiya Kisan Union (Ekta Ugrahan)\" founder director leadership",
+    "results": [
+      {
+        "url": "https://www.youtube.com/watch?v=a4-TkB1vNjk",
+        "title": "1v1 - YouTube",
+        "content": "Enjoy the videos and music you love, upload original content, and share it all with friends, family, and the world on YouTube.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=a4-TkB1vNjk",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Joginder Singh Ugrahan - Wikipedia",
+        "content": "He is president of farm union Bharatiya Kisan Union (Ekta Ugrahan) and one of the most popular farm leaders in the country. ... He founded Bharatiya Kisan Union ( ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://en.wikipedia.org/wiki/Joginder_Singh_Ugrahan",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Joginder_Singh_Ugrahan",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.vnrvjiet.ac.in/",
+        "title": "VNRVJIET | NAAC A++ Accredited Engineering College in Hyderabad",
+        "content": "VNR Vignana Jyothi Institute of Engineering & Technology \u2014 NAAC A++ accredited autonomous institution at Bachupally, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.vnrvjiet.ac.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "BKU (EU) head Joginder Ugrahan - The Caravan",
+        "content": "7 Jan 2021 \u00b7 Since the beginning of the farmers' sit-ins at Delhi's borders in November 2020, the Bharatiya Kisan Union (Ekta Ugrahan)\u2014the largest by far ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://caravanmagazine.in/agriculture/image-that-modi-government-doesnt-retract-statements-is-shattered-bku-ekta-ugrahan-joginder-ugrahan",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "caravanmagazine.in",
+          "/agriculture/image-that-modi-government-doesnt-retract-statements-is-shattered-bku-ekta-ugrahan-joginder-ugrahan",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.youtube.com/@neeteshjkunwar/videos",
+        "title": "NjK - YouTube",
+        "content": "Welcome to NjK\u2019s Official Youtube Channel.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/@neeteshjkunwar/videos",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Joginder Singh Ugrahan - Bharatpedia",
+        "content": "... leaders in the country. He founded Bharatiya Kisan Union (Ekta Ugrahan) in 2002. Joginder Singh Ugrahan. File:Joginder Singh Ugrahan ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://en.bharatpedia.org/wiki/Joginder_Singh_Ugrahan",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "en.bharatpedia.org",
+          "/wiki/Joginder_Singh_Ugrahan",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.jiosaavn.com/",
+        "title": "Home - JioSaavn - Listen to New & Old Indian & English Songs.",
+        "content": "Download or listen to unlimited new & old Hindi songs online. Search from most trending, weekly top 15, Hindi movie songs, etc on \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.jiosaavn.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Joginder Sing of Ugrahan Bharatiya Kisan Union (Ekta ...",
+        "content": "22 Mar 2026 \u00b7 Joginder Sing of Ugrahan Bharatiya Kisan Union (Ekta Ugrahan) addresses the Kisan Mahapanchayat at Barnala,Punjab.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.facebook.com/JaiKisanAndolan/videos/joginder-sing-of-ugrahan-bharatiya-kisan-union-ekta-ugrahan-addresses-the-kisan-/2434806960316291/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/JaiKisanAndolan/videos/joginder-sing-of-ugrahan-bharatiya-kisan-union-ekta-ugrahan-addresses-the-kisan-/2434806960316291/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/VNR_Vignana_Jyothi_Institute_of_Engineering_and_Technology",
+        "title": "VNR Vignana Jyothi Institute of Engineering and Technology",
+        "content": "Vallurupalli Nageswara Rao Vignana Jyothi Institute of Engineering and Technology (VNRVJIET) is a private engineering college in \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/VNR_Vignana_Jyothi_Institute_of_Engineering_and_Technology",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Live: #BhartiyaKisanUnionLokshakti - Facebook",
+        "content": "20 Feb 2026 \u00b7 He is founder of Bharti Kisan Union which led many a struggle for ... Bharatiya Kisan Union Ekta(Ugrahan)The words of the speakers ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://www.facebook.com/SheorajSinghBKU/posts/live-bhartiyakisanunionlokshakti/1420701066736107/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/SheorajSinghBKU/posts/live-bhartiyakisanunionlokshakti/1420701066736107/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://collegedunia.com/college/45855-vallurupalli-nageswara-rao-vignana-jyothi-institute-of-engineering-and-technology-vnr-vjiet-hyderabad",
+        "title": "VNRVJIET: Admission 2026, Fees, Courses, Cutoff, Ranking, Placement",
+        "content": "Vallurupalli Nageswara Rao Vignana Jyothi Institute of Engineering and Technology, known as VNRVJIET, was established in 1995 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "collegedunia.com",
+          "/college/45855-vallurupalli-nageswara-rao-vignana-jyothi-institute-of-engineering-and-technology-vnr-vjiet-hyderabad",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bharatiya Kisan Unions | At the forefront of the farmers' agitation",
+        "content": "19 Dec 2020 \u00b7 The Bharatiya Kisan Union (Ekta-Ugrahan), one of the largest farmer unions in Punjab, has been at its forefront. The BKU (Ugrahan), along ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.thehindu.com/news/national/bharatiya-kisan-unions-at-the-forefront-of-the-farmers-agitation/article33374143.ece",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.thehindu.com",
+          "/news/national/bharatiya-kisan-unions-at-the-forefront-of-the-farmers-agitation/article33374143.ece",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.hungama.com/movies/",
+        "title": "FREE Music Online, New MP3 Song Download, Download New Free \u2026",
+        "content": "Watch trending web series, popular movies, and Hungama Originals, and enjoy audio stories, audiobooks, and podcasts.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.hungama.com",
+          "/movies/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Faces of farmer protest: Soldier, doctor, therapist and politician",
+        "content": "9 Dec 2020 \u00b7 Joginder Singh Ugrahan, 75, President, Bharatiya Kisan Union (Ekta Ugrahan) A former soldier from Sunam tehsil of Sangrur district, Punjab, ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://www.telegraphindia.com/india/faces-of-farmer-protest-soldier-doctor-therapist-and-politician/cid/1799946",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.telegraphindia.com",
+          "/india/faces-of-farmer-protest-soldier-doctor-therapist-and-politician/cid/1799946",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.careers360.com/colleges/vnr-vignana-jyothi-institute-of-engineering-and-technology-hyderabad/admission",
+        "title": "VNRVJIET Hyderabad Admission 2026: Dates, Fees, Eligibility, Cutoff ...",
+        "content": "Jul 21, 2026 \u00b7 How to Apply for VNR VJIET Admissions 2026? VNR Vignana Jyothi Institute of Engineering and Technology \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.careers360.com",
+          "/colleges/vnr-vignana-jyothi-institute-of-engineering-and-technology-hyderabad/admission",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bharatiya Kisan Union Organises Kisan Diwas Programme at ...",
+        "content": "26 Aug 2026 \u00b7 The General Manager NABARD, Vikas Mittal chaired the workshop in presence of Mission Director ... Bharatiya Kisan Union Ekta(Ugrahan)The words of ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://www.facebook.com/61556726154408/posts/bharatiya-kisan-union-organises-kisan-diwas-programme-at-warapora-soporewarapora/122316266474224205/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/61556726154408/posts/bharatiya-kisan-union-organises-kisan-diwas-programme-at-warapora-soporewarapora/122316266474224205/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://vnrvjietexams.net/",
+        "title": "Examination Branch | VNR VJIET",
+        "content": "\ud83c\udfe0 Home \ud83d\udccb Organization Chart \ud83d\udce2 Notifications \ud83d\udcc5 Timetables \ud83d\udcb3 Exam Registration \ud83c\udfab Download Hall Ticket \ud83d\udcca Results \ud83d\udd04 RC / RV Fee Payment \ud83d\udcd8 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "vnrvjietexams.net",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "BKU (Ekta-Ugrahan) supports farm unions' decision to reject ...",
+        "content": "21 Feb 2024 \u00b7 Bharatiya Kisan Union (Ekta-Ugrahan) on Wednesday appreciated the decision of protesting farmer unions to reject Central Government's offer ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://www.tribuneindia.com/news/punjab/bku-ekta-ugrahan-supports-farm-unions-decision-to-reject-govts-offer-oppose-use-of-force-on-peaceful-protest-593104/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.tribuneindia.com",
+          "/news/punjab/bku-ekta-ugrahan-supports-farm-unions-decision-to-reject-govts-offer-oppose-use-of-force-on-peaceful-protest-593104/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://in.linkedin.com/school/vnrvjiethyd/",
+        "title": "VNR Vignana Jyothi Institute of Engineering and Technology \u2026",
+        "content": "Team Kassak Squad from VNR VJIET, Hyderabad has secured the 3rd Position. The winning team comprises Purusharth Mishra, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/school/vnrvjiethyd/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Kisan Leader - Instagram",
+        "content": "Another key figure is Joginder Singh Ugrahan, president of Bharatiya Kisan Union (Ekta Ugrahan), who headed the largest farmer contingent during the Delhi ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://www.instagram.com/popular/kisan-leader/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/popular/kisan-leader/",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ]
+    ]
+  }
+}

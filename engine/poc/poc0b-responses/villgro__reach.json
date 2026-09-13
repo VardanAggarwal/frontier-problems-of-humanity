@@ -1,0 +1,336 @@
+{
+  "slug": "villgro",
+  "name": "Villgro",
+  "family": "reach",
+  "query": "\"Villgro\" contact twitter newsletter",
+  "question_ids": [
+    "contact_route",
+    "channel:*"
+  ],
+  "elapsed_s": 0.622,
+  "timestamp_utc": "2026-09-13T08:34:56.201719+00:00",
+  "request_index_this_run": 30,
+  "seconds_since_run_start": 743.5,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Villgro\" contact twitter newsletter",
+    "results": [
+      {
+        "url": "https://www.dafont.com/pt/",
+        "title": "DaFont - Baixar fontes",
+        "content": "Arquivos de fonte dispon\u00edveis gratuitamente. Procurar por ordem alfab\u00e9tica, por estilo, por autor ou por popularidade. As fontes \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.dafont.com",
+          "/pt/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.dafont.com/top.php",
+        "title": "Top | dafont.com",
+        "content": "Archive of freely downloadable fonts. Browse by alphabetical listing, by style, by author or by popularity.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.dafont.com",
+          "/top.php",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.zhihu.com/creator",
+        "title": "\u6709\u95ee\u9898\uff0c\u5c31\u4f1a\u6709\u7b54\u6848 - \u77e5\u4e4e",
+        "content": "\u77e5\u4e4e\uff0c\u4e2d\u6587\u4e92\u8054\u7f51\u9ad8\u8d28\u91cf\u7684\u95ee\u7b54\u793e\u533a\u548c\u521b\u4f5c\u8005\u805a\u96c6\u7684\u539f\u521b\u5185\u5bb9\u5e73\u53f0\uff0c\u4e8e 2011 \u5e74 1 \u6708\u6b63\u5f0f\u4e0a\u7ebf\uff0c\u4ee5\u300c\u8ba9\u4eba\u4eec\u66f4\u597d\u7684\u5206\u4eab\u77e5\u8bc6\u3001\u7ecf\u9a8c\u548c\u89c1 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/creator",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.zhihu.com/question/2051798134112752659",
+        "title": "\u56fd\u5185\u80fd\u4e0d\u80fd\u76f4\u63a5\u7528TikTok\uff1f - \u77e5\u4e4e",
+        "content": "Jun 20, 2026 \u00b7 \u7f8e\u7248tiktok\u4f7f\u7528\u65b9\u5f0f\u6709\u4e09\u4e2a\uff0c\u5728\u89e3\u51b3\u7f51\u7edc\u95ee\u9898\u540e\uff1a \u9e3f\u84996\uff0c\u53ea\u9700\u8981\u62d4\u4e0b\u6765\u56fd\u5185sim\u5361\u5728\u51fa\u5883\u6613\u5b89\u88c5 iOS\uff0c\u9700\u8981\u6ce8\u518c\u4e00\u4e2a\u5916 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.zhihu.com",
+          "/question/2051798134112752659",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.52pojie.cn/thread-2111184-1-1.html",
+        "title": "TikTok 45.4.3 \u6293\u5305\u4e4b\u53cc\u7f51\u7edc\u6808\u8bc1\u4e66\u6821\u9a8c\u5206\u6790 - \u543e\u7231\u7834\u89e3 ...",
+        "content": "Jun 5, 2026 \u00b7 \u5de5\u5177\u94fe\uff1agoogle px4\u771f\u673a\u3001proxypin 1.2.7\u3001IDA 9.0\u3002\u67d0\u6d77\u5916\u793e\u4ea4app\u3002\u5148hook\u4e0bconnect\u51fd\u6570\uff0c\u770b\u4e0bapp\u4f7f\u7528\u7684\u7f51\u7edc\u8bf7\u6c42 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.52pojie.cn",
+          "/thread-2111184-1-1.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.52pojie.cn/thread-996795-1-1.html",
+        "title": "\u3010\u8001\u65e7\u7535\u8111\u7684\u798f\u97f3\u3011win10LTSB2015\u5f00\u673a7\u79d2\uff08\u6709\u56fe\uff09 - \u543e\u7231 ...",
+        "content": "Jul 25, 2019 \u00b7 \u3010\u4e00\u952e\u8c03\u51fawin10\u9690\u85cf\u7684\u7167\u7247\u67e5\u770b\u5668\u3011\u6559 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.52pojie.cn",
+          "/thread-996795-1-1.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.dafont.com/new.php",
+        "title": "New fonts | dafont.com",
+        "content": "Archive of freely downloadable fonts. Browse by alphabetical listing, by style, by author or by popularity.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.dafont.com",
+          "/new.php",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.dafont.com/es/code39.font",
+        "title": "Code 39 | dafont.com",
+        "content": "Code 39 | dafont.com Primera vez que se vio en DaFont: antes de 2005",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.dafont.com",
+          "/es/code39.font",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.dafont.com/mtheme.php?id=4",
+        "title": "Gothic fonts | dafont.com",
+        "content": "Archive of freely downloadable fonts. Browse by alphabetical listing, by style, by author or by popularity.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.dafont.com",
+          "/mtheme.php",
+          "",
+          "id=4",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.dafont.com/ghastly-panic.font",
+        "title": "Ghastly Panic Font | dafont.com",
+        "content": "May 15, 2005 \u00b7 Ghastly Panic Font | dafont.com Created 2005, hand-lettered while watching the 2004 remake of \"Dawn of the Dead\". \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.dafont.com",
+          "/ghastly-panic.font",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

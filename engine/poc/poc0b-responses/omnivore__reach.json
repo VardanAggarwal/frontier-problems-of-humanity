@@ -1,0 +1,336 @@
+{
+  "slug": "omnivore",
+  "name": "Omnivore",
+  "family": "reach",
+  "query": "\"Omnivore\" contact twitter newsletter",
+  "question_ids": [
+    "contact_route",
+    "channel:*"
+  ],
+  "elapsed_s": 0.627,
+  "timestamp_utc": "2026-09-13T08:42:53.848045+00:00",
+  "request_index_this_run": 48,
+  "seconds_since_run_start": 1221.2,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Omnivore\" contact twitter newsletter",
+    "results": [
+      {
+        "url": "https://www.instagram.com/?hl=ru",
+        "title": "Instagram",
+        "content": "\u0421\u043e\u0437\u0434\u0430\u0439\u0442\u0435 \u0430\u043a\u043a\u0430\u0443\u043d\u0442 \u0438\u043b\u0438 \u0432\u043e\u0439\u0434\u0438\u0442\u0435 \u0432 Instagram \u2014 \u0434\u0435\u043b\u0438\u0442\u0435\u0441\u044c \u0438\u043d\u0442\u0435\u0440\u0435\u0441\u043d\u044b\u043c\u0438 \u043c\u043e\u043c\u0435\u043d\u0442\u0430\u043c\u0438 \u0441 \u043b\u044e\u0434\u044c\u043c\u0438, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u0432\u0430\u0441 \u043f\u043e\u043d\u0438\u043c\u0430\u044e\u0442.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/",
+          "",
+          "hl=ru",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.instagram.com/?hl=en",
+        "title": "Instagram",
+        "content": "Create an account or log in to Instagram - Share what you're into with the people who get you.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/",
+          "",
+          "hl=en",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://about.instagram.com/about-us/",
+        "title": "Connecting People Through Everyday Moments | About Instagram",
+        "content": "Make the most of your Instagram experience by discovering new feature updates, tips, and tools to engage with your audience.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "about.instagram.com",
+          "/about-us/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://help.instagram.com/182492381886913",
+        "title": "Help Center",
+        "content": "Find answers to your questions and learn how to use Instagram effectively with the Help Center.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "help.instagram.com",
+          "/182492381886913",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://help.instagram.com/1068717813216421",
+        "title": "Help Center",
+        "content": "Find answers to your questions and get support for using Instagram in the Help Center.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "help.instagram.com",
+          "/1068717813216421",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://about.instagram.com/",
+        "title": "Instagram - Capture, Create & Share What You Love",
+        "content": "Instagram makes it easy to capture, create and share what you love. Discover more about our features and commitment to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "about.instagram.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://business.instagram.com/?locale=fr_FR",
+        "title": "Marketing sur Instagram - Instagram for Business",
+        "content": "Instagram permet aux utilisateur\u00b7trices d\u2019interagir avec plus de deux millions d\u2019entreprises. D\u00e9couvrez comment utiliser Instagram \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "business.instagram.com",
+          "/",
+          "",
+          "locale=fr_FR",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://business.instagram.com/?locale=es_ES",
+        "title": "Instagram para empresas: marketing en Instagram - Instagram for \u2026",
+        "content": "M\u00e1s de dos millones de empresas conectan con las personas en Instagram. Descubre c\u00f3mo usar Instagram para llegar a nuevos \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "business.instagram.com",
+          "/",
+          "",
+          "locale=es_ES",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://privacycenter.instagram.com/guide/dyi/",
+        "title": "Export your informationn - Instagram",
+        "content": "Get a copy of information related to your Meta profiles and learn more about what you can download and how.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "privacycenter.instagram.com",
+          "/guide/dyi/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://privacycenter.instagram.com/",
+        "title": "Instagram - Meta",
+        "content": "Understand your privacy options and adjust your settings on Facebook, Instagram, and other Meta technologies. Learn about topics \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "privacycenter.instagram.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

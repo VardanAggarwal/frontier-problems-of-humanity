@@ -1,0 +1,179 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\"question_id\":\"q1_one_line\",\"source_id\":\"S2\",\"answer\":\"She advocates for climate action by promoting tree planting, conservation, and policies to reduce fossil fuel emissions.\",\"confidence\":0.9},\n    {\"question_id\":\"q2_type\",\"source_id\":\"S2\",\"answer\":\"individual\",\"confidence\":0.9},\n    {\"question_id\":\"q3_legs\",\"source_id\":\"S2\",\"answer\":\"activism\",\"confidence\":0.9},\n    {\"question_id\":\"q5_ecosystem_role\",\"source_id\":\"S2\",\"answer\":\"capacity-builder\",\"confidence\":0.8},\n    {\"question_id\":\"q6_affected_led\",\"source_id\":\"S2\",\"answer\":\"no\",\"confidence\":0.8},\n    {\"question_id\":\"q9_contact_route\",\"source_id\":\"S2\",\"answer\":\"LinkedIn profile\",\"confidence\":0.9},\n    {\"question_id\":\"q9_contact_route\",\"source_id\":\"S4\",\"answer\":\"Twitter @BhavreenMK\",\"confidence\":0.9},\n    {\"question_id\":\"q14_ask_need\",\"source_id\":\"S2\",\"answer\":\"policy access to reduce fossil fuel emissions\",\"confidence\":0.8},\n    {\"question_id\":\"q14_ask_need\",\"source_id\":\"S2\",\"answer\":\"partners to amplify advocacy\",\"confidence\":0.7},\n    {\"question_id\":\"q15_ask_offer\",\"source_id\":\"S2\",\"answer\":\"climate change information and advocacy\",\"confidence\":0.8},\n    {\"question_id\":\"q15_ask_offer\",\"source_id\":\"S2\",\"answer\":\"social media channel for outreach\",\"confidence\":0.8},\n    {\"question_id\":\"q16_channel\",\"source_id\":\"S2\",\"answer\":\"LinkedIn profile\",\"confidence\":0.9},\n    {\"question_id\":\"q16_channel\",\"source_id\":\"S4\",\"answer\":\"Twitter @BhavreenMK\",\"confidence\":0.9}\n  ],\n  \"claims\": [\n    {\"field\":\"title\",\"value\":\"Bhavreen Kandhari\",\"confidence\":0.9},\n    {\"field\":\"type\",\"value\":\"individual\",\"confidence\":0.9},\n    {\"field\":\"legs\",\"value\":\"[\\\"activism\\\"]\",\"confidence\":0.9},\n    {\"field\":\"depth\",\"value\":\"tracked\",\"confidence\":0.7},\n    {\"field\":\"ecosystem_role\",\"value\":\"[\\\"capacity-builder\\\"]\",\"confidence\":0.8},\n    {\"field\":\"affected_led\",\"value\":\"no\",\"confidence\":0.8},\n    {\"field\":\"contact_route\",\"value\":\"LinkedIn profile; Twitter @BhavreenMK\",\"confidence\":0.9},\n    {\"field\":\"ask:need:policy access\",\"value\":\"policy access to reduce fossil fuel emissions\",\"confidence\":0.8},\n    {\"field\":\"ask:need:partners\",\"value\":\"partners to amplify advocacy\",\"confidence\":0.7},\n    {\"field\":\"ask:offer:information\",\"value\":\"climate change information and advocacy\",\"confidence\":0.8},\n    {\"field\":\"ask:offer:channel\",\"value\":\"social media channel for outreach\",\"confidence\":0.8},\n    {\"field\":\"channel:twitter\",\"value\":\"@BhavreenMK\",\"confidence\":0.9},\n    {\"field\":\"channel:linkedin\",\"value\":\"linkedin.com/in/bhavreen-kandhari-80283026a\",\"confidence\":0.9}\n  ],\n  \"emits\": [\n    {\"kind\":\"actor\",\"name\":\"Early Childhood Matters\",\"hint\":\"Early childhood education platform\",\"signals\":{}}\n  ],\n  \"edges\": [\n    {\"dst_name\":\"Climate change\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":3,\"evidence\":\"LinkedIn post urging tree planting, conservation, and policies to reduce fossil fuel emissions\",\"stance\":null},\n    {\"dst_name\":\"Early Childhood Matters\",\"dst_kind\":\"actor\",\"edge_kind\":\"affiliated\",\"relevance\":1,\"evidence\":\"Profile page on earlychildhoodmatters.online lists Bhavreen Kandhari as a contributor\",\"stance\":null}\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S2",
+    "answer": "She advocates for climate action by promoting tree planting, conservation, and policies to reduce fossil fuel emissions.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S2",
+    "answer": "individual",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S2",
+    "answer": "activism",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S2",
+    "answer": "capacity-builder",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S2",
+    "answer": "no",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S2",
+    "answer": "LinkedIn profile",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S4",
+    "answer": "Twitter @BhavreenMK",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S2",
+    "answer": "policy access to reduce fossil fuel emissions",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S2",
+    "answer": "partners to amplify advocacy",
+    "confidence": 0.7
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S2",
+    "answer": "climate change information and advocacy",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S2",
+    "answer": "social media channel for outreach",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S2",
+    "answer": "LinkedIn profile",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S4",
+    "answer": "Twitter @BhavreenMK",
+    "confidence": 0.9
+   }
+  ],
+  "claims": [
+   {
+    "field": "title",
+    "value": "Bhavreen Kandhari",
+    "confidence": 0.9
+   },
+   {
+    "field": "type",
+    "value": "individual",
+    "confidence": 0.9
+   },
+   {
+    "field": "legs",
+    "value": "[\"activism\"]",
+    "confidence": 0.9
+   },
+   {
+    "field": "depth",
+    "value": "tracked",
+    "confidence": 0.7
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "[\"capacity-builder\"]",
+    "confidence": 0.8
+   },
+   {
+    "field": "affected_led",
+    "value": "no",
+    "confidence": 0.8
+   },
+   {
+    "field": "contact_route",
+    "value": "LinkedIn profile; Twitter @BhavreenMK",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:need:policy access",
+    "value": "policy access to reduce fossil fuel emissions",
+    "confidence": 0.8
+   },
+   {
+    "field": "ask:need:partners",
+    "value": "partners to amplify advocacy",
+    "confidence": 0.7
+   },
+   {
+    "field": "ask:offer:information",
+    "value": "climate change information and advocacy",
+    "confidence": 0.8
+   },
+   {
+    "field": "ask:offer:channel",
+    "value": "social media channel for outreach",
+    "confidence": 0.8
+   },
+   {
+    "field": "channel:twitter",
+    "value": "@BhavreenMK",
+    "confidence": 0.9
+   },
+   {
+    "field": "channel:linkedin",
+    "value": "linkedin.com/in/bhavreen-kandhari-80283026a",
+    "confidence": 0.9
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "Early Childhood Matters",
+    "hint": "Early childhood education platform",
+    "signals": {}
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "Climate change",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "LinkedIn post urging tree planting, conservation, and policies to reduce fossil fuel emissions",
+    "stance": null
+   },
+   {
+    "dst_name": "Early Childhood Matters",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 1,
+    "evidence": "Profile page on earlychildhoodmatters.online lists Bhavreen Kandhari as a contributor",
+    "stance": null
+   }
+  ]
+ },
+ "parse_error": null
+}

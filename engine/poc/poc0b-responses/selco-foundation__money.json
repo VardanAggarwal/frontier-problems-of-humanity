@@ -1,0 +1,337 @@
+{
+  "slug": "selco-foundation",
+  "name": "SELCO Foundation",
+  "family": "money",
+  "query": "\"SELCO Foundation\" funding raised grant crore",
+  "question_ids": [
+    "funding",
+    "scale_metric",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.71,
+  "timestamp_utc": "2026-09-13T08:25:37.729401+00:00",
+  "request_index_this_run": 8,
+  "seconds_since_run_start": 185.1,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"SELCO Foundation\" funding raised grant crore",
+    "results": [
+      {
+        "url": "https://www.pinkbike.com/",
+        "title": "Mountain Bike News, Photos, Videos & Events | Pinkbike",
+        "content": "Pinkbike is the homepage of mountain biking. Stay updated with the latest news, reviews, videos, buyer's guides and racing results. \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.pinkbike.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/answer/2802168?hl=en",
+        "title": "Channel or account terminations - YouTube Help - Google Help",
+        "content": "Note: Creators have up to 1 year from the date their channel was terminated to submit an appeal. There is also a limit on how many \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/answer/2802168",
+          "",
+          "hl=en",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/answer/6159254?hl=en",
+        "title": "Can\u2019t access YouTube - YouTube Help - Google Help",
+        "content": "If you see an error page instead of YouTube when going to youtube.com, it could be for one of the following reasons: It could be an \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/answer/6159254",
+          "",
+          "hl=en",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.pinkbike.com/news/field-test-yt-jeffsy-core-1.html",
+        "title": "Field Test: YT Jeffsy Core 1 - Where Value Meets Performance",
+        "content": "May 30, 2024 \u00b7 The bright yellow YT Jeffsy Core 1 was one of the highlights of the Value Field Test, both literally and figuratively \u2013 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.pinkbike.com",
+          "/news/field-test-yt-jeffsy-core-1.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/answer/171664?hl=fr",
+        "title": "Valider votre compte YouTube - Aide YouTube - Google Help",
+        "content": "Nous pouvons \u00e9galement vous demander de valider votre compte lors de votre inscription. Remarque : Tous les op\u00e9rateurs ne \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/answer/171664",
+          "",
+          "hl=fr",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.pinkbike.com/buysell/list/?q=Decoy",
+        "title": "Results for \"Decoy\" - Pinkbike BuySell Search",
+        "content": "Explore North America's largest marketplace for used mountain bikes and parts.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.pinkbike.com",
+          "/buysell/list/",
+          "",
+          "q=Decoy",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/answer/1646861?hl=zh-Hant",
+        "title": "\u5efa\u7acb YouTube \u983b\u9053",
+        "content": "\u5efa\u7acb\u500b\u4eba\u983b\u9053 \u8acb\u6309\u7167\u4e0b\u5217\u6307\u793a\u5efa\u7acb\u81ea\u884c\u7ba1\u7406\u7684\u983b\u9053\u3002 \u767b\u5165 YouTube \u96fb\u8166\u7248\u6216\u884c\u52d5\u7248\u7db2\u7ad9\u3002 \u4f9d\u5e8f\u6309\u4e00\u4e0b\u500b\u4eba\u8cc7\u6599\u76f8\u7247 \u300c\u8a2d\u5b9a\u300d\u5716\u793a \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/answer/1646861",
+          "",
+          "hl=zh-Hant",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.pinkbike.com/news/field-test-2022-yt-capra.html",
+        "title": "Field Test: 2022 YT Capra - The Speedy All-Rounder - Pinkbike",
+        "content": "Sep 8, 2021 \u00b7 The third generation of the Capra was launched earlier this year, returning to YT's lineup with updated geometry, a \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.pinkbike.com",
+          "/news/field-test-2022-yt-capra.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://support.google.com/youtube/answer/6000976?hl=zh-Hant",
+        "title": "\u67e5\u770b\u3001\u7ba1\u7406\u6216\u522a\u9664\u7559\u8a00 - YouTube\u8aaa\u660e - Google Help",
+        "content": "\u5982\u8981\u67e5\u770b\u5f71\u7247\u7559\u8a00\uff0c\u8acb\u5411\u4e0b\u6372\u52d5\u5f71\u7247\u9801\u9762\u3002\u7559\u8a00\u56de\u8986\u6703\u4ee5\u8a0e\u8ad6\u4e32\u7684\u5f62\u5f0f\u5448\u73fe\uff0c\u65b9\u4fbf\u67e5\u770b\u5b8c\u6574\u5c0d\u8a71\u3002YouTube \u7559\u8a00\u4e00\u5f8b\u8a2d\u70ba\u516c\u958b\uff0c\u4efb\u4f55 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "support.google.com",
+          "/youtube/answer/6000976",
+          "",
+          "hl=zh-Hant",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.pinkbike.com/news/yt-izzo-review-trail-bike-2020.html",
+        "title": "Review: YT's All-New Izzo Trail Bike - Pinkbike",
+        "content": "Apr 17, 2020 \u00b7 The 130mm-travel Izzo is YT's stab at the lightweight trail bike.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.pinkbike.com",
+          "/news/yt-izzo-review-trail-bike-2020.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

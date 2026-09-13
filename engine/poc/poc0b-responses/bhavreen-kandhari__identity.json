@@ -1,0 +1,697 @@
+{
+  "slug": "bhavreen-kandhari",
+  "name": "Bhavreen Kandhari",
+  "family": "identity",
+  "query": "\"Bhavreen Kandhari\"",
+  "question_ids": [
+    "one_line",
+    "type",
+    "legs",
+    "geography"
+  ],
+  "elapsed_s": 0.725,
+  "timestamp_utc": "2026-09-13T09:06:47.007052+00:00",
+  "request_index_this_run": 103,
+  "seconds_since_run_start": 2654.3,
+  "n_results": 20,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "mojeek",
+      "Suspended: access denied"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "google"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [],
+  "raw_response": {
+    "query": "\"Bhavreen Kandhari\"",
+    "results": [
+      {
+        "url": "https://www.amazon.fr/",
+        "title": "Amazon.fr : livres, DVD, jeux vid\u00e9o, musique, high-tech, informatique ...",
+        "content": "Conditions g\u00e9n\u00e9rales de vente Vos informations personnelles Cookies Annonces bas\u00e9es sur vos centres d\u2019int\u00e9r\u00eat \u00a9 1996-2026, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.amazon.fr",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari | LinkedIn - LinkedIn",
+        "content": "Bhavreen Kandhari. Passionate #WarriorMom driving Clean Air mission. 'Our Kids Climate' Parent Fellow 2023, leading impactful public movements for 20+ years.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "url": "https://in.linkedin.com/in/bhavreen-kandhari-80283026a",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/in/bhavreen-kandhari-80283026a",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.amazon.fr/b?node=14864804031",
+        "title": "Amazon.fr : : Toutes les cat\u00e9gories",
+        "content": "Conditions g\u00e9n\u00e9rales de vente Vos informations personnelles Cookies Annonces bas\u00e9es sur vos centres d\u2019int\u00e9r\u00eat \u00a9 1996-2026, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.amazon.fr",
+          "/b",
+          "",
+          "node=14864804031",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari (@BhavreenMK) / X",
+        "content": "Bhavreen Kandhari. @BhavreenMK. 'What We Think We Become'|Copywriter to ... Bhavreen Kandhari \u00b7 @BhavreenMK \u00b7 Jun 28, 2020. There are 43 critically polluted ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "url": "https://x.com/BhavreenMK",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "x.com",
+          "/BhavreenMK",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://play.google.com/store/apps/details?id=com.amazon.mShop.android.shopping&hl=fr",
+        "title": "Amazon Shopping \u2013 Applications sur Google Play",
+        "content": "\u2022 Achetez sur Amazon.co.uk, Amazon.de, Amazon.es, Amazon.fr, Amazon.com, Amazon.it, Amazon.cn, Amazon.co.jp ou \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "play.google.com",
+          "/store/apps/details",
+          "",
+          "id=com.amazon.mShop.android.shopping&hl=fr",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari - Early Childhood Matters",
+        "content": "Bhavreen Kandhari is an Indian activist who trained as a copywriter, and is the mother of 17-year-old twins. She helps to run campaigns including ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "url": "https://earlychildhoodmatters.online/el/community/bhavreen-kandhari/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "earlychildhoodmatters.online",
+          "/el/community/bhavreen-kandhari/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.cdn.amazon.fr/-/en/",
+        "title": "Amazon.fr: books, DVDs, video games, music, high-tech, computers, \u2026",
+        "content": "Buy and sell online from millions of products in stock. Free delivery for orders over \u20ac25. Your items at low prices: culture, high-tech, \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.cdn.amazon.fr",
+          "/-/en/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari - Down To Earth",
+        "content": "Parent and environmentalist spearheading public movements to focus and call for action on environmental justice issues. Bhavreen Kandhari. Photo: iStock.",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "url": "https://www.downtoearth.org.in/author/bhavreen-kandhari",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.downtoearth.org.in",
+          "/author/bhavreen-kandhari",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.amazon.com/",
+        "title": "Amazon.com. Spend less. Smile more.",
+        "content": "Amazon Visa Amazon Store Card Amazon Secured Card Amazon Business Card Shop with Points Credit Card Marketplace Reload \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.amazon.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Moms Lead Global Call for Climate Action - ECDAN",
+        "content": "20 May 2025 \u00b7 In Delhi, India, where toxic air and seasonal pollution threaten children's health, Bhavreen Kandhari has emerged as a powerful champion for ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "url": "https://ecdan.org/blog/moms-lead-global-call-for-climate-action/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "ecdan.org",
+          "/blog/moms-lead-global-call-for-climate-action/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://amc.amazon.com/",
+        "title": "Amazon Sign-In",
+        "content": "By continuing, you agree to Amazon's Conditions of Use and Privacy Notice. Need help?",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "amc.amazon.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Malhotra Kandhari - Facebook",
+        "content": "Bhavreen Malhotra Kandhari. 6387 likes \u00b7 5 talking about this. Concerned Citizen, Mother,Environment Activist #MyRightToBreathe #DelhiTreesSos #XR #FFF...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "url": "https://www.facebook.com/bhavreen.kandhari/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/bhavreen.kandhari/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.primevideo.com/",
+        "title": "The Grand Tour - Welcome to Prime Video",
+        "content": "Enjoy exclusive Amazon Originals as well as popular movies and TV shows. Watch anytime, anywhere. Start your free trial.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.primevideo.com",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari | Marmara Urban Forum",
+        "content": "2 Oct 2025 \u00b7 Founder, Warrior Moms. Bhavreen Kandhari is a clean air advocate working on this mission for over two decades, transforming her personal concern ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "url": "https://marmaraurbanforum.org/s/bhavreen-kandhari?l=en",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "marmaraurbanforum.org",
+          "/s/bhavreen-kandhari",
+          "",
+          "l=en",
+          ""
+        ]
+      },
+      {
+        "url": "https://www.amazon.com/your-account",
+        "title": "Amazon.com",
+        "content": "Manage your Amazon account settings, orders, payments, and preferences for a personalized shopping experience.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.amazon.com",
+          "/your-account",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Inside a Delhi 'Warrior Mom's' fight for clean air - Dialogue Earth",
+        "content": "6 Mar 2025 \u00b7 For International Women's Day, we spotlight Bhavreen Kandhari, co-founder of a network of Indian mothers demanding clean air for their ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "url": "https://dialogue.earth/en/pollution/inside-a-delhi-warrior-moms-fight-for-clean-air/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "dialogue.earth",
+          "/en/pollution/inside-a-delhi-warrior-moms-fight-for-clean-air/",
+          "",
+          "",
+          ""
+        ]
+      },
+      {
+        "url": "https://fr.wikipedia.org/wiki/Amazon",
+        "title": "Amazon \u2014 Wikip\u00e9dia",
+        "content": "AWS propose un ensemble de produits tels que le service de stockage en ligne avec Amazon Simple Storage Service (Amazon S3), \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "fr.wikipedia.org",
+          "/wiki/Amazon",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari Speaks on Delhi-NCR Air Pollution Protest",
+        "content": "18 Nov 2025 \u00b7 Environment activist Bhavreen Kandhari addresses the ongoing protests in Delhi-NCR over severely deteriorating air quality and rising ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "url": "https://www.youtube.com/watch?v=p7IpcY8Cswg",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "www.youtube.com",
+          "/watch",
+          "",
+          "v=p7IpcY8Cswg",
+          ""
+        ]
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Amazon_(company)",
+        "title": "Amazon (company) - Wikipedia",
+        "content": "In January 2026, Amazon announced it would close all of its Amazon Go and Amazon Fresh stores to shift focus to its online same \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "en.wikipedia.org",
+          "/wiki/Amazon_(company)",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "title": "Bhavreen Kandhari vs Shri C. D. Singh And Ors on 9 January ...",
+        "content": "Bhavreen Kandhari vs Shri C. D. Singh And Ors on 9 January, 2026. Author: Jasmeet Singh. Bench: Jasmeet Singh. $~45-50 * IN THE HIGH COURT OF DELHI AT NEW ...",
+        "img_src": "",
+        "iframe_src": "",
+        "audio_src": "",
+        "thumbnail": "",
+        "publishedDate": null,
+        "pubdate": "",
+        "length": null,
+        "views": "",
+        "author": "",
+        "metadata": "",
+        "priority": "",
+        "engines": [
+          "google"
+        ],
+        "open_group": false,
+        "close_group": false,
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "url": "https://indiankanoon.org/doc/116950867/",
+        "engine": "google",
+        "parsed_url": [
+          "https",
+          "indiankanoon.org",
+          "/doc/116950867/",
+          "",
+          "",
+          ""
+        ]
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "mojeek",
+        "Suspended: access denied"
+      ]
+    ]
+  }
+}

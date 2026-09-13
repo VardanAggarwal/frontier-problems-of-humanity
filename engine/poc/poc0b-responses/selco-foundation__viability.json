@@ -1,0 +1,84 @@
+{
+  "slug": "selco-foundation",
+  "name": "SELCO Foundation",
+  "family": "viability",
+  "query": "\"SELCO Foundation\" revenue customers model",
+  "question_ids": [
+    "tag:viability_note",
+    "legs"
+  ],
+  "elapsed_s": 0.683,
+  "timestamp_utc": "2026-09-13T08:26:22.146219+00:00",
+  "request_index_this_run": 10,
+  "seconds_since_run_start": 229.5,
+  "n_results": 1,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"SELCO Foundation\" revenue customers model",
+    "results": [
+      {
+        "url": "https://www.hanoikayak.com/tsuukin_chatlady/",
+        "title": "\u4ea4\u901a\u306e\u4fbf\u304c\u826f\u3044\u798f\u5ca1\u306f\u901a\u52e4\u30c1\u30e3\u30c3\u30c8\u30ec\u30c7\u30a3\u3092\u3084\u308a\u3084\u3059\u3044 - \u798f\u5ca1\u3067 \u2026",
+        "content": "Jul 16, 2021 \u00b7 \u798f\u5ca1\u3067\u30c1\u30e3\u30c3\u30c8\u30ec\u30c7\u30a3\u306e\u4ed5\u4e8b\u3092\u3059\u308b\u306e\u306b\u3001\u901a\u52e4\u3067\u8077\u5834\u306b\u901a\u3046\u65b9\u6cd5\u304c\u3042\u308a\u307e\u3059\u3002\u798f\u5ca1\u306f\u4ea4\u901a\u306e\u5229\u4fbf\u6027\u306b\u512a\u308c\u3066\u3044\u308b\u306e\u3067 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.hanoikayak.com",
+          "/tsuukin_chatlady/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

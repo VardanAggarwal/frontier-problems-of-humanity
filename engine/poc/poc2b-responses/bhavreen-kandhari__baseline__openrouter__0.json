@@ -1,0 +1,66 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\n      \"question_id\": \"q1_one_line\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Bhavreen Kandhari co-founded Warrior Moms, a group that mobilizes mothers to demand clean air in India.\",\n      \"confidence\": 0.95\n    },\n    {\n      \"question_id\": \"q2_type\",\n      \"source_id\": \"S1\",\n      \"answer\": \"individual\",\n      \"confidence\": 0.95\n    },\n    {\n      \"question_id\": \"q3_legs\",\n      \"source_id\": \"S1\",\n      \"answer\": \"activism\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q4_lifecycle\",\n      \"source_id\": \"S1\",\n      \"answer\": \"operating as of November 2022 (around COP27)\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q5_ecosystem_role\",\n      \"source_id\": \"S1\",\n      \"answer\": \"convener\",\n      \"confidence\": 0.7\n    },\n    {\n      \"question_id\": \"q6_affected_led\",\n      \"source_id\": \"S1\",\n      \"answer\": \"yes\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q7_representation_unit\",\n      \"source_id\": \"S1\",\n      \"answer\": \"local-affected\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q8_geography\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Delhi, India\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q12_viability_note\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Their viability stems from being led by affected mothers who have personal stakes in clean air.\",\n      \"confidence\": 0.85\n    }\n  ],\n  \"claims\": [],\n  \"emits\": [],\n  \"edges\": []\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S1",
+    "answer": "Bhavreen Kandhari co-founded Warrior Moms, a group that mobilizes mothers to demand clean air in India.",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S1",
+    "answer": "individual",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S1",
+    "answer": "activism",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S1",
+    "answer": "operating as of November 2022 (around COP27)",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S1",
+    "answer": "convener",
+    "confidence": 0.7
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S1",
+    "answer": "yes",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S1",
+    "answer": "local-affected",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S1",
+    "answer": "Delhi, India",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S1",
+    "answer": "Their viability stems from being led by affected mothers who have personal stakes in clean air.",
+    "confidence": 0.85
+   }
+  ],
+  "claims": [],
+  "emits": [],
+  "edges": []
+ },
+ "parse_error": null,
+ "truncated": false
+}

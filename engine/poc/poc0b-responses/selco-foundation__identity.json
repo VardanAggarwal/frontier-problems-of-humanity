@@ -1,0 +1,797 @@
+{
+  "slug": "selco-foundation",
+  "name": "SELCO Foundation",
+  "family": "identity",
+  "query": "\"SELCO Foundation\"",
+  "question_ids": [
+    "one_line",
+    "type",
+    "legs",
+    "geography"
+  ],
+  "elapsed_s": 0.832,
+  "timestamp_utc": "2026-09-13T08:25:08.967851+00:00",
+  "request_index_this_run": 7,
+  "seconds_since_run_start": 156.3,
+  "n_results": 26,
+  "unresponsive_engines": [
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing",
+    "brave"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"SELCO Foundation\"",
+    "results": [
+      {
+        "url": "https://selcofoundation.org/",
+        "title": "Selco Foundation: Empowering Environmental Sustainability",
+        "content": "SELCO Foundation leads in advancing sustainable development through innovative sustainable development goals, empowering communities with renewable energy",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "selcofoundation.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "brave",
+          "bing"
+        ],
+        "positions": [
+          1,
+          1
+        ],
+        "score": 4.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null,
+        "pubdate": "2021-03-16 00:00:00"
+      },
+      {
+        "url": "https://in.linkedin.com/company/selco-foundation",
+        "title": "SELCO Foundation | LinkedIn",
+        "content": "Sustainable energy practitioners ... quality of life. In response, SELCO India (for profit, social enterprise) created SELCO Foundation on 5th October, 2010 as a public charitable trust, with the mission to: 1....",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "in.linkedin.com",
+          "/company/selco-foundation",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "brave",
+          "bing"
+        ],
+        "positions": [
+          3,
+          3
+        ],
+        "score": 1.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.lemelson.org/selco-foundation/",
+        "title": "SELCO Foundation | The Lemelson Foundation",
+        "content": "The SELCO Foundation is a nonprofit headquartered in India that develops and deploys clean energy solutions to improve livelihoods and increase access to healthcare and education in under-resourced communities.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.lemelson.org",
+          "/selco-foundation/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "brave",
+          "bing"
+        ],
+        "positions": [
+          8,
+          4
+        ],
+        "score": 0.75,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null,
+        "pubdate": "2026-05-27 00:00:00"
+      },
+      {
+        "url": "https://www.facebook.com/SELCOFoundation/",
+        "title": "SELCO Foundation | Bangalore - Facebook",
+        "content": "SELCO Foundation, Bangalore. 5,989 likes \u00b7 17 talking about this \u00b7 38 were here. An open source not-for-profit enterprise creating solutions linking sustainable energy to poverty eradication across...",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.facebook.com",
+          "/SELCOFoundation/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "brave",
+          "bing"
+        ],
+        "positions": [
+          6,
+          10
+        ],
+        "score": 0.5333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://selcofoundation.org/selco-foundation-vision/",
+        "title": "SELCO Foundation: Vision - Selco Foundation",
+        "content": "SELCO Foundation seeks to inspire and implement solutions that alleviate poverty by improving access to sustainable energy to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "selcofoundation.org",
+          "/selco-foundation-vision/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.macfound.org/grantee/selco-foundation-10115236/",
+        "title": "SELCO Foundation - MacArthur Foundation",
+        "content": "Login into your grantee account, reset your password, or submit an idea to the MacArthur Foundation. ... SELCO Foundation is an India-based not-for-profit organization that aims to democratize essential services such as health, education, and access to respectable livelihoods by using sustainable ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.macfound.org",
+          "/grantee/selco-foundation-10115236/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.sdg7forsdg8.selcofoundation.org/",
+        "title": "SDG7 FOR SDG8 | SELCO Foundation",
+        "content": "SELCO Foundation seeks to inspire and implement socially, financially and environmentally inclusive solutions by improving access \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.sdg7forsdg8.selcofoundation.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "http://103.145.37.246/",
+        "title": "SELCO Foundation \u2014 Energy for Human Dignity",
+        "content": "Explore sustainable decentralized energy interventions powering livelihoods and essential services. Browse 2\u20133 active project \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "http",
+          "103.145.37.246",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://cases.som.yale.edu/selco-foundation/overview/introduction",
+        "title": "Introduction | SELCO Foundation | Yale Case Study Research and Development",
+        "content": "Hande founded the SELCO Foundation (SF) to apply the insights gained at SELCO India to the problems of development writ large.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "cases.som.yale.edu",
+          "/selco-foundation/overview/introduction",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.instagram.com/selcoofficial/?hl=en",
+        "title": "SELCO Foundation (@selcoofficial)",
+        "content": "3,598 seguidores 33 seguidos, 650 publicaciones - SELCO Foundation (@selcoofficial) en Instagram: \"End-users' voice with robust, field-proven technological + financial + social models in health, livelihoods through decentralised #EnergyAccess.\"",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.instagram.com",
+          "/selcoofficial/",
+          "",
+          "hl=en",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.aicselco.org/",
+        "title": "AIC-SELCO Foundation",
+        "content": "Atal Incubation Centre-SELCO Foundation in Guwahati is a centre that enables and empowers sustainable energy based innovators \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.aicselco.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://cases.som.yale.edu/selco-foundation",
+        "title": "SELCO Foundation | Yale Case Study Research and Development",
+        "content": "The SELCO Foundation, established by Harish Hande in 2010, focuses on providing decentralized renewable energy (DRE) solutions to rural, impoverished communities, emphasizing a user-centered, ecosystem-based approach. The Foundation aims to integrate sustainable energy solutions within the ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "cases.som.yale.edu",
+          "/selco-foundation",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "url": "https://collab.selcofoundation.org/",
+        "title": "Home - Collab",
+        "content": "SELCO Foundation seeks to inspire and implement solutions that alleviate poverty by improving access to sustainable energy to \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "collab.selcofoundation.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.selcofoundation.org/structure/",
+        "title": "SELCO Structure | Selco Foundation",
+        "content": "ELCO Foundation was founded in 2010 as an open source, not for profit, public charitable trust.",
+        "publishedDate": "2017-09-25T00:00:00",
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.selcofoundation.org",
+          "/structure/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2017-09-25 00:00:00"
+      },
+      {
+        "url": "https://erp.selcofoundation.org/",
+        "title": "Selco Foundation - Login",
+        "content": "You need to enable JavaScript for your app to work. To enable it follow the instructions in the following link: enable-javascript.com. \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "erp.selcofoundation.org",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://selcofoundation.org/incubation/",
+        "title": "Incubation Solutions for Local Entrepreneur Development",
+        "content": "Atal Incubation Centre-SELCO Foundation was established in 2019 in partnership with the Atal Innovation Mission, Niti Aayog, Government of India. It is based out of Guwahati and enables and empowers sustainable energy based innovators and entrepreneurs to scale in the North East of India.",
+        "publishedDate": "2024-11-15T00:00:00",
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "selcofoundation.org",
+          "/incubation/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          11
+        ],
+        "score": 0.09090909090909091,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2024-11-15 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://cleancooking.org/sector-directory/selco-foundation/",
+        "title": "SELCO Foundation | Clean Cooking Alliance",
+        "content": "SELCO Foundation is a nonprofit organization registered in 2010. Its main aim is to achieve sustainable development of under-served communities by establishing appropriate technologies, services and systems.",
+        "publishedDate": "2021-08-06T00:00:00",
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "cleancooking.org",
+          "/sector-directory/selco-foundation/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          12
+        ],
+        "score": 0.08333333333333333,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2021-08-06 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://energypedia.info/wiki/ACCESS_CSO_-_SELCO_Foundation",
+        "title": "ACCESS CSO - SELCO Foundation - energypedia",
+        "content": "SELCO Foundation is focused on building enabling conditions- the ecosystem- to increase the accessibility, affordability and sustainability of decentralized renewable energy sector for the poor.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "energypedia.info",
+          "/wiki/ACCESS_CSO_-_SELCO_Foundation",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          13
+        ],
+        "score": 0.07692307692307693,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://skoll.org/organization/selco-foundation/",
+        "title": "Selco Foundation - Skoll.org",
+        "content": "Harish installed the first 1000 ... In 2010, Harish founded SELCO Foundation, as an open source platform to create solutions linking sustainable energy to poverty eradication....",
+        "publishedDate": "2022-12-01T00:00:00",
+        "thumbnail": "https://imgs.search.brave.com/T1sBQQYb22gJvwC046EfJKjsZg4m7Upx3GLuPNZfbcU/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly9zMTI5/ODIucGNkbi5jby93/cC1jb250ZW50L3Vw/bG9hZHMvMjAxNS8w/MS9zZWxjby0yMTIu/cG5n",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "skoll.org",
+          "/organization/selco-foundation/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2022-12-01 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://widgets.weforum.org/lastmiletop50india/selco-foundation/index.html",
+        "title": "SELCO Foundation",
+        "content": "SELCO Foundation envisions a socially sustainable society. It seeks to create avenues to build assets, enhance quality of life and create wealth that will uplift deprived sections of society through sustainable development, replicable social ...",
+        "publishedDate": null,
+        "thumbnail": "https://imgs.search.brave.com/Ns6yvkcp5KVhhrRbYlUZ3EBTt9zRUQEcqXKgxo-2ztg/rs:fit:200:200:1:0/g:ce/aHR0cHM6Ly93aWRn/ZXRzLndlZm9ydW0u/b3JnL2xhc3RtaWxl/dG9wNTBpbmRpYS9f/bnV4dC9pbWcvc29j/aWFsLjY2MGI4ZDUu/anBn",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "widgets.weforum.org",
+          "/lastmiletop50india/selco-foundation/index.html",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          14
+        ],
+        "score": 0.07142857142857142,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://selcofoundation.org/incubatees/",
+        "title": "Incubatees",
+        "content": "SELCO Foundation incubates enterprises and institutions across the sustainable energy value chain.",
+        "publishedDate": "2021-06-25T00:00:00",
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "selcofoundation.org",
+          "/incubatees/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          15
+        ],
+        "score": 0.06666666666666667,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2021-06-25 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://selcofoundation.org/built-environments/",
+        "title": "Built Environments - Selco Foundation Energy-Efficient Built environment for Comfort and Resilience",
+        "content": "Selco foundation working on building sustainable energy-efficient built environments for enhancing comfort, resilience, and affordability for micro entrepreneurs",
+        "publishedDate": "2024-11-15T00:00:00",
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "selcofoundation.org",
+          "/built-environments/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          16
+        ],
+        "score": 0.0625,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2024-11-15 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.developmentaid.org/organizations/view/211221/selco-foundation",
+        "title": "\u2611\ufe0fSELCO Foundation \u2014 NGO from India, experience with FCDO, USAID, GIZ, WHO, NPO, IRENA \u2014 Agriculture & Rural Development, Energy, Environment & Climate, Social Development sectors \u2014 DevelopmentAid",
+        "content": "Since its inception, SELCO Foundation has been focused on creating and strengthening the ecosystem for last mile energy solutions for poor people across varied contexts.",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.developmentaid.org",
+          "/organizations/view/211221/selco-foundation",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          17
+        ],
+        "score": 0.058823529411764705,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://selcofoundation.org/education/",
+        "title": "Education",
+        "content": "SELCO Foundation create better learning environment using renewable energy by enabling last-mile education.",
+        "publishedDate": "2024-04-08T00:00:00",
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "selcofoundation.org",
+          "/education/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          18
+        ],
+        "score": 0.05555555555555555,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2024-04-08 00:00:00"
+      },
+      {
+        "template": "default.html",
+        "url": "https://www.zoominfo.com/c/selco-foundation/356278973",
+        "title": "Selco Foundation - Overview, News & Similar companies | ZoomInfo.com",
+        "content": "Some of the popular technologies that Selco Foundation uses are: Gupy, SketchUp, Zingfit, WordPress.org ... SELCO Foundation is dedicated to advancing sustainable development by empowering communities with renewable energy solutions. The organization focuses on alleviating poverty and combating ...",
+        "publishedDate": null,
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "www.zoominfo.com",
+          "/c/selco-foundation/356278973",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          19
+        ],
+        "score": 0.05263157894736842,
+        "category": "general",
+        "iframe_src": null
+      },
+      {
+        "template": "default.html",
+        "url": "https://andeglobal.org/organization/selco-foundation/",
+        "title": "Selco Foundation - ANDE",
+        "content": "SELCO Foundation aims to catalyze development outcomes via sustainable energy solutions for under-served populations. The Foundation is primarily focused on implementing solutions with various partners to demonstrate models in a financially and socially sustainable manner.",
+        "publishedDate": "2025-07-28T00:00:00",
+        "thumbnail": "",
+        "engine": "brave",
+        "parsed_url": [
+          "https",
+          "andeglobal.org",
+          "/organization/selco-foundation/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "priority": "",
+        "engines": [
+          "brave"
+        ],
+        "positions": [
+          20
+        ],
+        "score": 0.05,
+        "category": "general",
+        "iframe_src": null,
+        "pubdate": "2025-07-28 00:00:00"
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

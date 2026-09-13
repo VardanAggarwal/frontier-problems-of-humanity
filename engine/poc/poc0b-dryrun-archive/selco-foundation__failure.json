@@ -1,0 +1,342 @@
+{
+  "slug": "selco-foundation",
+  "name": "SELCO Foundation",
+  "family": "failure",
+  "query": "\"SELCO Foundation\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.284,
+  "timestamp_utc": "2026-09-13T06:35:21.127543+00:00",
+  "request_index_this_run": 11,
+  "seconds_since_run_start": 32.5,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ],
+    [
+      "mojeek",
+      "access denied"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [],
+  "raw_response": {
+    "query": "\"SELCO Foundation\" shut down closed pivot losses",
+    "results": [
+      {
+        "url": "https://cshs.tc.edu.tw/",
+        "title": "\u81fa\u4e2d\u5e02\u7acb\u6e05\u6c34\u9ad8\u7d1a\u4e2d\u7b49\u5b78\u6821",
+        "content": "\u9020\u8a2a\u4eba\u6b21\uff1a ::: \u6e05\u6c34\u9ad8\u4e2d\u516b\u5341\u9031\u5e74\u6821\u53f2\u56de\u9867\u5c55 \u6e05\u6c34\u9ad8\u4e2d\u5716\u66f8\u9928\u4e3b\u4efb \u81fa\u4e2d\u5e02\u7acb\u6e05\u6c34\u9ad8\u4e2d\u5b78\u6821\u7c21\u4ecb (3:59\u7248) \u6e05\u6c34\u9ad8\u4e2d\u79d8\u66f8 \u53f0\u4e2d\u5e02\u7acb\u6e05\u6c34\u9ad8 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "cshs.tc.edu.tw",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www2.cshs.tc.edu.tw/home",
+        "title": "\u81fa\u4e2d\u5e02\u7acb\u6e05\u6c34\u9ad8\u7d1a\u4e2d\u7b49\u5b78\u6821",
+        "content": "\u81fa\u4e2d\u5e02\u7acb\u6e05\u6c34\u9ad8\u7d1a\u4e2d\u7b49\u5b78\u6821 \u7db2\u7ad9\u700f\u89bd\u5efa\u8b70\u4f7f\u7528IE 9.0 \u4ee5\u4e0a\u7248\u672c\u6216Chrome/Firefox\uff0c\u5982\u9047\u4e0d\u6b63\u5e38\u986f\u793a\u72c0\u6cc1\uff0c\u8acb\u8a2a\u5ba2\u81ea\u884c\u66f4\u65b0\u7248\u672c",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www2.cshs.tc.edu.tw",
+          "/home",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://cshs.tc.edu.tw/app/index.php",
+        "title": "\u81fa\u4e2d\u5e02\u7acb\u6e05\u6c34\u9ad8\u7d1a\u4e2d\u7b49\u5b78\u6821 - tc.edu.tw",
+        "content": "115\u5e74\u5927\u5b78\u7e41\u661f\u63a8\u85a6 \u8521\u6db5\u55bb (\u6e05\u6c34\u570b\u4e2d\u7562\u696d) \u9304\u53d6\u570b\u7acb\u967d\u660e\u4ea4\u901a\u5927\u5b78 \u751f\u7269\u91ab\u5b78\u5f71\u50cf\u66a8\u653e\u5c04\u79d1\u5b78\u7cfb \u8cc0\uff01 115\u5e74\u5927\u5b78\u500b\u4eba\u7533\u8acb \u5353\u5176\u5bb8 (\u4e2d\u6e2f \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "cshs.tc.edu.tw",
+          "/app/index.php",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "http://comm.cshs.tc.edu.tw/",
+        "title": "\u4e2d\u4e00\u5340\u9ad8\u7d1a\u4e2d\u7b49\u5b78\u6821\u5747\u8cea\u5316\u5be6\u65bd\u65b9\u6848",
+        "content": "\u81fa\u4e2d\u4e00\u5340\u5305\u62ec\u517112\u500b\u9109\u93ae\u5e02\u5340\uff1a \u82d7\u6817\u7e23\uff1a\u901a\u9704\u93ae\u3001\u82d1\u88e1\u93ae \u81fa\u4e2d\u5e02\uff1a\u5927\u7532\u5340\u3001\u5927\u5b89\u5340\u3001\u5916\u57d4\u5340\u3001\u6e05\u6c34\u5340\u3001\u6c99\u9e7f\u5340\u3001\u68a7\u68f2\u5340\u3001\u9f8d\u4e95\u5340\u3001\u5927 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "http",
+          "comm.cshs.tc.edu.tw",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://ebook.cshs.tc.edu.tw/book/content.php?id=2",
+        "title": "\u9e7f\u6e2f\u91c7\u98a8\u884c ::: \u53f0\u4e2d\u5e02\u7acb\u6e05\u6c34\u9ad8\u4e2d\u96f2\u5e73\u53f0",
+        "content": "\u73ed\u7d1a\u8b80\u66f8\u6703-110\u5b78\u5e74\u5ea6\u7b2c\u4e8c\u5b78\u671f \u6e05\u6c34\u9ad8\u4e2d\u5716\u66f8\u9928 \u73ed\u7d1a\u8b80\u66f8\u6703-110\u5b78\u5e74\u5ea6\u7b2c\u4e8c\u5b78\u671f \u6e05\u6c34\u9ad8\u4e2d\u5716\u66f8\u9928 \u73ed\u7d1a\u8b80\u66f8\u6703-110\u5b78\u5e74\u5ea6\u7b2c\u4e00\u5b78\u671f \u6e05 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "ebook.cshs.tc.edu.tw",
+          "/book/content.php",
+          "",
+          "id=2",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://ebook.cshs.tc.edu.tw/book/list.php?type=8",
+        "title": "110-2 :: \u53f0\u4e2d\u5e02\u7acb\u6e05\u6c34\u9ad8\u4e2d\u96f2\u5e73\u53f0",
+        "content": "\u5171\u7d2f\u7a4d 7,199 \u9ede\u64ca\u6b21\u6578 \u5df2\u62ef\u6551 1.73 \u68f5\u6a39 \u6e1b\u5c11 80.63 kg \u78b3\u6392\u653e\u91cf",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "ebook.cshs.tc.edu.tw",
+          "/book/list.php",
+          "",
+          "type=8",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www2.cshs.tc.edu.tw/home?cid=440",
+        "title": "\u81fa\u4e2d\u5e02\u7acb\u6e05\u6c34\u9ad8\u7d1a\u4e2d\u7b49\u5b78\u6821 | \u4ea4\u901a\u8cc7\u8a0a",
+        "content": "\u81fa\u4e2d\u5e02\u7acb\u6e05\u6c34\u9ad8\u7d1a\u4e2d\u7b49\u5b78\u6821\u4ea4\u901a\u6307\u5f15 2022.6.12\u6574\u7406 \u5e02\u7acb\u6e05\u4e2d\u7d93\u7def\u5ea6\uff1a24.265586, 120.574725 \u8ddd\u96e2\u5e02\u7acb\u6e05\u4e2d\u6700\u8fd1\u4ea4\u6d41\u9053\uff1a\u570b\u90533\u865f\u6c99 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www2.cshs.tc.edu.tw",
+          "/home",
+          "",
+          "cid=440",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://cloud.cshs.tc.edu.tw/CSHSTC/ICampus/Home/Index2",
+        "title": "\u767b\u5165 -\u667a\u6167\u6821\u5712\u5e73\u53f0 - \u81fa\u4e2d\u96f2\u7aef-\u6e05\u6c34\u9ad8\u4e2d",
+        "content": "\u4e8c\u968e\u6bb5\u9a57\u8b49 \u8acb\u9078\u64c7\u8981\u9032\u884c\u9a57\u8b49\u7684\u65b9\u5f0f APP\u61c9\u7528\u7a0b\u5f0f\u9a57\u8b49\u66fe\u4f7f\u7528\u904e \u4f7f\u7528\u63a8\u85a6\u7684APP\u9032\u884c\u9a57\u8b49 1.\u4e0b\u8f09APP 2.QR Code\u7d81\u5b9a\u5e33\u865f 3.\u8f38\u5165\u9a57 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "cloud.cshs.tc.edu.tw",
+          "/CSHSTC/ICampus/Home/Index2",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "http://comm.cshs.tc.edu.tw/newsin.php?_nClass=2&nID=32",
+        "title": "\u4e2d\u4e00\u5340\u9ad8\u7d1a\u4e2d\u7b49\u5b78\u6821\u5747\u8cea\u5316\u5be6\u65bd\u65b9\u6848 - \u8a08\u756b\u6d88\u606f - 111\u5b78\u5e74\u5ea6\u4e2d\u4e00\u5340\u9ad8 \u2026",
+        "content": "111\u5b78\u5e74\u5ea6\u4e2d\u4e00\u5340\u9ad8\u7d1a\u4e2d\u7b49\u5b78\u6821\u9069\u6027\u8f49\u5b78\u7c21\u7ae0 111\u5e7412\u67082\u65e5\u8a02\u5b9a\u901a\u904e \u4e00\u3001\u4f9d\u4e2d\u4e00\u5340\u9ad8\u7d1a\u4e2d\u7b49\u5b78\u6821\u9069\u6027\u8f49\u5b78\u5be6\u65bd\u8a08\u756b\u53ca111\u5b78\u5e74\u5ea6\u4e2d\u4e00\u5340 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "http",
+          "comm.cshs.tc.edu.tw",
+          "/newsin.php",
+          "",
+          "_nClass=2&nID=32",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://guidelines.ms.cshs.tc.edu.tw/108/society/inquiry/geography",
+        "title": "\u5341\u4e8c\u5e74\u570b\u6559\u8ab2\u7a0b\u7db1\u8981 - \u5730\u7406 - tc.edu.tw",
+        "content": "L.\u5730\u7406\u7684\u7814\u7a76\u6cd5 a.\u7814\u7a76\u6d41\u7a0b \u5730La-\u2164-1 \u7814\u7a76\u7684\u5206\u985e\u3002 \u5730La-\u2164-2 \u767c\u6398\u554f\u984c\u7684\u65b9\u6cd5\u3002 \u5730La-\u2164-3 \u8490\u96c6\u548c\u89e3\u6790\u8cc7\u6599\u7684\u6280\u80fd\u3002 M.\u5730\u7406\u65b9\u6cd5\u7684 \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "guidelines.ms.cshs.tc.edu.tw",
+          "/108/society/inquiry/geography",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ],
+      [
+        "mojeek",
+        "access denied"
+      ]
+    ]
+  }
+}

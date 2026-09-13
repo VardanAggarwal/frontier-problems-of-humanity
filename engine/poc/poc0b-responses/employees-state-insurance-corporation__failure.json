@@ -1,0 +1,336 @@
+{
+  "slug": "employees-state-insurance-corporation",
+  "name": "Employees' State Insurance Corporation",
+  "family": "failure",
+  "query": "\"Employees' State Insurance Corporation\" shut down closed pivot losses",
+  "question_ids": [
+    "tag:failure_note",
+    "lifecycle"
+  ],
+  "elapsed_s": 0.632,
+  "timestamp_utc": "2026-09-13T08:50:17.017614+00:00",
+  "request_index_this_run": 65,
+  "seconds_since_run_start": 1664.4,
+  "n_results": 10,
+  "unresponsive_engines": [
+    [
+      "brave",
+      "Suspended: too many requests"
+    ],
+    [
+      "google",
+      "Suspended: CAPTCHA"
+    ]
+  ],
+  "engines_seen_in_results": [
+    "bing"
+  ],
+  "configured_engines": [
+    "bing",
+    "brave",
+    "google",
+    "mojeek"
+  ],
+  "silently_absent_engines": [
+    "mojeek"
+  ],
+  "raw_response": {
+    "query": "\"Employees' State Insurance Corporation\" shut down closed pivot losses",
+    "results": [
+      {
+        "url": "https://wbifms.gov.in/hrms-ess/",
+        "title": "iFMS Login",
+        "content": "Use this login for performing official functions.",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "wbifms.gov.in",
+          "/hrms-ess/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          1
+        ],
+        "score": 1.0,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.epfo.gov.in/",
+        "title": "Employees' Provident Fund Organisation",
+        "content": "WELCOME TO EPFO Your Gateway to Social Security - Provident Fund, Pension & Insurance Services Seamlessly Manage your \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.epfo.gov.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          2
+        ],
+        "score": 0.5,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://unifiedportal-emp.epfindia.gov.in/",
+        "title": "EPFO: Home",
+        "content": "For all news and updates on EPF, please subscribe our YouTube channel (youtube.com/@officialepfo), Instagram \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "unifiedportal-emp.epfindia.gov.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          3
+        ],
+        "score": 0.3333333333333333,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://dictionary.cambridge.org/dictionary/english/employee",
+        "title": "EMPLOYEE | English meaning - Cambridge Dictionary",
+        "content": "Aug 12, 2015 \u00b7 have/recruit/train employees We have ten employees and a turnover of around \u00a3450,000. But the evidence of surveys \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "dictionary.cambridge.org",
+          "/dictionary/english/employee",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          4
+        ],
+        "score": 0.25,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://unifiedportal-mem.epfindia.gov.in/memberinterface/",
+        "title": "Member Home",
+        "content": "Filing of nominations by members is mandatory as per EPF Scheme,2026. E-Nominations can be filed and updated during service \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "unifiedportal-mem.epfindia.gov.in",
+          "/memberinterface/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          5
+        ],
+        "score": 0.2,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://simple.wikipedia.org/wiki/Employee",
+        "title": "Employee - Simple English Wikipedia, the free encyclopedia",
+        "content": "An employee is a term for workers and managers working for a company, organization or community. These people are the staff of \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "simple.wikipedia.org",
+          "/wiki/Employee",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          6
+        ],
+        "score": 0.16666666666666666,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.merriam-webster.com/dictionary/employees",
+        "title": "EMPLOYEES Definition & Meaning - Merriam-Webster",
+        "content": "5 days ago \u00b7 The meaning of EMPLOYEE is one employed by another usually for wages or salary and in a position below the \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.merriam-webster.com",
+          "/dictionary/employees",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          7
+        ],
+        "score": 0.14285714285714285,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://par.wb.gov.in/",
+        "title": "West Bengal - Personnel & Administrative Reforms Department",
+        "content": "Important Notice: Apnar Sarkar, Apnar Pashe is a grievance redressal initiative of the Government of West Bengal that enables \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "par.wb.gov.in",
+          "/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          8
+        ],
+        "score": 0.125,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://in.indeed.com/career-advice/career-development/what-is-an-employee",
+        "title": "What Is An Employee? (Definition, Types And Benefits) - Indeed",
+        "content": "Dec 2, 2025 \u00b7 Every employee a company hires performs specific duties and tasks. They may work in a part-time, full-time or \u2026",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "in.indeed.com",
+          "/career-advice/career-development/what-is-an-employee",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          9
+        ],
+        "score": 0.1111111111111111,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      },
+      {
+        "url": "https://www.epfo.gov.in/directory/",
+        "title": "Employees' Provident Fund Organisation",
+        "content": "WB, A&N Islands & Sikkim (Kolkata) Port Blair Kolkata Durgapur Darjeeling",
+        "engine": "bing",
+        "template": "default.html",
+        "parsed_url": [
+          "https",
+          "www.epfo.gov.in",
+          "/directory/",
+          "",
+          "",
+          ""
+        ],
+        "img_src": "",
+        "thumbnail": "",
+        "priority": "",
+        "engines": [
+          "bing"
+        ],
+        "positions": [
+          10
+        ],
+        "score": 0.1,
+        "category": "general",
+        "publishedDate": null,
+        "iframe_src": null
+      }
+    ],
+    "answers": [],
+    "corrections": [],
+    "infoboxes": [],
+    "suggestions": [],
+    "unresponsive_engines": [
+      [
+        "brave",
+        "Suspended: too many requests"
+      ],
+      [
+        "google",
+        "Suspended: CAPTCHA"
+      ]
+    ]
+  }
+}

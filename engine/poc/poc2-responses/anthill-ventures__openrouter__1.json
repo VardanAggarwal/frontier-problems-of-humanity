@@ -1,0 +1,150 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\n      \"question_id\": \"q1_one_line\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Anthill Ventures invests in early‑stage startups and helps them scale using its network of channel partners.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q2_type\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Organization\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q3_legs\",\n      \"source_id\": \"S2\",\n      \"answer\": \"enterprise\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q5_ecosystem_role\",\n      \"source_id\": \"S2\",\n      \"answer\": \"intermediary\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q6_affected_led\",\n      \"source_id\": \"S2\",\n      \"answer\": \"no\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q7_representation_unit\",\n      \"source_id\": \"S2\",\n      \"answer\": \"central-org\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q8_geography\",\n      \"source_id\": \"S2\",\n      \"answer\": \"India, Singapore\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q9_contact_route\",\n      \"source_id\": \"S2\",\n      \"answer\": \"email (personal greeting, include numbers)\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q12_viability_note\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Viability comes from returns on investments (paying customers are limited partners who expect financial returns).\",\n      \"confidence\": 0.7\n    },\n    {\n      \"question_id\": \"q14_ask_need\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Early‑stage startups to invest in (deal flow)\",\n      \"confidence\": 0.7\n    },\n    {\n      \"question_id\": \"q15_ask_offer\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Early‑stage funding; access to channel partner network for scaling\",\n      \"confidence\": 0.8\n    }\n  ],\n  \"claims\": [\n    {\n      \"field\": \"title\",\n      \"value\": \"Anthill Ventures\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"type\",\n      \"value\": \"org\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"legs\",\n      \"value\": \"[\\\"enterprise\\\"]\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"depth\",\n      \"value\": \"registry\",\n      \"confidence\": 0.7\n    },\n    {\n      \"field\": \"lifecycle\",\n      \"value\": \"operating\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"ecosystem_role\",\n      \"value\": \"[\\\"intermediary\\\"]\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"affected_led\",\n      \"value\": \"no\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"representation_unit\",\n      \"value\": \"central-org\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"geography\",\n      \"value\": \"India, Singapore\",\n      \"confidence\": 0.9\n    },\n    {\n      \"field\": \"contact_route\",\n      \"value\": \"email (personal greeting, include numbers)\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"ask:need:investment-opportunities\",\n      \"value\": \"Early‑stage startups to invest in\",\n      \"confidence\": 0.7\n    },\n    {\n      \"field\": \"ask:offer:funding\",\n      \"value\": \"Early‑stage funding\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"ask:offer:network\",\n      \"value\": \"Access to channel partner network for scaling\",\n      \"confidence\": 0.8\n    }\n  ],\n  \"emits\": [\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Prasad Vanga\",\n      \"hint\": \"Founder of Anthill Ventures\",\n      \"signals\": {}\n    }\n  ],\n  \"edges\": []\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S2",
+    "answer": "Anthill Ventures invests in early‑stage startups and helps them scale using its network of channel partners.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S2",
+    "answer": "Organization",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S2",
+    "answer": "enterprise",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S2",
+    "answer": "intermediary",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S2",
+    "answer": "no",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S2",
+    "answer": "central-org",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S2",
+    "answer": "India, Singapore",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S2",
+    "answer": "email (personal greeting, include numbers)",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S2",
+    "answer": "Viability comes from returns on investments (paying customers are limited partners who expect financial returns).",
+    "confidence": 0.7
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S2",
+    "answer": "Early‑stage startups to invest in (deal flow)",
+    "confidence": 0.7
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S2",
+    "answer": "Early‑stage funding; access to channel partner network for scaling",
+    "confidence": 0.8
+   }
+  ],
+  "claims": [
+   {
+    "field": "title",
+    "value": "Anthill Ventures",
+    "confidence": 0.9
+   },
+   {
+    "field": "type",
+    "value": "org",
+    "confidence": 0.9
+   },
+   {
+    "field": "legs",
+    "value": "[\"enterprise\"]",
+    "confidence": 0.9
+   },
+   {
+    "field": "depth",
+    "value": "registry",
+    "confidence": 0.7
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating",
+    "confidence": 0.8
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "[\"intermediary\"]",
+    "confidence": 0.8
+   },
+   {
+    "field": "affected_led",
+    "value": "no",
+    "confidence": 0.8
+   },
+   {
+    "field": "representation_unit",
+    "value": "central-org",
+    "confidence": 0.8
+   },
+   {
+    "field": "geography",
+    "value": "India, Singapore",
+    "confidence": 0.9
+   },
+   {
+    "field": "contact_route",
+    "value": "email (personal greeting, include numbers)",
+    "confidence": 0.8
+   },
+   {
+    "field": "ask:need:investment-opportunities",
+    "value": "Early‑stage startups to invest in",
+    "confidence": 0.7
+   },
+   {
+    "field": "ask:offer:funding",
+    "value": "Early‑stage funding",
+    "confidence": 0.8
+   },
+   {
+    "field": "ask:offer:network",
+    "value": "Access to channel partner network for scaling",
+    "confidence": 0.8
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "Prasad Vanga",
+    "hint": "Founder of Anthill Ventures",
+    "signals": {}
+   }
+  ],
+  "edges": []
+ },
+ "parse_error": null
+}

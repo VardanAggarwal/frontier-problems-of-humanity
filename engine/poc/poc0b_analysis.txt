@@ -1,0 +1,189 @@
+
+=== 1. unresponsive_engines curve over the run ===
+   #  slug                                          family     unresponsive                   silently_absent
+   1  a2p-energy                                    failure    brave,google                   ['mojeek']
+   2  a2p-energy                                    identity   brave,google                   ['mojeek']
+   3  a2p-energy                                    money      brave,google                   ['mojeek']
+   4  a2p-energy                                    people     brave,google                   ['mojeek']
+   5  a2p-energy                                    reach      brave,google                   ['mojeek']
+   6  a2p-energy                                    viability  brave,google                   ['mojeek']
+   7  acumen                                        failure    brave,google                   ['mojeek']
+   8  acumen                                        identity   brave,google                   ['mojeek']
+   9  acumen                                        money      brave,google                   ['mojeek']
+  10  acumen                                        people     brave,google                   ['mojeek']
+  11  acumen                                        reach      brave,google                   ['mojeek']
+  12  acumen                                        viability  brave,google                   ['mojeek']
+  13  anthill-ventures                              failure    google                         ['mojeek']
+  14  anthill-ventures                              identity   google                         ['mojeek']
+  15  anthill-ventures                              money      google                         ['mojeek']
+  16  anthill-ventures                              people     google                         ['mojeek']
+  17  anthill-ventures                              reach      google                         ['mojeek']
+  18  anthill-ventures                              viability  google                         ['mojeek']
+  19  bhavreen-kandhari                             failure    brave,mojeek                   
+  20  bhavreen-kandhari                             identity   brave,mojeek                   
+  21  bhavreen-kandhari                             money      brave,mojeek                   
+  22  bhavreen-kandhari                             people     brave,mojeek                   
+  23  bhavreen-kandhari                             reach      brave,mojeek                   
+  24  bhavreen-kandhari                             viability  brave,mojeek                   
+  25  bku-ekta-ugrahan                              failure    brave                          ['mojeek']
+  26  bku-ekta-ugrahan                              identity   brave                          ['mojeek']
+  27  bku-ekta-ugrahan                              money      brave                          ['mojeek']
+  28  bku-ekta-ugrahan                              people     brave                          ['mojeek']
+  29  bku-ekta-ugrahan                              reach      brave                          ['mojeek']
+  30  bku-ekta-ugrahan                              viability  brave                          ['mojeek']
+  31  care-for-air                                  failure    brave,google,mojeek            
+  32  care-for-air                                  identity   brave,google,mojeek            
+  33  care-for-air                                  money      brave,google,mojeek            
+  34  care-for-air                                  people     brave,google,mojeek            
+  35  care-for-air                                  reach      brave,google,mojeek            
+  36  care-for-air                                  viability  brave,google,mojeek            
+  37  dasra                                         failure    brave,google                   ['mojeek']
+  38  dasra                                         identity   brave,google                   ['mojeek']
+  39  dasra                                         money      brave,google                   ['mojeek']
+  40  dasra                                         people     brave,google                   ['mojeek']
+  41  dasra                                         reach      brave,google                   ['mojeek']
+  42  dasra                                         viability  brave,google                   ['mojeek']
+  43  employees-state-insurance-corporation         failure    brave,google                   ['mojeek']
+  44  employees-state-insurance-corporation         identity   brave,google                   ['mojeek']
+  45  employees-state-insurance-corporation         money      brave,google                   ['mojeek']
+  46  employees-state-insurance-corporation         people     brave,google                   ['mojeek']
+  47  employees-state-insurance-corporation         reach      brave,google                   ['mojeek']
+  48  employees-state-insurance-corporation         viability  brave,google                   ['mojeek']
+  49  harish-hande                                  failure    brave,google                   ['mojeek']
+  50  harish-hande                                  identity   brave,google                   ['mojeek']
+  51  harish-hande                                  money      brave,google                   ['mojeek']
+  52  harish-hande                                  people     brave,google                   ['mojeek']
+  53  harish-hande                                  reach      brave,google                   ['mojeek']
+  54  harish-hande                                  viability  brave,google                   ['mojeek']
+  55  india-asbestos-victims-association            failure    brave,mojeek                   
+  56  india-asbestos-victims-association            identity   brave                          ['mojeek']
+  57  india-asbestos-victims-association            money      brave                          ['mojeek']
+  58  india-asbestos-victims-association            people     brave                          ['mojeek']
+  59  india-asbestos-victims-association            reach      brave,mojeek                   
+  60  india-asbestos-victims-association            viability  brave                          ['mojeek']
+  61  joginder-singh-ugrahan                        failure    brave                          ['mojeek']
+  62  joginder-singh-ugrahan                        identity   -                              ['mojeek']
+  63  joginder-singh-ugrahan                        money      brave                          ['mojeek']
+  64  joginder-singh-ugrahan                        people     brave                          ['mojeek']
+  65  joginder-singh-ugrahan                        reach      brave                          ['mojeek']
+  66  joginder-singh-ugrahan                        viability  brave                          ['mojeek']
+  67  jyoti-pande-lavakare                          failure    google,mojeek                  
+  68  jyoti-pande-lavakare                          identity   brave,mojeek                   
+  69  jyoti-pande-lavakare                          money      brave,mojeek                   
+  70  jyoti-pande-lavakare                          people     brave,mojeek                   
+  71  jyoti-pande-lavakare                          reach      brave,google,mojeek            
+  72  jyoti-pande-lavakare                          viability  brave,mojeek                   
+  73  khambhat-silicosis-victims-association        failure    brave,google                   ['mojeek']
+  74  khambhat-silicosis-victims-association        identity   brave,google                   ['mojeek']
+  75  khambhat-silicosis-victims-association        money      brave,google                   ['mojeek']
+  76  khambhat-silicosis-victims-association        people     brave,google                   ['mojeek']
+  77  khambhat-silicosis-victims-association        reach      brave,google                   ['mojeek']
+  78  khambhat-silicosis-victims-association        viability  brave,google                   ['mojeek']
+  79  omnivore                                      failure    brave,google                   ['mojeek']
+  80  omnivore                                      identity   brave,google                   ['mojeek']
+  81  omnivore                                      money      brave,google                   ['mojeek']
+  82  omnivore                                      people     brave,google                   ['mojeek']
+  83  omnivore                                      reach      brave,google                   ['mojeek']
+  84  omnivore                                      viability  brave,google                   ['mojeek']
+  85  rainmatter-foundation                         failure    brave,google                   ['mojeek']
+  86  rainmatter-foundation                         identity   brave,google                   ['mojeek']
+  87  rainmatter-foundation                         money      brave,google                   ['mojeek']
+  88  rainmatter-foundation                         people     brave,google                   ['mojeek']
+  89  rainmatter-foundation                         reach      brave,google                   ['mojeek']
+  90  rainmatter-foundation                         viability  brave,google                   ['mojeek']
+  91  selco-foundation                              failure    brave,google                   ['mojeek']
+  92  selco-foundation                              identity   google                         ['mojeek']
+  93  selco-foundation                              money      brave,google                   ['mojeek']
+  94  selco-foundation                              people     brave,google                   ['mojeek']
+  95  selco-foundation                              reach      brave,google                   ['mojeek']
+  96  selco-foundation                              viability  brave,google                   ['mojeek']
+  97  shell-foundation                              failure    brave,google                   ['mojeek']
+  98  shell-foundation                              identity   brave,google                   ['mojeek']
+  99  shell-foundation                              money      brave,google                   ['mojeek']
+ 100  shell-foundation                              people     brave,google                   ['mojeek']
+ 101  shell-foundation                              reach      brave,google                   ['mojeek']
+ 102  shell-foundation                              viability  brave,google                   ['mojeek']
+ 103  silicosis-peedit-sangh                        failure    brave                          ['mojeek']
+ 104  silicosis-peedit-sangh                        identity   brave                          ['mojeek']
+ 105  silicosis-peedit-sangh                        money      brave                          ['mojeek']
+ 106  silicosis-peedit-sangh                        people     brave                          ['mojeek']
+ 107  silicosis-peedit-sangh                        reach      brave                          ['mojeek']
+ 108  silicosis-peedit-sangh                        viability  brave                          ['mojeek']
+ 109  villgro                                       failure    brave,google                   ['mojeek']
+ 110  villgro                                       identity   brave,google                   ['mojeek']
+ 111  villgro                                       money      brave,google                   ['mojeek']
+ 112  villgro                                       people     brave,google                   ['mojeek']
+ 113  villgro                                       reach      brave,google                   ['mojeek']
+ 114  villgro                                       viability  brave,google                   ['mojeek']
+ 115  warrior-moms                                  failure    brave,google                   ['mojeek']
+ 116  warrior-moms                                  identity   brave,google                   ['mojeek']
+ 117  warrior-moms                                  money      brave,google                   ['mojeek']
+ 118  warrior-moms                                  people     brave,google                   ['mojeek']
+ 119  warrior-moms                                  reach      brave,google                   ['mojeek']
+ 120  warrior-moms                                  viability  brave,google                   ['mojeek']
+
+119/120 queries (99%) had >=1 unresponsive engine reported. Compare the first-third vs last-third rate below to see whether it climbs with volume (the throttle question):
+  first third : 40/40
+  middle third: 39/40
+  last third  : 40/40
+
+=== 2. Per-family predicted coverage vs answer key ===
+family     covered/checkable    rate
+failure    5/18                 28%
+identity   17/20                 85%
+money      5/18                 28%
+people     9/15                 60%
+reach      11/20                 55%
+viability  19/20                 95%
+
+=== 3. Set cover vs top-n — the §5b test ===
+
+-- n = 3 --
+actor                                         top-n coverage   set-cover coverage winner
+a2p-energy                                    6/6              6/6                tie
+acumen                                        6/6              6/6                tie
+anthill-ventures                              6/6              6/6                tie
+bhavreen-kandhari                             3/6              6/6                set-cover
+bku-ekta-ugrahan                              5/6              6/6                set-cover
+care-for-air                                  6/6              6/6                tie
+dasra                                         6/6              6/6                tie
+employees-state-insurance-corporation         5/6              6/6                set-cover
+harish-hande                                  6/6              6/6                tie
+india-asbestos-victims-association            6/6              6/6                tie
+joginder-singh-ugrahan                        6/6              6/6                tie
+jyoti-pande-lavakare                          6/6              6/6                tie
+khambhat-silicosis-victims-association        6/6              6/6                tie
+omnivore                                      3/6              3/6                tie
+rainmatter-foundation                         6/6              6/6                tie
+selco-foundation                              3/6              3/6                tie
+shell-foundation                              6/6              6/6                tie
+silicosis-peedit-sangh                        6/6              6/6                tie
+villgro                                       3/6              3/6                tie
+warrior-moms                                  6/6              6/6                tie
+
+At n=3: set-cover beats top-n on 3 actors, top-n beats set-cover on 0, tie on 17.
+
+-- n = 5 --
+actor                                         top-n coverage   set-cover coverage winner
+a2p-energy                                    6/6              6/6                tie
+acumen                                        6/6              6/6                tie
+anthill-ventures                              6/6              6/6                tie
+bhavreen-kandhari                             5/6              6/6                set-cover
+bku-ekta-ugrahan                              6/6              6/6                tie
+care-for-air                                  6/6              6/6                tie
+dasra                                         6/6              6/6                tie
+employees-state-insurance-corporation         5/6              6/6                set-cover
+harish-hande                                  6/6              6/6                tie
+india-asbestos-victims-association            6/6              6/6                tie
+joginder-singh-ugrahan                        6/6              6/6                tie
+jyoti-pande-lavakare                          6/6              6/6                tie
+khambhat-silicosis-victims-association        6/6              6/6                tie
+omnivore                                      5/6              5/6                tie
+rainmatter-foundation                         6/6              6/6                tie
+selco-foundation                              5/6              5/6                tie
+shell-foundation                              6/6              6/6                tie
+silicosis-peedit-sangh                        6/6              6/6                tie
+villgro                                       5/6              5/6                tie
+warrior-moms                                  6/6              6/6                tie
+
+At n=5: set-cover beats top-n on 2 actors, top-n beats set-cover on 0, tie on 18.
