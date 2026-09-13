@@ -269,6 +269,17 @@ def resolve(conn: sqlite3.Connection, entity_kind: str, name: str) -> str | None
     return row["entity_id"] if row else None
 
 
+def title_of(conn: sqlite3.Connection, entity_kind: str, entity_id: str) -> str | None:
+    """`title` for a live problem/actor row, or None if the id doesn't exist.
+    Used by the resolver (worker/resolve.py) to compare a candidate name
+    against its top shortlist hit lexically, not just by cosine."""
+    if entity_kind not in ("problem", "actor"):
+        raise ValueError(f"title_of is for problem/actor, not {entity_kind}")
+    row = conn.execute(
+        f"SELECT title FROM {entity_kind} WHERE id = ?", (entity_id,)).fetchone()
+    return row["title"] if row else None
+
+
 def tags_of(conn: sqlite3.Connection, entity_kind: str, entity_id: str,
             ns: str | None = None) -> list[str]:
     if ns:

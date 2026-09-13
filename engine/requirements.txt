@@ -10,4 +10,12 @@ PyYAML>=6
 sqlite-vec>=0.1.9         # vec0 virtual tables, in the same file as the graph
 sentence-transformers>=3  # tier 1 encoder, local
 numpy
+requests>=2               # worker/fetch.py HTTP fetch, worker/llm.py openrouter rung
 pytest>=8
+
+# Optional — only needed if the matching rung of worker/llm.py's fallback
+# chain is actually used (its key is set in config.py). Imported lazily per
+# call, so a missing package here fails that one provider fast (worker/llm.py
+# catches ImportError and moves to the next rung) rather than crashing import.
+# anthropic>=0.40         # the "claude" rung (direct Anthropic API)
+# google-genai>=0.3       # the "gemini" rung

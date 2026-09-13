@@ -35,3 +35,4 @@ engine/tests/fixtures/live/
 problems/graph.db
 problems/graph.db-wal
 problems/graph.db-shm
+.env

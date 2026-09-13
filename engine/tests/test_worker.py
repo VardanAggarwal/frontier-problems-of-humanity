@@ -1,0 +1,529 @@
+"""Build step 3 — worker, gates, resolver. Offline by default: every test
+that would otherwise touch a network or an API key monkeypatches `worker.llm`
+(and, where the real encoder would load, `embed.model`/`embed.index`).
+"""
+import sys, pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+
+import json
+import math
+import sqlite3
+
+import pytest
+
+vec = pytest.importorskip("sqlite_vec")
+
+from embed import index
+from embed.model import EMBED_DIM, MODEL_NAME
+from store import db
+from worker import fetch as fetchmod
+from worker import gate1, gate2, llm, resolve, worker
+from worker.prompts import extract_prompt, screen_prompt
+
+needs_model = pytest.mark.skipif(
+    not pathlib.Path.home().joinpath(
+        ".cache/huggingface/hub",
+        "models--" + MODEL_NAME.replace("/", "--")).exists(),
+    reason=f"{MODEL_NAME} not downloaded")
+
+
+@pytest.fixture
+def conn(tmp_path):
+    c = index.connect(tmp_path / "g.db")
+    yield c
+    c.close()
+
+
+def unit(*head) -> list[float]:
+    v = list(head) + [0.0] * (EMBED_DIM - len(head))
+    n = math.sqrt(sum(x * x for x in v))
+    return [x / n for x in v]
+
+
+def problem(c, pid, **kw):
+    return db.put(c, "problem", {"id": pid, "title": pid, **kw}, by="test")
+
+
+def actor(c, aid, **kw):
+    row = {"id": aid, "title": aid, "type": "org", **kw}
+    return db.put(c, "actor", row, by="test")
+
+
+def make_candidate(c, kind="actor", name="Some Org", url=None, evidence=None,
+                   admitted=1):
+    cur = c.execute(
+        "INSERT INTO candidate (kind, name, url, evidence, admitted) "
+        "VALUES (?, ?, ?, ?, ?)", (kind, name, url, evidence, admitted))
+    c.commit()
+    return c.execute("SELECT * FROM candidate WHERE id = ?",
+                     (cur.lastrowid,)).fetchone()
+
+
+# ------------------------------------------------------------- prompts.py ---
+
+def test_screen_prompt_names_every_candidate_id():
+    items = [{"id": 1, "name": "Alpha", "snippet": "", "url": ""},
+             {"id": 2, "name": "Beta", "snippet": "", "url": ""}]
+    system, prompt = screen_prompt(items)
+    assert "1" in prompt and "2" in prompt and "Alpha" in prompt and "Beta" in prompt
+    assert "keep" in system.lower() and "json" in system.lower()
+
+
+def test_screen_prompt_is_tuned_for_recall():
+    system, _ = screen_prompt([{"id": 1, "name": "X"}])
+    # The instruction to bias toward keeping must be explicit in the prompt
+    # text itself, not just in this module's docstring (01-minimal.md §5).
+    assert "keep" in system.lower()
+    assert "bias" in system.lower() or "recall" in system.lower() or \
+        "when in doubt" in system.lower()
+
+
+def test_extract_prompt_names_the_entity():
+    _, prompt = extract_prompt("problem", "Cookfire smoke", "some source text")
+    assert "Cookfire smoke" in prompt and "some source text" in prompt
+
+
+def test_extract_prompt_problem_and_actor_are_different_system_prompts():
+    problem_system, _ = extract_prompt("problem", "X", "t")
+    actor_system, _ = extract_prompt("actor", "X", "t")
+    assert problem_system != actor_system
+    assert "mechanism" in problem_system.lower()
+    assert "leg" in actor_system.lower() or "enterprise" in actor_system.lower()
+
+
+def test_extract_prompt_rejects_an_unknown_kind():
+    with pytest.raises(ValueError, match="kind must be"):
+        extract_prompt("node", "X", "t")
+
+
+# --------------------------------------------------------------- gate1.py ---
+
+def test_gate1_parses_a_well_formed_response(monkeypatch):
+    def fake_call(prompt, **kw):
+        return {"json": {"decisions": [
+            {"id": "1", "keep": True, "reason": "on topic"},
+            {"id": "2", "keep": False, "reason": "spam"},
+        ]}, "model": "m"}
+    monkeypatch.setattr(gate1.llm, "call", fake_call)
+    out, cost = gate1.screen([{"id": "1", "name": "A"}, {"id": "2", "name": "B"}])
+    assert out["1"] == (True, "on topic")
+    assert out["2"] == (False, "spam")
+
+
+def test_gate1_defaults_a_missing_id_to_keep(monkeypatch):
+    def fake_call(prompt, **kw):
+        return {"json": {"decisions": [{"id": "1", "keep": False, "reason": "no"}]}}
+    monkeypatch.setattr(gate1.llm, "call", fake_call)
+    out, cost = gate1.screen([{"id": "1", "name": "A"}, {"id": "2", "name": "B"}])
+    assert out["1"] == (False, "no")
+    assert out["2"][0] is True
+
+
+def test_gate1_defaults_the_whole_batch_to_keep_on_llm_error(monkeypatch):
+    def fake_call(prompt, **kw):
+        raise llm.LLMError("all providers failed")
+    monkeypatch.setattr(gate1.llm, "call", fake_call)
+    out, cost = gate1.screen([{"id": "1", "name": "A"}, {"id": "2", "name": "B"}])
+    assert out["1"][0] is True and "gate1 unavailable" in out["1"][1]
+    assert out["2"][0] is True
+
+
+def test_gate1_reports_cost(monkeypatch):
+    def fake_call(prompt, **kw):
+        return {"json": {"decisions": [{"id": "1", "keep": True, "reason": "ok"}]},
+                "cost": 0.0042}
+    monkeypatch.setattr(gate1.llm, "call", fake_call)
+    out, cost = gate1.screen([{"id": "1", "name": "A"}])
+    assert cost == pytest.approx(0.0042)
+
+
+def test_gate1_non_object_json_defaults_to_keep(monkeypatch):
+    """A model returning a bare JSON array has no `.get` — must not crash."""
+    def fake_call(prompt, **kw):
+        return {"json": [1, 2, 3], "cost": 0.0}
+    monkeypatch.setattr(gate1.llm, "call", fake_call)
+    out, cost = gate1.screen([{"id": "1", "name": "A"}])
+    assert out["1"][0] is True
+
+
+# --------------------------------------------------------------- gate2.py ---
+
+def test_gate2_bands_are_pure_math(monkeypatch):
+    """Stub the encoder so the banding logic is tested without downloading
+    the real model."""
+    vectors = {
+        "high query": unit(1.0),
+        "high text": unit(0.999, 0.001),
+        "low query": unit(1.0),
+        "low text": unit(0.0, 1.0),
+        "mid query": unit(1.0),
+        "mid text": unit(0.8, 0.6),
+    }
+
+    def fake_encode_one(text, *, role):
+        return vectors[text]
+
+    monkeypatch.setattr(gate2, "encode_one", fake_encode_one)
+
+    verdict, cosine, note = gate2.confirm(None, "high query", "", "high text")
+    assert verdict == "confirmed" and note == ""
+
+    verdict, cosine, note = gate2.confirm(None, "low query", "", "low text")
+    assert verdict == "mismatch"
+
+    verdict, cosine, note = gate2.confirm(None, "mid query", "", "mid text")
+    assert verdict == "uncertain" and note
+
+
+def test_gate2_empty_input_is_uncertain_not_a_crash(monkeypatch):
+    verdict, cosine, note = gate2.confirm(None, "", "", "")
+    assert verdict == "uncertain" and cosine == 0.0 and note
+
+
+@needs_model
+def test_gate2_real_encoder_smoke():
+    verdict, cosine, note = gate2.confirm(
+        None, "Mine Labour Protection Campaign", "silicosis Rajasthan",
+        "Mine Labour Protection Campaign works on silicosis in Rajasthan.")
+    assert verdict in ("confirmed", "uncertain", "mismatch")
+    assert isinstance(cosine, float)
+
+
+# -------------------------------------------------------------- resolve.py --
+
+def test_exact_match_short_circuits_before_any_embedding_call(conn, monkeypatch):
+    actor(conn, "mlpc", title="Mine Labour Protection Campaign")
+    db.alias(conn, "actor", "mlpc", "MLPC", by="test")
+
+    def boom(*a, **kw):
+        raise AssertionError("knn should not be called on an exact/alias hit")
+    monkeypatch.setattr(resolve.index, "knn", boom)
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: boom())
+
+    result = resolve.resolve_entity(conn, pathlib.Path("."), "actor", "MLPC", "")
+    assert result.decision == "exact" and result.entity_id == "mlpc"
+
+
+def test_new_id_slugifies_and_dedupes_on_collision(conn):
+    assert resolve.new_id(conn, "actor", "Mine Labour Protection Campaign!") == \
+        "mine-labour-protection-campaign"
+    actor(conn, "mine-labour-protection-campaign")
+    assert resolve.new_id(conn, "actor", "Mine Labour Protection Campaign!") == \
+        "mine-labour-protection-campaign-2"
+    actor(conn, "mine-labour-protection-campaign-2")
+    assert resolve.new_id(conn, "actor", "Mine Labour Protection Campaign!") == \
+        "mine-labour-protection-campaign-3"
+
+
+def test_new_id_avoids_a_former_id_held_only_as_an_alias(conn):
+    actor(conn, "real-id")
+    db.alias(conn, "actor", "real-id", "old-slug", by="test")
+    assert resolve.new_id(conn, "actor", "old-slug") == "old-slug-2"
+
+
+def test_shortlist_above_the_safe_band_is_shortlist_top(conn, monkeypatch):
+    actor(conn, "existing")
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [("existing", 0.95)])
+    result = resolve.resolve_entity(conn, pathlib.Path("."), "actor", "New Name", "ctx")
+    assert result.decision == "shortlist_top" and result.entity_id == "existing"
+
+
+def test_shortlist_below_the_safe_band_but_lexically_overlapping_is_ambiguous(conn, monkeypatch):
+    # "Existing Org" vs title "existing" shares the distinctive token
+    # "existing" — cosine alone can't decide, and the lexical check agrees
+    # there might be a real match, so this stays the genuinely hard case.
+    actor(conn, "existing")
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [("existing", 0.85)])
+    result = resolve.resolve_entity(conn, pathlib.Path("."), "actor", "Existing Org", "ctx")
+    assert result.decision == "ambiguous"
+    assert result.entity_id is None
+    assert result.shortlist == [("existing", 0.85)]
+
+
+def test_shortlist_below_the_safe_band_with_no_lexical_overlap_is_new(conn, monkeypatch):
+    # Found live 2026-09-13: a real sweep named three real new actors (RESET
+    # Air, GBCI/USGBC LEED Arc, GMDA) whose top shortlist hits were all
+    # unrelated Delhi air-quality orgs at cosine 0.83-0.85 — topically close,
+    # not the same identity. Before this fix every one of them came back
+    # `ambiguous` forever, because a non-empty shortlist (which is every
+    # shortlist, once the store has any real size) could never resolve "new".
+    actor(conn, "existing")
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [("existing", 0.85)])
+    result = resolve.resolve_entity(conn, pathlib.Path("."), "actor", "New Name", "ctx")
+    assert result.decision == "new"
+    assert result.entity_id is None
+
+
+def test_empty_shortlist_is_new(conn, monkeypatch):
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
+    result = resolve.resolve_entity(conn, pathlib.Path("."), "actor", "New Name", "ctx")
+    assert result.decision == "new"
+
+
+# ---------------------------------------------------------------- fetch.py --
+
+def test_fetch_cache_hit_never_touches_the_network(conn, monkeypatch, tmp_path):
+    conn.execute(
+        "INSERT INTO source (id, url, url_canonical, page_state, words, "
+        "fetched_at, path) VALUES ('abc', 'https://x.test/a', "
+        "'https://x.test/a', 'ok', 50, datetime('now'), NULL)")
+    conn.commit()
+
+    def boom(*a, **kw):
+        raise AssertionError("requests.get should not be called on a cache hit")
+    monkeypatch.setattr(fetchmod, "requests", type("R", (), {"get": staticmethod(boom)}))
+
+    result = fetchmod.fetch(conn, tmp_path, "https://x.test/a")
+    assert result.cache_hit is True
+    assert result.state.state == "ok"
+
+
+def test_fetch_runs_a_mocked_response_through_pagestate(conn, monkeypatch, tmp_path):
+    class FakeResp:
+        text = "<html><body><p>" + ("real content word " * 150) + "</p></body></html>"
+        status_code = 200
+
+    class FakeRequests:
+        @staticmethod
+        def get(*a, **kw):
+            return FakeResp()
+        RequestException = Exception
+
+    monkeypatch.setattr(fetchmod, "requests", FakeRequests)
+    result = fetchmod.fetch(conn, tmp_path, "https://x.test/b")
+    assert result.state.state == "ok"
+    assert result.text and "real content" in result.text
+    row = conn.execute("SELECT * FROM source WHERE url_canonical = ?",
+                       ("https://x.test/b",)).fetchone()
+    assert row["fetched_at"] is not None
+    assert row["path"] is not None
+    assert (tmp_path / row["path"]).exists()
+
+
+def test_fetch_network_failure_degrades_without_raising(conn, monkeypatch, tmp_path):
+    class Boom(Exception):
+        pass
+
+    class FakeRequests:
+        RequestException = Boom
+        @staticmethod
+        def get(*a, **kw):
+            raise Boom("connection refused")
+
+    monkeypatch.setattr(fetchmod, "requests", FakeRequests)
+    result = fetchmod.fetch(conn, tmp_path, "https://x.test/c")
+    assert result.text is None
+    assert result.state.usable is False
+
+
+# --------------------------------------------------------------- worker.py --
+
+def _stub_llm_for_run_batch(monkeypatch, *, screen_decisions, extract_json):
+    def fake_call(prompt, *, system=None, tier="mechanical", max_tokens=2048, **kw):
+        if "decisions" in prompt or "Screen these candidates" in prompt:
+            return {"json": {"decisions": screen_decisions}, "model": "test-model",
+                    "cost": 0.0}
+        return {"json": extract_json, "model": "test-model", "cost": 0.001}
+    monkeypatch.setattr(worker.llm, "call", fake_call)
+    monkeypatch.setattr(gate1.llm, "call", fake_call)
+
+
+def test_run_batch_end_to_end_new_shortlist_and_ambiguous(conn, monkeypatch, tmp_path):
+    # Fixture: one existing actor for the shortlist/ambiguous candidates to
+    # find, and three fresh candidates covering the three live outcomes.
+    actor(conn, "existing-org", title="Existing Org")
+
+    c_new = make_candidate(conn, kind="actor", name="Brand New Org")
+    c_shortlist = make_candidate(conn, kind="actor", name="Existing Org (alt spelling)")
+    c_ambiguous = make_candidate(conn, kind="actor", name="Ambiguous Org")
+
+    screen_decisions = [
+        {"id": str(c_new["id"]), "keep": True, "reason": "ok"},
+        {"id": str(c_shortlist["id"]), "keep": True, "reason": "ok"},
+        {"id": str(c_ambiguous["id"]), "keep": True, "reason": "ok"},
+    ]
+    extract_json = {
+        "claims": [{"field": "title", "value": "Some Org", "confidence": 0.9}],
+        "emits": [{"kind": "actor", "name": "Spun Off Org", "hint": "mentioned"}],
+        "edges": [],
+    }
+    _stub_llm_for_run_batch(monkeypatch, screen_decisions=screen_decisions,
+                            extract_json=extract_json)
+
+    # Route resolution deterministically without the real encoder: "new" name
+    # gets an empty shortlist, "alt spelling" clears the safe band, "ambiguous"
+    # sits in the escalation band. `knn` only sees the vector, not the text, so
+    # route on the text `encode_one` was just called with (resolve_entity
+    # calls encode_one immediately before knn, so this is exact, not a race).
+    text_hint = [""]
+
+    def tracking_encode_one(text, *, role):
+        text_hint[0] = text.lower()
+        return unit(1.0)
+
+    def fake_knn(c, kind, vector, *, k=10, role="query", exclude=None):
+        return {
+            "brand new org": [],
+            "existing org (alt spelling)": [("existing-org", 0.95)],
+            "ambiguous org": [("existing-org", 0.85)],
+        }.get(text_hint[0], [])
+
+    monkeypatch.setattr(resolve, "encode_one", tracking_encode_one)
+    monkeypatch.setattr(resolve.index, "knn", fake_knn)
+    monkeypatch.setattr(gate2, "encode_one", lambda text, *, role: unit(1.0))
+
+    candidates = [conn.execute("SELECT * FROM candidate WHERE id = ?", (cid["id"],)).fetchone()
+                 for cid in (c_new, c_shortlist, c_ambiguous)]
+    report = worker.run_batch(conn, tmp_path, candidates)
+
+    assert report["resolved_new"] == 1
+    assert report["resolved_shortlist"] == 1
+    assert report["resolved_ambiguous"] == 1
+    assert report["candidates_emitted"] == 2   # one `emits` per resolved (non-ambiguous) candidate
+
+    new_row = conn.execute("SELECT * FROM candidate WHERE id = ?", (c_new["id"],)).fetchone()
+    assert new_row["resolved_to"] is not None and new_row["admitted"] == 1
+    new_actor = conn.execute("SELECT * FROM actor WHERE id = ?",
+                             (new_row["resolved_to"],)).fetchone()
+    assert new_actor is not None
+    assert conn.execute("SELECT count(*) c FROM alias WHERE entity_id = ?",
+                        (new_row["resolved_to"],)).fetchone()["c"] == 1
+
+    shortlist_row = conn.execute("SELECT * FROM candidate WHERE id = ?",
+                                 (c_shortlist["id"],)).fetchone()
+    assert shortlist_row["resolved_to"] == "existing-org"
+
+    ambiguous_row = conn.execute("SELECT * FROM candidate WHERE id = ?",
+                                 (c_ambiguous["id"],)).fetchone()
+    assert ambiguous_row["resolved_to"] is None
+    events = conn.execute(
+        "SELECT * FROM event WHERE entity_kind = 'candidate' AND entity_id = ? "
+        "AND field = 'resolve'", (str(c_ambiguous["id"]),)).fetchall()
+    assert len(events) == 1
+
+    # emit never processes what it writes: still unresolved / unadmitted.
+    emitted = conn.execute(
+        "SELECT * FROM candidate WHERE name = 'Spun Off Org'").fetchall()
+    assert len(emitted) == 2   # one emitted per non-ambiguous candidate above
+    for row in emitted:
+        assert row["admitted"] is None and row["resolved_to"] is None
+
+
+def test_run_batch_gate1_rejection_marks_admitted_zero(conn, monkeypatch, tmp_path):
+    cand = make_candidate(conn, kind="actor", name="Spam Org")
+
+    def fake_call(prompt, *, system=None, tier="mechanical", max_tokens=2048, **kw):
+        return {"json": {"decisions": [
+            {"id": str(cand["id"]), "keep": False, "reason": "spam"}]}, "model": "m"}
+    monkeypatch.setattr(gate1.llm, "call", fake_call)
+
+    report = worker.run_batch(conn, tmp_path,
+                              [conn.execute("SELECT * FROM candidate WHERE id = ?",
+                                           (cand["id"],)).fetchone()])
+    assert report["gate1_rejected"] == 1
+    row = conn.execute("SELECT * FROM candidate WHERE id = ?", (cand["id"],)).fetchone()
+    assert row["admitted"] == 0
+
+
+def test_run_batch_returns_empty_report_for_no_candidates(conn, tmp_path):
+    report = worker.run_batch(conn, tmp_path, [])
+    assert report["gate1_kept"] == 0 and report["cost"] == 0.0
+
+
+def test_run_batch_gate0_duplicate_inherits_the_survivors_terminal_state(
+        conn, monkeypatch, tmp_path):
+    """A candidate gate 0 collapses into another must not be left forever
+    `admitted=1, resolved_to=NULL` — the CLI's own selection query would
+    re-select and re-collapse it on every future run otherwise."""
+    # `group()`'s representative is the lexicographically-first candidate id
+    # in the merge group (`fetch_list` keeps `members[0]`) — create `rep`
+    # first so it gets the smaller id and is the one gate 1 actually screens;
+    # `dup` (created second, larger id) is the one gate 0 drops before gate 1
+    # ever sees it.
+    rep = make_candidate(conn, kind="actor", name="Mine Labour Protection Campaign",
+                         evidence="silicosis Rajasthan")
+    dup = make_candidate(conn, kind="actor",
+                         name="Mine Labour Protection Campaign - About",
+                         evidence="silicosis Rajasthan")
+
+    def fake_call(prompt, *, system=None, tier="mechanical", max_tokens=2048, **kw):
+        return {"json": {"decisions": [
+            {"id": str(rep["id"]), "keep": False, "reason": "spam"}]}, "cost": 0.0}
+    monkeypatch.setattr(gate1.llm, "call", fake_call)
+
+    candidates = [conn.execute("SELECT * FROM candidate WHERE id = ?", (c["id"],)).fetchone()
+                 for c in (dup, rep)]
+    report = worker.run_batch(conn, tmp_path, candidates)
+    assert report["gate0_collapsed"] == 1
+
+    dup_row = conn.execute("SELECT * FROM candidate WHERE id = ?", (dup["id"],)).fetchone()
+    rep_row = conn.execute("SELECT * FROM candidate WHERE id = ?", (rep["id"],)).fetchone()
+    assert dup_row["admitted"] == rep_row["admitted"] == 0
+    events = conn.execute(
+        "SELECT * FROM event WHERE entity_kind = 'candidate' AND entity_id = ? "
+        "AND by = 'worker:gate0'", (str(dup["id"]),)).fetchall()
+    assert len(events) == 1
+
+
+def test_write_entity_drops_an_invalid_enum_claim_instead_of_crashing(conn, tmp_path):
+    decision = resolve.ResolveResult(decision="new", entity_id=None,
+                                     shortlist=[], reason="")
+    claims = [{"field": "title", "value": "New Org"},
+             {"field": "depth", "value": "watched"}]   # not a real depth value
+    entity_id = worker._write_entity(conn, tmp_path, "actor", "New Org", decision,
+                                     claims, by="test", log=lambda *a: None)
+    row = conn.execute("SELECT * FROM actor WHERE id = ?", (entity_id,)).fetchone()
+    assert row is not None
+    assert row["depth"] == "registry"   # the schema default, since the claim was dropped
+
+
+def test_channel_claim_is_not_reinserted_on_a_handle_only_rerun(conn):
+    """`UNIQUE(actor_id, kind, url, handle)` cannot dedupe a handle-only row —
+    SQL's NULL <> NULL, so INSERT OR IGNORE never sees a repeat as a repeat.
+    Applying the same `channel:twitter` claim twice must still leave one row."""
+    actor(conn, "mlpc")
+    claim = [{"field": "channel:twitter", "value": "@mlpc_org"}]
+    worker._apply_other_claims(conn, "actor", "mlpc", claim, by="test")
+    worker._apply_other_claims(conn, "actor", "mlpc", claim, by="test")
+    rows = conn.execute(
+        "SELECT * FROM channel WHERE actor_id = 'mlpc' AND kind = 'twitter'").fetchall()
+    assert len(rows) == 1
+    assert rows[0]["handle"] == "@mlpc_org" and rows[0]["url"] is None
+
+
+def test_shortlist_top_resolution_caches_an_alias(conn):
+    """A shortlist hit paid for an encode + kNN. Without caching it as an
+    alias, the same name variant pays that cost again on every future
+    mention instead of hitting the free exact/alias path next time."""
+    actor(conn, "existing-org", title="Existing Org")
+    decision = resolve.ResolveResult(decision="shortlist_top", entity_id="existing-org",
+                                     shortlist=[("existing-org", 0.95)], reason="")
+    entity_id = worker._write_entity(conn, pathlib.Path("."), "actor",
+                                     "Existing Org (alt spelling)", decision, [],
+                                     by="test", log=lambda *a: None)
+    assert entity_id == "existing-org"
+    assert db.resolve(conn, "actor", "Existing Org (alt spelling)") == "existing-org"
+
+
+def test_call_fails_fast_on_a_missing_provider_package(monkeypatch):
+    """A missing `anthropic`/`google-genai` install must not burn every
+    retry's backoff sleep before falling through — that's indistinguishable
+    from a slow network failure and wastes the whole attempt budget on
+    something no retry can fix."""
+    monkeypatch.setattr(llm.config, "ANTHROPIC_KEY", "x")
+    monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 3)
+
+    def boom(*a, **kw):
+        raise ImportError("no module named anthropic")
+    monkeypatch.setattr(llm, "_call_claude", boom)
+
+    slept = []
+    monkeypatch.setattr(llm.time, "sleep", lambda s: slept.append(s))
+
+    with pytest.raises(llm.LLMError, match="required package not installed"):
+        llm.call("prompt", providers=["claude"])
+    assert slept == []   # no backoff sleep — the provider was abandoned, not retried
