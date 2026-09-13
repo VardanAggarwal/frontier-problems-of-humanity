@@ -362,6 +362,33 @@ for each chunk:           encode(chunk,    role="passage")
 keep the top k=3 chunks per question; union across questions; dedupe
 ```
 
+### What "open" means, which is not yet settled
+
+`open question` is used here, in §11b and in §11c, and for 6 of the 35 questions
+it is **not a well-defined predicate**. `02-questions.md`'s first finding from
+the reverted dive says why:
+
+> **`multi` questions never retire**, so the open set is never empty, the "stop
+> when everything is answered" exit is dead code, and every candidate —
+> including a one-paragraph registry stub — burns the full budget.
+
+The `multi` questions are problem q12 `tag:mechanism`, q17
+`tag:gap_missing_leg`, q19 who-works-it, and actor q14 `ask:need:*`, q15
+`ask:offer:*`, q16 `channel:*`. Each can legitimately be answered again, so
+"answered at least once" does not close it.
+
+Here that costs passages rather than LLM calls — the 6 stay in the encode set
+every pass, so their top-k always enters the union and inflates the one paid
+call. It is not free, and in §11c it is worse than not free (see the note
+there).
+
+A `multi` question needs a closing rule that is not "answered at least once".
+The repo already has the right shape and this design quotes it one section
+later for the yield gate — `process-leaf`'s *"stop when a wave yields no new
+names"*. Applied per question rather than per candidate, **closed when a pass
+adds no new value** makes a `multi` question closable without capping how many
+answers it may have. Recorded as open in §14 rather than decided here.
+
 **No absolute cosine cutoff**, for the measured reason in `gate2.py:29-36` —
 e5-small compresses similarity into a narrow high band (AUC 0.923 on 0.041
 mean separation on the gate-1 pairing), so no global threshold is both safe and
@@ -575,7 +602,10 @@ Anything that is neither of those is a retry.
 Strictly narrower than the first, and never a repeat of it:
 
 - only questions **still open after extraction**, and only high-value ones —
-  magnitude, who-works-it, funding, affected-led;
+  magnitude, who-works-it, funding, affected-led. Note that who-works-it is
+  problem q19, which is `multi` and therefore never closes under today's
+  definition of open (§7) — so this list cannot be evaluated until the closing
+  rule exists;
 - **cheap route first**: exhaust the leftover RRF pool for those questions
   before issuing any new search;
 - **new searches only when re-seeded** from an entity pass 1 extracted, and
@@ -601,6 +631,15 @@ counters written per candidate, costing nothing:
 | High-value questions still open after pass 1 | How often anything would trigger at all |
 | Unread URLs left in the RRF pool covering those questions | Whether the cheap route has material — if this is usually 0, only re-seeding is left |
 | New query seeds extracted that differ from the candidate name | Whether re-seeding has material — if usually 0, §11b is dead and should be deleted |
+
+**Counter 1 cannot read 0 as specified, and that breaks the decision rule
+below.** §11b's high-value set names who-works-it, which is problem q19, a
+`multi` question (§7). A `multi` question never closes, so counter 1 reads ≥1
+for every candidate, forever. The counter built to settle whether §11b is worth
+building is then structurally incapable of returning "no" — which is worse than
+an unmeasured trigger, because it is a trigger that always reads yes and looks
+like evidence. The counters are only meaningful once §7's closing rule lands;
+until then do not read counter 1 as a signal about §11b.
 
 If the first counter is usually 0, there is no branch to build. If it is high
 but the other two are 0, the answer is not a second pass — it is that the
@@ -712,6 +751,11 @@ The non-dollar budget is **throughput**: the OpenRouter free rung paces to
 - **The `unresponsive_engines` floor** (§4) above which a run is flagged
   degraded and withheld from bandit reward. Needs the §16 step 0 spike to pick
   a number; guessing one now would be the same error `gate2.py` refuses to make.
+- **The closing rule for a `multi` question** (§7) — what makes one "no longer
+  open" when "answered at least once" does not. Blocks §11b's trigger list and
+  §11c's counter 1 from meaning anything, and inflates stage 5's passage union
+  until it exists. `process-leaf`'s *"stop when a wave yields no new names"*,
+  applied per question, is the candidate shape; it is not yet a decision.
 - **Whether a second pass (§11b) is worth building at all.** Specified, but
   deliberately not committed: a naive one is a retry that re-reads the same
   URLs. Three counters in pass 1 (§11c) settle it from real runs — if the

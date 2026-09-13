@@ -9,21 +9,33 @@ Written 2026-09-13, immediately after `03-worker.md`, against the tree at
 `f91c1b5` (engine v2 step 3b — graph.db is the source of truth, corpus markdown
 is prose-only).
 
-Nothing here changes a decision in `03-worker.md`. Two things correct it: a
-prerequisite its build order omits (§1), and a claim in its §7 that this corpus
-falsifies (§2, PoC-1).
+Nothing here changes a decision in `03-worker.md`. Three things correct it: a
+prerequisite its build order omits (§1a), a defect in how §7/§11 define an "open
+question" (§1d, written up in `03-worker.md` itself), and a claim in its §7 that
+this corpus falsifies (§2, PoC-1).
 
 ---
 
-## 1. Three prerequisites missing from §16
+## 1. Four prerequisites missing from §16
 
-Not PoCs. Nothing in the build order can start without the first of these, and
-two others are unresolved decisions that surface the moment stage 5 is touched.
+Not PoCs. Nothing in the build order can start without the first of these; the
+other three are unresolved decisions that surface the moment stage 5 is touched.
 
-### 1a. `worker/questions.py` does not exist
+### 1a. The question text has no home in code
 
-`02-questions.md` is a specification with no implementation. Question ids are
-the join key for four of the eight stages:
+**This is narrower than "build a question registry", and the difference
+matters.** The question set needs no new authority: every claim field already
+has one — `store/tags.py`'s REGISTRY for `tag:*`, the `problem`/`actor` columns
+for bare field names, rows in `ask` and `channel`, all stated in
+`02-questions.md`'s Conventions. The tables there are already id'd (`#`), typed
+(`Claim field`) and flagged (`Multi`). Nothing about the *set* is missing.
+
+What exists nowhere in code is three things: the **question text**, its
+**stable id**, and **which tier asks it**. `prompts.py:112,135` carries a prose
+*field list* inside `_PROBLEM_SYSTEM` / `_ACTOR_SYSTEM` — not the 35 questions,
+and no ids at all.
+
+Question ids are the join key for four of the eight stages:
 
 | Stage | What keys on a question id |
 |---|---|
@@ -32,15 +44,35 @@ the join key for four of the eight stages:
 | 6 extraction | `answers[].question_id` in the response contract |
 | 7 ledger | `finding.question_id` |
 
-It is also what "realised coverage" counts over — the reward signal for the
-bandit (§3), the metric the §7 constant sweep moves against, and the yield gate
-in §11b. Every number in `03-worker.md` is denominated in questions answered.
+Ids are also what "realised coverage" counts over — the bandit's reward signal
+(§3), the metric the §7 constant sweep moves against, and the yield gate in
+§11b. Every number in `03-worker.md` is denominated in questions answered.
 
-`f91c1b5` added the `finding` table (`store/schema.sql:308`) whose column
-comment reads *"key into `worker/questions.py`'s registry"* — pointing at a
-file that is not in the tree. `03-worker.md` §16 lists it at no step.
+Two consumers need the *same* strings: `prompts.py` puts the question text in
+the extraction prompt, and stage 5 encodes it as a `query:`. So they have to
+live once, somewhere both read. That is the whole requirement — a single home
+for ~35 strings plus their ids and tier flags, not a new source of truth.
 
-It is the spine and it is small. Build it first, alone, before any track.
+**Form: YAML, by this repo's own precedent.** `03-worker.md` §3 puts query
+templates in git-tracked `engine/search/families.yaml` because *"a query
+template is a research decision and belongs in version control, not in a table
+nobody reads"*. A question is more of a research decision than a query
+template, so `engine/questions.yaml` follows, with `families.yaml` referencing
+its ids.
+
+**Not an oversight in §16 — a revert.** `02-questions.md`'s *"Why this is a doc
+and not code"* records that `worker/questions.py` + `worker/dive.py` existed and
+were reverted on 2026-09-13. What that section rejects is the *loop* hung off
+the list, explicitly keeping the list: *"the question set it was built around
+was not [the wrong shape], and is the part worth keeping."* So §16 omits
+scheduling the re-implementation, rather than overlooking a dependency.
+
+One consequence: the `finding` table's column comment
+(`store/schema.sql:311`) — *"key into `worker/questions.py`'s registry"* — is a
+**stale reference to the reverted file**, not a pointer at something missing. It
+survived the revert and should be repointed when the YAML lands.
+
+Small, and first, alone, before any track.
 
 ### 1b. Chunk vectors have no home
 
@@ -66,6 +98,27 @@ a table.
 `text/` holds `clean`, `canonical`, `pagestate`, `preview`, `simhash`. Nothing
 chunks. Token-aware paragraph chunking against the encoder's own tokenizer is
 greenfield, and it is the one piece PoC-3 exists to de-risk.
+
+### 1d. `open question` is undefined for 6 of the 35
+
+Written up where it belongs, in `03-worker.md` §7 (*What "open" means*), §11b and
+§11c, since the defect is in that design rather than in this plan. In short:
+`02-questions.md` diagnosed during the revert that **`multi` questions never
+retire**, and `03-worker.md` reintroduced a dependency on "open question" in
+three places without re-solving it. The sharp end is that §11c's counter 1 can
+never read 0 — §11b's high-value set names who-works-it, which is `multi` — so
+the counter built to decide whether to build §11b always reads yes.
+
+It belongs in this list because of what it blocks at build time:
+
+- **track C** cannot define its encode set without it (stage 5 iterates open
+  questions), though it degrades safely: with no closing rule, C simply encodes
+  all 35 and the passage union is larger than it needs to be;
+- **track E** can write counter 1, but nobody may read it as a signal until the
+  rule lands. Writing it is still correct — counters 2 and 3 are unaffected.
+
+So it does not block the build, only the *conclusion* the build is meant to
+support. Decide it before reading §11c's output, not before writing it.
 
 ---
 
@@ -289,7 +342,7 @@ the whole reason to record them.
 ```
 PoC-0  ‖  PoC-1  ‖  PoC-3          mutually independent, no shared code
             ↓
-           F1                       the question registry, alone
+           F1                       engine/questions.yaml, alone (§1a)
             ↓
   (A + B)  ‖   C   ‖   D            three tracks, pure functions only
             ↓
@@ -299,6 +352,8 @@ PoC-0  ‖  PoC-1  ‖  PoC-3          mutually independent, no shared code
             ↓
      counters run on real candidates
             ↓
+   the multi closing rule (§1d)       gates *reading* counter 1, not writing it
+            ↓
   §7 constant sweep, then the bandit
 ```
 
@@ -306,12 +361,19 @@ The last line is last for the reason §16 already gives: both need
 realised-coverage numbers that do not exist until the pipeline has run against
 real candidates. Tuning before then is tuning against a guess.
 
+The closing rule sits where it does for a different reason: it is cheap to
+decide and nothing is blocked by deferring it, but counter 1 is **misleading**
+rather than merely absent until it lands (§1d). Deciding it late is fine;
+reading the counter early is not.
+
 ---
 
 ## 6. What this plan does not settle
 
 - **§1b** — ephemeral chunk vectors or a `vec_chunk` kind. Needs deciding before
   track C writes a line, and PoC-1 will have an opinion about it.
+- **§1d / `03-worker.md` §14** — the closing rule for a `multi` question. Needed
+  before §11c's counter 1 is read, not before it is written.
 - **The `unresponsive_engines` floor** — still open, still waiting on PoC-0, and
   deliberately not guessed here.
 - **Whether §11b exists at all** — the counters decide, after E.
