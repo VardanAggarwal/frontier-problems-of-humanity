@@ -1,34 +1,3 @@
----
-name: Subhadeep Sanyal
-slug: subhadeep-sanyal
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: 100x100-ventures, role: "India-facing Partner", from: "2026"}
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/subhadeep-sanyal-4021261a", handle: "subhadeep-sanyal-4021261a", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: x, url: "https://twitter.com/subhadeepsanyal", handle: "subhadeepsanyal", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "LinkedIn"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Subhadeep Sanyal
 

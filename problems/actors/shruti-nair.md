@@ -1,33 +1,3 @@
----
-name: Shruti Nair
-slug: shruti-nair
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: ashoka-india, role: "South Asia leader", from: "2019"}
-ecosystem_role: [field-builder, convener]
-leg: [enterprise, activism]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/shrutisn/", handle: "shrutisn", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "LinkedIn (linkedin.com/in/shrutisn); via Ashoka India"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-11
-updated: 2026-09-10
----
 
 # Shruti Nair
 

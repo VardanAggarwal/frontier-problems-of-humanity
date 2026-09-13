@@ -1,33 +1,3 @@
----
-name: Wysa
-slug: wysa
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india, global]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: technology, text: "AI mental-health chatbot, clinically validated digital intervention; Wellcome-funded scale-up study adapting it for adolescent girls in rural India (£5.3M award)"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/wysa-ai", handle: "wysa-ai", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "wysa.io; co-founder Jo Aggarwal"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Wysa
 

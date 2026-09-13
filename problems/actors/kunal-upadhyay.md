@@ -1,33 +1,3 @@
----
-name: Kunal Upadhyay
-slug: kunal-upadhyay
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: ciie-co, role: "co-founder & CEO", from: "2001"}
-ecosystem_role: [capacity-builder, intermediary]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/kunalupadhyay/", handle: "kunalupadhyay", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "LinkedIn; via CIIE.CO/IIMA Ventures"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-11
-updated: 2026-09-10
----
 
 # Kunal Upadhyay
 

@@ -1,35 +1,3 @@
----
-name: Tamaswati Ghosh
-slug: tamaswati-ghosh
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: rtbi-iit-madras, role: "CEO", from: 2013}
-leg: [enterprise]
-ecosystem_role: [capacity-builder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "CEO of IIT Madras's incubation arm (which includes RTBI) — decides incubation-cell direction across 500+ supported deep-tech and rural-tech startups"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/tamaswati", handle: "tamaswati", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: x, url: "https://x.com/iitmadras/status/2010594732729348218", handle: "iitmadras (interview subject, not her own handle)", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "via RTBI/IIT Madras Incubation Cell (rtbi.in contact form)"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Tamaswati Ghosh
 

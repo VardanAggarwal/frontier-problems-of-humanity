@@ -1,31 +1,3 @@
----
-name: Peterson India
-slug: peterson-india
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs: []
-offers: []
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/company/peterson-india", handle: "peterson-india — posts on PepsiCo Sustainable Farming Program training", last_checked: 2026-09-08, status: live}
-contact_route: "LinkedIn /company/peterson-india. Agri-advisory / inspection firm (Peterson / Control Union group) contracted by PepsiCo."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Peterson India
 

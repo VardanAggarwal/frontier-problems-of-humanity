@@ -1,36 +1,3 @@
----
-name: Vidyut Mohan
-slug: vidyut-mohan
-type: individual
-depth: tracked
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: takachar, role: "co-founder & CEO", from: 2018-01-01, to: }
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab]
-lifecycle: scaling
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: introductions, text: "fertiliser-company partners and biochar / carbon-credit offtake buyers — asks he posts directly on LinkedIn (via Takachar)", as_of: 2026-09-08, source: "https://www.linkedin.com/in/vidyutmohan/", state: open}
-  - {kind: money, text: "capital to place portable pyrolysis units with village operators (via Takachar)", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: technology, text: "founder of the in-field portable-pyrolysis approach to paddy-straw biochar; leads Takachar's Punjab/Haryana deployment and India-first Verra soil-carbon credits"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/vidyutmohan/", handle: "vidyutmohan — active through 2026; partnership/offtake/hiring asks, deployment updates. Best single follow for Takachar.", last_checked: 2026-09-08, status: live}
-  - {kind: x, url: "https://x.com/VidyutMohan", handle: "@VidyutMohan — bio present, no posts", last_checked: 2026-09-08, status: dead}
-contact_route: "LinkedIn DM (/in/vidyutmohan) — actively used, carries his partnership asks. Also via Takachar (takachar.com contact form)."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Vidyut Mohan
 

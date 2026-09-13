@@ -1,33 +1,3 @@
----
-name: Annapurna Finance
-slug: annapurna-finance
-type: org
-depth: registry
-aka: ["Annapurna Microfinance"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "microfinance, home-improvement and MSME loans through a pan-India rural distribution network"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/company/annapurna-finance", handle: "annapurna-finance", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "MD & founder Gobinda Chandra Pattnaik; annapurnafinance.in"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Annapurna Finance
 

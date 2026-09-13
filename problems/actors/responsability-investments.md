@@ -1,35 +1,3 @@
----
-name: responsAbility Investments
-slug: responsability-investments
-type: org
-depth: tracked
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs:
-  - {kind: introductions, text: "actively sourcing debt/equity deal flow in Financial Inclusion, Climate Finance and Sustainable Food across India — six India deals surfaced in a single 12-month window (Jan 2025–Jan 2026) indicates an open, ongoing pipeline need, inferred from deployment cadence rather than a stated ask", as_of: 2026-09-10, source: "https://in.linkedin.com/company/responsability-investments", state: open}
-offers:
-  - {kind: capital, text: "private-market debt and equity across Financial Inclusion, Climate Finance and Sustainable Food; India cheque sizes seen $10M–$35M plus a ₹390cr (~$47M) minority-stake deal"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/responsability-investments", handle: "responsability-investments", last_checked: 2026-09-10, status: live}
-  - {kind: website, url: "https://www.responsability.com/en/about", last_checked: 2026-09-10, status: live}
-contact_route: "responsability.com contact form; Mumbai office (one of the firm's global hubs alongside Zurich, Lima, Nairobi, Paris, Tbilisi, Singapore)"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-10
-updated: 2026-09-11
----
 
 # responsAbility Investments
 

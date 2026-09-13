@@ -1,24 +1,3 @@
----
-name: Uttar Pradesh Pollution Control Board
-slug: uttar-pradesh-pollution-control-board
-type: org
-depth: registry
-aka: [UPPCB]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [small-industrial-town-air]
-nodes: [energy]
-geography: [india, uttar-pradesh]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://uppcb.com/", handle: "", last_checked: 2026-09-07, status: none-found}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Uttar Pradesh Pollution Control Board
 

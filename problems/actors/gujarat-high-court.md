@@ -1,31 +1,3 @@
----
-name: Gujarat High Court
-slug: gujarat-high-court
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [silicosis-stone-industry]
-nodes: [toxic-exposure-class]
-geography: [india, gujarat]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs: []
-offers: []
-sources:
-  - {kind: press, url: "https://www.counterview.net/2026/08/for-gujarats-silicosis-victims-year-of.html", handle: "PTRC v State of Gujarat, Aug 2025", last_checked: 2026-09-07, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Gujarat High Court
 

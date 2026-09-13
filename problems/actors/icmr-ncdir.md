@@ -1,25 +1,3 @@
----
-name: ICMR – National Centre for Disease Informatics and Research
-slug: icmr-ncdir
-type: org
-depth: registry
-aka: [NCDIR, "National Cancer Registry Programme", NCRP]
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: neutral
-leaves: [asbestos-in-air]
-nodes: [toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://www.ncdirindia.org/", handle: "", last_checked: 2026-09-07, status: live}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # ICMR – National Centre for Disease Informatics and Research
 

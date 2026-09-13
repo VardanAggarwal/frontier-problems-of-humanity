@@ -1,35 +1,3 @@
----
-name: Dasra
-slug: dasra
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [field-builder, convener, intermediary]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: knowledge, text: "systems-orchestration: convenes funders/nonprofits/governments, publishes the annual India Philanthropy Report (with Bain & Company), runs the GivingPi family-philanthropy network and collaboratives (NFSSM Alliance, 10to19)"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/company/dasra/", handle: "dasra", last_checked: 2026-09-10, status: live}
-  - {kind: x, url: "https://x.com/dasra", handle: "@dasra", last_checked: 2026-09-10, status: unconfirmed}
-  - {kind: website, url: "https://dasra.org/", last_checked: 2026-09-10, status: live}
-contact_route: "dasra.org contact form; India Philanthropy Forum as a convening entry point"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Dasra
 

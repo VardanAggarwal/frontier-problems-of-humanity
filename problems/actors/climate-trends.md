@@ -1,24 +1,3 @@
----
-name: Climate Trends
-slug: climate-trends
-type: org
-depth: registry
-aka: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [north-india-winter-smog]
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://climatetrends.in/", handle: "", last_checked: 2026-09-07, status: none-found}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Climate Trends
 

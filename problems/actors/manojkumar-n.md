@@ -1,28 +1,3 @@
----
-name: Manojkumar N
-slug: manojkumar-n
-type: individual
-depth: registry
-aka: []
-affiliations:
-  - {actor: centre-for-research-on-energy-and-clean-air, role: "Analyst", from: , to: }
-leg: [activism]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [north-india-winter-smog]
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/manojkumarvit/", handle: "manojkumarvit", last_checked: 2026-09-07, status: stale}
-  - {kind: website, url: "https://energyandcleanair.org/about-us/staff/", handle: "CREA staff / author page", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "", last_checked: 2026-09-07, status: none-found}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Manojkumar N
 

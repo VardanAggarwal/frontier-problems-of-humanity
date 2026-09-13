@@ -1,35 +1,3 @@
----
-name: Chintan Bakshi
-slug: chintan-bakshi
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: startup-oasis, role: "CEO"}
-leg: [enterprise]
-ecosystem_role: [capacity-builder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "CEO of Startup Oasis — decides cohort selection across its seven Rajasthan incubation centres"}
-sources:
-  - {kind: x, url: "https://x.com/bakshichintan", handle: "BakshiChintan", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: linkedin, url: "https://www.linkedin.com/in/chintanbakshi", handle: "chintanbakshi", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "via Startup Oasis (startupoasis.in contact form)"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Chintan Bakshi
 

@@ -1,34 +1,3 @@
----
-name: Bharti Gupta Ramola
-slug: bharti-gupta-ramola
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: villgro, role: "director/board member"}
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: credibility, text: "25-year PwC partner (first woman and first non-CA admitted to partnership among Indian professional firms); independent director on HDFC Life Insurance, SRF Ltd and Tata Steel boards; GP advisory board of Unitus Impact Fund; advisory council of Transforming Rural India Foundation"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/bharti-gupta-ramola-60517246", handle: "bharti-gupta-ramola-60517246", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "LinkedIn"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Bharti Gupta Ramola
 

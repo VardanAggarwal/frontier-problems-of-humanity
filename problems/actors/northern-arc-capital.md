@@ -1,34 +1,3 @@
----
-name: Northern Arc Capital
-slug: northern-arc-capital
-type: org
-depth: registry
-aka: [IFMR Capital Finance Limited]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "debt financing/placement and fund management for underbanked-focused originators (MSME, microfinance, consumer, vehicle, affordable-housing, agri finance)"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/northern-arc-capital", handle: "northern-arc-capital", last_checked: 2026-09-10, status: unconfirmed}
-  - {kind: website, url: "https://www.northernarc.com/", last_checked: 2026-09-10, status: live}
-contact_route: "northernarc.com investor-relations / invest-with-us form"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Northern Arc Capital
 

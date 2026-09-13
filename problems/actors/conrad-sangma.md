@@ -1,30 +1,3 @@
----
-name: Conrad Kongkal Sangma
-slug: conrad-sangma
-type: individual
-depth: registry
-aka: []
-affiliations:
-  - {actor: meghalaya-state-pollution-control-board, role: "Chief Minister of Meghalaya (executive over the state board)", from: 2018-03-06, to: }
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: ambiguous
-leaves: [small-industrial-town-air]
-nodes: []
-geography: [india, meghalaya]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: x, url: "https://x.com/SangmaConrad", handle: "@SangmaConrad", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "https://x.com/CMO_Meghalaya", handle: "@CMO_Meghalaya", last_checked: 2026-09-07, status: live}
-  - {kind: instagram, url: "https://www.instagram.com/conrad_k_sangma/", handle: "@conrad_k_sangma", last_checked: 2026-09-07, status: live}
-  - {kind: facebook, url: "https://www.facebook.com/conradksangma/", handle: "conradksangma", last_checked: 2026-09-07, status: live}
-  - {kind: website, url: "https://cm.meghalaya.gov.in", handle: "CMO", last_checked: 2026-09-07, status: live}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Conrad Kongkal Sangma
 

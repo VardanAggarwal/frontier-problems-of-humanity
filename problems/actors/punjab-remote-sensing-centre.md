@@ -1,37 +1,3 @@
----
-name: Punjab Remote Sensing Centre
-slug: punjab-remote-sensing-centre
-type: org
-depth: tracked
-aka: [PRSC]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: technology, text: "a fire-detection feed robust to post-satellite-overpass burning — >90% of large Punjab fires are now lit after the polar-orbiting overpass, so the alert layer it runs systematically under-counts", as_of: 2026-09-08, source: "https://theprint.in/environment/farmers-outwitting-satellite-detection-images-show-stubble-burning-peak-post-afternoon-hours/2359525/", state: open}
-  - {kind: data, text: "reconciliation protocol for the recurring gap between its fire alerts and nodal-officer ground verification (e.g. 6 of 23 confirmed in Malerkotla)", as_of: 2026-09-08, source: "https://www.tribuneindia.com/news/punjab/only-6-out-of-23-stubble-fires-confirmed-in-punjabs-malerkotla/amp", state: open}
-offers:
-  - {kind: data, text: "site-level daily farm-fire alerts for Punjab that trigger the SDM → nodal-officer → verification → challan/environmental-compensation pipeline"}
-  - {kind: data, text: "state remote-sensing capacity for crop-area and burnt-area mapping"}
-sources:
-  - {kind: website, url: "https://prsc.gov.in/", handle: "the only checkable channel; update cadence not established", last_checked: 2026-09-09, status: stale}
-  - {kind: facebook, url: "https://www.facebook.com/Punjab-Remote-Sensing-Centre-Ludhiana-1549030372045452/", handle: "page exists; no post confirmed within 6 months", last_checked: 2026-09-09, status: stale}
-  - {kind: other, url: "", handle: "none-found — no X, no YouTube", last_checked: 2026-09-09, status: none-found}
-contact_route: "Punjab Remote Sensing Centre, PAU campus, Ludhiana — under the Punjab Dept of Science, Technology & Environment. No live social feed found — poll prsc.gov.in directly, phone +91-161-2303484. Works in tandem with the Punjab Pollution Control Board (see punjab-pollution-control-board)."
-followed: false
-followed_date:
-last_checked: 2026-09-09
-updated: 2026-09-09
----
 
 # Punjab Remote Sensing Centre
 

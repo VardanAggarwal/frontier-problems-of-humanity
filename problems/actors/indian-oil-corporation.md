@@ -1,25 +1,3 @@
----
-name: Indian Oil Corporation
-slug: indian-oil-corporation
-type: org
-depth: registry
-aka: [IOC, IOCL, IndianOil]
-leg: [institution, enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [cookfire-smoke, crop-residue-burning]
-nodes: [energy]
-geography: [india, punjab, haryana]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://iocl.com/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "https://x.com/IndianOilcl", handle: "@IndianOilcl", last_checked: 2026-09-07, status: unconfirmed}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Indian Oil Corporation
 

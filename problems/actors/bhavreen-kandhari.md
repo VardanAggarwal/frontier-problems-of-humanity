@@ -1,34 +1,3 @@
----
-name: Bhavreen Kandhari
-slug: bhavreen-kandhari
-type: individual
-depth: tracked
-aka: []
-affiliations:
-  - {actor: warrior-moms, role: "co-founder", from: 2020-01-01, to: }
-leg: [activism]
-affected_led: yes
-representation_unit: local-affected
-stance: works-the-remedy
-leaves: [north-india-winter-smog, crop-residue-burning]
-nodes: []
-geography: [india, delhi]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: money, text: "core support for volunteer clean-air / tree-protection organising (inferred)", as_of: 2026-09-07, source: "inferred", state: open}
-offers:
-  - {kind: reach, text: "consistent public megaphone on Delhi air; press contacts"}
-  - {kind: convening, text: "bridge to the wider Delhi-NCR citizen clean-air network"}
-sources:
-  - {kind: x, url: "https://x.com/BhavreenMK", handle: "@BhavreenMK", last_checked: 2026-09-07, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/in/bhavreen-kandhari-80283026a", handle: "bhavreen-kandhari-80283026a", last_checked: 2026-09-07, status: live}
-contact_route: "X DM @BhavreenMK (most responsive; near-daily in smog season); LinkedIn as backup; op-ed bylines (Hindustan Times, The Wire); via Warrior Moms."
-followed: true
-followed_date: 2026-09-07
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Bhavreen Kandhari
 

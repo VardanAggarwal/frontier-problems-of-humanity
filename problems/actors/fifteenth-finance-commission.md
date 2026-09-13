@@ -1,24 +1,3 @@
----
-name: Fifteenth Finance Commission
-slug: fifteenth-finance-commission
-type: org
-depth: registry
-aka: ["15th Finance Commission", "XV-FC"]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: ambiguous
-leaves: [north-india-winter-smog]
-nodes: []
-geography: [india]
-lifecycle: won-and-dissolved
-lifecycle_as_of: 2021-11-01
-sources:
-  - {kind: website, url: "https://fincomindia.nic.in/", handle: "", last_checked: 2026-09-07, status: none-found}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Fifteenth Finance Commission
 

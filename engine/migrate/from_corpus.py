@@ -190,7 +190,8 @@ def migrate_leaves(conn, root: Path, report: Report, needs: dict) -> dict[str, d
                         ("scale", "scale"), ("channel", "channel"),
                         ("satisfier_relation", "satisfier_relation"),
                         ("onset", "onset"), ("agent", "agent"),
-                        ("gap_kind", "gap")):
+                        ("gap_kind", "gap"), ("gap_as_of", "gap_as_of"),
+                        ("last_reviewed", "last_reviewed")):
             if data.get(key) is not None:
                 db.tag(conn, "problem", pid, ns, data[key], by=BY)
         for mechanism in listof(data.get("mechanisms")):
@@ -270,6 +271,10 @@ def migrate_nodes(conn, root: Path, report: Report, needs: dict) -> list[tuple[s
             db.tag(conn, "problem", pid, "node_type", data["type"], by=BY)
         if data.get("status"):
             db.tag(conn, "problem", pid, "node_status", data["status"], by=BY)
+        if data.get("authority"):
+            db.tag(conn, "problem", pid, "authority", data["authority"], by=BY)
+        for lever in listof(data.get("sub_levers")):
+            db.tag(conn, "problem", pid, "sub_levers", lever, by=BY)
         for mechanism in listof(data.get("mechanisms")):
             db.tag(conn, "problem", pid, "mechanism", mechanism, by=BY)
         db.alias(conn, "problem", pid, data.get("title") or pid, by=BY)

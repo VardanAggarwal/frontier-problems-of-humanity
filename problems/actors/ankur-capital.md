@@ -1,33 +1,3 @@
----
-name: Ankur Capital
-slug: ankur-capital
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-ecosystem_role: [funder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.ankurcapital.com/", last_checked: 2026-09-11, status: unconfirmed}
-sources_note:
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Ankur Capital
 

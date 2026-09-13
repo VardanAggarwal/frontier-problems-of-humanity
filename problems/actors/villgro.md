@@ -1,37 +1,3 @@
----
-name: Villgro
-slug: villgro
-type: org
-depth: tracked
-aka: [Villgro Innovations Foundation, Rural Innovations Network]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder, funder, intermediary]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs:
-  - {kind: data, text: "pipeline visibility into early-stage social enterprises outside the healthcare/agri/climate sectors it already sources well — inferred from sector-limited scope, not a stated ask", as_of: 2026-09-10, source: "https://villgro.org/", state: open}
-offers:
-  - {kind: capital, text: "seed-stage grants and incubation support (₹1-4cr per Menterra-fund ticket), plus market-access and enterprise-development services"}
-  - {kind: convening, text: "Unconvention entrepreneurship events (20 cities, 17,000+ entrepreneurs) and iPitch deal-discovery platform"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/company/villgro-org", handle: "villgro-org", last_checked: 2026-09-10, status: live}
-  - {kind: x, url: "https://twitter.com/villgro", handle: "@villgro", last_checked: 2026-09-10, status: unconfirmed}
-  - {kind: website, url: "https://villgro.org/", last_checked: 2026-09-10, status: live}
-contact_route: "villgro.org contact form; warm intro via CEO Srinivas Ramanujam or board"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-10
-updated: 2026-09-11
----
 
 # Villgro
 

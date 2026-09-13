@@ -1,24 +1,3 @@
----
-name: Pollution Control Board, Assam
-slug: pollution-control-board-assam
-type: org
-depth: registry
-aka: [PCBA]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: ambiguous
-leaves: [small-industrial-town-air]
-nodes: [energy]
-geography: [india, assam]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://pcbassam.org/", handle: "", last_checked: 2026-09-07, status: none-found}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Pollution Control Board, Assam
 

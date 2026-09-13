@@ -1,35 +1,3 @@
----
-name: Menterra
-slug: menterra
-type: org
-depth: tracked
-aka: [Menterra Venture Advisors, Menterra Social Impact Fund]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs:
-  - {kind: data, text: "deal pipeline in underserved geographies/sectors beyond its current 15-company portfolio — inferred, not stated"}
-offers:
-  - {kind: capital, text: "₹1-4 crore early-stage equity/debt tickets to social enterprises in agri, healthcare, education, energy"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/company/menterra-venture-advisors", handle: "menterra-venture-advisors", last_checked: 2026-09-10, status: live}
-  - {kind: website, url: "https://www.menterra.com/", last_checked: 2026-09-10, status: live}
-contact_route: "menterra.com contact form"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-10
-updated: 2026-09-11
----
 
 # Menterra
 

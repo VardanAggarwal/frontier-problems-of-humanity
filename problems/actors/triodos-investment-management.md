@@ -1,34 +1,3 @@
----
-name: Triodos Investment Management
-slug: triodos-investment-management
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "impact debt/equity across Energy & Climate, Financial Inclusion, Sustainable Food & Agriculture; EUR 5.4bn AUM (30 June 2025); India investments across financial services, food/agri and energy"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/company/triodos-investment-management-b.v.", handle: "triodos-investment-management-b.v.", last_checked: 2026-09-10, status: unconfirmed}
-  - {kind: website, url: "https://www.triodos-im.com/", last_checked: 2026-09-10, status: live}
-contact_route: "triodos-im.com"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Triodos Investment Management
 

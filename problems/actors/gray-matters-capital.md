@@ -1,34 +1,3 @@
----
-name: Gray Matters Capital
-slug: gray-matters-capital
-type: org
-depth: registry
-aka: [Gray Ghost Ventures]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India, "Global South"]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "$1-5M direct/co-investment tickets, focused on women's self-development, skilling and education technology"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/company/gray-matters-capital-foundation", handle: "gray-matters-capital-foundation", last_checked: 2026-09-10, status: unconfirmed}
-  - {kind: website, url: "https://graymatterscap.com/", last_checked: 2026-09-10, status: live}
-contact_route: "graymatterscap.com contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Gray Matters Capital
 

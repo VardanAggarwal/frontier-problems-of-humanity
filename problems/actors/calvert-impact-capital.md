@@ -1,35 +1,3 @@
----
-name: Calvert Impact Capital
-slug: calvert-impact-capital
-type: org
-depth: registry
-aka: ["Calvert Impact", "Calvert Foundation"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "US-based global nonprofit impact investor; India focus areas include clean energy, education, healthcare, sanitation, financial inclusion, agricultural supply chain; retail access via India Investment Initiative on Vested.org from $20"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/company/calvert-impact-capital", handle: "calvert-impact-capital", last_checked: 2026-09-10, status: unconfirmed}
-  - {kind: x, url: "https://x.com/calvertimpcap", handle: "@calvertimpcap", last_checked: 2026-09-10, status: unconfirmed}
-  - {kind: website, url: "https://calvertimpact.org/resources/participate-in-the-wave-of-the-future-invest-in-india", last_checked: 2026-09-10, status: live}
-contact_route: "calvertimpact.org; India Investment Initiative via Vested.org"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Calvert Impact Capital
 

@@ -1,33 +1,3 @@
----
-name: Silicosis Victims Association (Khambhat)
-slug: khambhat-silicosis-victims-association
-type: org
-depth: tracked
-aka: [Silicosis Peedit Sangathan Khambhat]
-parent:
-superseded_by:
-affiliations: [{actor: ptrc, role: "advocacy and clinical support partner", from: 2000-01-01, to: }]
-leg: [activism]
-affected_led: yes
-representation_unit: local-affected
-stance: works-the-remedy
-leaves: [{id: silicosis-stone-industry, role: primary}]
-nodes: [toxic-exposure-class]
-geography: [india, gujarat]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: legal, text: "clinical certification, NHRC-complaint and compensation-claim support for the agate-worker cohort, routed through PTRC", as_of: 2026-09-07, source: "inferred", state: open}
-offers:
-  - {kind: credibility, text: "direct standing of the Khambhat agate silicosis-affected families"}
-sources:
-  - {kind: other, url: "http://www.peoplestraining.org/index.php/activities", handle: "via PTRC — no direct channel (confirmed, incl. Gujarati search)", last_checked: 2026-09-07, status: none-found}
-contact_route: "No direct channel. Reach via PTRC, Vadodara — info@peoplestraining.org / +91 94264 86855, Director Jagdish Patel, who handles this cohort's clinical access, NHRC complaints and litigation."
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Silicosis Victims Association (Khambhat)
 

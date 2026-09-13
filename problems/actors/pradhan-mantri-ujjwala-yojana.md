@@ -1,25 +1,3 @@
----
-name: Pradhan Mantri Ujjwala Yojana
-slug: pradhan-mantri-ujjwala-yojana
-type: org
-depth: registry
-aka: [PMUY, Ujjwala, "Ujjwala 2.0"]
-parent: ministry-of-petroleum-and-natural-gas
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [cookfire-smoke]
-nodes: [energy]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://www.pmuy.gov.in/", handle: "", last_checked: 2026-09-07, status: live}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Pradhan Mantri Ujjwala Yojana
 

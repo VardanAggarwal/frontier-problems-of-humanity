@@ -67,14 +67,34 @@ REGISTRY: dict[str, tuple[str, bool, str | None, tuple[str, ...]]] = {
     "node_status": (PROBLEM, False, None, (
         "open", "fix-known", "fix-partial", "fix-done",
     )),
+    "authority": (PROBLEM, True, None, ()),      # node: free-text, one row
+    "sub_levers": (PROBLEM, True, None, ()),     # node: free-text, multi-row
+    "gap_as_of": (PROBLEM, True, None, ()),      # leaf: YYYY-MM-DD, staleness check
+    "last_reviewed": (PROBLEM, True, None, ()),  # leaf: YYYY-MM-DD, staleness check
     "gap_missing_leg": (PROBLEM, False, None, (
         "activism", "institution", "enterprise", "service",
     )),
     "gap_kind": (PROBLEM, False, None, ("none", "coverage", "representation")),
+    # §B/§C/§D narrative findings (process-leaf) — one sentence each, no
+    # enumerable value set, so `open` free-text rather than a closed list.
+    # Convention (not DB-enforced): one row per entity: a re-run overwrites
+    # the finding by re-asserting it, callers should not accumulate variants.
+    "magnitude": (PROBLEM, True, None, ()),
+    "differential_vulnerability": (PROBLEM, True, None, ()),
+    "measurement_state": (PROBLEM, True, None, ()),
+    "burden_note": (PROBLEM, True, None, ()),
+    "blocker": (PROBLEM, True, None, ()),
+    "representation_verdict": (PROBLEM, True, None, ()),
     "ecosystem_role": (ACTOR, False, None, (
         "funder", "intermediary", "capacity-builder", "convener",
         "field-builder", "researcher", "operator", "platform",
     )),
+    # §D q2/q3 (process-leaf) — leg-specific viability/failure judgment, one
+    # sentence. Free text: the question is leg-conditioned (paying customer /
+    # donor-exit survival / authority-contains-source / affected-led), so a
+    # closed enum would force one shape onto four different judgments.
+    "viability_note": (ACTOR, True, None, ()),
+    "failure_note": (ACTOR, True, None, ()),
 }
 
 # Namespaces whose value set is closed but lives in the graph, not here.

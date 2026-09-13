@@ -1,34 +1,3 @@
----
-name: Wilfred Njagi
-slug: wilfred-njagi
-type: individual
-depth: excluded
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: villgro-africa, role: "co-founder & CEO", from: "2016"}
-ecosystem_role: [intermediary]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [africa]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: credibility, text: "co-founder-CEO of Villgro Africa, East Africa healthcare incubator; Africa's Most Respected CEOs 2022, MB100 2022 winner"}
-sources:
-  - {kind: linkedin, url: "https://ke.linkedin.com/in/wilfred-njagi-b812b814", handle: "wilfred-njagi-b812b814", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "LinkedIn"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Wilfred Njagi
 

@@ -1,38 +1,3 @@
----
-name: Arpit Dhupar
-slug: arpit-dhupar
-type: individual
-depth: tracked
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: chakr-innovation, role: "co-founder / CTO", from: 2016-01-01, to: 2020-01-01}
-  - {actor: dharaksha-ecosolutions, role: "co-founder & CEO", from: 2019-01-01, to: }
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india]
-lifecycle: scaling
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: distribution, text: "offtake for rice-stubble-based biodegradable packaging at scale to sustain farm-gate straw purchase (inferred, via Dharaksha)", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: capital, text: "a farm-gate buyer for rice stubble — Dharaksha converts it to mycelium-bound biodegradable packaging (thermocol alternative)"}
-  - {kind: technology, text: "deeptech founder; soot-to-ink (Chakr, past) and stubble-to-packaging (Dharaksha) process design"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/dhupar-arpit", handle: "dhupar-arpit — founder posts on Dharaksha, stubble burning, deeptech hiring", last_checked: 2026-09-08, status: live}
-  - {kind: instagram, url: "https://www.instagram.com/arpit_dhupar/", handle: "@arpit_dhupar — mission framing; last post Nov 2025", last_checked: 2026-09-08, status: live}
-  - {kind: x, url: "", handle: "none-found", last_checked: 2026-09-08, status: none-found}
-contact_route: "LinkedIn DM /in/dhupar-arpit (primary). Company: dharaksha.com contact form. No longer at Chakr Innovation (exited ~2020)."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Arpit Dhupar
 

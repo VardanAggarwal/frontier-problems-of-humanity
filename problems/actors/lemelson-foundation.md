@@ -1,34 +1,3 @@
----
-name: The Lemelson Foundation
-slug: lemelson-foundation
-type: org
-depth: registry
-aka: [Lemelson Foundation]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: ["United States", "India", "Kenya"]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "grants (does not accept unsolicited proposals) to incubate invention-based enterprises and strengthen the invention ecosystem in India and East Africa"}
-sources:
-  - {kind: website, url: "https://www.lemelson.org/", last_checked: 2026-09-10, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/the-lemelson-foundation/", handle: "the-lemelson-foundation", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "does not accept unsolicited proposals; lemelson.org contact form for informational outreach only"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # The Lemelson Foundation
 

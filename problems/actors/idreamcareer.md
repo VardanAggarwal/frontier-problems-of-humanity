@@ -1,33 +1,3 @@
----
-name: iDreamCareer
-slug: idreamcareer
-type: org
-depth: registry
-aka: ["iDreamCareer.com", "iDC"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "unbiased career-counselling platform for school/college students — 4.2M+ students reached across 48,000 schools, 105 districts (company claim)"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/idreamcareer-com", handle: "idreamcareer-com", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "founder & CEO Ayush Bansal; idreamcareer.com"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # iDreamCareer
 

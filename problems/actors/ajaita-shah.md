@@ -1,34 +1,3 @@
----
-name: Ajaita Shah
-slug: ajaita-shah
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: frontier-markets, role: "founder", from: "2011"}
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: credibility, text: "founder of Frontier Markets (rural last-mile distribution, 20K+ women 'Sahelis' agent network); 2024 Schwab Foundation Social Entrepreneur of the Year"}
-sources:
-  - {kind: linkedin, url: "https://lk.linkedin.com/posts/frontiermarkets_thank-you-for-this-especially-in-the-category-activity-7008855995388948480-iLhc", handle: "frontiermarkets (company)", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "LinkedIn (via Frontier Markets company page); Schwab Foundation profile"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Ajaita Shah
 

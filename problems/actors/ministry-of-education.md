@@ -1,31 +1,3 @@
----
-name: Ministry of Education
-slug: ministry-of-education
-type: org
-depth: registry
-aka: [MoE, "Ministry of Human Resource Development"]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: neutral
-leaves: [asbestos-in-air]
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-09
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.education.gov.in/", handle: "", last_checked: 2026-09-09, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-09
-updated: 2026-09-09
----
 
 # Ministry of Education
 

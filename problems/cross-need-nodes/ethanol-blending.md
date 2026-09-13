@@ -1,16 +1,3 @@
----
-id: ethanol-blending
-type: instrument
-title: Ethanol blending targets
-one_line: The EBP schedule plus FCI grain allocation pull irrigation water and buffer-stock grain toward fuel.
-geography: [india]
-authority: central — MoPNG (EBP programme), Dept of Food & Public Distribution / FCI (grain allocation SOP), CACP (MSP)
-mechanisms: [instrument-keyed-to-wrong-object, spend-mismatched-to-source]
-needs: [water, food]
-actors: []
-status: open
-updated: 2026-09-06
----
 
 # Ethanol blending targets
 

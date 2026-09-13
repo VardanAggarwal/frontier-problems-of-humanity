@@ -1,33 +1,3 @@
----
-name: Bharatiya Kisan Union (Ekta Ugrahan)
-slug: bku-ekta-ugrahan
-type: org
-depth: tracked
-aka: ["BKU Ugrahan", "BKU (Ekta Ugrahan)"]
-leg: [activism]
-affected_led: yes
-representation_unit: local-affected
-stance: organised-against-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: money, text: "a per-quintal bonus (₹200/quintal demanded) or free CRM machinery in exchange for not burning — the standing public demand", as_of: 2026-09-07, source: "https://www.tribuneindia.com/news/punjab/farmer-govt-faceoff-on-cards-over-red-entries-for-stubble-burning-in-punjab/", state: open}
-  - {kind: legal, text: "withdrawal of FIRs and 'red-entry' revenue markings against members for stubble burning", as_of: 2026-09-07, source: "https://www.deccanherald.com/india/punjab/stubble-burning-farmers-bodies-hold-protest-seeking-withdrawal-of-cases-2778281", state: open}
-offers:
-  - {kind: convening, text: "organised reach into the Punjab paddy smallholder base — could deliver union-coordinated straw collection at village scale if the farm-gate price cleared"}
-  - {kind: credibility, text: "the most credible farmer voice in Malwa; a deal it endorses would move adoption"}
-sources:
-  - {kind: press, url: "https://www.tribuneindia.com/news/punjab/farmer-govt-faceoff-on-cards-over-red-entries-for-stubble-burning-in-punjab/", handle: "Tribune coverage of the union's stubble-penalty position", last_checked: 2026-09-07, status: live}
-  - {kind: other, url: "", handle: "no official union web/social presence found", last_checked: 2026-09-07, status: none-found}
-contact_route: "via Punjab district union offices / press spokespersons; no verified central email. Warm intro via agrarian journalists at The Tribune / Down To Earth."
-followed: true
-followed_date: 2026-09-07
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Bharatiya Kisan Union (Ekta Ugrahan)
 

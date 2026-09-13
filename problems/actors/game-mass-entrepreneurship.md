@@ -1,35 +1,3 @@
----
-name: Global Alliance for Mass Entrepreneurship (GAME)
-slug: game-mass-entrepreneurship
-type: org
-depth: registry
-aka: ["GAME"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [field-builder, capacity-builder, convener]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "MSME-growth accelerator (Growtherator), non-tech women-entrepreneur incubation model, and the Women Entrepreneurship Platform (WEP) partnership with NITI Aayog/SIDBI"}
-sources:
-  - {kind: website, url: "https://massentrepreneurship.org/", last_checked: 2026-09-11, status: live}
-  - {kind: linkedin, url: "https://in.linkedin.com/company/game-india", handle: "game-india", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: youtube, url: "https://www.youtube.com/channel/UCZi_M9BjPrjSxhW9T2-iZGA", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "massentrepreneurship.org contact form"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Global Alliance for Mass Entrepreneurship (GAME)
 

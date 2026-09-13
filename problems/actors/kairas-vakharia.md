@@ -1,34 +1,3 @@
----
-name: Kairas Vakharia
-slug: kairas-vakharia
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: villgro, role: "director/board member"}
-ecosystem_role: [capacity-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: credibility, text: "Senior VP & Head of Strategy, Farm Equipment Sector, Mahindra & Mahindra (with the group since 1992); Eisenhower Fellow (2003); boards of IIM Udaipur Incubation Centre and M.I.T.R.A."}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/kairas-vakharia-97539916", handle: "kairas-vakharia-97539916", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "LinkedIn; Mahindra & Mahindra Farm Equipment Sector"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Kairas Vakharia
 

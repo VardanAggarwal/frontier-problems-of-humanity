@@ -1,25 +1,3 @@
----
-name: Building and Wood Workers' International
-slug: building-and-wood-workers-international
-type: org
-depth: registry
-aka: [BWI]
-affiliations: []
-leg: [activism]
-affected_led: partial
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [asbestos-in-air]
-nodes: [toxic-exposure-class]
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://www.bwint.org/", handle: "", last_checked: 2026-09-07, status: live}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Building and Wood Workers' International
 

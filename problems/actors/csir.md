@@ -1,24 +1,3 @@
----
-name: Council of Scientific and Industrial Research
-slug: csir
-type: org
-depth: registry
-aka: [CSIR]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [residual-childhood-lead]
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://www.csir.res.in/", handle: "", last_checked: 2026-09-07, status: live}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Council of Scientific and Industrial Research
 

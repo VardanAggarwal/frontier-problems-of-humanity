@@ -1,34 +1,3 @@
----
-name: The/Nudge Institute
-slug: the-nudge-institute
-type: org
-depth: registry
-aka: ["The/Nudge Centre for Social Innovation", "Nudge Institute"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder, funder, field-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: capital, text: "grants ₹50L-2cr for high-potential nonprofits/social enterprises addressing systemic livelihood issues, plus 12-24 months mentoring"}
-sources:
-  - {kind: website, url: "https://www.thenudge.org/livelihoods-ecosystem/social-entrepreneurship/accelerator/", last_checked: 2026-09-11, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/the-nudge-institute", handle: "the-nudge-institute", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "thenudge.org contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # The/Nudge Institute
 

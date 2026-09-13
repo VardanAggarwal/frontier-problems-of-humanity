@@ -1,35 +1,3 @@
----
-name: Tata Trusts
-slug: tata-trusts
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder, field-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: capital, text: "seed and anchor philanthropic capital for India health, education, livelihoods, water and social-innovation intermediaries"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/tatatrusts", handle: "tatatrusts", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: x, url: "https://x.com/tatatrusts", handle: "@tatatrusts", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: website, url: "https://www.tatatrusts.org/", last_checked: 2026-09-11, status: live}
-contact_route: "tatatrusts.org; LinkedIn company page (181,859 followers)"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Tata Trusts
 

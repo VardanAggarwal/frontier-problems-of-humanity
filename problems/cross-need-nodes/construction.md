@@ -1,23 +1,3 @@
----
-id: construction
-type: sector
-title: Construction
-one_line: The construction sector produces shelter while standing as a source of dust, effluent, land conversion, noise and precarious labour, under no single regulator.
-geography: [india]
-authority: fragmented — state PWDs, pollution control boards, labour departments, municipal building-plan authorities; none owns the full chain
-mechanisms: [authority-mismatched-to-harm]
-needs: [air, water, shelter, sleep, food]
-sub_levers:
-  - C&D waste and dust rules (state pollution control boards)
-  - sand-mining permits and riverbed leases (state mining departments)
-  - building-plan approval and occupancy certification (municipal authorities)
-  - BOCW cess collection and disbursal (state labour departments)
-  - land-use conversion from agricultural to built (state revenue departments)
-  - construction-worker welfare board registration
-actors: [centre-for-research-on-energy-and-clean-air, centre-for-science-and-environment]
-status: open
-updated: 2026-09-06
----
 
 # Construction
 

@@ -1,25 +1,3 @@
----
-name: Food Safety and Standards Authority of India
-slug: food-safety-and-standards-authority-of-india
-type: org
-depth: registry
-aka: [FSSAI]
-leg: [institution]
-affected_led: no
-representation_unit: central-at-named-legitimacy-cost
-stance: ambiguous
-leaves: [residual-childhood-lead]
-nodes: [toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://www.fssai.gov.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "https://x.com/fssaiindia", handle: "@fssaiindia", last_checked: 2026-09-07, status: unconfirmed}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Food Safety and Standards Authority of India
 

@@ -1,24 +1,3 @@
----
-name: Delhi Pollution Control Committee
-slug: delhi-pollution-control-committee
-type: org
-depth: registry
-aka: [DPCC]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [north-india-winter-smog]
-nodes: []
-geography: [india, delhi]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://dpcc.delhi.gov.in/", handle: "", last_checked: 2026-09-07, status: none-found}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Delhi Pollution Control Committee
 

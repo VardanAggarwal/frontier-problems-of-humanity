@@ -1,34 +1,3 @@
----
-name: Sustain Plus Energy Foundation
-slug: sustain-plus-energy-foundation
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [intermediary, field-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: convening, text: "multi-stakeholder platform for decentralised renewable energy (DRE) access, connecting 150+ partners deploying livelihood/health/education energy solutions across rural India"}
-sources:
-  - {kind: website, url: "https://sustainplus.org/", last_checked: 2026-09-10, status: live}
-  - {kind: linkedin, url: "https://in.linkedin.com/company/sustain-plus-energy-foundation", handle: "sustain-plus-energy-foundation", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "sustainplus.org"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Sustain Plus Energy Foundation
 

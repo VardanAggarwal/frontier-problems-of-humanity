@@ -1,34 +1,3 @@
----
-name: Intellecap
-slug: intellecap
-type: org
-depth: registry
-aka: []
-parent: aavishkaar-group
-superseded_by:
-affiliations: []
-ecosystem_role: [intermediary, convener]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India, "Global South"]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: knowledge, text: "impact-enterprise advisory services (market entry, transaction advisory, ecosystem-building) plus the Sankalp Forum convening platform"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/aavishkaar-group", handle: "aavishkaar-group", last_checked: 2026-09-10, status: live}
-  - {kind: website, url: "https://www.intellecap.com/", last_checked: 2026-09-10, status: live}
-contact_route: "intellecap.com contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Intellecap
 

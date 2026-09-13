@@ -1,34 +1,3 @@
----
-name: SELCO Foundation
-slug: selco-foundation
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [field-builder, capacity-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: knowledge, text: "decentralised-renewable-energy design/deployment expertise, applied to health centres, livelihoods and agriculture"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/selco-foundation", handle: "selco-foundation", last_checked: 2026-09-10, status: live}
-  - {kind: x, url: "https://x.com/selcofoundation", handle: "@selcofoundation", last_checked: 2026-09-10, status: live}
-contact_route: "selcofoundation.org contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # SELCO Foundation
 

@@ -1,33 +1,3 @@
----
-name: Antarang Foundation
-slug: antarang-foundation
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator, capacity-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: fieldwork, text: "CareerAware and CareeReady programmes — school-to-employment transition support for adolescents from vulnerable backgrounds, 185,000+ students reached over 11 years"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/antarang-foundation", handle: "antarang-foundation", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "LinkedIn company page; founder Priya Agrawal"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Antarang Foundation
 

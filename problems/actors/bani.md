@@ -1,35 +1,3 @@
----
-name: Ban Asbestos Network of India
-slug: bani
-type: org
-depth: tracked
-aka: [BANI, "Ban Asbestos India", "BANI-IAVA"]
-leg: [activism]
-affected_led: partial
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [asbestos-in-air]
-nodes: [toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: policy-access, text: "a route to the Ministry of Commerce / DGFT to move chrysotile to the prohibited import list, and to shift India's Rotterdam Convention position (inferred from 25 years of campaign output)", as_of: 2026-09-07, source: "asbestosfreeindia.org, 2025-11 post on the NGT order", state: open}
-  - {kind: legal, text: "enforcement of the NGT's 30 Oct 2025 phase-out directions on state Chief Secretaries / PCBs", as_of: 2026-09-07, source: "https://www.asbestosfreeindia.org/2025/11/national-green-tribunal-reiterates.html", state: open}
-  - {kind: data, text: "an independent (non-industry-funded) national study of asbestos-disease burden and an exposure / buildings registry", as_of: 2026-09-07, source: "NHRC 2011 complaint; NGT 2025 order", state: open}
-offers:
-  - {kind: credibility, text: "a 25-year documented campaign record; the reference archive on Indian asbestos policy (asbestosfreeindia.org)"}
-  - {kind: legal, text: "standing and litigation history — NHRC 2011, inputs to the NGT proceeding"}
-  - {kind: convening, text: "links to the global ban network (IBAS, BWI, APHEDA, Rotterdam-Convention civil society)"}
-sources:
-  - {kind: website, url: "https://www.asbestosfreeindia.org/", handle: "asbestosfreeindia", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "", last_checked: 2026-09-07, status: none-found}
-contact_route: "via asbestosfreeindia.org / Gopal Krishna (see individual record)."
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-10
----
 
 # Ban Asbestos Network of India
 

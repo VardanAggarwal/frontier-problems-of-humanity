@@ -1,33 +1,3 @@
----
-name: Srinivas Kantheti
-slug: srinivas-kantheti
-type: individual
-depth: excluded
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: wheelsemi, role: "co-founder & MD", from: "2017"}
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers: []
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/srinivas-kantheti-b279124", handle: "srinivas-kantheti-b279124", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "LinkedIn (srinivas-kantheti-b279124); WheelsEMI"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Srinivas Kantheti
 

@@ -1,34 +1,3 @@
----
-name: Jo Aggarwal
-slug: jo-aggarwal
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: wysa, role: "co-founder & CEO", from: "2015"}
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: credibility, text: "co-founder-CEO of Wysa (AI mental-health conversational platform, 6.5M+ people supported across 95+ countries); WEF Top 10 Innovator for Social Good 2023"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/joaggarwal", handle: "joaggarwal", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "LinkedIn"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Jo Aggarwal
 

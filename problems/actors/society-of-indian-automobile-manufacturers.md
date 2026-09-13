@@ -1,32 +1,3 @@
----
-name: Society of Indian Automobile Manufacturers
-slug: society-of-indian-automobile-manufacturers
-type: org
-depth: registry
-aka: [SIAM]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab, haryana]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.siam.in/", handle: "", last_checked: 2026-09-08, status: live}
-  - {kind: press, url: "https://ciiblog.in/cii-foundation-adopts-villages-in-punjab-to-make-them-stubble-burning-free/", handle: "SIAM-anchored CSR consortium behind the CII Foundation CRM project", last_checked: 2026-09-08, status: live}
-contact_route: "siam.in. On stubble, SIAM anchors an industry CSR consortium — Birlasoft, PTC Financial Services, CLP India, Royal Enfield, BPCL, GAIL, Cummins, FIL India, ONGC — funding the CII Foundation's CRM project. Reach via CII Foundation (see cii-foundation)."
-followed: false
-followed_date:
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Society of Indian Automobile Manufacturers
 

@@ -1,33 +1,3 @@
----
-name: 100x100
-slug: 100x100-ventures
-type: org
-depth: registry
-aka: ["100x100 Ventures"]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-ecosystem_role: [capacity-builder, funder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india, global]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.100x100.vc/", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: press, url: "https://fundmomentum.vc/blog/100x100-fund-ii-100m-climate-venture-builder-sea-india-2026", last_checked: 2026-09-11, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # 100x100
 

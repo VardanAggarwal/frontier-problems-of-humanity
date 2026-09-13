@@ -1,24 +1,3 @@
----
-name: Clean Cooking Alliance
-slug: clean-cooking-alliance
-type: org
-depth: registry
-aka: [CCA, "Global Alliance for Clean Cookstoves"]
-leg: [activism, institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [cookfire-smoke]
-nodes: [energy]
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://cleancooking.org/", handle: "", last_checked: 2026-09-07, status: live}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Clean Cooking Alliance
 

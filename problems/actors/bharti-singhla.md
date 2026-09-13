@@ -1,33 +1,3 @@
----
-name: Bharti Singhla
-slug: bharti-singhla
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: chakr-innovation, role: "co-founder / COO", from: 2016-01-01, to: 2021-01-01}
-  - {actor: momentum-capital, role: "Principal", from: 2024-01-01, to: }
-  - {actor: pragati-earth, role: "co-founder", from: 2026-01-01, to: }
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [small-industrial-town-air]
-nodes: [energy]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/bharti-singhla-73317174/", handle: "bharti-singhla-73317174 — climate-tech investing, founder lessons, air pollution; cadence slowed post-2023", last_checked: 2026-09-08, status: live}
-  - {kind: instagram, url: "https://www.instagram.com/bhartisinghla/", handle: "@bhartisinghla — private", last_checked: 2026-09-08, status: stale}
-contact_route: "LinkedIn DM /in/bharti-singhla-73317174; or via Momentum Capital / Pragati Earth (pragatiearth.com)."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Bharti Singhla
 

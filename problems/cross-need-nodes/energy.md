@@ -1,23 +1,3 @@
----
-id: energy
-type: sector
-title: Energy
-one_line: Generation, grid and fuel supply sit under water pumping, thermoregulation, cooking and food preservation; the mix also sets the ambient combustion load.
-geography: [india]
-authority: fragmented — MoP/MNRE and state DISCOMs/SERCs (electricity); MoPNG (oil & gas); across borders, no single authority
-mechanisms: [authority-mismatched-to-harm, second-half-never-built]
-needs: [water, air, shelter, food, sleep]
-sub_levers:
-  - generation mix and capacity addition (MoP / MNRE)
-  - DISCOM tariff setting and cross-subsidy (state SERCs)
-  - agricultural feeder scheduling and separation (overlaps the farm-power-tariff node)
-  - LPG/PNG cooking-fuel subsidy and last-mile refill (MoPNG, Ujjwala)
-  - rural electrification and reliability-of-supply reporting
-  - coal allocation and imported-fuel exposure
-actors: [council-on-energy-environment-and-water, centre-for-research-on-energy-and-clean-air]
-status: open
-updated: 2026-09-06
----
 
 # Energy (sector node)
 

@@ -1,35 +1,3 @@
----
-name: Karthik Sankaran (Deshpande Startups)
-slug: karthik-sankaran-deshpande
-type: individual
-depth: registry
-aka: ["Dr Karthik Sankaran"]
-parent:
-superseded_by:
-affiliations:
-  - {actor: deshpande-startups, role: "CEO", from: "2023-06"}
-leg: [enterprise]
-ecosystem_role: [capacity-builder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "CEO of Deshpande Startups — leads all four Sandbox programmes and industry-collaboration efforts for Tier-II/III entrepreneurs"}
-sources:
-  - {kind: website, url: "https://www.hrkatha.com/industry-news/deshpande-startups-appoints-karthik-sankaran-as-new-ceo/", last_checked: 2026-09-11, status: live}
-  - {kind: linkedin, url: "", handle: "", last_checked: 2026-09-11, status: none-found}
-contact_route: "via Deshpande Startups (deshpandestartups.org contact form)"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Karthik Sankaran
 

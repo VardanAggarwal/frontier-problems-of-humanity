@@ -1,32 +1,3 @@
----
-name: Central Pollution Control Board
-slug: central-pollution-control-board
-type: org
-depth: registry
-aka: [CPCB]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [silicosis-stone-industry, north-india-winter-smog, crop-residue-burning, residual-childhood-lead, small-industrial-town-air, asbestos-in-air]
-nodes: [toxic-exposure-class, construction, energy]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://cpcb.nic.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://www.hhrjournal.org/2025/09/08/preventing-silicosis-is-now-a-human-rights-duty-in-india/", handle: "inspection role, silicosis matter", last_checked: 2026-09-07, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-09
----
 
 # Central Pollution Control Board
 

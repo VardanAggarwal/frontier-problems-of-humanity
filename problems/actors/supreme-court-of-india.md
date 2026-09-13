@@ -1,31 +1,3 @@
----
-name: Supreme Court of India
-slug: supreme-court-of-india
-type: org
-depth: registry
-aka: [SCI]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [silicosis-stone-industry, north-india-winter-smog, crop-residue-burning, asbestos-in-air]
-nodes: [toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs: []
-offers: []
-sources:
-  - {kind: press, url: "https://api.sci.gov.in/supremecourt/2006/604/604_2006_7_1501_54545_Judgement_06-Aug-2024.pdf", handle: "2024 INSC 582, judgment 06-Aug-2024", last_checked: 2026-09-07, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Supreme Court of India
 

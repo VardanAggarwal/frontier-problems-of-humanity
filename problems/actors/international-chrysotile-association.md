@@ -1,25 +1,3 @@
----
-name: International Chrysotile Association
-slug: international-chrysotile-association
-type: org
-depth: registry
-aka: [ICA, "Chrysotile Information Center"]
-affiliations: []
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: organised-against-remedy
-leaves: [asbestos-in-air]
-nodes: [toxic-exposure-class]
-geography: [global]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://chrysotileassociation.com/", handle: "", last_checked: 2026-09-07, status: live}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # International Chrysotile Association
 

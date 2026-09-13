@@ -1,25 +1,3 @@
----
-name: IQAir
-slug: iqair
-type: org
-depth: registry
-aka: []
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [small-industrial-town-air]
-nodes: []
-geography: [global]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://www.iqair.com/world-air-quality-report", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "https://x.com/IQAir", handle: "@IQAir", last_checked: 2026-09-07, status: unconfirmed}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # IQAir
 

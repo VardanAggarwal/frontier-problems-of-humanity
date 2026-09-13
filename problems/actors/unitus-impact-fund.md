@@ -1,34 +1,3 @@
----
-name: Unitus Impact Fund
-slug: unitus-impact-fund
-type: org
-depth: registry
-aka: ["Patamar Capital"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "early-stage (Series A) and growth-stage (Series B) equity, venture debt and gender-lens funds for mass-market companies across South and Southeast Asia — ~$45M fund, 14 portfolio companies in agriculture, education, healthcare, financial services and employee benefits"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/company/patamarcapital", handle: "patamarcapital", last_checked: 2026-09-10, status: unconfirmed}
-  - {kind: x, url: "https://twitter.com/patamar_capital", handle: "patamar_capital", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "patamar.com; LinkedIn/X company pages"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Unitus Impact Fund
 

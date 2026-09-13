@@ -1,34 +1,3 @@
----
-name: Vahan
-slug: vahan
-type: org
-depth: registry
-aka: ["Vahan.ai"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: technology, text: "AI-driven blue-collar/gig recruitment platform (WhatsApp bot), placed 500,000+ gig workers with Zomato, Swiggy, Flipkart, Zepto, Blinkit, Amazon"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/vahan-inc-", handle: "vahan-inc-", last_checked: 2026-09-10, status: unconfirmed}
-  - {kind: website, url: "https://www.ycombinator.com/companies/vahan", last_checked: 2026-09-10, status: live}
-contact_route: "vahan.ai; Y Combinator company page"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Vahan
 

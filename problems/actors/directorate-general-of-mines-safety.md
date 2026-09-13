@@ -1,31 +1,3 @@
----
-name: Directorate General of Mines Safety
-slug: directorate-general-of-mines-safety
-type: org
-depth: registry
-aka: [DGMS]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [silicosis-stone-industry]
-nodes: [toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.dgms.gov.in/", handle: "", last_checked: 2026-09-07, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Directorate General of Mines Safety
 

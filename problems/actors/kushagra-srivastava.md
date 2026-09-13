@@ -1,34 +1,3 @@
----
-name: Kushagra Srivastava
-slug: kushagra-srivastava
-type: individual
-depth: tracked
-aka: []
-parent:
-superseded_by:
-affiliations: [{actor: chakr-innovation, role: "co-founder / CEO", from: 2016-01-01, to: }]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [small-industrial-town-air]
-nodes: [energy]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: policy-access, text: "a demand path into the informal / sub-threshold diesel-genset base that the RECD mandate does not reach (inferred, via Chakr)", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: fieldwork, text: "founder-operator of India's first CPCB type-approved RECD business; deeptech emissions-capture engineering"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/kushagra-srivastava-chakr/", handle: "kushagra-srivastava-chakr — CEO Chakr Innovation (handle to re-verify)", last_checked: 2026-09-08, status: live}
-  - {kind: press, url: "https://startuppedia.in/startup-stories/this-iit-d-founder-built-indias-first-cpcb-approved-pollution-control-device-chakr-shield-that-turns-diesel-generator-emissions-into-ink-10924551", handle: "Startuppedia founder profile", last_checked: 2026-09-08, status: live}
-contact_route: "LinkedIn (primary — founder posts, Chakr account amplifies). Via Chakr: chakr.in."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Kushagra Srivastava
 

@@ -1,34 +1,3 @@
----
-name: Sagar Chandni
-slug: sagar-chandni
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: unltd-india, role: "Incubation Director"}
-leg: [enterprise]
-ecosystem_role: [capacity-builder, funder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "Incubation Director at UnLtd India — decides cohort selection and coaching-track design for the nine-month incubation programme"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/sagarchandni", handle: "sagarchandni", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "via UnLtd India (unltdindia.org contact form) — no confirmed current CEO, so this is UnLtd India's most senior programme contact found this pass"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Sagar Chandni
 

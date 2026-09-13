@@ -1,35 +1,3 @@
----
-name: Rize
-slug: rize
-type: org
-depth: registry
-aka: ["Rize Farm", "rize.farm"]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [singapore, vietnam, indonesia]
-lifecycle: operating
-lifecycle_as_of: 2026-09-09
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.rize.farm/", handle: "blog/updates section active", last_checked: 2026-09-09, status: live}
-  - {kind: linkedin, url: "https://sg.linkedin.com/company/rizefarm", handle: "Rize — ~22.7k followers, posting weekly. NOT linkedin.com/company/rize-ag, an unrelated Paris carbon-finance firm", last_checked: 2026-09-09, status: live}
-  - {kind: press, url: "https://www.greenqueen.com.hk/rize-farm-singapore-sustainable-rice-farming-methane-crop-funding/", handle: "Series B — $31M", last_checked: 2026-09-09, status: live}
-  - {kind: press, url: "https://genzero.co/rize-raises-us14m-in-series-a-funding-to-boost-tech-platform-sustainable-rice-farming/", handle: "Series A — $14M", last_checked: 2026-09-09, status: live}
-  - {kind: x, url: "", handle: "none-found — searches surfaced only unrelated 'Rize' accounts", last_checked: 2026-09-09, status: none-found}
-contact_route: "LinkedIn DM to founder Dhruv Sawhney (see dhruv-sawhney — live, posts within days) is the reachable individual surface; secondary is the Rize company page. Singapore HQ; operations in Vietnam and Indonesia."
-followed: false
-followed_date:
-last_checked: 2026-09-09
-updated: 2026-09-09
----
 
 # Rize
 

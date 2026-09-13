@@ -1,34 +1,3 @@
----
-name: Roserve Enviro
-slug: roserve-enviro
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "'pay-as-you-treat' industrial wastewater treatment and recycling solutions, plug-and-play model, for industrial clients across India"}
-sources:
-  - {kind: website, url: "http://roserve.in/", last_checked: 2026-09-10, status: unconfirmed}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/roserveenviro", handle: "roserveenviro", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "roserve.in; co-founders Prerak Goel and Prayas Goel"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Roserve Enviro
 

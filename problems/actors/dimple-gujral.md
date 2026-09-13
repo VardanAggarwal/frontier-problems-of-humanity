@@ -1,34 +1,3 @@
----
-name: Dimple Gujral
-slug: dimple-gujral
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: villgro, role: "director/board member"}
-ecosystem_role: [capacity-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: credibility, text: "Chartered Accountant, founder partner of Tatha Partners (systems for startups/social enterprises), founding staff member and ~decade-long CFO of Teach For India; prior stints at Dalberg Global Development Advisors and the India School Leadership Institute"}
-sources:
-  - {kind: website, url: "https://villgro.org/our-team/", last_checked: 2026-09-10, status: none-found}
-contact_route: "Villgro board; Tatha Partners"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Dimple Gujral
 

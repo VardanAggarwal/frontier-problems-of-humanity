@@ -1,34 +1,3 @@
----
-name: Sanjay Kadaveru
-slug: sanjay-kadaveru
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: action-for-india, role: "Founder & President"}
-leg: [enterprise]
-ecosystem_role: [capacity-builder, convener]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "Founder & President of Action for India — decides AISEA/accelerator direction and forum convening"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/kadaveru/", handle: "kadaveru", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "via Action for India (actionforindia.org contact form)"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Sanjay Kadaveru
 

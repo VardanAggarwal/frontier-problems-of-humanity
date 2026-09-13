@@ -1,36 +1,3 @@
----
-name: Carbon Removal India Alliance
-slug: carbon-removal-india-alliance
-type: org
-depth: tracked
-aka: [CRIA, "CRIA.earth"]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: policy-access, text: "Indian policy recognition / crediting framework for biochar carbon removal so paddy-straw biochar has a revenue leg beyond the product sale", as_of: 2026-09-08, source: "https://sustainabledevelopment.in/wp-content/uploads/2025/10/CRIA-CII-issue-brief_121025_v4.pdf", state: open}
-  - {kind: introductions, text: "buyers / investors for a Punjab biochar-CDR pipeline to match against the developers it convenes", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: convening, text: "convened the first biochar-for-crop-residue-management meet in Punjab (Chandigarh, Apr 2025) — govt, industry, academia, philanthropy, investors, plus a Biochar Developers Showcase; a join actor on the biochar route"}
-  - {kind: credibility, text: "a carbon-removal policy alliance producing CDR policy briefs with CII"}
-sources:
-  - {kind: website, url: "https://cria.earth/", handle: "", last_checked: 2026-09-08, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/cria-earth", handle: "cria-earth", last_checked: 2026-09-08, status: live}
-contact_route: "cria.earth; LinkedIn /company/cria-earth. Convening supported by the Punjab Development Commission, Open Philanthropy and the Nand & Jeet Khemka Foundation; co-organiser GDi Partners (see gdi-partners)."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Carbon Removal India Alliance
 

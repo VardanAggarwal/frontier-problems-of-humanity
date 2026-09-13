@@ -1,34 +1,3 @@
----
-name: UnLtd India
-slug: unltd-india
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder, funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: capital, text: "seed grants (~₹15-20L range historically) plus a nine-month one-on-one coaching incubation for early-stage social entrepreneurs"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/unltd-india", handle: "unltd-india", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: website, url: "https://unltdindia.org/", last_checked: 2026-09-11, status: live}
-contact_route: "unltdindia.org contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # UnLtd India
 

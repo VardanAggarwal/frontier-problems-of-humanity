@@ -1,34 +1,3 @@
----
-name: Srinivas Ramanujam
-slug: srinivas-ramanujam
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: villgro, role: "Chief Executive Officer", from: "2019", to: null}
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "decides Villgro's incubation/grant allocations across health, agri, climate, gender-inclusion portfolios"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/srinivas1729/", handle: "srinivas1729", last_checked: 2026-09-10, status: live}
-contact_route: "LinkedIn DM; via Villgro contact form"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Srinivas Ramanujam
 

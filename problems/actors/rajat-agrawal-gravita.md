@@ -1,34 +1,3 @@
----
-name: Rajat Agrawal
-slug: rajat-agrawal-gravita
-type: individual
-depth: tracked
-aka: []
-parent:
-superseded_by:
-affiliations: [{actor: gravita-india, role: "founder / Chairman & MD", from: 1992-01-01, to: }]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [residual-childhood-lead]
-nodes: [toxic-exposure-class]
-geography: [india, global]
-lifecycle: scaling
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: policy-access, text: "closure of the informal used-battery collection stream that outbids formal recyclers for feedstock (inferred, via Gravita)", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: fieldwork, text: "founder-promoter of a listed formal lead-acid-battery recycler; circular-economy / EPR advocacy voice"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/rajat-agrawal-gravita/", handle: "rajat-agrawal-gravita — recycling/circular-economy advocacy, ESG, Gravita milestones", last_checked: 2026-09-08, status: live}
-  - {kind: website, url: "https://www.gravitaindia.com/media", handle: "Gravita newsroom — where his conference/awards statements surface", last_checked: 2026-09-08, status: live}
-contact_route: "LinkedIn DM/connect /in/rajat-agrawal-gravita (his only personal surface; post cadence unverifiable behind login). Via Gravita IR / gravitaindia.com/media. Note: @rajatagr on X is a namesake journalist, not him."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Rajat Agrawal
 

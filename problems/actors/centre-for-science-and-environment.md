@@ -1,34 +1,3 @@
----
-name: Centre for Science and Environment
-slug: centre-for-science-and-environment
-type: org
-depth: tracked
-aka: [CSE]
-leg: [activism, institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [north-india-winter-smog, crop-residue-burning, small-industrial-town-air]
-nodes: [construction, energy]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: policy-access, text: "adoption of its NCAP 'agenda for reform' — funding to follow source apportionment, PM2.5 as the scored metric", as_of: 2024-01-01, source: "CSE NCAP assessment 2024", state: open}
-offers:
-  - {kind: data, text: "independent source apportionment, NCAP spend tracking, winter 'beyond the burn' analyses; State of India's Environment monitoring-coverage data"}
-  - {kind: convening, text: "Anil Agarwal Dialogue and regional clean-air conferences with ULB and SPCB participation; policy-drafting history"}
-  - {kind: credibility, text: "40+ year institution with policy access across MoEFCC and state governments"}
-sources:
-  - {kind: website, url: "https://www.cseindia.org/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "https://x.com/CSEINDIA", handle: "@CSEINDIA", last_checked: 2026-09-07, status: unconfirmed}
-  - {kind: website, url: "https://www.downtoearth.org.in/", handle: "Down To Earth", last_checked: 2026-09-07, status: live}
-contact_route: "cseindia.org; Anumita Roychowdhury via CSE press."
-followed: true
-followed_date: 2026-09-07
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Centre for Science and Environment
 

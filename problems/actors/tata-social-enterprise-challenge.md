@@ -1,33 +1,3 @@
----
-name: Tata Social Enterprise Challenge (IIM Calcutta)
-slug: tata-social-enterprise-challenge
-type: org
-depth: registry
-aka: ["TSEC"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder, funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: capital, text: "cash grants up to ₹10L, seed-funding pathway up to ₹1cr, plus 3-week IIM Calcutta mentorship and incubation-park access"}
-sources:
-  - {kind: website, url: "https://www.tatasechallenge.org/", last_checked: 2026-09-11, status: live}
-contact_route: "tatasechallenge.org contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Tata Social Enterprise Challenge (IIM Calcutta)
 

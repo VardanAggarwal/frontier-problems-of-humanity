@@ -1,31 +1,3 @@
----
-name: Ministry of Housing and Urban Affairs
-slug: ministry-of-housing-and-urban-affairs
-type: org
-depth: registry
-aka: [MoHUA]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: neutral
-leaves: [asbestos-in-air]
-nodes: [construction]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-09
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://mohua.gov.in/", handle: "", last_checked: 2026-09-09, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-09
-updated: 2026-09-09
----
 
 # Ministry of Housing and Urban Affairs
 

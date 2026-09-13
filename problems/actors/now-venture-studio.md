@@ -1,33 +1,3 @@
----
-name: NOW Venture Studio
-slug: now-venture-studio
-type: org
-depth: registry
-aka: ["NOW", "SAVES"]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-ecosystem_role: [capacity-builder, funder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.nowventurestudio.com/about", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: linkedin, url: "https://in.linkedin.com/company/now-venture-studio", last_checked: 2026-09-11, status: unconfirmed}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # NOW Venture Studio
 

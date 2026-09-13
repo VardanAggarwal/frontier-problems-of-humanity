@@ -1,31 +1,3 @@
----
-name: Toxics Link
-slug: toxics-link
-type: org
-depth: tracked
-aka: []
-leg: [activism]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [residual-childhood-lead]
-nodes: [toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: policy-access, text: "a third-party-certification mandate to replace paint self-certification under the 2016 Rules", as_of: "2023-01-01", source: "https://toxicslink.org/wp-content/uploads/2023/08/India%20Lead%20Paint%20Report%20Summary%20(October%202023).pdf", state: open}
-offers:
-  - {kind: data, text: "recurring lead-in-paint market testing since 2018; broader chemicals / e-waste / plastics research"}
-  - {kind: legal, text: "a policy-advocacy track record on the 2016 paint rule"}
-sources:
-  - {kind: website, url: "https://toxicslink.org/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "https://x.com/toxicslink", handle: "@toxicslink", last_checked: 2026-09-07, status: unconfirmed}
-contact_route: "info@toxicslink.org (verify); Delhi office. Associate director Satish Sinha is the usual spokesperson."
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Toxics Link
 

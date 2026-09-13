@@ -1,33 +1,3 @@
----
-name: SHERA India (Shera Building Solutions India Pvt Ltd / Mahaphant Fibre-Cement South Asia)
-slug: shera-india
-type: org
-depth: registry
-aka: ["SHERA", "Mahaphant Fibre-Cement South Asia", "Shera Building Solutions India"]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: neutral
-leaves: [asbestos-in-air]
-nodes: [toxic-exposure-class]
-geography: [india, global]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-sources:
-  - {kind: website, url: "https://www.shera.com/en-in/", handle: "SHERA India (global site, India section)", last_checked: 2026-09-08, status: live}
-  - {kind: instagram, url: "https://www.instagram.com/sheraindia/", handle: "@sheraindia — product/dealer content; last confirmed activity 2024", last_checked: 2026-09-08, status: stale}
-  - {kind: linkedin, url: "https://in.linkedin.com/company/sheraindia", handle: "sheraindia — B2B building-material posts; confirmed Apr & Aug 2024", last_checked: 2026-09-08, status: stale}
-  - {kind: facebook, url: "https://www.facebook.com/SHERAINDIAOFFICIAL/", handle: "SHERAINDIAOFFICIAL — ~44k followers", last_checked: 2026-09-08, status: stale}
-  - {kind: website, url: "https://shera.in", handle: "India site — server unreachable / cert-broken 2026-09-08", last_checked: 2026-09-08, status: dead}
-contact_route: "Enquiry form on shera.com/en-in; dealer contacts via IndiaMART. Reg. office (Shera Building Solutions India): #1302 Tower-3, One International Center, Senapati Bapat Marg, Elphinstone Rd (W), Mumbai 400013. No individual reachable directly."
-followed: false
-followed_date:
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # SHERA India
 

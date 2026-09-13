@@ -1,33 +1,3 @@
----
-name: Accion
-slug: accion
-type: org
-depth: registry
-aka: ["Accion Venture Lab", "Accion Ventures"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "early-stage fintech-for-inclusion investing (Accion Ventures, formerly Venture Lab Fund II, $61.6M committed); India investees include Annapurna Finance, IKF Finance, Dvara KGFS"}
-sources:
-  - {kind: website, url: "https://www.accion.org/", last_checked: 2026-09-10, status: live}
-contact_route: "accion.org; ClimaFii Alliance (with Shell Foundation) as an India-adjacent convening entry point"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Accion
 

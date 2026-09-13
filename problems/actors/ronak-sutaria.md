@@ -1,37 +1,3 @@
----
-name: Ronak Sutaria
-slug: ronak-sutaria
-type: individual
-depth: tracked
-aka: []
-parent:
-superseded_by:
-affiliations: [{actor: respirer-living-sciences, role: "founder / CEO", from: 2018-01-01, to: }]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [north-india-winter-smog, small-industrial-town-air]
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: distribution, text: "government / platform buyers for low-cost ambient monitors in the ~95% of towns with no CPCB station (inferred, via Respirer)", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: data, text: "founder-operator of a low-cost ambient-monitor fleet + open Atmos data platform"}
-  - {kind: fieldwork, text: "public argument-level writing on PM2.5 exposure-reduction credits and sensor-data policy (regular op-ed byline through 2026)"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/rsutaria/", handle: "rsutaria — Mumbai AQI, sensor data, policy; founder-signal items", last_checked: 2026-09-08, status: live}
-  - {kind: press, url: "https://muckrack.com/ronak-sutaria", handle: "op-ed byline (The Core, ET Edge Insights) — argument-level thinking lands here", last_checked: 2026-09-08, status: live}
-  - {kind: x, url: "https://x.com/rsutaria", handle: "@rsutaria — handle unambiguously his; live feed unverifiable (402)", last_checked: 2026-09-08, status: stale}
-  - {kind: website, url: "https://carboncopy.info/author/ronak-sutaria/", handle: "carboncopy author — one article, Sep 2020", last_checked: 2026-09-08, status: stale}
-contact_route: "LinkedIn DM /in/rsutaria (primary), backed by the Muck Rack byline page for written arguments. Via Respirer: info@respirer.in. Beware namesakes (a US recruiter shares the name)."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Ronak Sutaria
 

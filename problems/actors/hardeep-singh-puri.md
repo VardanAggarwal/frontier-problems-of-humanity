@@ -1,30 +1,3 @@
----
-name: Hardeep Singh Puri
-slug: hardeep-singh-puri
-type: individual
-depth: registry
-aka: []
-affiliations:
-  - {actor: ministry-of-petroleum-and-natural-gas, role: "Union Minister of Petroleum and Natural Gas", from: 2021-07-01, to: }
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [cookfire-smoke]
-nodes: [energy]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: x, url: "https://x.com/HardeepSPuri", handle: "@HardeepSPuri", last_checked: 2026-09-07, status: live}
-  - {kind: website, url: "https://www.hardeepsinghpuri.com", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: instagram, url: "https://www.instagram.com/hardeepspuri", handle: "@hardeepspuri", last_checked: 2026-09-07, status: live}
-  - {kind: youtube, url: "https://youtube.com/@HardeepSPuri", handle: "@HardeepSPuri", last_checked: 2026-09-07, status: stale}
-  - {kind: linkedin, url: "https://in.linkedin.com/in/hardeepspuri", handle: "hardeepspuri", last_checked: 2026-09-07, status: stale}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Hardeep Singh Puri
 

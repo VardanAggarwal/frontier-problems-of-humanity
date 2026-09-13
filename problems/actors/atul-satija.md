@@ -1,36 +1,3 @@
----
-name: Atul Satija
-slug: atul-satija
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: the-nudge-institute, role: "Founder & CEO", from: 2015}
-  - {actor: aic-ncore, role: "founder-org strategic partner (via The/Nudge)", from: 2017}
-leg: [enterprise]
-ecosystem_role: [capacity-builder, funder, field-builder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "founder-level access to The/Nudge Institute's livelihoods accelerator, grant capital and alumni network"}
-sources:
-  - {kind: x, url: "https://x.com/atulsatija", handle: "atulsatija", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: linkedin, url: "https://in.linkedin.com/in/atulsatija", handle: "atulsatija", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "via The/Nudge Institute or GiveIndia contact channels"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Atul Satija
 

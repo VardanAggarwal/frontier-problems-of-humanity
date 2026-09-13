@@ -1,33 +1,3 @@
----
-name: AIC RAISE
-slug: aic-raise
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "SDG-focused startup incubation across sustainability, waste, agriculture, healthcare, mobility, handicrafts and assistive tech, targeting Tier-II/III and rural founders"}
-sources:
-  - {kind: website, url: "https://aicraise.com/", last_checked: 2026-09-11, status: live}
-contact_route: "aicraise.com contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # AIC RAISE
 

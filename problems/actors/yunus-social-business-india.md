@@ -1,34 +1,3 @@
----
-name: Yunus Social Business (India)
-slug: yunus-social-business-india
-type: org
-depth: registry
-aka: ["YSB India", "YSB"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder, funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: capital, text: "patient loans and post-investment accelerator support for small/growing businesses creating livelihoods for people in extreme poverty"}
-sources:
-  - {kind: website, url: "https://www.india.yunussb.com/", last_checked: 2026-09-11, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/yunus-social-business", handle: "yunus-social-business", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "india.yunussb.com contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Yunus Social Business (India)
 

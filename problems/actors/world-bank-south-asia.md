@@ -1,24 +1,3 @@
----
-name: World Bank — South Asia Region
-slug: world-bank-south-asia
-type: org
-depth: registry
-aka: ["World Bank SAR"]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [north-india-winter-smog]
-nodes: []
-geography: [global, india, bangladesh, nepal, pakistan]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://www.worldbank.org/en/region/sar", handle: "", last_checked: 2026-09-07, status: live}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # World Bank — South Asia Region
 

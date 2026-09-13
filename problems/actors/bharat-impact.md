@@ -1,33 +1,3 @@
----
-name: Bharat Impact (Jubilant Bhartia Foundation)
-slug: bharat-impact
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder, funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: capital, text: "₹5L cheque per selected startup, plus a 9-month boot-camp/incubation/accelerator programme and access to Jubilant Group business mentorship and infrastructure"}
-sources:
-  - {kind: website, url: "https://bharatimpact.com/", last_checked: 2026-09-11, status: live}
-contact_route: "bharatimpact.com contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Bharat Impact (Jubilant Bhartia Foundation)
 

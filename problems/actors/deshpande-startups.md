@@ -1,34 +1,3 @@
----
-name: Deshpande Startups (Sandbox Startups, Hubballi)
-slug: deshpande-startups
-type: org
-depth: registry
-aka: ["Sandbox Startups", "Hubli Sandbox", "Foundation for Sandbox Startup Initiatives"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "seed funding, co-working space, mentoring, tech and go-to-market support for Tier-II/III entrepreneurs"}
-sources:
-  - {kind: website, url: "https://deshpandestartups.org/", last_checked: 2026-09-11, status: live}
-  - {kind: linkedin, url: "https://in.linkedin.com/company/deshpandestartups", handle: "deshpandestartups", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "deshpandestartups.org contact form"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Deshpande Startups (Sandbox Startups, Hubballi)
 

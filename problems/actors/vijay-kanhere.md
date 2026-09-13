@@ -1,33 +1,3 @@
----
-name: Vijay Kanhere
-slug: vijay-kanhere
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: [{actor: ptrc, role: "co-founder", from: 1992-01-01, to: }]
-leg: [activism]
-affected_led: partial
-representation_unit: local-affected
-stance: works-the-remedy
-leaves: [silicosis-stone-industry]
-nodes: [toxic-exposure-class]
-geography: [india, maharashtra, gujarat]
-lifecycle: shut
-lifecycle_as_of: 2013-01-01
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.peoplestraining.org/", handle: "PTRC (institutional continuation)", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://ijme.in/articles/the-clemenceau-debate-and-occupational-health/", handle: "IJME 2006 (author)", last_checked: 2026-09-07, status: live}
-  - {kind: other, url: "", handle: "no personal channel ever existed — deceased", last_checked: 2026-09-07, status: none-found}
-contact_route: "Deceased (before 2013, per Jagdish Patel, New Solutions 23(4), 2013). No individual channel ever existed. Institutional legacy via PTRC — peoplestraining.org, Director Jagdish Patel."
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Vijay Kanhere
 

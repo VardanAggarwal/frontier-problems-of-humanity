@@ -1,31 +1,3 @@
----
-name: Arthur L. Frank
-slug: arthur-frank
-type: individual
-depth: registry
-aka: ["Arthur Frank", "Arthur L Frank"]
-parent:
-superseded_by:
-affiliations: []           # Dornsife School of Public Health, Drexel University
-leg: [activism]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [asbestos-in-air]
-nodes: [toxic-exposure-class]
-geography: [usa, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-09
-needs: []
-offers: []
-sources:
-  - {kind: other, url: "https://doi.org/10.3390/ijerph22020215", handle: "co-author, IJERPH 2025", last_checked: 2026-09-09, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-09
-updated: 2026-09-09
----
 
 # Arthur L. Frank
 

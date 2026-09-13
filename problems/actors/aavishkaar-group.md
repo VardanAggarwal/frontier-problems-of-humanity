@@ -1,35 +1,3 @@
----
-name: Aavishkaar Group
-slug: aavishkaar-group
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: intellecap, role: "advisory arm", from: null, to: null}
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India, "Global South"]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "impact-investment fund management across venture, private-equity and debt strategies, ~USD $1.4bn AUM"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/aavishkaar-group", handle: "aavishkaar-group", last_checked: 2026-09-10, status: live}
-  - {kind: website, url: "https://aavishkaargroup.com/", last_checked: 2026-09-10, status: live}
-contact_route: "aavishkaargroup.com contact form"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-10
-updated: 2026-09-11
----
 
 # Aavishkaar Group
 

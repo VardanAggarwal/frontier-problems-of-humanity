@@ -1,33 +1,3 @@
----
-name: AIC NCore Developmental Impact Foundation
-slug: aic-ncore
-type: org
-depth: registry
-aka: ["AIC N/Core"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "incubation for startups on poverty alleviation, health, education, employment, sanitation and sustainability"}
-sources:
-  - {kind: website, url: "https://www.thenudge.org/aic-n-core/", last_checked: 2026-09-11, status: live}
-contact_route: "thenudge.org/aic-n-core contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # AIC NCore Developmental Impact Foundation
 

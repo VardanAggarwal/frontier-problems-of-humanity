@@ -1,36 +1,3 @@
----
-name: CIIE.CO
-slug: ciie-co
-type: org
-depth: tracked
-aka: [IIMA Ventures, Centre for Innovation Incubation and Entrepreneurship]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder, funder, intermediary]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs:
-  - {kind: capital, text: "continued philanthropic/DFI backing to sustain the Bharat Inclusion seed-fund pipeline after Omidyar Network's 2024 India exit removed one of its three founding funders — inferred from the funder roster change, not a stated ask", as_of: 2026-09-11, source: "https://www.iima.ac.in/news/iim-ahmedabads-ciie-launches-25-million-bharat-inclusion-initiative", state: open}
-offers:
-  - {kind: capital, text: "Bharat Inclusion seed fund (target $25M over 3-4 years) for financial-inclusion, livelihood, education and health startups using digital tech to serve the unserved"}
-  - {kind: convening, text: "IIM Ahmedabad-anchored acceleration programmes, research and piloting partnerships"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/iimaventures", handle: "iimaventures", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: website, url: "https://iimaventures.com/", last_checked: 2026-09-11, status: live}
-contact_route: "iimaventures.com; warm intro via CEO Kunal Upadhyay or Partner Vipul Patel"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # CIIE.CO
 

@@ -1,31 +1,3 @@
----
-name: India Asbestos Victims Association
-slug: india-asbestos-victims-association
-type: org
-depth: tracked
-aka: [IAVA]
-affiliations:
-  - {actor: bani, role: "constituent victims' body", from: 2000-01-01, to: }
-leg: [activism]
-affected_led: yes
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [asbestos-in-air]
-nodes: [toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: introductions, text: "an autonomous channel and direct standing independent of BANI", as_of: 2026-09-07, source: "inferred", state: open}
-offers:
-  - {kind: credibility, text: "affected-led standing of asbestos-disease victims within the BANI-IAVA formation"}
-sources:
-  - {kind: other, url: "", handle: "no independent channel; visible only via BANI", last_checked: 2026-09-07, status: none-found}
-contact_route: "Via BANI / Ban Asbestos Network of India (asbestosfreeindia.org), Gopal Krishna."
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-09
----
 
 # India Asbestos Victims Association
 

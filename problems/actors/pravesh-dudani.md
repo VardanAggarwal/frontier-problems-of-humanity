@@ -1,33 +1,3 @@
----
-name: Pravesh Dudani
-slug: pravesh-dudani
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: idreamcareer, role: "co-founder", from: "2013", to: "2023"}
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers: []
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/pdudani/", handle: "pdudani", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "LinkedIn (pdudani); Medhavi Skills University"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Pravesh Dudani
 

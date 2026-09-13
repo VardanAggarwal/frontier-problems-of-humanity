@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { openGraphWritable, setActorFields, lastEventValue } from './src/lib/graphdb.mjs';
 
 // The corpus lives in problems/, outside src/. It is loaded by src/lib/corpus.mjs
 // at build time (plain node, no content collections), so the same loader serves
@@ -17,17 +17,18 @@ const LOADER_FILES = ['src/lib/corpus.mjs', 'src/lib/site.mjs', 'src/lib/section
 // reload the browser and throw away the active filter. Record the path here so
 // the watcher can still invalidate the corpus but skip the reload.
 const SELF_WRITES = new Map();
-function writeSelf(file, content) {
-  SELF_WRITES.set(file, Date.now());
-  writeFileSync(file, content);
-}
 function isSelfWrite(file) {
   const t = SELF_WRITES.get(file);
   return t !== undefined && Date.now() - t < 3000;
 }
+function markSelfWrite(file) {
+  SELF_WRITES.set(file, Date.now());
+}
 
-/** Dev-only. Watch problems/** explicitly and, on any .md/.yaml change,
- *  invalidate the loader modules and force a full page reload. */
+/** Dev-only. Watch problems/** explicitly and, on any .md/.yaml/graph.db
+ *  change, invalidate the loader modules and force a full page reload.
+ *  graph.db is included since 01-minimal.md §11 item 3b-B: it is the data
+ *  source now, not the .md frontmatter that used to trigger this. */
 function watchCorpus() {
   return {
     name: 'fph:watch-corpus',
@@ -35,7 +36,7 @@ function watchCorpus() {
     configureServer(server) {
       server.watcher.add(CORPUS_DIR);
       const bust = (file) => {
-        if (!file.startsWith(CORPUS_DIR) || !/\.(md|ya?ml)$/.test(file)) return;
+        if (!file.startsWith(CORPUS_DIR) || !/\.(md|ya?ml)$|graph\.db$/.test(file)) return;
         // Always drop the cached corpus, so the next request re-reads from disk.
         for (const f of LOADER_FILES)
           for (const m of server.moduleGraph.getModulesByFile(f) ?? [])
@@ -52,20 +53,13 @@ function watchCorpus() {
   };
 }
 
-const ACTORS_DIR = fileURLToPath(new URL('./problems/actors', import.meta.url));
+const GRAPH_DB = fileURLToPath(new URL('./problems/graph.db', import.meta.url));
 const today = () => new Date().toISOString().slice(0, 10);
 
-/** Patch one key's value line inside the frontmatter block only. */
-function setFm(fm, key, value) {
-  const re = new RegExp(`^${key}:[ \\t]*.*$`, 'm');
-  const line = `${key}: ${value}`.trimEnd();
-  if (re.test(fm)) return fm.replace(re, line);
-  if (value === '') return fm;
-  return fm.replace(/^followed:.*$/m, (l) => `${l}\n${line}`);
-}
-
-/** Dev-only. POST /api/follow {slug, followed} → rewrites followed / followed_date
- *  / updated in problems/actors/<slug>.md. Never runs in the static build. */
+/** Dev-only. POST /api/follow {slug, followed} → sets followed / followed_date
+ *  / updated on the actor row in graph.db. 01-minimal.md §11 item 3b-B: this
+ *  used to patch frontmatter; the corpus no longer carries any, so this is a
+ *  DB write like any other, through the same setActorFields as the CLI. */
 function followWriter() {
   return {
     name: 'fph:follow-writer',
@@ -84,16 +78,17 @@ function followWriter() {
           try {
             const { slug, followed } = JSON.parse(body || '{}');
             if (!/^[a-z0-9-]+$/.test(slug ?? '')) return done(400, { error: 'bad slug' });
-            const file = `${ACTORS_DIR}/${slug}.md`;
-            if (!existsSync(file)) return done(404, { error: 'no such actor' });
-            const src = readFileSync(file, 'utf8');
-            const m = src.match(/^(---\n[\s\S]*?\n)(---\n[\s\S]*)$/);
-            if (!m) return done(500, { error: 'no frontmatter' });
             const d = today();
-            let fm = setFm(m[1], 'followed', followed ? 'true' : 'false');
-            fm = setFm(fm, 'followed_date', followed ? d : '');
-            fm = setFm(fm, 'updated', d);
-            writeSelf(file, fm + m[2]);
+            const g = openGraphWritable(GRAPH_DB);
+            try {
+              const ok = setActorFields(g, slug, {
+                followed: followed ? 1 : 0,
+                followed_date: followed ? d : null,
+                updated: d,
+              }, { by: 'human:dev-follow-ui' });
+              if (!ok) return done(404, { error: 'no such actor' });
+            } finally { g.close(); }
+            markSelfWrite(GRAPH_DB);
             done(200, { ok: true, followed: !!followed, followed_date: followed ? d : null });
           } catch (e) {
             done(500, { error: String(e && e.message || e) });
@@ -104,8 +99,9 @@ function followWriter() {
   };
 }
 
-/** Dev-only. POST /api/exclude {slug, excluded, why} → flips depth to `excluded`
- *  (remembering what it was) or restores it. Never runs in the static build. */
+/** Dev-only. POST /api/exclude {slug, excluded, why} → flips `depth` to
+ *  `excluded` on the actor row (remembering the prior value via the `event`
+ *  audit trail, not a markdown comment) or restores it. */
 function excludeWriter() {
   return {
     name: 'fph:exclude-writer',
@@ -124,28 +120,20 @@ function excludeWriter() {
           try {
             const { slug, excluded = true, why } = JSON.parse(body || '{}');
             if (!/^[a-z0-9-]+$/.test(slug ?? '')) return done(400, { error: 'bad slug' });
-            const file = `${ACTORS_DIR}/${slug}.md`;
-            if (!existsSync(file)) return done(404, { error: 'no such actor' });
-            const src = readFileSync(file, 'utf8');
-            const m = src.match(/^(---\n[\s\S]*?\n)(---\n[\s\S]*)$/);
-            if (!m) return done(500, { error: 'no frontmatter' });
             const d = today();
-            const was = (m[1].match(/^depth:[ \t]*(\S+)/m) ?? [, 'registry'])[1];
-            let fm = m[1], rest = m[2];
-            if (excluded) {
-              // remember what it was, so an undo restores rather than guesses
-              fm = setFm(fm, 'depth', 'excluded');
-              const note = `\n<!-- excluded ${d} — ${why || 'no reason given'}\n`
-                + `     was depth: ${was === 'excluded' ? 'registry' : was}. `
-                + `Out of the follow list and out of the crawl; record and edges kept. -->\n`;
-              if (!/<!-- excluded /.test(rest)) rest = rest.trimEnd() + '\n' + note;
-            } else {
-              const prev = (rest.match(/<!-- excluded[\s\S]*?was depth: (\S+?)\./) ?? [, 'registry'])[1];
-              fm = setFm(fm, 'depth', prev);
-              rest = rest.replace(/\n<!-- excluded [\s\S]*?-->\n/, '\n');
-            }
-            fm = setFm(fm, 'updated', d);
-            writeSelf(file, fm + rest);
+            const g = openGraphWritable(GRAPH_DB);
+            let was;
+            try {
+              const row = g.prepare('SELECT depth FROM actor WHERE id = ?').get(slug);
+              if (!row) return done(404, { error: 'no such actor' });
+              was = row.depth;
+              const nextDepth = excluded
+                ? 'excluded'
+                : (lastEventValue(g, 'actor', slug, 'depth') ?? 'registry');
+              setActorFields(g, slug, { depth: nextDepth, updated: d },
+                { by: 'human:dev-follow-ui', why: excluded ? (why || 'no reason given') : 'exclude undo' });
+            } finally { g.close(); }
+            markSelfWrite(GRAPH_DB);
             done(200, { ok: true, excluded: !!excluded, was });
           } catch (e) {
             done(500, { error: String((e && e.message) || e) });

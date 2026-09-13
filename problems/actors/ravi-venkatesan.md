@@ -1,35 +1,3 @@
----
-name: Ravi Venkatesan
-slug: ravi-venkatesan
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: game-mass-entrepreneurship, role: "Founder", from: 2018}
-leg: [enterprise]
-ecosystem_role: [field-builder, capacity-builder, convener]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "Founder of GAME (Global Alliance for Mass Entrepreneurship) — sets national MSME/mass-entrepreneurship policy agenda (WEP, MSME payments legislation)"}
-sources:
-  - {kind: x, url: "https://x.com/rvenk", handle: "rvenk", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: linkedin, url: "https://www.linkedin.com/in/ravi-venkatesan/", handle: "ravi-venkatesan", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "via GAME (massentrepreneurship.org contact form)"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Ravi Venkatesan
 

@@ -1,33 +1,3 @@
----
-name: WheelsEMI
-slug: wheelsemi
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "financing (new + preowned) for two-wheelers and EVs, including leasing, insurance and subscription models for retail and fleet customers"}
-sources:
-  - {kind: website, url: "https://www.wheelsemi.com/", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "wheelsemi.com; co-founder & MD Srinivas Kantheti"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # WheelsEMI
 

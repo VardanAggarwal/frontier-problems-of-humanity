@@ -1,38 +1,3 @@
----
-name: Sardar Industries Machinery Group
-slug: sardar-industries
-type: org
-depth: tracked
-aka: ["Sardar Reaper"]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: policy-access, text: "inclusion of tractor-operated reaper-binders in the CRM machinery subsidy schedule and CHC procurement lists — currently the subsidy is weighted to Happy/Super Seeders and balers", as_of: 2026-09-08, source: "inferred", state: open}
-  - {kind: distribution, text: "demonstration / demand aggregation for whole-plant paddy harvesting as a burn alternative, versus its current fodder/seed-crop market", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: technology, text: "tractor-mounted reaper-binder that cuts paddy at ground level and binds sheaves in one pass — near-100% straw recovery, ~1 acre/hr on ~1 L diesel — the whole-plant-removal route that combines do not provide"}
-sources:
-  - {kind: youtube, url: "https://www.youtube.com/@sardarreaper", handle: "@sardarreaper — 2025-26 field-demo videos, model walkarounds, Hindi/Punjabi; most active channel", last_checked: 2026-09-08, status: live}
-  - {kind: facebook, url: "https://www.facebook.com/SardarReaper/", handle: "SardarReaper — 2026 posts (bookings open), demo reshares", last_checked: 2026-09-08, status: live}
-  - {kind: website, url: "https://sardarreaper.com/", handle: "live marketing site, no dated news section", last_checked: 2026-09-08, status: live}
-  - {kind: other, url: "https://www.indiamart.com/sardar-reaper/", handle: "IndiaMART storefront (listed as Roop Agriculture Works) — catalogue + RFQ, not a feed", last_checked: 2026-09-08, status: live}
-  - {kind: x, url: "https://x.com/Sardarreaper", handle: "@Sardarreaper — linked from site, recency unconfirmed", last_checked: 2026-09-08, status: stale}
-contact_route: "Phone/WhatsApp +91 94630 17000; forms at sardarreaper.com/contact-us-1 and /apply-for-dealership; IndiaMART RFQ. SH-12A Bhikhi Road, Village Khiala Kallan, Mansa, Punjab. No named proprietor public — brand 'Sardar Reaper' trades under Roop Agriculture Works / Sardar Agro Industries Pvt Ltd, same Mansa location. Peer makers: Thind Machinery Store (thindmachinerystore.com), BCS India."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Sardar Industries Machinery Group
 

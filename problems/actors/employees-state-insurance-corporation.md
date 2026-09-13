@@ -1,32 +1,3 @@
----
-name: Employees' State Insurance Corporation
-slug: employees-state-insurance-corporation
-type: org
-depth: registry
-aka: [ESIC, ESI Corporation]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [silicosis-stone-industry]
-nodes: [toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.esic.gov.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://www.hhrjournal.org/2025/09/08/preventing-silicosis-is-now-a-human-rights-duty-in-india/", handle: "role under 2024 SC judgment", last_checked: 2026-09-07, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Employees' State Insurance Corporation
 

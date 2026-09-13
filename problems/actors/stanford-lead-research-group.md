@@ -1,32 +1,3 @@
----
-name: Stanford lead and turmeric research group
-slug: stanford-lead-research-group
-type: org
-depth: tracked
-aka: ["Forsyth lab", "King Center on Global Development", "Woods Institute"]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [residual-childhood-lead]
-nodes: [toxic-exposure-class]
-geography: [global, india, bihar]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: introductions, text: "FSSAI / state food-safety enforcement partners to replicate the Bangladesh turmeric intervention in India", as_of: "2026-01-01", source: "https://www.nature.com/articles/s41538-026-00867-8", state: open}
-  - {kind: money, text: "research + intervention funding", as_of: "2026-01-01", source: "npj Science of Food 2026", state: unknown}
-offers:
-  - {kind: data, text: "the turmeric-adulteration evidence base for India (503 samples / 34 cities / 5 states, 2021–23) + a 104-city preprint + supply-chain maps"}
-  - {kind: technology, text: "the Bangladesh enforcement-intervention model that cut market adulteration to ~0 and blood lead ~30% in 16 months"}
-sources:
-  - {kind: website, url: "https://healthpolicy.fsi.stanford.edu/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://sustainability.stanford.edu/news/finding-lead-turmeric", handle: "", last_checked: 2026-09-07, status: live}
-contact_route: "Jenna Forsyth, Stanford (see individual record)."
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Stanford lead and turmeric research group
 

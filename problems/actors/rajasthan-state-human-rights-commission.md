@@ -1,32 +1,3 @@
----
-name: Rajasthan State Human Rights Commission
-slug: rajasthan-state-human-rights-commission
-type: org
-depth: registry
-aka: [RSHRC]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [silicosis-stone-industry]
-nodes: [toxic-exposure-class]
-geography: [india, rajasthan]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://rshrc.rajasthan.gov.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://rshrc.rajasthan.gov.in/writereaddata/Judgements/202208250221108626755Special_Report_Silicosis.pdf", handle: "Special Report on Silicosis (2022)", last_checked: 2026-09-07, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Rajasthan State Human Rights Commission
 

@@ -1,25 +1,3 @@
----
-name: Energy Policy Institute at the University of Chicago — India
-slug: epic-india
-type: org
-depth: registry
-aka: ["EPIC-India", AQLI]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [north-india-winter-smog]
-nodes: []
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://epic.uchicago.edu/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: website, url: "https://aqli.epic.uchicago.edu/", handle: "AQLI", last_checked: 2026-09-07, status: live}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Energy Policy Institute at the University of Chicago — India
 

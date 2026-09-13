@@ -1,33 +1,3 @@
----
-name: Lead Exposure Elimination Project
-slug: leep
-type: org
-depth: tracked
-aka: [LEEP]
-leg: [activism]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [residual-childhood-lead]
-nodes: [toxic-exposure-class]
-geography: [global]
-lifecycle: scaling
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: policy-access, text: "govt partners for lead-paint regulation + enforcement in LMICs", as_of: "2024-01-01", source: "https://leadelimination.org/2024-in-review/", state: partially-met}
-  - {kind: money, text: "expansion funding; GiveWell / Founders Pledge / EA-aligned donors", as_of: "2024-01-01", source: "https://leadelimination.org/2024-in-review/", state: open}
-offers:
-  - {kind: technology, text: "paint-lead market-testing methodology and a manufacturer-reformulation playbook used in 40 countries (paint only — not spices or ULAB)"}
-  - {kind: credibility, text: "GiveWell top-charity-adjacent; a cost-effectiveness evidence base for lead-paint work"}
-sources:
-  - {kind: website, url: "https://leadelimination.org/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: newsletter, url: "https://leadelimination.org/", handle: "annual reviews", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "https://x.com/LeadElimination", handle: "@LeadElimination", last_checked: 2026-09-07, status: unconfirmed}
-contact_route: "contact form at leadelimination.org."
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Lead Exposure Elimination Project
 

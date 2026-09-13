@@ -1,34 +1,3 @@
----
-name: Prasad Vanga
-slug: prasad-vanga
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: anthill-ventures, role: "Founder & CEO", from: "2015"}
-ecosystem_role: [funder, capacity-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/prasadvanga", handle: "prasadvanga", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: website, url: "https://www.anthillventures.com/team/prasad-vanga", last_checked: 2026-09-11, status: live}
-contact_route: "LinkedIn"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Prasad Vanga
 

@@ -1,30 +1,3 @@
----
-name: Jyoti Pande Lavakare
-slug: jyoti-pande-lavakare
-type: individual
-depth: registry
-aka: []
-affiliations:
-  - {actor: care-for-air, role: "co-founder", from: 2015-01-01, to: }
-leg: [activism]
-affected_led: yes
-representation_unit: local-affected
-stance: works-the-remedy
-leaves: [north-india-winter-smog]
-nodes: []
-geography: [india, delhi]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/jyoti-pande-lavakare-a3a9b3a/", handle: "jyoti-pande-lavakare-a3a9b3a", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://theprint.in/author/jyoti-pande-lavakare/", handle: "ThePrint author page", last_checked: 2026-09-07, status: live}
-  - {kind: website, url: "https://www.jyotipande.in/", handle: "personal site", last_checked: 2026-09-07, status: stale}
-  - {kind: x, url: "https://x.com/jyotipande", handle: "@jyotipande", last_checked: 2026-09-07, status: unconfirmed}
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-07
-updated: 2026-09-08
----
 
 # Jyoti Pande Lavakare
 

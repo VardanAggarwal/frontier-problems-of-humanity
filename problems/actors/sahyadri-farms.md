@@ -1,33 +1,3 @@
----
-name: Sahyadri Farms Post Harvest Care Limited
-slug: sahyadri-farms
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: partial
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india, maharashtra]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: reach, text: "FPO-owned post-harvest/export platform for 25,000+ member farmers — India's largest grape exporter and a major tomato processor"}
-sources:
-  - {kind: website, url: "https://www.sahyadrifarms.com/", last_checked: 2026-09-10, status: live}
-contact_route: "sahyadrifarms.com"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Sahyadri Farms Post Harvest Care Limited
 

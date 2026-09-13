@@ -1,32 +1,3 @@
----
-name: Right to Breathe India
-slug: right-to-breathe-india
-type: org
-depth: tracked
-aka: []
-leg: [activism]
-affected_led: partial
-representation_unit: local-affected
-stance: works-the-remedy
-leaves: [north-india-winter-smog, crop-residue-burning]
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: people, text: "organising capacity beyond a web-petition presence", as_of: 2026-09-07, source: "inferred", state: open}
-offers:
-  - {kind: reach, text: "citizen-petition mobilisation on clean air"}
-sources:
-  - {kind: website, url: "https://righttobreatheindia.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "", last_checked: 2026-09-07, status: none-found}
-  - {kind: instagram, url: "", handle: "", last_checked: 2026-09-07, status: none-found}
-  - {kind: facebook, url: "", handle: "", last_checked: 2026-09-07, status: none-found}
-contact_route: "Email info@righttobreatheindia.in — only listed channel; no named person."
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Right to Breathe India
 

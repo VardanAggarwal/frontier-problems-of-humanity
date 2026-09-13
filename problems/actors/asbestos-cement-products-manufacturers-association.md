@@ -1,30 +1,3 @@
----
-name: Asbestos Cement Products Manufacturers Association
-slug: asbestos-cement-products-manufacturers-association
-type: org
-depth: tracked
-aka: [ACPMA, FCPMA, "Fibre Cement Products Manufacturers Association", "AC Pressure Pipe Manufacturers Association"]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: organised-against-remedy
-leaves: [asbestos-in-air]
-nodes: [toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: other, text: "n/a — an organised-against-remedy actor; monitored to watch the blocker, not engaged as a connection target", as_of: "2026-09-07", source: "leaf asbestos-in-air §D", state: withdrawn}
-offers:
-  - {kind: other, text: "none offered to the platform; recorded to track the lobby that keeps chrysotile off the prohibited-import list"}
-sources:
-  - {kind: press, url: "https://www.asbestosfreeindia.org/", handle: "documented coverage of ACPMA 'controlled use' lobbying and its member firms (Everest, Visaka, HIL, Ramco, UAL, Sarvottam)", last_checked: 2026-09-07, status: live}
-  - {kind: website, url: "", handle: "ACPMA own site — URL unverified", last_checked: 2026-09-07, status: none-found}
-contact_route: "n/a — tracked as the blocker, not for outreach."
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-09
----
 
 # Asbestos Cement Products Manufacturers Association
 

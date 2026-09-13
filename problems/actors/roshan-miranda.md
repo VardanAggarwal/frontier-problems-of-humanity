@@ -1,33 +1,3 @@
----
-name: Roshan Miranda
-slug: roshan-miranda
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: bintix, role: "founder & director", from: "2018"}
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers: []
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/roshanmiranda/", handle: "roshanmiranda", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "LinkedIn (roshanmiranda); Bintix"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Roshan Miranda
 

@@ -1,30 +1,3 @@
----
-name: Mouhsine Serrar
-slug: mouhsine-serrar
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: [{actor: prakti-design, role: "founder / CEO", from: 2007-01-01, to: }]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [cookfire-smoke]
-nodes: [energy]
-geography: [india]
-lifecycle: dormant
-lifecycle_as_of: 2026-09-08
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/mouhsine-serrar-8226221/", handle: "mouhsine-serrar-8226221 — last visible post ~2022", last_checked: 2026-09-08, status: stale}
-  - {kind: x, url: "", handle: "none-found (@mouhsine3d is a different person)", last_checked: 2026-09-08, status: none-found}
-contact_route: "LinkedIn DM /in/mouhsine-serrar-8226221 (dormant but where any restart would surface); info@praktidesign.com fallback (expect no reply). Based Oakland CA / Chiang Mai."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Mouhsine Serrar
 

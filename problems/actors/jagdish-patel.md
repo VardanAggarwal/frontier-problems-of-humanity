@@ -1,36 +1,3 @@
----
-name: Jagdish Patel
-slug: jagdish-patel
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: [{actor: ptrc, role: "co-founder / director", from: 1992-01-01, to: }]
-leg: [activism]
-affected_led: partial
-representation_unit: local-affected
-stance: works-the-remedy
-leaves: [{id: silicosis-stone-industry, role: primary}]
-nodes: [toxic-exposure-class]
-geography: [india, gujarat]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.peoplestraining.org/", handle: "PTRC", last_checked: 2026-09-07, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/in/121957/", handle: "Jagdish Patel (Director, PTRC) — recency unverified (LinkedIn blocks fetch)", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://www.counterview.net/", handle: "Counterview — byline & PTRC coverage, ~monthly through 2026", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://ijme.in/?s=Jagdish+Patel", handle: "IJME author — long-form, occasional", last_checked: 2026-09-07, status: live}
-  - {kind: other, url: "https://orcid.org/0000-0003-4042-2200", handle: "ORCID 0000-0003-4042-2200", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://www.epw.in/author/jagdish-patel", handle: "EPW author — last article 2021-08", last_checked: 2026-09-07, status: stale}
-contact_route: "jagdish.jb@gmail.com; via PTRC info@peoplestraining.org / +91 94264 86855; LinkedIn /in/121957/ (recency unverified). Best running signal: Counterview PTRC coverage."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-07
-updated: 2026-09-08
----
 
 # Jagdish Patel
 

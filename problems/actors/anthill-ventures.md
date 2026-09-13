@@ -1,33 +1,3 @@
----
-name: Anthill Ventures
-slug: anthill-ventures
-type: org
-depth: registry
-aka: ["Anthill"]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-ecosystem_role: [capacity-builder, funder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.anthillventures.com/", last_checked: 2026-09-11, status: live}
-  - {kind: linkedin, url: "https://in.linkedin.com/company/anthill-ventures", last_checked: 2026-09-11, status: unconfirmed}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Anthill Ventures
 

@@ -1,33 +1,3 @@
----
-name: Ayush Bansal
-slug: ayush-bansal
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: idreamcareer, role: "co-founder & CEO", from: "2013"}
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers: []
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/posts/ayushbansal1_idreamcareercom-is-hiring-if-you-want-activity-6998991700723445760-XNf1", handle: "ayushbansal1", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "LinkedIn (ayushbansal1); via idreamcareer.com"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Ayush Bansal
 

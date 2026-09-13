@@ -1,36 +1,3 @@
----
-name: Madhusudhan Anand
-slug: madhusudhan-anand
-type: individual
-depth: tracked
-aka: ["Maddy"]
-parent:
-superseded_by:
-affiliations: [{actor: ambee, role: "co-founder / CTO", from: 2017-01-01, to: }]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: neutral
-leaves: [north-india-winter-smog]
-nodes: []
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: distribution, text: "enterprise / insurer / consumer-platform buyers for hyperlocal air-quality data (inferred, via Ambee)", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: data, text: "founder-operator of a hyperlocal air-quality/weather/pollen data API; climate-data engineering"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/maddyanand", handle: "maddyanand — climate data, Ambee product, hiring; ~12K followers", last_checked: 2026-09-08, status: live}
-  - {kind: other, url: "https://maddymaster.medium.com", handle: "maddymaster — long-form climate-tech / startup lessons; near-monthly early 2025, cooling", last_checked: 2026-09-08, status: live}
-  - {kind: website, url: "https://worldversant.com", handle: "personal blog — last post Oct 2024", last_checked: 2026-09-08, status: stale}
-  - {kind: x, url: "", handle: "none-found", last_checked: 2026-09-08, status: none-found}
-contact_route: "maddy@getambee.com; LinkedIn DM /in/maddyanand (primary — only channel verifiably current in 2026). Medium is the substance feed but cadence dropped after Q1 2025."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Madhusudhan Anand
 

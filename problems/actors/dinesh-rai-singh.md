@@ -1,34 +1,3 @@
----
-name: Dinesh Rai Singh
-slug: dinesh-rai-singh
-type: individual
-depth: registry
-aka: ["Dinesh Raisingh", "दिनेश रायसिंह"]
-parent:
-superseded_by:
-affiliations:
-  - {actor: silicosis-peedit-sangh, role: "president", from: 2008-01-01, to: }
-leg: [activism]
-affected_led: yes
-representation_unit: local-affected
-stance: works-the-remedy
-leaves: [{id: silicosis-stone-industry, role: primary}]
-nodes: [toxic-exposure-class]
-geography: [india, madhya-pradesh]
-lifecycle: operating
-lifecycle_as_of: 2021-06-01
-needs: []
-offers: []
-sources:
-  - {kind: press, url: "https://india.mongabay.com/2019/10/from-drought-to-deadly-disease-no-respite-for-migrant-tribal-farmers/", handle: "Mongabay-India — 'Dinesh Rai Singh, president SPS', Oct 2019", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://en.gaonconnection.com/panna-madhya-pradesh-tribal-stone-mines-deaths-silicosis-covid-pandemic-health-rural-india/", handle: "Gaon Connection — quoted as SPS president, c. 2020-21", last_checked: 2026-09-07, status: live}
-  - {kind: other, url: "", handle: "no personal channel — bed-ridden, village, no internet presence (structural)", last_checked: 2026-09-07, status: none-found}
-contact_route: "No public channel. Via Amulya Nidhi (SPS public representative, @AMULYANIDHI4), Jan Swasthya Abhiyan MP / Swasthya Adhikar Manch (Indore), or co-petitioner PRASAR via counsel in WP(C) 110/2006. NOTE: no confirmation of his status since ~2021 — verify he is alive and still leading before relying on this record."
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Dinesh Rai Singh
 

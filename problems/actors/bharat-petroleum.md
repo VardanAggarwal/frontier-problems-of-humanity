@@ -1,32 +1,3 @@
----
-name: Bharat Petroleum Corporation Limited
-slug: bharat-petroleum
-type: org
-depth: registry
-aka: [BPCL]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.bharatpetroleum.in/", handle: "", last_checked: 2026-09-08, status: live}
-  - {kind: press, url: "https://ciiblog.in/cii-foundation-adopts-villages-in-punjab-to-make-them-stubble-burning-free/", handle: "CSR co-funder, CII Foundation CRM project", last_checked: 2026-09-08, status: live}
-contact_route: "bharatpetroleum.in. Two roles on this leaf: CSR co-funder via the SIAM consortium (see society-of-indian-automobile-manufacturers / cii-foundation), and an oil-marketing company with compressed-biogas offtake obligations under SATAT (peer to indian-oil-corporation)."
-followed: false
-followed_date:
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Bharat Petroleum Corporation Limited
 

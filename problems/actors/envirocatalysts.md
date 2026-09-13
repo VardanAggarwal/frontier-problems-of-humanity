@@ -1,25 +1,3 @@
----
-name: Envirocatalysts
-slug: envirocatalysts
-type: org
-depth: registry
-aka: []
-leg: [activism]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [north-india-winter-smog, small-industrial-town-air]
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://www.envirocatalysts.com/", handle: "", last_checked: 2026-09-07, status: live}
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-07
-updated: 2026-09-08
----
 
 # Envirocatalysts
 

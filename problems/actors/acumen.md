@@ -1,32 +1,3 @@
----
-name: Acumen
-slug: acumen
-type: org
-depth: registry
-aka: ["Acumen Fund"]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-ecosystem_role: [funder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india, global]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://acumen.org/regions/india/", last_checked: 2026-09-11, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Acumen
 

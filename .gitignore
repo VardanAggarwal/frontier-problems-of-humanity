@@ -29,10 +29,13 @@ problems/private/
 engine/.venv*/
 engine/tests/fixtures/live/
 
-# Engine v2 graph. Derived from problems/ by engine/migrate/from_corpus.py in
-# about two seconds; a 1 MB binary diffs as noise. Readable history comes from
-# `sqlite3 problems/graph.db .dump` when one is wanted.
-problems/graph.db
+# Engine v2 graph. Committed as of 01-minimal.md §11 item 3b-B: corpus
+# markdown is prose-only now, so graph.db is no longer derivable from it —
+# it is the durable source the worker and human edits (engine/store/edit.py)
+# write to directly, not a build artifact. WAL/SHM are still transient.
 problems/graph.db-wal
 problems/graph.db-shm
+# Hand-taken safety copies from before a destructive migration. Now that
+# graph.db is committed, git history is the backup; these are local only.
+problems/graph.db.bak-*
 .env

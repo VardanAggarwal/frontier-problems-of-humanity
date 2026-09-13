@@ -1,34 +1,3 @@
----
-name: Dr Satpal Singh (KVK Panipat)
-slug: satpal-singh-kvk-panipat
-type: individual
-depth: tracked
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: krishi-vigyan-kendra-panipat, role: "Senior Coordinator", from: , to: }
-leg: [institution]
-affected_led: no
-representation_unit: local-affected
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, haryana]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: distribution, text: "assured mushroom offtake / cold-chain to scale the straw-substrate pilot (via KVK Panipat)", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: fieldwork, text: "runs KVK Panipat's paddy-straw-to-mushroom training and SHG hand-holding in Israne block"}
-sources:
-  - {kind: other, url: "", handle: "none-found — phone/email only", last_checked: 2026-09-08, status: none-found}
-contact_route: "sckvkpanipat01@gmail.com / +91 94165 72469 (office 0180-2001625), via KVK Panipat. No public feed."
-followed: false
-followed_date:
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Dr Satpal Singh (KVK Panipat)
 

@@ -1,34 +1,3 @@
----
-name: Frontier Markets
-slug: frontier-markets
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: partial
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india, rajasthan]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: distribution, text: "last-mile rural distribution network of 20,000 women entrepreneurs ('Sahelis') reaching 1M+ rural households/5M women with essential products, financing and clean energy"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/frontiermkts", handle: "frontiermkts", last_checked: 2026-09-10, status: unconfirmed}
-  - {kind: website, url: "https://www.frontiermkts.com/about-us", last_checked: 2026-09-10, status: live}
-contact_route: "frontiermkts.com; founder Ajaita Shah, in.linkedin.com/in/frontiermarkets"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Frontier Markets
 

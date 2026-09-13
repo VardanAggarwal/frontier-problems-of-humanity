@@ -1,35 +1,3 @@
----
-name: Sankalp Forum
-slug: sankalp-forum
-type: org
-depth: registry
-aka: []
-parent: intellecap
-superseded_by:
-affiliations: []
-ecosystem_role: [convener]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India, "Global South"]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: convening, text: "flagship summits connecting entrepreneurs to investors — Sankalp Global Summit (India) and Sankalp Africa Summit"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/showcase/sankalpforum/", handle: "sankalpforum", last_checked: 2026-09-10, status: live}
-  - {kind: x, url: "https://x.com/SankalpForum", handle: "@SankalpForum", last_checked: 2026-09-10, status: live}
-  - {kind: website, url: "https://www.sankalpforum.com/", last_checked: 2026-09-10, status: live}
-contact_route: "sankalpforum.com; via Intellecap/Aavishkaar Group"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Sankalp Forum
 

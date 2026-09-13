@@ -1,36 +1,3 @@
----
-name: Earthfit Solutions Pvt Ltd
-slug: earthfit-solutions
-type: org
-depth: tracked
-aka: ["Earthfit", "EARTHFIR"]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [cookfire-smoke]
-nodes: [energy]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: money, text: "carbon-credit offtake and working capital to keep improved-biomass unit economics viable — same carbon-finance dependency as Greenway", as_of: 2026-09-08, source: "earthfit.in/about-us; Removall SAS offtake", state: open}
-  - {kind: distribution, text: "NGO / MFI / agri-cooperative partners to reach beneficiary households and verify use for MRV", as_of: 2026-09-08, source: "earthfit.in", state: partially-met}
-offers:
-  - {kind: fieldwork, text: "improved-biomass cookstove manufacturing (~1M/yr capacity, Waluj) and rural last-mile distribution via NGO/MFI partners; digital device-level use monitoring for MRV"}
-  - {kind: technology, text: "Gold Standard / VCS carbon-project development for clean cooking and biochar carbon removal"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/earthfit-solutions", handle: "earthfit-solutions", last_checked: 2026-09-08, status: live}
-  - {kind: instagram, url: "https://www.instagram.com/earthfitindia/", handle: "@earthfitindia", last_checked: 2026-09-08, status: live}
-  - {kind: website, url: "https://www.earthfit.in/blogs", handle: "", last_checked: 2026-09-08, status: live}
-  - {kind: x, url: "https://x.com/earthfitindia", handle: "@earthfitindia", last_checked: 2026-09-08, status: stale}
-  - {kind: facebook, url: "https://www.facebook.com/earthfitindia", handle: "earthfitindia", last_checked: 2026-09-08, status: stale}
-contact_route: "LinkedIn company page or earthfit.in/contact-us (Pune corp office); founder-level via Harish Anchan LinkedIn DM. Listed in Clean Cooking Alliance sector directory. Warm-intro path: Clean Cooking Alliance; or carbon-offtaker Removall SAS (Jérôme Beilin)."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Earthfit Solutions Pvt Ltd
 

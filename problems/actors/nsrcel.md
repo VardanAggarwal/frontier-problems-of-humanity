@@ -1,34 +1,3 @@
----
-name: NSRCEL (IIM Bangalore) — Impact Orbit
-slug: nsrcel
-type: org
-depth: registry
-aka: ["NS Raghavan Centre for Entrepreneurial Learning", "Impact Orbit"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "incubation, mentorship, corporate-partner access and funder connects for social enterprises via the Impact Orbit vertical"}
-sources:
-  - {kind: website, url: "https://nsrcel.org/", last_checked: 2026-09-11, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/nsrcel", handle: "nsrcel", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "nsrcel.org contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # NSRCEL (IIM Bangalore) — Impact Orbit
 

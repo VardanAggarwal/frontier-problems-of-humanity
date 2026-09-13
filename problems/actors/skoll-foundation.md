@@ -1,35 +1,3 @@
----
-name: Skoll Foundation
-slug: skoll-foundation
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder, convener]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "Skoll Award for Social Innovation — $2M unrestricted, given to Indus Action (India) in the 2026 cohort of three global winners"}
-  - {kind: convening, text: "Skoll World Forum, Oxford — annual convening where SELCO Foundation and Dasra co-panelled with Antarang Foundation on Northeast India, 2026"}
-sources:
-  - {kind: website, url: "https://skoll.org/", last_checked: 2026-09-10, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/skoll-foundation/", handle: "skoll-foundation", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "skoll.org grant enquiries; Skoll World Forum as convening entry point"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Skoll Foundation
 

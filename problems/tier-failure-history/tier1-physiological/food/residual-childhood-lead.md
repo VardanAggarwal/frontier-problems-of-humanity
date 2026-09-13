@@ -1,39 +1,3 @@
----
-id: residual-childhood-lead
-aliases: []
-title: Residual childhood lead exposure (non-petrol sources)
-one_line: "The 2000 leaded-petrol phase-out removed the largest source and the effort stopped; ~275 million Indian children — well over half of them — still carry elevated blood lead from adulterated spices, informal battery smelting, paint and cookware, and India runs no blood-lead surveillance to say which children or from what."
-status: researched
-tier: 1
-need: food
-geography: [india, bihar]
-salience: 1
-scale: 8
-channel: structural
-satisfier_relation: degraded-quality
-onset: chronic
-agent: daily-life
-mechanisms: [authority-mismatched-to-harm, solution-at-hand-blocked, visible-win-strands-residual]
-nodes: [toxic-exposure-class]
-cross_cutting: []
-gap: representation
-gap_missing_leg: [activism, enterprise]
-gap_note: "no affected-led body exists for lead-poisoned children (the harm is invisible, diffuse, delayed and unattributable by any parent) and no domestic blood-lead-testing market (no payer); institutions hold carrier-fragments (FSSAI the food sample, CPCB the facility) but none has the child as its reporting unit, and the national surveillance programme CSIR/NITI Aayog recommended in 2022 was never built"
-gap_as_of: 2026-09-07
-sources:
-  - {title: "The Toxic Truth: Children's Exposure to Lead Pollution Undermines a Generation of Future Potential", org: "UNICEF & Pure Earth", year: 2020, url: "https://www.unicef.org/reports/toxic-truth-childrens-exposure-to-lead-pollution-2020"}
-  - {title: "Assessment of Lead (Pb) Impact on Human and India's Response", org: "NITI Aayog & CSIR", year: 2022, url: "https://www.pureearth.org/wp-content/uploads/2022/06/Lead-Report-India-CSIR-NITI-Ayog-June-2022.pdf"}
-  - {title: "India Lead Fact Sheet (updated Oct 2023)", org: "Pure Earth", year: 2023, url: "https://www.pureearth.org/wp-content/uploads/2023/10/Updated-India-Lead-Fact-Sheet_12-Oct-2023.pdf"}
-  - {title: "Systemic drivers of toxic food adulteration: lead chromate in turmeric across eastern India", org: "npj Science of Food (Forsyth et al.)", year: 2026, url: "https://www.nature.com/articles/s41538-026-00867-8"}
-  - {title: "Prevalence of elevated blood lead levels and risk factors among children living in Patna, Bihar, India", org: "PLOS Global Public Health (Forsyth et al.)", year: 2022, url: "https://journals.plos.org/globalpublichealth/article?id=10.1371/journal.pgph.0000743"}
-  - {title: "Global health burden and cost of lead exposure in children and adults", org: "The Lancet Planetary Health (Larsen & Sanchez-Triana)", year: 2023, url: "https://www.thelancet.com/journals/lanplh/article/PIIS2542-5196(23)00166-3/fulltext"}
-  - {title: "Lead in Solvent-Based Paints for Home Use in India", org: "Toxics Link", year: 2023, url: "https://toxicslink.org/wp-content/uploads/2023/08/India-Lead-Paint-Report-Summary-October-2023.pdf"}
-  - {title: "Food safety policy enforcement reduces lead chromate adulteration in turmeric across Bangladesh", org: "Environmental Research (Forsyth et al.)", year: 2023, url: "https://pubmed.ncbi.nlm.nih.gov/37286126/"}
-  - {title: "Pure Earth — India programs", org: "Pure Earth", year: 2024, url: "https://www.pureearth.org/india-3/"}
-updated: 2026-09-07
-last_reviewed: 2026-09-07
-actors: [pure-earth, diksha-radhakrishnan, leep, toxics-link, satish-sinha, stanford-lead-research-group, jenna-forsyth, stephen-luby, dinsha-mistree, food-safety-and-standards-authority-of-india, central-pollution-control-board, ministry-of-environment-forest-and-climate-change, niti-aayog, csir, gravita-india, the-george-foundation, abraham-george, indian-academy-of-pediatrics, unicef-india]   # generated (hand-maintained until build script)
----
 
 # Residual childhood lead exposure (non-petrol sources)
 

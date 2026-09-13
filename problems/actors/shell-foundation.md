@@ -1,35 +1,3 @@
----
-name: Shell Foundation
-slug: shell-foundation
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India, "Sub-Saharan Africa"]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "catalytic grants (e.g. USD $45,000 milestone-based cash grants under ClimaFii Alliance) plus market-access partnerships"}
-sources:
-  - {kind: x, url: "https://x.com/ShellFoundation", handle: "@ShellFoundation", last_checked: 2026-09-10, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/shell-foundation", handle: "shell-foundation", last_checked: 2026-09-10, status: live}
-  - {kind: website, url: "https://shellfoundation.org/our-portfolio/", last_checked: 2026-09-10, status: live}
-contact_route: "shellfoundation.org contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Shell Foundation
 

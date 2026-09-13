@@ -1,25 +1,3 @@
----
-name: Ministry of Environment, Forest and Climate Change
-slug: ministry-of-environment-forest-and-climate-change
-type: org
-depth: registry
-aka: [MoEFCC, "MoEF&CC", Union Environment Ministry]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: ambiguous
-leaves: [north-india-winter-smog, cookfire-smoke, crop-residue-burning, residual-childhood-lead, asbestos-in-air]
-nodes: [construction, energy, toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://moef.gov.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "https://x.com/moefcc", handle: "@moefcc", last_checked: 2026-09-07, status: unconfirmed}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-09
----
 
 # Ministry of Environment, Forest and Climate Change
 

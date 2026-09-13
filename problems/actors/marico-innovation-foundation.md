@@ -1,34 +1,3 @@
----
-name: Marico Innovation Foundation
-slug: marico-innovation-foundation
-type: org
-depth: registry
-aka: ["MIF"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder, funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "expert-network access, capital and recognition (innovation awards) for social entrepreneurs in renewable energy, waste management and livelihoods"}
-sources:
-  - {kind: website, url: "https://maricoinnovationfoundation.org/", last_checked: 2026-09-11, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/marico-innovation-foundation", handle: "marico-innovation-foundation", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "maricoinnovationfoundation.org contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Marico Innovation Foundation
 

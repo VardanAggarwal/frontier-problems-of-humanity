@@ -1,33 +1,3 @@
----
-name: BFA Global
-slug: bfa-global
-type: org
-depth: registry
-aka: ["Bankable Frontier Associates"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [researcher, intermediary]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: data, text: "inclusive-fintech research and venture-building advisory; ran the Catalyst Fund accelerator for 25 inclusive-fintech startups, incl. India-market insight on trust-building and rural infrastructure gaps"}
-sources:
-  - {kind: website, url: "https://bfaglobal.com/", last_checked: 2026-09-10, status: live}
-contact_route: "bfaglobal.com; ClimaFii Alliance (with Shell Foundation and Accion) as an India-adjacent entry point"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # BFA Global
 

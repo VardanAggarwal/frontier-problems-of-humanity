@@ -1,34 +1,3 @@
----
-name: Peoples Rights and Social Research Centre
-slug: prasar
-type: org
-depth: registry
-aka: [PRASAR]
-parent:
-superseded_by:
-affiliations: []
-leg: [activism]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [silicosis-stone-industry]
-nodes: [toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs: []
-offers: []
-sources:
-  - {kind: press, url: "https://api.sci.gov.in/supremecourt/2006/604/604_2006_7_1501_54545_Judgement_06-Aug-2024.pdf", handle: "PRASAR v Union of India, 2024 INSC 582", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://www.scconline.com/blog/post/2024/08/14/ngt-nhrc-directions-given-silicosis-prone-industries-compensation-supreme-court-legal-news/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://www.downtoearth.org.in/health/nobody-remembers-stone-crushers-at-delhis-lal-kuan-except-for-workers-battling-silicosis", handle: "Down To Earth — founder Sharafat Azad quoted as PRASAR president, Nov 2024", last_checked: 2026-09-07, status: live}
-  - {kind: website, url: "", handle: "no public web/social presence found (prasar.org.in is a DIFFERENT org)", last_checked: 2026-09-07, status: none-found}
-contact_route: "No public web/social presence. Route via (1) Human Rights Law Network — hrln.org — counsel of record in WP(C) 110/2006 and NGT OA 1198/2024; (2) founder Sharafat Azad through the Ashoka Fellow network (ashoka.org/en-us/fellow/sharafat-azad); (3) Down To Earth health-desk reporters covering silicosis. Allied network: Khaan Mazdoor Adhikar Manch."
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Peoples Rights and Social Research Centre
 

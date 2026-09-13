@@ -1,33 +1,3 @@
----
-name: GIZ India
-slug: giz-india
-type: org
-depth: registry
-aka: ["Deutsche Gesellschaft für Internationale Zusammenarbeit"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder, intermediary]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "German federal development-cooperation implementer; India country programme spans sustainable agriculture/food systems, energy and rural livelihoods; partners with IKEA Foundation on decentralised renewable energy for smallholder farmers"}
-sources:
-  - {kind: website, url: "https://www.giz.de/en/worldwide/368.html", last_checked: 2026-09-10, status: live}
-contact_route: "giz.de India country page"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # GIZ India
 

@@ -1,33 +1,3 @@
----
-name: Rural Technology and Business Incubator (RTBI, IIT Madras)
-slug: rtbi-iit-madras
-type: org
-depth: registry
-aka: ["RTBI"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "incubation infrastructure and funding support for rural/social-inclusion, ICT-leveraged ventures"}
-sources:
-  - {kind: website, url: "https://rtbi.in/incubationiitm/", last_checked: 2026-09-11, status: live}
-contact_route: "rtbi.in contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Rural Technology and Business Incubator (RTBI, IIT Madras)
 

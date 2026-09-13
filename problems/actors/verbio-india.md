@@ -1,35 +1,3 @@
----
-name: VERBIO India Pvt Ltd
-slug: verbio-india
-type: org
-depth: tracked
-aka: [VERBIO]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab]
-lifecycle: scaling
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: distribution, text: "reliable, lower-cost straw aggregation and storage at farm gate — supply-chain cost and monsoon-tail moisture are the margin constraint", as_of: 2026-09-07, source: "https://www.verbio.de/en/press/press-release/", state: open}
-  - {kind: policy-access, text: "compressed-biogas offtake price certainty (SATAT / OMC purchase terms)", as_of: 2026-09-07, source: "inferred", state: open}
-offers:
-  - {kind: capital, text: "a standing farm-gate buyer for baled paddy straw within its ~10 km catchment — the demand side of the missing join"}
-  - {kind: technology, text: "proven straw-to-CBG process at commercial scale in Punjab conditions"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/ashish-kumar-4272936", handle: "Ashish Kumar (MD, VERBIO India)", last_checked: 2026-09-07, status: live}
-  - {kind: linkedin, url: "https://in.linkedin.com/company/verbioin", handle: "verbioin", last_checked: 2026-09-07, status: stale}
-  - {kind: press, url: "https://www.verbio.de/en/press/", handle: "VERBIO AG press", last_checked: 2026-09-07, status: live}
-  - {kind: website, url: "https://www.verbio.in/", handle: "redirects to verbio.de", last_checked: 2026-09-07, status: stale}
-contact_route: "India news reaches the public only via MD Ashish Kumar's LinkedIn (/in/ashish-kumar-4272936) or the parent press page. Chandigarh office: Godrej Eternia, Plot 70 Tower A, Industrial Area Phase-1, Chandigarh; parent presse@verbio.de."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-07
-updated: 2026-09-08
----
 
 # VERBIO India Pvt Ltd
 

@@ -1,35 +1,3 @@
----
-name: Indus Action
-slug: indus-action
-type: org
-depth: tracked
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs:
-  - {kind: money, text: "unrestricted growth capital to scale from ~2M to a stated target of 30M citizens connected to eligible benefits by 2030", as_of: 2026-04-07, source: "https://skoll.org/2026/04/07/skoll-foundation-announces-winners-of-the-2026-skoll-award-for-social-innovation/", state: open}
-offers:
-  - {kind: technology, text: "open-source, citizen-centric digital public-goods tools for benefit delivery; builds government delivery capacity directly"}
-sources:
-  - {kind: website, url: "https://indusaction.org/", last_checked: 2026-09-10, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/indusaction", handle: "indusaction", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "indusaction.org; Tarun Cherukuri, Founder-CEO, in.linkedin.com/in/taruncherukuri"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-10
-updated: 2026-09-11
----
 
 # Indus Action
 

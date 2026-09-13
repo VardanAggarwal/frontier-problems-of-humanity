@@ -17,6 +17,15 @@ const DRY = process.argv.includes('--dry-run');
 const OUT_DB = path.join(ROOT, 'problems/index.db');
 const OUT_JSON = path.join(ROOT, 'problems/index.json');
 
+// 01-minimal.md §11 item 3b-B: graph.db is now the durable source of truth,
+// not a derived cache. Corpus markdown lost its frontmatter in this phase
+// (prose only, read via `doc`), so `from_corpus.py --force` can no longer
+// run here — there is nothing left in the files to re-derive it from, and
+// running it now would silently wipe every column/tag the worker or a
+// human wrote straight to the DB. `from_corpus.py` is a one-time import,
+// already run (§12) — do not resurrect the regenerate-on-build call that
+// used to live here without re-reading that note first.
+
 const c = loadCorpus();
 
 // Fix 16a (catalyst-platform/04-readability-review.md PART 1 item 16) — a
@@ -60,7 +69,10 @@ PRAGMA foreign_keys = ON;
 CREATE TABLE record (
   id INTEGER PRIMARY KEY, kind TEXT NOT NULL
     CHECK (kind IN ('need','leaf','cc_leaf','actor','node','connection')),
-  slug TEXT NOT NULL, path TEXT NOT NULL UNIQUE, url TEXT UNIQUE,
+  -- path is nullable: a worker-written actor lives only in graph.db and has
+  -- no markdown file (01-minimal.md §11 item 3b-B). UNIQUE still holds
+  -- — SQLite permits many NULLs in a UNIQUE column.
+  slug TEXT NOT NULL, path TEXT UNIQUE, url TEXT UNIQUE,
   private INTEGER NOT NULL DEFAULT 0,
   title TEXT NOT NULL, one_line TEXT, updated TEXT,
   UNIQUE (kind, slug)
@@ -108,12 +120,9 @@ CREATE TABLE ask (actor_id INTEGER REFERENCES actor(record_id),
 CREATE TABLE monitor_source (actor_id INTEGER REFERENCES actor(record_id), kind TEXT,
                              url TEXT, handle TEXT, status TEXT NOT NULL, last_checked TEXT);
 CREATE TABLE update_log (actor_id INT REFERENCES actor(record_id), date TEXT, text TEXT, url TEXT);
-CREATE TABLE connection (record_id INTEGER PRIMARY KEY REFERENCES record(id),
-                         context_id INT REFERENCES record(id), gap_filled TEXT, hypothesis TEXT,
-                         state TEXT, date_proposed TEXT, date_introduced TEXT, outcome TEXT);
-CREATE TABLE connection_actor (connection_id INT REFERENCES connection(record_id),
-                               actor_id INT REFERENCES actor(record_id),
-                               PRIMARY KEY (connection_id, actor_id));
+-- connection / connection_actor dropped — 01-minimal.md §11 item 3b-A named
+-- debt: problems/private/connections isn't migrated into graph.db, so
+-- corpus.mjs no longer loads it at all (see corpus.mjs's module doc).
 
 CREATE VIEW pub_record AS SELECT id, kind, slug, path, url, title, one_line, updated
                           FROM record WHERE private = 0;
@@ -149,7 +158,7 @@ for (const n of c.needs)
 const iNeed = ins('INSERT INTO need (record_id,tier,ord,definition,file,status) VALUES (?,?,?,?,?,?)');
 for (const n of c.needs) iNeed.run(rid.get(n.id), n.tier, n.order, n.definition, n.file, n.status);
 
-for (const r of [...c.allLeaves, ...c.nodes, ...c.actors, ...c.connections])
+for (const r of [...c.allLeaves, ...c.nodes, ...c.actors])
   addRecord(r.kind, r.id, {
     path: r.path, url: r.url, private: r.private,
     title: r.title ?? r.name ?? r.id, one_line: r.one_line ?? null,
@@ -189,8 +198,12 @@ const channelKind = (route) => {
 };
 for (const a of c.actors) {
   const id = rid.get(a.id);
-  iActor.run(id, a.name, a.type, a.depth, J(a.leg), a.affected_led, a.representation_unit,
-    a.stance, J(a.geography), a.lifecycle, a.lifecycle_as_of,
+  // `?? null` on every optional column: corpus.mjs now reads these from
+  // graph.db and leaves an absent one `undefined`, which node:sqlite refuses
+  // to bind (the old frontmatter path always produced a key, hence null).
+  iActor.run(id, a.name, a.type, a.depth, J(a.leg), a.affected_led ?? null,
+    a.representation_unit ?? null, a.stance, J(a.geography),
+    a.lifecycle ?? null, a.lifecycle_as_of ?? null,
     a.parent ? rid.get(a.parent) : null, a.superseded_by ? rid.get(a.superseded_by) : null,
     a.contact_route ?? null, channelKind(a.contact_route));
   // A published need row must carry a public URL — the publish predicate, as a
@@ -223,13 +236,6 @@ const iSection = ins('INSERT OR REPLACE INTO section (record_id,key,heading,ord,
 for (const r of [...c.allLeaves, ...c.nodes, ...c.actors])
   for (const s of r.sections ?? [])
     if (s.key) iSection.run(rid.get(r.id), s.key, s.heading, s.ord, s.markdown);
-
-const iConn = ins('INSERT INTO connection (record_id,context_id,gap_filled,hypothesis,state,date_proposed,date_introduced,outcome) VALUES (?,?,?,?,?,?,?,?)');
-for (const cn of c.connections) {
-  iConn.run(rid.get(cn.id), rid.get(cn.context) ?? null, cn.gap_filled, cn.hypothesis,
-    cn.state, cn.date_proposed ?? null, cn.date_introduced ?? null, cn.outcome ?? null);
-  for (const a of cn.actors) db.prepare('INSERT OR IGNORE INTO connection_actor VALUES (?,?)').run(rid.get(cn.id), rid.get(a));
-}
 
 // ---- publish -------------------------------------------------------------
 if (DRY) {

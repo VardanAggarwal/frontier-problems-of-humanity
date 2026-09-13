@@ -19,6 +19,18 @@ CORPUS = pathlib.Path(__file__).resolve().parents[2] / "problems"
 def migrated(tmp_path_factory):
     if not CORPUS.exists():
         pytest.skip("corpus not present")
+    # 01-minimal.md §11 item 3b-B: corpus markdown is prose-only now (the
+    # frontmatter this module parses was stripped on 2026-09-13; graph.db is
+    # the durable source, no longer derived from problems/ on every run).
+    # `run()` against today's corpus correctly migrates almost nothing — that
+    # is not a regression in from_corpus.py, it is the frontmatter being
+    # gone. These fixture-count assertions test the parser against a live
+    # corpus that no longer carries what they're checking for; skip until a
+    # frozen pre-3b-B fixture snapshot replaces `CORPUS` here (§12 debt).
+    sample = next((CORPUS / "actors").glob("*.md"), None)
+    if sample is None or not sample.read_text().startswith("---"):
+        pytest.skip("corpus frontmatter removed by 3b-B — needs a frozen "
+                     "fixture snapshot, see 01-minimal.md §12")
     out = tmp_path_factory.mktemp("graph") / "graph.db"
     report = run(CORPUS, out)
     conn = db.connect(out, create=False)

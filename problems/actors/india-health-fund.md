@@ -1,34 +1,3 @@
----
-name: India Health Fund
-slug: india-health-fund
-type: org
-depth: registry
-aka: [IHF]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder, intermediary]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: capital, text: "de-risking capital for science-backed infectious-disease innovations (diagnostics, digital tools, platforms) targeting TB, COVID-19, malaria and vector-borne disease"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/indiahealthfund1", handle: "indiahealthfund1", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: website, url: "https://www.indiahealthfund.org/", last_checked: 2026-09-11, status: live}
-contact_route: "indiahealthfund.org contact page"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # India Health Fund
 

@@ -1,35 +1,3 @@
----
-name: Commission for Air Quality Management in NCR and Adjoining Areas
-slug: commission-for-air-quality-management
-type: org
-depth: tracked
-aka: [CAQM]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [north-india-winter-smog, crop-residue-burning, small-industrial-town-air]
-nodes: []
-geography: [india, delhi, haryana, punjab, uttar-pradesh, rajasthan]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: data, text: "a fire-detection method not defeated by post-satellite-overpass burning — its headline metric (satellite fire count) is now a contested proxy (inferred from NASA / Outlook 2025 coverage)", as_of: 2026-09-07, source: "inferred", state: open}
-  - {kind: policy-access, text: "a lever on farm-gate residue economics — it can mandate co-firing offtake and penalise plants and farmers but cannot set MSP or the transplanting date", as_of: 2026-09-07, source: "https://powerline.net.in/2025/11/13/", state: open}
-  - {kind: policy-access, text: "political backing to use its s.14(1) compulsion power against state governments (SC found non-follow-up, Oct 2024)", as_of: "2024-10-01", source: "SCC Online / Newslaundry 2025", state: open}
-offers:
-  - {kind: convening, text: "the only body with binding air directions across all NW-India emitter states and the affected NCR — can compel a straw-offtake framework into state action plans"}
-  - {kind: legal, text: "environmental-compensation and prosecution powers against non-complying facilities"}
-  - {kind: data, text: "GRAP-stage records, inspection data, stubble-fire counts"}
-sources:
-  - {kind: website, url: "https://caqm.nic.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "https://x.com/CAQM_Official", handle: "@CAQM_Official", last_checked: 2026-09-07, status: unconfirmed}
-contact_route: "caqm.nic.in — official correspondence / grievance portal; Delhi HQ. Warm-intro path via CPCB / MoEFCC officials already in the silicosis actor set."
-followed: true
-followed_date: 2026-09-07
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Commission for Air Quality Management in NCR and Adjoining Areas
 

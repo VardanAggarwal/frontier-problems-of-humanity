@@ -1,35 +1,3 @@
----
-name: build3
-slug: build3
-type: org
-depth: registry
-aka: ["build3 impact Accelerator", "biA"]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-ecosystem_role: [capacity-builder, funder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.build3.org/", last_checked: 2026-09-11, status: live}
-  - {kind: x, url: "https://x.com/build3_startups", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/build3", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: newsletter, url: "https://build3.beehiiv.com/subscribe", last_checked: 2026-09-11, status: unconfirmed}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # build3
 

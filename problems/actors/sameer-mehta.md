@@ -1,34 +1,3 @@
----
-name: Sameer Mehta
-slug: sameer-mehta
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: villgro, role: "director/board member"}
-ecosystem_role: [capacity-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: credibility, text: "Vice Chairman / Chairperson, Dr. Mehta's Hospitals (Chennai tertiary-care multispecialty group); co-founder, India Home Health Care, Atlas Advisory (enterprise accelerator) and Everonn Medical Education"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/sammehta/", handle: "sammehta", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "LinkedIn; Dr. Mehta's Hospitals"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Sameer Mehta
 

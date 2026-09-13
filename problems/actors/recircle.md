@@ -1,32 +1,3 @@
----
-name: ReCircle
-slug: recircle
-type: org
-depth: registry
-aka: [Swachh Sustainable Solutions, RaddiConnect]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/recircleindia", handle: "recircleindia", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "ReCircle LinkedIn company page; co-founders Rahul Nainani and Gurashish Singh Sahni"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # ReCircle
 

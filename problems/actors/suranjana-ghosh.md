@@ -1,35 +1,3 @@
----
-name: Suranjana Ghosh
-slug: suranjana-ghosh
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: marico-innovation-foundation, role: "Head of Foundation"}
-leg: [enterprise]
-ecosystem_role: [capacity-builder, funder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "Head of Marico Innovation Foundation — leads the foundation's innovation-award and portfolio-support programmes"}
-sources:
-  - {kind: website, url: "https://www.maricoinnovationfoundation.org/our-mentorship/suranjana-ghosh/", last_checked: 2026-09-11, status: live}
-  - {kind: linkedin, url: "", handle: "", last_checked: 2026-09-11, status: none-found}
-contact_route: "via Marico Innovation Foundation (maricoinnovationfoundation.org contact form)"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Suranjana Ghosh
 

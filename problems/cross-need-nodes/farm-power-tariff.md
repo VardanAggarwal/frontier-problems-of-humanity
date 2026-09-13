@@ -1,16 +1,3 @@
----
-id: farm-power-tariff
-type: instrument
-title: Farm power tariffs and scheduling
-one_line: Free/flat farm power removes the price signal on groundwater, and night-only feeders move irrigation into the sleep window.
-geography: [india]
-authority: state electricity regulatory commissions + state agriculture departments (tariff and feeder scheduling)
-mechanisms: [instrument-keyed-to-wrong-object, primary-vs-derivative-burden]
-needs: [water, sleep]
-actors: []
-status: fix-partial
-updated: 2026-09-06
----
 
 # Farm power tariffs and scheduling
 

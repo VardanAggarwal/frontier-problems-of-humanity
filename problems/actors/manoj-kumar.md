@@ -1,35 +1,3 @@
----
-name: Manoj Kumar
-slug: manoj-kumar
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: social-alpha, role: "founder & CEO", from: "2016"}
-  - {actor: villgro, role: "co-founder (early career)", from: "2001"}
-ecosystem_role: [capacity-builder, funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: capital, text: "deploys Social Alpha's deep-science venture-development capital and market-access support across climate, health and livelihoods"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/mkbhatt", handle: "mkbhatt", last_checked: 2026-09-11, status: live}
-contact_route: "LinkedIn DM (in.linkedin.com/in/mkbhatt); Social Alpha contact form"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-11
-updated: 2026-09-10
----
 
 # Manoj Kumar
 

@@ -1,29 +1,3 @@
----
-name: T. K. Joshi
-slug: tk-joshi
-type: individual
-depth: registry
-aka: ["Dr T.K. Joshi", "Tushar Kant Joshi"]
-affiliations: []
-leg: [activism]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [asbestos-in-air]
-nodes: [toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://www.asbestosfreeindia.org/", handle: "Ban Asbestos India blog (proxy — relays his statements)", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://indiacsr.in/if-doctors-educate-patients-90-of-disease-burden-will-go-away-dr-t-k-joshi/", handle: "India CSR interview", last_checked: 2026-09-07, status: stale}
-  - {kind: website, url: "https://health.delhi.gov.in/health/centre-occupational-and-environmental-health-coeh", handle: "CoEH-MAMC (former affiliation)", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "", handle: "", last_checked: 2026-09-07, status: none-found}
-  - {kind: linkedin, url: "", handle: "", last_checked: 2026-09-07, status: none-found}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # T. K. Joshi
 

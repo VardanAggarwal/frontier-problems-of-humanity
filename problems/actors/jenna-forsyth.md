@@ -1,35 +1,3 @@
----
-name: Jenna E. Forsyth
-slug: jenna-forsyth
-type: individual
-depth: tracked
-aka: []
-affiliations:
-  - {actor: stanford-lead-research-group, role: "Research Scientist; lead author on the turmeric-lead studies", from: , to: }
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [residual-childhood-lead]
-nodes: [toxic-exposure-class]
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: introductions, text: "Indian food-safety enforcement partners to replicate the Bangladesh turmeric result", as_of: "2026-01-01", source: "npj Science of Food 2026", state: open}
-offers:
-  - {kind: data, text: "principal investigator on the turmeric-lead work across India, Bangladesh and South Asia"}
-sources:
-  - {kind: website, url: "https://scholar.google.com/citations?user=pXb7jOwAAAAJ&hl=en", handle: "Google Scholar", last_checked: 2026-09-07, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/in/jennaforsyth", handle: "jennaforsyth", last_checked: 2026-09-07, status: live}
-  - {kind: website, url: "https://profiles.stanford.edu/jenna-forsyth", handle: "Stanford profile", last_checked: 2026-09-07, status: live}
-  - {kind: website, url: "https://jennaforsyth.com/", handle: "jennaforsyth.com", last_checked: 2026-09-07, status: stale}
-  - {kind: x, url: "", handle: "", last_checked: 2026-09-07, status: none-found}
-contact_route: "Email jforsyth@stanford.edu (listed on jennaforsyth.com); or via Project Unleaded / Stanford Human and Planetary Health (hph.stanford.edu)."
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Jenna E. Forsyth
 

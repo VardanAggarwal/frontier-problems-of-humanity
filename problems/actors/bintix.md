@@ -1,33 +1,3 @@
----
-name: Bintix
-slug: bintix
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "doorstep dry-waste collection paired with consumer-intelligence data extraction from recyclables, across 40,000+ homes in 7 cities"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/company/bintix", handle: "bintix", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "co-founders Roshan Miranda, Udit Patidar, Jayanarayan Kulathingal"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Bintix
 

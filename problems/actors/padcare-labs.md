@@ -1,33 +1,3 @@
----
-name: PadCare Labs
-slug: padcare-labs
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/ajinkya-dhariya-71469789", handle: "ajinkya-dhariya", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: website, url: "https://www.padcarelabs.com/", last_checked: 2026-09-11, status: live}
-contact_route: "padcarelabs.com contact form; founder Ajinkya Dhariya on LinkedIn"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # PadCare Labs
 

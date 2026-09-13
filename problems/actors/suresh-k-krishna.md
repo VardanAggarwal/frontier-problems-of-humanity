@@ -1,34 +1,3 @@
----
-name: Suresh K Krishna
-slug: suresh-k-krishna
-type: individual
-depth: registry
-aka: ["Suresh Krishna"]
-parent:
-superseded_by:
-affiliations:
-  - {actor: yunus-social-business-india, role: "Co-founder & CEO, Yunus Social Business Fund Bengaluru"}
-leg: [enterprise]
-ecosystem_role: [capacity-builder, funder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: capital, text: "Co-founder & CEO of Yunus Social Business Fund Bengaluru — decides patient-loan deployment to India social businesses"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/sureshkkrishna", handle: "sureshkkrishna", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "via Yunus Social Business (India) (india.yunussb.com contact form)"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Suresh K Krishna
 

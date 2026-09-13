@@ -1,34 +1,3 @@
----
-name: Michael & Susan Dell Foundation
-slug: michael-susan-dell-foundation
-type: org
-depth: registry
-aka: [MSDF, Dell Foundation]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: capital, text: "grants and seed-fund co-funding for India education and livelihoods innovation, routed through intermediaries like CIIE.CO"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/msdfoundation-india", handle: "msdfoundation-india", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: website, url: "https://www.dell.org/india/", last_checked: 2026-09-11, status: live}
-contact_route: "dell.org/india contact channels; MSDF India LinkedIn page (9,336 followers)"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Michael & Susan Dell Foundation
 

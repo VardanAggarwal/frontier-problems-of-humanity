@@ -1,39 +1,3 @@
----
-name: Amulya Nidhi
-slug: amulya-nidhi
-type: individual
-depth: tracked
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: silicosis-peedit-sangh, role: "public representative / co-founder", from: 2008-01-01, to: }
-leg: [activism]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [{id: silicosis-stone-industry, role: primary}]
-nodes: [toxic-exposure-class]
-geography: [india, madhya-pradesh]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: legal, text: "As Silicosis Peedit Sangh's public representative: conversion of the MP State Human Rights Commission and Supreme Court silicosis orders into disbursed compensation and rehabilitation for Jhabua / Alirajpur / Dhar families", as_of: 2026-09-07, source: "https://www.theweek.in/news/india/2020/08/26/nhrc-pulls-up-mp-govt-on-failure-to-bring-in-silicosis-rehab-pol.html", state: open}
-offers:
-  - {kind: reach, text: "National platform linking the silicosis fight to the right-to-health movement — Jan Swasthya Abhiyan national co-convener; regular bylines in The Wire, EPW, Down To Earth, NewsClick"}
-  - {kind: credibility, text: "20+ years public-health activism; member of the Supreme Court-appointed silicosis committee; co-founder of Silicosis Peedit Sangh and Swasthya Adhikar Manch (Indore)"}
-sources:
-  - {kind: press, url: "https://thewire.in/author/amulya-nidhi-and-ashish-gupta", handle: "The Wire author page (with Ashish Gupta) — last post 2026-02", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://www.epw.in/author/amulya-nidhi", handle: "EPW author", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://www.downtoearth.org.in/topic/amulya-nidhi", handle: "Down To Earth topic page", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "https://x.com/amulyanidhi4", handle: "@amulyanidhi4 — identity confirmed (JSA/SAM/silicosis bio); no substantive posts since ~Dec 2022", last_checked: 2026-09-07, status: stale}
-  - {kind: linkedin, url: "https://in.linkedin.com/in/amulya-nidhi-57091321", handle: "amulya-nidhi-57091321 — last visible post Dec 2024", last_checked: 2026-09-07, status: stale}
-contact_route: "Via Swasthya Adhikar Manch, Indore, or JSA-India national secretariat (jsanationalsecretariat@gmail.com). No verified direct personal email/phone. X and LinkedIn both dormant — best real-time signal is his The Wire byline and JSA-India's channels."
-followed: true
-followed_date: 2026-09-07
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Amulya Nidhi
 

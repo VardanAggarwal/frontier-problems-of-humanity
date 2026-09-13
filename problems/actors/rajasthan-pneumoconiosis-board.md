@@ -1,32 +1,3 @@
----
-name: Rajasthan Pneumoconiosis Board / BOCW Welfare Board (silicosis scheme)
-slug: rajasthan-pneumoconiosis-board
-type: org
-depth: registry
-aka: [Rajasthan Pneumoconiosis Policy 2019, Rajasthan silicosis scheme]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [{id: silicosis-stone-industry, role: primary}]
-nodes: [toxic-exposure-class]
-geography: [india, rajasthan]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://rajasthan.ghyora.com/silicosis", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9384876/", handle: "", last_checked: 2026-09-07, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Rajasthan Pneumoconiosis Board / BOCW Welfare Board (silicosis scheme)
 

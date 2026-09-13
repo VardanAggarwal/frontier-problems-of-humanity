@@ -1,25 +1,3 @@
----
-name: Ministry of Petroleum and Natural Gas
-slug: ministry-of-petroleum-and-natural-gas
-type: org
-depth: registry
-aka: [MoPNG]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [cookfire-smoke]
-nodes: [energy]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://mopng.gov.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "https://x.com/PetroleumMin", handle: "@PetroleumMin", last_checked: 2026-09-07, status: unconfirmed}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Ministry of Petroleum and Natural Gas
 

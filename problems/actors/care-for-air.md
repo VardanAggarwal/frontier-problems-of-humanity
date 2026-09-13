@@ -1,35 +1,3 @@
----
-name: Care for Air
-slug: care-for-air
-type: org
-depth: tracked
-aka: []
-leg: [activism]
-affected_led: yes
-representation_unit: local-affected
-stance: works-the-remedy
-leaves: [north-india-winter-smog, crop-residue-burning]
-nodes: []
-geography: [india, delhi]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: money, text: "operating funds (small volunteer NGO — inferred)", as_of: "2025-01-01", source: "careforair.org; profiles", state: unknown}
-  - {kind: people, text: "volunteers / researchers", as_of: "2025-01-01", source: "same", state: open}
-offers:
-  - {kind: credibility, text: "decade-old affected-led Delhi voice"}
-  - {kind: reach, text: "school and RWA networks"}
-sources:
-  - {kind: instagram, url: "https://www.instagram.com/careforair.india/", handle: "@careforair.india", last_checked: 2026-09-07, status: live}
-  - {kind: x, url: "https://x.com/CareForAirIndia", handle: "@CareForAirIndia", last_checked: 2026-09-07, status: live}
-  - {kind: website, url: "https://www.careforair.org/", handle: "", last_checked: 2026-09-07, status: stale}
-  - {kind: facebook, url: "https://www.facebook.com/careforairindia/", handle: "careforairindia", last_checked: 2026-09-07, status: stale}
-contact_route: "careforairindia@gmail.com, or the Google Form in the Instagram bio; co-founder Jyoti Pande Lavakare via LinkedIn / her ThePrint author page."
-followed: true
-followed_date: 2026-09-07
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Care for Air
 

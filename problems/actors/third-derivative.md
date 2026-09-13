@@ -1,33 +1,3 @@
----
-name: Third Derivative
-slug: third-derivative
-type: org
-depth: registry
-aka: ["D3"]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-ecosystem_role: [convener, capacity-builder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.third-derivative.org/", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: press, url: "https://rmi.org/news/third-derivative-unveils-26-startup-climate-cohort-focused-on-hard-tech-and-deployment/", last_checked: 2026-09-11, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Third Derivative
 

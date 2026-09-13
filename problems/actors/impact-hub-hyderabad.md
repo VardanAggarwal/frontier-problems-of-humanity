@@ -1,33 +1,3 @@
----
-name: Impact Hub Hyderabad
-slug: impact-hub-hyderabad
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder, convener]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "co-working, community and sector-convening events (e.g. EV mobility roundtables) for impact founders and MSMEs"}
-sources:
-  - {kind: website, url: "https://hyderabad.impacthub.net/", last_checked: 2026-09-11, status: live}
-contact_route: "hyderabad.impacthub.net contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Impact Hub Hyderabad
 

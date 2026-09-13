@@ -1,35 +1,3 @@
----
-name: Harish Hande
-slug: harish-hande
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: selco-foundation, role: "founder & CEO", from: "2010"}
-  - {actor: transforming-rural-india-foundation, role: "board member", from: "2015"}
-ecosystem_role: [field-builder, capacity-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: knowledge, text: "decentralised-renewable-energy deployment model — health centres, livelihoods, agriculture; 30+ years applying solar to last-mile poverty contexts"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/harish-hande-67b226", handle: "harish-hande-67b226", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "via SELCO Foundation (selcofoundation.org) or Transforming Rural India Foundation (trif.in)"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Harish Hande
 

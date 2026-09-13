@@ -1,25 +1,3 @@
----
-name: Union Aid Abroad–APHEDA
-slug: union-aid-abroad-apheda
-type: org
-depth: registry
-aka: [APHEDA, "Union Aid Abroad"]
-affiliations: []
-leg: [activism]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [asbestos-in-air]
-nodes: [toxic-exposure-class]
-geography: [australia, global]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://apheda.org.au/", handle: "", last_checked: 2026-09-07, status: live}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Union Aid Abroad–APHEDA
 

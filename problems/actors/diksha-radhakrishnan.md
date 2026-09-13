@@ -1,34 +1,3 @@
----
-name: Diksha Radhakrishnan
-slug: diksha-radhakrishnan
-type: individual
-depth: tracked
-aka: []
-affiliations:
-  - {actor: pure-earth, role: "Country Director, India", from: , to: }
-leg: [activism, institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [residual-childhood-lead]
-nodes: [toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs:
-  - {kind: policy-access, text: "central-govt uptake of a blood-lead surveillance programme", as_of: "2024-01-01", source: "https://www.pureearth.org/india-3/", state: open}
-offers:
-  - {kind: convening, text: "the warm surface into Pure Earth's India programme, state PCB and MoHFW relationships"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/diksha-radhakrishan-749b6a14", handle: "diksha-radhakrishan-749b6a14", last_checked: 2026-09-07, status: stale}
-  - {kind: x, url: "https://x.com/Diksha_RK", handle: "@Diksha_RK", last_checked: 2026-09-07, status: stale}
-  - {kind: x, url: "https://x.com/PureEarthIndia", handle: "@PureEarthIndia", last_checked: 2026-09-07, status: stale}
-contact_route: "LinkedIn DM (diksha-radhakrishan-749b6a14 — note the single-n spelling); org matters via Pure Earth India (pureearth.org/india), comms director Zehra Kazmi."
-followed: true
-followed_date: 2026-09-07
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Diksha Radhakrishnan
 

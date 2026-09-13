@@ -1,35 +1,3 @@
----
-name: Rebalance
-slug: rebalance
-type: org
-depth: registry
-aka: ["Rebalance Accelerator"]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-ecosystem_role: [capacity-builder, funder]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://therebalance.com/", last_checked: 2026-09-11, status: live}
-  - {kind: linkedin, url: "https://in.linkedin.com/company/therebalance", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: youtube, url: "https://www.youtube.com/@therebalance", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: newsletter, url: "https://therebalance.medium.com/", last_checked: 2026-09-11, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Rebalance
 

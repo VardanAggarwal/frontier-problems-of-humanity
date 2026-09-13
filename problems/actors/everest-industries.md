@@ -1,32 +1,3 @@
----
-name: Everest Industries Limited
-slug: everest-industries
-type: org
-depth: registry
-aka: ["Everest Hi-Tech"]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: ambiguous
-leaves: [asbestos-in-air]
-nodes: [toxic-exposure-class, construction]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-09
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.everestindustries.com/", handle: "", last_checked: 2026-09-09, status: live}
-  - {kind: other, url: "https://buildingandinteriors.com/price-of-cement-sheets-in-india/", handle: "trade price listing — non-asbestos sheet ~Rs 18-23/sq ft", last_checked: 2026-09-09, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-09
-updated: 2026-09-09
----
 
 # Everest Industries Limited
 

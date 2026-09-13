@@ -1,33 +1,3 @@
----
-name: IKEA Foundation
-slug: ikea-foundation
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [global, india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "climate/energy/livelihoods grants — €404M paid out globally in 2025 (>€354M climate-related), >€500M planned for 2026; India grantees include SELCO Foundation (Energy for Health, 25,000 health facilities by 2026) and Sustain Plus Energy Foundation"}
-sources:
-  - {kind: website, url: "https://ikeafoundation.org/", last_checked: 2026-09-10, status: live}
-contact_route: "ikeafoundation.org grant-enquiry process; no open call, funds by direct partnership"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # IKEA Foundation
 

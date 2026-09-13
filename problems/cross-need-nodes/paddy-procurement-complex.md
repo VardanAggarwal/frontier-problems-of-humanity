@@ -1,21 +1,3 @@
----
-id: paddy-procurement-complex
-type: sector
-title: The north-west paddy-procurement complex
-one_line: Assured MSP procurement of rice in Punjab and Haryana plus the 2009 subsoil-water laws that fixed the transplanting date lock the region into a paddy–wheat monoculture on a compressed calendar — upstream of stubble smoke, aquifer over-draft, a grain surplus with nowhere to go, and night-time pump irrigation.
-geography: [india, punjab, haryana]
-authority: fragmented — CACP (recommends MSP), FCI / Dept of Food & Public Distribution (open-ended procurement operations), Punjab & Haryana state legislatures (the 2009 Preservation of Subsoil Water Acts), state agriculture departments (crop-diversification schemes)
-mechanisms: [primary-vs-derivative-burden, instrument-keyed-to-wrong-object]
-needs: [air, water, food, sleep]
-sub_levers:
-  - MSP crop-basket composition — which crops get an assured price (CACP recommendation, Cabinet approval)
-  - open-ended FCI paddy procurement in Punjab/Haryana (Dept of Food & Public Distribution)
-  - the Preservation of Subsoil Water Acts 2009 (Punjab and Haryana) — the statutory transplanting date
-  - crop-diversification incentive schemes (state agriculture departments; the 2013 and 2023 attempts)
-  - direct-benefit-transfer / price-deficiency pilots in lieu of physical procurement
-status: open
-updated: 2026-09-07
----
 
 # The north-west paddy-procurement complex
 

@@ -1,7 +1,11 @@
 // Zod transcription of problems/data-model.yaml v3.
-// ONE transcription: the portal pages, the SQLite emit and `npm run validate`
-// all import this file. If this and data-model.yaml disagree, data-model.yaml
-// is the spec and this is the bug.
+//
+// UNUSED, and permanently historical as of 01-minimal.md §11 item 3b-B:
+// corpus markdown no longer carries frontmatter at all (302 files stripped
+// 2026-09-13), so there is no longer a build step this could be wired back
+// into — porting the validation forward means rewriting it against
+// engine/store/edit.py's write path, not restoring a call site here. Kept
+// as documentation of the field shapes graph.db's columns/tags encode.
 import { z } from 'zod';
 
 export const E = {

@@ -1,38 +1,3 @@
----
-name: Takachar
-slug: takachar
-type: org
-depth: tracked
-aka: []
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab, haryana]
-lifecycle: scaling
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: money, text: "capital to place portable pyrolysis units with village-level operators — unit cost is the barrier to farm-gate deployment", as_of: 2026-09-08, source: "inferred", state: open}
-  - {kind: distribution, text: "offtake / price floor for biochar — end demand across Punjab-Haryana is only ~3,000 t/yr, far below what a residue-scale sink would need", as_of: 2026-09-08, source: "https://thebetterindia.com/environment/turning-stubble-into-biochar-takachar-vidyut-mohan-burning-alternative-farm-waste-clean-air-10941904", state: open}
-offers:
-  - {kind: technology, text: "a low-cost tractor-mountable pyrolyser (~1 t/hr) converting standing/loose paddy straw to biochar in a low-oxygen thermochemical process at 400–700°C"}
-  - {kind: fieldwork, text: "a rural-entrepreneur deployment model for in-field residue conversion"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/vidyutmohan/", handle: "vidyutmohan — founder/CEO; posts partnership + offtake asks, deployment updates, through 2026", last_checked: 2026-09-08, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/takachar/", handle: "takachar — product launches, carbon-credit milestones, Punjab field notes; last verified post ~Oct 2025", last_checked: 2026-09-08, status: live}
-  - {kind: website, url: "https://www.takachar.com/", handle: "media wall stale (newest item Oct 2022)", last_checked: 2026-09-08, status: stale}
-  - {kind: press, url: "https://thebetterindia.com/environment/turning-stubble-into-biochar-takachar-vidyut-mohan-burning-alternative-farm-waste-clean-air-10941904", handle: "biochar / stubble", last_checked: 2026-09-08, status: live}
-contact_route: "Follow Vidyut Mohan's LinkedIn (/in/vidyutmohan) — carries the 'what they need' signal (fertiliser-company partners, biochar offtake, carbon-credit buyers) the org page dilutes. Also takachar.com/career + site contact form. Founders Vidyut Mohan (CEO), Kevin Kung (CTO — runs Takachar Iraq/thermochem). X @VidyutMohan and IG @vidyut.mohan exist but are dormant/unconfirmed."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Takachar
 

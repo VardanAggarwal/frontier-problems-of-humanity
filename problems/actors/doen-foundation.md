@@ -1,34 +1,3 @@
----
-name: DOEN Foundation
-slug: doen-foundation
-type: org
-depth: registry
-aka: [Stichting DOEN]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: ["Netherlands", "India", "East Africa"]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "grants, convertible grants/loans and direct investments (policy caps DOEN at funding no more than one-third of a project's budget)"}
-sources:
-  - {kind: website, url: "https://www.doenventures.com/", last_checked: 2026-09-10, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/doen-foundation/", handle: "doen-foundation", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "applications accepted anytime; must reach DOEN at least 4 months before a project's planned start"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # DOEN Foundation
 

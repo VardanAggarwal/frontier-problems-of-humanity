@@ -1,37 +1,3 @@
----
-name: Haryana Space Applications Centre
-slug: haryana-space-applications-centre
-type: org
-depth: tracked
-aka: [HARSAC]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, haryana]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: technology, text: "detection robust to post-overpass burning, same polar-orbiting limitation as the Punjab centre", as_of: 2026-09-08, source: "inferred", state: open}
-  - {kind: data, text: "alert-vs-ground-verification reconciliation protocol", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: data, text: "site-level daily farm-fire alerts for Haryana that feed the district-administration enforcement pipeline"}
-  - {kind: data, text: "state remote-sensing capacity for crop and burnt-area mapping"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/haryana-space-applications-centre-harsac-hisar", handle: "HARSAC, Hisar — ~787 followers, active on drone/mapping project posts; the live feed", last_checked: 2026-09-09, status: live}
-  - {kind: website, url: "https://hsac.org.in/harsac/", handle: "official site (note: hsac.org.in, not harsac.org)", last_checked: 2026-09-09, status: live}
-  - {kind: other, url: "", handle: "none-found — no X, no Facebook", last_checked: 2026-09-09, status: none-found}
-contact_route: "Haryana Space Applications Centre, CCS HAU campus, Hisar — nodal state remote-sensing agency. Follow the LinkedIn company page for project updates; formal contact via hsac.org.in. Works with the Haryana State Pollution Control Board (see haryana-state-pollution-control-board)."
-followed: false
-followed_date:
-last_checked: 2026-09-09
-updated: 2026-09-09
----
 
 # Haryana Space Applications Centre
 

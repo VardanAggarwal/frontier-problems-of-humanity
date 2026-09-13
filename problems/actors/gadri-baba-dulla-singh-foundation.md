@@ -1,37 +1,3 @@
----
-name: Gadri Baba Dulla Singh Giani Nihal Singh Foundation
-slug: gadri-baba-dulla-singh-foundation
-type: org
-depth: tracked
-aka: ["Giani Nihal Singh Foundation"]
-parent:
-superseded_by:
-affiliations: []
-leg: [activism]
-affected_led: partial
-representation_unit: local-affected
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: money, text: "capital to expand the equipment bank — machinery stock is the binding constraint on how many farmers can go fire-free per season", as_of: 2026-09-08, source: "https://www.tribuneindia.com/news/patiala/growing-class-of-entrepreneurs-redefines-stubble-mgmt-landscape/", state: open}
-  - {kind: people, text: "trained operators and extension staff to run in-situ machinery across more villages", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: fieldwork, text: "a farmer-facing equipment bank (harvesting + sowing machinery on lease) plus in-situ residue-management extension — ~6,000 farmers, 7,759 acres fire-free across Ludhiana, Barnala and Patiala"}
-  - {kind: credibility, text: "a community/religious-foundation channel that farmers trust, used to promote fire-free farming"}
-sources:
-  - {kind: press, url: "https://www.tribuneindia.com/news/patiala/growing-class-of-entrepreneurs-redefines-stubble-mgmt-landscape/", handle: "The Tribune Ludhiana/Patiala agriculture desk — recurring bylined coverage; the only place updates surface", last_checked: 2026-09-08, status: live}
-  - {kind: press, url: "https://www.tribuneindia.com/news/patiala/incentivise-farmers-to-combat-farm-fires-say-entrepreneurs/", handle: "The Tribune Patiala — second recurring stubble-management piece quoting the foundation's entrepreneurs", last_checked: 2026-09-09, status: live}
-  - {kind: other, url: "", handle: "none-found — no Facebook page, YouTube, Instagram, X or website; re-searched 2026-09-09 including Punjabi script (ਗਦਰੀ ਬਾਬਾ ਦੁੱਲਾ ਸਿੰਘ) and Ghadri/Gadari transliterations, same result", last_checked: 2026-09-09, status: none-found}
-contact_route: "Foundation office, Jalaldiwal village, Raikot tehsil, Ludhiana district, Punjab; equipment-bank units also in Patiala. No email/phone published — reach via the CII Foundation agriculture programme or the Royal Enfield Social Mission (joint Raikot-block projects), or via The Tribune's Ludhiana agriculture reporter. Director Harminder Singh Sidhu (see harminder-singh-sidhu); Tota Singh is co-director."
-followed: false
-followed_date:
-last_checked: 2026-09-09
-updated: 2026-09-09
----
 
 # Gadri Baba Dulla Singh Giani Nihal Singh Foundation
 

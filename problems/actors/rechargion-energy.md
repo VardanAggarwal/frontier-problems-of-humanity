@@ -1,32 +1,3 @@
----
-name: Rechargion Energy
-slug: rechargion-energy
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [operator]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.rechargion.com/", last_checked: 2026-09-11, status: live}
-contact_route: "rechargion.com contact page; co-founder/CEO Vilas Shelke"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Rechargion Energy
 

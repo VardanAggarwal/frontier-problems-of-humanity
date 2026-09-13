@@ -1,32 +1,3 @@
----
-name: National Human Rights Commission
-slug: national-human-rights-commission
-type: org
-depth: registry
-aka: [NHRC]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [silicosis-stone-industry, asbestos-in-air]
-nodes: [toxic-exposure-class]
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://nhrc.nic.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://www.scconline.com/blog/post/2024/08/14/ngt-nhrc-directions-given-silicosis-prone-industries-compensation-supreme-court-legal-news/", handle: "SC directions to NHRC, Aug 2024", last_checked: 2026-09-07, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # National Human Rights Commission
 

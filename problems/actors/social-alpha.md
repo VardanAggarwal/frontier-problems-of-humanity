@@ -1,36 +1,3 @@
----
-name: Social Alpha
-slug: social-alpha
-type: org
-depth: tracked
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [capacity-builder, funder, intermediary]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs:
-  - {kind: people, text: "entrepreneurs-in-residence and deep-science founders for its climate, health and livelihoods pipeline — stated recurring EIR programme call", as_of: 2026-09-11, source: "https://www.linkedin.com/posts/mkbhatt_entrepreneurs-in-residence-eir-programme-activity-6863537211619602432-6FyD", state: open}
-offers:
-  - {kind: capital, text: "dilutive and non-dilutive funding, product-development support, mentorship and market access for deep-science/deep-tech impact ventures"}
-  - {kind: convening, text: "sector-specific accelerator cohorts (e.g. Techtonic: Innovations in Clean Energy) and lab-to-market curation"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/company/social-alpha", handle: "social-alpha", last_checked: 2026-09-11, status: live}
-  - {kind: website, url: "https://www.socialalpha.org/", last_checked: 2026-09-11, status: live}
-contact_route: "socialalpha.org contact form; warm intro via founder/CEO Manoj Kumar (LinkedIn: in.linkedin.com/in/mkbhatt)"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Social Alpha
 

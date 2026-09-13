@@ -509,6 +509,39 @@ Build so Mode B drops in later as a **producer**, not a redesign:
    every figure in §8 reproduced exactly. The 2,000-char clip is what keeps it
    at zero, and only in English.
 3. **Worker with all four gates + resolver.** Port `core/llm.py`. Two prompts, one loop. Replaces `process-leaf`, `actor-channel-finder`, `impact-network-crawler`.
+   **DONE, first pass** (`engine/worker/`, 31 tests) — gate0 preview dedup, gate1
+   batched screen, fetch, gate2 confirm, claims extraction, resolve, write,
+   emit, all wired into one loop (`worker.run_batch`). `llm.py` lifts the
+   provider fallback chain from `../slate_v2` per §7.
+   **Two gaps found on a live sweep, 2026-09-13, not yet closed:**
+   - **Channel discovery is not actually replaced.** The claim above overstates
+     what got built: claims extraction on one fetched page finds a channel
+     only if the model happens to restate one in the body text. Live test —
+     RESET Air (`reset.build/standard/air`), GBCI/USGBC LEED Arc
+     (`arc.gbci.org/arc-leed`), GMDA (`gmda.gov.in`) — wrote zero `channel`
+     rows across all three; none of the three landing pages mention a social
+     handle or contact link in their body text, and GMDA's fetch pulled nav
+     chrome, not content. `actor-channel-finder`'s actual method (hunt across
+     several pages — about/contact, social platforms — ranked by which
+     actually update) is a distinct step from "extract claims from whatever
+     page gate1 admitted," not a side-effect of it. Worse: not even the
+     candidate's OWN seed URL — a known-good website for the entity by
+     construction — gets written as `channel:website` automatically; nothing
+     in `worker.py` does this, it's claims-extraction-or-nothing. Needed: (a)
+     auto-write the fetched URL as a `channel:website` claim unconditionally
+     on a confirmed actor fetch, free and zero-risk; (b) a real
+     channel-discovery step for actors — a dedicated pass or prompt that
+     hunts rather than incidentally extracts, closer to what
+     `actor-channel-finder` already does by hand. Neither exists yet; this
+     line's "replaces actor-channel-finder" is aspirational until they do.
+   - **`doc` (prose) is never written.** §4's "Writing Agent is a step" implied
+     this was accounted for; only two prompts got built (screen, extract), and
+     `prompts.py`'s extraction prompt explicitly forbids prose as a claim
+     value ("a claim graph that stores paragraphs is a second corpus with no
+     schema"). So every worker-written record — new or enriched — has
+     `doc IS NULL` forever, by construction, with no path to a filled-in page
+     body. A third pass (or a deliberate decision that prose stays
+     human-written) is still open.
 3b. **Portal cutover — the corpus stops being parsed twice.** Numbered out of
    band because it is parallel to step 3, not after it, and because §10 already
    refers to step 4 by number. Today `src/lib/corpus.mjs` parses the same
@@ -516,20 +549,71 @@ Build so Mode B drops in later as a **producer**, not a redesign:
    database, and the two loaders can disagree — which is exactly what item 1
    above looks like from the outside. Two phases, and the first does not wait
    for the worker:
-   - **A — the portal reads `graph.db`.** `build-index.mjs` and the frontmatter
-     half of `corpus.mjs` are replaced by queries; `node:sqlite`'s
-     `DatabaseSync` is already in use at `scripts/build-index.mjs:13`, so no new
-     dependency. Prose stays on disk and is read through `doc`. The corpus is
-     still the source of truth and the db still a build artifact — this phase
-     only deletes the second parser. Carries one real debt: `npm run validate`
-     currently enforces the A–E section invariant and the warning punch list,
-     and those checks have to land in the store's validator first or they
-     vanish quietly (§12).
-   - **B — the db becomes the source, after step 3.** Once the worker writes
-     records directly, markdown is the prose layer and nothing else, and
-     `from_corpus.py` stops being a build step and becomes a one-time import.
-     The open question is where tier-file bodies live (§12); it should be
-     answered before B, not during.
+   - **A — DONE 2026-09-13, the portal reads `graph.db`.** `build-index.mjs` and
+     the frontmatter half of `corpus.mjs` are replaced by queries (new
+     `src/lib/graphdb.mjs`); `node:sqlite`'s `DatabaseSync`, already in use at
+     `scripts/build-index.mjs:13`, is the only thing either file opens the
+     store with, so no new dependency. Prose stays on disk and is read through
+     `doc` — `sections.mjs`'s `parseSections`/`parseTierFile` are unchanged and
+     still run at portal-build time. `build-index.mjs` now regenerates
+     `graph.db` fresh (`from_corpus.py --force`) at the top of every
+     `npm run index` / `validate` / `build`, rather than trusting a checked-in
+     file that could drift from the corpus on disk. Verified: `npm run build`
+     emits the same 400 pages: `36 needs · 7 leaves · 6 nodes · 289 actors`
+     match build-order step 1's migration counts exactly, and `npm run
+     validate`'s punch list is unchanged except for 4 warnings that moved
+     leg (§12). The A–E section invariant is NOT lost — `sectionIssues` still
+     runs on every leaf/node/actor's parsed body, unchanged, because prose
+     parsing never moved. Three debts accepted rather than closed — detailed
+     in §12, not vanished quietly.
+   - **B — DONE 2026-09-13, the db is the source.** `graph.db` is now durable
+     and committed (§12, reversing the 3b-A decision), not regenerated on
+     build — `build-index.mjs`'s `--force` call is gone, so nothing can
+     silently overwrite a worker or human write with stale frontmatter.
+     `from_corpus.py` ran one final time against the frontmatter-bearing
+     corpus, then all 302 frontmatter blocks (7 leaves, 6 nodes, 289 actors —
+     the 36 need tier-files and 2 cross-cutting essays never carried
+     frontmatter) were stripped, leaving markdown as pure prose read through
+     `doc`, unchanged from 3b-A's `readBody`, which already tolerated a
+     frontmatter-less file. "Where tier-file bodies live" (§12) resolved as
+     the status quo — `doc` already pointed the DB row at its file — so
+     nothing moved there. The open half of that question was the write path,
+     not the read path: a human write now goes through `engine/store/edit.py`
+     (new), the same `db.put`/`tag`/`alias`/`link` primitives `worker.py`'s
+     `_write_entity` already used — one write path, both audited in `event`.
+     Two more direct-frontmatter writers surfaced and were ported the same
+     way: `scripts/follow-list.mjs` (now calls `loadCorpus()` instead of its
+     own frontmatter scan) and `astro.config.mjs`'s dev-only `/api/follow` +
+     `/api/exclude` routes (now write `graph.db` via `setActorFields`, and
+     restore a pre-exclude `depth` from the `event` log instead of a
+     markdown comment). `engine/tests/test_migrate.py`'s 14
+     live-corpus-dependent assertions now correctly skip — they test
+     `from_corpus.py` against a corpus that no longer has frontmatter to
+     migrate, and asserting on that is not this phase's job; a frozen
+     pre-strip fixture snapshot is unstarted (§12).
+3c. **Actor channel discovery — a real step, not a side-effect of extraction.**
+   Numbered out of band, same reason as 3b: it corrects step 3's own claim to
+   "replace `actor-channel-finder`," which live-sweep testing (2026-09-13, §12)
+   showed is not yet true. Two parts:
+   - Auto-write the candidate's own fetched URL as `channel:website` on any
+     confirmed actor fetch (gate2 `confirmed`), unconditionally — it is free,
+     always true by construction, and today it doesn't happen at all unless
+     the model happens to restate the URL in the page body.
+   - A dedicated channel-discovery pass for actors: hunt across an entity's
+     likely pages (about/contact, known social platforms) and rank what
+     actually updates, the way `actor-channel-finder` does by hand — not a
+     one-shot claims extraction off whatever single page gate1 admitted. Live
+     test: RESET Air, GBCI/USGBC LEED Arc and GMDA each got a real fetch and
+     confirmed gate2, and all three still wrote zero `channel` rows, because
+     none of the three landing pages restate a handle or contact link in body
+     text.
+3d. **A writing pass — `doc` is currently never written.** Numbered out of
+   band, same reason as 3b/3c. §4 lists "Writing Agent is a step" as if
+   accounted for; only two prompts were built (gate1 screen, claims extract),
+   and the claims prompt explicitly forbids prose as a claim value. Every
+   worker-written record — new or enriched — therefore has `doc IS NULL`
+   permanently, with no path to a filled-in page body, unless either this pass
+   gets built or the corpus deliberately keeps prose human-written and says so.
 4. **~~One registry, enumerated end to end~~ — DEFERRED (§10).** Its role, proving funnel economics on real data before a budget is pointed at it, moves to a labelled fixture set built from Mode A output plus known-hard positives.
 5. **Scheduler + budget ledger.** Autonomy starts.
 6. **Review surface** — sample queue, diff renderer, escalation inbox. Can lag step 5 slightly, not more.
@@ -549,7 +633,7 @@ Deferrable without truncating exploration: mechanism and cross-need-node promoti
 - **The `service` leg has zero actors.** Not one of 289 records carries it, against 176 enterprise, 72 institution and 51 activism. `CLAUDE.md` defines it as a first-class distinction — donor-funded direct delivery, no earned revenue — and holds that a hybrid carries both legs, one per revenue stream. Either the distinction is not being made when records are written, or it is real and 176 enterprise records absorb it silently. The coverage floor reports `service` missing on all seven researched leaves, which is the same fact wearing a different hat.
 - **The two cross-cutting essays carry no frontmatter at all.** They migrated with a title and a doc path and nothing else — no classification, no gap, no sources. They predate the record schema and nothing since has forced the issue.
 - ~~**Two leaf ids are referenced by an actor and have no file.**~~ Resolved 2026-09-13. `asbestos-import-legal` and `ambient-asbestos-demolition-dust` were merged into `asbestos-in-air` on 2026-09-09; `actor/gopal-krishna` was the last file still naming them, and its `leaves:` now points at the merged leaf. Both ids stay live as aliases. `validate()` returns empty, and the migration creates no stubs — the mechanism is now covered by a constructed test rather than by standing corpus debt.
-- **Decided 2026-09-13: `graph.db` is not committed.** It regenerates from `problems/` in about two seconds and now carries 5.9 MB of vectors that diff as pure noise; readable history comes from `sqlite3 problems/graph.db .dump` when one is wanted. In `.gitignore` with the reasoning.
+- ~~**Decided 2026-09-13: `graph.db` is not committed.**~~ Reversed 2026-09-13, same day, by 3b-B: once corpus markdown lost its frontmatter it stopped being derivable from `problems/` at all, so "regenerates in two seconds" no longer holds — the WAL/SHM files stay gitignored, the DB itself is committed. `sqlite3 problems/graph.db .dump` is still how you get a readable diff of it.
 - **Every vector in the store is of short text.** Problems average 145 characters, actors 459, sources 116 — the last because no source has been fetched yet, so 89 of 89 are title + org + year. The §8 bands are therefore bands *for short text*, which embeds into a tighter cone than documents do. The full-document measurement on the fixtures is narrower still, so the direction holds, but neither number should be quoted at a document-scale corpus without re-measuring.
 - **`texts.py` is the least-tested judgement in tier 1.** What text stands for an entity determines every cosine downstream, and the rules — title + one_line for a problem, title + lead paragraph for an actor, front-truncation at 2,000 characters — were chosen from the shape of the comparison, not measured against an alternative. Embedding an actor's full record instead of its lead is a one-line change and nobody knows which is better.
 - **`--centre` has no query-side transform.** The alias half of the sweep is deliberately left untransformed, so `--centre` measures a residual index against untouched queries. Fine for the rejection it recorded, wrong for any future attempt — the query would have to be projected through the same basis, which means storing the basis.
@@ -557,5 +641,9 @@ Deferrable without truncating exploration: mechanism and cross-need-node promoti
 - **Nothing yet consumes a vector.** The index exists, is measured and is correct; the gates that would read it are step 3. Until then the vectors are 5.9 MB of unexercised state, and the top-*k* decision above is a design conclusion rather than a running one.
 - **The A–E section invariant loses its hook** when the leaf type collapses. It survives as a validator rule keyed on `status: researched` — but deliberately, or it disappears quietly.
 - **Whether classification tags are compulsory when researched.** As required enums they forced a judgment per leaf, and that forced choice is where the seven mechanisms came from. `required_when: status == researched` in the tag registry keeps the compulsion with none of the structure; probably right.
-- **Where the tier files land** — root-problem bodies, or a separate prose layer the graph links to.
+- ~~**Where the tier files land**~~ Resolved 2026-09-13 by 3b-B: root-problem bodies, unchanged — `doc` already pointed the DB row at the file, this just stopped being ambiguous once the alternative (a human write path bypassing the worker's DB writes) was decided against. See item 3b-B.
 - **Calibration drift.** The sample review is both gate and training set, so a reviewer's changing standard silently retunes admission. Model pinning covers model drift, not human drift.
+- **Phase 3b-A shipped 2026-09-13 with three named debts, accepted rather than closed.** `src/lib/corpus.mjs` now queries `problems/graph.db` instead of re-parsing frontmatter; `scripts/build-index.mjs` regenerates it fresh (via `from_corpus.py --force`) on every `npm run index`/`validate`/`build`, so the second parser is gone. What didn't come with it: (1) **frontmatter shape validation** — `src/lib/schema.mjs`'s Zod schemas are unwired (kept, unused, for the eventual port into the migration); a malformed field is now only whatever `from_corpus.py`'s non-fatal `report.note()` catches, which is weaker — measured concretely: `npm run validate` lost 4 "dangling actor (affiliation) ref" warnings because `resolve_deferred()` drops an edge to a nonexistent actor silently rather than the portal seeing the dangling reference. (2) **`problems/private/connections`** isn't migrated into `graph.db` at all and is no longer loaded by any path (dropped, not file-parsed) — `corpus.mjs`'s `connections` is always `[]`, and the scoreboard's connection counts read zero until a connection migration exists. (3) Two small **migration gaps closed in passing** rather than left broken: node `authority`/`sub_levers` and leaf `gap_as_of`/`last_reviewed` had no column or tag at all before this phase (nodes and the staleness check (assertion 9) would have silently gone blank) — added as four open `problem`-scoped tag namespaces in `engine/store/tags.py` and populated in `from_corpus.py`.
+- **Phase 3b-B shipped 2026-09-13** (see item 3b-B). Debts it inherits or adds, not closed: (1) **frontmatter shape validation** (3b-A's debt above) is now more final, not less — with frontmatter gone entirely, porting `schema.mjs`'s Zod schemas "into the migration" means writing them against `engine/store/edit.py`'s write path instead, since that migration only ever runs once more on a future corpus import. `schema.mjs` stays unused, historical documentation of the field shapes. (2) **`problems/private/connections`** is now permanently dropped, not just phase-A-deferred — there is no markdown-frontmatter path left to revive, so a connections migration means designing new `edit.py`/`worker.py` write support from scratch, not finishing a partial one. (3) **`engine/tests/test_migrate.py`'s 14 corpus-dependent tests are skipped**, not deleted — they assert real counts/shapes against `problems/`, which no longer has frontmatter to produce them. A frozen pre-2026-09-13 fixture snapshot (a handful of representative leaf/node/actor files, frontmatter intact, checked into `engine/tests/fixtures/`) would let them run again against something other than the live corpus. (4) **No tooling ports `problems/actors/_excluded.yaml`'s dedupe check or `impact-network-crawler`'s frontmatter-reading habits** — that agent (and `actor-channel-finder`) may still assume actor records are markdown-with-frontmatter; unverified this session, out of scope, worth checking before the next crawl.
+- **The worker does not discover actor channels — it only extracts what a fetched page happens to restate.** Found live 2026-09-13, item 3 above has the full account. Two concrete fixes named there and still open: auto-write the fetched URL itself as `channel:website` on any confirmed actor fetch (free, always true, never done today), and a real hunt-across-several-pages channel-discovery step for actors, closer to what `actor-channel-finder` already does by hand than to one-shot claims extraction off whatever gate1 admitted.
+- **The worker never writes `doc`.** Found live 2026-09-13, item 3 above. `prompts.py`'s extraction prompt deliberately forbids prose as a claim value, and no third "writing" pass was ever built to fill it in some other way — every worker-written record has an empty page body, permanently, until this is either built or the corpus accepts that `doc` stays human-written.

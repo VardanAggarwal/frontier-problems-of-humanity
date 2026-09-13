@@ -1,35 +1,3 @@
----
-name: Paul Basil
-slug: paul-basil
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: villgro, role: "Founder & former CEO; now Board", from: "2001", to: null}
-  - {actor: menterra, role: "Co-Founder & Partner", from: "2015", to: null}
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "co-manages Menterra's impact-investment cheques; decades of India social-enterprise network"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/in/paul-basil-73736a12/", handle: "paul-basil-73736a12", last_checked: 2026-09-10, status: live}
-contact_route: "LinkedIn DM; via Menterra"
-followed: true
-followed_date: 2026-09-10
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Paul Basil
 

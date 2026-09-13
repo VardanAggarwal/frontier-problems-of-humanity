@@ -1,35 +1,3 @@
----
-name: Gates Foundation
-slug: gates-foundation
-type: org
-depth: registry
-aka: [Bill & Melinda Gates Foundation, BMGF]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India, global]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: capital, text: "large multi-year grants to intermediaries and accelerators working India health, agriculture and financial-inclusion innovation"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/showcase/gates-foundation-india/", handle: "gates-foundation-india", last_checked: 2026-09-11, status: unconfirmed}
-  - {kind: x, url: "https://x.com/BMGFIndia", handle: "@BMGFIndia", last_checked: 2026-09-11, status: live}
-  - {kind: website, url: "https://www.gatesfoundation.org/our-work/places/india", last_checked: 2026-09-11, status: live}
-contact_route: "Gates Foundation India LinkedIn showcase page; grant/committed-grants disclosure pages for named contacts"
-followed: false
-followed_date:
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Gates Foundation
 

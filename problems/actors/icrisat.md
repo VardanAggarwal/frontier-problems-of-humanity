@@ -1,32 +1,3 @@
----
-name: ICRISAT
-slug: icrisat
-type: org
-depth: registry
-aka: ["International Crops Research Institute for the Semi-Arid Tropics"]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.icrisat.org/", handle: "", last_checked: 2026-09-08, status: live}
-  - {kind: press, url: "https://farmonaut.com/asia/icrisat-punjab-agricultural-university-biochar-farmers-india", handle: "ICRISAT + PAU biochar-for-farmers", last_checked: 2026-09-08, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # ICRISAT
 

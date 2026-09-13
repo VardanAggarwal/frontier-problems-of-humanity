@@ -1,36 +1,3 @@
----
-name: Farm2Fuel
-slug: farm2fuel
-type: org
-depth: tracked
-aka: []
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab]
-lifecycle: scaling
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: money, text: "harvest-season working capital — collecting 45,000 t of straw in a fortnight is cash-intensive ahead of downstream sale", as_of: 2026-09-08, source: "https://www.tribuneindia.com/news/patiala/growing-class-of-entrepreneurs-redefines-stubble-mgmt-landscape/", state: open}
-  - {kind: distribution, text: "firm multi-year offtake to underwrite farm-gate purchase commitments beyond the current pellet/biofuel buyers", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: fieldwork, text: "paddy-straw collection and processing at real scale — 45,000 t collected in the 2025 season (28,000 t in 2024), ~200 employees; associated with a 77% fall in farm fires in Fatehgarh Sahib district"}
-  - {kind: capital, text: "pays farmers at the farm gate for straw within its catchment"}
-sources:
-  - {kind: press, url: "https://www.tribuneindia.com/news/patiala/growing-class-of-entrepreneurs-redefines-stubble-mgmt-landscape/", handle: "The Tribune Patiala/Amritsar desk — recurring bylined coverage, no feed URL", last_checked: 2026-09-08, status: live}
-  - {kind: other, url: "", handle: "none-found — no website, no LinkedIn company page, no confirmed founder handle; re-searched 2026-09-09, same result", last_checked: 2026-09-09, status: none-found}
-contact_route: "No public channel exists. Reach via founder Amrinder Singh (Sadhugarh village, Fatehgarh Sahib district) — see amrinder-singh-farm2fuel — or via Farm2Energy (Sukhbir Singh Dhaliwal, Ludhiana; joint operation on ~20,000 acres), or the Fatehgarh Sahib DC office / Punjab PEDA biomass cell. Name collides with unrelated cleantech firms 'Farm2Fuel' by Arham Energy (New Delhi) and Saansera Farm2Fuel — do not link."
-followed: false
-followed_date:
-last_checked: 2026-09-09
-updated: 2026-09-09
----
 
 # Farm2Fuel
 

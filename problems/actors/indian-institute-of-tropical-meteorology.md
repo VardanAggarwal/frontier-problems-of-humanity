@@ -1,25 +1,3 @@
----
-name: Indian Institute of Tropical Meteorology
-slug: indian-institute-of-tropical-meteorology
-type: org
-depth: registry
-aka: [IITM, "IITM Pune"]
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [north-india-winter-smog]
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-sources:
-  - {kind: website, url: "https://www.tropmet.res.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: website, url: "https://ews.tropmet.res.in/dss/", handle: "DSS portal", last_checked: 2026-09-07, status: none-found}
-followed: false
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Indian Institute of Tropical Meteorology
 

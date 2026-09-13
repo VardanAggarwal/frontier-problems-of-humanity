@@ -1,32 +1,3 @@
----
-name: ICMR-National Institute of Occupational Health
-slug: icmr-nioh
-type: org
-depth: registry
-aka: [NIOH, ICMR-NIOH, National Institute of Occupational Health]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [{id: silicosis-stone-industry, role: primary}, asbestos-in-air]
-nodes: [toxic-exposure-class]
-geography: [india, gujarat]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://nioh.org.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://www.nature.com/articles/s41598-021-02392-y", handle: "", last_checked: 2026-09-07, status: live}
-contact_route:
-followed: true
-followed_date: 2026-09-07
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # ICMR-National Institute of Occupational Health
 

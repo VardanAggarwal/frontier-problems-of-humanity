@@ -1,32 +1,3 @@
----
-name: National Remote Sensing Centre (ISRO)
-slug: national-remote-sensing-centre
-type: org
-depth: registry
-aka: [NRSC, "ISRO NRSC"]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.nrsc.gov.in/", handle: "", last_checked: 2026-09-08, status: live}
-  - {kind: press, url: "https://www.ceew.in/blogs/how-does-satellite-technology-detect-punjab-stubble-burning-fires", handle: "INSAT-3D / GEO-KOMPSAT detection", last_checked: 2026-09-08, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # National Remote Sensing Centre (ISRO)
 

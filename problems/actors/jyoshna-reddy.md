@@ -1,34 +1,3 @@
----
-name: Jyoshna Reddy
-slug: jyoshna-reddy
-type: individual
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations:
-  - {actor: impact-hub-hyderabad, role: "Co-Founder & COO"}
-leg: [enterprise]
-ecosystem_role: [capacity-builder, convener]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-11
-needs: []
-offers:
-  - {kind: convening, text: "Co-Founder & COO of Impact Hub Hyderabad — runs partnerships and community programming, including sector-convening events"}
-sources:
-  - {kind: linkedin, url: "https://in.linkedin.com/in/jyoshna-reddy-", handle: "jyoshna-reddy-", last_checked: 2026-09-11, status: unconfirmed}
-contact_route: "via Impact Hub Hyderabad (hyderabad.impacthub.net contact form)"
-followed: true
-followed_date: 2026-09-11
-last_checked: 2026-09-11
-updated: 2026-09-11
----
 
 # Jyoshna Reddy
 

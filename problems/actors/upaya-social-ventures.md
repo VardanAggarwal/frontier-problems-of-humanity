@@ -1,34 +1,3 @@
----
-name: Upaya Social Ventures
-slug: upaya-social-ventures
-type: org
-depth: registry
-aka: []
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [funder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [India]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: capital, text: "seed investment plus consulting support to India early-stage enterprises creating jobs for the poorest"}
-sources:
-  - {kind: linkedin, url: "https://www.linkedin.com/company/upaya-social-ventures", handle: "upaya-social-ventures", last_checked: 2026-09-10, status: unconfirmed}
-  - {kind: website, url: "https://www.upayasv.org/", last_checked: 2026-09-10, status: live}
-contact_route: "upayasv.org contact form"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Upaya Social Ventures
 

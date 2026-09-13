@@ -1,37 +1,3 @@
----
-name: PepsiCo India
-slug: pepsico-india
-type: org
-depth: tracked
-aka: ["PepsiCo India Holdings"]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab]
-lifecycle: operating
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: introductions, text: "biochar offtake / soil-carbon buyers and a state co-funding route to scale the retort-kiln model beyond a CSR pilot", as_of: 2026-09-08, source: "https://news.agropages.com/News/NewsDetail---44899.htm", state: open}
-  - {kind: policy-access, text: "state co-funding / subsidy alignment to take the kilns past its own crop-sourcing catchment", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: capital, text: "CSR funding for in-village paddy-straw conversion — retort/earthen kilns turning straw to biochar (the 'Biochar Project'), technical partner Punjab Agricultural University; free to participating farmers"}
-  - {kind: reach, text: "a contract-farming relationship with Punjab potato growers as a channel for residue-management adoption"}
-sources:
-  - {kind: press, url: "https://thecsrjournal.in/?s=pepsico+stubble", handle: "CSR trade-press mirrors (csrjournal / csrbox / thecsruniverse) — fastest catch on a new announcement", last_checked: 2026-09-08, status: live}
-  - {kind: linkedin, url: "https://www.linkedin.com/company/pepsico-india", handle: "PepsiCo India — general corp; biochar / positive-agriculture posts appear occasionally, not on a cadence", last_checked: 2026-09-08, status: live}
-  - {kind: press, url: "https://www.pepsicoindia.co.in/our-stories", handle: "PepsiCo India newsroom — only first-party source; sporadic, bot-blocked to fetchers", last_checked: 2026-09-08, status: stale}
-contact_route: "PepsiCo India Corporate Communications / pep+ Positive Agriculture team via pepsicoindia.co.in 'Contact Us'; press historically via Adfactors PR. No named programme lead public. Fastest monitoring route is the CSR trade-press search mirror, not PepsiCo's own site."
-followed: false
-followed_date:
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # PepsiCo India
 

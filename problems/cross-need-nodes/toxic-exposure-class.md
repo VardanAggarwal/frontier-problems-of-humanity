@@ -1,16 +1,3 @@
----
-id: toxic-exposure-class
-type: exposure-class
-title: The toxic-exposure class
-one_line: Asbestos, lead and silica share one mechanism — long-latency exposure with no person-keyed registry (and, for lead, no compensation layer either) — so one class of remedy covers all three carriers.
-geography: [india]
-authority: none / fragmented — no exposure registry; regulation split across factories, mines, environment and consumer-product law
-mechanisms: [compensation-substitutes-for-counting, solution-at-hand-blocked, authority-mismatched-to-harm]
-needs: [food, air, water, shelter]
-actors: [bani, gopal-krishna, oehni, icmr-nioh, icmr-ncdir, pure-earth]
-status: open
-updated: 2026-09-06
----
 
 # The toxic-exposure class
 

@@ -1,34 +1,3 @@
----
-name: Transforming Rural India Foundation
-slug: transforming-rural-india-foundation
-type: org
-depth: registry
-aka: ["TRIF", "Transform Rural India", "TRI"]
-parent:
-superseded_by:
-affiliations: []
-ecosystem_role: [field-builder, capacity-builder]
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: []
-nodes: []
-geography: [india]
-lifecycle: operating
-lifecycle_as_of: 2026-09-10
-needs: []
-offers:
-  - {kind: convening, text: "practitioner-policymaker embedding across ~73 districts in Madhya Pradesh, Jharkhand, Chhattisgarh and Uttar Pradesh — health/nutrition, primary education, farm prosperity, jobs/enterprises, local governance, gender/inclusion; annual India Rural Colloquy convening"}
-sources:
-  - {kind: x, url: "https://twitter.com/trifoundation", handle: "trifoundation", last_checked: 2026-09-10, status: unconfirmed}
-  - {kind: linkedin, url: "https://in.linkedin.com/company/transform-rural-india", handle: "transform-rural-india", last_checked: 2026-09-10, status: unconfirmed}
-contact_route: "trif.in; Managing Director Anish Kumar"
-followed: false
-followed_date:
-last_checked: 2026-09-10
-updated: 2026-09-10
----
 
 # Transforming Rural India Foundation
 

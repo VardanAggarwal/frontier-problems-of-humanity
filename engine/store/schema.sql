@@ -51,6 +51,7 @@ CREATE TABLE problem (
 CREATE TABLE actor (
   id                  TEXT PRIMARY KEY,
   title               TEXT NOT NULL,
+  one_line            TEXT,          -- what they do, one sentence (mirrors problem.one_line)
   type                TEXT NOT NULL CHECK (type IN ('org', 'individual')),
   legs                TEXT NOT NULL DEFAULT '[]' CHECK (json_valid(legs)),
   depth               TEXT NOT NULL DEFAULT 'registry'
@@ -73,6 +74,8 @@ CREATE TABLE actor (
   followed            INTEGER NOT NULL DEFAULT 0 CHECK (followed IN (0, 1)),
   followed_date       TEXT,
   last_checked        TEXT,
+  funding             TEXT,          -- source + scale + latest round/grant/budget + date, one sentence
+  scale_metric        TEXT,          -- the one checkable number (members/homes/users/revenue), dated
   doc                 TEXT,
   created_at          TEXT NOT NULL DEFAULT (datetime('now')),
   updated             TEXT
@@ -292,6 +295,27 @@ CREATE TABLE candidate (
 
 CREATE INDEX candidate_queue_ix ON candidate (admitted, score DESC)
   WHERE admitted IS NULL;
+
+-- ---------------------------------------------------------------- finding ---
+-- The dive loop's raw fact ledger (`worker/dive.py`, `worker/questions.py`) —
+-- distinct from `claims`, which are only the final, resolved, one-value-per-
+-- field writes. A `finding` is per (candidate, question, source): the model's
+-- answer to one open question from one fetched page, kept even after
+-- synthesis writes the final claim, so a later reviewer (or a refresh pass)
+-- can see every source that spoke to a question and where they agreed or
+-- disagreed — exactly the "sources disagree -> write the disagreement"
+-- standard (CLAUDE.md), which a single overwritten claim value cannot show.
+CREATE TABLE finding (
+  id            INTEGER PRIMARY KEY,
+  candidate_id  INTEGER NOT NULL REFERENCES candidate (id),
+  question_id   TEXT NOT NULL,        -- key into worker/questions.py's registry
+  answer        TEXT NOT NULL,
+  confidence    REAL CHECK (confidence IS NULL OR confidence BETWEEN 0 AND 1),
+  source_url    TEXT,
+  gathered_at   TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX finding_candidate_ix ON finding (candidate_id, question_id);
 
 -- ------------------------------------------------------------------ event ---
 -- Provenance. Under autonomy git cannot do this job: nothing generates a

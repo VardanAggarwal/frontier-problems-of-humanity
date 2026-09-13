@@ -1,36 +1,3 @@
----
-name: Dharaksha Ecosolutions
-slug: dharaksha-ecosolutions
-type: org
-depth: tracked
-aka: ["Dharaksha"]
-parent:
-superseded_by:
-affiliations: []
-leg: [enterprise]
-affected_led: no
-representation_unit: enterprise
-stance: works-the-remedy
-leaves: [crop-residue-burning]
-nodes: []
-geography: [india, punjab, haryana]
-lifecycle: scaling
-lifecycle_as_of: 2026-09-08
-needs:
-  - {kind: distribution, text: "volume offtake for mycelium-bound packaging (D2C brands, electronics, pharma, e-commerce) — the demand side that sets how much stubble it can buy at the farm gate", as_of: 2026-09-08, source: "https://dharaksha.com/", state: open}
-  - {kind: money, text: "growth capital to scale production capacity beyond pilot lines", as_of: 2026-09-08, source: "inferred", state: open}
-offers:
-  - {kind: capital, text: "a farm-gate buyer for rice stubble in Punjab/Haryana — converts it (with fungal mycelium) into biodegradable moulded packaging, a thermocol/EPS replacement"}
-  - {kind: technology, text: "mycelium-composite process using paddy straw as the lignocellulosic substrate"}
-sources:
-  - {kind: website, url: "https://dharaksha.com/", handle: "", last_checked: 2026-09-08, status: live}
-  - {kind: linkedin, url: "https://in.linkedin.com/company/dharaksha-ecosolutions", handle: "dharaksha-ecosolutions", last_checked: 2026-09-08, status: live}
-contact_route: "dharaksha.com contact form; LinkedIn /company/dharaksha-ecosolutions. Co-founders Arpit Dhupar (CEO — see arpit-dhupar) and Anand Bodh. Faridabad / Gurugram base."
-followed: true
-followed_date: 2026-09-08
-last_checked: 2026-09-08
-updated: 2026-09-08
----
 
 # Dharaksha Ecosolutions
 

@@ -1,34 +1,3 @@
----
-name: Sharafat Azad
-slug: sharafat-azad
-type: individual
-depth: registry
-aka: ["S.A. Azad", "SA Azad"]
-parent:
-superseded_by:
-affiliations:
-  - {actor: prasar, role: "founder / president / coordinator", from: 1999-01-01, to: }
-leg: [activism]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [{id: silicosis-stone-industry, role: primary}]
-nodes: [toxic-exposure-class]
-geography: [india, delhi]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://www.ashoka.org/en-us/fellow/sharafat-azad", handle: "Ashoka Fellow (2008)", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://www.downtoearth.org.in/health/nobody-remembers-stone-crushers-at-delhis-lal-kuan-except-for-workers-battling-silicosis", handle: "Down To Earth — quoted as PRASAR president, Nov 2024", last_checked: 2026-09-07, status: live}
-  - {kind: website, url: "", handle: "no personal social/web presence found", last_checked: 2026-09-07, status: none-found}
-contact_route: "Via PRASAR / HRLN counsel of record in WP(C) 110/2006 and NGT OA 1198/2024; or the Ashoka Fellow network (ashoka.org/en-us/fellow/sharafat-azad). Allied network he convenes: Khaan Mazdoor Adhikar Manch (with Toxics Link, Delhi Forum, CEC, HRLN) — Toxics Link and HRLN have live public channels and are a warm-intro path."
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # Sharafat Azad
 

@@ -1,32 +1,3 @@
----
-name: ICMR-National Institute of Virology
-slug: icmr-niv
-type: org
-depth: registry
-aka: [NIV, ICMR-NIV, National Institute of Virology]
-parent:
-superseded_by:
-affiliations: []
-leg: [institution]
-affected_led: no
-representation_unit: central-org
-stance: works-the-remedy
-leaves: [silicosis-stone-industry]
-nodes: [toxic-exposure-class]
-geography: [india, maharashtra]
-lifecycle: operating
-lifecycle_as_of: 2026-09-07
-needs: []
-offers: []
-sources:
-  - {kind: website, url: "https://niv.icmr.org.in/", handle: "", last_checked: 2026-09-07, status: live}
-  - {kind: press, url: "https://www.nature.com/articles/s41598-021-02392-y", handle: "CC16 kit paper (2021)", last_checked: 2026-09-07, status: live}
-contact_route:
-followed: false
-followed_date:
-last_checked: 2026-09-07
-updated: 2026-09-07
----
 
 # ICMR-National Institute of Virology
 
