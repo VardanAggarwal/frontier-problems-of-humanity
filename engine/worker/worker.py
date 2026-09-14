@@ -27,7 +27,9 @@ from text.preview import Preview, fetch_list, group
 
 from search import confirm_policy
 from search.confirm_policy import prompt_set_is_thin
+from search.provider import SearxngProvider, ThrottledProvider
 
+from . import config
 from . import depth as depth_mod
 from . import extract as extract_mod
 from . import fetch as fetchmod
@@ -802,7 +804,8 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         if thin and unverified:
             report["verify_pass_calls"] += 1
             v_sources, _ = extract_mod.assemble(
-                unverified, REGISTRY.retrieval_questions(kind))
+                unverified, REGISTRY.retrieval_questions(kind),
+                geography_bias=(kind == "problem"))
             if v_sources:
                 v_system, v_prompt = verify_and_extract_prompt_batched(
                     kind, name, cand["evidence"] or "", v_sources)
@@ -843,7 +846,8 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         prompt_sources, coverage = ([], {})
         if sources:
             prompt_sources, coverage = extract_mod.assemble(
-                sources, REGISTRY.retrieval_questions(kind))
+                sources, REGISTRY.retrieval_questions(kind),
+                geography_bias=(kind == "problem"))
         batched = bool(prompt_sources)
         for key in ("sources_fetched", "sources_in_prompt",
                     "sources_never_selected", "sources_dropped_by_cap"):
@@ -1024,6 +1028,17 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
     return report
 
 
+def _build_search_provider(search_url: str | None):
+    """`search_url` -> a `ThrottledProvider` wrapping a live `SearxngProvider`,
+    or `None` when the caller passed `None` (the `--no-search` CLI path).
+    Pure/constructive only — no network call happens until `.search()` is
+    first invoked by `worker/search_stage.py` — so this is safe to unit test
+    without a running SearXNG instance."""
+    if search_url is None:
+        return None
+    return ThrottledProvider(SearxngProvider(search_url))
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     add_store_args(ap)
@@ -1031,16 +1046,28 @@ def main(argv: list[str] | None = None) -> int:
                     help="stopgap queue: candidates already admitted (by "
                          "step-5's not-yet-built scheduler) but not yet "
                          "resolved. Real admission control is build-order step 5.")
+    ap.add_argument("--search-url", default=config.SEARXNG_URL,
+                    help="SearXNG base URL (track D). Default reads "
+                         "FPH_SEARXNG_URL / " + config.SEARXNG_URL + ". Start "
+                         "the instance first: engine/poc/searxng/run.sh start "
+                         "— an unreachable URL raises rather than degrading.")
+    ap.add_argument("--no-search", action="store_true",
+                    help="skip track D entirely: fall back to run_batch's "
+                         "seed-URL-only degrade (search_provider=None, §13) "
+                         "instead of querying SearXNG.")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args(argv)
 
     log = (lambda *a, **k: None) if args.quiet else print
+    search_provider = _build_search_provider(
+        None if args.no_search else args.search_url)
     conn = open_store(args, log=log)
     try:
         candidates = conn.execute(
             "SELECT * FROM candidate WHERE admitted = 1 AND resolved_to IS NULL "
             "ORDER BY first_seen LIMIT ?", (args.limit,)).fetchall()
-        report = run_batch(conn, Path(args.corpus), candidates, log=log)
+        report = run_batch(conn, Path(args.corpus), candidates, log=log,
+                           search_provider=search_provider)
     finally:
         conn.close()
     log("worker:", ", ".join(f"{k}={v}" for k, v in report.items()))

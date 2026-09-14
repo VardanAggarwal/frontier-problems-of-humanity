@@ -892,7 +892,7 @@ The non-dollar budget is **throughput**: the OpenRouter free rung paces to
 | Failure | Degrades to |
 |---|---|
 | Search returns nothing for a family | That family's questions stay unanswered; recorded as absent, never guessed |
-| Search provider down | Fall back to the candidate's own URL as the single source — the old single-page path |
+| Search provider down | The CLI's `--no-search` flag is the explicit fallback to the candidate's own URL as the single source — the old single-page path. An unreachable `--search-url` is NOT an automatic fallback: `SearxngProvider.query` has no retry and raises, stopping the batch (wired 2026-09-14, `worker/worker.py:main`) |
 | Upstream engines blocking (`unresponsive_engines` climbing) | Results thin **silently**. Record the rate per query, alarm past a floor, and do not let the bandit learn from a blocked run |
 | One engine auto-suspended (`ban_time_on_fail`) | Remaining engines still answer; the query is flagged degraded, not failed |
 | All sources gate-2 `mismatch` | No extraction call, candidate flagged for the human queue. Don't spend on a wrong-entity read |

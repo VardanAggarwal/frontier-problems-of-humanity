@@ -72,6 +72,7 @@ def assemble(
     token_cap: int | None = None,
     neighbour_radius: int | None = None,
     degrade: bool = False,
+    geography_bias: bool = False,
 ) -> tuple[list[PromptSource], dict[str, int | float]]:
     """`sources` (E1's confirmed fetches) -> `[Sn]`-labelled prompt blocks
     plus the counters that distinguish why a source did or didn't make it.
@@ -84,6 +85,10 @@ def assemble(
     ranking itself falls back gracefully when the encoder truly is
     unreachable is `worker/passages.py:_rank_chunks`'s own concern, not
     this module's.
+
+    `geography_bias` passes straight through to `select()` — the caller
+    (`worker/worker.py`) sets it for `kind: problem` candidates only
+    (`worker/passages.py`'s India-anchor top-up, added 2026-09-14).
 
     Labels are assigned `S1..Sn` by first appearance in the final, capped,
     priority-ordered chunk list — matching
@@ -107,7 +112,8 @@ def assemble(
     # 2. Rank per bucket, deduped — bare, un-expanded (radius=0 here so this
     #    module controls expansion itself, at the caller's own radius, once).
     if all_chunks and questions:
-        selected = select(all_chunks, questions, k=top_k, neighbour_radius=0)
+        selected = select(all_chunks, questions, k=top_k, neighbour_radius=0,
+                         geography_bias=geography_bias)
     else:
         selected = []
 

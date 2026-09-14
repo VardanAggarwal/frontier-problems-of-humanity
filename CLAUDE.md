@@ -1,5 +1,9 @@
 # fph — Frontier Problems of Humanity
 
+## Session isolation
+
+Call `EnterWorktree` at the start of every session working in this repo, before making any edits. This repo is worked on from multiple parallel sessions; without a worktree, sessions collide by editing the same checkout directly.
+
 Rederiving Maslow's hierarchy from a single drive (persist/propagate), mapping each tier to documented civilizational failures, in order to build a public platform that catalogues every actor working on each failure — what they need, what they can offer, how to reach them — and to act as catalyst connecting them across the activism / institution-building / enterprise legs. The earlier goal, *select one frontier problem to work on personally*, is superseded (2026-09-06): the catalyst role is the frontier, not the problem pick. See `catalyst-platform/00-plan.md`.
 
 ## Repo map

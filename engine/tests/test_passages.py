@@ -294,3 +294,109 @@ def test_select_expands_neighbours_of_the_retrieved_chunk():
     assert [c.chunk_ref for c in bare] == ["s1:1"]
     expanded = passages.select(chunks, reach_questions, k=1, neighbour_radius=1)
     assert [c.chunk_ref for c in expanded] == ["s1:0", "s1:1", "s1:2"]
+
+
+# --- India-anchor top-up (kind: problem only) -------------------------------
+
+
+def test_india_anchor_density_counts_terms():
+    assert passages._india_anchor_density(
+        "The Ministry of Petroleum reported 10.33 crore LPG connections "
+        "in India under the Pradhan Mantri Ujjwala Yojana.") >= 2
+    assert passages._india_anchor_density(
+        "A cohort of 300,000 women in ten Chinese provinces.") == 0
+
+
+def test_india_anchor_density_is_case_insensitive():
+    assert passages._india_anchor_density("INDIA reported new figures.") == 1
+
+
+def test_india_anchor_top_up_pulls_in_a_low_ranked_india_chunk():
+    india_chunk = _chunk(
+        "According to NITI Aayog, India's LPG coverage reached 10.33 crore "
+        "connections under the Ujjwala scheme.", source_id="s1", ordinal=5)
+    already_kept = {"s1:0": _chunk("kept already", source_id="s1", ordinal=0)}
+    pool = [already_kept["s1:0"], india_chunk,
+            _chunk("no India terms here at all", source_id="s1", ordinal=1)]
+    out = passages._india_anchor_top_up(pool, already_kept, top_n=2)
+    assert india_chunk in out
+    assert already_kept["s1:0"] not in out, "already-selected chunks are not re-added"
+
+
+def test_india_anchor_top_up_skips_chunks_with_no_india_content():
+    plain = [_chunk("a cohort of women in ten Chinese provinces", ordinal=0),
+             _chunk("global projections through 2030", ordinal=1)]
+    assert passages._india_anchor_top_up(plain, {}, top_n=2) == []
+
+
+def test_india_anchor_top_up_respects_top_n():
+    chunks = [
+        _chunk(f"India reported figures for region {i} via NITI Aayog", ordinal=i)
+        for i in range(5)
+    ]
+    out = passages._india_anchor_top_up(chunks, {}, top_n=2)
+    assert len(out) == 2
+
+
+def test_select_geography_bias_false_by_default_does_not_top_up():
+    """Default `geography_bias=False` — an India-anchored chunk that loses
+    every bucket must NOT be added unless the caller opts in."""
+    unbucketed = [q for q in REGISTRY.all("actor") if q.bucket is None]
+    india_chunk = _chunk("India reported new NITI Aayog figures.", ordinal=0)
+    out = passages.select([india_chunk], unbucketed, k=1)
+    # no bucketed questions -> early-return slice path; top-up never runs
+    # regardless of geography_bias, same as the entity top-up (see the test
+    # above this section) — asserting the flag alone changes nothing here.
+    assert out == [india_chunk]
+
+
+@needs_model
+def test_select_geography_bias_pulls_in_india_chunk_that_ranks_low_on_every_bucket(monkeypatch):
+    """An India-anchored chunk that loses every bucket's ranking still
+    reaches the prompt when `geography_bias=True` — mirrors the
+    entity-density end-to-end test.
+
+    `_rank_chunks` is monkeypatched rather than exercised for real (unlike
+    the sibling entity-density test above): the real encoder's cosine
+    margin between an India-anchored-but-numberless chunk and a
+    magnitude-shaped filler chunk was measured at ~0.75 vs ~0.80-0.82 —
+    real, but close enough to the boundary that encoder batching order
+    flipped the k=2 cut between runs in practice (this test flaked on that
+    exact fixture during development). What this test needs to verify is
+    `select()`'s own `geography_bias` wiring — that the top-up fires and is
+    additive to the bucket ranking, not the embedding model's opinion on a
+    specific sentence pair — so the ranking step is pinned instead.
+
+    `india_chunk`'s text is deliberately institution-name-free (no
+    capitalized multi-word run): an earlier draft named "the Ministry of
+    Petroleum and Natural Gas", which is ALSO entity-dense
+    (`_entity_density` >= 2 on that phrase) and so got pulled in by the
+    pre-existing, unconditional entity top-up regardless of
+    `geography_bias` — a real cross-talk between the two top-ups, not a
+    bug in either, but it defeated this test's isolation. Lowercase
+    phrasing with an India-anchor term and no proper noun keeps the two
+    signals independent."""
+    evidence_questions = list(REGISTRY.in_bucket("problem-evidence"))
+    india_chunk = _chunk(
+        "The scheme is funded through public expenditure of several crore "
+        "rupees in India, delivered via designated distribution channels.",
+        source_id="s1", ordinal=10)
+    filler = [
+        _chunk(f"The magnitude is a number, out of a denominator, dated "
+               f"and sourced, variant {i}.", source_id="s1", ordinal=i)
+        for i in range(3)
+    ]
+    # Pin the ranking: filler always beats india_chunk, deterministically,
+    # regardless of query text — this is the "loses every bucket" premise
+    # the top-up exists to cover, made exact instead of measured.
+    def fixed_ranking(query, chunks):
+        return sorted(chunks, key=lambda c: 0 if c is not india_chunk else 1)
+    monkeypatch.setattr(passages, "_rank_chunks", fixed_ranking)
+
+    without_bias = passages.select(filler + [india_chunk], evidence_questions, k=2,
+                                   neighbour_radius=0, geography_bias=False)
+    with_bias = passages.select(filler + [india_chunk], evidence_questions, k=2,
+                                neighbour_radius=0, geography_bias=True)
+    assert india_chunk not in without_bias, \
+        "test fixture assumption broken: india_chunk must lose the bucket ranking"
+    assert india_chunk in with_bias

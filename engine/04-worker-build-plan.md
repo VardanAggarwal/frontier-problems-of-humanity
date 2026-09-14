@@ -759,10 +759,10 @@ that waiting is cheap.
 | Track | New files | Touches | Needs | Degrades to | Status |
 |---|---|---|---|---|---|
 | **F1** question registry | `worker/questions.py` | — | — | — (blocking) | **SHIPPED** |
-| **A** problem emission | — | `worker.py` `_emit`, `resolve.py` | — | today's behaviour: unresolvable edge dropped | **SHIPPED, inert** |
-| **B** depth tier | `worker/depth.py` | `worker.py` intake | F1 | everything `tracked` | **SHIPPED, inert** |
-| **C** chunk + passage | `text/chunk.py`, `worker/passages.py` | `worker/config.py` | F1, PoC-1, PoC-3 | first-N-chars per source, capped (§13) | **SHIPPED, inert (not wired)** |
-| **D** search | `engine/search/` — `provider.py`, `families.yaml`, `fuse.py`, `cover.py`, `health.py`, `confirm_policy.py` | — | F1, PoC-0 | the candidate's own URL as single source (§13) | **SHIPPED, inert (not wired)** |
+| **A** problem emission | — | `worker.py` `_emit`, `resolve.py` | — | today's behaviour: unresolvable edge dropped | **SHIPPED, wired by E6 — gate signals wired 2026-09-14, see correction below §6** |
+| **B** depth tier | `worker/depth.py` | `worker.py` intake | F1 | everything `tracked` | **SHIPPED, wired by E6** |
+| **C** chunk + passage | `text/chunk.py`, `worker/passages.py` | `worker/config.py` | F1, PoC-1, PoC-3 | first-N-chars per source, capped (§13) | **SHIPPED, wired by E6** |
+| **D** search | `engine/search/` — `provider.py`, `families.yaml`, `fuse.py`, `cover.py`, `health.py`, `confirm_policy.py` | — | F1, PoC-0 | the candidate's own URL as single source (§13) | **SHIPPED (D1-D3), wired into `run_batch` (`worker.py:768` calls `search_stage.search_sources` when `search_provider` is not None), and wired into the CLI entrypoint** — `worker.py:main` now builds a `ThrottledProvider(SearxngProvider(...))` from `--search-url` (default `worker/config.py:SEARXNG_URL`) unless `--no-search`, and passes it to `run_batch`. Gate 2 runs on search-sourced URLs via `confirm_policy`. |
 | **E** extract + ledger + counters | `worker/extract.py`, `worker/extract_types.py`, `worker/search_stage.py` | `store/schema.sql`, `prompts.py`, `config.py`, `worker.py` `run_batch` | F1, C, D, PoC-2 | — | **SHIPPED (E0-E6)** |
 
 A, C and D are genuinely concurrent once F1 lands. B is small enough to ride
@@ -824,6 +824,9 @@ have taken silently:**
    turns out to need per-candidate history rather than a batch distribution.
 
 ### Two holes found by the user, not covered by any track above
+
+**Both closed by E6 (2026-09-14).** Kept verbatim below as the record of what
+the hole was and why it existed.
 
 1. **Gate 2 runs only on the seed URL** (`worker/worker.py:504-521`, inside
    `if cand["url"]`). Track D produces 1-5 search-sourced URLs and none of them
@@ -963,6 +966,18 @@ record of why the shapes were what they were.
   globals now pass the parameter, which is a better test of the same
   behaviour.
 
+**A's gate signals were discharged later the same day.** The measurement
+this section said was needed (`poc/poc2c-spec.md`) came back, and the
+extraction prompt now asks for `signals` on a `works_on` edge whose
+`dst_kind` is `problem` (`worker/prompts.py` ~L350-372), on both the mint
+paths that read it (`worker.py:438` — edge route, `worker.py:496` — emit
+route). `signals_from_edge()` returns real values now, not a structural
+`None`×4. Leafability judgment on those signals is still deliberately not
+this worker's job (`problem_emit.py`'s own docstring: "signals are captured
+and emitted, never gated here") — that consumption is `process-leaf`'s, per
+`fph/CLAUDE.md`'s leafability gate. Test: `test_signals_ride_the_works_on_edge`
+(`tests/test_worker.py`).
+
 **Two bugs the integration tests found, neither predicted by the design.**
 Both were invisible to every unit test because each track's tests were
 correct about its own module:
@@ -1015,20 +1030,23 @@ PoC-0  ‖  PoC-1  ‖  PoC-3          mutually independent, no shared code
            F1                       engine/questions.yaml — SHIPPED
             ↓
   (A + B)  ‖   C   ‖   D            three tracks, pure functions only
-   SHIPPED   SHIPPED  not started
+   SHIPPED   SHIPPED  SHIPPED (D1-D3)
             ↓
-          PoC-2                     instrument built (poc2_extract.py), not
-                                       yet run; free rung only, by decision
+          PoC-2                     instrument built (poc2_extract.py), run
+                                       (§2); superseded by PoC-2c/2d after the
+                                       2026-09-14 prompt revision (see §7 below)
             ↓
-            E                       the only edit to run_batch — wires A, B, C, D together
+            E                       SHIPPED (E0-E6) — the only edit to
+                                       run_batch, wires A, B, C, D together
             ↓
-     counters run on real candidates
+     counters run on real candidates   NOT YET DONE — waits on PoC-2c/2d
+                                       resolving whether the free rung holds
             ↓
    the multi closing rule (§1d)       DECIDED 2026-09-14 — `open` was two
                                        predicates; counter 1 reads `filled` and E6
                                        already implemented it. Readable as shipped.
             ↓
-  §7 constant sweep, then the bandit
+  §7 constant sweep, then the bandit    NOT STARTED — blocked on the step above
 ```
 
 The last line is last for the reason §16 already gives: both need

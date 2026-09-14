@@ -964,3 +964,54 @@ def test_unknown_dst_kind_is_logged_not_silent(conn):
          "edge_kind": "funds"}]}
     worker._emit(conn, src, claims, {}, log=lines.append)
     assert any("galaxy" in l for l in lines)
+
+
+# --- track D wired into the CLI (`--search-url` / `--no-search`) -----------
+
+
+def test_build_search_provider_is_none_for_the_no_search_path():
+    assert worker._build_search_provider(None) is None
+
+
+def test_build_search_provider_wraps_a_searxng_provider_in_throttled():
+    from search.provider import SearxngProvider, ThrottledProvider
+
+    provider = worker._build_search_provider("http://localhost:8080")
+    assert isinstance(provider, ThrottledProvider)
+    assert isinstance(provider._inner, SearxngProvider)
+    assert provider._inner.base_url == "http://localhost:8080"
+
+
+def test_no_search_flag_reaches_run_batch_as_none(conn, tmp_path, monkeypatch):
+    """`--no-search` is the escape hatch back to §13's seed-URL-only degrade
+    — confirms the flag actually reaches `run_batch`, not just that the
+    argparse flag parses."""
+    monkeypatch.setattr(worker, "open_store", lambda args, log=print: conn)
+    seen = {}
+    real_run_batch = worker.run_batch
+
+    def _spy(conn, corpus, candidates, *, log=print, search_provider=None, **kw):
+        seen["search_provider"] = search_provider
+        return real_run_batch(conn, corpus, candidates, log=log,
+                              search_provider=search_provider, **kw)
+    monkeypatch.setattr(worker, "run_batch", _spy)
+
+    worker.main(["--corpus", str(tmp_path), "--no-search", "--quiet"])
+    assert seen["search_provider"] is None
+
+
+def test_search_url_flag_reaches_run_batch_as_a_provider(conn, tmp_path, monkeypatch):
+    monkeypatch.setattr(worker, "open_store", lambda args, log=print: conn)
+    seen = {}
+    real_run_batch = worker.run_batch
+
+    def _spy(conn, corpus, candidates, *, log=print, search_provider=None, **kw):
+        seen["search_provider"] = search_provider
+        return real_run_batch(conn, corpus, candidates, log=log,
+                              search_provider=search_provider, **kw)
+    monkeypatch.setattr(worker, "run_batch", _spy)
+
+    worker.main(["--corpus", str(tmp_path), "--search-url", "http://localhost:9999",
+                "--quiet"])
+    assert seen["search_provider"] is not None
+    assert seen["search_provider"]._inner.base_url == "http://localhost:9999"

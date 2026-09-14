@@ -19,6 +19,7 @@ from search.provider import (
     SearchResult,
     SearxngProvider,
     THROTTLE_FLOOR_S,
+    ThrottledProvider,
     parse_raw_response,
 )
 
@@ -228,3 +229,55 @@ def test_searxng_search_passes_rendered_text_through_as_q():
     assert params["q"] == '"Some Actor" funding raised grant crore'
     assert "family" not in params
     assert "slug" not in params
+
+
+# --- ThrottledProvider: paces .search() at >= THROTTLE_FLOOR_S -------------
+
+
+class _CountingProvider:
+    def __init__(self):
+        self.calls = []
+
+    def search(self, family_id, query_string, *, slug=None):
+        self.calls.append((family_id, query_string, slug))
+        return "response"
+
+
+def test_throttled_provider_sleeps_no_time_on_the_first_call():
+    inner = _CountingProvider()
+    clock = [0.0]
+    sleeps = []
+    wrapped = ThrottledProvider(inner, sleep=sleeps.append, now=lambda: clock[0])
+
+    result = wrapped.search("identity", "q1", slug="s")
+
+    assert result == "response"
+    assert sleeps == []
+    assert inner.calls == [("identity", "q1", "s")]
+
+
+def test_throttled_provider_waits_the_remaining_floor_on_a_fast_second_call():
+    inner = _CountingProvider()
+    clock = [0.0]
+    sleeps = []
+    wrapped = ThrottledProvider(inner, floor_s=2.0, sleep=sleeps.append, now=lambda: clock[0])
+
+    wrapped.search("identity", "q1", slug="s")
+    clock[0] = 0.5  # only 0.5s elapsed, well under the 2.0s floor
+    wrapped.search("money", "q2", slug="s")
+
+    assert sleeps == [pytest.approx(1.5)]
+    assert len(inner.calls) == 2
+
+
+def test_throttled_provider_does_not_sleep_when_the_floor_has_already_elapsed():
+    inner = _CountingProvider()
+    clock = [0.0]
+    sleeps = []
+    wrapped = ThrottledProvider(inner, floor_s=2.0, sleep=sleeps.append, now=lambda: clock[0])
+
+    wrapped.search("identity", "q1", slug="s")
+    clock[0] = 5.0  # well past the floor
+    wrapped.search("money", "q2", slug="s")
+
+    assert sleeps == []

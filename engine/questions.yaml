@@ -614,7 +614,7 @@ buckets:
     kind: problem
     questions: [p1_one_line, p2_status, p3_geography, p4_needs_legs]
     target_section: "leaf lead prose (definition + description, before any H2 — the `> ...` blockquote and the paragraph after it, per `_tier-template.md`/corpus.mjs)"
-    retrieval_query: "failure definition, scope, geography, and response types needed"
+    retrieval_query: "Definition and scope of the harm, and its documented occurrence in India — who is affected, where, at what scale — with the kind of response it needs"
     retrieval_query_source: heuristic
     note: >-
       Untested — poc1c-results.md §5 explicitly flags these four as
@@ -626,6 +626,21 @@ buckets:
       over question grammar. A single shared query is a judgment call, not
       a measured merge — resweep before trusting this bucket's AUC, which
       does not exist yet.
+
+      Reworded 2026-09-14 (still heuristic, no re-measurement done) to add
+      an explicit "occurrence in India" clause. Live-tested on `cookfire-
+      smoke`: the pre-existing generic wording ("failure definition, scope,
+      geography, and response types needed") let a global projection paper
+      and a China cohort study win this bucket on every run, so p3_geography
+      answers came back "China" / "Global... Sub-Saharan Africa" — the
+      bucket's own retrieval string never named the corpus's actual
+      geographic anchor, so nothing in it competed for an India-specific
+      chunk. `families.yaml`'s search-side India bias (added same day) was
+      NOT enough on its own — it changed what got fetched (a WHO fact sheet
+      entered the pool for the first time) but not what this bucket
+      selected, because selection ranks by similarity to THIS string, not
+      to the search query. Re-measure before trusting any AUC claim here;
+      this is still a first cut, now a more specific one.
 
   # ---- problem side (7-leaf sample) -----------------------------------
   - id: problem-classification

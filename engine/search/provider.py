@@ -44,6 +44,7 @@ in the recorded shape, so `SearchResponse.results_for_fuse()` returns that
 list unchanged (no reshaping, no renaming).
 """
 import json
+import time
 from typing import NamedTuple, Optional
 
 # Engine set — expanded 2026-09-14 from the original PoC-0 four
@@ -84,6 +85,19 @@ CONFIGURED_ENGINES = (
     "bing", "brave", "google", "mojeek", "yandex",
     "brave.news", "google news", "bing news", "duckduckgo news",
     "pubmed", "semantic scholar",
+    # Added 2026-09-14, live-probed against `poc/searxng/engines-section.yml`:
+    # both are enabled there (no `disabled: true`) and requested by
+    # `SearxngProvider.DEFAULT_CATEGORIES`'s "science" category, but a raw
+    # probe query returned neither in `engines_seen_in_results` NOR in
+    # `unresponsive_engines` — invisible to every diagnostic because neither
+    # was in this tuple (`silently_absent_engines` only checks configured
+    # engines). Same failure shape PoC-0 already named for mojeek: an engine
+    # can return zero while appearing in neither field. Both are Google-
+    # backed scrapers, so the same-probe `google`/`google news` CAPTCHA
+    # suspension is the likely (not yet separately confirmed) cause. Adding
+    # them here does not fix the suspension — it makes it visible in
+    # `silently_absent_engines` instead of invisible.
+    "google scholar", "arxiv",
 )
 
 # >=2.0s spacing between requests to the same engine (poc0a-results.md
@@ -288,3 +302,34 @@ class SearxngProvider:
         with the replay path) and ignored; this is not a sign the live path
         is wrong, it is what "live search" means."""
         return self.query(query_string)
+
+
+class ThrottledProvider:
+    """Wraps any provider (typically `SearxngProvider`) to enforce
+    `THROTTLE_FLOOR_S` spacing between `.search()` calls — `SearxngProvider`
+    is deliberately thin and does not throttle itself (its own docstring),
+    and `worker/search_stage.py:search_sources` calls `.search()` once per
+    retrievable family with no pacing of its own, so unwrapped live use from
+    the CLI would violate the floor on the second call of every candidate.
+
+    Global spacing, not per-engine: the floor is measured per-engine
+    (mojeek suspends after rapid requests to IT specifically), so pacing
+    every call at the floor is conservative, not exact — it never
+    under-throttles the engine that actually needs it. Sleeps before the
+    call, not after, so the first call in a run pays no delay."""
+
+    def __init__(self, inner, floor_s: float = THROTTLE_FLOOR_S, sleep=time.sleep,
+                now=time.monotonic):
+        self._inner = inner
+        self._floor_s = floor_s
+        self._sleep = sleep
+        self._now = now
+        self._last_call: Optional[float] = None
+
+    def search(self, family_id, query_string, *, slug=None):
+        if self._last_call is not None:
+            wait = self._floor_s - (self._now() - self._last_call)
+            if wait > 0:
+                self._sleep(wait)
+        self._last_call = self._now()
+        return self._inner.search(family_id, query_string, slug=slug)

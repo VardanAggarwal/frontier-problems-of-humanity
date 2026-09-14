@@ -121,3 +121,14 @@ INDIA_ANCHOR_TOP_N = int(os.getenv("FPH_INDIA_ANCHOR_TOP_N", "2"))
 # URL is fetched in addition to this cap, not counted against it.
 MAX_SOURCES_TRACKED = int(os.getenv("FPH_MAX_SOURCES_TRACKED", "5"))
 MAX_SOURCES_REGISTRY = int(os.getenv("FPH_MAX_SOURCES_REGISTRY", "1"))
+
+# ── Track D — the local SearXNG instance the CLI's `--search-url` defaults
+# to (`engine/poc/searxng/run.sh start`, CLAUDE.md's "once per session" —
+# it does not autostart the container). Wired into `worker/worker.py:main`
+# 2026-09-14; `--no-search` is the explicit escape hatch back to
+# `run_batch`'s `search_provider=None` seed-URL-only degrade (§13). An
+# unreachable URL is NOT a degrade path — `SearxngProvider.query` calls
+# `resp.raise_for_status()`/`requests.get` with no retry, so a down
+# instance raises and stops the batch rather than silently falling back;
+# start it first (`engine/poc/searxng/run.sh start`) or pass `--no-search`.
+SEARXNG_URL = os.getenv("FPH_SEARXNG_URL", "http://localhost:8080")
