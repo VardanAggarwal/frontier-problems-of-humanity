@@ -285,6 +285,32 @@ def _apply_other_claims(conn: sqlite3.Connection, kind: str, entity_id: str,
         log(f"worker: unrecognised claim field {field!r} on {kind}/{entity_id}, skipped")
 
 
+def _write_cites(conn: sqlite3.Connection, kind: str, entity_id: str,
+                 answers: list, *, by: str, log=print) -> int:
+    """One `cites` edge per distinct source behind this entity's answers.
+
+    `migrate/from_corpus.py:cite` wrote these for hand-authored markdown
+    `## Sources` lists; a worker-authored entity (doc: NULL) never went
+    through that migration, so its `finding` rows (extract.write_findings)
+    carried `source_id` durably but no `cites` edge ever got derived from
+    them — `corpus.mjs`'s leaf/actor `sources:` (built from `edgesOut(...,
+    'cites')`) was silently empty for every doc-less record. `answers`
+    already carries the resolved `source_id` (extract_types.Answer); this
+    just writes the edge `write_findings` stopped short of. -> edges written
+    or updated (an IntegrityError on one bad source_id does not sink the
+    rest, same discipline as the tag-claim loop above).
+    """
+    written = 0
+    for source_id in dict.fromkeys(a.source_id for a in answers if a.source_id):
+        try:
+            db.link(conn, (kind, entity_id), "cites", ("source", source_id), by=by)
+            written += 1
+        except sqlite3.IntegrityError as e:
+            log(f"worker: cites edge {kind}/{entity_id} -> source/{source_id} "
+                f"rejected: {e}")
+    return written
+
+
 def _safe_put(conn: sqlite3.Connection, kind: str, row: dict, *, by: str,
              log=print) -> bool:
     """`db.put`, with a fallback to a minimal row on `IntegrityError`.
@@ -615,7 +641,8 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         "resolved_ambiguous": 0, "resolved_new": 0, "edges_written": 0,
         "candidates_emitted": 0, "cost": 0.0,
         # stage 7 (§9) and the batched call (§8)
-        "findings_written": 0, "extracted_batched": 0, "extracted_single": 0,
+        "findings_written": 0, "cites_written": 0,
+        "extracted_batched": 0, "extracted_single": 0,
         "retry_per_source_calls": 0, "retry_per_source_rescued": 0,
         # E3's coverage counters — §3 correction 4. `sources_dropped_by_cap`
         # cannot currently fire (`_cap_tokens` never drops a source's last
@@ -1013,6 +1040,8 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             _settle(cid, resolved_to=None, admitted=0, by="worker:write", why=why)
             conn.commit()
             continue
+        report["cites_written"] += _write_cites(conn, kind, entity_id, answers,
+                                                by=by, log=log)
         _settle(cid, resolved_to=entity_id, admitted=1, by=by,
                why="resolved and written", field="resolve")
         resolved_this_batch[(kind, db.norm(name))] = entity_id
