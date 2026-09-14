@@ -293,7 +293,14 @@ function workerRunner() {
             res.write(`\n[exit ${code}]\n`);
             res.end();
           });
-          req.on('close', () => { if (!child.killed) child.kill(); });
+          // `req`'s own 'close' fires as soon as its body is fully read (we
+          // already consumed it above), well before the client disconnects —
+          // watching it here killed every run instantly. `res`'s 'close'
+          // firing while we're still mid-stream (writableEnded false) is the
+          // real "client went away" signal.
+          res.on('close', () => {
+            if (!res.writableEnded && !child.killed) child.kill();
+          });
         });
       });
     },
