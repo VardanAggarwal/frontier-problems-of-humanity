@@ -57,8 +57,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from embed import index
-from embed.model import encode_one
-from embed.texts import clip
+from embed.model import encode_one, fit
 from store import db
 from text.preview import content_tokens, _is_distinctive
 
@@ -93,11 +92,12 @@ def resolve_entity(conn: sqlite3.Connection, corpus: Path, kind: str,
 
     # `context` — "candidate evidence, snippet, extracted claims" per the
     # docstring above — can be the full fetched/extracted text, unbounded.
-    # `clip()` (cheap, character-based, no encoder load — see gate2.py's
-    # confirm() for the same fix and why `fit()` isn't used here) keeps that
-    # from silently overflowing e5's 512-token budget the way it did in
-    # production before this.
-    text = clip(f"{name} {context}".strip() or name)
+    # `fit()` truncates against the encoder's own tokenizer (not `clip()`'s
+    # cheap, script-blind character bound — see gate2.py's confirm() for the
+    # same fix): a `clip()`-ed but still token-dense string reached
+    # `encode_one()` un-truncated and hung the worker on candidate 28's run
+    # (2026-09-14T22:45), and this path has the same exposure.
+    text = fit(f"{name} {context}".strip() or name, role="query")
     vector = encode_one(text, role="query")
     shortlist = index.knn(conn, kind, vector, k=SHORTLIST_K)
 

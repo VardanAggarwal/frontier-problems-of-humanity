@@ -199,22 +199,28 @@ def test_gate2_empty_input_is_uncertain_not_a_crash(monkeypatch):
     assert verdict == "uncertain" and cosine == 0.0 and note
 
 
-def test_gate2_long_context_is_clipped_before_encode(monkeypatch):
+def test_gate2_long_context_is_fit_before_encode(monkeypatch):
     """candidate_context can be the full extracted text, not just a snippet
-    (production case: an 854-token string past e5's 512 budget hit the
-    tokenizer's own overflow warning). `left` must be bounded before it
-    reaches `encode_one`, same as `right` already is via PREVIEW_CHARS."""
+    (production case: candidate 28's run, 2026-09-14T22:45, hit an
+    8.7x-over-budget string past `clip()`'s character bound and hung the
+    worker inside `encode_one` with no exception). `left`/`right` must be
+    bounded by `fit()` — token-exact, not char-based — before they reach
+    `encode_one`."""
     seen = {}
 
     def recording_encode_one(text, *, role):
         seen.setdefault(role, []).append(text)
         return unit(1.0)
 
+    # `fit()` itself needs the real encoder (to tokenize) — stub it here so
+    # this test stays offline, same as `encode_one` above, per this file's
+    # own "offline by default" contract (module docstring).
     monkeypatch.setattr(gate2, "encode_one", recording_encode_one)
-    long_context = "word " * 3000  # far past embed.texts.clip's MAX_CHARS
+    monkeypatch.setattr(gate2, "fit", lambda text, *, role: text[:2000])
+    long_context = "word " * 3000  # far past any reasonable token budget
     gate2.confirm(None, "Some Org", long_context, "short fetched text")
     left_sent = seen["query"][0]
-    assert len(left_sent) <= 2000, "candidate_context was not clipped before encode_one"
+    assert len(left_sent) <= 2000, "candidate_context was not fit before encode_one"
 
 
 @needs_model
@@ -241,10 +247,11 @@ def test_exact_match_short_circuits_before_any_embedding_call(conn, monkeypatch)
     assert result.decision == "exact" and result.entity_id == "mlpc"
 
 
-def test_resolve_long_context_is_clipped_before_encode(conn, monkeypatch):
+def test_resolve_long_context_is_fit_before_encode(conn, monkeypatch):
     """`context` can be the full extracted/fetched text (worker.py passes
     the candidate's own extraction text or raw evidence), unbounded — must
-    be clipped before `encode_one`, same fix as gate2.confirm's `left`."""
+    be bounded by `fit()` before `encode_one`, same fix as gate2.confirm's
+    `left`."""
     seen = {}
 
     def recording_encode_one(text, *, role):
@@ -252,11 +259,12 @@ def test_resolve_long_context_is_clipped_before_encode(conn, monkeypatch):
         return unit(1.0)
 
     monkeypatch.setattr(resolve, "encode_one", recording_encode_one)
+    monkeypatch.setattr(resolve, "fit", lambda text, *, role: text[:2000])
     monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
 
     long_context = "word " * 3000
     resolve.resolve_entity(conn, pathlib.Path("."), "actor", "Some Org", long_context)
-    assert len(seen["text"]) <= 2000, "context was not clipped before encode_one"
+    assert len(seen["text"]) <= 2000, "context was not fit before encode_one"
 
 
 def test_new_id_slugifies_and_dedupes_on_collision(conn):
