@@ -201,14 +201,14 @@ def write_findings(conn: sqlite3.Connection, candidate_id: int,
     urls = urls or {}
     rows = [
         (candidate_id, a.question_id, a.answer, a.confidence,
-         urls.get(a.source_id), a.source_id, a.chunk_ref)
+         urls.get(a.source_id), a.source_id, a.chunk_ref, a.reason)
         for a in answers
     ]
     if not rows:
         return 0
     conn.executemany(
         "INSERT INTO finding (candidate_id, question_id, answer, confidence, "
-        "source_url, source_id, chunk_ref) VALUES (?, ?, ?, ?, ?, ?, ?)", rows)
+        "source_url, source_id, chunk_ref, reason) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", rows)
     return len(rows)
 
 
