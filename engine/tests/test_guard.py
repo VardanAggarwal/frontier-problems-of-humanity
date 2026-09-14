@@ -107,7 +107,7 @@ def test_a_missing_corpus_is_a_refusal_not_a_pass(tmp_path):
 def test_the_migration_stamps_what_it_read(tmp_path):
     from migrate.from_corpus import run
     out = tmp_path / "g.db"
-    run(CORPUS, out, force=True)
+    run(CORPUS, out)
     conn = sqlite3.connect(out)
     conn.row_factory = sqlite3.Row
     assert db.stamped(conn) == corpus_fingerprint(CORPUS)
@@ -139,7 +139,7 @@ def test_the_fingerprint_covers_exactly_what_the_migration_reads(tmp_path):
     pathlib.Path.read_bytes = lambda s, *a, **k: (seen.add(s.resolve()), real[1](s, *a, **k))[1]
     pathlib.Path.open = lambda s, *a, **k: (seen.add(s.resolve()), real[2](s, *a, **k))[1]
     try:
-        fc.run(CORPUS, tmp_path / "g.db", force=True)
+        fc.run(CORPUS, tmp_path / "g.db")
     finally:
         pathlib.Path.read_text, pathlib.Path.read_bytes, pathlib.Path.open = real
         fc.corpus_fingerprint = fingerprint

@@ -211,13 +211,16 @@ def test_tags_and_aliases_are_in_the_event_log(migrated):
     assert alias_events == aliases
 
 
-def test_run_refuses_to_overwrite_without_force(tmp_path):
-    """The default --out is problems/graph.db, so an unguarded re-run deletes a
-    real file. run() defends itself; main() carries the flag."""
+def test_run_refuses_to_overwrite_existing_output_unconditionally(tmp_path):
+    """The default --out is problems/graph.db, so an unguarded re-run deletes
+    a real file. There is no override — 2026-09-15, after a live `graph.db`
+    (11 candidates, 92 sources, 524 edges, worker-pipeline data with no
+    markdown representation) was wiped by exactly this path via `--force`.
+    Recovering a live store now goes through `migrate/restamp.py`, which
+    never deletes anything; a genuine from-scratch rebuild is `rm` by hand
+    plus a bare re-run, not a flag this function accepts."""
     out = tmp_path / "graph.db"
     out.write_text("not a database")
     with pytest.raises(FileExistsError):
         run(CORPUS, out)
     assert out.read_text() == "not a database"
-    run(CORPUS, out, force=True)
-    assert out.stat().st_size > 0

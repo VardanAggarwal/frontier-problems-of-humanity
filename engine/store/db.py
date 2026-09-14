@@ -380,5 +380,10 @@ def check_fresh(conn: sqlite3.Connection, current: str) -> str | None:
     if have != current:
         return (f"this store was built from a different corpus "
                 f"(stamped {have[:12]}, corpus is now {current[:12]}) — "
-                "re-run engine/migrate/from_corpus.py")
+                "re-run engine/migrate/from_corpus.py if this store only "
+                "exists (fresh, no worker data). If it's a live store — has "
+                "candidates, sources, edges, asks or channels worth keeping "
+                "— from_corpus.py will delete all of that; use "
+                "engine/migrate/restamp.py instead (it only updates the "
+                "fingerprint, --reason required).")
     return None
