@@ -19,7 +19,7 @@ import pytest
 
 from search.confirm_policy import CONFIRMED, MISMATCH, SEARCH, SEED, UNCERTAIN
 from search.provider import ReplayProvider
-from worker.config import MAX_SOURCES_REGISTRY, MAX_SOURCES_TRACKED
+from worker.config import MAX_SOURCES_ESCALATE, MAX_SOURCES_REGISTRY, MAX_SOURCES_TRACKED
 from worker.depth import REGISTRY_TIER, TRACKED_TIER
 from worker.extract_types import ConfirmedSource
 from worker.search_stage import render_queries, search_sources
@@ -377,3 +377,86 @@ def test_fetch_result_order_preserved_regardless_of_completion_order():
     # wrong, or a verdict attached to the wrong url).
     for src in result:
         assert src.url in src.text, "fetched text does not match its own url — result order corrupted"
+
+
+# ---------------------------------------------------------------------------
+# escalation — one widened cover() pass when the confirmed set is thin
+# (candidate 12, groundwater-depletion-from-irrigation, 2026-09-14: 1 usable
+# source out of 5 fetched, all from one narrow domain family)
+# ---------------------------------------------------------------------------
+
+def test_escalate_false_by_default_stays_at_the_first_cap():
+    """Backward compat: every caller that predates `escalate` — including
+    every test above — must see the unchanged one-pass cap."""
+    result = search_sources(
+        NAME, depth=TRACKED_TIER, provider=_provider(),
+        fetch=_fetch_all_confirmed, confirm=_confirm_all_confirmed,
+        slug=SLUG, max_sources=1, log=lambda *a, **k: None,
+    )
+    assert len(result) == 1
+
+
+def test_escalate_true_widens_past_the_cap_when_thin():
+    """A cap of 1 confirmed source is thin by `MIN_PROMPT_SOURCES` alone
+    regardless of page length. `escalate=True` must re-cover the fused pool
+    at cap + MAX_SOURCES_ESCALATE and pick up more of it — not just the one
+    url the first, too-small cap allowed."""
+    counters = {}
+    result = search_sources(
+        NAME, depth=TRACKED_TIER, provider=_provider(),
+        fetch=_fetch_all_confirmed, confirm=_confirm_all_confirmed,
+        slug=SLUG, max_sources=1, escalate=True, counters=counters,
+        log=lambda *a, **k: None,
+    )
+    assert len(result) > 1, "escalation did not fetch anything beyond the first cap"
+    assert counters["escalated"] is True
+    assert counters["covered"] == len(result)
+
+
+def test_escalate_true_no_op_when_confirmed_set_is_not_thin():
+    """The common case — the first pass already cleared the thinness floor
+    — must not pay for a second cover()/fetch round at all."""
+    counters = {}
+    result = search_sources(
+        NAME, depth=TRACKED_TIER, provider=_provider(),
+        fetch=_fetch_all_confirmed, confirm=_confirm_all_confirmed,
+        slug=SLUG, escalate=True, counters=counters, log=lambda *a, **k: None,
+    )
+    baseline = search_sources(
+        NAME, depth=TRACKED_TIER, provider=_provider(),
+        fetch=_fetch_all_confirmed, confirm=_confirm_all_confirmed,
+        slug=SLUG, escalate=False, log=lambda *a, **k: None,
+    )
+    assert len(result) == len(baseline)
+    assert counters["escalated"] is False
+
+
+def test_escalate_does_not_double_fetch_urls_the_first_pass_already_took():
+    fetch_calls = []
+
+    def counting_fetch(url):
+        fetch_calls.append(url)
+        return _fetch_all_confirmed(url)
+
+    search_sources(
+        NAME, depth=TRACKED_TIER, provider=_provider(),
+        fetch=counting_fetch, confirm=_confirm_all_confirmed,
+        slug=SLUG, max_sources=1, escalate=True, log=lambda *a, **k: None,
+    )
+    assert len(fetch_calls) == len(set(fetch_calls)), "a url was fetched twice across the two rounds"
+
+
+def test_escalate_logs_when_the_widened_pool_has_nothing_new(monkeypatch):
+    """`MAX_SOURCES_ESCALATE=0` widens the cap to itself — cover() re-picks
+    the identical set, so every url is already in `seen_norm` and the second
+    round has nothing to fetch. Must say so rather than silently no-op."""
+    import worker.search_stage as search_stage_mod
+    monkeypatch.setattr(search_stage_mod, "MAX_SOURCES_ESCALATE", 0)
+
+    logged = []
+    search_sources(
+        NAME, depth=TRACKED_TIER, provider=_provider(),
+        fetch=_fetch_all_confirmed, confirm=_confirm_all_confirmed,
+        slug=SLUG, max_sources=1, escalate=True, log=logged.append,
+    )
+    assert any("no additional urls" in m for m in logged)

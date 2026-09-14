@@ -34,11 +34,12 @@ from search.confirm_policy import (
     THIN_PAGE_CHARS,
     SourceVerdict,
     apply_confirmations,
+    prompt_set_is_thin,
 )
 from search.cover import cover
 from search.fuse import fuse, normalize_url
 from search.health import MIN_ENGINES_RETURNED, engines_returned, is_healthy
-from worker.config import MAX_SOURCES_REGISTRY, MAX_SOURCES_TRACKED
+from worker.config import MAX_SOURCES_ESCALATE, MAX_SOURCES_REGISTRY, MAX_SOURCES_TRACKED
 from worker.depth import REGISTRY_TIER, TRACKED_TIER
 from worker.extract_types import ConfirmedSource
 
@@ -90,6 +91,66 @@ def _resolve_max_sources(depth: str, max_sources: Optional[int]) -> int:
         f"unknown depth {depth!r}, expected {TRACKED_TIER!r} or {REGISTRY_TIER!r}")
 
 
+def _fetch_and_route(
+        to_fetch: list[tuple[str, str]],
+        *,
+        name: str,
+        evidence: str,
+        fetch: Callable,
+        confirm: Callable,
+        thin_page_chars: Optional[int],
+        log: Callable,
+) -> tuple[list, list]:
+    """`[(url, origin), ...] -> (confirmed, to_verify)` — steps 4-7 of
+    `search_sources`'s docstring pipeline (fetch -> gate 2 -> confirm_policy
+    -> route), factored out so the escalation round below can run the same
+    fetch/confirm/route logic over a second batch of URLs without
+    duplicating it. Pure aside from the injected `fetch`/`confirm`
+    callables; does not know about `fused`/`cover`/counters."""
+    with ThreadPoolExecutor(max_workers=max(1, len(to_fetch))) as pool:
+        results = list(pool.map(lambda pair: fetch(pair[0]), to_fetch))
+
+    verdicts = []
+    texts_by_source_id = {}
+    for (url, origin), result in zip(to_fetch, results):
+        text = result.text
+        texts_by_source_id[result.source_id] = text
+        if not text:
+            # No fetched text to confirm against at all (blocked fetch, empty
+            # page). Recorded as NO_VERDICT (verdict=None) rather than calling
+            # `confirm` on empty text — confirm_policy.SourceVerdict's own
+            # contract for this case.
+            verdicts.append(SourceVerdict(
+                source_id=result.source_id, url=url, origin=origin, verdict=None))
+            continue
+        verdict, cosine, note = confirm(name, evidence, text)
+        verdicts.append(SourceVerdict(
+            source_id=result.source_id, url=url, origin=origin,
+            verdict=verdict, cosine=cosine, note=note, text_chars=len(text)))
+
+    decisions = apply_confirmations(verdicts, thin_page_chars=thin_page_chars)
+
+    confirmed, to_verify = [], []
+    for decision in decisions:
+        if decision.route == DROP:
+            log(f"search_stage: dropped {decision.url} ({decision.origin}): {decision.reason}")
+            continue
+        source = ConfirmedSource(
+            source_id=decision.source_id,
+            url=decision.url,
+            text=texts_by_source_id.get(decision.source_id) or "",
+            origin=decision.origin,
+            verdict=decision.verdict,
+        )
+        if decision.route == PROMPT:
+            confirmed.append(source)
+        else:
+            log(f"search_stage: to verify {decision.url} "
+                f"({decision.origin}): {decision.reason}")
+            to_verify.append(source)
+    return confirmed, to_verify
+
+
 def search_sources(
         name: str,
         *,
@@ -105,6 +166,7 @@ def search_sources(
         families_path=None,
         min_engines_returned: Optional[int] = None,
         thin_page_chars: Optional[int] = THIN_PAGE_CHARS,
+        escalate: bool = False,
         counters: Optional[dict] = None,
         unverified: Optional[list] = None,
         log: Callable = print,
@@ -153,6 +215,22 @@ def search_sources(
     them (`health.py`'s `MIN_ENGINES_RETURNED`, `confirm_policy.py`'s
     `THIN_PAGE_CHARS`), not thresholds invented here. Leaving both `None`
     (the default) defers to those modules' own defaults.
+
+    `escalate` — one further `cover()` pass, widened to `cap +
+    worker.config.MAX_SOURCES_ESCALATE`, over the SAME fused pool, when the
+    first pass's confirmed set comes back thin
+    (`confirm_policy.prompt_set_is_thin`, the same check `worker.py`'s own
+    verify-pass gate uses). Re-covers the full pool rather than just fetching
+    the leftover `unread_urls` in whatever order `fuse` left them, because
+    `cover()`'s set-cover selection over the wider cap is a better pick than
+    the first cap's leftovers — and the escalation budget is added on top of
+    `cap`, not carved out of it, since the first budget having proved
+    insufficient is the reason this round exists at all. Runs at most once —
+    if the widened set is still thin, that is `worker.py`'s existing
+    verify-pass / degrade-path job, not this function's. Default `False`
+    (opt-in) so every caller predating this — including every existing
+    test — keeps its old one-pass behaviour unchanged. `worker.py` passes
+    `True`.
     """
     resolved_slug = slug or _slugify(name)
     cap = _resolve_max_sources(depth, max_sources)
@@ -195,68 +273,65 @@ def search_sources(
     # `fetch` per URL is the pipeline's dominant wall-clock cost (one HTTP GET
     # each, up to MAX_SOURCES_TRACKED+1 of them) and each call is independent
     # — no shared state between URLs at this call site. Run them concurrently
-    # rather than one at a time; `confirm` stays sequential below since it's
-    # cheap local scoring, not the thing worth overlapping. Order of
-    # `results` is preserved (`executor.map` yields in call order, not
-    # completion order), so `verdicts`/`texts_by_source_id` come out exactly
-    # as they would from the old sequential loop.
-    with ThreadPoolExecutor(max_workers=max(1, len(to_fetch))) as pool:
-        results = list(pool.map(lambda pair: fetch(pair[0]), to_fetch))
+    # rather than one at a time; `confirm` stays sequential inside
+    # `_fetch_and_route` since it's cheap local scoring, not the thing worth
+    # overlapping.
+    #
+    # --- 4-7. fetch -> gate 2 -> confirm_policy -> route (`_fetch_and_route`,
+    # deliberate behaviour change adopted at integration —
+    # `04-worker-build-plan.md` §5, hole #1, and this task's brief: today's
+    # worker.py lets a no-text candidate through to extraction unconfirmed
+    # (`if text:` guard at worker.py:496-499); `confirm_policy.
+    # apply_confirmations` drops NO_VERDICT outright instead.
+    confirmed, to_verify = _fetch_and_route(
+        to_fetch, name=name, evidence=evidence, fetch=fetch, confirm=confirm,
+        thin_page_chars=thin_page_chars, log=log)
 
-    verdicts = []
-    texts_by_source_id = {}
-    for (url, origin), result in zip(to_fetch, results):
-        text = result.text
-        texts_by_source_id[result.source_id] = text
-        if not text:
-            # No fetched text to confirm against at all (blocked fetch, empty
-            # page). Recorded as NO_VERDICT (verdict=None) rather than calling
-            # `confirm` on empty text — confirm_policy.SourceVerdict's own
-            # contract for this case.
-            verdicts.append(SourceVerdict(
-                source_id=result.source_id, url=url, origin=origin, verdict=None))
-            continue
-        verdict, cosine, note = confirm(name, evidence, text)
-        verdicts.append(SourceVerdict(
-            source_id=result.source_id, url=url, origin=origin,
-            verdict=verdict, cosine=cosine, note=note, text_chars=len(text)))
+    # --- 8. one escalation round, opt-in (`escalate=True`) ------------------
+    # Widen the cap and re-cover the SAME fused pool rather than just fetching
+    # whatever `unread_urls` left over in fuse order — see the docstring for
+    # why a wider `cover()` pass beats fetching leftovers. Fetches only the
+    # URLs the first pass didn't already take (`seen_norm` dedup, same as the
+    # seed-vs-search dedup above); if the widened cover() picks nothing new
+    # (pool exhausted at the first cap already), there is nothing to escalate
+    # into and this is a no-op past the thinness check.
+    escalated = False
+    if escalate:
+        thin, why = prompt_set_is_thin([s.text for s in confirmed])
+        log(f"search_stage: {resolved_slug} confirmed-set thin check "
+            f"(pre-escalation): {why}")
+        if thin:
+            escalated = True
+            widened_cap = cap + MAX_SOURCES_ESCALATE
+            covered_urls = cover(fused, widened_cap)
+            more_to_fetch = []
+            for url in covered_urls:
+                norm = normalize_url(url)
+                if norm in seen_norm:
+                    continue
+                more_to_fetch.append((url, SEARCH))
+                seen_norm.add(norm)
+            if more_to_fetch:
+                log(f"search_stage: {resolved_slug} escalating — cap {cap} -> "
+                    f"{widened_cap}, fetching {len(more_to_fetch)} additional "
+                    "url(s) from the fused pool")
+                more_confirmed, more_to_verify = _fetch_and_route(
+                    more_to_fetch, name=name, evidence=evidence, fetch=fetch,
+                    confirm=confirm, thin_page_chars=thin_page_chars, log=log)
+                confirmed.extend(more_confirmed)
+                to_verify.extend(more_to_verify)
+            else:
+                log(f"search_stage: {resolved_slug} escalation found no "
+                    "additional urls in the fused pool — cover() had "
+                    "already exhausted it at the first cap")
 
-    # --- 5-6. confirm_policy decides who stays. Deliberate behaviour change
-    # adopted at integration (04-worker-build-plan.md §5, hole #1, and this
-    # task's brief): today's worker.py lets a no-text candidate through to
-    # extraction unconfirmed (`if text:` guard at worker.py:496-499).
-    # confirm_policy.apply_confirmations drops NO_VERDICT outright, and that
-    # is the behaviour this module wires — it does not special-case NO_VERDICT
-    # back into "let it through" the way worker.py does today.
-    decisions = apply_confirmations(verdicts, thin_page_chars=thin_page_chars)
-
-    # --- 7. route the survivors --------------------------------------------
-    # Three destinations now, not two (`confirm_policy`'s PROMPT/VERIFY/DROP,
+    # Three destinations, not two (`confirm_policy`'s PROMPT/VERIFY/DROP,
     # 2026-09-14). Only PROMPT sources are returned as the confirmed set. The
     # VERIFY bucket — gate-2 `uncertain`, plus confirmed-but-thin — is handed
     # back through the optional `unverified` list rather than widened into the
-    # return type, the same in-place convention `counters` already uses below
-    # and for the same reason: every existing caller keeps working, and a
-    # caller that does not ask for the bucket cannot accidentally put it in
-    # the extraction prompt.
-    confirmed, to_verify = [], []
-    for decision in decisions:
-        if decision.route == DROP:
-            log(f"search_stage: dropped {decision.url} ({decision.origin}): {decision.reason}")
-            continue
-        source = ConfirmedSource(
-            source_id=decision.source_id,
-            url=decision.url,
-            text=texts_by_source_id.get(decision.source_id) or "",
-            origin=decision.origin,
-            verdict=decision.verdict,
-        )
-        if decision.route == PROMPT:
-            confirmed.append(source)
-        else:
-            log(f"search_stage: to verify {decision.url} "
-                f"({decision.origin}): {decision.reason}")
-            to_verify.append(source)
+    # return type: every existing caller keeps working, and a caller that
+    # does not ask for the bucket cannot accidentally put it in the
+    # extraction prompt.
     if unverified is not None:
         unverified.extend(to_verify)
     elif to_verify:
@@ -272,13 +347,14 @@ def search_sources(
     # the RRF pool covering those questions") needs the fused pool, which
     # dies with this function's frame, and widening the return type would
     # break every existing caller for a diagnostic. `unread_urls` is every
-    # fused URL set cover did not take — the material the cheap route of
-    # §11b would have to work with, and the number that decides whether that
-    # branch is worth building at all.
+    # fused URL set cover did not take — post-escalation, `covered_urls` is
+    # whichever cover() call ran last (the widened one, if escalation fired),
+    # so this reports what actually got fetched, not just the first pass's.
     if counters is not None:
         taken = {normalize_url(u) for u in covered_urls}
         counters["pool_size"] = len(fused)
         counters["covered"] = len(covered_urls)
+        counters["escalated"] = escalated
         counters["unread_urls"] = [r.url for r in fused
                                    if normalize_url(r.url) not in taken]
         counters["prompt_sources"] = len(confirmed)

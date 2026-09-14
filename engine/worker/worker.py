@@ -785,7 +785,8 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 fetch=lambda url: fetchmod.fetch(conn, corpus, url),
                 confirm=lambda n, ev, txt: gate2.confirm(conn, n, ev, txt),
                 evidence=cand["evidence"] or "", seed_url=None,
-                max_sources=max_sources, counters=search_counters,
+                max_sources=max_sources, escalate=True,
+                counters=search_counters,
                 unverified=unverified, log=log)
                 if s.source_id not in already)
             unverified[:] = [s for s in unverified if s.source_id not in already]
@@ -1039,6 +1040,34 @@ def _build_search_provider(search_url: str | None):
     return ThrottledProvider(SearxngProvider(search_url))
 
 
+def _select_ids_candidates(conn: sqlite3.Connection, ids: list[int], *,
+                           force: bool, log=print) -> list[sqlite3.Row]:
+    """`main()`'s `--ids [--force]` selection, factored out so it's testable
+    without argparse/`open_store`. Missing ids are always logged and dropped.
+    Already-resolved ids are logged and dropped too, UNLESS `force` — then
+    they're logged as reprocessing and kept in. `run_batch`/`resolve.
+    resolve_entity` match the candidate's name against the entity already on
+    disk, so a forced rerun refreshes that entity's claims rather than
+    minting a duplicate — this function only decides which rows go through,
+    not what happens once they do."""
+    placeholders = ", ".join("?" for _ in ids)
+    candidates = conn.execute(
+        f"SELECT * FROM candidate WHERE id IN ({placeholders})", ids).fetchall()
+    found = {int(c["id"]) for c in candidates}
+    for missing in set(ids) - found:
+        log(f"worker: --ids {missing} not found, skipping")
+    already = [c for c in candidates if c["resolved_to"] is not None]
+    if force:
+        for c in already:
+            log(f"worker: --ids {c['id']} ({c['name']!r}) already "
+                f"resolved to {c['resolved_to']}, reprocessing (--force)")
+        return candidates
+    for c in already:
+        log(f"worker: --ids {c['id']} ({c['name']!r}) already resolved "
+            f"to {c['resolved_to']}, skipping")
+    return [c for c in candidates if c["resolved_to"] is None]
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     add_store_args(ap)
@@ -1051,8 +1080,22 @@ def main(argv: list[str] | None = None) -> int:
                     help="comma-separated candidate ids to run instead of the "
                          "oldest-first --limit queue — e.g. a caller (the /worker "
                          "portal page) picked specific rows. Runs exactly these, "
-                         "regardless of admitted/resolved_to; already-resolved ids "
-                         "are skipped with a log line rather than reprocessed.")
+                         "regardless of admitted; already-resolved ids are "
+                         "skipped with a log line rather than reprocessed, "
+                         "unless --force is also given.")
+    ap.add_argument("--force", action="store_true",
+                    help="with --ids, reprocess candidates that already have "
+                         "resolved_to set instead of skipping them. Re-runs "
+                         "search/extraction from scratch and re-resolves "
+                         "against the existing entity — `worker/resolve.py` "
+                         "matches the candidate's name to the entity already "
+                         "on disk, so this refreshes that entity's claims "
+                         "rather than minting a duplicate. Use when the first "
+                         "run's source set was thin (e.g. a search-cap "
+                         "escalation, or a manually-widened FPH_MAX_SOURCES_* "
+                         "env var, now gives a better set). Ignored without "
+                         "--ids — the --limit queue already excludes resolved "
+                         "rows by construction.")
     ap.add_argument("--search-url", default=config.SEARXNG_URL,
                     help="SearXNG base URL (track D). Default reads "
                          "FPH_SEARXNG_URL / " + config.SEARXNG_URL + ". Start "
@@ -1072,17 +1115,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.ids:
             ids = [int(x) for x in args.ids.split(",") if x.strip()]
-            placeholders = ", ".join("?" for _ in ids)
-            candidates = conn.execute(
-                f"SELECT * FROM candidate WHERE id IN ({placeholders})", ids).fetchall()
-            found = {int(c["id"]) for c in candidates}
-            for missing in set(ids) - found:
-                log(f"worker: --ids {missing} not found, skipping")
-            already = [c for c in candidates if c["resolved_to"] is not None]
-            for c in already:
-                log(f"worker: --ids {c['id']} ({c['name']!r}) already resolved "
-                    f"to {c['resolved_to']}, skipping")
-            candidates = [c for c in candidates if c["resolved_to"] is None]
+            candidates = _select_ids_candidates(conn, ids, force=args.force, log=log)
         else:
             candidates = conn.execute(
                 "SELECT * FROM candidate WHERE admitted = 1 AND resolved_to IS NULL "

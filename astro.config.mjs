@@ -373,7 +373,7 @@ function candidateLister() {
   };
 }
 
-/** Dev-only. POST /api/worker/run {ids?: number[], limit?, noSearch?} →
+/** Dev-only. POST /api/worker/run {ids?: number[], limit?, noSearch?, force?} →
  *  spawns `python -m worker.worker` (cwd engine/) against problems/graph.db
  *  and streams its stdout/stderr straight through as the process runs — a
  *  real batch does real fetches and real LLM calls, so the caller sees it
@@ -383,7 +383,12 @@ function candidateLister() {
  *  admitted queue up to `limit`, same as the CLI's default. `--no-search`
  *  maps to run_batch's seed-URL-only degrade (worker.py's
  *  `_build_search_provider`); omitting it requires a reachable SearXNG
- *  (`engine/poc/searxng/run.sh start`) or the batch raises immediately. */
+ *  (`engine/poc/searxng/run.sh start`) or the batch raises immediately.
+ *  `force` maps to worker.py's `--ids`-only `--force`: reprocesses ids that
+ *  already have `resolved_to` set instead of skipping them (the CLI ignores
+ *  `--force` without `--ids`, so it's silently dropped here too when `ids`
+ *  is empty — nothing to force-rerun in the --limit queue, which already
+ *  excludes resolved rows by construction). */
 function workerRunner() {
   return {
     name: 'fph:worker-runner',
@@ -404,6 +409,7 @@ function workerRunner() {
             : [];
           if (ids.length) {
             args.push('--ids', ids.join(','));
+            if (parsed.force) args.push('--force');
           } else {
             const limit = Number.isInteger(parsed.limit) && parsed.limit > 0 ? parsed.limit : 5;
             args.push('--limit', String(limit));

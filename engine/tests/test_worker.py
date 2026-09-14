@@ -1033,3 +1033,62 @@ def test_search_url_flag_reaches_run_batch_as_a_provider(conn, tmp_path, monkeyp
                 "--quiet"])
     assert seen["search_provider"] is not None
     assert seen["search_provider"]._inner.base_url == "http://localhost:9999"
+
+
+# --------------------------------------------------- --ids / --force rerun --
+
+def test_select_ids_skips_already_resolved_by_default(conn):
+    cand = make_candidate(conn, kind="actor", name="Resolved Org")
+    conn.execute("UPDATE candidate SET resolved_to = 'resolved-org' WHERE id = ?",
+                (cand["id"],))
+    conn.commit()
+
+    logged = []
+    result = worker._select_ids_candidates(conn, [cand["id"]], force=False,
+                                           log=logged.append)
+    assert result == []
+    assert any("skipping" in m for m in logged)
+
+
+def test_select_ids_force_reprocesses_already_resolved(conn):
+    cand = make_candidate(conn, kind="actor", name="Resolved Org")
+    conn.execute("UPDATE candidate SET resolved_to = 'resolved-org' WHERE id = ?",
+                (cand["id"],))
+    conn.commit()
+
+    logged = []
+    result = worker._select_ids_candidates(conn, [cand["id"]], force=True,
+                                           log=logged.append)
+    assert [r["id"] for r in result] == [cand["id"]]
+    assert any("reprocessing (--force)" in m for m in logged)
+
+
+def test_select_ids_force_does_not_affect_missing_ids(conn):
+    logged = []
+    result = worker._select_ids_candidates(conn, [999999], force=True,
+                                           log=logged.append)
+    assert result == []
+    assert any("999999 not found" in m for m in logged)
+
+
+def test_main_force_flag_reaches_ids_selection(conn, tmp_path, monkeypatch):
+    """Confirms `--force` on the CLI actually reaches `_select_ids_candidates`
+    as `force=True`, not just that the argparse flag parses."""
+    cand = make_candidate(conn, kind="actor", name="Resolved Org")
+    conn.execute("UPDATE candidate SET resolved_to = 'resolved-org' WHERE id = ?",
+                (cand["id"],))
+    conn.commit()
+
+    monkeypatch.setattr(worker, "open_store", lambda args, log=print: conn)
+    seen = {}
+    real_select = worker._select_ids_candidates
+
+    def _spy(conn, ids, *, force, log=print):
+        seen["force"] = force
+        return real_select(conn, ids, force=force, log=log)
+    monkeypatch.setattr(worker, "_select_ids_candidates", _spy)
+    monkeypatch.setattr(worker, "run_batch", lambda *a, **kw: {})
+
+    worker.main(["--corpus", str(tmp_path), "--no-search", "--quiet",
+                "--ids", str(cand["id"]), "--force"])
+    assert seen["force"] is True

@@ -58,7 +58,9 @@ import Base from '../layouts/Base.astro';
     <p class="note">
       Admitted, unresolved candidates — the same set <code>worker.py</code>'s
       <code>--limit</code> would drain, oldest first. Tick the ones to run, or leave
-      none ticked to run the oldest N via the limit box below.
+      none ticked to run the oldest N via the limit box below. Check "show
+      resolved/rejected too" to tick an already-resolved row — pair it with
+      <code>--force</code> below to reprocess it instead of having the run skip it.
     </p>
     <div class="qbar">
       <button type="button" id="q-refresh">Refresh</button>
@@ -88,6 +90,11 @@ import Base from '../layouts/Base.astro';
       <label class="check">
         <input name="noSearch" type="checkbox" />
         <span><code>--no-search</code> (skip SearXNG, single-source degrade)</span>
+      </label>
+      <label class="check">
+        <input name="force" type="checkbox" />
+        <span><code>--force</code> (reprocess ticked rows even if already resolved —
+          ignored when nothing's ticked)</span>
       </label>
       <button type="submit" id="run-btn">Run batch</button>
     </form>
@@ -193,7 +200,10 @@ import Base from '../layouts/Base.astro';
           var cb = document.createElement('input');
           cb.type = 'checkbox';
           cb.checked = !!checked[r.id];
-          cb.disabled = !!r.resolved_to;
+          // Resolved rows are tickable too (only shown at all with "show
+          // resolved/rejected too" on) — a rerun needs --force checked
+          // below, otherwise worker.py skips them with a log line, same as
+          // the bare CLI without --force.
           cb.addEventListener('change', function () {
             if (cb.checked) checked[r.id] = true; else delete checked[r.id];
           });
@@ -266,8 +276,12 @@ import Base from '../layouts/Base.astro';
         var payload = {
           noSearch: fd.get('noSearch') === 'on',
         };
-        if (ids.length) payload.ids = ids;
-        else payload.limit = parseInt(fd.get('limit'), 10) || 5;
+        if (ids.length) {
+          payload.ids = ids;
+          payload.force = fd.get('force') === 'on';
+        } else {
+          payload.limit = parseInt(fd.get('limit'), 10) || 5;
+        }
         runBtn.disabled = true;
         delete runLog.dataset.tone;
         runLog.hidden = false;

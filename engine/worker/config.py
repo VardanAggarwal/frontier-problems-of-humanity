@@ -122,6 +122,17 @@ INDIA_ANCHOR_TOP_N = int(os.getenv("FPH_INDIA_ANCHOR_TOP_N", "2"))
 MAX_SOURCES_TRACKED = int(os.getenv("FPH_MAX_SOURCES_TRACKED", "5"))
 MAX_SOURCES_REGISTRY = int(os.getenv("FPH_MAX_SOURCES_REGISTRY", "1"))
 
+# ── One-round escalation budget (`worker/search_stage.py`'s `escalate=True`
+# path). Added on top of the depth cap above, not counted against it — a
+# candidate whose confirmed set came back thin (`confirm_policy.
+# prompt_set_is_thin`) gets one further `cover()` pass over the full fused
+# pool at `cap + MAX_SOURCES_ESCALATE`, so the first budget having proved
+# insufficient doesn't shrink the second. groundwater-depletion-from-
+# irrigation (candidate 12, 2026-09-14) is the motivating case: 1 usable
+# source out of 5 fetched, all from one narrow Kerala domain family, with
+# the rest of the fused pool never fetched at all.
+MAX_SOURCES_ESCALATE = int(os.getenv("FPH_MAX_SOURCES_ESCALATE", "20"))
+
 # ── Track D — the local SearXNG instance the CLI's `--search-url` defaults
 # to (`engine/poc/searxng/run.sh start`, CLAUDE.md's "once per session" —
 # it does not autostart the container). Wired into `worker/worker.py:main`
