@@ -49,7 +49,12 @@ def connect(path: str | Path, *, create: bool = True) -> sqlite3.Connection:
     fresh = not path.exists()
     if fresh and not create:
         raise FileNotFoundError(path)
-    conn = sqlite3.connect(path)
+    # check_same_thread=False: worker/fetch.py fetches URLs concurrently from
+    # a thread pool (network I/O is the latency; the DB itself stays
+    # serialized behind worker/fetch.py's own lock, not sqlite's default
+    # same-thread guard). Every other caller still uses this connection from
+    # a single thread, so this has no effect on them.
+    conn = sqlite3.connect(path, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
     if fresh:

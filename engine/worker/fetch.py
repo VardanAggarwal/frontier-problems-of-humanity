@@ -20,6 +20,7 @@ because gate 1/2/claims downstream only need to know "is there text or not."
 from __future__ import annotations
 
 import sqlite3
+import threading
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -35,6 +36,14 @@ USER_AGENT = (
     "Mozilla/5.0 (compatible; fph-engine/0.1; "
     "+https://github.com/VardanAggarwal/frontier-problems-of-humanity)"
 )
+
+# Guards every sqlite touch in `fetch()` (the cache-check SELECT through
+# `_upsert_source`'s commit) so `search_stage.run_search_stage` can call
+# `fetch()` for several URLs at once from a thread pool without two threads
+# interleaving statements on the same connection (store/db.py's `connect`
+# opens it with check_same_thread=False for exactly this). The slow part,
+# `requests.get`, runs unlocked — this only serializes the fast DB part.
+_DB_LOCK = threading.Lock()
 
 # Where cached cleaned text lives. `corpus` (this module's argument, and
 # `embed/guard.py`'s `--corpus`) is the REPO ROOT — the root `doc`/`path`
@@ -115,11 +124,12 @@ def fetch(conn: sqlite3.Connection, corpus: Path, url: str) -> FetchResult:
     canonical = canonicalize(url)
     sid = url_hash(url)
 
-    cached = conn.execute(
-        "SELECT * FROM source WHERE url_canonical = ? AND fetched_at IS NOT NULL",
-        (canonical,)).fetchone()
-    if cached is not None:
-        return _row_to_result(cached, cache_hit=True, corpus=corpus)
+    with _DB_LOCK:
+        cached = conn.execute(
+            "SELECT * FROM source WHERE url_canonical = ? AND fetched_at IS NOT NULL",
+            (canonical,)).fetchone()
+        if cached is not None:
+            return _row_to_result(cached, cache_hit=True, corpus=corpus)
 
     try:
         resp = requests.get(url, timeout=TIMEOUT_S,
@@ -127,15 +137,17 @@ def fetch(conn: sqlite3.Connection, corpus: Path, url: str) -> FetchResult:
         raw, http_status = resp.text, resp.status_code
     except requests.RequestException as e:
         state = _network_failure_state(f"{type(e).__name__}: {e}")
-        _upsert_source(conn, sid, url, canonical, text=None, raw="",
-                       state=state, http_status=None)
+        with _DB_LOCK:
+            _upsert_source(conn, sid, url, canonical, text=None, raw="",
+                           state=state, http_status=None)
         return FetchResult(text=None, state=state, source_id=sid,
                            cache_hit=False, error=state.reason)
 
     text = clean(raw, url=url)
     state = assess(text, raw=raw, http_status=http_status)
-    _upsert_source(conn, sid, url, canonical, text=text, raw=raw,
-                   state=state, http_status=http_status, corpus=corpus)
+    with _DB_LOCK:
+        _upsert_source(conn, sid, url, canonical, text=text, raw=raw,
+                       state=state, http_status=http_status, corpus=corpus)
     return FetchResult(text=text if state.usable else None, state=state,
                        source_id=sid, cache_hit=False)
 

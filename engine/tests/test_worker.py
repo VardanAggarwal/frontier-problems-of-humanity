@@ -8,6 +8,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 import json
 import math
 import sqlite3
+import time
 
 import pytest
 
@@ -391,6 +392,59 @@ def test_fetch_network_failure_degrades_without_raising(conn, monkeypatch, tmp_p
     result = fetchmod.fetch(conn, tmp_path, "https://x.test/c")
     assert result.text is None
     assert result.state.usable is False
+
+
+def test_fetch_is_safe_to_call_concurrently_on_one_connection(
+        conn, monkeypatch, tmp_path):
+    """`worker/search_stage.py` now calls `fetch(url)` for several URLs from
+    a thread pool sharing one `conn` (store/db.py's `connect` opens it with
+    check_same_thread=False for exactly this). Every real network GET must
+    land its own row with no interleaving/corruption, and none must raise —
+    the failure mode this guards is a sqlite `ProgrammingError` from
+    cross-thread use, or a lost/garbled row from two threads writing without
+    `fetchmod._DB_LOCK` serializing them."""
+    import threading
+
+    class FakeResp:
+        def __init__(self, url):
+            self.text = ("<html><body><p>content for " + url + " "
+                        + ("word " * 150) + "</p></body></html>")
+            self.status_code = 200
+
+    class FakeRequests:
+        RequestException = Exception
+        @staticmethod
+        def get(url, *a, **kw):
+            time.sleep(0.05)  # give threads a real window to interleave in
+            return FakeResp(url)
+
+    monkeypatch.setattr(fetchmod, "requests", FakeRequests)
+
+    urls = [f"https://x.test/concurrent-{i}" for i in range(8)]
+    results = [None] * len(urls)
+    errors = []
+
+    def run(i, url):
+        try:
+            results[i] = fetchmod.fetch(conn, tmp_path, url)
+        except Exception as e:  # pragma: no cover - failure path under test
+            errors.append(e)
+
+    threads = [threading.Thread(target=run, args=(i, u))
+              for i, u in enumerate(urls)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+
+    assert errors == [], f"fetch() raised under concurrent use: {errors}"
+    assert all(r is not None and r.text and u in r.text
+              for r, u in zip(results, urls)), \
+        "a result's text does not match its own url — cross-thread corruption"
+
+    rows = conn.execute("SELECT url_canonical FROM source").fetchall()
+    assert {r["url_canonical"] for r in rows} == set(urls), \
+        "not every concurrently-fetched url landed its own row"
 
 
 # --------------------------------------------------------------- worker.py --

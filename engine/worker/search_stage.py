@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import re
 import unicodedata
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Callable, Optional
 
@@ -191,10 +192,20 @@ def search_sources(
         to_fetch.append((url, SEARCH))
         seen_norm.add(norm)
 
+    # `fetch` per URL is the pipeline's dominant wall-clock cost (one HTTP GET
+    # each, up to MAX_SOURCES_TRACKED+1 of them) and each call is independent
+    # — no shared state between URLs at this call site. Run them concurrently
+    # rather than one at a time; `confirm` stays sequential below since it's
+    # cheap local scoring, not the thing worth overlapping. Order of
+    # `results` is preserved (`executor.map` yields in call order, not
+    # completion order), so `verdicts`/`texts_by_source_id` come out exactly
+    # as they would from the old sequential loop.
+    with ThreadPoolExecutor(max_workers=max(1, len(to_fetch))) as pool:
+        results = list(pool.map(lambda pair: fetch(pair[0]), to_fetch))
+
     verdicts = []
     texts_by_source_id = {}
-    for url, origin in to_fetch:
-        result = fetch(url)
+    for (url, origin), result in zip(to_fetch, results):
         text = result.text
         texts_by_source_id[result.source_id] = text
         if not text:

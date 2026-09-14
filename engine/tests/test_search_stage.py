@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import pathlib
 import sys
+import threading
+import time
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
@@ -308,3 +310,70 @@ def test_unhealthy_response_is_logged_but_still_used():
     )
     assert any("unhealthy" in line for line in logged)
     assert result, "an unhealthy-but-present response must still feed fusion, not be dropped"
+
+
+# ---------------------------------------------------------------------------
+# fetch concurrency — the URLs in `to_fetch` are fetched in parallel, not
+# one at a time
+# ---------------------------------------------------------------------------
+
+def test_fetch_calls_run_concurrently_not_sequentially():
+    """Each `fetch` call sleeps SLEEP_S; if the loop were still the old
+    sequential `for url, origin in to_fetch: fetch(url)`, N urls would cost
+    at least N * SLEEP_S wall-clock. Overlapping calls in a thread pool must
+    finish in well under that, close to one SLEEP_S."""
+    SLEEP_S = 0.3
+    max_concurrent = 0
+    current = 0
+    lock = threading.Lock()
+
+    def slow_fetch(url):
+        nonlocal max_concurrent, current
+        with lock:
+            current += 1
+            max_concurrent = max(max_concurrent, current)
+        time.sleep(SLEEP_S)
+        with lock:
+            current -= 1
+        return _fetch_all_confirmed(url)
+
+    start = time.monotonic()
+    result = search_sources(
+        NAME, depth=TRACKED_TIER, provider=_provider(),
+        fetch=slow_fetch, confirm=_confirm_all_confirmed,
+        slug=SLUG, log=lambda *a, **k: None,
+    )
+    elapsed = time.monotonic() - start
+
+    n_urls = len(result)
+    assert n_urls >= 2, "need at least 2 fetched urls for a concurrency test to mean anything"
+    assert max_concurrent >= 2, "fetch calls never overlapped — still sequential"
+    assert elapsed < n_urls * SLEEP_S, (
+        f"elapsed {elapsed:.2f}s not faster than sequential bound "
+        f"{n_urls * SLEEP_S:.2f}s ({n_urls} urls) — fetch calls did not overlap"
+    )
+
+
+def test_fetch_result_order_preserved_regardless_of_completion_order():
+    """`pool.map` must yield results in call order, not completion order —
+    verdicts/texts_by_source_id must line up with `to_fetch`'s own order
+    even when slower urls are submitted first and finish last."""
+    # Make the first url submitted the slowest, so if order were determined
+    # by completion instead of submission, this would come back scrambled.
+    delays = {}
+
+    def variable_fetch(url):
+        delay = delays.setdefault(url, 0.2 if not delays else 0.0)
+        time.sleep(delay)
+        return _fetch_all_confirmed(url)
+
+    result = search_sources(
+        NAME, depth=TRACKED_TIER, provider=_provider(),
+        fetch=variable_fetch, confirm=_confirm_all_confirmed,
+        slug=SLUG, log=lambda *a, **k: None,
+    )
+    # Every url fetched fine and confirmed — order corruption would show up
+    # as a source's text not matching its own url (texts_by_source_id keyed
+    # wrong, or a verdict attached to the wrong url).
+    for src in result:
+        assert src.url in src.text, "fetched text does not match its own url — result order corrupted"
