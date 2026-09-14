@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
 import { existsSync } from 'node:fs';
 import { spawn } from 'node:child_process';
-import { openGraphWritable, setActorFields, lastEventValue } from './src/lib/graphdb.mjs';
+import { openGraphWritable, setActorFields, lastEventValue, tagWrite, linkEdge } from './src/lib/graphdb.mjs';
 
 // The corpus lives in problems/, outside src/. It is loaded by src/lib/corpus.mjs
 // at build time (plain node, no content collections), so the same loader serves
@@ -201,6 +201,132 @@ function candidateSeeder() {
   };
 }
 
+/** Dev-only. GET /api/problems/orphans → `problem` rows with no `kind` tag —
+ *  worker.py mints these (`_write_entity`/`_mint_or_resolve_problem`) but
+ *  never tags them `leaf`/`need`/etc (engine/store/tags.py's REGISTRY makes
+ *  `kind` a required-always, closed namespace; nothing in worker.py writes
+ *  it), so they're invisible to corpus.mjs's `idsForKind(g, 'leaf')` and
+ *  flagged as orphans by engine/store/db.py:validate(). This is the /triage
+ *  page's input list. */
+function problemOrphanLister() {
+  return {
+    name: 'fph:problem-orphan-lister',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use('/api/problems/orphans', (req, res, next) => {
+        if (req.method !== 'GET') return next();
+        const done = (code, obj) => {
+          res.statusCode = code;
+          res.setHeader('content-type', 'application/json');
+          res.end(JSON.stringify(obj));
+        };
+        try {
+          const g = openGraphWritable(GRAPH_DB);
+          let rows;
+          try {
+            rows = g.prepare(`
+              SELECT id, title, one_line, status, created_at FROM problem
+              WHERE id NOT IN (SELECT entity_id FROM tag WHERE entity_kind = 'problem' AND ns = 'kind')
+              ORDER BY created_at DESC LIMIT 300
+            `).all();
+          } finally { g.close(); }
+          done(200, { ok: true, problems: rows });
+        } catch (e) {
+          done(500, { error: String((e && e.message) || e) });
+        }
+      });
+    },
+  };
+}
+
+/** Dev-only. GET /api/needs/list → every need id/title, for the /triage
+ *  page's "which need does this belong under" picker. */
+function needsLister() {
+  return {
+    name: 'fph:needs-lister',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use('/api/needs/list', (req, res, next) => {
+        if (req.method !== 'GET') return next();
+        const done = (code, obj) => {
+          res.statusCode = code;
+          res.setHeader('content-type', 'application/json');
+          res.end(JSON.stringify(obj));
+        };
+        try {
+          const g = openGraphWritable(GRAPH_DB);
+          let rows;
+          try {
+            rows = g.prepare(`
+              SELECT p.id, p.title FROM problem p
+              JOIN tag t ON t.entity_kind = 'problem' AND t.entity_id = p.id
+                AND t.ns = 'kind' AND t.value = 'need'
+              ORDER BY p.title
+            `).all();
+          } finally { g.close(); }
+          done(200, { ok: true, needs: rows });
+        } catch (e) {
+          done(500, { error: String((e && e.message) || e) });
+        }
+      });
+    },
+  };
+}
+
+/** Dev-only. POST /api/problems/promote {id, need, one_line?} → turns an
+ *  orphaned problem row into a real leaf: tags it `kind: leaf`, tags it
+ *  `need: <needId>`, and links a `part_of` edge to that need (the two things
+ *  `idsForKind` and `db.py:validate()`'s orphan check respectively require).
+ *  Refuses a row that already carries a `kind` tag — this only ever mints,
+ *  never reclassifies. */
+function problemPromoter() {
+  return {
+    name: 'fph:problem-promoter',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use('/api/problems/promote', (req, res, next) => {
+        if (req.method !== 'POST') return next();
+        let body = '';
+        req.on('data', (c) => (body += c));
+        req.on('end', () => {
+          const done = (code, obj) => {
+            res.statusCode = code;
+            res.setHeader('content-type', 'application/json');
+            res.end(JSON.stringify(obj));
+          };
+          try {
+            const { id, need, one_line } = JSON.parse(body || '{}');
+            if (!id || !need) return done(400, { error: 'id and need are required' });
+            const g = openGraphWritable(GRAPH_DB);
+            try {
+              const row = g.prepare('SELECT id FROM problem WHERE id = ?').get(id);
+              if (!row) return done(404, { error: 'no such problem row' });
+              const already = g.prepare(
+                "SELECT value FROM tag WHERE entity_kind = 'problem' AND entity_id = ? AND ns = 'kind'"
+              ).get(id);
+              if (already) return done(409, { error: `already tagged kind: ${already.value}` });
+              const needRow = g.prepare('SELECT id FROM problem WHERE id = ?').get(need);
+              if (!needRow) return done(400, { error: `no such need id: ${need}` });
+
+              tagWrite(g, 'problem', id, 'kind', 'leaf', { by: 'human:dev-triage-ui' });
+              tagWrite(g, 'problem', id, 'need', need, { by: 'human:dev-triage-ui' });
+              linkEdge(g, ['problem', id], 'part_of', ['problem', need], { by: 'human:dev-triage-ui' });
+              if (typeof one_line === 'string' && one_line.trim()) {
+                g.prepare('UPDATE problem SET one_line = ?, updated = ? WHERE id = ?')
+                  .run(one_line.trim(), today(), id);
+              }
+            } finally { g.close(); }
+            markSelfWrite(GRAPH_DB);
+            done(200, { ok: true, id, url: `/leaf/${id}` });
+          } catch (e) {
+            done(500, { error: String((e && e.message) || e) });
+          }
+        });
+      });
+    },
+  };
+}
+
 /** Dev-only. GET /api/candidates/list?scope=queue|all → rows from `candidate`
  *  for the /worker page's picker. `queue` (default) is worker.py's own
  *  selection (admitted = 1 AND resolved_to IS NULL, oldest first) — the same
@@ -221,17 +347,21 @@ function candidateLister() {
         try {
           const url = new URL(req.url, 'http://localhost');
           const scope = url.searchParams.get('scope') === 'all' ? 'all' : 'queue';
+          // resolved_kind_tag: for a resolved problem, whatever 'kind' tag it
+          // landed with (NULL until /triage promotes it, or for actors —
+          // that tag namespace never applies to actor rows) — lets the
+          // /worker page link straight to /leaf/<id> once it's a real leaf,
+          // or to /triage while it's still an orphaned problem row.
+          const cols = 'c.id, c.kind, c.name, c.url, c.admitted, c.resolved_to, c.score, c.first_seen, ' +
+            "(SELECT value FROM tag WHERE entity_kind = 'problem' AND entity_id = c.resolved_to " +
+            "AND ns = 'kind') AS resolved_kind_tag";
           const g = openGraphWritable(GRAPH_DB); // read-only use; avoids a second connection mode
           let rows;
           try {
             rows = scope === 'all'
-              ? g.prepare(
-                  'SELECT id, kind, name, url, admitted, resolved_to, score, first_seen FROM candidate ' +
-                  'ORDER BY first_seen DESC LIMIT 300'
-                ).all()
+              ? g.prepare(`SELECT ${cols} FROM candidate c ORDER BY first_seen DESC LIMIT 300`).all()
               : g.prepare(
-                  'SELECT id, kind, name, url, admitted, resolved_to, score, first_seen FROM candidate ' +
-                  'WHERE admitted = 1 AND resolved_to IS NULL ORDER BY first_seen'
+                  `SELECT ${cols} FROM candidate c WHERE admitted = 1 AND resolved_to IS NULL ORDER BY first_seen`
                 ).all();
           } finally { g.close(); }
           done(200, { ok: true, scope, candidates: rows });
@@ -312,5 +442,6 @@ export default defineConfig({
   outDir: './dist',
   build: { format: 'directory' },
   markdown: { syntaxHighlight: false },
-  vite: { plugins: [watchCorpus(), followWriter(), excludeWriter(), candidateSeeder(), candidateLister(), workerRunner()] },
+  vite: { plugins: [watchCorpus(), followWriter(), excludeWriter(), candidateSeeder(), candidateLister(),
+    workerRunner(), problemOrphanLister(), needsLister(), problemPromoter()] },
 });

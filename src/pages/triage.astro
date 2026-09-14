@@ -1,0 +1,175 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Dev-only. Lists `problem` rows worker.py minted that carry no `kind` tag
+// yet — invisible to /leaf and /need (corpus.mjs's idsForKind filters on
+// that tag) and flagged as orphans by `npm run validate`. Promoting one
+// (POST /api/problems/promote, astro.config.mjs) tags it kind: leaf, tags
+// it need: <chosen need>, and links the part_of edge a leaf needs — after
+// that it's a real leaf at /leaf/<id>, same as any human-authored one.
+---
+<Base title="Triage" crumb={`<a href="/">Pyramid</a> / Triage`}>
+  <h1>Triage</h1>
+  <p class="lede">
+    Problem candidates <a href="/worker">the worker</a> resolved but nobody has placed
+    under a need yet. Pick a need, optionally tighten the one-liner, and promote — it
+    becomes a real leaf at <code>/leaf/&lt;id&gt;</code>.
+  </p>
+  <p class="note">
+    <strong>Writes only under <code>npm run dev</code>.</strong> Placement is a judgment
+    call the worker doesn't make — this page exists so it isn't skipped.
+  </p>
+
+  <div class="bar">
+    <button type="button" id="t-refresh">Refresh</button>
+    <span id="t-status" role="status" aria-live="polite"></span>
+  </div>
+
+  <ul id="t-list" class="tlist"></ul>
+
+  <style>
+    .bar { display: flex; gap: .6rem; align-items: center; margin: 1rem 0; }
+    .bar button {
+      font: .72rem/1 var(--mono); color: var(--muted); background: var(--panel);
+      border: 1px solid var(--rule); border-radius: 999px; padding: .32rem .7rem; cursor: pointer;
+    }
+    .bar button:hover { border-color: var(--accent); color: var(--accent); }
+    #t-status { font: .72rem/1 var(--mono); color: var(--muted); }
+    #t-status[data-tone="err"] { color: var(--alarm); }
+    #t-status[data-tone="ok"] { color: var(--ok); }
+
+    .tlist { list-style: none; margin: 0; padding: 0; }
+    .trow {
+      border: 1px solid var(--rule); border-radius: .4rem; padding: .8rem;
+      margin-bottom: .7rem; display: flex; flex-wrap: wrap; gap: .6rem; align-items: end;
+    }
+    .trow.done { opacity: .5; }
+    .tinfo { flex: 1 1 100%; }
+    .tid { font: .68rem/1 var(--mono); color: var(--muted); }
+    .ttitle { font-family: var(--serif); font-size: 1.05rem; }
+    .tone { font: .82rem/1.4 var(--sans); color: var(--muted); margin: .2rem 0 0; }
+    .tfield { display: flex; flex-direction: column; gap: .25rem; font: .72rem/1 var(--mono); color: var(--muted); }
+    .tfield.grow { flex: 1 1 16rem; }
+    select, input[type="text"] {
+      font: .85rem/1 var(--sans); color: var(--ink); background: var(--panel);
+      border: 1px solid var(--rule); border-radius: .3rem; padding: .4rem .55rem;
+    }
+    .promote {
+      font: .8rem/1 var(--mono); color: var(--accent); background: var(--accent-soft);
+      border: 1px solid var(--accent); border-radius: .3rem; padding: .5rem .9rem; cursor: pointer;
+    }
+    .promote:disabled { opacity: .5; cursor: wait; }
+    .tmsg { flex: 1 1 100%; font: .72rem/1 var(--mono); }
+    .tmsg[data-tone="err"] { color: var(--alarm); }
+    .tmsg[data-tone="ok"] { color: var(--ok); }
+    .tempty { font: .85rem/1 var(--sans); color: var(--muted); font-style: italic; }
+  </style>
+
+  <script is:inline>
+    (function () {
+      var list = document.getElementById('t-list');
+      var status = document.getElementById('t-status');
+      var needs = [];
+
+      function say(el, msg, tone) {
+        el.textContent = msg || '';
+        if (tone) el.dataset.tone = tone; else delete el.dataset.tone;
+      }
+
+      function row(p) {
+        var li = document.createElement('li');
+        li.className = 'trow';
+        li.dataset.id = p.id;
+
+        var info = document.createElement('div');
+        info.className = 'tinfo';
+        info.innerHTML = '<span class="tid">#' + p.id + ' · ' + p.status + '</span>' +
+          '<div class="ttitle"></div><p class="tone"></p>';
+        info.querySelector('.ttitle').textContent = p.title;
+        info.querySelector('.tone').textContent = p.one_line || '(no one-liner yet)';
+        li.appendChild(info);
+
+        var needField = document.createElement('label');
+        needField.className = 'tfield grow';
+        needField.innerHTML = '<span>Need</span>';
+        var sel = document.createElement('select');
+        sel.innerHTML = '<option value="">choose…</option>' +
+          needs.map(function (n) { return '<option value="' + n.id + '">' + n.title + '</option>'; }).join('');
+        needField.appendChild(sel);
+        li.appendChild(needField);
+
+        var oneLineField = document.createElement('label');
+        oneLineField.className = 'tfield grow';
+        oneLineField.innerHTML = '<span>One-liner</span>';
+        var oneLineInput = document.createElement('input');
+        oneLineInput.type = 'text';
+        oneLineInput.value = p.one_line || '';
+        oneLineField.appendChild(oneLineInput);
+        li.appendChild(oneLineField);
+
+        var btn = document.createElement('button');
+        btn.className = 'promote';
+        btn.type = 'button';
+        btn.textContent = 'Promote to leaf';
+        li.appendChild(btn);
+
+        var msg = document.createElement('p');
+        msg.className = 'tmsg';
+        li.appendChild(msg);
+
+        btn.addEventListener('click', function () {
+          if (!sel.value) { say(msg, 'pick a need first', 'err'); return; }
+          btn.disabled = true;
+          say(msg, 'promoting…');
+          fetch('/api/problems/promote', {
+            method: 'POST', headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ id: p.id, need: sel.value, one_line: oneLineInput.value }),
+          }).then(function (res) {
+            if (!res.ok) return res.text().then(function (t) { throw new Error('HTTP ' + res.status + ': ' + t); });
+            return res.json();
+          }).then(function (j) {
+            if (j.error) throw new Error(j.error);
+            li.classList.add('done');
+            say(msg, 'promoted → ' + j.url, 'ok');
+          }).catch(function (e) {
+            btn.disabled = false;
+            say(msg, 'not saved (' + e.message + ') — writes need `npm run dev`', 'err');
+          });
+        });
+
+        return li;
+      }
+
+      function render(problems) {
+        list.innerHTML = '';
+        if (!problems.length) {
+          var li = document.createElement('li');
+          li.className = 'tempty';
+          li.textContent = 'nothing to triage — every resolved problem candidate has a home';
+          list.appendChild(li);
+          return;
+        }
+        problems.forEach(function (p) { list.appendChild(row(p)); });
+      }
+
+      function load() {
+        say(status, 'loading…');
+        Promise.all([
+          fetch('/api/needs/list').then(function (r) { return r.json(); }),
+          fetch('/api/problems/orphans').then(function (r) { return r.json(); }),
+        ]).then(function (results) {
+          var needsRes = results[0], orphansRes = results[1];
+          if (needsRes.error) throw new Error(needsRes.error);
+          if (orphansRes.error) throw new Error(orphansRes.error);
+          needs = needsRes.needs;
+          render(orphansRes.problems);
+          say(status, orphansRes.problems.length + ' to triage');
+        }).catch(function (e) {
+          say(status, 'not loaded (' + e.message + ') — needs `npm run dev`', 'err');
+        });
+      }
+      document.getElementById('t-refresh').addEventListener('click', load);
+      load();
+    })();
+  </script>
+</Base>

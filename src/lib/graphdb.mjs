@@ -35,6 +35,38 @@ export function setActorFields(g, id, fields, { by, why = null }) {
   return true;
 }
 
+// Mirrors engine/store/db.py:tag — an event row only on a real insert (the
+// INSERT OR IGNORE no-op on a repeat write must not fabricate history).
+export function tagWrite(g, entityKind, entityId, ns, value, { by, why = null }) {
+  const info = g.prepare(
+    'INSERT OR IGNORE INTO tag (entity_kind, entity_id, ns, value) VALUES (?, ?, ?, ?)'
+  ).run(entityKind, entityId, ns, String(value));
+  if (info.changes) {
+    g.prepare(
+      'INSERT INTO event (entity_kind, entity_id, field, old, new, by, why) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    ).run(entityKind, entityId, `tag:${ns}`, null, String(value), by, why);
+  }
+  return Boolean(info.changes);
+}
+
+// Mirrors engine/store/db.py:link's insert-only path (this UI never updates
+// an edge's relevance/stance — it only ever creates the part_of link a
+// promoted leaf needs).
+export function linkEdge(g, src, kind, dst, { by, why = null }) {
+  const [srcKind, srcId] = src, [dstKind, dstId] = dst;
+  const existing = g.prepare(
+    'SELECT id FROM edge WHERE src_kind = ? AND src_id = ? AND dst_kind = ? AND dst_id = ? AND kind = ?'
+  ).get(srcKind, srcId, dstKind, dstId, kind);
+  if (existing) return existing.id;
+  const info = g.prepare(
+    'INSERT INTO edge (src_kind, src_id, dst_kind, dst_id, kind) VALUES (?, ?, ?, ?, ?)'
+  ).run(srcKind, srcId, dstKind, dstId, kind);
+  g.prepare(
+    'INSERT INTO event (entity_kind, entity_id, field, old, new, by, why) VALUES (?, ?, ?, ?, ?, ?, ?)'
+  ).run('edge', String(info.lastInsertRowid), null, null, `${srcId} -${kind}-> ${dstId}`, by, why);
+  return Number(info.lastInsertRowid);
+}
+
 // Most recent prior value of a column, from the audit trail — used to
 // restore `depth` on an exclude undo without a markdown-comment hack.
 export function lastEventValue(g, entityKind, id, field) {
