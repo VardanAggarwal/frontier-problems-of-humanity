@@ -240,3 +240,56 @@ Two limits on this result, both load-bearing:
 Neighbour expansion (`NEIGHBOUR_RADIUS = 1`) measured 2.34-3.65x tokens and
 2.29-4.04x chars across the three fixtures — consistent with the 1.6-3.4x /
 1.4-2.9x recorded above, and above it at the top end on `bku`.
+
+---
+
+## Addendum, 2026-09-14 — the two "zero-source" fixtures were a cache bug
+
+The limit recorded just above ("It is three actors, not five") is **withdrawn**.
+`selco-foundation` and `bhavreen-kandhari` did not capture zero sources because
+their pages were unavailable, off-topic or thin. They captured zero because
+`worker/fetch.py` could not read its own cache.
+
+**The bug.** `_upsert_source` writes `source.path` *relative to `corpus`*
+(`str(dest.relative_to(corpus))`), and `_row_to_result` resolved it with a bare
+`Path(row["path"])` — against the process CWD. Every one of the 151 cached rows
+in `poc/poc2-scratch/graph.db` pointed at a file that did not exist from where
+the PoC runs, while the 148 text files sat on disk under
+`poc/poc2-scratch/problems/private/sources/`. So **every cache hit returned
+`text=None`**, with the row still reporting its word count.
+
+**How it hid.** The PoC's gather step printed one label for every text-less
+result: `OFF-TOPIC (gate-2 stand-in)`. The signature is unmistakable in
+`poc2b_run.log` once you look for it — `cache=1` lines are all `0w`, `cache=0`
+lines carry real word counts — but the log *said* the pages were off-topic, so
+the reading was that SELCO's and Bhavreen's coverage was bad. It was not:
+SELCO's own site (661w), Skoll (797w), Yale (718w), Lemelson (554w) and
+LinkedIn (2,788w) were all sitting in the cache the whole time. The two
+fixtures were captured at 18:36 and 18:40, by which point everything was
+cached, while `anthill`/`bku`/`jyoti` had been fetched cold minutes earlier.
+That is the entire difference between the three fixtures that worked and the
+two that did not.
+
+**Recaptured.** Both now carry 4 sources, from cache, zero HTTP:
+
+| fixture | sources | dropped | q10/q11-shaped figure present |
+|---|---|---|---|
+| `selco-foundation` | 4 | 17 | yes — `2.5 lakh students`, `INR 46,109` |
+| `bhavreen-kandhari` | 4 | 4 | no — the crore figures are budget lines in a court document, not her funding |
+
+So PoC-2c's original actor list is usable again for SELCO; Bhavreen remains a
+likely stage-1 probe drop, which is now a loud failure rather than a silent
+skip.
+
+**Scope beyond the PoC.** This is an engine bug, not a harness bug. The cache
+has been write-only since it shipped: the worker refetches every page over HTTP
+forever, and any page that *is* cached is treated as unusable. Fixed in
+`worker/fetch.py` with three regression tests; the existing cache-hit test
+inserted `path=NULL`, which is why it passed throughout.
+
+**One more thing the drop ledger exposed.** The URL pool for both actors
+contains unrelated pages — `pinkbike.com`, `30rates.com/aed-php`, `amazon.fr`,
+a Japanese Wikipedia article on 10^12. Those come from the PoC-0b search
+responses, not from fetching. Unexamined here; it belongs with §4's search
+quality, and it means `url_pool`'s ranked list is weaker than the ranking
+implies.

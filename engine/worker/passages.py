@@ -31,12 +31,15 @@ extraction model still sees the sentence that got cut. The cost is prompt
 tokens (`NEIGHBOUR_RADIUS`), paid against `PASSAGE_TOKEN_CAP` — which is why
 expansion runs *before* the cap, never after.
 
-`open question` (`03-worker.md` §7, §1d) is not yet a settled predicate for
-`multi` questions (`04-worker-build-plan.md` §1d) — this module does not
-try to settle it. Per §1c's stated degrade: with no closing rule, encode the
-full question/bucket set every pass; the passage union is larger than it
-needs to be, but nothing here is wrong for it. Filtering "open" questions
-down to a smaller set is the caller's job, once §1d lands, not this one's.
+This module encodes whatever question set the caller hands it, and that is
+now the decided behaviour rather than a degrade. `03-worker.md` §7 (decided
+2026-09-14) splits the old, undefined `open question` into **filled** (≥1
+answer in the ledger — what §11c's counter 1 reads) and **saturated** (a pass
+added no value already held — what a future pass 2 would read here). Pass 1
+has no saturated questions by construction, so the pass-1 encode set is every
+`retrieval: true` question and the union is not inflated by `multi`-ness.
+Narrowing the set to the unsaturated ones is the caller's job, and only from
+pass 2, which §11b has not committed to building.
 """
 from __future__ import annotations
 

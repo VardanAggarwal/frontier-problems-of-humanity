@@ -81,6 +81,36 @@ results file: the legacy whole-blob `marker` and `both_figures`.
 `disagreements`, not `json.dumps(data)`. Keep the old whole-blob value under a
 separate key so 2b's numbers stay reproducible rather than silently restated.
 
+## Actor selection — resolved 2026-09-14
+
+The spec ran into a blocker: `selco-foundation` and `bhavreen-kandhari`, the
+two actors it names, had captured zero sources. That turned out to be a
+`worker/fetch.py` bug making every cache hit return no text, not a fact about
+those actors — full write-up in the addendum to `poc2-results.md`. Both
+fixtures are recaptured at 4 sources each and the actor list stands.
+
+What the recapture changed in this spec:
+
+- **`selco-foundation` is the strongest cell**, not a doubtful one: its
+  fixture carries `2.5 lakh students` and `INR 46,109`, both q11/q10-shaped.
+- **`bhavreen-kandhari` will probably drop at stage 1.** Its only numeric
+  material is Rs-crore budget lines inside a court document — not her funding
+  or her scale. Keep her as the third actor, expect the probe to drop her,
+  and take `bku-ekta-ugrahan` (`4 lakh farmers`, membership-shaped) as the
+  replacement rather than picking one on the day.
+- **A stage-1 drop is now loud.** `build_for_actor` raises `UnusableActor`
+  instead of returning None, and the message carries the drop ledger. The old
+  behaviour removed the cell from the matrix silently, which is how the empty
+  fixtures survived two runs.
+- **Every declined source is recorded**, with its real reason and a 400-char
+  head, in the fixture's `dropped[]`. An empty capture now explains itself.
+  Nothing is discarded because a confirmation step could not confirm it.
+- **`jyoti-pande-lavakare` is contaminated** and should not be a cell without
+  a recapture: one of its four sources is `jyotiindia.com`, a water heater
+  manufacturer admitted by `about_entity`'s substring match on the token
+  `jyoti`. Its ₹9,499 / ₹10,990 figures are appliance prices. A common given
+  name defeats that gate by construction.
+
 ## Run conditions
 
 - **Pinned sources** (`--pinned`, per the fixture work): stage 1 and stage 2

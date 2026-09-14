@@ -48,10 +48,12 @@ def load_fixture(slug: str) -> list[ConfirmedSource]:
     assert path.exists(), f"no fixture at {path}"
     payload = json.loads(path.read_text(encoding="utf-8"))
     sources = payload.get("sources") or []
+    dropped = payload.get("dropped")
     assert sources, (
-        f"fixture {slug!r} captured ZERO sources -- this fixture must not "
-        f"be used (selco-foundation and bhavreen-kandhari are known-empty; "
-        f"use anthill-ventures, bku-ekta-ugrahan or jyoti-pande-lavakare)")
+        f"fixture {slug!r} captured ZERO sources -- recapture it; an empty "
+        f"fixture is a capture defect, not an absence. "
+        + (f"drop ledger: {[d.get('reason') for d in dropped]}" if dropped
+           else "this fixture predates the drop ledger, so it cannot say why"))
     return [
         ConfirmedSource(source_id=s["source_id"], url=s.get("url", ""),
                          text=s["text"], origin="SEED", verdict="CONFIRMED")
@@ -61,11 +63,33 @@ def load_fixture(slug: str) -> list[ConfirmedSource]:
 
 # ------------------------------------------------------- empty fixtures --
 
-def test_known_empty_fixture_fails_loudly_not_skips():
+def test_empty_fixture_fails_loudly_not_skips(tmp_path, monkeypatch):
+    """The contract, tested on a synthetic fixture rather than on whichever
+    real actor happens to be broken today.
+
+    This test used to pin `selco-foundation` and `bhavreen-kandhari` as
+    known-empty. Both were empty because of a `worker/fetch.py` bug that made
+    every cache hit return no text (fixed 2026-09-14); both now carry four
+    sources. Naming them here turned a transient capture defect into an
+    asserted property of the repo, which is why the fix broke this test
+    instead of the test catching the bug."""
+    empty = tmp_path / "nobody.json"
+    empty.write_text(json.dumps({"slug": "nobody", "sources": [],
+                                 "dropped": [{"reason": "off-topic"}]}))
+    monkeypatch.setattr(sys.modules[__name__], "FIXTURES", tmp_path)
     with pytest.raises(AssertionError, match="captured ZERO sources"):
-        load_fixture("selco-foundation")
-    with pytest.raises(AssertionError, match="captured ZERO sources"):
-        load_fixture("bhavreen-kandhari")
+        load_fixture("nobody")
+
+
+def test_every_captured_fixture_has_sources():
+    """A fixture on disk with zero sources is a capture defect. Catch it here
+    rather than as a mystery void cell in a PoC results table."""
+    found = sorted(FIXTURES.glob("*.json"))
+    assert found, "no fixtures captured"
+    for path in found:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        assert payload.get("sources"), (
+            f"{path.name} captured zero sources; recapture it")
 
 
 # ------------------------------------------------------------ signature --

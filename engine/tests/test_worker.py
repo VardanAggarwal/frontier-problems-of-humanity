@@ -282,6 +282,79 @@ def test_fetch_cache_hit_never_touches_the_network(conn, monkeypatch, tmp_path):
     assert result.state.state == "ok"
 
 
+def test_fetch_cache_hit_returns_the_cached_text(conn, monkeypatch, tmp_path):
+    """The regression that made the cache write-only.
+
+    `_upsert_source` stores `path` RELATIVE to `corpus`; `_row_to_result` used
+    to resolve it with a bare `Path(row["path"])`, i.e. against the process
+    CWD. Every cache hit therefore came back `text=None` while the row still
+    reported its word count — so callers saw a usable page with no text and
+    dropped it, and the PoC harness mislabelled those drops "OFF-TOPIC".
+
+    The test above did not catch it because it inserts `path=NULL`. This one
+    writes a real file at the real relative location.
+    """
+    body = "cached body word " * 60
+    dest = tmp_path / fetchmod.CACHE_SUBDIR / "abc.txt"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(body)
+    rel = str(dest.relative_to(tmp_path))          # what _upsert_source writes
+    conn.execute(
+        "INSERT INTO source (id, url, url_canonical, page_state, words, "
+        "fetched_at, path) VALUES ('abc', 'https://x.test/c', "
+        "'https://x.test/c', 'ok', 180, datetime('now'), ?)", (rel,))
+    conn.commit()
+
+    def boom(*a, **kw):
+        raise AssertionError("requests.get should not be called on a cache hit")
+    monkeypatch.setattr(fetchmod, "requests", type("R", (), {"get": staticmethod(boom)}))
+
+    result = fetchmod.fetch(conn, tmp_path, "https://x.test/c")
+    assert result.cache_hit is True
+    assert result.text == body, "cache hit must return the cached text"
+    assert result.error is None
+
+
+def test_fetch_cache_hit_reports_missing_text_instead_of_dropping_it(
+        conn, monkeypatch, tmp_path):
+    """A usable row whose text file is gone is a cache defect, not a fact
+    about the page. It must be reported, not returned as a bare None that
+    looks identical to a blocked page."""
+    conn.execute(
+        "INSERT INTO source (id, url, url_canonical, page_state, words, "
+        "fetched_at, path) VALUES ('gone', 'https://x.test/d', "
+        "'https://x.test/d', 'ok', 180, datetime('now'), "
+        "'problems/private/sources/gone.txt')")
+    conn.commit()
+    monkeypatch.setattr(fetchmod, "requests",
+                        type("R", (), {"get": staticmethod(
+                            lambda *a, **kw: (_ for _ in ()).throw(
+                                AssertionError("no network on a cache hit")))}))
+
+    result = fetchmod.fetch(conn, tmp_path, "https://x.test/d")
+    assert result.text is None
+    assert result.error is not None and "missing on disk" in result.error
+    assert "180w" in result.error, "the error should carry what was lost"
+
+
+def test_fetch_cache_hit_honours_an_absolute_legacy_path(conn, monkeypatch, tmp_path):
+    """Rows written before the relative-path convention stored an absolute
+    path. Those must still resolve."""
+    dest = tmp_path / "elsewhere" / "legacy.txt"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text("legacy body " * 40)
+    conn.execute(
+        "INSERT INTO source (id, url, url_canonical, page_state, words, "
+        "fetched_at, path) VALUES ('leg', 'https://x.test/e', "
+        "'https://x.test/e', 'ok', 80, datetime('now'), ?)", (str(dest),))
+    conn.commit()
+    monkeypatch.setattr(fetchmod, "requests", type("R", (), {"get": staticmethod(
+        lambda *a, **kw: (_ for _ in ()).throw(AssertionError("no network")))}))
+
+    result = fetchmod.fetch(conn, tmp_path, "https://x.test/e")
+    assert result.text is not None and "legacy body" in result.text
+
+
 def test_fetch_runs_a_mocked_response_through_pagestate(conn, monkeypatch, tmp_path):
     class FakeResp:
         text = "<html><body><p>" + ("real content word " * 150) + "</p></body></html>"

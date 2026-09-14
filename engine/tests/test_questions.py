@@ -203,3 +203,36 @@ def test_duplicate_bucket_id_rejected(tmp_path):
         """)
     with pytest.raises(qmod.QuestionRegistryError, match="duplicate bucket id"):
         qmod.load(p)
+
+
+def test_unfilled_questions_is_the_filled_predicate_negated():
+    """`03-worker.md` §7 (decided 2026-09-14): `filled` is ">=1 answer", and
+    it is deliberately blind to `multi` — one answer fills a `multi` question
+    for counter-1 purposes, because the state a second pass targets is a
+    blank, not a short list. The `saturated` half of §7 lives elsewhere; it
+    needs the ledger and this module touches no database."""
+    r = qmod.load()
+    assert r.unfilled_questions(()) == r.all()
+
+    multi_retrieved = [q.id for q in r.all() if q.multi and q.retrieval]
+    assert multi_retrieved, "registry carries no retrieved multi questions"
+    one = multi_retrieved[0]
+    unfilled = {q.id for q in r.unfilled_questions({one})}
+    assert one not in unfilled, "a `multi` question with an answer is filled"
+    assert len(unfilled) == len(r.all()) - 1
+
+    # kind narrows, and an id of the other kind never leaks in
+    actor_ids = {q.id for q in r.unfilled_questions((), kind="actor")}
+    assert actor_ids == {q.id for q in r.all("actor")}
+    assert all(r.get(i).kind == "actor" for i in actor_ids)
+
+
+def test_high_value_question_ids_are_real():
+    """`worker.py` routes §11c's counter 1 through the registry, so an id in
+    `_HIGH_VALUE_QUESTIONS` that isn't a question would silently stop being
+    counted. The module asserts this at import; assert it here too, so the
+    failure names the constant rather than surfacing as an import error."""
+    from worker.worker import _HIGH_VALUE_QUESTIONS
+    r = qmod.load()
+    for qid in _HIGH_VALUE_QUESTIONS:
+        r.get(qid)

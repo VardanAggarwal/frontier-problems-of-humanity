@@ -448,13 +448,22 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
 
 # `03-worker.md` §11b's high-value question set — magnitude, who-works-it,
 # funding, affected-led — as ids. Counter 1 of §11c counts how many of these
-# a candidate leaves unanswered. READ §11c's warning before reading the
-# number: `p19_who_working` is `multi`, a `multi` question never closes, so
-# this counter cannot return 0 and cannot say "no branch needed". It is
-# written because it costs nothing to write and becomes meaningful the day
-# §7's closing rule lands; it is not evidence until then.
+# a candidate leaves UNFILLED — zero answers, `03-worker.md` §7's decided
+# predicate (2026-09-14). §11c carried a warning that this counter could never
+# read 0 because `p19_who_working` is `multi` and a `multi` question never
+# closes; that warning is retired. §7 split `open` into `filled` and
+# `saturated`, counter 1 reads the first, and zero-answers is well-defined for
+# a `multi` question. The number is evidence about §11b from the next run on.
 _HIGH_VALUE_QUESTIONS = ("p9_magnitude", "p19_who_working",
                          "q10_funding", "q6_affected_led")
+
+# Counter 1 now asks the registry which questions are unfilled, so an id here
+# that is not a real question would silently stop being counted — where the
+# old membership test counted it as open. Check the four at import rather than
+# finding a quietly-shrinking counter in a report.
+for _qid in _HIGH_VALUE_QUESTIONS:
+    REGISTRY.get(_qid)   # raises KeyError on an unknown id
+del _qid
 
 
 def _predicted_depth(cand: sqlite3.Row) -> str | None:
@@ -730,10 +739,11 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 log(f"worker: candidate {cid} discarded {model_claims} model "
                     f"claims in favour of {len(claims)} derived from findings")
 
-        # §11c's counters, per candidate. Counter 1 is unreadable as a signal
-        # about §11b until §7's `multi` closing rule lands — see the constant.
+        # §11c's counters, per candidate. Counter 1 counts high-value
+        # questions left UNFILLED (§7) and is readable as a signal about §11b.
         answered = {a.question_id for a in answers}
-        hv_open = sum(1 for q in _HIGH_VALUE_QUESTIONS if q not in answered)
+        unfilled = {q.id for q in REGISTRY.unfilled_questions(answered)}
+        hv_open = sum(1 for q in _HIGH_VALUE_QUESTIONS if q in unfilled)
         unread = len(search_counters.get("unread_urls", []))
         seeds = {(e or {}).get("name", "") for e in claims_json.get("emits", [])}
         new_seeds = sum(1 for n in seeds if n and db.norm(n) != db.norm(name))

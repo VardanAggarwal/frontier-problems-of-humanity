@@ -308,6 +308,21 @@ def fixture_path(slug: str) -> pathlib.Path:
     return FIXTURES / f"{slug}.json"
 
 
+def _fixture_drops(slug: str) -> list[dict]:
+    """The drop ledger recorded at capture time, if the fixture has one.
+    Fixtures captured before the ledger existed carry no `dropped` key; say
+    so rather than implying nothing was dropped."""
+    path = fixture_path(slug)
+    if not path.exists():
+        return []
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if "dropped" not in payload:
+        return [{"reason": "unrecorded", "url": "",
+                 "detail": f"fixture {path.name} predates the drop ledger; "
+                           f"recapture to find out why it is empty"}]
+    return payload["dropped"]
+
+
 def load_fixture_sources(slug: str, want: int) -> tuple[dict[str, str], dict[str, str]]:
     """`--pinned`: load a previously captured source set instead of fetching
     live — zero HTTP. Fails loudly naming the actor when no fixture exists;
@@ -338,9 +353,45 @@ def write_fixture(slug: str, texts: dict[str, str], urls: dict[str, str]) -> Non
                             .strftime("%Y-%m-%dT%H:%M:%SZ"),
         "sources": [{"source_id": sid, "url": urls.get(sid, ""), "text": text}
                     for sid, text in texts.items()],
+        # what was fetched and NOT kept, with the reason — a zero-source
+        # fixture must explain itself rather than look like an absence
+        "dropped": _DROPS.get(slug, []),
     }
     fixture_path(slug).write_text(
         json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+# Every source the gather step declines, with why. Nothing is discarded on an
+# unconfirmable read: a drop is a recorded decision here, written into the
+# fixture alongside the sources that survived, so a zero-source capture can be
+# explained afterwards instead of guessed at. MIN_WORDS is named rather than
+# inlined so the threshold appears in the drop reason.
+MIN_WORDS = 150
+_DROPS: dict[str, list[dict]] = {}
+
+
+class UnusableActor(RuntimeError):
+    """An actor that cannot support the test, raised rather than returned.
+
+    This used to be `return None`, which the runner turned into a silent skip
+    — and a one-observation-per-cell design cannot absorb a silent skip: the
+    cell is simply absent from the matrix and the results file reads as if it
+    were never specified. Two fixtures (`selco-foundation`,
+    `bhavreen-kandhari`) captured zero sources and skipped this way, and the
+    cause went undiagnosed for a day. Fail loudly, and carry the drop ledger
+    in the message so the failure explains itself."""
+
+
+
+def _drop(slug: str, url: str, reason: str, detail: str, *, words: int = 0,
+          source_id: str = "", text: str | None = None) -> None:
+    _DROPS.setdefault(slug, []).append({
+        "url": url, "reason": reason, "detail": detail, "words": words,
+        "source_id": source_id,
+        # keep a head of the text when there was any, so an "off-topic" or
+        # "too-thin" call can be reviewed without refetching
+        "text_head": (text or "")[:400],
+    })
 
 
 def gather_sources(slug: str, want: int, log, tokens: list[str],
@@ -372,16 +423,37 @@ def gather_sources(slug: str, want: int, log, tokens: list[str],
         try:
             res = fetch(conn, SCRATCH, url)
         except Exception as e:                                  # noqa: BLE001
+            _drop(slug, url, "fetch-raised", f"{type(e).__name__}: {e}")
             log(f"  fetch ERROR {type(e).__name__} {url[:70]}")
             continue
         conn.commit()
         state = getattr(res.state, "state", "?")
         words = len((res.text or "").split())
-        on_topic = bool(res.text) and about_entity(res.text, tokens)
-        verdict = "" if on_topic else "  OFF-TOPIC (gate-2 stand-in)"
+
+        # Name the ACTUAL reason. This used to print "OFF-TOPIC (gate-2
+        # stand-in)" for every text-less result, which meant a cache hit
+        # returning no text (the `worker/fetch.py` relative-path bug, fixed
+        # 2026-09-14) was logged as a judgment about the page's subject. Two
+        # whole fixtures captured zero sources that way and the log said the
+        # pages were off-topic. Check the cheap, certain reasons first and
+        # only call something off-topic when there is text to judge.
+        if res.error:
+            reason, detail = "fetch-error", res.error
+        elif not res.text:
+            reason, detail = "no-text", f"state={state}"
+        elif words < MIN_WORDS:
+            reason, detail = "too-thin", f"{words}w < {MIN_WORDS}"
+        elif not about_entity(res.text, tokens):
+            reason, detail = "off-topic", f"none of {tokens} in text"
+        else:
+            reason, detail = None, ""
+
         log(f"  {state:8} {words:6}w cache={int(res.cache_hit)} "
-            f"{url[:70]}{verdict}")
-        if res.text and words >= 150 and on_topic:
+            f"{url[:70]}" + (f"  DROPPED {reason}: {detail}" if reason else ""))
+        if reason:
+            _drop(slug, url, reason, detail, words=words,
+                  source_id=res.source_id, text=res.text)
+        else:
             texts[res.source_id] = res.text
             urls[res.source_id] = url
         time.sleep(1.0)
@@ -403,9 +475,10 @@ def actor_name(slug: str) -> str:
 
 def build_for_actor(slug: str, name: str, want_sources: int, radii: list[int],
                     log, pinned: bool = False,
-                    capture_fixtures: bool = False) -> dict | None:
+                    capture_fixtures: bool = False) -> dict:
     """Fetch, chunk, select, plant, build — everything up to the call, for one
-    actor. Returns None when the actor cannot support the test at all."""
+    actor. Raises `UnusableActor` when the actor cannot support the test at
+    all — never returns None, so a cell is never silently absent."""
     log(f"\n=== {slug} ({name}) ===")
     tokens = entity_tokens(name)
     texts, urls = gather_sources(slug, want_sources, log, tokens, pinned=pinned)
@@ -414,9 +487,12 @@ def build_for_actor(slug: str, name: str, want_sources: int, radii: list[int],
         log(f"  [capture-fixtures] wrote fixture for {slug}: "
             f"{len(texts)} sources -> {fixture_path(slug)}")
     if len(texts) < 2:
-        log(f"  SKIP: only {len(texts)} usable on-topic sources; need >= 2 to "
-            f"test attribution at all")
-        return None
+        drops = _DROPS.get(slug) or _fixture_drops(slug)
+        ledger = "\n".join(f"      - {d['reason']}: {d['url'][:80]} "
+                            f"({d['detail']})" for d in drops) or "      (none recorded)"
+        raise UnusableActor(
+            f"{slug}: only {len(texts)} usable source(s); need >= 2 to test "
+            f"attribution at all.\n    what was fetched and dropped:\n{ledger}")
 
     all_chunks = []
     for sid, text in texts.items():
@@ -548,11 +624,12 @@ def main() -> int:
     log("\n[1-2] fetch, select, plant, build — per actor")
     actors = []
     for slug in slugs:
-        built = build_for_actor(slug, actor_name(slug), args.sources, radii, log,
-                                pinned=args.pinned,
-                                capture_fixtures=args.capture_fixtures)
-        if built:
-            actors.append(built)
+        # No `if built:` guard — build_for_actor raises UnusableActor now, so
+        # an actor that cannot support the test stops the run instead of
+        # quietly shrinking the matrix.
+        actors.append(build_for_actor(
+            slug, actor_name(slug), args.sources, radii, log,
+            pinned=args.pinned, capture_fixtures=args.capture_fixtures))
     if not actors:
         log("FATAL: no actor produced a usable prompt")
         return 1

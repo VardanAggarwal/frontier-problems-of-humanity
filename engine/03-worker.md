@@ -381,32 +381,81 @@ for each chunk:           encode(chunk,    role="passage")
 keep the top k=3 chunks per question; union across questions; dedupe
 ```
 
-### What "open" means, which is not yet settled
+### What "open" means — decided 2026-09-14
 
-`open question` is used here, in §11b and in §11c, and for 6 of the 35 questions
-it is **not a well-defined predicate**. `02-questions.md`'s first finding from
-the reverted dive says why:
+`open question` was used here, in §11b and in §11c as one predicate. It is two,
+and separating them is most of the fix. **Retire the word "open"** in all three
+places; it is what let the two states be conflated.
 
-> **`multi` questions never retire**, so the open set is never empty, the "stop
-> when everything is answered" exit is dead code, and every candidate —
-> including a one-paragraph registry stub — burns the full budget.
+- **`filled(q)`** — the ledger holds ≥1 finding for `q` on this entity.
+  Well-defined for `multi` and single questions alike, and needs no closing
+  rule at all.
+- **`saturated(q)`** — `filled`, *and* the most recent pass added no finding
+  whose value key was absent from the ledger. Only meaningful for `multi`; for
+  a single question `filled ⇒ saturated`, since a second answer is a
+  disagreement, which is §9's business and not a new value.
 
-The `multi` questions are problem q12 `tag:mechanism`, q17
-`tag:gap_missing_leg`, q19 who-works-it, and actor q14 `ask:need:*`, q15
-`ask:offer:*`, q16 `channel:*`. Each can legitimately be answered again, so
-"answered at least once" does not close it.
+The closing rule is therefore about saturation alone, and it is
+`process-leaf`'s own, applied per question rather than per candidate:
 
-Here that costs passages rather than LLM calls — the 6 stay in the encode set
-every pass, so their top-k always enters the union and inflates the one paid
-call. It is not free, and in §11c it is worse than not free (see the note
-there).
+> **A `multi` question is closed when a pass adds no value it did not already
+> have.**
 
-A `multi` question needs a closing rule that is not "answered at least once".
-The repo already has the right shape and this design quotes it one section
-later for the yield gate — `process-leaf`'s *"stop when a wave yields no new
-names"*. Applied per question rather than per candidate, **closed when a pass
-adds no new value** makes a `multi` question closable without capping how many
-answers it may have. Recorded as open in §14 rather than decided here.
+*Value key, by `claim_field`:*
+
+| Questions | `claim_field` | Value key |
+|---|---|---|
+| p12, p17 | `tag:<ns>` | the tag value, as validated against `store/tags.py:REGISTRY` |
+| p19 | `emits/edges` | `db.norm(name)` of the emitted entity |
+| q14, q15 | `ask:need:<kind>`, `ask:offer:<kind>` | the `<kind>` enum, **not** the free text — two differently-worded funding asks are one value |
+| q16 | `channel:<kind>` | the normalised URL/handle (host + path, lowercased, scheme and trailing slash dropped). Not the kind: an actor may hold two of one kind |
+
+*Three states, and which consumer reads which:*
+
+| State | Stage 5 encode set | §11c counter 1 / §11b trigger |
+|---|---|---|
+| unfilled (0 answers) | in | **counts** |
+| filled, unsaturated | in | not counted |
+| saturated | out | not counted |
+
+**Zero answers never saturates.** "No new value" and "no value" are not the
+same state. An unfilled high-value question is exactly §11b's trigger, and
+§11c already rules that a question no source can answer is a finding about the
+entity rather than a closure — collapsing the two would file that finding as a
+completed question.
+
+**A degraded pass may not saturate anything.** Saturation is measured over one
+pass of a *different* source set, and §11b's pass 2 reads the leftover RRF
+pool — by construction the sources set cover rejected for adding no coverage.
+"No new value" from those may mean bad sources, not a saturated question. So
+§11b's existing yield gate governs: a pass whose realised coverage was near
+zero, or whose `unresponsive_engines` breached the §4 floor, closes nothing.
+The blast radius is small either way — the hard stop is two passes, so
+saturation can fire at most once per entity.
+
+**What this costs today: nothing.** Pass 1 encodes every `retrieval: true`
+question, because no question is saturated before a pass has run — so the
+pass-1 encode set is unchanged, and the union is not inflated by `multi`-ness.
+The earlier claim here, that the `multi` questions "stay in the encode set
+every pass and inflate the one paid call", is true only from pass 2, which
+does not exist and may never (§14). Saturation is evaluated *between* passes,
+which is the only place the predicate was ever needed.
+
+**Counts, corrected.** This section said 6 of 35; `questions.yaml` carries
+**36** questions, of which **8** are `multi` and **6** are `retrieval: false`.
+The six genuinely-retrieved `multi` questions are problem p12 `tag:mechanism`,
+p17 `tag:gap_missing_leg`, p19 who-works-it, and actor q14 `ask:need:*`,
+q15 `ask:offer:*`, q16 `channel:*` — the same six named before, but by luck:
+the two omitted (`q3_legs`, `q10b_funder_identity`) are both non-retrieval and
+drop out of this bookkeeping under PoC-1c's narrowing anyway. `q10b` is a
+seventh inference question, postdating PoC-1c's list of five.
+
+*Not decided, because both are measurement rather than design:* whether q14/q15
+should key on the enum or the text (the enum under-counts if an actor carries
+several distinct asks of one kind), and whether saturation should additionally
+require ≥2 confirmed sources in the non-contributing pass rather than leaning
+on the yield gate alone.
+
 
 **No absolute cosine cutoff**, for the measured reason in `gate2.py:29-36` —
 e5-small compresses similarity into a narrow high band (AUC 0.923 on 0.041
@@ -634,11 +683,11 @@ Anything that is neither of those is a retry.
 
 Strictly narrower than the first, and never a repeat of it:
 
-- only questions **still open after extraction**, and only high-value ones —
-  magnitude, who-works-it, funding, affected-led. Note that who-works-it is
-  problem q19, which is `multi` and therefore never closes under today's
-  definition of open (§7) — so this list cannot be evaluated until the closing
-  rule exists;
+- only questions **unfilled after extraction** (§7 — zero answers, not merely
+  unsaturated), and only high-value ones: magnitude, who-works-it, funding,
+  affected-led. Who-works-it is problem q19, which is `multi`; under §7's split
+  that is no obstacle, because pass 2 targets blanks rather than trying to
+  lengthen a list that is already filling;
 - **cheap route first**: exhaust the leftover RRF pool for those questions
   before issuing any new search;
 - **new searches only when re-seeded** from an entity pass 1 extracted, and
@@ -661,18 +710,26 @@ counters written per candidate, costing nothing:
 
 | Counter | Answers |
 |---|---|
-| High-value questions still open after pass 1 | How often anything would trigger at all |
+| High-value questions **unfilled** after pass 1 — zero answers, §7 | How often anything would trigger at all |
 | Unread URLs left in the RRF pool covering those questions | Whether the cheap route has material — if this is usually 0, only re-seeding is left |
 | New query seeds extracted that differ from the candidate name | Whether re-seeding has material — if usually 0, §11b is dead and should be deleted |
 
-**Counter 1 cannot read 0 as specified, and that breaks the decision rule
-below.** §11b's high-value set names who-works-it, which is problem q19, a
-`multi` question (§7). A `multi` question never closes, so counter 1 reads ≥1
-for every candidate, forever. The counter built to settle whether §11b is worth
-building is then structurally incapable of returning "no" — which is worse than
-an unmeasured trigger, because it is a trigger that always reads yes and looks
-like evidence. The counters are only meaningful once §7's closing rule lands;
-until then do not read counter 1 as a signal about §11b.
+~~**Counter 1 cannot read 0 as specified, and that breaks the decision rule
+below.**~~ **Resolved 2026-09-14, and it was never broken in the built code.**
+The warning was that §11b's high-value set names who-works-it — problem q19, a
+`multi` question — so under "answered at least once does not close it" counter 1
+would read ≥1 for every candidate forever, a trigger structurally incapable of
+returning "no" while looking like evidence.
+
+Two things retire it. §7 now splits `open` into **filled** and **saturated**,
+and counter 1 reads *unfilled* — zero answers — which is well-defined for a
+`multi` question and needs no closing rule. And `worker.py:736` already
+implements exactly that (`sum(1 for q in _HIGH_VALUE_QUESTIONS if q not in
+answered)`), so the counter shipped in E6 is readable as written: it reads 0
+the moment q19 gets any answer at all. **Counter 1 is a signal about §11b from
+the next run onward.** What it measures is coverage, not saturation: a
+high-value question nobody answered. That is the right trigger — §11b's cheap
+route exists to fill blanks, not to lengthen lists that are already filling.
 
 If the first counter is usually 0, there is no branch to build. If it is high
 but the other two are 0, the answer is not a second pass — it is that the
@@ -779,20 +836,35 @@ The non-dollar budget is **throughput**: the OpenRouter free rung paces to
    carries a URL, because that URL is usually the page that *named* the entity
    rather than the entity's own. Never the full family set. Detail in §2.
 
+5. ~~**The closing rule for a `multi` question.**~~ **Decided 2026-09-14:**
+   `open` was two predicates. **filled** (≥1 answer in the ledger) is what
+   §11b's trigger list and §11c's counter 1 read, and it needs no rule.
+   **saturated** (a pass added no value the ledger did not already hold) is
+   what stage 5 reads, and it is `process-leaf`'s *"stop when a wave yields no
+   new names"* applied per question. Zero answers never saturates; a degraded
+   pass saturates nothing. Full statement, value keys and the three-state table
+   in §7; §11c's counter-1 warning is retired there.
+
+   *What it cost to leave open:* nothing, as it turned out. Saturation is only
+   ever evaluated between passes, pass 1 encodes every retrieval question
+   regardless, and pass 2 does not exist — so stage 5's union was never
+   inflated by this and `passages.py`'s "encode the full set every pass" was
+   the right behaviour rather than a degrade.
+
+   *Not decided, deliberately, because both are measurement:* whether q14/q15
+   key on the `<kind>` enum or the free text, and whether saturation should
+   require ≥2 confirmed sources in the non-contributing pass rather than
+   leaning on §11b's yield gate.
+
 **Still open:**
 
 - **The `unresponsive_engines` floor** (§4) above which a run is flagged
   degraded and withheld from bandit reward. Needs the §16 step 0 spike to pick
   a number; guessing one now would be the same error `gate2.py` refuses to make.
-- **The closing rule for a `multi` question** (§7) — what makes one "no longer
-  open" when "answered at least once" does not. Blocks §11b's trigger list and
-  §11c's counter 1 from meaning anything, and inflates stage 5's passage union
-  until it exists. `process-leaf`'s *"stop when a wave yields no new names"*,
-  applied per question, is the candidate shape; it is not yet a decision.
 - **Whether a second pass (§11b) is worth building at all.** Specified, but
   deliberately not committed: a naive one is a retry that re-reads the same
   URLs. Three counters in pass 1 (§11c) settle it from real runs — if the
-  high-value-open counter is usually 0, or the two material counters are,
+  high-value-unfilled counter (§11c) is usually 0, or the two material counters are,
   §11b gets deleted rather than built.
 
 ---

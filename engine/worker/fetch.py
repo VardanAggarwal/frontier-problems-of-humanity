@@ -51,6 +51,7 @@ class FetchResult:
     state: PageState
     source_id: str
     cache_hit: bool
+    error: str | None = None  # why there is no text, when the row said usable
 
 
 def _network_failure_state(reason: str) -> PageState:
@@ -62,17 +63,47 @@ def _network_failure_state(reason: str) -> PageState:
     return PageState("missing", "missing", True, False, 0, reason)
 
 
-def _row_to_result(row: sqlite3.Row, *, cache_hit: bool) -> FetchResult:
+def _cached_text_path(corpus: Path, row: sqlite3.Row) -> Path:
+    """Where a cached row's cleaned text should be on disk.
+
+    `_upsert_source` writes `path` **relative to `corpus`**
+    (`str(dest.relative_to(corpus))`), so resolving it with a bare
+    `Path(row["path"])` resolves it against the process CWD instead and finds
+    nothing unless the worker happens to be run from the repo root. That
+    asymmetry made every cache hit return `text=None` — see the regression
+    test. Absolute paths (rows written before this, under whatever root) are
+    honoured as-is, and `_cache_path` is the fallback, since the filename is
+    derived from the source id and does not depend on the stored string.
+    """
+    p = Path(row["path"]) if row["path"] else None
+    if p is not None:
+        resolved = p if p.is_absolute() else corpus / p
+        if resolved.exists():
+            return resolved
+    return _cache_path(corpus, row["id"])
+
+
+def _row_to_result(row: sqlite3.Row, *, cache_hit: bool,
+                   corpus: Path) -> FetchResult:
     state = PageState(
         row["page_state"] or "missing", row["page_kind"] or "",
         False, (row["page_state"] or "") in ("ok", "thin"),
         row["words"] or 0, "cached")
-    text = None
-    if state.usable and row["path"]:
-        cached = Path(row["path"])
+    text, error = None, None
+    if state.usable:
+        cached = _cached_text_path(corpus, row)
         if cached.exists():
             text = cached.read_text()
-    return FetchResult(text=text, state=state, source_id=row["id"], cache_hit=cache_hit)
+        else:
+            # The row says this page is usable and carries a word count, so
+            # "no text" here is a cache defect, not a fact about the page.
+            # Say which, rather than handing back a bare None that a caller
+            # cannot tell apart from a blocked page — an unconfirmable read
+            # is reported, never silently dropped.
+            error = (f"cached text missing on disk: {cached} "
+                     f"(row says {state.words}w, state={state.state})")
+    return FetchResult(text=text, state=state, source_id=row["id"],
+                       cache_hit=cache_hit, error=error)
 
 
 def fetch(conn: sqlite3.Connection, corpus: Path, url: str) -> FetchResult:
@@ -88,7 +119,7 @@ def fetch(conn: sqlite3.Connection, corpus: Path, url: str) -> FetchResult:
         "SELECT * FROM source WHERE url_canonical = ? AND fetched_at IS NOT NULL",
         (canonical,)).fetchone()
     if cached is not None:
-        return _row_to_result(cached, cache_hit=True)
+        return _row_to_result(cached, cache_hit=True, corpus=corpus)
 
     try:
         resp = requests.get(url, timeout=TIMEOUT_S,
@@ -98,7 +129,8 @@ def fetch(conn: sqlite3.Connection, corpus: Path, url: str) -> FetchResult:
         state = _network_failure_state(f"{type(e).__name__}: {e}")
         _upsert_source(conn, sid, url, canonical, text=None, raw="",
                        state=state, http_status=None)
-        return FetchResult(text=None, state=state, source_id=sid, cache_hit=False)
+        return FetchResult(text=None, state=state, source_id=sid,
+                           cache_hit=False, error=state.reason)
 
     text = clean(raw, url=url)
     state = assess(text, raw=raw, http_status=http_status)

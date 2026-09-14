@@ -141,7 +141,7 @@ shipped code and now never will be — **settled at 0 by PoC-1d**, with the
 straddle repair it existed for moved to selection time as `NEIGHBOUR_RADIUS`
 (§3 correction 3).
 
-### 1d. `open question` is undefined for 6 of the 35
+### 1d. `open question` is undefined for 6 of the 36 — DECIDED 2026-09-14
 
 Written up where it belongs, in `03-worker.md` §7 (*What "open" means*), §11b and
 §11c, since the defect is in that design rather than in this plan. In short:
@@ -162,16 +162,41 @@ It belongs in this list because of what it blocks at build time:
 So it does not block the build, only the *conclusion* the build is meant to
 support. Decide it before reading §11c's output, not before writing it.
 
-**Status: still open, but narrower than when this was written.** PoC-1c found
-that 5 of the 35 questions (q2 `type` 0.516, q3 `legs` 0.586, q5
+**Status: DECIDED 2026-09-14** — in `03-worker.md` §7 and §14 item 5, where the
+defect was written up. Two narrowings arrived first, then the rule.
+
+PoC-1c found that 5 of the questions (q2 `type` 0.516, q3 `legs` 0.586, q5
 `ecosystem_role` 0.539, q7 `representation_unit` 0.430, q13 `failure_note`
 0.243) are not retrieval questions at all — whole-record enum inferences with
-no localised passage, rescued by no phrasing or target. Those five drop out of
-the "open question" bookkeeping entirely rather than needing a closing rule:
-an inference question is never "open" in the retrieval sense, so the `multi`
-non-retirement defect this section describes only has to be solved for the
-remaining, genuinely-retrieved `multi` questions. The closing rule itself is
-still undecided.
+no localised passage, rescued by no phrasing or target. Those drop out of the
+bookkeeping entirely rather than needing a closing rule: an inference question
+is never "open" in the retrieval sense.
+
+Reading the registry to land the rule corrected this section's arithmetic.
+`questions.yaml` carries **36** questions, not 35; **8** are `multi`, not 6;
+and **6** are `retrieval: false`, not 5 — `q10b_funder_identity` is a sixth
+inference question that postdates PoC-1c's list. The six genuinely-retrieved
+`multi` questions are the same six §7 named, but by luck: the two this section
+omitted (`q3_legs`, `q10b_funder_identity`) are both non-retrieval.
+
+The rule itself: `open` was two predicates. **filled** (>=1 answer) is what
+§11c's counter 1 and §11b's trigger read, and needs no closing rule.
+**saturated** (a pass added no value already held) is what stage 5 reads, and
+is `process-leaf`'s *"stop when a wave yields no new names"* per question.
+
+Both claims about what it blocked turned out to be false, in opposite
+directions:
+
+- **track C was never blocked.** `open_questions()` shipped as a dead alias
+  with no non-test caller; the live encode set is
+  `REGISTRY.retrieval_questions(kind)` (`worker/worker.py:646`). And pass 1 has
+  no saturated question by construction, so encoding the full retrieval set is
+  the *decided* behaviour, not a degrade — the passage union was never inflated
+  by this.
+- **track E's counter 1 was never unreadable.** E6 implemented it as
+  `q not in answered` (`worker/worker.py:737`) — the `filled` predicate,
+  ahead of the decision. It reads 0 the moment q19 is answered at all. The
+  §11c warning is retired rather than satisfied.
 
 ---
 
@@ -999,9 +1024,9 @@ PoC-0  ‖  PoC-1  ‖  PoC-3          mutually independent, no shared code
             ↓
      counters run on real candidates
             ↓
-   the multi closing rule (§1d)       gates *reading* counter 1, not writing it —
-                                       narrower now: 5 of 35 questions are inference-
-                                       only and never enter this bookkeeping (PoC-1c)
+   the multi closing rule (§1d)       DECIDED 2026-09-14 — `open` was two
+                                       predicates; counter 1 reads `filled` and E6
+                                       already implemented it. Readable as shipped.
             ↓
   §7 constant sweep, then the bandit
 ```
@@ -1032,10 +1057,6 @@ yes, survives, build it).
 
 Still open:
 
-- **§1d / `03-worker.md` §14** — the closing rule for a `multi` question.
-  Needed before §11c's counter 1 is read, not before it is written. Narrowed
-  by PoC-1c: 5 of 35 questions are inference-only and never enter this
-  bookkeeping at all.
 - **The `unresponsive_engines` floor** — still open, and now correctly posed:
   §3 correction 2 establishes it must be defined on engines *answering*, not
   engines failing, since 99% of PoC-0b's queries carried ≥1 failure. The

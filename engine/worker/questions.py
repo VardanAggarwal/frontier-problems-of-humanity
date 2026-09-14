@@ -20,6 +20,7 @@ contract:
 """
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -97,13 +98,23 @@ class Registry:
         """Questions with `retrieval: true` — the ones stage 5 encodes."""
         return tuple(q for q in self.all(kind) if q.retrieval)
 
-    def open_questions(self, kind: str | None = None) -> tuple[Question, ...]:
-        """Alias for every question of a kind — `04-worker-build-plan.md`
-        §1d leaves "open" undefined for `multi` questions; until that
-        closing rule lands, every question is open, so this returns the
-        same set as `all()`. Kept as a separate name so callers written
-        against "open questions" don't need to change when §1d resolves."""
-        return self.all(kind)
+    def unfilled_questions(self, answered: Iterable[str],
+                           kind: str | None = None) -> tuple[Question, ...]:
+        """Questions of a kind with no answer yet — `03-worker.md` §7's
+        **filled** predicate, negated.
+
+        §7 (decided 2026-09-14) retired the word "open": it was two states.
+        `filled` is "the ledger holds >=1 finding for this question", which is
+        well-defined for a `multi` question and needs no closing rule — it is
+        what §11c's counter 1 and §11b's trigger list read. The other state,
+        `saturated` ("a pass added no value already held"), is what stage 5
+        would read from pass 2 onward; it needs the ledger, so it does not
+        live in this module, which by contract touches no database.
+
+        `answered` is the set of question ids this entity has an answer for.
+        """
+        seen = set(answered)
+        return tuple(q for q in self.all(kind) if q.id not in seen)
 
     def bucket_for(self, question_id: str) -> Bucket | None:
         """The bucket a question belongs to, or None (inference-only or
