@@ -734,11 +734,37 @@ def test_openrouter_falls_back_to_the_next_configured_model(monkeypatch):
     assert result["model"] == "backup/model:free"
 
 
-def test_openrouter_model_fallback_does_not_catch_rate_limit(monkeypatch):
-    """A 429 is a per-key cap, not a per-model problem — retrying a
-    DIFFERENT model on the same rate-limited key wastes a call and can't
-    possibly succeed. Must reach the outer RateLimitError handler (the
-    wait-out-the-window path), not be swallowed as "try the next model"."""
+def test_openrouter_model_fallback_tries_next_model_on_rate_limit(monkeypatch):
+    """Revised 2026-09-15 (same day as the fallback was added): a 429 from
+    openrouter isn't always a per-key cap — candidate 12 hit one reading
+    "google/gemma-4-31b-it:free is temporarily rate-limited upstream", an
+    UPSTREAM VENDOR's congestion for that one free model, not the account
+    key's own rate. A different model (different backend) can simply
+    succeed instead of waiting on a jam nothing here controls."""
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm.config, "OPENROUTER_MODELS_JUDGMENT",
+                        ["model-a:free", "model-b:free"])
+    calls = []
+
+    def fake_call_openrouter(prompt, model, max_tokens, system):
+        calls.append(model)
+        if model == "model-a:free":
+            raise llm.RateLimitError(
+                "openrouter 429: model-a:free is temporarily rate-limited upstream",
+                retry_after=0)
+        return {"text": '{"ok": true}', "provider": "openrouter", "model": model,
+               "input_tokens": 1, "output_tokens": 1, "cost": 0.0}
+    monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
+
+    result = llm.call("prompt", tier="judgment", providers=["openrouter"])
+    assert calls == ["model-a:free", "model-b:free"]
+    assert result["model"] == "model-b:free"
+
+
+def test_openrouter_rate_limit_still_reaches_outer_wait_handler_if_every_model_fails(monkeypatch):
+    """If EVERY configured model 429s, the last one's RateLimitError must
+    still reach the outer wait-out-the-window handler unchanged — the
+    model-level fallback must not swallow that safety net."""
     monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
     monkeypatch.setattr(llm.config, "OPENROUTER_MODELS_JUDGMENT",
                         ["model-a:free", "model-b:free"])
@@ -747,13 +773,13 @@ def test_openrouter_model_fallback_does_not_catch_rate_limit(monkeypatch):
 
     def fake_call_openrouter(prompt, model, max_tokens, system):
         calls.append(model)
-        raise llm.RateLimitError("openrouter 429", retry_after=0)
+        raise llm.RateLimitError(f"openrouter 429: {model}", retry_after=0)
     monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
     monkeypatch.setattr(llm.time, "sleep", lambda s: None)
 
-    with pytest.raises(llm.LLMError, match="openrouter 429"):
+    with pytest.raises(llm.LLMError, match="model-b:free"):
         llm.call("prompt", tier="judgment", providers=["openrouter"])
-    assert calls == ["model-a:free"], "a rate limit must not trigger model-level fallback"
+    assert calls == ["model-a:free", "model-b:free"]
 
 
 def test_all_providers_failed_message_includes_every_providers_error(monkeypatch):

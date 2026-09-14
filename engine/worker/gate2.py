@@ -71,17 +71,22 @@ def confirm(conn: sqlite3.Connection, candidate_name: str,
     silent fail (module docstring, and 01-minimal.md §5/§9: escalation is
     queued, not blocking, and not resolved by guessing).
     """
-    # `right` is already bounded by PREVIEW_CHARS (500, well under e5's ~2,000
-    # char/512 token budget) — the overflow risk is `left`, whose
-    # `candidate_context` a caller may hand in at any length (full extracted
-    # text, not just a snippet — this is what tripped the tokenizer's own
-    # "longer than the specified maximum sequence length" warning in
-    # production, `encode_one` truncating silently and unmeasured rather than
-    # erroring). `clip()` is the cheap, model-free front-truncation
-    # `embed/model.py`'s own `fit()` docstring names for exactly this case;
-    # `fit()` itself is not used here because it needs the real encoder's
-    # tokenizer loaded, which would defeat every test that mocks `encode_one`
-    # to stay offline.
+    # `right` is already bounded by PREVIEW_CHARS (500 chars) — `clip()`'s
+    # own threshold is 2,000, so wrapping an already-500-char string in it
+    # would be a no-op; not done. `left`'s `candidate_context` is the one
+    # unbounded side (a caller may hand in the full extraction text), hence
+    # `clip()` here and not on `right`.
+    #
+    # A token-dense 500-char `right` (CJK, or a scraped page's symbol-heavy
+    # nav/footer) CAN still exceed e5's 512-token budget and trip the
+    # tokenizer's own "longer than the specified maximum sequence length"
+    # warning — confirmed live 2026-09-15 on one of candidate 12's fetched
+    # sources with `left` already short (empty `candidate_context`).
+    # Verified directly (not assumed) that this is cosmetic, not a
+    # correctness bug: `SentenceTransformer.encode()` truncates internally
+    # regardless of the warning — a forced >512-token string round-tripped
+    # to a well-formed, unit-norm 384-dim vector with no exception. The
+    # warning is noisy but harmless; not chased further than this note.
     left = clip(f"{candidate_name} {candidate_context}".strip())
     right = cleaned_text[:PREVIEW_CHARS]
     if not left or not right:

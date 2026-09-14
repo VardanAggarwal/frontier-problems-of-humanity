@@ -347,19 +347,32 @@ def call(prompt: str, tier: str = "mechanical", max_tokens: int = 2048,
                     # `worker/config.py`'s `OPENROUTER_MODELS_*` docstring has
                     # the full motivating case): a malformed/empty response
                     # from one model tries the next configured model before
-                    # this rung gives up entirely. A RateLimitError is a
-                    # per-KEY cap, not a per-model one, so it is NOT
-                    # model-retried here — it re-raises straight to the outer
-                    # handler below, same wait-out-the-window behaviour as
-                    # every other provider.
+                    # this rung gives up entirely.
+                    #
+                    # RateLimitError IS model-retried here too (revised
+                    # 2026-09-15, same day — candidate 12's next rerun hit a
+                    # 429 reading "google/gemma-4-31b-it:free is temporarily
+                    # rate-limited upstream": OpenRouter passing through an
+                    # UPSTREAM VENDOR's congestion for that one free model,
+                    # not the account key's own request-rate cap. The
+                    # original version of this loop re-raised RateLimitError
+                    # straight to the outer wait-out-the-window handler on
+                    # the theory that a 429 is always per-key — true for
+                    # OpenRouter's own cap, false for this upstream-vendor
+                    # kind, where a different model (different backend, not
+                    # necessarily congested the same way) can simply succeed
+                    # instead of waiting on a jam nothing here controls. If
+                    # EVERY configured model 429s, `or_err` still ends up a
+                    # RateLimitError and reaches the outer handler unchanged
+                    # via the `raise or_err` below — no loss of that
+                    # wait-and-retry safety net, just no longer blocking
+                    # fallback on the first model's 429.
                     result = None
                     or_err: Exception | None = None
                     for m in _openrouter_models_for_tier(tier):
                         try:
                             result = _call_openrouter(prompt, m, cur_max_tokens, system)
                             break
-                        except RateLimitError:
-                            raise
                         except Exception as e:  # try the next openrouter model
                             or_err = e
                     if result is None:  # every configured openrouter model failed
