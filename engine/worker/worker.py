@@ -312,7 +312,7 @@ def _write_entity(conn: sqlite3.Connection, corpus: Path, kind: str, name: str,
 
 
 def _mint_or_resolve_problem(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
-                             edge: dict, *, log=print) -> tuple[str | None, bool]:
+                             edge: dict, *, log=print, emits=()) -> tuple[str | None, bool]:
     """Track A: the destination of a `works_on` edge naming a problem that
     doesn't resolve via `db.resolve` (exact/alias) or this batch's own
     writes. -> (dst_id | None, minted). `minted=True` only when a fresh
@@ -355,8 +355,11 @@ def _mint_or_resolve_problem(conn: sqlite3.Connection, source_candidate: sqlite3
     # action == "new" — mint a problem candidate carrying the four gate
     # signals captured at extraction time (03-worker.md §10). Leafability is
     # the orchestrator's decision, not this worker's: signals are captured
-    # and emitted, never gated here.
-    signals = problem_emit.signals_from_edge(edge)
+    # and emitted, never gated here. They are read off the matching `emits`
+    # entry, not off this edge: §10 puts them on the emit and the prompt asks
+    # there, so reading `edge["signals"]` yielded four Nones however well the
+    # model cooperated.
+    signals = problem_emit.signals_for_problem(emits, dst_name, db.norm)
     conn.execute(
         "INSERT INTO candidate (kind, name, url, discovered_via, evidence) "
         "VALUES (?, ?, NULL, ?, ?)",
@@ -385,6 +388,15 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
     problem_emission = (_PROBLEM_EMISSION_DEFAULT if problem_emission is None
                         else problem_emission)
     emitted = 0
+    # Problem names minted by the emits loop in THIS call. The edges loop
+    # below mints from a `works_on` destination, and a model that does what
+    # the prompt asks — emit the problem, and link `works_on` to it — names
+    # the same problem in both places. `db.resolve` can't see the difference:
+    # a freshly minted candidate is not an entity yet, so the edge's lookup
+    # misses and mints a second candidate with the same name. Latent before
+    # 2026-09-14 (nothing encouraged a problem emit); asking for `signals`
+    # on problem emits makes both halves the expected response.
+    minted_problems: set[str] = set()
     for e in claims.get("emits", []) or []:
         ekind, ename = e.get("kind"), e.get("name")
         if ekind not in ("problem", "actor") or not ename:
@@ -400,6 +412,12 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
         if resolved_this_batch.get((ekind, db.norm(ename))) is not None:
             continue
         payload = {"hint": e.get("hint", ""), "from_candidate": source_candidate["id"]}
+        if ekind == "problem":
+            # The other mint route (`_mint_or_resolve_problem`, from a
+            # `works_on` edge) has always written a `signals` key and this one
+            # never did, so the orchestrator's payload shape depended on which
+            # route happened to mint the candidate. Both write it now.
+            payload["signals"] = problem_emit.signals_from_edge(e)
         if ekind == "actor" and depth_tier:
             # Track B: the intake-time prediction, stored now so a future
             # caller processing this candidate can compare it against the
@@ -412,6 +430,8 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
             "INSERT INTO candidate (kind, name, url, discovered_via, evidence) "
             "VALUES (?, ?, NULL, ?, ?)",
             (ekind, ename, f"worker:{source_candidate['id']}", json.dumps(payload)))
+        if ekind == "problem":
+            minted_problems.add(db.norm(ename))
         emitted += 1
 
     edges_written = 0
@@ -423,14 +443,23 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
         dst_id = db.resolve(conn, dst_kind, dst_name)
         if dst_id is None:
             dst_id = resolved_this_batch.get((dst_kind, db.norm(dst_name)))
+        if (dst_id is None and dst_kind == "problem" and problem_emission
+                and db.norm(dst_name) in minted_problems):
+            # Already minted by the emits loop above, with the signals the
+            # prompt put there. Minting again would duplicate the candidate
+            # and double-count `emitted`; the edge still can't be linked
+            # (a candidate is not an entity), which is the same deferral the
+            # `dst_id is None` case below has always taken.
+            continue
         if dst_id is None and dst_kind == "problem" and problem_emission:
             # Track A: unlike actors (whose `emits` loop above already mints
             # a candidate for any mentioned name), nothing upstream mints a
             # problem candidate from a `works_on` destination — this is the
             # only place one turns into a candidate at all, per
             # `03-worker.md` §10.
-            dst_id, minted = _mint_or_resolve_problem(conn, source_candidate,
-                                                      e, log=log)
+            dst_id, minted = _mint_or_resolve_problem(
+                conn, source_candidate, e, log=log,
+                emits=claims.get("emits", []) or [])
             if minted:
                 emitted += 1
         if dst_id is None:
@@ -788,7 +817,13 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             claims_json = {"claims": [], "emits": [], "edges": []}
         elif not isinstance(claims_json, dict) or not all(
                 isinstance(claims_json.get(k), list)
-                for k in ("claims", "emits", "edges")):
+                for k in (("emits", "edges") if batched
+                          else ("claims", "emits", "edges"))):
+            # `claims` left the BATCHED schema 2026-09-14 — claims are derived
+            # from findings there, so requiring the key would fail every
+            # batched response the moment the prompt stopped asking for it.
+            # The single-source prompt still asks and still needs it: that
+            # path has no findings to derive from.
             # `.get` on a non-dict (the model returned a bare array, or
             # `parse_json` failed and left `json` unset) would crash the
             # batch — a malformed shape is a logged skip, same discipline as
@@ -838,15 +873,17 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             claims, notes = extract_mod.claims_from_findings(answers)
             for note in notes:
                 log(f"worker: candidate {cid} {note}")
-            # The batched schema still asks for `claims` and we discard them:
-            # claims come from findings now, so the model's own list is a
-            # second source of truth for the same value. Removing the key
-            # from the prompt is a prompt change PoC-2 never measured — it
-            # belongs in `poc/poc2c-spec.md`, not in a quiet edit here.
-            model_claims = len(claims_json.get("claims", []))
+            # The batched schema no longer asks for `claims` (2026-09-14):
+            # claims come from findings, so the model's own list was a second
+            # source of truth for the same value and the prompt was paying
+            # output tokens for it. The log stays, inverted in meaning — a
+            # non-zero count here now means the model volunteered a key it
+            # was not asked for, which is worth seeing, not routine.
+            model_claims = len(claims_json.get("claims") or [])
             if model_claims:
-                log(f"worker: candidate {cid} discarded {model_claims} model "
-                    f"claims in favour of {len(claims)} derived from findings")
+                log(f"worker: candidate {cid} discarded {model_claims} "
+                    f"unasked-for model claims in favour of {len(claims)} "
+                    f"derived from findings")
 
         # §11c's counters, per candidate. Counter 1 counts high-value
         # questions left UNFILLED (§7) and is readable as a signal about §11b.

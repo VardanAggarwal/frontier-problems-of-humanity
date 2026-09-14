@@ -15,7 +15,9 @@ Frozen here, not negotiable at integration:
   `S2`, … and answers in those terms (PoC-2 measured 95/95 valid labels on
   that shape); nothing downstream of the parser may use a label. `Answer`
   therefore carries the resolved `source_id`, and resolving it is the
-  parser's job, not the ledger's.
+  parser's job, not the ledger's. The same rule governs the per-chunk
+  marker added 2026-09-14 (`S2.3`): prompt-local, resolved by the parser
+  into the durable `chunk_ref`, never persisted in marker form.
 """
 from __future__ import annotations
 
@@ -34,12 +36,22 @@ class ConfirmedSource(NamedTuple):
 class PromptSource(NamedTuple):
     """One `[Sn]` block as it will appear in the extraction prompt. E3's
     output, E2's input. `text` is already assembled — selected chunks plus
-    their `NEIGHBOUR_RADIUS` neighbours, in document order, joined."""
+    their `NEIGHBOUR_RADIUS` neighbours, in document order, joined.
+
+    `chunk_texts` is the same chunks UNjoined, parallel to `chunk_refs`, and
+    it exists so the prompt can mark each chunk inside the block (`S2.3`).
+    Without it `chunk_ref` on a finding is dead: measured across the five
+    PoC fixtures at radius 1, 0 of 16 blocks held exactly one chunk (min 2,
+    median ~11), and the one-chunk case was the only one the parser could
+    attribute. `text` is kept rather than derived because `retry_per_source`
+    and the verify pass send a source's whole text with their own labels.
+    """
     source_id: str
     label: str              # "S1" — prompt-local, never persisted
     url: str
     text: str
     chunk_refs: tuple[str, ...]   # every chunk in `text`, document order
+    chunk_texts: tuple[str, ...] = ()   # parallel to `chunk_refs`
 
 
 class Answer(NamedTuple):
@@ -49,5 +61,6 @@ class Answer(NamedTuple):
     answer: str
     source_id: str          # resolved from the model's label by the parser
     confidence: float | None = None
-    chunk_ref: str | None = None    # None when the block held >1 chunk and
-                                    # the answer cannot be narrowed to one
+    chunk_ref: str | None = None    # None when the model named no chunk
+                                    # marker, or named one that does not
+                                    # resolve — never guessed by the parser

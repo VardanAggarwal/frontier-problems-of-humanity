@@ -134,7 +134,12 @@ def assemble(
         refs = tuple(chunk_ref(c.source_id, c.ordinal) for c in group)
         prompt_sources.append(PromptSource(
             source_id=sid, label=f"S{i}", url=url_by_id.get(sid, ""),
-            text=text, chunk_refs=refs))
+            text=text, chunk_refs=refs,
+            # Parallel to `refs`, so `prompts.py` can mark each chunk inside
+            # the block and the parser can resolve the marker the model names
+            # back to one `chunk_ref`. Joining is still done above because
+            # `retry_per_source` and the verify pass send whole text.
+            chunk_texts=tuple(c.text for c in group)))
 
     # -- counters --------------------------------------------------------
     selected_source_ids = {c.source_id for c in selected}

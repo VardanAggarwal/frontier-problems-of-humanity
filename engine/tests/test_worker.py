@@ -627,11 +627,18 @@ def test_emit_mints_a_problem_candidate_for_an_unresolvable_works_on_edge(
     monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
     monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])  # empty -> new
 
-    claims = {"emits": [], "edges": [{
-        "dst_kind": "problem", "dst_name": "Silicosis in stone quarries",
-        "edge_kind": "works_on", "relevance": 2,
+    # Signals ride the EMIT, per 03-worker.md §10 — the edge names the
+    # problem, the emit describes it, and the mint matches them by name.
+    # This test used to put them on the edge, which is the shape the code
+    # read and the prompt never produced.
+    claims = {"emits": [{
+        "kind": "problem", "name": "Silicosis in stone quarries",
+        "hint": "quarry dust",
         "signals": {"harmed_population": "quarry workers", "magnitude": "uncounted",
-                   "agent": "silica dust", "actionable": "dust suppression"}}]}
+                   "agent": "silica dust", "actionable": "dust suppression"}}],
+        "edges": [{
+        "dst_kind": "problem", "dst_name": "Silicosis in stone quarries",
+        "edge_kind": "works_on", "relevance": 2}]}
     emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
 
     assert emitted == 1
@@ -645,6 +652,55 @@ def test_emit_mints_a_problem_candidate_for_an_unresolvable_works_on_edge(
     assert payload["signals"] == {
         "harmed_population": "quarry workers", "magnitude": "uncounted",
         "agent": "silica dust", "actionable": "dust suppression"}
+
+
+def test_signals_on_the_edge_are_ignored_not_silently_honoured(conn, monkeypatch):
+    """The old shape must stop working, visibly. If `edge["signals"]` kept
+    being read, the §10 contract would have two homes and whichever the model
+    filled would win by accident."""
+    actor(conn, "src-actor")
+    src = _source_candidate(conn, resolved_to="src-actor")
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
+
+    claims = {"emits": [], "edges": [{
+        "dst_kind": "problem", "dst_name": "Silicosis in stone quarries",
+        "edge_kind": "works_on", "relevance": 2,
+        "signals": {"harmed_population": "quarry workers",
+                   "magnitude": "uncounted", "agent": "silica dust",
+                   "actionable": "dust suppression"}}]}
+    worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    row = conn.execute(
+        "SELECT * FROM candidate WHERE kind = 'problem' AND "
+        "name = 'Silicosis in stone quarries'").fetchone()
+    payload = json.loads(row["evidence"])
+    assert payload["signals"] == {"harmed_population": None, "magnitude": None,
+                                 "agent": None, "actionable": None}
+
+
+def test_problem_emit_route_writes_signals_too(conn, monkeypatch):
+    """Both mint routes write the same payload shape. The emits loop used to
+    write no `signals` key at all, so the orchestrator's payload depended on
+    which route happened to mint the candidate."""
+    actor(conn, "src-actor")
+    src = _source_candidate(conn, resolved_to="src-actor")
+
+    claims = {"emits": [{
+        "kind": "problem", "name": "Fluorosis in Nalgonda",
+        "hint": "groundwater fluoride",
+        "signals": {"harmed_population": "villagers on borewell supply",
+                   "magnitude": "uncounted", "agent": "fluoride in groundwater",
+                   "actionable": None}}], "edges": []}
+    emitted, _ = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert emitted == 1
+    row = conn.execute(
+        "SELECT * FROM candidate WHERE kind = 'problem' AND "
+        "name = 'Fluorosis in Nalgonda'").fetchone()
+    payload = json.loads(row["evidence"])
+    assert payload["signals"]["harmed_population"] == "villagers on borewell supply"
+    assert payload["signals"]["actionable"] is None   # null is "silent", not "no"
 
 
 def test_emit_resolves_a_shortlist_matched_problem_edge_and_links_it(conn, monkeypatch):

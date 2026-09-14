@@ -37,6 +37,7 @@ avoid.
 from __future__ import annotations
 
 import json
+import re
 
 from worker.extract_types import Answer, PromptSource
 from worker.questions import REGISTRY
@@ -90,7 +91,14 @@ def screen_prompt(items: list[dict]) -> tuple[str, str]:
     return system, prompt
 
 
-_EXTRACT_COMMON = (
+# Split 2026-09-14. This used to be one constant carrying BOTH the shared
+# prose and a full JSON schema block, and every prompt built on it appended a
+# schema of its own — so the batched and verify prompts each showed the model
+# two schemas. That was survivable while the two agreed; it stopped being
+# survivable when `claims` left the batched schema, because the base was
+# still asking for a key the batched schema had dropped. The prose is shared;
+# the schema belongs to whichever prompt is being built.
+_EXTRACT_COMMON_PROSE = (
     "Extract structured claims from the text below about the named entity. "
     "Never write prose summaries as a claim value — a claim is one field, "
     "one short value, one confidence in [0, 1]. If the text does not "
@@ -105,6 +113,13 @@ _EXTRACT_COMMON = (
     "affiliated, parent_org, superseded_by. `relevance` on a `works_on` "
     "edge is 0 (mentioned) / 1 (adjacent) / 2 (works it) / 3 "
     "(load-bearing) — omit if the text does not support a judgment.\n\n"
+)
+
+# The single-source schema. `extract_prompt` is the ONLY caller: that path has
+# no findings ledger, so `claims` there is the model's own list and is the
+# only claim source (`worker.py`, the non-batched branch). The batched and
+# verify prompts derive claims from findings and carry their own schemas.
+_EXTRACT_SCHEMA_SINGLE = (
     "Respond with strict JSON only, no prose, no markdown fences:\n"
     '{"claims": [{"field": "...", "value": "...", "confidence": 0.0}, ...],\n'
     ' "emits":  [{"kind": "problem"|"actor", "name": "...", "hint": "..."}],\n'
@@ -112,7 +127,9 @@ _EXTRACT_COMMON = (
     '"edge_kind": "...", "relevance": 0|1|2|3|null, "evidence": "..."}]}'
 )
 
-_PROBLEM_SYSTEM = (
+_EXTRACT_COMMON = _EXTRACT_COMMON_PROSE + _EXTRACT_SCHEMA_SINGLE
+
+_PROBLEM_ROLE = (
     "You extract facts about a documented failure instance or need — a "
     "`problem` record in a catalogue of civilizational failures — from "
     "source text. Relevant fields: `title`, `one_line` (a one-sentence "
@@ -132,10 +149,13 @@ _PROBLEM_SYSTEM = (
     "ambient-accidental), `tag:satisfier_relation` "
     "(absence|violator|pseudo-satisfier|maldistribution|degraded-quality). "
     "Do not invent a tier or need id — those come from the existing browse "
-    "tree, not from source text.\n\n" + _EXTRACT_COMMON
+    "tree, not from source text.\n\n"
 )
 
-_ACTOR_SYSTEM = (
+_PROBLEM_SYSTEM = _PROBLEM_ROLE + _EXTRACT_COMMON
+_PROBLEM_SYSTEM_BASE = _PROBLEM_ROLE + _EXTRACT_COMMON_PROSE
+
+_ACTOR_ROLE = (
     "You extract facts about an org or named individual working on a "
     "documented failure — an `actor` record — from source text, per the "
     "\"who is working on this\" method: establish what leg they work "
@@ -159,8 +179,11 @@ _ACTOR_SYSTEM = (
     "`contact_route`. Needs and offers are `ask:need:<kind>` / "
     "`ask:offer:<kind>` (value = the free-text ask, e.g. "
     "`ask:need:funding`). Follow channels are `channel:<kind>` (value = "
-    "the URL or handle, e.g. `channel:twitter`).\n\n" + _EXTRACT_COMMON
+    "the URL or handle, e.g. `channel:twitter`).\n\n"
 )
+
+_ACTOR_SYSTEM = _ACTOR_ROLE + _EXTRACT_COMMON
+_ACTOR_SYSTEM_BASE = _ACTOR_ROLE + _EXTRACT_COMMON_PROSE
 
 
 def extract_prompt(kind: str, entity_name: str, text: str) -> tuple[str, str]:
@@ -201,6 +224,35 @@ def extract_prompt(kind: str, entity_name: str, text: str) -> tuple[str, str]:
 # nor either fix is validated. Do not adopt V1 or V2 here — `poc2c-spec.md`
 # is the unrun test that would settle it.
 
+CHUNK_MARK = "\u27e8{label}.{k}\u27e9"      # ⟨S2.3⟩ — prompt-local, like the label
+
+
+def render_block(source) -> str:
+    """One `[Sn] <url>` block with every chunk inside it marked `⟨Sn.k⟩`.
+
+    `k` is 1-based position within the block, so `⟨S2.3⟩` is
+    `source.chunk_refs[2]` — the parser resolves it, nothing downstream ever
+    sees the marker form (`extract_types.py`'s frozen contract).
+
+    Why mark at all: `finding.chunk_ref` (03-worker.md §9, "audit a wrong
+    answer back to the passage") could only ever be filled when a block held
+    exactly ONE chunk, and measured across the five PoC fixtures at radius 1
+    that never happens — 0 of 16 blocks, min 2 chunks, median ~11. The
+    column, its migration and its frozen `source_id:ordinal` format all
+    shipped; the prompt was the missing half.
+
+    A source with no `chunk_texts` (the verify pass, `retry_per_source`, any
+    caller holding only joined `text`) renders unmarked — the marker is an
+    aid, and an answer with no resolvable marker keeps `chunk_ref=None`,
+    which is the column's existing contract.
+    """
+    if not getattr(source, "chunk_texts", ()):
+        return f"[{source.label}] {source.url}\n{source.text}"
+    parts = [f"{CHUNK_MARK.format(label=source.label, k=k)} {t}"
+             for k, t in enumerate(source.chunk_texts, start=1)]
+    return f"[{source.label}] {source.url}\n" + "\n\n".join(parts)
+
+
 def _question_block(kind: str) -> str:
     """One `- <id>: <question>` line per question of `kind`, in registry
     order — ported from `poc/poc2_extract.py:89-94` unchanged."""
@@ -234,11 +286,11 @@ def extract_prompt_batched(
     """
     if kind not in ("problem", "actor"):
         raise ValueError(f"kind must be 'problem' or 'actor', got {kind!r}")
-    base = _PROBLEM_SYSTEM if kind == "problem" else _ACTOR_SYSTEM
+    base = _PROBLEM_SYSTEM_BASE if kind == "problem" else _ACTOR_SYSTEM_BASE
     system = (
-        base + "\n\n"
+        base +
         "SEVERAL SOURCES ARE GIVEN AT ONCE, each opening with a marker line "
-        "`[Sn] <url>`. Three additional rules follow from that:\n\n"
+        "`[Sn] <url>`. Five additional rules follow from that:\n\n"
         "1. Answer the numbered questions below. Every answer carries the "
         "`question_id` it answers and the `source_id` (`S1`, `S2`, …) of the "
         "source it came from. An answer with no source id, or an id not in "
@@ -255,24 +307,76 @@ def extract_prompt_batched(
         "name). If a source is not about the named entity, list it in "
         "`misidentified` with what it is actually about, and do not answer "
         "from it. You are reading the whole page and the check was not; "
-        "flagging one is expected, not a complaint.\n\n"
+        "flagging one is expected, not a complaint.\n"
+        "5. Inside each source, every chunk is marked `\u27e8Sn.k\u27e9`. Each "
+        "answer also carries `chunk`: the marker of the ONE chunk you read "
+        "it from, exactly as written (`\"S2.3\"`). If the answer rests on "
+        "more than one chunk, give the marker of the chunk carrying the "
+        "figure or the claim itself. If you cannot point to one, omit "
+        "`chunk` — an absent marker is fine, a guessed one is not.\n\n"
         "QUESTIONS:\n" + _question_block(kind) + "\n\n"
+        "A `problem` emit also carries `signals` — the four leafability "
+        "signals, captured while you still have the page open so nothing "
+        "has to refetch it later (`03-worker.md` \u00a710):\n"
+        "  `harmed_population` — who is harmed, bounded and nameable\n"
+        "  `magnitude`         — the figure, or the string `uncounted`\n"
+        "  `agent`             — what triggers the harm\n"
+        "  `actionable`        — what could be done, and by whom\n"
+        "Use `null` for any the source does not support. `null` means "
+        "the source was silent, NOT that the answer is no — and "
+        "`uncounted` in `magnitude` is a real value, not a null: absence "
+        "of measurement is a finding. An `actor` emit omits `signals`.\n\n"
         "Respond with strict JSON only, no prose, no markdown fences:\n"
         '{"answers": [{"question_id": "...", "source_id": "S2", '
-        '"answer": "...", "confidence": 0.0}],\n'
+        '"chunk": "S2.3", "answer": "...", "confidence": 0.0}],\n'
         ' "misidentified": [{"source_id": "S3", "about_what": "...", '
         '"why": "..."}],\n'
-        ' "claims":  [{"field": "...", "value": "...", "confidence": 0.0}],\n'
         ' "emits":   [{"kind": "problem"|"actor", "name": "...", '
-        '"hint": "...", "signals": {}}],\n'
+        '"hint": "...", "signals": {"harmed_population": null, '
+        '"magnitude": null, "agent": null, "actionable": null}}],\n'
         ' "edges":   [{"dst_name": "...", "dst_kind": "...", '
         '"edge_kind": "...", "relevance": 0, "stance": null, '
         '"evidence": "..."}]}'
     )
-    blocks = [f"[{s.label}] {s.url}\n{s.text}" for s in sources]
+    blocks = [render_block(s) for s in sources]
     prompt = (f"Entity name: {entity_name}\n\n"
               "Sources:\n\n" + "\n\n---\n\n".join(blocks))
     return system, prompt
+
+
+_CHUNK_MARK_RE = re.compile(r"^[\s\u27e8\[]*([A-Za-z]+\d+)\.(\d+)[\s\u27e9\]]*$")
+
+
+def resolve_chunk_marker(raw, source, question_id: str, i: int,
+                         problems: list[str]) -> str | None:
+    """`"S2.3"` -> `source.chunk_refs[2]`, or None.
+
+    Same discipline as the source label above it: resolved, never guessed.
+    A marker naming a DIFFERENT source than the answer's own `source_id` is
+    refused rather than quietly trusted — that combination means the model
+    lost track of which block it was reading, which is exactly the condition
+    `chunk_ref` exists to let a reviewer detect. An absent marker is not a
+    problem worth logging: rule 5 permits omitting it.
+    """
+    if raw is None or raw == "":
+        return None
+    m = _CHUNK_MARK_RE.match(str(raw).strip())
+    if not m:
+        problems.append(f"answers[{i}] ({question_id}): unparseable chunk "
+                        f"marker {raw!r} — chunk_ref left null")
+        return None
+    label, k = m.group(1), int(m.group(2))
+    if label != source.label:
+        problems.append(f"answers[{i}] ({question_id}): chunk marker {raw!r} "
+                        f"names {label}, answer names {source.label} — "
+                        f"chunk_ref left null")
+        return None
+    if not 1 <= k <= len(source.chunk_refs):
+        problems.append(f"answers[{i}] ({question_id}): chunk marker {raw!r} "
+                        f"out of range (block holds "
+                        f"{len(source.chunk_refs)}) — chunk_ref left null")
+        return None
+    return source.chunk_refs[k - 1]
 
 
 def parse_answers(
@@ -359,12 +463,16 @@ def parse_answers(
                         f"{confidence!r} outside 0-1 — ignored, answer kept")
                     confidence = None
 
-        # A block can hold >1 chunk (multiple passages selected from the same
-        # source); the model doesn't say which one it read, so the chunk_ref
-        # is only narrowed when the source's block was exactly one chunk
-        # (`extract_types.py`'s `Answer.chunk_ref` docstring).
-        chunk_ref = (source.chunk_refs[0]
-                     if len(source.chunk_refs) == 1 else None)
+        # The model names the chunk it read (rule 5, added 2026-09-14). The
+        # old rule here — narrow only when the block held exactly one chunk —
+        # left this null on every finding ever written: 0 of 16 blocks across
+        # the five PoC fixtures at radius 1 held one chunk. The one-chunk case
+        # is kept as the fallback for a caller whose block carries no markers
+        # (the verify pass, `retry_per_source`), where it is still correct.
+        chunk_ref = resolve_chunk_marker(a.get("chunk"), source,
+                                         question_id, i, problems)
+        if chunk_ref is None and len(source.chunk_refs) == 1:
+            chunk_ref = source.chunk_refs[0]
 
         answers.append(Answer(
             question_id=question_id,
@@ -478,9 +586,9 @@ def verify_and_extract_prompt_batched(
     """
     if kind not in ("problem", "actor"):
         raise ValueError(f"kind must be 'problem' or 'actor', got {kind!r}")
-    base = _PROBLEM_SYSTEM if kind == "problem" else _ACTOR_SYSTEM
+    base = _PROBLEM_SYSTEM_BASE if kind == "problem" else _ACTOR_SYSTEM_BASE
     system = (
-        base + "\n\n" + _VERIFY_RULES +
+        base + _VERIFY_RULES +
         "Each answer carries the `question_id` it answers and the "
         "`source_id` (`S1`, `S2`, …) it came from. Never guess an id, never "
         "merge two sources into one answer. If two accepted sources disagree, "
@@ -492,9 +600,10 @@ def verify_and_extract_prompt_batched(
         '{"verdicts": [{"source_id": "S1", "verdict": "about"|"different"'
         '|"unrelated"|"insufficient", "about_what": "...", "why": "..."}],\n'
         ' "answers": [{"question_id": "...", "source_id": "S2", '
-        '"answer": "...", "confidence": 0.0}],\n'
+        '"chunk": "S2.3", "answer": "...", "confidence": 0.0}],\n'
         ' "emits":   [{"kind": "problem"|"actor", "name": "...", '
-        '"hint": "...", "signals": {}}],\n'
+        '"hint": "...", "signals": {"harmed_population": null, '
+        '"magnitude": null, "agent": null, "actionable": null}}],\n'
         ' "edges":   [{"dst_name": "...", "dst_kind": "...", '
         '"edge_kind": "...", "relevance": 0, "stance": null, '
         '"evidence": "..."}]}\n\n'
@@ -502,7 +611,7 @@ def verify_and_extract_prompt_batched(
         "`about_what` is required on `different` and `unrelated` — it is how "
         "a reviewer checks your reasoning without refetching the page."
     )
-    blocks = [f"[{s.label}] {s.url}\n{s.text}" for s in sources]
+    blocks = [render_block(s) for s in sources]
     prompt = (f"Entity name: {entity_name}\n"
               f"Entity description: {entity_context or '(none given)'}\n\n"
               "Unverified sources:\n\n" + "\n\n---\n\n".join(blocks))

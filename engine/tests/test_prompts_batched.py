@@ -27,7 +27,9 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 import pytest
 
 from worker.extract_types import Answer, PromptSource
-from worker.prompts import extract_prompt_batched, parse_answers, retry_per_source
+from worker import prompts
+from worker.prompts import (
+    extract_prompt_batched, parse_answers, retry_per_source)
 from worker.questions import REGISTRY
 
 POC = pathlib.Path(__file__).resolve().parents[1] / "poc"
@@ -437,3 +439,91 @@ def test_drop_misidentified_is_a_no_op_with_no_flags():
         sources)
     kept, dropped = drop_misidentified(answers, {})
     assert kept == answers and dropped == []
+
+
+# ------------------------------------- rule 5: per-chunk markers (2026-09-14)
+
+def _src(label="S1", refs=("src:0", "src:1", "src:2"),
+         texts=("alpha text", "bravo text", "charlie text")):
+    return PromptSource(source_id="src", label=label, url="https://x/",
+                        text="\n\n".join(texts), chunk_refs=refs,
+                        chunk_texts=texts)
+
+
+def test_block_marks_every_chunk_inside_it():
+    system, prompt = prompts.extract_prompt_batched("actor", "X", [_src()])
+    assert "⟨S1.1⟩ alpha text" in prompt
+    assert "⟨S1.2⟩ bravo text" in prompt
+    assert "⟨S1.3⟩ charlie text" in prompt
+    assert prompt.count("[S1] https://x/") == 1   # still ONE block per source
+
+
+def test_block_without_chunk_texts_renders_unmarked():
+    """`retry_per_source` and any caller holding only joined text still
+    work — the marker is an aid, not a precondition."""
+    bare = PromptSource("src", "S1", "https://x/", "joined body", ("src:0",))
+    _, prompt = prompts.extract_prompt_batched("actor", "X", [bare])
+    assert "joined body" in prompt and "⟨" not in prompt
+
+
+def test_answer_chunk_marker_resolves_to_the_durable_chunk_ref():
+    answers, problems = prompts.parse_answers(
+        {"answers": [{"question_id": "q1_one_line", "source_id": "S1",
+                      "chunk": "S1.3", "answer": "a"}]}, [_src()])
+    assert problems == []
+    assert answers[0].chunk_ref == "src:2"     # 1-based marker, 0-based tuple
+
+
+def test_chunk_marker_naming_another_source_is_refused_not_trusted():
+    """That combination means the model lost track of which block it was
+    reading — the exact condition chunk_ref exists to let a reviewer see."""
+    answers, problems = prompts.parse_answers(
+        {"answers": [{"question_id": "q1_one_line", "source_id": "S1",
+                      "chunk": "S4.1", "answer": "a"}]}, [_src()])
+    assert answers[0].chunk_ref is None
+    assert any("names S4" in p for p in problems)
+
+
+def test_out_of_range_and_unparseable_markers_leave_chunk_ref_null():
+    for bad in ("S1.9", "third one", "S1.0"):
+        answers, problems = prompts.parse_answers(
+            {"answers": [{"question_id": "q1_one_line", "source_id": "S1",
+                          "chunk": bad, "answer": "a"}]}, [_src()])
+        assert answers and answers[0].chunk_ref is None, bad
+        assert problems, bad
+
+
+def test_absent_marker_is_not_a_problem_and_keeps_the_one_chunk_fallback():
+    one = PromptSource("src", "S1", "u", "only", ("src:7",), ("only",))
+    answers, problems = prompts.parse_answers(
+        {"answers": [{"question_id": "q1_one_line", "source_id": "S1",
+                      "answer": "a"}]}, [one])
+    assert problems == [] and answers[0].chunk_ref == "src:7"
+
+    answers, problems = prompts.parse_answers(
+        {"answers": [{"question_id": "q1_one_line", "source_id": "S1",
+                      "answer": "a"}]}, [_src()])
+    assert problems == [] and answers[0].chunk_ref is None
+
+
+# ------------------------------------ claims left the batched schema --------
+
+def test_batched_schema_does_not_ask_for_claims_and_asks_once():
+    system, _ = prompts.extract_prompt_batched("actor", "X", [_src()])
+    assert '"claims"' not in system
+    assert system.count("Respond with strict JSON") == 1
+
+
+def test_single_source_prompt_still_asks_for_claims():
+    """That path has no findings ledger to derive claims from."""
+    system, _ = prompts.extract_prompt("actor", "X", "body")
+    assert '"claims"' in system
+
+
+# ------------------------------------------------ signals on problem emits --
+
+def test_batched_schema_asks_for_the_four_gate_signals():
+    system, _ = prompts.extract_prompt_batched("actor", "X", [_src()])
+    for key in ("harmed_population", "magnitude", "agent", "actionable"):
+        assert key in system
+    assert "uncounted" in system      # a real value, not a null
