@@ -402,6 +402,36 @@ Accepted sources are **not** re-read in the main call. The verify pass's own
 answers merge into the same ledger with the same provenance — a source is paid
 for once, which is §8's whole argument.
 
+### The cheap half, on the confirmed set (rule 4)
+
+§6a handles the sources gate 2 could not confirm. The same sweep found the
+opposite error — false positives *above* `CONFIRMED_ABOVE`, which reach the
+main prompt: `jyoti.com` 0.813 and `screener.in/company/JYOTICNC` 0.804
+against a person who writes about air pollution, `vnrvjietexams.net` 0.818
+against a Punjabi farmers' union.
+
+So `extract_prompt_batched` carries a fourth rule: if a source is not about
+the named entity, list it in `misidentified` with what it is actually about,
+and do not answer from it. The model is already reading the whole page to
+answer the questions, and gate 2 read 500 characters of it — asking the
+better-informed reader to say so costs one schema key and no extra call. The
+prompt says flagging one is expected, so that it reads as a job rather than a
+complaint.
+
+**Deliberately asymmetric with §6a's verdicts.** There, a source is guilty
+until marked `about`, because the whole bucket arrived unconfirmed. Here the
+sources cleared gate 2, so the default is innocent and the flag is an
+exception the model must actively raise; an absent key means "no objection",
+never "no verdict". `parse_misidentified` + `drop_misidentified` enforce the
+"do not answer from it" half rather than trusting it — an instruction a parser
+does not enforce is one that holds until the day it doesn't, silently. The
+answers go; the flag, its `about_what`, the url and the page text stay.
+
+`sources_flagged_misidentified` is directly comparable with
+`verify_different`: the confirmed set's false positives against the uncertain
+bucket's false negatives. Together they say whether the 0.80 line is in the
+right place, from real runs rather than from a sweep of five actors.
+
 ### What this does not settle
 
 Five actors, one encoder, one 500-char preview, and the genuine-vs-junk labels

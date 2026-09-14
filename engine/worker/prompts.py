@@ -222,6 +222,15 @@ def extract_prompt_batched(
     `sources` carries its own `label` per `extract_types.py`'s frozen
     contract — this function renders the labels it is given, it does not
     invent them (that ordering is E3's job, upstream of this one).
+
+    Rule 4 (`misidentified`, added 2026-09-14) is the cheap half of §6a's
+    verify pass, pointed at the sources that DID clear gate 2. The band sweep
+    found false positives above `CONFIRMED_ABOVE`: `jyoti.com` at 0.813 and
+    `screener.in/company/JYOTICNC` at 0.804 against a person who writes about
+    air pollution, `vnrvjietexams.net` at 0.818 against a farmers' union. The
+    model is already reading the whole page to answer the questions; asking it
+    to say so costs one schema key and no extra call. Parsed by
+    `parse_misidentified`, which the caller applies to `answers`.
     """
     if kind not in ("problem", "actor"):
         raise ValueError(f"kind must be 'problem' or 'actor', got {kind!r}")
@@ -238,11 +247,21 @@ def extract_prompt_batched(
         "2. If two sources disagree — a different figure, date, or status for "
         "the same thing — write the disagreement as the answer, naming both "
         "sides and both source ids. Do not silently pick one.\n"
-        "3. A question no source answers is simply absent from `answers`.\n\n"
+        "3. A question no source answers is simply absent from `answers`.\n"
+        "4. These sources passed an automated identity check, but that check "
+        "is a similarity score over each page's opening and it does get this "
+        "wrong — most often on a DIFFERENT entity that shares the name (a "
+        "company with the same word in its name, a person with the same given "
+        "name). If a source is not about the named entity, list it in "
+        "`misidentified` with what it is actually about, and do not answer "
+        "from it. You are reading the whole page and the check was not; "
+        "flagging one is expected, not a complaint.\n\n"
         "QUESTIONS:\n" + _question_block(kind) + "\n\n"
         "Respond with strict JSON only, no prose, no markdown fences:\n"
         '{"answers": [{"question_id": "...", "source_id": "S2", '
         '"answer": "...", "confidence": 0.0}],\n'
+        ' "misidentified": [{"source_id": "S3", "about_what": "...", '
+        '"why": "..."}],\n'
         ' "claims":  [{"field": "...", "value": "...", "confidence": 0.0}],\n'
         ' "emits":   [{"kind": "problem"|"actor", "name": "...", '
         '"hint": "...", "signals": {}}],\n'
@@ -583,3 +602,87 @@ def parse_verified_answers(
             f"{verdict!r}, not 'about' — dropped, the model contradicted its "
             f"own verdict")
     return kept, verdicts, problems
+
+
+def parse_misidentified(
+    result_json, sources: list[PromptSource],
+) -> tuple[dict[str, dict], list[str]]:
+    """Parse the batched prompt's `misidentified` list (rule 4).
+
+    -> `(flagged_by_source_id, problems)`. Returns an empty dict when the key
+    is absent, which is the normal case and not a problem: rule 4 asks the
+    model to speak up only when something is wrong.
+
+    Deliberately asymmetric with `parse_verified_answers`. There, a source is
+    guilty until proven `about`, because the whole bucket arrived unconfirmed.
+    Here the sources cleared gate 2, so the default is innocent and the flag
+    is an exception the model has to actively raise. A missing key means "no
+    objection", never "no verdict".
+
+    An unknown `source_id` is ignored with a note rather than guessed at, the
+    same rule as everywhere else in this module.
+    """
+    problems: list[str] = []
+    flagged: dict[str, dict] = {}
+    if not isinstance(result_json, dict):
+        return flagged, problems
+
+    raw = result_json.get("misidentified")
+    if raw is None:
+        return flagged, problems
+    if not isinstance(raw, list):
+        problems.append("'misidentified' is present but not a list — ignored")
+        return flagged, problems
+
+    by_label = {s.label: s for s in sources}
+    for i, m in enumerate(raw):
+        if not isinstance(m, dict):
+            problems.append(f"misidentified[{i}]: not an object — ignored")
+            continue
+        label = str(m.get("source_id") or "").strip().strip("[]")
+        source = by_label.get(label)
+        if source is None:
+            problems.append(
+                f"misidentified[{i}]: unknown source_id "
+                f"{m.get('source_id')!r} — ignored, never guessed")
+            continue
+        about_what = str(m.get("about_what") or "").strip()
+        if not about_what:
+            problems.append(
+                f"misidentified[{i}] ({label}): flagged with no `about_what` "
+                f"— flag kept, but the reasoning is unreviewable")
+        flagged[source.source_id] = {
+            "label": label, "url": source.url,
+            "about_what": about_what, "why": str(m.get("why") or ""),
+        }
+    return flagged, problems
+
+
+def drop_misidentified(
+    answers: list[Answer], flagged: dict[str, dict],
+) -> tuple[list[Answer], list[str]]:
+    """Remove answers citing a source the model itself flagged, and say so.
+
+    Rule 4 tells the model not to answer from a source it flags. This applies
+    that rather than trusting it, for the same reason `parse_verified_answers`
+    does: an instruction the parser does not enforce is an instruction that
+    holds until the day it doesn't, silently.
+
+    The answers are dropped from the ledger; nothing about the source is
+    deleted. The flag, its `about_what`, the url and the page text all remain
+    — this removes a claim the model retracted, not the record of the source.
+    """
+    if not flagged:
+        return answers, []
+    kept, problems = [], []
+    for a in answers:
+        if a.source_id not in flagged:
+            kept.append(a)
+            continue
+        f = flagged[a.source_id]
+        problems.append(
+            f"answer to {a.question_id} cites {f['label']}, which the model "
+            f"flagged as misidentified"
+            + (f" (actually about: {f['about_what']})" if f["about_what"] else "")
+            + " — dropped")
+    return kept, problems

@@ -33,9 +33,10 @@ from . import extract as extract_mod
 from . import fetch as fetchmod
 from . import gate1, gate2, llm, problem_emit, resolve, search_stage
 from .extract_types import Answer, ConfirmedSource
-from .prompts import (extract_prompt, extract_prompt_batched, parse_answers,
-                      parse_verified_answers, retry_per_source,
-                      verify_and_extract_prompt_batched)
+from .prompts import (drop_misidentified, extract_prompt,
+                      extract_prompt_batched, parse_answers,
+                      parse_misidentified, parse_verified_answers,
+                      retry_per_source, verify_and_extract_prompt_batched)
 from .questions import REGISTRY
 
 # Track B (`04-worker-build-plan.md` §4): predict a depth tier for every
@@ -522,6 +523,11 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         # different` is the interesting one: a page an automated cosine could
         # not rule out that a reading model identified as a different entity
         # sharing the name.
+        # Rule 4 on the MAIN prompt: a source that cleared gate 2 which the
+        # reading model says is a different entity. Directly comparable with
+        # `verify_different` — that one is the uncertain bucket's false
+        # negatives, this one is the confirmed set's false positives.
+        "sources_flagged_misidentified": 0,
         "verify_pass_calls": 0, "verify_answers_merged": 0,
         "verify_about": 0, "verify_different": 0,
         "verify_unrelated": 0, "verify_insufficient": 0,
@@ -792,6 +798,22 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             continue
         elif batched:
             answers, problems = parse_answers(claims_json, prompt_sources)
+            # Rule 4: the model may flag a source that cleared gate 2 as being
+            # about a different entity. It reads the whole page and gate 2
+            # read 500 characters of it, so it is the better-informed of the
+            # two — but the flag is enforced here rather than trusted, the
+            # same as the verify pass's verdicts.
+            flagged, flag_problems = parse_misidentified(claims_json, prompt_sources)
+            problems.extend(flag_problems)
+            if flagged:
+                answers, dropped = drop_misidentified(answers, flagged)
+                problems.extend(dropped)
+                for sid, f in flagged.items():
+                    report["sources_flagged_misidentified"] += 1
+                    log(f"worker: candidate {cid} model flagged {f['label']} "
+                        f"as misidentified: {f['url'][:70]}"
+                        + (f" — actually about: {f['about_what'][:60]}"
+                           if f["about_what"] else ""))
             for problem in problems:
                 log(f"worker: candidate {cid} {problem}")
         report["extracted"] += 1

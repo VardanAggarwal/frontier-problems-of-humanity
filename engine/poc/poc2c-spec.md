@@ -111,6 +111,31 @@ What the recapture changed in this spec:
   `jyoti`. Its ₹9,499 / ₹10,990 figures are appliance prices. A common given
   name defeats that gate by construction.
 
+## The prompt has changed since PoC-2 measured it — 2026-09-14
+
+PoC-2 validated the batched prompt at 95/95 attribution, and this spec's
+comparability to 2b rests on the prompt body being the same. One rule has been
+added since, and it is recorded here rather than discovered mid-run:
+
+**Rule 4 / `misidentified`.** The batched system prompt now asks the model to
+list any source that is not about the named entity, with what it is actually
+about, and not to answer from it. It adds one key to the response schema. The
+reason is in `gate2-band-sweep.md`: false positives above `CONFIRMED_ABOVE`
+reach this prompt, and the model reading the whole page is better placed than
+a 500-char cosine to catch them.
+
+For 2c this means:
+
+- the baseline is no longer byte-identical to 2b's, so a difference in parse
+  rate or attribution between the two runs has a second possible cause;
+- `misidentified` is a THIRD way an answer can fail to appear, alongside "no
+  source answers it" and a dropped source id. A `target_answered=False` cell
+  must now check whether the target source was flagged before it is scored as
+  a void — a flagged source is a *correct* refusal, not a declined question;
+- the planted rival source is synthetic and attributed to a different
+  publisher. If the model flags the plant itself as misidentified, that is a
+  meaningful result and not a malfunction: record it, do not retry the cell.
+
 ## Run conditions
 
 - **Pinned sources** (`--pinned`, per the fixture work): stage 1 and stage 2

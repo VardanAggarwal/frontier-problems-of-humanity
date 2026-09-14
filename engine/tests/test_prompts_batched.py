@@ -363,3 +363,77 @@ def test_unknown_source_id_in_a_verdict_is_never_guessed():
     _, verdicts, problems = parse_verified_answers(body, sources)
     assert verdicts == {}
     assert any("unknown source_id" in p for p in problems)
+
+
+# ------------------------------------------------ rule 4: misidentified ----
+# The main extraction prompt's own escape hatch. Its sources cleared gate 2,
+# but the band sweep found false positives above CONFIRMED_ABOVE, and the
+# model is reading the whole page while gate 2 read 500 characters of it.
+
+from worker.prompts import drop_misidentified, parse_misidentified  # noqa: E402
+
+
+def test_prompt_asks_for_misidentified_and_shows_it_in_the_schema():
+    system, _ = extract_prompt_batched("actor", "Jyoti Pande Lavakare", _srcs(2))
+    assert "misidentified" in system
+    assert "shares the name" in system
+    assert '"about_what"' in system
+
+
+def test_absent_key_is_no_objection_not_no_verdict():
+    """Asymmetric with the verify pass on purpose: here the sources cleared
+    gate 2, so silence means the model had nothing to say."""
+    flagged, problems = parse_misidentified({"answers": []}, _srcs(2))
+    assert flagged == {}
+    assert problems == []
+
+
+def test_flagged_source_loses_its_answers():
+    sources = _srcs(2)
+    body = {
+        "answers": [
+            {"question_id": "q1", "source_id": "S1", "answer": "kept"},
+            {"question_id": "q10_funding", "source_id": "S2",
+             "answer": "revenue of 40 crore"},
+        ],
+        "misidentified": [
+            {"source_id": "S2", "about_what": "a water heater manufacturer",
+             "why": "the page sells appliances"},
+        ],
+    }
+    answers, _ = parse_answers(body, sources)
+    flagged, _ = parse_misidentified(body, sources)
+    kept, dropped = drop_misidentified(answers, flagged)
+    assert [a.question_id for a in kept] == ["q1"]
+    assert any("water heater manufacturer" in d for d in dropped)
+
+
+def test_flag_without_about_what_is_kept_but_noted():
+    sources = _srcs(1)
+    flagged, problems = parse_misidentified(
+        {"misidentified": [{"source_id": "S1"}]}, sources)
+    assert "src1" in flagged
+    assert any("unreviewable" in p for p in problems)
+
+
+def test_unknown_source_id_in_a_flag_is_never_guessed():
+    flagged, problems = parse_misidentified(
+        {"misidentified": [{"source_id": "S9", "about_what": "x"}]}, _srcs(1))
+    assert flagged == {}
+    assert any("unknown source_id" in p for p in problems)
+
+
+def test_misidentified_not_a_list_is_ignored_loudly():
+    flagged, problems = parse_misidentified(
+        {"misidentified": "S2 is wrong"}, _srcs(2))
+    assert flagged == {}
+    assert any("not a list" in p for p in problems)
+
+
+def test_drop_misidentified_is_a_no_op_with_no_flags():
+    sources = _srcs(1)
+    answers, _ = parse_answers(
+        {"answers": [{"question_id": "q1", "source_id": "S1", "answer": "x"}]},
+        sources)
+    kept, dropped = drop_misidentified(answers, {})
+    assert kept == answers and dropped == []

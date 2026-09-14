@@ -607,3 +607,37 @@ def test_adequate_confirmed_set_buys_no_verify_call(conn, monkeypatch, tmp_path)
 
     assert report["sources_in_prompt"] >= 1
     assert report["verify_pass_calls"] == 0
+
+
+MISIDENTIFIED_JSON = {
+    "answers": [
+        {"question_id": "q1_one_line", "source_id": "S1",
+         "answer": "Patient-capital fund", "confidence": 0.9},
+        {"question_id": "q10_funding", "source_id": "S1",
+         "answer": "revenue of 40 crore", "confidence": 0.9},
+    ],
+    "misidentified": [
+        {"source_id": "S1", "about_what": "a manufacturer sharing the name",
+         "why": "the page sells appliances"},
+    ],
+    "claims": [], "emits": [], "edges": [],
+}
+
+
+def test_model_flagging_a_confirmed_source_drops_its_answers(
+        conn, monkeypatch, tmp_path):
+    """Rule 4 end to end. The source cleared gate 2 — the model read the whole
+    page and says it is a different entity, and its answers must not reach the
+    ledger."""
+    cand = make_candidate(conn, kind="actor", name="Acumen",
+                          url="https://a.test/one")
+    fetch = FakeFetch(conn, {"https://a.test/one": PAGE_A}, default_text=PAGE_B)
+    stub_pipeline(monkeypatch, conn, fetch=fetch,
+                  extract_json=MISIDENTIFIED_JSON, screen_ids=[cand["id"]])
+
+    report = worker.run_batch(conn, tmp_path, [cand],
+                              search_provider=None, max_sources=3)
+
+    assert report["sources_flagged_misidentified"] == 1
+    assert report["findings_written"] == 0, (
+        "answers from a flagged source reached the ledger")

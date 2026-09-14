@@ -81,3 +81,12 @@ name.
 The `jyoti-pande-lavakare` case is the one this sweep could not fix with a
 number, and it is the reason the verify pass exists rather than a stricter
 threshold.
+
+**Addendum — rule 4 on the main prompt.** The sweep's false positives *above*
+`CONFIRMED_ABOVE` (`jyoti.com` 0.813, `screener.in/company/JYOTICNC` 0.804,
+`vnrvjietexams.net` 0.818) reach the main extraction prompt, which §6a's
+verify pass never sees. `extract_prompt_batched` now asks the model to list
+any source that is not about the named entity in `misidentified` and not to
+answer from it — enforced by `parse_misidentified` / `drop_misidentified`.
+`sources_flagged_misidentified` is the counter; read it against
+`verify_different`.
