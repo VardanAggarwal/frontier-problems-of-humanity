@@ -25,31 +25,43 @@ from embed.guard import add_store_args, open_store
 from store import db
 from text.preview import Preview, fetch_list, group
 
+from search import confirm_policy
+
 from . import depth as depth_mod
+from . import extract as extract_mod
 from . import fetch as fetchmod
-from . import gate1, gate2, llm, problem_emit, resolve
-from .prompts import extract_prompt
+from . import gate1, gate2, llm, problem_emit, resolve, search_stage
+from .extract_types import Answer, ConfirmedSource
+from .prompts import (extract_prompt, extract_prompt_batched, parse_answers,
+                      retry_per_source)
+from .questions import REGISTRY
 
 # Track B (`04-worker-build-plan.md` §4): predict a depth tier for every
 # actor mention at mint time, and apply the post-extraction ground-test
 # verdict when writing claims. No call site exists yet to feed a live
 # candidate's stored prediction back into `_write_entity` (that plumbing
 # runs through `run_batch`, frozen for this track) — see `_write_entity`'s
-# `predicted_depth` kwarg, which defaults to None and is inert until a
-# caller supplies it. Degrades to: every actor keeps whatever `depth` the
+# `predicted_depth` kwarg — which E6 now plumbs from the candidate's stored
+# intake prediction. Degrades to: every actor keeps whatever `depth` the
 # model itself claimed (today's behaviour) whenever the three ground-test
-# inputs are absent or `WORKER_DEPTH_TIER` is turned off.
-_DEPTH_TIER_ENABLED = os.getenv("WORKER_DEPTH_TIER", "1") != "0"
+# inputs are absent or the `depth_tier` parameter is False.
+#
+# E6 converted this from a switch into a DEFAULT. `run_batch`,
+# `_write_entity` and `_emit` each take `depth_tier` as a call-site
+# parameter; the env var only supplies the value when a caller passes None.
+# Pipeline behaviour toggled by process environment was a workaround for
+# `run_batch` being frozen for tracks A-D (`04-worker-build-plan.md` §6),
+# and E6 is where that freeze lifts.
+_DEPTH_TIER_DEFAULT = os.getenv("WORKER_DEPTH_TIER", "1") != "0"
 
 # Track A (`04-worker-build-plan.md` §4): an unresolvable `works_on` problem
 # edge now mints a problem candidate instead of being dropped (see
-# `_mint_or_resolve_problem`). `run_batch` is frozen for this track (§4
-# reserves it for track E), so there is no call-site parameter to gate this
-# on; an env var is the switch instead, defaulting ON now that the track has
-# landed. Per §4's "land the fallback before the code that degrades to it":
-# setting `WORKER_PROBLEM_EMISSION=0` reverts `_emit` to today's behaviour
-# (unresolvable problem edge silently dropped) with no code change.
-_PROBLEM_EMISSION_ENABLED = os.getenv("WORKER_PROBLEM_EMISSION", "1") != "0"
+# `_mint_or_resolve_problem`). Per §4's "land the fallback before
+# the code that degrades to it": `problem_emission=False` reverts `_emit` to
+# today's behaviour (unresolvable problem edge silently dropped) with no
+# code change. Like `depth_tier`, E6 turned this from an env-var switch into
+# a call-site parameter whose default the env var supplies.
+_PROBLEM_EMISSION_DEFAULT = os.getenv("WORKER_PROBLEM_EMISSION", "1") != "0"
 
 # Columns claims may write directly (db.py's _JSON_COLUMNS mirrors these for
 # problem/actor). Anything else in a claim's `field` must be a `tag:` /
@@ -58,9 +70,15 @@ _PROBLEM_EMISSION_ENABLED = os.getenv("WORKER_PROBLEM_EMISSION", "1") != "0"
 _COLUMNS = {
     "problem": {"title", "one_line", "status", "geography", "needs_legs",
                 "gap_note", "doc", "updated"},
-    "actor": {"title", "type", "legs", "depth", "lifecycle", "lifecycle_as_of",
-              "ecosystem_role", "affected_led", "representation_unit", "stance",
-              "geography", "contact_route", "followed", "followed_date",
+    # `one_line`, `funding` and `scale_metric` were missing here while the
+    # `actor` table carried all three and `questions.yaml` asked for each
+    # (`q1_one_line`, `q10_funding`, `q11_scale_metric`) — so those claims
+    # were extracted, logged and dropped. Found by E4 while deriving claims
+    # from findings; fixed here, in E6, because this is E6's file.
+    "actor": {"title", "type", "one_line", "legs", "depth", "lifecycle",
+              "lifecycle_as_of", "ecosystem_role", "affected_led",
+              "representation_unit", "stance", "geography", "contact_route",
+              "funding", "scale_metric", "followed", "followed_date",
               "last_checked", "doc", "updated"},
 }
 _JSON_LIST_COLUMNS = {
@@ -224,8 +242,8 @@ def _safe_put(conn: sqlite3.Connection, kind: str, row: dict, *, by: str,
 
 def _write_entity(conn: sqlite3.Connection, corpus: Path, kind: str, name: str,
                   decision: resolve.ResolveResult, claims: list[dict], *,
-                  by: str, log=print, predicted_depth: str | None = None
-                  ) -> str | None:
+                  by: str, log=print, predicted_depth: str | None = None,
+                  depth_tier: bool | None = None) -> str | None:
     """Apply one candidate's claims per its resolution. -> the written/matched
     entity id, or None when nothing was written — either `ambiguous`
     (module docstring: escalation writes no graph rows) or a catastrophic
@@ -238,8 +256,9 @@ def _write_entity(conn: sqlite3.Connection, corpus: Path, kind: str, name: str,
     and `needs_requeue` simply has nothing to compare against on that path.
     """
     columns, other = _split_claims(kind, claims, log=log)
+    depth_tier = _DEPTH_TIER_DEFAULT if depth_tier is None else depth_tier
 
-    if kind == "actor" and _DEPTH_TIER_ENABLED and any(
+    if kind == "actor" and depth_tier and any(
             f in columns for f in ("affected_led", "representation_unit", "legs")):
         # The ground-test verdict (`03-worker.md` §2 / `CLAUDE.md` -> Actor
         # tracking), applied once the three inputs the model itself just
@@ -346,15 +365,22 @@ def _mint_or_resolve_problem(conn: sqlite3.Connection, source_candidate: sqlite3
 
 def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
          claims: dict, resolved_this_batch: dict[tuple[str, str], str],
-         *, log=print) -> tuple[int, int]:
+         *, log=print, depth_tier: bool | None = None,
+         problem_emission: bool | None = None) -> tuple[int, int]:
     """Write `emits` as fresh, unprocessed candidates and `edges` as graph
     links where the destination already resolves — never both for the same
     name, and never a recursive call into `run_batch` (module docstring).
+
+    `depth_tier` / `problem_emission`: None takes the module default, which
+    the env var supplies (see their definitions above).
 
     Track A: a `works_on` edge naming a problem that doesn't resolve is no
     longer just dropped — `_mint_or_resolve_problem` either resolves it
     (existing/shortlist match), escalates it (ambiguous), or mints it as a
     fresh problem candidate here, same as `emits` does for named actors."""
+    depth_tier = _DEPTH_TIER_DEFAULT if depth_tier is None else depth_tier
+    problem_emission = (_PROBLEM_EMISSION_DEFAULT if problem_emission is None
+                        else problem_emission)
     emitted = 0
     for e in claims.get("emits", []) or []:
         ekind, ename = e.get("kind"), e.get("name")
@@ -371,7 +397,7 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
         if resolved_this_batch.get((ekind, db.norm(ename))) is not None:
             continue
         payload = {"hint": e.get("hint", ""), "from_candidate": source_candidate["id"]}
-        if ekind == "actor" and _DEPTH_TIER_ENABLED:
+        if ekind == "actor" and depth_tier:
             # Track B: the intake-time prediction, stored now so a future
             # caller processing this candidate can compare it against the
             # post-extraction verdict (`depth.needs_requeue`) — nothing in
@@ -394,7 +420,7 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
         dst_id = db.resolve(conn, dst_kind, dst_name)
         if dst_id is None:
             dst_id = resolved_this_batch.get((dst_kind, db.norm(dst_name)))
-        if dst_id is None and dst_kind == "problem" and _PROBLEM_EMISSION_ENABLED:
+        if dst_id is None and dst_kind == "problem" and problem_emission:
             # Track A: unlike actors (whose `emits` loop above already mints
             # a candidate for any mentioned name), nothing upstream mints a
             # problem candidate from a `works_on` destination — this is the
@@ -420,14 +446,66 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
     return emitted, edges_written
 
 
+# `03-worker.md` §11b's high-value question set — magnitude, who-works-it,
+# funding, affected-led — as ids. Counter 1 of §11c counts how many of these
+# a candidate leaves unanswered. READ §11c's warning before reading the
+# number: `p19_who_working` is `multi`, a `multi` question never closes, so
+# this counter cannot return 0 and cannot say "no branch needed". It is
+# written because it costs nothing to write and becomes meaningful the day
+# §7's closing rule lands; it is not evidence until then.
+_HIGH_VALUE_QUESTIONS = ("p9_magnitude", "p19_who_working",
+                         "q10_funding", "q6_affected_led")
+
+
+def _predicted_depth(cand: sqlite3.Row) -> str | None:
+    """Track B stored an intake-time depth prediction in the candidate's
+    `evidence` payload (see `_emit`). Read it back — this is the plumbing
+    `_write_entity`'s docstring said did not exist yet. `evidence` is plain
+    snippet text for candidates minted anywhere else, so a parse failure is
+    the normal case, not an error."""
+    try:
+        payload = json.loads(cand["evidence"] or "")
+    except (ValueError, TypeError):
+        return None
+    return payload.get("predicted_depth") if isinstance(payload, dict) else None
+
+
 def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.Row],
-             *, log=print) -> dict:
+             *, log=print, depth_tier: bool | None = None,
+             problem_emission: bool | None = None, search_provider=None,
+             max_sources: int | None = None) -> dict:
+    """`search_provider=None` is track D's documented degrade (§13): the
+    candidate's own URL as the single source, which is exactly what this
+    loop did before track D existed. Pass a `search.provider` adapter to
+    turn the search stage on.
+
+    `depth_tier` / `problem_emission`: None takes the env-supplied module
+    default. They are parameters rather than env switches because
+    `04-worker-build-plan.md` §6 called the env vars a workaround for this
+    function being frozen, and E6 is where that freeze lifts.
+    """
+    depth_tier = _DEPTH_TIER_DEFAULT if depth_tier is None else depth_tier
+    problem_emission = (_PROBLEM_EMISSION_DEFAULT if problem_emission is None
+                        else problem_emission)
     report = {
         "gate0_collapsed": 0, "gate1_kept": 0, "gate1_rejected": 0, "fetched": 0,
         "gate2_confirmed": 0, "gate2_uncertain": 0, "gate2_mismatch": 0,
         "extracted": 0, "resolved_exact": 0, "resolved_shortlist": 0,
         "resolved_ambiguous": 0, "resolved_new": 0, "edges_written": 0,
         "candidates_emitted": 0, "cost": 0.0,
+        # stage 7 (§9) and the batched call (§8)
+        "findings_written": 0, "extracted_batched": 0, "extracted_single": 0,
+        "retry_per_source_calls": 0, "retry_per_source_rescued": 0,
+        # E3's coverage counters — §3 correction 4. `sources_dropped_by_cap`
+        # cannot currently fire (`_cap_tokens` never drops a source's last
+        # chunk); it is a regression detector for that guarantee, not a
+        # measurement. See `poc/poc2-results.md` -> "Item 6 answered".
+        "sources_fetched": 0, "sources_in_prompt": 0,
+        "sources_never_selected": 0, "sources_dropped_by_cap": 0,
+        # §11c's three counters, batch totals. Per-candidate values are
+        # logged (the resolution a single dict cannot hold), by decision:
+        # report-dict-only, not `event` rows and not a new table.
+        "hv_questions_open": 0, "unread_pool_urls": 0, "new_query_seeds": 0,
     }
     if not candidates:
         return report
@@ -501,10 +579,11 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         # empty text: a stub actor from a registry row legitimately has no
         # document yet, and that is not a reason to stop the pipeline.
         text = ""
+        sources: list[ConfirmedSource] = []
         if cand["url"]:
-            result = fetchmod.fetch(conn, corpus, cand["url"])
+            fetched = fetchmod.fetch(conn, corpus, cand["url"])
             report["fetched"] += 1
-            text = result.text or ""
+            text = fetched.text or ""
 
             if text:
                 verdict, cosine, note = gate2.confirm(conn, name, cand["evidence"] or "", text)
@@ -519,9 +598,63 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                     continue
                 if verdict == "uncertain":
                     log(f"worker: candidate {cid} gate2 uncertain — {note}")
+                sources.append(ConfirmedSource(
+                    source_id=fetched.source_id, url=cand["url"], text=text,
+                    origin=confirm_policy.SEED, verdict=verdict))
 
-        # claims — the one paid call in the loop (§7 tier 4).
-        system, prompt = extract_prompt(kind, name, text)
+        # search (track D, wired here). The seed is fetched and gate-2'd
+        # above rather than handed to `search_sources`, because that verdict
+        # is the CANDIDATE's admission decision — a mismatch rejects the
+        # candidate outright, which is not something a per-source policy can
+        # express. So the search stage is asked only for what the seed did
+        # not supply, hence `seed_url=None`.
+        #
+        # The NO_VERDICT drop (D3's policy, adopted at integration) applies
+        # to search sources. A seed that fetched no text yields no source
+        # here either — but the CANDIDATE still reaches extraction on its
+        # name alone, because a bare registry row with no document is
+        # legitimate (§7) and was never a source to drop in the first place.
+        search_counters: dict = {}
+        if search_provider is not None:
+            # Deduped against the seed: `search_sources` is called with
+            # `seed_url=None`, but nothing stops set cover from picking the
+            # seed's own URL out of the search results. `fetch` is cached on
+            # `url_canonical` and returns the same `source.id` for it, so the
+            # seed would otherwise be gate-2'd a second time and appear twice
+            # in `sources` — which `extract.assemble` then chunks twice,
+            # repeating the same passages inside one `[Sn]` block and
+            # inflating `sources_fetched`. `source_id` is the durable
+            # identity (`extract_types.py`), so it is the right key here.
+            already = {s.source_id for s in sources}
+            sources.extend(s for s in search_stage.search_sources(
+                name, depth=_predicted_depth(cand) or depth_mod.TRACKED_TIER,
+                provider=search_provider,
+                fetch=lambda url: fetchmod.fetch(conn, corpus, url),
+                confirm=lambda n, ev, txt: gate2.confirm(conn, n, ev, txt),
+                evidence=cand["evidence"] or "", seed_url=None,
+                max_sources=max_sources, counters=search_counters, log=log)
+                if s.source_id not in already)
+
+        # claims — the one paid call in the loop (§7 tier 4). With sources in
+        # hand it is §8's batched `[S1]…[Sn]` call over selected passages;
+        # with none it is the original whole-text call, which is also §13's
+        # degrade path when passage assembly yields nothing.
+        prompt_sources, coverage = ([], {})
+        if sources:
+            prompt_sources, coverage = extract_mod.assemble(
+                sources, REGISTRY.retrieval_questions(kind))
+        batched = bool(prompt_sources)
+        for key in ("sources_fetched", "sources_in_prompt",
+                    "sources_never_selected", "sources_dropped_by_cap"):
+            report[key] += int(coverage.get(key, 0))
+        if coverage:
+            log(f"worker: candidate {cid} coverage " +
+                " ".join(f"{k}={v}" for k, v in sorted(coverage.items())))
+
+        if batched:
+            system, prompt = extract_prompt_batched(kind, name, prompt_sources)
+        else:
+            system, prompt = extract_prompt(kind, name, text)
         try:
             result = llm.call(prompt, system=system, tier="judgment", max_tokens=4096)
         except llm.LLMError as e:
@@ -529,7 +662,38 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             continue
         report["cost"] += result.get("cost", 0.0)
         claims_json = result.get("json")
-        if not isinstance(claims_json, dict) or not all(
+
+        answers: list[Answer] = []
+        if batched and not isinstance(claims_json, dict):
+            # §13's per-source fallback. PoC-2 measured it rescuing 1/1 parse
+            # failures, and that one failure was NOT prompt-size-driven — it
+            # fired at 4,082 chars while a larger response parsed clean — so
+            # the retry is warranted by the observation, not by a size rule.
+            log(f"worker: candidate {cid} batched parse failed, retrying "
+                f"{len(prompt_sources)} sources one at a time (§13)")
+            for src, sys_p, usr_p in retry_per_source(kind, name, prompt_sources):
+                report["retry_per_source_calls"] += 1
+                try:
+                    one = llm.call(usr_p, system=sys_p, tier="judgment",
+                                   max_tokens=4096)
+                except llm.LLMError as e:
+                    log(f"worker: candidate {cid} retry on {src.source_id} "
+                        f"failed: {e}")
+                    continue
+                report["cost"] += one.get("cost", 0.0)
+                got, problems = parse_answers(one.get("json"), [src._replace(label="S1")])
+                for problem in problems:
+                    log(f"worker: candidate {cid} retry {src.source_id}: {problem}")
+                if got:
+                    report["retry_per_source_rescued"] += 1
+                    answers.extend(got)
+            if not answers:
+                log(f"worker: candidate {cid} malformed extraction JSON "
+                    f"({type(claims_json).__name__}) and no source rescued it, "
+                    "skipping")
+                continue
+            claims_json = {"claims": [], "emits": [], "edges": []}
+        elif not isinstance(claims_json, dict) or not all(
                 isinstance(claims_json.get(k), list)
                 for k in ("claims", "emits", "edges")):
             # `.get` on a non-dict (the model returned a bare array, or
@@ -539,7 +703,45 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             log(f"worker: candidate {cid} malformed extraction JSON "
                 f"({type(claims_json).__name__}), skipping")
             continue
+        elif batched:
+            answers, problems = parse_answers(claims_json, prompt_sources)
+            for problem in problems:
+                log(f"worker: candidate {cid} {problem}")
         report["extracted"] += 1
+        report["extracted_batched" if batched else "extracted_single"] += 1
+
+        # stage 7 — the ledger, written BEFORE claims are resolved (§9), and
+        # claims then derived from it rather than taken from the model.
+        claims = claims_json.get("claims", [])
+        if batched:
+            report["findings_written"] += extract_mod.write_findings(
+                conn, int(cid), answers,
+                urls={s.source_id: s.url for s in prompt_sources})
+            claims, notes = extract_mod.claims_from_findings(answers)
+            for note in notes:
+                log(f"worker: candidate {cid} {note}")
+            # The batched schema still asks for `claims` and we discard them:
+            # claims come from findings now, so the model's own list is a
+            # second source of truth for the same value. Removing the key
+            # from the prompt is a prompt change PoC-2 never measured — it
+            # belongs in `poc/poc2c-spec.md`, not in a quiet edit here.
+            model_claims = len(claims_json.get("claims", []))
+            if model_claims:
+                log(f"worker: candidate {cid} discarded {model_claims} model "
+                    f"claims in favour of {len(claims)} derived from findings")
+
+        # §11c's counters, per candidate. Counter 1 is unreadable as a signal
+        # about §11b until §7's `multi` closing rule lands — see the constant.
+        answered = {a.question_id for a in answers}
+        hv_open = sum(1 for q in _HIGH_VALUE_QUESTIONS if q not in answered)
+        unread = len(search_counters.get("unread_urls", []))
+        seeds = {(e or {}).get("name", "") for e in claims_json.get("emits", [])}
+        new_seeds = sum(1 for n in seeds if n and db.norm(n) != db.norm(name))
+        report["hv_questions_open"] += hv_open
+        report["unread_pool_urls"] += unread
+        report["new_query_seeds"] += new_seeds
+        log(f"worker: candidate {cid} §11c hv_open={hv_open} "
+            f"unread_pool={unread} new_seeds={new_seeds}")
 
         # resolve — normalized match first, embedding shortlist as fallback.
         decision = resolve.resolve_entity(conn, corpus, kind, name, text or
@@ -557,7 +759,9 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             continue
 
         entity_id = _write_entity(conn, corpus, kind, name, decision,
-                                  claims_json["claims"], by=by, log=log)
+                                  claims, by=by, log=log,
+                                  predicted_depth=_predicted_depth(cand),
+                                  depth_tier=depth_tier)
         if entity_id is None:
             # `_write_entity` could not write even a minimal row — give up on
             # this candidate rather than leave it endlessly re-selectable
@@ -575,7 +779,9 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         conn.commit()
 
         row = conn.execute("SELECT * FROM candidate WHERE id = ?", (int(cid),)).fetchone()
-        emitted, edges = _emit(conn, row, claims_json, resolved_this_batch, log=log)
+        emitted, edges = _emit(conn, row, claims_json, resolved_this_batch,
+                               log=log, depth_tier=depth_tier,
+                               problem_emission=problem_emission)
         report["candidates_emitted"] += emitted
         report["edges_written"] += edges
         conn.commit()

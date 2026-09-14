@@ -628,12 +628,14 @@ def test_emit_ambiguous_problem_edge_escalates_without_minting_a_duplicate(
 
 def test_emit_problem_emission_disabled_degrades_to_dropping_the_edge(
         conn, monkeypatch):
-    """`WORKER_PROBLEM_EMISSION=0` reverts to pre-Track-A behaviour: an
+    """`problem_emission=False` reverts to pre-Track-A behaviour: an
     unresolvable problem edge is dropped, nothing minted — the fallback path
-    `04-worker-build-plan.md` §4 requires landing before the switchable part."""
+    `04-worker-build-plan.md` §4 requires landing before the switchable part.
+    E6 turned the `WORKER_PROBLEM_EMISSION` env var this once monkeypatched
+    into a call-site parameter, so the degrade is reached the way a caller
+    reaches it."""
     actor(conn, "src-actor")
     src = _source_candidate(conn, resolved_to="src-actor")
-    monkeypatch.setattr(worker, "_PROBLEM_EMISSION_ENABLED", False)
 
     def boom(*a, **kw):
         raise AssertionError("resolve_entity must not run when the flag is off")
@@ -642,7 +644,8 @@ def test_emit_problem_emission_disabled_degrades_to_dropping_the_edge(
     claims = {"emits": [], "edges": [{
         "dst_kind": "problem", "dst_name": "Some New Problem",
         "edge_kind": "works_on"}]}
-    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None,
+                                  problem_emission=False)
 
     assert emitted == 0 and edges == 0
     assert conn.execute(
@@ -716,13 +719,15 @@ def test_write_entity_logs_requeue_when_predicted_registry_verdicts_tracked(
     assert any("requeue" in msg for msg in logged)
 
 
-def test_write_entity_depth_tier_disabled_degrades_to_model_claim(conn, monkeypatch, tmp_path):
-    monkeypatch.setattr(worker, "_DEPTH_TIER_ENABLED", False)
+def test_write_entity_depth_tier_disabled_degrades_to_model_claim(conn, tmp_path):
+    """`depth_tier=False` is E6's call-site parameter, replacing the
+    `WORKER_DEPTH_TIER` env var this test used to monkeypatch."""
     decision = resolve.ResolveResult(decision="new", entity_id=None, shortlist=[], reason="")
     claims = [{"field": "title", "value": "Quarry Workers Collective"},
              {"field": "depth", "value": "registry"},
              {"field": "affected_led", "value": "yes"}]
     entity_id = worker._write_entity(conn, tmp_path, "actor", "Quarry Workers Collective",
-                                     decision, claims, by="test", log=lambda *a: None)
+                                     decision, claims, by="test", log=lambda *a: None,
+                                     depth_tier=False)
     row = conn.execute("SELECT * FROM actor WHERE id = ?", (entity_id,)).fetchone()
     assert row["depth"] == "registry"   # ground test never ran — today's behaviour

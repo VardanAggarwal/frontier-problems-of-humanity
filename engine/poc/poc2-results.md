@@ -200,3 +200,43 @@ is implemented rather than in the PoC layer.
    `_cap_tokens` truncating versus selection never picking a chunk from that
    source. Track E owes the sources-in-prompt / sources-fetched log per §3
    correction 4.
+
+---
+
+## Item 6 answered by track E3 (2026-09-14)
+
+`worker/extract.py`'s `assemble()` returns the counters §3 correction 4 asked
+for, and they separate the two candidate causes rather than reporting one
+number: `sources_fetched`, `sources_in_prompt`, `sources_never_selected`
+(selection ranked no chunk from that source) and `sources_dropped_by_cap`
+(selected, then evicted by `PASSAGE_TOKEN_CAP`).
+
+Run against the captured fixtures, with the actor question set:
+
+| fixture | fetched | in prompt | never selected | dropped by cap |
+|---|---|---|---|---|
+| `bku-ekta-ugrahan` | 4 | 3 | **1** | 0 |
+| `anthill-ventures` | 2 | 2 | 0 | 0 |
+| `jyoti-pande-lavakare` | 4 | 4 | 0 | 0 |
+
+**The cause is selection, not the cap.** `bku` reproduces the 3-of-4 exactly,
+and the source that never reached the prompt was one no bucket's top-k ever
+ranked — `_cap_tokens` evicted nothing. That matters for what the fix would
+be: raising `PASSAGE_TOKEN_CAP` would not have recovered the source, and set
+cover buying a source that selection then never reads is the waste §3
+correction 4 was written to detect.
+
+Two limits on this result, both load-bearing:
+
+- **It is three actors, not five.** `selco-foundation` and `bhavreen-kandhari`
+  captured zero sources, so the two fixtures that would have completed the
+  comparison do not exist. Two of the three original 3/4 observations remain
+  unexamined.
+- **`sources_dropped_by_cap` is provably 0, not measured as 0.**
+  `_cap_tokens` never drops a source's last chunk, so the counter cannot fire
+  under the current rule. It is kept as a regression detector for that
+  guarantee, and must not be read as evidence the cap is harmless.
+
+Neighbour expansion (`NEIGHBOUR_RADIUS = 1`) measured 2.34-3.65x tokens and
+2.29-4.04x chars across the three fixtures — consistent with the 1.6-3.4x /
+1.4-2.9x recorded above, and above it at the top end on `bku`.

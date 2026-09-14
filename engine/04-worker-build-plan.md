@@ -737,12 +737,66 @@ that waiting is cheap.
 | **A** problem emission | — | `worker.py` `_emit`, `resolve.py` | — | today's behaviour: unresolvable edge dropped | **SHIPPED, inert** |
 | **B** depth tier | `worker/depth.py` | `worker.py` intake | F1 | everything `tracked` | **SHIPPED, inert** |
 | **C** chunk + passage | `text/chunk.py`, `worker/passages.py` | `worker/config.py` | F1, PoC-1, PoC-3 | first-N-chars per source, capped (§13) | **SHIPPED, inert (not wired)** |
-| **D** search | `engine/search/` — provider adapter, `families.yaml`, `fuse.py`, `cover.py` | — | F1, PoC-0 | the candidate's own URL as single source (§13) | not started |
-| **E** extract + ledger + counters | `worker/extract.py` | `prompts.py`, `worker.py` `run_batch` | F1, C, D, PoC-2 | — | not started |
+| **D** search | `engine/search/` — `provider.py`, `families.yaml`, `fuse.py`, `cover.py`, `health.py`, `confirm_policy.py` | — | F1, PoC-0 | the candidate's own URL as single source (§13) | **SHIPPED, inert (not wired)** |
+| **E** extract + ledger + counters | `worker/extract.py`, `worker/extract_types.py`, `worker/search_stage.py` | `store/schema.sql`, `prompts.py`, `config.py`, `worker.py` `run_batch` | F1, C, D, PoC-2 | — | **SHIPPED (E0-E6)** |
 
 A, C and D are genuinely concurrent once F1 lands. B is small enough to ride
 with A. A is also the one track with no dependency at all — `03-worker.md` §16
 puts it first for that reason, and it stays first here.
+
+### Track E, split into seven tasks
+
+E is the only track that edits `run_batch`, and §6 notes it carries more
+integration risk than the table admits — A, B and C are all inert until it
+lands. Splitting it is not project management: it is what keeps the risky part
+(the `run_batch` edit) small enough to review, by pushing everything that can
+be a pure function out of it first. Only E6 touches `run_batch`.
+
+| # | Task | New / touched | Depends on |
+|---|---|---|---|
+| **E0** | `finding.source_id` FK + `chunk_ref` | `store/schema.sql`, `migrate/` one-shot | — |
+| **E1** | candidate name -> confirmed source set | `worker/search_stage.py` | — |
+| **E2** | batched `[Sn]` prompt + answer parser | `worker/prompts.py` | — |
+| **E3** | passage assembly + the coverage counters | `worker/extract.py` | — |
+| **E4** | the findings ledger, and claims derived from it (§9) | `worker/extract.py` | E0, E2 |
+| **E5** | §11c's three counters | — | E4 |
+| **E6** | integration; env-var flags -> call-site parameters | `worker/worker.py` | all |
+
+E1, E2 and E3 take their provider, fetcher and confirmation function as
+injected callables, so all three stay free of network, model and database and
+are unit-testable — the same discipline §5 imposed on A, C and D, applied one
+level down. `worker/extract_types.py` freezes the three types they exchange
+(`ConfirmedSource`, `PromptSource`, `Answer`) because four concurrent tasks
+sharing a type and not a definition of it diverge at integration, which is the
+argument of "freeze five contracts" above.
+
+Two things the split makes visible that the one-line track description hid:
+
+- **Nothing writes to `finding` today** — 0 rows in `problems/graph.db`. E4 is
+  not "add provenance to the ledger", it is building the ledger. The schema
+  migration is correspondingly free: two nullable columns, no backfill.
+- **`chunk_ref`'s format was frozen by fact, not by agreement.**
+  `text/chunk.py:93` already emits `f"{source_id}:{ordinal}"`, so E0's column
+  and E3's output agree without either having been told to.
+
+**Three decisions taken at the split, each of which an agent would otherwise
+have taken silently:**
+
+1. **§9's claim derivation is in E's scope** (E4). `_write_entity` stops
+   consuming the model's `claims` list directly and consumes claims derived
+   from findings instead. This is the largest behaviour change in the track,
+   and the alternative — ledger as write-only provenance — leaves two sources
+   of truth for a claim. Note that PoC-2b left the conflicting-claims branch of
+   §9 untested against a real contradiction (`poc/poc2c-spec.md`); it is
+   implemented on the strength of the design, not of a measurement.
+2. **`confirm_policy`'s NO_VERDICT drop wins over today's let-through.** A
+   candidate whose page yields no text loses that source. A bare registry row
+   with no URL is unaffected — it never had a source to lose.
+3. **The counters land in `run_batch`'s report dict**, aggregated per batch,
+   not in `event` rows and not in a new table. The cost is per-candidate
+   resolution, which E6 recovers for a human reader by logging them per
+   candidate; it does not recover them for a query. Revisit if §11c's decision
+   turns out to need per-candidate history rather than a batch distribution.
 
 ### Two holes found by the user, not covered by any track above
 
@@ -856,6 +910,73 @@ off-limits per the rule in §5 (*only track E edits `run_batch`*). This is a
 workaround, not the final shape — E should convert both to call-site
 parameters when it does its integration pass, rather than leaving pipeline
 behaviour toggled by process environment.
+
+### What E6 changed about the three statements above (2026-09-14)
+
+The caveat has been discharged; the paragraphs are kept because they are the
+record of why the shapes were what they were.
+
+- **B is wired.** `run_batch` reads Track B's intake prediction back out of
+  the candidate's `evidence` payload (`_predicted_depth`) and passes it to
+  `_write_entity` as `predicted_depth`, which is the plumbing that function's
+  own docstring said did not exist. The requeue comparison now has both
+  sides.
+- **C is wired.** `run_batch` calls `extract.assemble`, which calls `chunk()`
+  and `select()`.
+- **A is wired but its gate signals remain inert**, and this is the one item
+  the integration did *not* discharge: the batched extraction prompt still
+  does not emit `edge["signals"]`, so `signals_from_edge()` continues to
+  return four `None`s. Adding the key is a prompt change PoC-2 never
+  measured, and PoC-2's attribution result is the only evidence the batched
+  prompt works — so it goes to `poc/poc2c-spec.md` rather than into a quiet
+  edit. **A is therefore still half-inert after E, which the track table
+  cannot show.**
+- **Both env vars became call-site parameters**, as this paragraph asked.
+  `run_batch`, `_write_entity` and `_emit` each take `depth_tier` and/or
+  `problem_emission`; `None` means "take the module default", and the env var
+  supplies only that default. The two tests that monkeypatched the module
+  globals now pass the parameter, which is a better test of the same
+  behaviour.
+
+**Two bugs the integration tests found, neither predicted by the design.**
+Both were invisible to every unit test because each track's tests were
+correct about its own module:
+
+1. **An out-of-range confidence aborted the whole batch.**
+   `finding.confidence` carries `CHECK (… BETWEEN 0 AND 1)`; a model
+   answering `"confidence": 95` raised `sqlite3.IntegrityError` out of
+   `write_findings` and killed every remaining candidate in the run —
+   where everywhere else in this pipeline a malformed field is a logged
+   drop. Fixed in `parse_answers`: out of range is ignored, the answer is
+   kept, the problem is logged. 0-1 is not a threshold invented for the fix;
+   it is the schema's own CHECK.
+2. **The seed page could enter the source set twice, and that corrupts
+   §9's reconciliation rather than merely wasting tokens.** `run_batch`
+   calls `search_sources` with `seed_url=None`, but nothing stops set cover
+   picking the seed's own URL out of the search results, and `fetch` is
+   cached on `url_canonical` so it returns the same `source.id`. The seed
+   was then gate-2'd twice, counted twice in `sources_fetched`, and chunked
+   twice by `assemble` — putting the same passages in one `[Sn]` block. The
+   token cost is the small part. The real damage is that **one page becomes
+   two apparent witnesses**, and §9's rule for two sources agreeing is to
+   take the most specific rather than record a disagreement — so a single
+   source could corroborate itself. Fixed by deduping the search stage's
+   return against the seed's `source_id`, which is the durable identity per
+   `extract_types.py`.
+
+The general shape is worth keeping: both bugs live in the SEAM between two
+tracks, and both were unreachable from either track's own tests. E's split
+into pure functions is what made the tracks testable; it is also what let
+these two hide until something drove the whole path at once.
+
+One thing E6 found rather than fixed-as-designed: `_COLUMNS["actor"]` was
+missing `one_line`, `funding` and `scale_metric` although the `actor` table
+has all three and `questions.yaml` asks a question for each — those claims
+were extracted, logged and dropped, on every run, for as long as the table
+has existed. E4 hit it while deriving claims from findings and pinned it with
+a failing-on-purpose test; E6 added the names and inverted the test into a
+guard. Nothing in the design predicted it; it surfaced only because two
+independent tasks looked at the same mapping from different ends.
 
 ---
 

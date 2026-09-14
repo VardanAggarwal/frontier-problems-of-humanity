@@ -9,12 +9,15 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
+import pytest
+
 from search.fuse import fuse
 from search.provider import (
     CONFIGURED_ENGINES,
     ReplayProvider,
     SearchResponse,
     SearchResult,
+    SearxngProvider,
     THROTTLE_FLOOR_S,
     parse_raw_response,
 )
@@ -165,3 +168,56 @@ def test_adapter_output_feeds_fuse_directly():
         assert hasattr(fused[0], "url")
         assert hasattr(fused[0], "rrf_score")
         assert hasattr(fused[0], "coverage_set")
+
+
+# --- search() — the uniform call shape added for worker/search_stage.py ---
+
+
+def test_replay_search_delegates_to_slug_family_lookup():
+    provider = _provider()
+    response = provider.search("identity", "this text is ignored", slug="a2p-energy")
+    assert isinstance(response, SearchResponse)
+    direct = provider.query("a2p-energy", "identity")
+    assert response.results == direct.results
+
+
+def test_replay_search_requires_slug():
+    provider = _provider()
+    with pytest.raises(ValueError):
+        provider.search("identity", "some query text")
+
+
+class _StubResponse:
+    def __init__(self, payload):
+        self._payload = payload
+
+    def raise_for_status(self):
+        pass
+
+    def json(self):
+        return self._payload
+
+
+class _StubSession:
+    def __init__(self, payload):
+        self._payload = payload
+        self.calls = []
+
+    def get(self, url, params=None, timeout=None):
+        self.calls.append((url, params, timeout))
+        return _StubResponse(self._payload)
+
+
+def test_searxng_search_passes_rendered_text_through_as_q():
+    payload = {"results": [], "unresponsive_engines": []}
+    session = _StubSession(payload)
+    provider = SearxngProvider("http://localhost:8080", session=session)
+
+    response = provider.search("money", '"Some Actor" funding raised grant crore', slug="some-actor")
+
+    assert isinstance(response, SearchResponse)
+    assert len(session.calls) == 1
+    url, params, timeout = session.calls[0]
+    assert params["q"] == '"Some Actor" funding raised grant crore'
+    assert "family" not in params
+    assert "slug" not in params

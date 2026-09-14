@@ -87,3 +87,13 @@ DEGRADE_CHUNK_CHARS = int(os.getenv("FPH_DEGRADE_CHUNK_CHARS", "2000"))
 # the extraction prompt — contaminated context never enters an embedding.
 # Radius in chunks, each side; 0 disables expansion entirely.
 NEIGHBOUR_RADIUS = int(os.getenv("FPH_NEIGHBOUR_RADIUS", "1"))
+
+# ── Track D/E1 — search stage source cap (`03-worker.md` §7 constants table:
+# "Set-cover rarely needs more than 5 to exhaust the covered families"). One
+# per depth tier, per `03-worker.md` §2's registry/tracked split; resolved
+# from a candidate's `depth` when the caller does not pass an explicit
+# `max_sources` (`worker/search_stage.py:_resolve_max_sources`). Governs
+# `search.cover.cover()`'s search-sourced picks only — a candidate's own seed
+# URL is fetched in addition to this cap, not counted against it.
+MAX_SOURCES_TRACKED = int(os.getenv("FPH_MAX_SOURCES_TRACKED", "5"))
+MAX_SOURCES_REGISTRY = int(os.getenv("FPH_MAX_SOURCES_REGISTRY", "1"))

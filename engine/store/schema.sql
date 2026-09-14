@@ -313,6 +313,15 @@ CREATE TABLE finding (
   answer        TEXT NOT NULL,
   confidence    REAL CHECK (confidence IS NULL OR confidence BETWEEN 0 AND 1),
   source_url    TEXT,
+  -- source_id/chunk_ref (schema v2, migrate/m0002_finding_provenance.py):
+  -- close the gap 03-worker.md §9 names — source_url alone can't join a
+  -- finding to the fetched page's fetched_at, or point a wrong answer back
+  -- at the passage that produced it. Both nullable: pre-migration findings
+  -- (there are none live) and any answer path that never resolves a source
+  -- id still write. chunk_ref's format is frozen by text/chunk.py:93
+  -- (`chunk_ref`) as f"{source_id}:{ordinal}" — not reconstructed here.
+  source_id     TEXT REFERENCES source (id),
+  chunk_ref     TEXT,
   gathered_at   TEXT NOT NULL DEFAULT (datetime('now'))
 );
 

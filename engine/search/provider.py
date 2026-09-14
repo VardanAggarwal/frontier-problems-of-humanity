@@ -169,6 +169,21 @@ class ReplayProvider:
         configured = recorded.get("configured_engines") or self.configured_engines
         return parse_raw_response(recorded["raw_response"], configured_engines=configured)
 
+    def search(self, family_id, query_string, *, slug=None):
+        """Uniform call shape shared with `SearxngProvider.search`, added so
+        one call site (`worker/search_stage.py`) can drive either provider
+        without knowing which one it holds. A recording is addressed by
+        slug+family, not by the text that produced it, so `query_string` is
+        accepted (for shape parity) and ignored — this is not a sign the
+        replay path is wrong, it is what "replay" means. `slug` is required
+        here even though it is optional in the signature, because without it
+        there is no file to load."""
+        if slug is None:
+            raise ValueError(
+                "ReplayProvider.search requires slug — a recording is looked "
+                "up by slug+family, it has no other address")
+        return self.query(slug, family_id)
+
 
 class SearxngProvider:
     """Live adapter: thin wrapper over a `requests.get` to a local SearXNG
@@ -197,3 +212,11 @@ class SearxngProvider:
         resp.raise_for_status()
         raw_response = resp.json()
         return parse_raw_response(raw_response, configured_engines=self.configured_engines)
+
+    def search(self, family_id, query_string, *, slug=None):
+        """Uniform call shape shared with `ReplayProvider.search` — see that
+        method's docstring. A live engine is addressed by the query text
+        itself, so `family_id` and `slug` are accepted (for shape parity
+        with the replay path) and ignored; this is not a sign the live path
+        is wrong, it is what "live search" means."""
+        return self.query(query_string)
