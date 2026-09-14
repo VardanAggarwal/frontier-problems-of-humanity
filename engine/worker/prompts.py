@@ -119,6 +119,12 @@ _EXTRACT_COMMON_PROSE = (
     "affiliated, parent_org, superseded_by. `relevance` on a `works_on` "
     "edge is 0 (mentioned) / 1 (adjacent) / 2 (works it) / 3 "
     "(load-bearing) — omit if the text does not support a judgment.\n\n"
+    "When answering p19_who_working / a `works_on` edge, consider all four "
+    "response legs — activism, institution, enterprise (market-payer only), "
+    "service (donor-funded, no earned revenue) — separately. If the given "
+    "text plainly supports actors on some legs and is simply silent on "
+    "others, only answer for the legs it supports; do not guess an actor "
+    "into an unsupported leg to fill it in.\n\n"
 )
 
 # The single-source schema. `extract_prompt` is the ONLY caller: that path has
@@ -290,12 +296,16 @@ def _question_block(kind: str) -> str:
                 if q.multi:
                     options_note = (
                         f" Answer as a JSON array using ONLY these values: "
-                        f"[{options}].")
+                        f"[{options}]."
+                        f" Also give a one-clause `reason`: why this value "
+                        f"and not a neighbouring one.")
                 else:
                     options_note = (
                         f" Answer with EXACTLY ONE of these values, verbatim "
                         f"— not a paraphrase or a literal example of it: "
-                        f"{options}.")
+                        f"{options}."
+                        f" Also give a one-clause `reason`: why this value "
+                        f"and not a neighbouring one.")
         lines.append(f"- {q.id}: {q.question}{flag}{options_note}")
     return "\n".join(lines)
 
@@ -350,7 +360,10 @@ def extract_prompt_batched(
         "it from, exactly as written (`\"S2.3\"`). If the answer rests on "
         "more than one chunk, give the marker of the chunk carrying the "
         "figure or the claim itself. If you cannot point to one, omit "
-        "`chunk` — an absent marker is fine, a guessed one is not.\n\n"
+        "`chunk` — an absent marker is fine, a guessed one is not.\n"
+        "6. For a closed-enum classification answer, also give `reason`: "
+        "the one-clause justification for this value over a neighbouring "
+        "one. Omit for non-classification answers.\n\n"
         "QUESTIONS:\n" + _question_block(kind) + "\n\n"
         "A `works_on` edge whose `dst_kind` is `problem` also carries "
         "`signals` — the four leafability signals for that problem, captured "
@@ -366,7 +379,8 @@ def extract_prompt_batched(
         "of measurement is a finding. Every other edge omits `signals`.\n\n"
         "Respond with strict JSON only, no prose, no markdown fences:\n"
         '{"answers": [{"question_id": "...", "source_id": "S2", '
-        '"chunk": "S2.3", "answer": "...", "confidence": 0.0}],\n'
+        '"chunk": "S2.3", "answer": "...", "confidence": 0.0, '
+        '"reason": null}],\n'
         ' "misidentified": [{"source_id": "S3", "about_what": "...", '
         '"why": "..."}],\n'
         ' "emits":   [{"kind": "problem"|"actor", "name": "...", '
@@ -532,12 +546,17 @@ def parse_answers(
         if chunk_ref is None and len(source.chunk_refs) == 1:
             chunk_ref = source.chunk_refs[0]
 
+        reason = a.get("reason")
+        if not isinstance(reason, str):
+            reason = None
+
         answers.append(Answer(
             question_id=question_id,
             answer=answer_text,
             source_id=source.source_id,
             confidence=confidence,
             chunk_ref=chunk_ref,
+            reason=reason,
         ))
 
     return answers, problems
@@ -652,13 +671,16 @@ def verify_and_extract_prompt_batched(
         "merge two sources into one answer. If two accepted sources disagree, "
         "write the disagreement as the answer, naming both sides and both "
         "ids. A question no accepted source answers is absent from "
-        "`answers`.\n\n"
+        "`answers`. For a closed-enum classification answer, also give "
+        "`reason`: the one-clause justification for this value over a "
+        "neighbouring one. Omit for non-classification answers.\n\n"
         "QUESTIONS:\n" + _question_block(kind) + "\n\n"
         "Respond with strict JSON only, no prose, no markdown fences:\n"
         '{"verdicts": [{"source_id": "S1", "verdict": "about"|"different"'
         '|"unrelated"|"insufficient", "about_what": "...", "why": "..."}],\n'
         ' "answers": [{"question_id": "...", "source_id": "S2", '
-        '"chunk": "S2.3", "answer": "...", "confidence": 0.0}],\n'
+        '"chunk": "S2.3", "answer": "...", "confidence": 0.0, '
+        '"reason": null}],\n'
         ' "emits":   [{"kind": "problem"|"actor", "name": "...", '
         '"hint": "..."}],\n'
         ' "edges":   [{"dst_name": "...", "dst_kind": "problem"|"actor", '

@@ -78,21 +78,35 @@ families:
   # "find related individuals"), problem-diagnosis (p14 blocker), problem-core
   # (p3 geography, already folded into `identity` via the candidate's own name
   # rather than a separate query).
+  #
+  # Every template below carries a literal `India` term (added 2026-09-14,
+  # live-tested against `cookfire-smoke`). `SearxngProvider`'s own
+  # `language=en-IN` locale default (`search/provider.py`) was NOT enough on
+  # its own: a live run on `cookfire-smoke` (no seed URL, `evidence`/
+  # `coverage` queries) returned a Nature global-projection paper and a
+  # Frontiers China breast-cancer cohort study as the ONLY confirmed sources —
+  # zero India-specific material reached the extraction prompt, and every
+  # `p3_geography` finding came back China/global despite en-IN. `CLAUDE.md`'s
+  # "India-anchored" scope rule is a corpus-content rule, not a locale
+  # setting; a locale param nudges which engines/results rank but does not
+  # filter the underlying document's own geography the way a literal query
+  # term does. Not yet re-measured after this change — see the file's own
+  # framing above: this is a first cut, re-tune from real runs.
   - id: problem_identity
     kind: problem
-    query_template: '{name}'
+    query_template: '{name} India'
     retrievable: true
 
   - id: evidence
     kind: problem
-    query_template: '{name} data statistics prevalence denominator'
+    query_template: '{name} India data statistics prevalence denominator'
     # p9_magnitude / p11_measurement_state: a number with what it's a
     # fraction of, or the explicit absence of one.
     retrievable: true
 
   - id: who_works_it
     kind: problem
-    query_template: '{name} NGO organisation working on'
+    query_template: '{name} India NGO organisation working on'
     # p19_who_working: every actor the text supports, across all four legs
     # (activism/institution/enterprise/service) — this is the family that
     # produces the emits/edges the candidate-discovery goal depends on.
@@ -105,14 +119,14 @@ families:
 
   - id: who_works_it_enterprise
     kind: problem
-    query_template: '{name} startup company solution product'
+    query_template: '{name} India startup company solution product'
     # Enterprise leg: market-payer orgs selling a remedy. "NGO organisation"
     # above will not surface these — different vocabulary entirely.
     retrievable: true
 
   - id: who_works_it_institution
     kind: problem
-    query_template: '{name} government department scheme regulator'
+    query_template: '{name} India government department scheme regulator'
     # Institution leg: the body whose authority should contain the source.
     # Overlaps `policy` below by design — this one is actor-shaped (WHO),
     # policy below is instrument-shaped (WHAT).
@@ -120,7 +134,7 @@ families:
 
   - id: who_works_it_service
     kind: problem
-    query_template: '{name} donor funded charity trust foundation'
+    query_template: '{name} India donor funded charity trust foundation'
     # Service leg: donor/philanthropy-funded direct delivery, no earned
     # revenue — distinct vocabulary from both the enterprise and activism
     # queries above.
@@ -128,15 +142,46 @@ families:
 
   - id: policy
     kind: problem
-    query_template: '{name} government scheme policy'
+    query_template: '{name} India government scheme policy'
     # p14_blocker / p4_needs_legs: institution-leg coverage and the fiscal/
     # political/technical constraint keeping a known fix from happening.
     retrievable: true
 
   - id: coverage
     kind: problem
-    query_template: '{name} report investigation'
+    query_template: '{name} India report investigation'
     # p10_diff_vuln / p13_burden_note: press/investigative coverage is where
     # differential-vulnerability and visible-vs-load-bearing-cause material
     # actually shows up, not in reference/encyclopedia pages.
+    retrievable: true
+
+  - id: mechanism_gap
+    kind: problem
+    query_template: '{name} India why not fixed enforcement gap blocker'
+    # p12_mechanism / p13_burden_note / p14_blocker: the leaf's `## C ·
+    # Diagnosis` section. No family above targets diagnosis/blocker material
+    # directly — `policy` finds the instrument, this one hunts for why it
+    # isn't working (enforcement gap, stuck blocker), which is a different
+    # vocabulary entirely.
+    retrievable: true
+
+  - id: diff_vulnerability
+    kind: problem
+    query_template: '{name} India most affected vulnerable cannot afford no alternative'
+    # p10_diff_vuln: who is hit hardest and why they can't exit or defend
+    # against it. The worst-measured retrieval bucket downstream (AUC 0.225
+    # per questions.yaml's own note) and nothing searches for it specifically
+    # today — `coverage` catches some of this incidentally but was never
+    # aimed at it.
+    retrievable: true
+
+  - id: problem_failure
+    kind: problem
+    query_template: '{name} India scheme failed ineffective underperforming shortfall'
+    # The problem-kind analogue of actor's `failure` family above. Targets
+    # p13_burden_note reconciliation material — official-vs-independent
+    # gaps, a scheme declared successful on paper but not in outcomes (the
+    # "official 61% vs independent ~28%" sewage-treatment precedent the
+    # project's CLAUDE.md names). Nothing today searches for "this response
+    # failed or underperformed" on the problem side.
     retrievable: true

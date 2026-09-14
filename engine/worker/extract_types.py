@@ -64,3 +64,6 @@ class Answer(NamedTuple):
     chunk_ref: str | None = None    # None when the model named no chunk
                                     # marker, or named one that does not
                                     # resolve — never guessed by the parser
+    reason: str | None = None       # closed-enum classification only: the
+                                    # one-clause justification for this value
+                                    # over a neighbouring one. None elsewhere.
