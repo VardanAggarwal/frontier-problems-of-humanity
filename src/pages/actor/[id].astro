@@ -49,6 +49,7 @@ const feeds = a.sources
 ---
 <Base title={a.name} crumb={`<a href="/">Pyramid</a> / <a href="/actors">Actors</a>`}>
   <h1>{a.name}</h1>
+  {a.one_line && <p class="lede">{a.one_line}</p>}
   <div class="tags">
     <span class="tag on">{legLabel(a)}</span>
     <span class="tag">{a.type}</span>
@@ -104,6 +105,35 @@ const feeds = a.sources
       and it publishes only with its sources, listed below.
     </p>
   )}
+
+  {!a.path && (
+    <p class="note" style="margin-top:1.5rem">
+      <strong>Outline only.</strong> A worker pass resolved this actor but has no doc file to write
+      prose into yet — what it found is below as machine findings, not as a written record.
+    </p>
+  )}
+
+  {(() => {
+    // Same gap as the leaf template's "Machine findings" block: worker.py
+    // lands q10/q11 into these two columns instead of prose when there is no
+    // doc to write into (corpus.mjs). q1_one_line already has its own
+    // permanent slot above (the lede), same as leaf's l.one_line — not
+    // repeated here. Shown whenever either is present, not just on doc-less
+    // actors — a machine finding never replaces a human-written section
+    // above/below it.
+    const rows = [
+      ['Funding', a.funding],
+      ['Scale', a.scale_metric],
+    ].filter(([, v]) => v);
+    return rows.length > 0 && (
+      <details class="leaf-prose" open>
+        <summary>Machine findings — extracted, not yet written into prose</summary>
+        <dl class="leafmeta">
+          {rows.map(([label, value]) => <div class="row"><dt>{label}</dt><dd>{value}</dd></div>)}
+        </dl>
+      </details>
+    );
+  })()}
 
   <div class="ai-prose">
     {a.lede && <div class="prose" style="margin-top:1.5rem" set:html={md(a.lede)} />}
