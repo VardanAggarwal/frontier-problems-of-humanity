@@ -152,7 +152,11 @@ export function loadCorpus() {
       if (need && needDir !== need)
         warns.push(`${file}: directory "${needDir}" disagrees with need "${need}"`);
     }
-    attachBody(leaf, file, 'leaf', errors, warns, leaf.status === 'stub');
+    // A leaf can be status=researched with no doc yet (gap/classification known via
+    // DB fields, prose not written) — treat it like a stub for section validation:
+    // no body expected, no A-E sections required. Only a leaf that HAS a doc must
+    // satisfy the full section invariant.
+    attachBody(leaf, file, 'leaf', errors, warns, leaf.status === 'stub' || !file);
     leaves.push(leaf); register(leaf);
   }
 
