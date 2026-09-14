@@ -87,6 +87,30 @@ DEGRADE_CHUNK_CHARS = int(os.getenv("FPH_DEGRADE_CHUNK_CHARS", "2000"))
 # the extraction prompt — contaminated context never enters an embedding.
 # Radius in chunks, each side; 0 disables expansion entirely.
 NEIGHBOUR_RADIUS = int(os.getenv("FPH_NEIGHBOUR_RADIUS", "1"))
+# A dense list of proper names ("co-signed by the X Collective, funded by the
+# Y Foundation...") doesn't read as similar to a question-shaped retrieval
+# query, so it can miss every bucket's top-k and never reach the prompt even
+# though it's exactly the emits/edges source material. This many extra
+# chunks, ranked by a cheap capitalized-run count (`_entity_density`) and not
+# already caught by any bucket, ride in alongside the bucketed selection.
+# Default on (not 0) because catching what ranking misses is the whole point;
+# small enough that a false-positive-heavy chunk barely dents the token cap.
+ENTITY_DENSITY_TOP_N = int(os.getenv("FPH_ENTITY_DENSITY_TOP_N", "2"))
+
+# Same top-up mechanism, different miss: a chunk naming India/an Indian
+# institution can still lose every bucket to a denser global/other-country
+# source (measured on `cookfire-smoke` 2026-09-14 — a WHO fact sheet entered
+# the fetched pool once `search/families.yaml` got an India-biased query but
+# never won a single bucket's top-k against a Nature global-projection paper
+# and a Frontiers China cohort study). `problem-core`'s retrieval_query was
+# reworded the same day to name "occurrence in India" explicitly — the
+# primary fix — but that is one bucket's ranking signal, not a guarantee for
+# every bucket, so this top-up is the same belt-and-suspenders role
+# `ENTITY_DENSITY_TOP_N` plays for name-dense chunks. `kind: problem` only
+# (`worker/passages.py`'s `geography_bias` flag) — actors are legitimately
+# global (a funder need not be Indian), so this must not run on actor
+# selection. 0 disables it.
+INDIA_ANCHOR_TOP_N = int(os.getenv("FPH_INDIA_ANCHOR_TOP_N", "2"))
 
 # ── Track D/E1 — search stage source cap (`03-worker.md` §7 constants table:
 # "Set-cover rarely needs more than 5 to exhaust the covered families"). One

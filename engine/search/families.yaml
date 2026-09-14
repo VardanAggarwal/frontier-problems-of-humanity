@@ -96,6 +96,34 @@ families:
     # p19_who_working: every actor the text supports, across all four legs
     # (activism/institution/enterprise/service) — this is the family that
     # produces the emits/edges the candidate-discovery goal depends on.
+    # Kept as-is (identity/activism-leaning) but no longer the ONLY query
+    # for this bucket — split 2026-09-14 into per-leg siblings below, since
+    # a single "NGO organisation" phrasing structurally biases retrieval
+    # toward the activism leg and away from enterprise/institution/service
+    # actors that never call themselves an NGO.
+    retrievable: true
+
+  - id: who_works_it_enterprise
+    kind: problem
+    query_template: '{name} startup company solution product'
+    # Enterprise leg: market-payer orgs selling a remedy. "NGO organisation"
+    # above will not surface these — different vocabulary entirely.
+    retrievable: true
+
+  - id: who_works_it_institution
+    kind: problem
+    query_template: '{name} government department scheme regulator'
+    # Institution leg: the body whose authority should contain the source.
+    # Overlaps `policy` below by design — this one is actor-shaped (WHO),
+    # policy below is instrument-shaped (WHAT).
+    retrievable: true
+
+  - id: who_works_it_service
+    kind: problem
+    query_template: '{name} donor funded charity trust foundation'
+    # Service leg: donor/philanthropy-funded direct delivery, no earned
+    # revenue — distinct vocabulary from both the enterprise and activism
+    # queries above.
     retrievable: true
 
   - id: policy

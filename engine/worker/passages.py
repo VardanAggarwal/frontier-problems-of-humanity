@@ -40,9 +40,44 @@ has no saturated questions by construction, so the pass-1 encode set is every
 `retrieval: true` question and the union is not inflated by `multi`-ness.
 Narrowing the set to the unsaturated ones is the caller's job, and only from
 pass 2, which §11b has not committed to building.
+
+**Entity-density top-up.** All the buckets above are question-shaped
+semantic queries, so a chunk that is mostly a list of names — "co-signed by
+the X Collective, funded by the Y Foundation, coordinated with Z Trust" —
+doesn't read as similar to "who is working on this"; it can rank low in
+every bucket and never make a top-k cut, even though it is exactly the
+`emits`/`edges` source material. `_entity_density()` is a cheap regex count
+of capitalized multi-word runs (no ML, no new dependency, per this repo's
+config.py: "no other config surface yet"); `select()` adds the top
+`ENTITY_DENSITY_TOP_N` chunks by that score which no bucket already caught,
+then runs them through the same `expand_neighbours()`/`_cap_tokens()` path
+as everything else — no bypass of the token cap.
+
+**India-anchor top-up (`kind: problem` only).** Same shape of miss, a
+different axis: a chunk naming India or a named Indian institution can lose
+every bucket to a denser global/other-country source even when both are
+topically on-target — cosine similarity to a question string does not know
+this corpus is India-anchored (`CLAUDE.md`). Measured on `cookfire-smoke`
+2026-09-14: a WHO fact sheet entered the fetched pool once the search
+queries got an India bias, but never won a single bucket's top-k against a
+Nature global-projection paper and a Frontiers China cohort study — both
+topically correct, neither India-specific. `_india_anchor_density()` is the
+same cheap-regex-count shape as `_entity_density()` (a small term list, not
+an ML classifier); `select(..., geography_bias=True)` adds the top
+`INDIA_ANCHOR_TOP_N` chunks by that score which no bucket already caught,
+through the same expand/cap path. Callers pass `geography_bias` only for
+`kind: problem` — actors are legitimately global (a funder need not be
+Indian), so this must never run on actor selection. This is the
+belt-and-suspenders half of the fix; the primary one is `problem-core`'s
+retrieval_query itself, reworded the same day to name "occurrence in India"
+explicitly (`questions.yaml`) — a bucket that ranks India-relevant content
+higher to begin with needs this top-up less, but a term-list top-up costs
+nothing when the ranking already got it right (it only adds chunks no
+bucket already kept).
 """
 from __future__ import annotations
 
+import re
 from typing import Sequence
 
 from embed.model import encode
@@ -54,10 +89,66 @@ try:
     from worker.config import PASSAGE_TOKEN_CAP as _PASSAGE_TOKEN_CAP
     from worker.config import TOP_K_PER_BUCKET as _TOP_K_PER_BUCKET
     from worker.config import NEIGHBOUR_RADIUS as _NEIGHBOUR_RADIUS
+    from worker.config import ENTITY_DENSITY_TOP_N as _ENTITY_DENSITY_TOP_N
+    from worker.config import INDIA_ANCHOR_TOP_N as _INDIA_ANCHOR_TOP_N
 except Exception:
     _PASSAGE_TOKEN_CAP = 9000
     _TOP_K_PER_BUCKET = 3
     _NEIGHBOUR_RADIUS = 1
+    _ENTITY_DENSITY_TOP_N = 2
+    _INDIA_ANCHOR_TOP_N = 2
+
+# Two-or-more-capitalized-word run, e.g. "Zilla Parishad" or "Rural
+# Development Trust" — the run must be >=2 words so a lone sentence-initial
+# capital ("The scheme...") doesn't count as an entity on its own. A single
+# internal "of" is tolerated ("Ministry of Labour", "Department of Mines")
+# since official-body names routinely carry it — measured missing entirely
+# without this (density 0 on "Ministry of Labour"). "and"/"the" are
+# deliberately NOT tolerated here even though they also appear inside some
+# names: both routinely separate two DIFFERENT names in a list ("the Adivasi
+# Trust and Ministry of Health"), and allowing them merges two real matches
+# into one, undercounting rather than fixing anything — checked empirically
+# before adding "of" alone.
+_ENTITY_RUN_RE = re.compile(
+    r"\b[A-Z][a-zA-Z&.'-]*(?:\s+(?:of\s+)?[A-Z][a-zA-Z&.'-]*)+\b")
+
+
+def _entity_density(text: str) -> int:
+    """Count of capitalized multi-word runs in `text` — a cheap stand-in for
+    "how many org/person names does this chunk name-drop", with no NER model
+    (module docstring). Overcounts sentence-initial two-word capitals ("The
+    Ministry...") and undercounts single-word names ("Oxfam") and names
+    joined by "and"/"the" in a list; all three are accepted imprecision for
+    a ranking signal, not a classification one."""
+    return len(_ENTITY_RUN_RE.findall(text))
+
+
+# India-anchor term list (module docstring's "India-anchor top-up"). Country
+# names/demonyms plus currency denominations (crore/lakh/₹ are strong,
+# low-false-positive signals — they essentially never appear in a China- or
+# globally-scoped source) plus the institutional-source vocabulary
+# `CLAUDE.md`'s own research standards name (IQAir, CREA, CGWB, CPCB, CSE,
+# NFHS, UDISE+, ICMR, NITI Aayog, HLRN, Census) minus UNEP (global, not an
+# India signal). Deliberately NOT state/city names — too many collide with
+# common English words or other countries' places, unlike this shorter list.
+_INDIA_TERMS = (
+    "india", "indian", "bharat", "crore", "lakh", "₹",
+    "niti aayog", "lok sabha", "rajya sabha", "ministry of",
+    "government of india", "gov.in", "iqair", "crea", "cgwb", "cpcb", "cse",
+    "nfhs", "udise", "icmr", "hlrn",
+)
+_INDIA_TERM_RE = re.compile(
+    r"\b(?:" + "|".join(re.escape(t) for t in _INDIA_TERMS) + r")\b",
+    re.IGNORECASE)
+
+
+def _india_anchor_density(text: str) -> int:
+    """Count of India-anchor term matches in `text` — same cheap-regex shape
+    as `_entity_density()`, not a geography classifier. A chunk that never
+    mentions India or an India-specific institution scores 0 and is never
+    topped up; this is a recall net for chunks the bucket ranking missed,
+    not a filter that penalises global chunks elsewhere in the prompt."""
+    return len(_INDIA_TERM_RE.findall(text))
 
 
 def _bucket_ids(questions: Sequence[Question]) -> list[str]:
@@ -73,7 +164,8 @@ def _bucket_ids(questions: Sequence[Question]) -> list[str]:
 
 def select(chunks: Sequence[Chunk], questions: Sequence[Question], k: int | None = None,
            *, registry: Registry = DEFAULT_REGISTRY,
-           neighbour_radius: int | None = None) -> list[Chunk]:
+           neighbour_radius: int | None = None,
+           geography_bias: bool = False) -> list[Chunk]:
     """Top-`k` chunks per retrieval bucket touched by `questions`, unioned
     and deduped by `chunk_ref`, capped at `PASSAGE_TOKEN_CAP` tokens with at
     least one chunk kept per source (§7).
@@ -93,6 +185,10 @@ def select(chunks: Sequence[Chunk], questions: Sequence[Question], k: int | None
     PoC-1d's straddle repair, see the module docstring. Pass `0` to switch it
     off and get the bare retrieved set, which is what a cost measurement of
     the expansion wants for its baseline.
+
+    `geography_bias`: also run the India-anchor top-up (module docstring).
+    Callers pass this only for `kind: problem` candidates — never for
+    actors, which are legitimately global.
     """
     k = k if k is not None else _TOP_K_PER_BUCKET
     chunks = list(chunks)
@@ -119,8 +215,47 @@ def select(chunks: Sequence[Chunk], questions: Sequence[Question], k: int | None
                 ranked_by_rank[ref] = rank
 
     ordered = sorted(kept.values(), key=lambda c: (ranked_by_rank[c.chunk_ref], c.source_id, c.ordinal))
+    ordered = ordered + _entity_dense_top_up(chunks, kept)
+    if geography_bias:
+        already = {c.chunk_ref: c for c in ordered}
+        ordered = ordered + _india_anchor_top_up(chunks, already)
     ordered = expand_neighbours(ordered, chunks, radius=neighbour_radius)
     return _cap_tokens(ordered, _PASSAGE_TOKEN_CAP)
+
+
+def _entity_dense_top_up(chunks: Sequence[Chunk], already_kept: dict[str, Chunk],
+                          top_n: int | None = None) -> list[Chunk]:
+    """The name-list chunks the question-shaped buckets above miss (module
+    docstring): the `top_n` chunks with the highest `_entity_density()` score
+    among those *not* already in `already_kept`, ties broken by document
+    order. A score of 0 never qualifies — no entity-like content means
+    nothing to top up, not "least bad of the losers"."""
+    top_n = _ENTITY_DENSITY_TOP_N if top_n is None else top_n
+    if top_n <= 0:
+        return []
+    candidates = [c for c in chunks if c.chunk_ref not in already_kept]
+    scored = [(c, _entity_density(c.text)) for c in candidates]
+    scored = [(c, s) for c, s in scored if s > 0]
+    scored.sort(key=lambda pair: (-pair[1], pair[0].source_id, pair[0].ordinal))
+    return [c for c, _s in scored[:top_n]]
+
+
+def _india_anchor_top_up(chunks: Sequence[Chunk], already_kept: dict[str, Chunk],
+                          top_n: int | None = None) -> list[Chunk]:
+    """The India-anchored chunks the question-shaped buckets above miss
+    (module docstring): the `top_n` chunks with the highest
+    `_india_anchor_density()` score among those *not* already in
+    `already_kept`, ties broken by document order. A score of 0 never
+    qualifies — a chunk with no India-anchor term is not "least bad of the
+    losers", it genuinely isn't India-specific content."""
+    top_n = _INDIA_ANCHOR_TOP_N if top_n is None else top_n
+    if top_n <= 0:
+        return []
+    candidates = [c for c in chunks if c.chunk_ref not in already_kept]
+    scored = [(c, _india_anchor_density(c.text)) for c in candidates]
+    scored = [(c, s) for c, s in scored if s > 0]
+    scored.sort(key=lambda pair: (-pair[1], pair[0].source_id, pair[0].ordinal))
+    return [c for c, _s in scored[:top_n]]
 
 
 def expand_neighbours(selected: Sequence[Chunk], pool: Sequence[Chunk],

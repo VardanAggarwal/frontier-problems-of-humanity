@@ -177,6 +177,108 @@ def test_expansion_is_capped_afterwards_not_before():
     assert capped[0].chunk_ref == "s1:0"                   # kept: first of its source
 
 
+# ── Entity-density top-up — catches name-list chunks question-shaped
+# buckets miss (module docstring). Pure, no encoder.
+
+def test_entity_density_counts_capitalized_runs():
+    assert passages._entity_density(
+        "Co-signed by the Rural Collective, funded by the Gramin Foundation "
+        "and coordinated with the Zilla Trust and the local panchayat."
+    ) >= 3
+    assert passages._entity_density("the scheme requires a certified diagnosis") == 0
+
+
+def test_entity_density_tolerates_a_single_internal_of():
+    # "Ministry of Labour" must count as one entity, not zero — a bare
+    # capitalized-run regex misses it because "of" breaks the run.
+    assert passages._entity_density(
+        "According to the Ministry of Labour, cases have risen.") == 1
+
+
+def test_entity_density_does_not_merge_names_joined_by_and():
+    # "and"/"the" are deliberately not tolerated as internal connectors:
+    # they routinely separate two DIFFERENT names in a list, and merging
+    # would undercount rather than fix anything.
+    assert passages._entity_density(
+        "Supported by the Adivasi Trust and Ministry of Health.") == 2
+
+
+def test_entity_dense_top_up_pulls_in_a_low_ranked_name_list_chunk():
+    name_chunk = _chunk(
+        "Co-signed by the Rural Collective, funded by the Gramin Foundation, "
+        "coordinated with the Zilla Trust and the Block Development Office.",
+        source_id="s1", ordinal=5)
+    already_kept = {"s1:0": _chunk("kept already", source_id="s1", ordinal=0)}
+    pool = [already_kept["s1:0"], name_chunk,
+            _chunk("no names here at all", source_id="s1", ordinal=1)]
+    out = passages._entity_dense_top_up(pool, already_kept, top_n=2)
+    assert name_chunk in out
+    assert already_kept["s1:0"] not in out, "already-selected chunks are not re-added"
+
+
+def test_entity_dense_top_up_skips_chunks_with_no_entity_content():
+    plain = [_chunk("the scheme requires a certified diagnosis", ordinal=0),
+             _chunk("annual figures were reported last year", ordinal=1)]
+    assert passages._entity_dense_top_up(plain, {}, top_n=2) == []
+
+
+def test_entity_dense_top_up_respects_top_n():
+    chunks = [
+        _chunk(f"Signed by the Alpha Collective number {i} and the Beta Foundation",
+               ordinal=i)
+        for i in range(5)
+    ]
+    out = passages._entity_dense_top_up(chunks, {}, top_n=2)
+    assert len(out) == 2
+
+
+def test_select_with_no_bucketed_questions_is_unaffected_by_top_up():
+    """The early-return path (no bucketed questions) stays a plain slice —
+    entity top-up only fires once there is a bucketed selection to add to."""
+    chunks = [_chunk(f"chunk {i}", ordinal=i) for i in range(5)]
+    unbucketed = [q for q in REGISTRY.all("actor") if q.bucket is None]
+    out = passages.select(chunks, unbucketed, k=2)
+    assert out == chunks[:2]
+
+
+def test_entity_dense_top_up_still_respects_token_cap_via_select():
+    """Force every bucket-ranked chunk out via a tiny cap; the top-up chunk
+    must go through _cap_tokens like everything else, not bypass it."""
+    chunks = [_chunk("plain filler text with nothing special", ordinal=0, tokens=8000)]
+    out = passages._entity_dense_top_up(chunks, {}, top_n=2)
+    assert out == [], "no entity content -> nothing to top up, cap never tested here"
+
+    name_chunk = _chunk(
+        "Convened by the Delhi Trust and the Uttar Pradesh Collective and the "
+        "National Rural Mission.", source_id="s1", ordinal=0, tokens=5000)
+    filler = _chunk("no names in here at all whatsoever", source_id="s1",
+                     ordinal=1, tokens=5000)
+    ordered = [filler] + passages._entity_dense_top_up([filler, name_chunk], {}, top_n=2)
+    capped = passages._cap_tokens(ordered, cap=6000)
+    assert sum(c.token_count for c in capped) <= 6000
+    assert len(capped) == 1, "cap still drops the lower-priority (later) chunk"
+
+
+@needs_model
+def test_select_pulls_in_name_dense_chunk_that_ranks_low_on_every_bucket():
+    """End-to-end through select(): a chunk that is a pure name-list should
+    not need to win any bucket's retrieval ranking to reach the prompt."""
+    reach_questions = list(REGISTRY.in_bucket("actor-reach"))
+    name_chunk = _chunk(
+        "Co-signed by the Rural Collective, funded by the Gramin Foundation, "
+        "coordinated with the Zilla Trust and the Block Development Office.",
+        source_id="s1", ordinal=10)
+    # Fill every top-k slot with chunks that are obviously about contact
+    # info, so name_chunk cannot win the bucket on relevance alone.
+    filler = [
+        _chunk("Email us at contact@example.org or find us on Instagram and Twitter.",
+               source_id="s1", ordinal=i)
+        for i in range(3)
+    ]
+    out = passages.select(filler + [name_chunk], reach_questions, k=2, neighbour_radius=0)
+    assert name_chunk in out
+
+
 @needs_model
 def test_select_expands_neighbours_of_the_retrieved_chunk():
     reach_questions = list(REGISTRY.in_bucket("actor-reach"))
