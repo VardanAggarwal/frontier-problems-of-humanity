@@ -10,6 +10,7 @@ import pytest
 
 from store import db
 from migrate import m0002_finding_provenance as mig
+from migrate import m0003_finding_reason as mig3
 
 
 @pytest.fixture
@@ -24,11 +25,16 @@ def test_fresh_db_has_provenance_columns(conn):
     assert {"source_id", "chunk_ref"} <= cols
 
 
-def test_fresh_db_is_schema_version_2(conn):
+def test_fresh_db_has_reason_column(conn):
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(finding)")}
+    assert "reason" in cols
+
+
+def test_fresh_db_is_schema_version_3(conn):
     row = conn.execute(
         "SELECT value FROM meta WHERE key = 'schema_version'"
     ).fetchone()
-    assert row["value"] == "2"
+    assert row["value"] == "3"
 
 
 def _v1_db(path) -> sqlite3.Connection:
@@ -119,4 +125,79 @@ def test_added_source_id_enforces_the_foreign_key(tmp_path):
             "INSERT INTO finding (candidate_id, question_id, answer, source_id) "
             "VALUES (1, 'q2', 'ans', 'does-not-exist')"
         )
+    conn.close()
+
+
+# ------------------------------------------------------- v2 -> v3: reason ---
+def _v2_db(path) -> sqlite3.Connection:
+    """A hand-built v2 database: schema.sql's finding table after m0002 but
+    before m0003, so the test exercises the real pre->post transition rather
+    than migrating a database that already has the `reason` column."""
+    conn = sqlite3.connect(path)
+    conn.executescript("""
+        CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT NOT NULL) WITHOUT ROWID;
+        CREATE TABLE candidate (id INTEGER PRIMARY KEY);
+        CREATE TABLE source (id TEXT PRIMARY KEY);
+        CREATE TABLE finding (
+          id            INTEGER PRIMARY KEY,
+          candidate_id  INTEGER NOT NULL REFERENCES candidate (id),
+          question_id   TEXT NOT NULL,
+          answer        TEXT NOT NULL,
+          confidence    REAL CHECK (confidence IS NULL OR confidence BETWEEN 0 AND 1),
+          source_url    TEXT,
+          source_id     TEXT REFERENCES source (id),
+          chunk_ref     TEXT,
+          gathered_at   TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+        INSERT INTO meta (key, value) VALUES ('schema_version', '2');
+        INSERT INTO candidate (id) VALUES (1);
+        INSERT INTO finding (candidate_id, question_id, answer, source_url)
+          VALUES (1, 'q1', 'some answer', 'https://example.org');
+    """)
+    conn.commit()
+    return conn
+
+
+def test_v2_db_migrates_to_v3_with_reason_and_no_backfill(tmp_path):
+    path = tmp_path / "v2.db"
+    conn = _v2_db(path)
+    conn.close()
+
+    conn = sqlite3.connect(path)
+    changed = mig3.migrate(conn)
+    assert changed is True
+
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(finding)")}
+    assert "reason" in cols
+
+    version = conn.execute(
+        "SELECT value FROM meta WHERE key = 'schema_version'"
+    ).fetchone()[0]
+    assert version == "3"
+
+    # No backfill: the pre-existing row comes back with NULL reason.
+    row = conn.execute(
+        "SELECT reason FROM finding WHERE candidate_id = 1"
+    ).fetchone()
+    assert row == (None,)
+    conn.close()
+
+
+def test_m0003_migration_is_idempotent(tmp_path):
+    path = tmp_path / "v2.db"
+    conn = _v2_db(path)
+    conn.close()
+
+    conn = sqlite3.connect(path)
+    first = mig3.migrate(conn)
+    second = mig3.migrate(conn)
+    conn.close()
+
+    assert first is True
+    assert second is False  # nothing left to do the second time
+
+    conn = sqlite3.connect(path)
+    cols = [row[1] for row in conn.execute("PRAGMA table_info(finding)")]
+    # ALTER TABLE ADD COLUMN was not run twice — no duplicate columns.
+    assert cols.count("reason") == 1
     conn.close()

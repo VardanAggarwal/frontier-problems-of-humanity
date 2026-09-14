@@ -25,9 +25,9 @@ from worker import extract
 from worker.extract_types import Answer
 
 
-def A(qid, answer, source_id="src-1", confidence=None, chunk_ref=None):
+def A(qid, answer, source_id="src-1", confidence=None, chunk_ref=None, reason=None):
     return Answer(question_id=qid, answer=answer, source_id=source_id,
-                  confidence=confidence, chunk_ref=chunk_ref)
+                  confidence=confidence, chunk_ref=chunk_ref, reason=reason)
 
 
 # ------------------------------------------------------- write_findings ---
@@ -85,6 +85,22 @@ def test_write_findings_does_not_commit(conn):
     extract.write_findings(conn, 1, [A("q1_one_line", "x", "s-a")])
     conn.rollback()
     assert conn.execute("SELECT count(*) FROM finding").fetchone()[0] == 0
+
+
+def test_write_findings_persists_reason(conn):
+    """`Answer.reason` — the closed-enum classification justification
+    parsed by `worker/prompts.py` — must reach `finding.reason`, not be
+    dropped before the INSERT (the bug this test guards)."""
+    extract.write_findings(conn, 1, [
+        A("q1_one_line", "x", "s-a", reason="named in the source as chronic, not latent")])
+    row = conn.execute("SELECT reason FROM finding").fetchone()
+    assert row["reason"] == "named in the source as chronic, not latent"
+
+
+def test_write_findings_without_reason_leaves_it_null(conn):
+    extract.write_findings(conn, 1, [A("q1_one_line", "x", "s-a")])
+    row = conn.execute("SELECT reason FROM finding").fetchone()
+    assert row["reason"] is None
 
 
 def test_write_findings_source_id_is_a_real_fk(conn):

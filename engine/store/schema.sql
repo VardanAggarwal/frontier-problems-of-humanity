@@ -322,6 +322,13 @@ CREATE TABLE finding (
   -- (`chunk_ref`) as f"{source_id}:{ordinal}" — not reconstructed here.
   source_id     TEXT REFERENCES source (id),
   chunk_ref     TEXT,
+  -- reason (schema v3, migrate/m0003_finding_reason.py): the model's
+  -- one-clause justification for a closed-enum classification answer
+  -- (worker/extract_types.py's Answer.reason) — why this value over a
+  -- neighbouring one, e.g. why `onset` is `chronic` and not `latent`.
+  -- Nullable: only closed-enum classification answers carry a reason;
+  -- everything else writes None.
+  reason        TEXT,
   gathered_at   TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
