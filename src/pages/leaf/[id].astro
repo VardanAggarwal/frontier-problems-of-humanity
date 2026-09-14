@@ -178,7 +178,7 @@ const shortenNote = (raw) => {
     )}
   </dl>
 
-  {l.status === 'stub' && (() => {
+  {(l.status === 'stub' || !l.path) && (() => {
     const hasBody = Boolean(l.lede) || ['evidence', 'diagnosis'].some(sec);
     const missing = [];
     if (!sec('evidence')) missing.push('evidence');
