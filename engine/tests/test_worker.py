@@ -1032,6 +1032,145 @@ def test_emit_problem_emission_disabled_degrades_to_dropping_the_edge(
     ).fetchone()["c"] == 0
 
 
+# ------------------------------------------------ trigger-edge backfill on promotion
+
+def test_new_problem_mint_carries_the_trigger_edge_on_its_own_evidence(
+        conn, monkeypatch):
+    """The edge dropped at mint time (`_mint_or_resolve_problem`'s "new"
+    path) is not lost — it rides on the destination candidate's own
+    evidence so `_backfill_trigger_edge` can write it once that candidate
+    is promoted."""
+    actor(conn, "src-actor")
+    src = _source_candidate(conn, resolved_to="src-actor")
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
+
+    claims = {"emits": [], "edges": [{
+        "dst_kind": "problem", "dst_name": "Fluorosis in Nalgonda",
+        "edge_kind": "works_on", "relevance": 2, "evidence": "cited groundwater study"}]}
+    worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    row = conn.execute(
+        "SELECT * FROM candidate WHERE kind = 'problem' AND "
+        "name = 'Fluorosis in Nalgonda'").fetchone()
+    payload = json.loads(row["evidence"])
+    assert payload["from_kind"] == "actor"
+    assert payload["from_id"] == "src-actor"
+    assert payload["edge_kind"] == "works_on"
+    assert payload["edge_relevance"] == 2
+    assert payload["edge_evidence"] == "cited groundwater study"
+
+
+def test_emit_mints_an_actor_candidate_for_an_unresolvable_edge(conn, monkeypatch):
+    """Actor counterpart of the problem mint: before this, an edge naming an
+    actor that the `emits` loop hadn't already surfaced was dropped outright
+    — no candidate at all, unlike problems (which at least minted)."""
+    problem(conn, "silicosis-quarries", title="Silicosis in Stone Quarries")
+    src = _source_candidate(conn, resolved_to="silicosis-quarries", kind="problem")
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])   # empty -> new
+
+    claims = {"emits": [], "edges": [{
+        "dst_kind": "actor", "dst_name": "Quarry Workers Collective",
+        "edge_kind": "works_on", "relevance": 3, "evidence": "leads the campaign"}]}
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert emitted == 1
+    assert edges == 0   # deferred, same as the problem case
+    row = conn.execute(
+        "SELECT * FROM candidate WHERE kind = 'actor' AND "
+        "name = 'Quarry Workers Collective'").fetchone()
+    assert row is not None
+    assert row["resolved_to"] is None
+    payload = json.loads(row["evidence"])
+    assert payload["from_kind"] == "problem"
+    assert payload["from_id"] == "silicosis-quarries"
+    assert payload["edge_kind"] == "works_on"
+    assert payload["edge_relevance"] == 3
+
+
+def test_emit_actor_edge_does_not_double_mint_an_already_emitted_actor(
+        conn, monkeypatch):
+    """The same duplicate guard `minted_problems` already gave problems,
+    extended to actors: a name minted by the `emits` loop must not be minted
+    again by the edges loop's new actor mint path."""
+    actor(conn, "src-actor")
+    src = _source_candidate(conn, resolved_to="src-actor")
+    monkeypatch.setattr(resolve, "encode_one",
+                        lambda *a, **kw: (_ for _ in ()).throw(
+                            AssertionError("must not re-resolve an already-emitted name")))
+
+    claims = {"emits": [{"kind": "actor", "name": "Warrior Moms", "hint": "coalition partner"}],
+              "edges": [{"dst_kind": "actor", "dst_name": "Warrior Moms",
+                        "edge_kind": "affiliated", "relevance": 2}]}
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert emitted == 1   # once, from the emits loop
+    assert edges == 0
+    assert conn.execute(
+        "SELECT count(*) c FROM candidate WHERE kind = 'actor' AND name = 'Warrior Moms'"
+    ).fetchone()["c"] == 1
+
+
+def test_backfill_trigger_edge_writes_the_deferred_edge_on_promotion(conn):
+    """The other half: once a candidate minted this way is itself promoted
+    to a real actor/problem row, the edge its own evidence remembers gets
+    written — this is the fix for actors and the problems that emitted them
+    never ending up linked."""
+    actor(conn, "src-actor")
+    cand = make_candidate(
+        conn, kind="problem", name="Fluorosis in Nalgonda",
+        evidence=json.dumps({"from_kind": "actor", "from_id": "src-actor",
+                            "edge_kind": "works_on", "edge_relevance": 2,
+                            "edge_evidence": "cited groundwater study"}))
+
+    worker._backfill_trigger_edge(conn, cand, "problem", "fluorosis-nalgonda",
+                                  by="worker:test", log=lambda *a: None)
+
+    linked = conn.execute(
+        "SELECT * FROM edge WHERE src_kind = 'actor' AND src_id = 'src-actor' "
+        "AND dst_kind = 'problem' AND dst_id = 'fluorosis-nalgonda' "
+        "AND kind = 'works_on'").fetchone()
+    assert linked is None   # dst doesn't exist as an entity yet -> trigger rejects it
+
+    problem(conn, "fluorosis-nalgonda", title="Fluorosis in Nalgonda")
+    worker._backfill_trigger_edge(conn, cand, "problem", "fluorosis-nalgonda",
+                                  by="worker:test", log=lambda *a: None)
+    linked = conn.execute(
+        "SELECT * FROM edge WHERE src_kind = 'actor' AND src_id = 'src-actor' "
+        "AND dst_kind = 'problem' AND dst_id = 'fluorosis-nalgonda' "
+        "AND kind = 'works_on'").fetchone()
+    assert linked is not None
+    assert linked["relevance"] == 2
+    assert linked["evidence"] == "cited groundwater study"
+
+
+def test_backfill_trigger_edge_is_a_noop_for_candidates_without_one(conn):
+    """A candidate minted any other way (corpus migration, a bare `emits`
+    mention) has no `edge_kind` in its evidence — same "parse failure is the
+    normal case" contract as `_predicted_depth`."""
+    cand = make_candidate(conn, kind="actor", name="Some Org", evidence="just a snippet")
+    worker._backfill_trigger_edge(conn, cand, "actor", "some-org",
+                                  by="worker:test", log=lambda *a: None)
+    assert conn.execute("SELECT count(*) c FROM edge").fetchone()["c"] == 0
+
+
+def test_backfill_trigger_edge_logs_rather_than_raises_when_source_is_gone(conn):
+    """The source entity id captured at mint time could, in principle,
+    later be renamed/merged out from under this — the same defensive
+    IntegrityError handling `_emit`'s own `db.link` call already has."""
+    problem(conn, "fluorosis-nalgonda", title="Fluorosis in Nalgonda")
+    cand = make_candidate(
+        conn, kind="problem", name="Fluorosis in Nalgonda",
+        evidence=json.dumps({"from_kind": "actor", "from_id": "no-such-actor",
+                            "edge_kind": "works_on"}))
+    logged = []
+    worker._backfill_trigger_edge(conn, cand, "problem", "fluorosis-nalgonda",
+                                  by="worker:test", log=logged.append)
+    assert any("rejected" in m for m in logged)
+    assert conn.execute("SELECT count(*) c FROM edge").fetchone()["c"] == 0
+
+
 # ---------------------------------------------------------- track B: depth tier
 
 def test_emit_stores_a_predicted_depth_for_an_actor_mention(conn):
