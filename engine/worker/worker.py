@@ -469,7 +469,73 @@ def _mint_or_resolve_problem(conn: sqlite3.Connection, source_candidate: sqlite3
         "VALUES (?, ?, NULL, ?, ?)",
         ("problem", dst_name, f"worker:{source_candidate['id']}",
          json.dumps({"hint": edge.get("evidence", ""), "signals": signals,
-                    "from_candidate": source_candidate["id"]})))
+                    "from_candidate": source_candidate["id"],
+                    **_trigger_edge_fields(source_candidate, edge)})))
+    return None, True
+
+
+def _trigger_edge_fields(source_candidate: sqlite3.Row, edge: dict) -> dict:
+    """The edge that couldn't be linked yet because its destination isn't an
+    entity — captured on the destination candidate's own `evidence` so a
+    later promotion (`_backfill_trigger_edge`) can finish the write.
+
+    Safe to capture now, not just at promotion time, because `run_batch`
+    already resolved and settled `source_candidate` (`_settle` runs before
+    `_emit`) — `source_candidate['resolved_to']` is never NULL here. The
+    only thing still pending is THIS candidate becoming an entity."""
+    return {
+        "from_kind": source_candidate["kind"],
+        "from_id": source_candidate["resolved_to"],
+        "edge_kind": edge.get("edge_kind"),
+        "edge_relevance": edge.get("relevance"),
+        "edge_evidence": edge.get("evidence"),
+    }
+
+
+def _mint_or_resolve_actor(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
+                           edge: dict, *, log=print,
+                           depth_tier: bool | None = None) -> tuple[str | None, bool]:
+    """Actor counterpart of `_mint_or_resolve_problem` — same three-way
+    split (resolve / escalate / new), same reason this exists at all: an
+    edge whose `dst_kind` is `actor` had no mint path of its own before this,
+    so `works_on`-style edges naming an actor the `emits` loop hadn't
+    already surfaced were dropped outright (`worker.py`'s `dst_id is None`
+    fallthrough), not just left unresolved like problems were pre-Track-A.
+
+    Actor names ARE proper nouns (unlike problem descriptions), but the
+    exact/alias path already tried and missed by the time `_emit` calls
+    this — `resolve_entity`'s embedding shortlist is still the right dedupe
+    step before minting a duplicate stub."""
+    dst_name = edge.get("dst_name") or ""
+    context = edge.get("evidence") or source_candidate["evidence"] or ""
+    decision = resolve.resolve_entity(conn, Path("."), "actor", dst_name, context)
+    action = problem_emit.decide_problem_edge(decision)   # kind-agnostic despite the name
+
+    if action == "resolve":
+        if decision.decision == "shortlist_top":
+            db.alias(conn, "actor", decision.entity_id, dst_name,
+                     by=f"worker:problem_emit:{source_candidate['id']}")
+        return decision.entity_id, False
+
+    if action == "escalate":
+        db.record(conn, "candidate", str(source_candidate["id"]), "edge",
+                 None, dst_name, by="worker:problem_emit", why=decision.reason)
+        log(f"worker: actor edge to {dst_name!r} ambiguous "
+            f"({decision.reason}) — routed to human review, edge dropped")
+        return None, False
+
+    # action == "new"
+    depth_tier = _DEPTH_TIER_DEFAULT if depth_tier is None else depth_tier
+    payload = {"hint": edge.get("evidence", ""),
+               "from_candidate": source_candidate["id"],
+               **_trigger_edge_fields(source_candidate, edge)}
+    if depth_tier:
+        payload["predicted_depth"] = depth_mod.predict_tier(
+            {"name": dst_name, "hint": edge.get("evidence", "")})
+    conn.execute(
+        "INSERT INTO candidate (kind, name, url, discovered_via, evidence) "
+        "VALUES (?, ?, NULL, ?, ?)",
+        ("actor", dst_name, f"worker:{source_candidate['id']}", json.dumps(payload)))
     return None, True
 
 
@@ -484,10 +550,12 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
     `depth_tier` / `problem_emission`: None takes the module default, which
     the env var supplies (see their definitions above).
 
-    Track A: a `works_on` edge naming a problem that doesn't resolve is no
-    longer just dropped — `_mint_or_resolve_problem` either resolves it
-    (existing/shortlist match), escalates it (ambiguous), or mints it as a
-    fresh problem candidate here, same as `emits` does for named actors."""
+    Track A (+ actor counterpart): an edge naming a problem or actor that
+    doesn't resolve is no longer just dropped — `_mint_or_resolve_problem` /
+    `_mint_or_resolve_actor` either resolve it (existing/shortlist match),
+    escalate it (ambiguous), or mint a fresh candidate here, carrying the
+    dropped edge on its own evidence so `_backfill_trigger_edge` can write it
+    once that candidate is promoted."""
     depth_tier = _DEPTH_TIER_DEFAULT if depth_tier is None else depth_tier
     problem_emission = (_PROBLEM_EMISSION_DEFAULT if problem_emission is None
                         else problem_emission)
@@ -501,6 +569,12 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
     # 2026-09-14 (nothing encouraged a problem emit); asking for `signals`
     # on problem emits makes both halves the expected response.
     minted_problems: set[str] = set()
+    # Same duplicate-mint guard as `minted_problems`, kept separate because
+    # the edges loop below now has its own actor mint path
+    # (`_mint_or_resolve_actor`) mirroring the problem one — without this
+    # set, an actor named in both `emits` and `edges` in the same call would
+    # mint twice.
+    minted_actors: set[str] = set()
     for e in claims.get("emits", []) or []:
         ekind, ename = e.get("kind"), e.get("name")
         if ekind not in ("problem", "actor") or not ename:
@@ -536,6 +610,8 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
             (ekind, ename, f"worker:{source_candidate['id']}", json.dumps(payload)))
         if ekind == "problem":
             minted_problems.add(db.norm(ename))
+        else:
+            minted_actors.add(db.norm(ename))
         emitted += 1
 
     edges_written = 0
@@ -550,30 +626,40 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
         dst_id = db.resolve(conn, dst_kind, dst_name)
         if dst_id is None:
             dst_id = resolved_this_batch.get((dst_kind, db.norm(dst_name)))
-        if (dst_id is None and dst_kind == "problem" and problem_emission
-                and db.norm(dst_name) in minted_problems):
-            # Already minted by the emits loop above, with the signals the
-            # prompt put there. Minting again would duplicate the candidate
-            # and double-count `emitted`; the edge still can't be linked
-            # (a candidate is not an entity), which is the same deferral the
-            # `dst_id is None` case below has always taken.
+        minted_set = minted_problems if dst_kind == "problem" else minted_actors
+        if (dst_id is None and problem_emission
+                and db.norm(dst_name) in minted_set):
+            # Already minted by the emits loop above (problem: with the
+            # signals the prompt put there; actor: same as any other emit).
+            # Minting again would duplicate the candidate and double-count
+            # `emitted`; the edge still can't be linked (a candidate is not
+            # an entity), which is the same deferral the `dst_id is None`
+            # case below has always taken. The candidate's OWN evidence now
+            # carries the triggering edge either way (`_trigger_edge_fields`
+            # / the emits-loop payload), so nothing here needs to remember it.
             continue
-        if dst_id is None and dst_kind == "problem" and problem_emission:
-            # Track A: unlike actors (whose `emits` loop above already mints
-            # a candidate for any mentioned name), nothing upstream mints a
-            # problem candidate from a `works_on` destination — this is the
-            # only place one turns into a candidate at all, per
-            # `03-worker.md` §10.
-            dst_id, minted = _mint_or_resolve_problem(
-                conn, source_candidate, e, log=log)
+        if dst_id is None and problem_emission:
+            # Track A (problem) + its actor counterpart: a `works_on`-style
+            # edge naming an actor/problem that the `emits` loop hasn't
+            # already surfaced this call is minted here instead of dropped,
+            # per `03-worker.md` §10. `_mint_or_resolve_actor` only exists
+            # because this branch used to be problem-only — an actor named
+            # solely in `edges` (never in `emits`) had no mint path at all.
+            mint_fn = (_mint_or_resolve_problem if dst_kind == "problem"
+                      else lambda *a, **kw: _mint_or_resolve_actor(
+                          *a, depth_tier=depth_tier, **kw))
+            dst_id, minted = mint_fn(conn, source_candidate, e, log=log)
             if minted:
                 emitted += 1
         if dst_id is None:
             continue   # not yet an entity — the emits loop above, this
-                       # candidate's own mint just above (deferred to a
-                       # future batch), or a prior candidate is responsible
-                       # for it turning into one; an `ambiguous` problem
-                       # match is escalated instead, per §10's dedupe rule
+                       # candidate's own mint just above, or a prior
+                       # candidate is responsible for it turning into one;
+                       # an `ambiguous` match is escalated instead, per
+                       # §10's dedupe rule. Its `from_kind`/`from_id`/
+                       # `edge_kind` are on the minted candidate's own
+                       # evidence, so `_backfill_trigger_edge` writes this
+                       # edge once that candidate is promoted.
         try:
             db.link(conn, (source_candidate["kind"], source_candidate["resolved_to"]),
                     edge_kind, (dst_kind, dst_id), by=f"worker:{source_candidate['id']}",
@@ -615,6 +701,44 @@ def _predicted_depth(cand: sqlite3.Row) -> str | None:
     except (ValueError, TypeError):
         return None
     return payload.get("predicted_depth") if isinstance(payload, dict) else None
+
+
+def _backfill_trigger_edge(conn: sqlite3.Connection, cand: sqlite3.Row, kind: str,
+                           entity_id: str, *, by: str, log=print) -> None:
+    """The other half of `_trigger_edge_fields`: a candidate minted from an
+    unresolved edge destination (`_mint_or_resolve_problem` /
+    `_mint_or_resolve_actor`) carries its triggering entity and edge kind on
+    its OWN evidence, captured back when it was minted — safe to capture
+    then because the source candidate was already resolved (`_settle` runs
+    before `_emit` in `run_batch`, below). The only thing deferred was this
+    candidate itself becoming an entity. Now that it has (`entity_id` is
+    freshly written), the edge that couldn't be linked at mint time finally
+    can be.
+
+    A candidate minted any other way (corpus migration, the `emits` loop,
+    manually) simply has no `edge_kind` in its evidence and this is a no-op —
+    same "parse failure is the normal case" contract as `_predicted_depth`."""
+    try:
+        payload = json.loads(cand["evidence"] or "")
+    except (ValueError, TypeError):
+        return
+    if not isinstance(payload, dict):
+        return
+    from_kind, from_id, edge_kind = (payload.get("from_kind"),
+                                      payload.get("from_id"),
+                                      payload.get("edge_kind"))
+    if not (from_kind and from_id and edge_kind):
+        return
+    try:
+        db.link(conn, (from_kind, from_id), edge_kind, (kind, entity_id),
+                by=by, relevance=payload.get("edge_relevance"),
+                evidence=payload.get("edge_evidence"),
+                why=f"backfilled on promotion of candidate {cand['id']} — "
+                    "edge was dropped at mint time because this candidate "
+                    "wasn't an entity yet")
+    except sqlite3.IntegrityError as ex:
+        log(f"worker: backfilled edge {edge_kind} {from_id} -> {entity_id} "
+            f"rejected: {ex}")
 
 
 def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.Row],
@@ -1050,6 +1174,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             continue
         report["cites_written"] += _write_cites(conn, kind, entity_id, answers,
                                                 by=by, log=log)
+        _backfill_trigger_edge(conn, cand, kind, entity_id, by=by, log=log)
         _settle(cid, resolved_to=entity_id, admitted=1, by=by,
                why="resolved and written", field="resolve")
         resolved_this_batch[(kind, db.norm(name))] = entity_id

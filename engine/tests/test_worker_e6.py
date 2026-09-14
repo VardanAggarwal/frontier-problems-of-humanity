@@ -467,6 +467,42 @@ def test_problem_emission_reaches_emit_through_run_batch(
     assert (minted > 0) is problem_emission
 
 
+def test_edge_dropped_at_mint_time_is_backfilled_once_its_destination_promotes(
+        conn, monkeypatch, tmp_path):
+    """End to end, through two `run_batch` passes: the `works_on` edge in
+    `_emitting_json` names a problem that doesn't exist yet, so pass 1 mints
+    it instead of linking it (Track A) — the actor and the problem it named
+    are NOT attached to each other yet. Pass 2 processes that minted problem
+    candidate; once it promotes, the edge dropped in pass 1 is finally
+    written, using nothing but what pass 1 already stashed on its evidence."""
+    cand = make_candidate(conn, kind="actor", name="Registry Stub Org")
+    stub_pipeline(monkeypatch, conn, fetch=FakeFetch(conn, {}),
+                  screen_ids=[cand["id"]], extract_json=_emitting_json())
+    worker.run_batch(conn, tmp_path, [cand], problem_emission=True)
+
+    actor_id = conn.execute(
+        "SELECT id FROM actor WHERE title = 'Registry Stub Org'").fetchone()["id"]
+    minted = conn.execute(
+        "SELECT * FROM candidate WHERE kind = 'problem' AND "
+        "name = 'Nobody counts silicosis'").fetchone()
+    assert minted is not None and minted["resolved_to"] is None
+    assert conn.execute("SELECT count(*) c FROM edge").fetchone()["c"] == 0
+
+    stub_pipeline(monkeypatch, conn, fetch=FakeFetch(conn, {}),
+                  screen_ids=[minted["id"]],
+                  extract_json={"claims": [], "emits": [], "edges": []})
+    worker.run_batch(conn, tmp_path, [minted], problem_emission=True)
+
+    problem_id = conn.execute(
+        "SELECT id FROM problem WHERE title = 'Nobody counts silicosis'").fetchone()["id"]
+    linked = conn.execute(
+        "SELECT * FROM edge WHERE src_kind = 'actor' AND src_id = ? "
+        "AND dst_kind = 'problem' AND dst_id = ? AND kind = 'works_on'",
+        (actor_id, problem_id)).fetchone()
+    assert linked is not None
+    assert linked["relevance"] == 3
+
+
 # ------------------------------------------------------- 8. _predicted_depth --
 
 def test_predicted_depth_reads_track_bs_intake_prediction(conn):
