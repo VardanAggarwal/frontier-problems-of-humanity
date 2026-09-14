@@ -1,5 +1,7 @@
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
+import { existsSync } from 'node:fs';
+import { spawn } from 'node:child_process';
 import { openGraphWritable, setActorFields, lastEventValue } from './src/lib/graphdb.mjs';
 
 // The corpus lives in problems/, outside src/. It is loaded by src/lib/corpus.mjs
@@ -144,10 +146,164 @@ function excludeWriter() {
   };
 }
 
+const REPO_ROOT = fileURLToPath(new URL('./', import.meta.url));
+const ENGINE_DIR = fileURLToPath(new URL('./engine', import.meta.url));
+const PYTHON_BIN = ['./engine/.venv/bin/python', './engine/.venv312/bin/python']
+  .map((p) => fileURLToPath(new URL(p, import.meta.url)))
+  .find((p) => existsSync(p)) || 'python3';
+
+/** Dev-only. POST /api/candidates/seed {kind, name, url?} → inserts a row into
+ *  `candidate` (engine/store/schema.sql) with admitted = 1, so it lands on
+ *  `worker.py`'s next-batch queue (`admitted = 1 AND resolved_to IS NULL`)
+ *  same as any crawler/migration-sourced candidate. No `event` row: `db.put`
+ *  only audits `problem`/`actor`, and a still-unresolved candidate isn't
+ *  either yet. */
+function candidateSeeder() {
+  return {
+    name: 'fph:candidate-seeder',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use('/api/candidates/seed', (req, res, next) => {
+        if (req.method !== 'POST') return next();
+        let body = '';
+        req.on('data', (c) => (body += c));
+        req.on('end', () => {
+          const done = (code, obj) => {
+            res.statusCode = code;
+            res.setHeader('content-type', 'application/json');
+            res.end(JSON.stringify(obj));
+          };
+          try {
+            const { kind, name, url } = JSON.parse(body || '{}');
+            if (kind !== 'problem' && kind !== 'actor') return done(400, { error: 'kind must be "problem" or "actor"' });
+            const trimmed = (name ?? '').trim();
+            if (!trimmed) return done(400, { error: 'name is required' });
+            const g = openGraphWritable(GRAPH_DB);
+            let id, queueDepth;
+            try {
+              const ins = g.prepare(
+                'INSERT INTO candidate (kind, name, url, discovered_via, admitted) VALUES (?, ?, ?, ?, 1)'
+              );
+              const info = ins.run(kind, trimmed, (url ?? '').trim() || null, 'human:dev-seed-ui');
+              id = info.lastInsertRowid;
+              queueDepth = g.prepare(
+                'SELECT COUNT(*) AS n FROM candidate WHERE admitted = 1 AND resolved_to IS NULL'
+              ).get().n;
+            } finally { g.close(); }
+            markSelfWrite(GRAPH_DB);
+            done(200, { ok: true, id: Number(id), queueDepth });
+          } catch (e) {
+            done(500, { error: String((e && e.message) || e) });
+          }
+        });
+      });
+    },
+  };
+}
+
+/** Dev-only. GET /api/candidates/list?scope=queue|all → rows from `candidate`
+ *  for the /worker page's picker. `queue` (default) is worker.py's own
+ *  selection (admitted = 1 AND resolved_to IS NULL, oldest first) — the same
+ *  set --limit would drain; `all` adds already-resolved/rejected rows too,
+ *  for re-running or just seeing what happened to something. */
+function candidateLister() {
+  return {
+    name: 'fph:candidate-lister',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use('/api/candidates/list', (req, res, next) => {
+        if (req.method !== 'GET') return next();
+        const done = (code, obj) => {
+          res.statusCode = code;
+          res.setHeader('content-type', 'application/json');
+          res.end(JSON.stringify(obj));
+        };
+        try {
+          const url = new URL(req.url, 'http://localhost');
+          const scope = url.searchParams.get('scope') === 'all' ? 'all' : 'queue';
+          const g = openGraphWritable(GRAPH_DB); // read-only use; avoids a second connection mode
+          let rows;
+          try {
+            rows = scope === 'all'
+              ? g.prepare(
+                  'SELECT id, kind, name, url, admitted, resolved_to, score, first_seen FROM candidate ' +
+                  'ORDER BY first_seen DESC LIMIT 300'
+                ).all()
+              : g.prepare(
+                  'SELECT id, kind, name, url, admitted, resolved_to, score, first_seen FROM candidate ' +
+                  'WHERE admitted = 1 AND resolved_to IS NULL ORDER BY first_seen'
+                ).all();
+          } finally { g.close(); }
+          done(200, { ok: true, scope, candidates: rows });
+        } catch (e) {
+          done(500, { error: String((e && e.message) || e) });
+        }
+      });
+    },
+  };
+}
+
+/** Dev-only. POST /api/worker/run {ids?: number[], limit?, noSearch?} →
+ *  spawns `python -m worker.worker` (cwd engine/) against problems/graph.db
+ *  and streams its stdout/stderr straight through as the process runs — a
+ *  real batch does real fetches and real LLM calls, so the caller sees it
+ *  happening rather than staring at a spinner for however long that takes.
+ *  `ids` (from the picker) maps to worker.py's `--ids` and runs exactly
+ *  those rows, ignoring `limit`; without `ids` it drains the oldest-first
+ *  admitted queue up to `limit`, same as the CLI's default. `--no-search`
+ *  maps to run_batch's seed-URL-only degrade (worker.py's
+ *  `_build_search_provider`); omitting it requires a reachable SearXNG
+ *  (`engine/poc/searxng/run.sh start`) or the batch raises immediately. */
+function workerRunner() {
+  return {
+    name: 'fph:worker-runner',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use('/api/worker/run', (req, res, next) => {
+        if (req.method !== 'POST') return next();
+        let body = '';
+        req.on('data', (c) => (body += c));
+        req.on('end', () => {
+          let parsed;
+          try { parsed = JSON.parse(body || '{}'); } catch (e) {
+            res.statusCode = 400; return res.end('bad JSON body: ' + e.message);
+          }
+          const args = ['-m', 'worker.worker', '--db', GRAPH_DB, '--corpus', REPO_ROOT];
+          const ids = Array.isArray(parsed.ids)
+            ? parsed.ids.map(Number).filter(Number.isInteger)
+            : [];
+          if (ids.length) {
+            args.push('--ids', ids.join(','));
+          } else {
+            const limit = Number.isInteger(parsed.limit) && parsed.limit > 0 ? parsed.limit : 5;
+            args.push('--limit', String(limit));
+          }
+          if (parsed.noSearch) args.push('--no-search');
+
+          res.statusCode = 200;
+          res.setHeader('content-type', 'text/plain; charset=utf-8');
+          res.write(`$ ${PYTHON_BIN} ${args.join(' ')}\n(cwd: ${ENGINE_DIR})\n\n`);
+
+          const child = spawn(PYTHON_BIN, args, { cwd: ENGINE_DIR });
+          child.stdout.on('data', (c) => res.write(c));
+          child.stderr.on('data', (c) => res.write(c));
+          child.on('error', (e) => { res.write(`\n[spawn failed] ${e.message}\n`); res.end(); });
+          child.on('close', (code) => {
+            markSelfWrite(GRAPH_DB); // a run may have written claims/edges
+            res.write(`\n[exit ${code}]\n`);
+            res.end();
+          });
+          req.on('close', () => { if (!child.killed) child.kill(); });
+        });
+      });
+    },
+  };
+}
+
 export default defineConfig({
   site: 'https://frontier-problems.example',
   outDir: './dist',
   build: { format: 'directory' },
   markdown: { syntaxHighlight: false },
-  vite: { plugins: [watchCorpus(), followWriter(), excludeWriter()] },
+  vite: { plugins: [watchCorpus(), followWriter(), excludeWriter(), candidateSeeder(), candidateLister(), workerRunner()] },
 });

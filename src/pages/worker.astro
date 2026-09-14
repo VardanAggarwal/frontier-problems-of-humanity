@@ -1,0 +1,281 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Dev-only control panel over engine/worker/worker.py's queue: seed a new
+// candidate (POST /api/candidates/seed) and drain the queue (POST
+// /api/worker/run), both defined in astro.config.mjs. Neither endpoint exists
+// in the static build — the page still renders, the buttons just fail with a
+// "needs npm run dev" message, same convention as /follow.
+---
+<Base title="Worker" crumb={`<a href="/">Pyramid</a> / Worker`}>
+  <h1>Worker</h1>
+  <p class="lede">
+    Two controls over <code>engine/worker/worker.py</code>'s candidate queue: seed a
+    name in, then drain admitted candidates through gate → fetch → gate → claims →
+    resolve → write → emit.
+  </p>
+  <p class="note">
+    <strong>Writes only under <code>npm run dev</code>.</strong> A batch run makes real
+    fetches and real LLM calls — it costs money and takes real time. Start small.
+  </p>
+
+  <section class="panel">
+    <h2>Seed a candidate</h2>
+    <p class="note">
+      Inserts into <code>candidate</code> with <code>admitted = 1</code> — same queue a
+      crawler or migration pass would land it in, just <code>discovered_via:
+      human:dev-seed-ui</code> instead.
+    </p>
+    <form id="seed-form">
+      <label>
+        Kind
+        <select name="kind">
+          <option value="problem">problem</option>
+          <option value="actor">actor</option>
+        </select>
+      </label>
+      <label class="grow">
+        Name
+        <input name="name" type="text" required placeholder="e.g. Cookfire smoke, or SELCO Foundation" />
+      </label>
+      <label class="grow">
+        URL <span class="opt">(optional seed source)</span>
+        <input name="url" type="url" placeholder="https://…" />
+      </label>
+      <button type="submit">Seed</button>
+    </form>
+    <p id="seed-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="panel">
+    <h2>Queue</h2>
+    <p class="note">
+      Admitted, unresolved candidates — the same set <code>worker.py</code>'s
+      <code>--limit</code> would drain, oldest first. Tick the ones to run, or leave
+      none ticked to run the oldest N via the limit box below.
+    </p>
+    <div class="qbar">
+      <button type="button" id="q-refresh">Refresh</button>
+      <button type="button" id="q-all-toggle">Select shown</button>
+      <label class="check">
+        <input id="q-show-all" type="checkbox" />
+        <span>show resolved/rejected too</span>
+      </label>
+      <span id="q-status" role="status" aria-live="polite"></span>
+    </div>
+    <ul id="q-list" class="qlist"></ul>
+  </section>
+
+  <section class="panel">
+    <h2>Run a batch</h2>
+    <p class="note">
+      With rows ticked above: runs exactly those (<code>--ids</code>). With none ticked:
+      runs the oldest <em>N</em> admitted candidates (<code>--limit</code>), same as the
+      bare CLI. Either way it's <code>python -m worker.worker</code> against
+      <code>problems/graph.db</code>, streamed below as it runs.
+    </p>
+    <form id="run-form">
+      <label>
+        Limit <span class="opt">(used only when nothing's ticked)</span>
+        <input name="limit" type="number" min="1" max="200" value="5" />
+      </label>
+      <label class="check">
+        <input name="noSearch" type="checkbox" />
+        <span><code>--no-search</code> (skip SearXNG, single-source degrade)</span>
+      </label>
+      <button type="submit" id="run-btn">Run batch</button>
+    </form>
+    <pre id="run-log" hidden></pre>
+  </section>
+
+  <style>
+    .panel { border-top: 1px solid var(--rule); padding: 1.2rem 0; }
+    .panel h2 { font: 1rem/1 var(--sans); margin: 0 0 .3rem; }
+    form { display: flex; flex-wrap: wrap; gap: .8rem; align-items: end; margin: .8rem 0; }
+    label { display: flex; flex-direction: column; gap: .25rem; font: .72rem/1 var(--mono); color: var(--muted); }
+    label.grow { flex: 1 1 14rem; }
+    label.check { flex-direction: row; align-items: center; gap: .4rem; }
+    input[type="text"], input[type="url"], input[type="number"], select {
+      font: .85rem/1 var(--sans); color: var(--ink); background: var(--panel);
+      border: 1px solid var(--rule); border-radius: .3rem; padding: .4rem .55rem;
+    }
+    input[type="number"] { width: 5rem; }
+    button {
+      font: .8rem/1 var(--mono); color: var(--accent); background: var(--accent-soft);
+      border: 1px solid var(--accent); border-radius: .3rem; padding: .5rem .9rem; cursor: pointer;
+    }
+    button:disabled { opacity: .5; cursor: wait; }
+    #seed-status[data-tone="err"], #run-log[data-tone="err"] { color: var(--alarm); }
+    #seed-status[data-tone="ok"] { color: var(--ok); }
+    #run-log {
+      margin-top: .6rem; max-height: 26rem; overflow: auto; white-space: pre-wrap;
+      font: .72rem/1.5 var(--mono); background: var(--panel); border: 1px solid var(--rule);
+      border-radius: .3rem; padding: .7rem;
+    }
+    .qbar { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin: .6rem 0; }
+    .qbar button {
+      font: .72rem/1 var(--mono); color: var(--muted); background: var(--panel);
+      border: 1px solid var(--rule); border-radius: 999px; padding: .32rem .7rem; cursor: pointer;
+    }
+    .qbar button:hover { border-color: var(--accent); color: var(--accent); }
+    #q-status { font: .72rem/1 var(--mono); color: var(--muted); }
+    #q-status[data-tone="err"] { color: var(--alarm); }
+    .qlist { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); max-height: 22rem; overflow: auto; }
+    .qrow {
+      display: flex; gap: .7rem; align-items: baseline; padding: .4rem .2rem;
+      border-bottom: 1px solid var(--rule); font: .78rem/1.4 var(--sans);
+    }
+    .qrow[data-resolved="1"] { opacity: .55; }
+    .qid { flex: none; width: 2.6rem; color: var(--muted); font: .7rem/1 var(--mono); }
+    .qkind { flex: none; width: 4.2rem; color: var(--muted); font: .68rem/1 var(--mono); text-transform: uppercase; }
+    .qname { flex: 1 1 auto; min-width: 0; }
+    .qmeta { flex: none; color: var(--muted); font: .68rem/1 var(--mono); }
+    .qempty { font: .8rem/1 var(--sans); color: var(--muted); font-style: italic; padding: .6rem .2rem; }
+  </style>
+
+  <script is:inline>
+    (function () {
+      var seedForm = document.getElementById('seed-form');
+      var seedStatus = document.getElementById('seed-status');
+      seedForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var fd = new FormData(seedForm);
+        var payload = { kind: fd.get('kind'), name: fd.get('name'), url: fd.get('url') };
+        seedStatus.textContent = 'seeding…';
+        delete seedStatus.dataset.tone;
+        fetch('/api/candidates/seed', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(payload),
+        }).then(function (res) {
+          if (!res.ok) return res.text().then(function (t) { throw new Error('HTTP ' + res.status + ': ' + t); });
+          return res.json();
+        }).then(function (j) {
+          if (j.error) throw new Error(j.error);
+          seedStatus.textContent = 'seeded #' + j.id + ' — queue depth now ' + j.queueDepth;
+          seedStatus.dataset.tone = 'ok';
+          seedForm.reset();
+        }).catch(function (e) {
+          seedStatus.textContent = 'not saved (' + e.message + ') — writes need `npm run dev`';
+          seedStatus.dataset.tone = 'err';
+        });
+      });
+
+      // ── Queue: list admitted candidates, let the user tick which to run ──
+      var qList = document.getElementById('q-list');
+      var qStatus = document.getElementById('q-status');
+      var qShowAll = document.getElementById('q-show-all');
+      var qAllToggle = document.getElementById('q-all-toggle');
+      var checked = {}; // candidate id -> true, survives a refresh
+
+      function fmtDate(s) { return (s || '').slice(0, 10); }
+
+      function renderQueue(rows) {
+        qList.innerHTML = '';
+        if (!rows.length) {
+          var li = document.createElement('li');
+          li.className = 'qempty';
+          li.textContent = 'nothing queued';
+          qList.appendChild(li);
+          return;
+        }
+        rows.forEach(function (r) {
+          var li = document.createElement('li');
+          li.className = 'qrow';
+          li.dataset.id = r.id;
+          li.dataset.resolved = r.resolved_to ? '1' : '0';
+          var cb = document.createElement('input');
+          cb.type = 'checkbox';
+          cb.checked = !!checked[r.id];
+          cb.disabled = !!r.resolved_to;
+          cb.addEventListener('change', function () {
+            if (cb.checked) checked[r.id] = true; else delete checked[r.id];
+          });
+          var id = document.createElement('span'); id.className = 'qid'; id.textContent = '#' + r.id;
+          var kind = document.createElement('span'); kind.className = 'qkind'; kind.textContent = r.kind;
+          var name = document.createElement('span'); name.className = 'qname'; name.textContent = r.name;
+          var meta = document.createElement('span'); meta.className = 'qmeta';
+          meta.textContent = r.resolved_to ? ('resolved → ' + r.resolved_to) : fmtDate(r.first_seen);
+          li.appendChild(cb); li.appendChild(id); li.appendChild(kind); li.appendChild(name); li.appendChild(meta);
+          qList.appendChild(li);
+        });
+      }
+
+      function loadQueue() {
+        qStatus.textContent = 'loading…';
+        delete qStatus.dataset.tone;
+        var scope = qShowAll.checked ? 'all' : 'queue';
+        fetch('/api/candidates/list?scope=' + scope).then(function (res) {
+          if (!res.ok) return res.text().then(function (t) { throw new Error('HTTP ' + res.status + ': ' + t); });
+          return res.json();
+        }).then(function (j) {
+          if (j.error) throw new Error(j.error);
+          renderQueue(j.candidates);
+          qStatus.textContent = j.candidates.length + ' shown';
+        }).catch(function (e) {
+          qStatus.textContent = 'not loaded (' + e.message + ') — needs `npm run dev`';
+          qStatus.dataset.tone = 'err';
+        });
+      }
+      document.getElementById('q-refresh').addEventListener('click', loadQueue);
+      qShowAll.addEventListener('change', loadQueue);
+      qAllToggle.addEventListener('click', function () {
+        var rows = Array.prototype.slice.call(qList.querySelectorAll('.qrow:not([data-resolved="1"])'));
+        var allChecked = rows.length > 0 && rows.every(function (r) { return checked[r.dataset.id]; });
+        rows.forEach(function (r) {
+          var cb = r.querySelector('input[type="checkbox"]');
+          cb.checked = !allChecked;
+          if (!allChecked) checked[r.dataset.id] = true; else delete checked[r.dataset.id];
+        });
+      });
+      loadQueue();
+
+      // Re-seeding refreshes the queue too, so a just-added candidate is
+      // immediately tickable without a manual refresh.
+      seedForm.addEventListener('submit', function () { setTimeout(loadQueue, 300); });
+
+      var runForm = document.getElementById('run-form');
+      var runBtn = document.getElementById('run-btn');
+      var runLog = document.getElementById('run-log');
+      runForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var fd = new FormData(runForm);
+        var ids = Object.keys(checked).map(Number).filter(function (n) { return !isNaN(n); });
+        var payload = {
+          noSearch: fd.get('noSearch') === 'on',
+        };
+        if (ids.length) payload.ids = ids;
+        else payload.limit = parseInt(fd.get('limit'), 10) || 5;
+        runBtn.disabled = true;
+        delete runLog.dataset.tone;
+        runLog.hidden = false;
+        runLog.textContent = 'starting…\n';
+
+        fetch('/api/worker/run', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(payload),
+        }).then(function (res) {
+          if (!res.ok || !res.body) return res.text().then(function (t) { throw new Error('HTTP ' + res.status + ': ' + t); });
+          runLog.textContent = '';
+          var reader = res.body.getReader();
+          var decoder = new TextDecoder();
+          function pump() {
+            return reader.read().then(function (r) {
+              if (r.done) return;
+              runLog.textContent += decoder.decode(r.value, { stream: true });
+              runLog.scrollTop = runLog.scrollHeight;
+              return pump();
+            });
+          }
+          return pump();
+        }).catch(function (e) {
+          runLog.textContent += '\n[failed] ' + e.message + '\n';
+          runLog.dataset.tone = 'err';
+        }).then(function () {
+          runBtn.disabled = false;
+          ids.forEach(function (id) { delete checked[id]; }); // attempted; let a refresh show the outcome
+          loadQueue();
+        });
+      });
+    })();
+  </script>
+</Base>

@@ -1045,7 +1045,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--limit", type=int, default=50,
                     help="stopgap queue: candidates already admitted (by "
                          "step-5's not-yet-built scheduler) but not yet "
-                         "resolved. Real admission control is build-order step 5.")
+                         "resolved. Real admission control is build-order step 5. "
+                         "Ignored when --ids is given.")
+    ap.add_argument("--ids", default=None,
+                    help="comma-separated candidate ids to run instead of the "
+                         "oldest-first --limit queue — e.g. a caller (the /worker "
+                         "portal page) picked specific rows. Runs exactly these, "
+                         "regardless of admitted/resolved_to; already-resolved ids "
+                         "are skipped with a log line rather than reprocessed.")
     ap.add_argument("--search-url", default=config.SEARXNG_URL,
                     help="SearXNG base URL (track D). Default reads "
                          "FPH_SEARXNG_URL / " + config.SEARXNG_URL + ". Start "
@@ -1063,9 +1070,23 @@ def main(argv: list[str] | None = None) -> int:
         None if args.no_search else args.search_url)
     conn = open_store(args, log=log)
     try:
-        candidates = conn.execute(
-            "SELECT * FROM candidate WHERE admitted = 1 AND resolved_to IS NULL "
-            "ORDER BY first_seen LIMIT ?", (args.limit,)).fetchall()
+        if args.ids:
+            ids = [int(x) for x in args.ids.split(",") if x.strip()]
+            placeholders = ", ".join("?" for _ in ids)
+            candidates = conn.execute(
+                f"SELECT * FROM candidate WHERE id IN ({placeholders})", ids).fetchall()
+            found = {int(c["id"]) for c in candidates}
+            for missing in set(ids) - found:
+                log(f"worker: --ids {missing} not found, skipping")
+            already = [c for c in candidates if c["resolved_to"] is not None]
+            for c in already:
+                log(f"worker: --ids {c['id']} ({c['name']!r}) already resolved "
+                    f"to {c['resolved_to']}, skipping")
+            candidates = [c for c in candidates if c["resolved_to"] is None]
+        else:
+            candidates = conn.execute(
+                "SELECT * FROM candidate WHERE admitted = 1 AND resolved_to IS NULL "
+                "ORDER BY first_seen LIMIT ?", (args.limit,)).fetchall()
         report = run_batch(conn, Path(args.corpus), candidates, log=log,
                            search_provider=search_provider)
     finally:
