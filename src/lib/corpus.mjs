@@ -217,6 +217,14 @@ export function loadCorpus() {
       kind: 'actor', id, name: row.title, slug: id, path: row.doc,
       aliases: aliasesOf(g, 'actor', id, row.title),
       type: row.type, depth: row.depth,
+      // worker.py has no doc file to write prose into for a worker-authored
+      // actor (doc: NULL) — these three columns carry that research instead
+      // (`questions.yaml`: q1_one_line, q10_funding, q11_scale_metric) and
+      // would otherwise be silently invisible, same gap as the leaf's
+      // needs_legs/magnitude/etc. six tags above.
+      one_line: row.one_line ?? undefined,
+      funding: row.funding ?? undefined,
+      scale_metric: row.scale_metric ?? undefined,
       parent: edgesOut(g, 'actor', id, 'parent_org')[0]?.dst_id,
       superseded_by: edgesOut(g, 'actor', id, 'superseded_by')[0]?.dst_id,
       // `to` (an affiliation's end date) isn't in graph.db yet — no page reads
