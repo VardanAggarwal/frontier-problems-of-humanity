@@ -708,6 +708,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
     for cid in alive:
         cand = by_id[cid]
         name, kind = cand["name"], cand["kind"]
+        log(f"worker: candidate {cid} stage=start ({kind} {name!r})")
 
         # fetch — a bare name (no URL) skips straight to extraction with
         # empty text: a stub actor from a registry row legitimately has no
@@ -716,6 +717,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         sources: list[ConfirmedSource] = []
         unverified: list = []
         if cand["url"]:
+            log(f"worker: candidate {cid} stage=fetch {cand['url']}")
             fetched = fetchmod.fetch(conn, corpus, cand["url"])
             report["fetched"] += 1
             text = fetched.text or ""
@@ -768,6 +770,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         # legitimate (§7) and was never a source to drop in the first place.
         search_counters: dict = {}
         if search_provider is not None:
+            log(f"worker: candidate {cid} stage=search")
             # Deduped against the seed: `search_sources` is called with
             # `seed_url=None`, but nothing stops set cover from picking the
             # seed's own URL out of the search results. `fetch` is cached on
@@ -801,8 +804,9 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         verified_answers: list[Answer] = []
         verify_sources: list = []
         thin, why = prompt_set_is_thin([s.text for s in sources])
-        log(f"worker: candidate {cid} verify-pass check: {why}")
+        log(f"worker: candidate {cid} stage=verify-check: {why}")
         if thin and unverified:
+            log(f"worker: candidate {cid} stage=verify")
             report["verify_pass_calls"] += 1
             v_sources, _ = extract_mod.assemble(
                 unverified, REGISTRY.retrieval_questions(kind),
@@ -861,6 +865,9 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             system, prompt = extract_prompt_batched(kind, name, prompt_sources)
         else:
             system, prompt = extract_prompt(kind, name, text)
+        log(f"worker: candidate {cid} stage=extract "
+            f"({'batched' if batched else 'single'}, "
+            f"{len(prompt_sources)} source(s))")
         try:
             result = llm.call(prompt, system=system, tier="judgment", max_tokens=4096)
         except llm.LLMError as e:
@@ -984,6 +991,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             f"unread_pool={unread} new_seeds={new_seeds}")
 
         # resolve — normalized match first, embedding shortlist as fallback.
+        log(f"worker: candidate {cid} stage=resolve")
         decision = resolve.resolve_entity(conn, corpus, kind, name, text or
                                           (cand["evidence"] or ""))
         report[f"resolved_{decision.decision if decision.decision != 'shortlist_top' else 'shortlist'}"] += 1
@@ -1018,6 +1026,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         resolved_this_batch[(kind, db.norm(name))] = entity_id
         conn.commit()
 
+        log(f"worker: candidate {cid} stage=emit")
         row = conn.execute("SELECT * FROM candidate WHERE id = ?", (int(cid),)).fetchone()
         emitted, edges = _emit(conn, row, claims_json, resolved_this_batch,
                                log=log, depth_tier=depth_tier,
@@ -1025,6 +1034,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         report["candidates_emitted"] += emitted
         report["edges_written"] += edges
         conn.commit()
+        log(f"worker: candidate {cid} stage=done")
 
     return report
 
