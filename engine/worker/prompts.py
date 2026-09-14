@@ -202,16 +202,29 @@ def extract_prompt(kind: str, entity_name: str, text: str) -> tuple[str, str]:
     """Claims extraction — the paid tier-4 call (§7), one per surviving
     candidate. `kind` is "problem" or "actor"; this is the literal "two
     prompts" of §4 — one shared function, a kind-conditioned system prompt.
+
+    2026-09-15: the instruction used to invite the model to "extract what
+    you can from the name alone" when `text` is empty — which let a
+    substantive claim like `one_line` (CLAUDE.md's own browse-card
+    definition field) get fabricated from nothing but the entity's name,
+    with no fetched content behind it. `_EXTRACT_COMMON_PROSE`'s "if the
+    text does not support a field, omit it; do not guess" already forbade
+    this in spirit; a bare registry row just made it look licensed. Fixed:
+    an empty `text` now gets an explicit instruction to return empty
+    `claims`/`emits`/`edges` rather than reach for the name.
     """
     if kind not in ("problem", "actor"):
         raise ValueError(f"kind must be 'problem' or 'actor', got {kind!r}")
     system = _PROBLEM_SYSTEM if kind == "problem" else _ACTOR_SYSTEM
-    prompt = (
-        f"Entity name: {entity_name}\n\n"
-        f"Source text (may be empty — a bare registry row with no document "
-        f"yet is legitimate; extract what you can from the name alone in "
-        f"that case, or return empty lists):\n\n{text}"
-    )
+    if text.strip():
+        body = f"Source text:\n\n{text}"
+    else:
+        body = (
+            "Source text: (empty — a bare registry row with no document "
+            "fetched yet is legitimate.) Do not invent a `one_line` or any "
+            "other claim from the entity name alone — a name is not "
+            "content. Return empty `claims`, `emits` and `edges` lists.")
+    prompt = f"Entity name: {entity_name}\n\n{body}"
     return system, prompt
 
 

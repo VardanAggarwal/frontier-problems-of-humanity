@@ -97,6 +97,24 @@ def test_extract_prompt_rejects_an_unknown_kind():
         extract_prompt("node", "X", "t")
 
 
+def test_extract_prompt_with_empty_text_forbids_name_only_guessing():
+    """2026-09-15: a bare registry row (no fetched text) used to be told to
+    "extract what you can from the name alone" — letting one_line and other
+    claims get fabricated from nothing. Now it's told the opposite."""
+    _, prompt = extract_prompt("actor", "Some Org", "")
+    assert "extract what you can from the name alone" not in prompt
+    assert "not content" in prompt
+
+    _, prompt_ws = extract_prompt("actor", "Some Org", "   \n  ")
+    assert "not content" in prompt_ws
+
+
+def test_extract_prompt_with_real_text_does_not_carry_the_empty_case_wording():
+    _, prompt = extract_prompt("actor", "Some Org", "Some Org runs a clinic.")
+    assert "not content" not in prompt
+    assert "Some Org runs a clinic." in prompt
+
+
 # --------------------------------------------------------------- gate1.py ---
 
 def test_gate1_parses_a_well_formed_response(monkeypatch):
