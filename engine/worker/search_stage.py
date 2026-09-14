@@ -22,6 +22,7 @@ import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Callable, Optional
+from urllib.parse import urlsplit
 
 import yaml
 
@@ -52,6 +53,16 @@ DEFAULT_FAMILIES_PATH = Path(__file__).resolve().parents[1] / "search" / "famili
 # lines and unlikely to drift.
 _SLUG_STRIP = re.compile(r"[^a-z0-9]+")
 _SLUG_EDGE = re.compile(r"^-+|-+$")
+
+
+def _is_pdf_url(url: str) -> bool:
+    """`worker/fetch.py`/`text/pagestate.py` has no PDF text extraction — a
+    `.pdf` url always comes back `page_state: missing`, 0 words (candidate
+    12's CGWB Kollam district PDF, 2026-09-14, is the real instance). Fetched
+    anyway, it's not just wasted network — it's a wasted `cover()` slot that
+    could have gone to a url that actually yields text. Rejected here,
+    before `cover()` ever sees it, rather than discovered after fetching."""
+    return urlsplit(url).path.lower().endswith(".pdf")
 
 
 def _slugify(title: str) -> str:
@@ -254,13 +265,25 @@ def search_sources(
         results_by_query[family_id] = response.results_for_fuse()
 
     # --- 3. fuse + cover -----------------------------------------------------
-    fused = fuse(results_by_query)
+    # PDFs are dropped from the pool BEFORE cover() sees them, not after
+    # fetching finds out the hard way — see `_is_pdf_url`. This also means
+    # `counters["pool_size"]`/`unread_urls` below report the real usable
+    # pool, not one padded with urls cover() would only waste a slot on.
+    fused_raw = fuse(results_by_query)
+    fused = [r for r in fused_raw if not _is_pdf_url(r.url)]
+    pdf_rejected = len(fused_raw) - len(fused)
+    if pdf_rejected:
+        log(f"search_stage: {resolved_slug} rejected {pdf_rejected} pdf "
+            "url(s) from the fused pool before cover() — no text extraction "
+            "for pdf")
     covered_urls = cover(fused, cap)
 
     # --- 4. fetch: seed is SEED, everything from search is SEARCH ----------
     to_fetch = []  # [(url, origin), ...]
     seen_norm = set()
-    if seed_url:
+    if seed_url and _is_pdf_url(seed_url):
+        log(f"search_stage: {resolved_slug} seed url is a pdf, rejecting: {seed_url}")
+    elif seed_url:
         to_fetch.append((seed_url, SEED))
         seen_norm.add(normalize_url(seed_url))
     for url in covered_urls:

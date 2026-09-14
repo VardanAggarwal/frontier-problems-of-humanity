@@ -18,7 +18,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 import pytest
 
 from search.confirm_policy import CONFIRMED, MISMATCH, SEARCH, SEED, UNCERTAIN
-from search.provider import ReplayProvider
+from search.provider import ReplayProvider, SearchResponse
 from worker.config import MAX_SOURCES_ESCALATE, MAX_SOURCES_REGISTRY, MAX_SOURCES_TRACKED
 from worker.depth import REGISTRY_TIER, TRACKED_TIER
 from worker.extract_types import ConfirmedSource
@@ -444,6 +444,98 @@ def test_escalate_does_not_double_fetch_urls_the_first_pass_already_took():
         slug=SLUG, max_sources=1, escalate=True, log=lambda *a, **k: None,
     )
     assert len(fetch_calls) == len(set(fetch_calls)), "a url was fetched twice across the two rounds"
+
+
+# ---------------------------------------------------------------------------
+# PDF rejection — no text extraction exists, so a .pdf url is dropped before
+# cover() ever spends a slot on it (candidate 12's CGWB Kollam district PDF,
+# 2026-09-14: fetched, page_state 'missing', 0 words)
+# ---------------------------------------------------------------------------
+
+class _FixedResponseProvider:
+    """Every family's query returns the same fixed result list — one .pdf
+    url mixed in with plain html urls, plus enough engines to read healthy
+    without a warning cluttering the log assertions below."""
+    def __init__(self, urls):
+        self._results = [{"url": u, "score": 1.0 - i * 0.01, "engine": "bing"}
+                         for i, u in enumerate(urls)]
+
+    def search(self, family_id, query_string, *, slug=None):
+        return SearchResponse(
+            results=[], unresponsive_engines=[],
+            engines_seen_in_results=["bing", "brave", "google", "mojeek", "yandex"],
+            configured_engines=[], silently_absent_engines=[],
+            raw_results=list(self._results))
+
+
+def test_pdf_url_never_reaches_fetch():
+    fetch_calls = []
+
+    def counting_fetch(url):
+        fetch_calls.append(url)
+        return _fetch_all_confirmed(url)
+
+    provider = _FixedResponseProvider([
+        "https://cgwb.gov.in/old_website/District_Profile/Kerala/kollam.pdf",
+        "https://groundwater.kerala.gov.in",
+    ])
+    search_sources(
+        NAME, depth=TRACKED_TIER, provider=provider,
+        fetch=counting_fetch, confirm=_confirm_all_confirmed,
+        slug=SLUG, log=lambda *a, **k: None,
+    )
+    assert not any(u.lower().endswith(".pdf") for u in fetch_calls), \
+        "a .pdf url was fetched despite having no text extraction"
+    assert "https://groundwater.kerala.gov.in" in fetch_calls
+
+
+def test_pdf_url_rejection_is_logged():
+    logged = []
+    provider = _FixedResponseProvider([
+        "https://cgwb.gov.in/old_website/District_Profile/Kerala/kollam.pdf",
+        "https://groundwater.kerala.gov.in",
+    ])
+    search_sources(
+        NAME, depth=TRACKED_TIER, provider=provider,
+        fetch=_fetch_all_confirmed, confirm=_confirm_all_confirmed,
+        slug=SLUG, log=logged.append,
+    )
+    assert any("rejected 1 pdf" in m for m in logged)
+
+
+def test_pdf_seed_url_is_rejected_not_fetched():
+    fetch_calls = []
+
+    def counting_fetch(url):
+        fetch_calls.append(url)
+        return _fetch_all_confirmed(url)
+
+    logged = []
+    search_sources(
+        NAME, depth=TRACKED_TIER, provider=_provider(),
+        fetch=counting_fetch, confirm=_confirm_all_confirmed,
+        slug=SLUG, seed_url="https://a2p-energy.example/report.pdf",
+        log=logged.append,
+    )
+    assert "https://a2p-energy.example/report.pdf" not in fetch_calls
+    assert any("seed url is a pdf" in m for m in logged)
+
+
+def test_pdf_url_does_not_count_against_the_cover_cap():
+    """The whole point: a rejected pdf doesn't just avoid its own wasted
+    fetch, it frees the slot cover() would have spent on it for a url that
+    can actually yield text."""
+    provider = _FixedResponseProvider([
+        "https://cgwb.gov.in/old_website/District_Profile/Kerala/kollam.pdf",
+        "https://groundwater.kerala.gov.in",
+        "https://groundwater.kerala.gov.in/kollam",
+    ])
+    result = search_sources(
+        NAME, depth=TRACKED_TIER, provider=provider,
+        fetch=_fetch_all_confirmed, confirm=_confirm_all_confirmed,
+        slug=SLUG, max_sources=2, log=lambda *a, **k: None,
+    )
+    assert len(result) == 2, "both non-pdf urls should have been covered, not just one"
 
 
 def test_escalate_logs_when_the_widened_pool_has_nothing_new(monkeypatch):

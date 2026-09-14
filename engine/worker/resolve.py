@@ -58,6 +58,7 @@ from pathlib import Path
 
 from embed import index
 from embed.model import encode_one
+from embed.texts import clip
 from store import db
 from text.preview import content_tokens, _is_distinctive
 
@@ -90,7 +91,13 @@ def resolve_entity(conn: sqlite3.Connection, corpus: Path, kind: str,
         return ResolveResult("exact", entity_id=exact,
                              reason="normalized alias/id match")
 
-    text = f"{name} {context}".strip() or name
+    # `context` — "candidate evidence, snippet, extracted claims" per the
+    # docstring above — can be the full fetched/extracted text, unbounded.
+    # `clip()` (cheap, character-based, no encoder load — see gate2.py's
+    # confirm() for the same fix and why `fit()` isn't used here) keeps that
+    # from silently overflowing e5's 512-token budget the way it did in
+    # production before this.
+    text = clip(f"{name} {context}".strip() or name)
     vector = encode_one(text, role="query")
     shortlist = index.knn(conn, kind, vector, k=SHORTLIST_K)
 

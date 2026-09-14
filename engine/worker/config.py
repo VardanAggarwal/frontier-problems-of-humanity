@@ -40,10 +40,36 @@ CLAUDE_CODE_OAUTH_TOKEN = os.getenv("CLAUDE_CODE_OAUTH_TOKEN", "")
 CLAUDE_MODEL_MECHANICAL = os.getenv("CLAUDE_MODEL_MECHANICAL", "claude-haiku-4-5")
 CLAUDE_MODEL_JUDGMENT = os.getenv("CLAUDE_MODEL_JUDGMENT", "claude-sonnet-4-6")
 
-OPENROUTER_MODEL_MECHANICAL = os.getenv(
-    "OPENROUTER_MODEL_MECHANICAL", "nvidia/nemotron-3-super-120b-a12b:free")
-OPENROUTER_MODEL_JUDGMENT = os.getenv(
-    "OPENROUTER_MODEL_JUDGMENT", "nvidia/nemotron-3-super-120b-a12b:free")
+# Model-level fallback within the openrouter rung (2026-09-15). Motivating
+# case: candidate 12 (groundwater-depletion-from-irrigation) — a real
+# judgment-tier call (13 sources, max_tokens=4096) on the single configured
+# free model came back HTTP 200 with a body that was keep-alive whitespace
+# padding and no JSON at all (`resp.json()`: "Expecting value: line 1 column
+# 1 (char 0)"), most likely the free-tier gateway closing the stream before
+# a slow/reasoning-heavy generation finished. `llm.call()`'s outer retry-with-
+# backoff retried the SAME model 3x (LLM_MAX_ATTEMPTS), failed the same way
+# each time, then fell through to claude/gemini — both deliberately
+# uninstalled (`requirements.txt`), so the only real provider's real error
+# ended up masked behind two expected ImportErrors (`last_err` keeps only
+# the most recent). A second model, from a different backend, is not subject
+# to the same generation-speed profile.
+#
+# `OPENROUTER_MODEL_MECHANICAL`/`_JUDGMENT` (singular, pre-2026-09-15) still
+# work as before — they set element 0 of the list below, so an existing .env
+# override is not silently ignored. `OPENROUTER_MODELS_MECHANICAL`/`_JUDGMENT`
+# (plural), if set, replace the whole list instead. `google/gemma-4-31b-it:
+# free` was picked as the default second rung by querying openrouter's live
+# `/models` endpoint for current `:free` entries 2026-09-15 (not guessed) —
+# a different vendor's infra than the nvidia/nemotron default, so a gateway-
+# level issue specific to one backend is less likely to hit both.
+OPENROUTER_MODELS_MECHANICAL = _csv(
+    "OPENROUTER_MODELS_MECHANICAL",
+    [os.getenv("OPENROUTER_MODEL_MECHANICAL", "nvidia/nemotron-3-super-120b-a12b:free"),
+     "google/gemma-4-31b-it:free"])
+OPENROUTER_MODELS_JUDGMENT = _csv(
+    "OPENROUTER_MODELS_JUDGMENT",
+    [os.getenv("OPENROUTER_MODEL_JUDGMENT", "nvidia/nemotron-3-super-120b-a12b:free"),
+     "google/gemma-4-31b-it:free"])
 
 # openrouter tried first: one key, many underlying models, its own failover.
 # Direct rungs (claude-cli/claude/gemini) are the fallback chain below it.

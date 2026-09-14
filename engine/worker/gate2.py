@@ -28,6 +28,7 @@ from __future__ import annotations
 import sqlite3
 
 from embed.model import encode_one
+from embed.texts import clip
 
 # MISMATCH_BELOW was 0.55, chosen conservatively in lieu of a sweep. The sweep
 # has now been run — `poc/gate2-band-sweep.md`, five actors, ~200 pooled URLs
@@ -70,7 +71,18 @@ def confirm(conn: sqlite3.Connection, candidate_name: str,
     silent fail (module docstring, and 01-minimal.md §5/§9: escalation is
     queued, not blocking, and not resolved by guessing).
     """
-    left = f"{candidate_name} {candidate_context}".strip()
+    # `right` is already bounded by PREVIEW_CHARS (500, well under e5's ~2,000
+    # char/512 token budget) — the overflow risk is `left`, whose
+    # `candidate_context` a caller may hand in at any length (full extracted
+    # text, not just a snippet — this is what tripped the tokenizer's own
+    # "longer than the specified maximum sequence length" warning in
+    # production, `encode_one` truncating silently and unmeasured rather than
+    # erroring). `clip()` is the cheap, model-free front-truncation
+    # `embed/model.py`'s own `fit()` docstring names for exactly this case;
+    # `fit()` itself is not used here because it needs the real encoder's
+    # tokenizer loaded, which would defeat every test that mocks `encode_one`
+    # to stay offline.
+    left = clip(f"{candidate_name} {candidate_context}".strip())
     right = cleaned_text[:PREVIEW_CHARS]
     if not left or not right:
         return "uncertain", 0.0, "gate2: empty candidate context or empty fetched text"

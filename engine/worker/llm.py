@@ -88,9 +88,9 @@ def _model_for_tier(tier: str) -> str:
     return config.CLAUDE_MODEL_JUDGMENT if tier == "judgment" else config.CLAUDE_MODEL_MECHANICAL
 
 
-def _openrouter_model_for_tier(tier: str) -> str:
-    return (config.OPENROUTER_MODEL_JUDGMENT if tier == "judgment"
-            else config.OPENROUTER_MODEL_MECHANICAL)
+def _openrouter_models_for_tier(tier: str) -> list[str]:
+    return (config.OPENROUTER_MODELS_JUDGMENT if tier == "judgment"
+            else config.OPENROUTER_MODELS_MECHANICAL)
 
 
 def parse_json(raw: str) -> dict:
@@ -140,7 +140,35 @@ def _call_openrouter(prompt: str, model: str, max_tokens: int, system: str | Non
                              _retry_after_seconds(resp))
     if resp.status_code != 200:
         raise LLMError(f"openrouter {resp.status_code}: {resp.text[:200]}")
-    data = resp.json()
+    try:
+        data = resp.json()
+    except ValueError as e:
+        # HTTP 200 with a body that isn't valid JSON — observed in production
+        # (candidate 12, 2026-09-14/15, judgment tier, 13-source prompt,
+        # max_tokens=4096) as pure keep-alive whitespace padding and nothing
+        # else: OpenRouter sends periodic whitespace on a chunked response
+        # while a free-tier model is slow to generate, and the free-tier
+        # gateway can close the stream before real content ever arrives —
+        # `resp.status_code` stays 200 because headers went out first. Plain
+        # `resp.json()` surfaces this as a bare `json.JSONDecodeError:
+        # Expecting value: line 1 column 1 (char 0)`, which says nothing
+        # about WHY — not "rate limited", not "wrong model", not "timeout".
+        # Diagnose it here once, at the only place that still holds the raw
+        # response, so the next person hitting this doesn't need a manual
+        # `requests.post` reproduction session to find out what `call()`'s
+        # eventual "all providers failed" masks (see llm.py's `call()` for
+        # the separate fix to that masking).
+        body = resp.text
+        shape = ("empty" if not body
+                 else "whitespace-only" if not body.strip()
+                 else f"{len(body)} chars, not JSON")
+        raise LLMError(
+            f"openrouter {model}: HTTP 200 but body is {shape} "
+            f"(content-length header: {resp.headers.get('content-length', '?')}, "
+            f"transfer-encoding: {resp.headers.get('transfer-encoding', '?')}) "
+            f"— likely the free-tier gateway closing the stream before a slow "
+            f"generation finished, not a real success; json error: {e}"
+        ) from e
     choice = (data.get("choices") or [{}])[0]
     text = (choice.get("message") or {}).get("content", "")
     truncated = choice.get("finish_reason") == "length"
@@ -280,6 +308,19 @@ def call(prompt: str, tier: str = "mechanical", max_tokens: int = 2048,
     status and retries next time.
     """
     last_err: Exception | None = None
+    # One entry per provider that was tried and gave up, "{provider}: {err}".
+    # `last_err` alone used to be the final raise's only evidence — it gets
+    # overwritten by every subsequent provider, so a real failure (the one
+    # provider with a working key AND an installed package) was silently
+    # replaced by a later provider's expected, uninteresting "package not
+    # installed" and never seen (candidate 12, 2026-09-14/15: openrouter's
+    # real "HTTP 200, empty body" error was masked behind claude's and
+    # gemini's ImportErrors — both deliberately-uninstalled optional deps,
+    # `requirements.txt` — leaving "all providers failed: gemini: required
+    # package not installed" as the only visible message). Every provider's
+    # last error is kept here now, so the final message shows the whole
+    # chain, not just whichever rung happened to fail last.
+    attempts_log: list[str] = []
     attempts = max(1, config.LLM_MAX_ATTEMPTS)
     for provider in (providers if providers is not None else config.LLM_FALLBACK_ORDER):
         configured = (
@@ -302,8 +343,27 @@ def call(prompt: str, tier: str = "mechanical", max_tokens: int = 2048,
         while attempt < attempts:
             try:
                 if provider == "openrouter":
-                    result = _call_openrouter(prompt, _openrouter_model_for_tier(tier),
-                                              cur_max_tokens, system)
+                    # Model-level fallback within the rung (2026-09-15,
+                    # `worker/config.py`'s `OPENROUTER_MODELS_*` docstring has
+                    # the full motivating case): a malformed/empty response
+                    # from one model tries the next configured model before
+                    # this rung gives up entirely. A RateLimitError is a
+                    # per-KEY cap, not a per-model one, so it is NOT
+                    # model-retried here — it re-raises straight to the outer
+                    # handler below, same wait-out-the-window behaviour as
+                    # every other provider.
+                    result = None
+                    or_err: Exception | None = None
+                    for m in _openrouter_models_for_tier(tier):
+                        try:
+                            result = _call_openrouter(prompt, m, cur_max_tokens, system)
+                            break
+                        except RateLimitError:
+                            raise
+                        except Exception as e:  # try the next openrouter model
+                            or_err = e
+                    if result is None:  # every configured openrouter model failed
+                        raise or_err or LLMError("no openrouter model configured")
                 elif provider == "claude-cli":
                     result = _call_claude_cli(prompt, _model_for_tier(tier),
                                               cur_max_tokens, system)
@@ -360,7 +420,14 @@ def call(prompt: str, tier: str = "mechanical", max_tokens: int = 2048,
                 attempt += 1
                 if attempt < attempts:
                     time.sleep(config.LLM_BACKOFF_BASE * (2 ** (attempt - 1)))
-    raise LLMError(f"all providers failed: {last_err}")
+        # This provider gave up (RateLimitError exhausted, ImportError, or
+        # attempts exhausted) rather than returning — record its own last
+        # error before the outer loop moves to the next provider, so it
+        # survives being overwritten by whatever the next provider does.
+        if last_err is not None:
+            attempts_log.append(f"{provider}: {last_err}")
+    detail = "; ".join(attempts_log) if attempts_log else str(last_err)
+    raise LLMError(f"all providers failed: {detail}")
 
 
 # ── Batch path (Anthropic Message Batches API, 50% off) ───────────────────────

@@ -199,6 +199,24 @@ def test_gate2_empty_input_is_uncertain_not_a_crash(monkeypatch):
     assert verdict == "uncertain" and cosine == 0.0 and note
 
 
+def test_gate2_long_context_is_clipped_before_encode(monkeypatch):
+    """candidate_context can be the full extracted text, not just a snippet
+    (production case: an 854-token string past e5's 512 budget hit the
+    tokenizer's own overflow warning). `left` must be bounded before it
+    reaches `encode_one`, same as `right` already is via PREVIEW_CHARS."""
+    seen = {}
+
+    def recording_encode_one(text, *, role):
+        seen.setdefault(role, []).append(text)
+        return unit(1.0)
+
+    monkeypatch.setattr(gate2, "encode_one", recording_encode_one)
+    long_context = "word " * 3000  # far past embed.texts.clip's MAX_CHARS
+    gate2.confirm(None, "Some Org", long_context, "short fetched text")
+    left_sent = seen["query"][0]
+    assert len(left_sent) <= 2000, "candidate_context was not clipped before encode_one"
+
+
 @needs_model
 def test_gate2_real_encoder_smoke():
     verdict, cosine, note = gate2.confirm(
@@ -221,6 +239,24 @@ def test_exact_match_short_circuits_before_any_embedding_call(conn, monkeypatch)
 
     result = resolve.resolve_entity(conn, pathlib.Path("."), "actor", "MLPC", "")
     assert result.decision == "exact" and result.entity_id == "mlpc"
+
+
+def test_resolve_long_context_is_clipped_before_encode(conn, monkeypatch):
+    """`context` can be the full extracted/fetched text (worker.py passes
+    the candidate's own extraction text or raw evidence), unbounded — must
+    be clipped before `encode_one`, same fix as gate2.confirm's `left`."""
+    seen = {}
+
+    def recording_encode_one(text, *, role):
+        seen["text"] = text
+        return unit(1.0)
+
+    monkeypatch.setattr(resolve, "encode_one", recording_encode_one)
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
+
+    long_context = "word " * 3000
+    resolve.resolve_entity(conn, pathlib.Path("."), "actor", "Some Org", long_context)
+    assert len(seen["text"]) <= 2000, "context was not clipped before encode_one"
 
 
 def test_new_id_slugifies_and_dedupes_on_collision(conn):
@@ -672,6 +708,97 @@ def test_call_fails_fast_on_a_missing_provider_package(monkeypatch):
     with pytest.raises(llm.LLMError, match="required package not installed"):
         llm.call("prompt", providers=["claude"])
     assert slept == []   # no backoff sleep — the provider was abandoned, not retried
+
+
+def test_openrouter_falls_back_to_the_next_configured_model(monkeypatch):
+    """Candidate 12 (groundwater-depletion-from-irrigation, 2026-09-14/15):
+    the single configured openrouter model came back HTTP 200 with a
+    whitespace-only body (free-tier gateway closing the stream on a slow
+    generation) and the whole run produced nothing. A second, differently-
+    backed model must be tried before this rung gives up."""
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm.config, "OPENROUTER_MODELS_JUDGMENT",
+                        ["flaky/model:free", "backup/model:free"])
+    calls = []
+
+    def fake_call_openrouter(prompt, model, max_tokens, system):
+        calls.append(model)
+        if model == "flaky/model:free":
+            raise llm.LLMError("openrouter flaky/model:free: HTTP 200 but body is whitespace-only")
+        return {"text": '{"ok": true}', "provider": "openrouter", "model": model,
+               "input_tokens": 1, "output_tokens": 1, "cost": 0.0}
+    monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
+
+    result = llm.call("prompt", tier="judgment", providers=["openrouter"])
+    assert calls == ["flaky/model:free", "backup/model:free"]
+    assert result["model"] == "backup/model:free"
+
+
+def test_openrouter_model_fallback_does_not_catch_rate_limit(monkeypatch):
+    """A 429 is a per-key cap, not a per-model problem — retrying a
+    DIFFERENT model on the same rate-limited key wastes a call and can't
+    possibly succeed. Must reach the outer RateLimitError handler (the
+    wait-out-the-window path), not be swallowed as "try the next model"."""
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm.config, "OPENROUTER_MODELS_JUDGMENT",
+                        ["model-a:free", "model-b:free"])
+    monkeypatch.setattr(llm.config, "OPENROUTER_RATELIMIT_MAX_RETRIES", 0)
+    calls = []
+
+    def fake_call_openrouter(prompt, model, max_tokens, system):
+        calls.append(model)
+        raise llm.RateLimitError("openrouter 429", retry_after=0)
+    monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
+    monkeypatch.setattr(llm.time, "sleep", lambda s: None)
+
+    with pytest.raises(llm.LLMError, match="openrouter 429"):
+        llm.call("prompt", tier="judgment", providers=["openrouter"])
+    assert calls == ["model-a:free"], "a rate limit must not trigger model-level fallback"
+
+
+def test_all_providers_failed_message_includes_every_providers_error(monkeypatch):
+    """The masking bug candidate 12 hit: `last_err` used to be overwritten
+    by each subsequent provider, so openrouter's real failure disappeared
+    behind claude's/gemini's expected "package not installed". The final
+    message must show every rung's own error, not just the last one."""
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm.config, "ANTHROPIC_KEY", "x")
+
+    def boom_openrouter(*a, **kw):
+        raise llm.LLMError("HTTP 200 but body is whitespace-only")
+    monkeypatch.setattr(llm, "_call_openrouter", boom_openrouter)
+
+    def boom_claude(*a, **kw):
+        raise ImportError("no module named anthropic")
+    monkeypatch.setattr(llm, "_call_claude", boom_claude)
+
+    with pytest.raises(llm.LLMError) as exc_info:
+        llm.call("prompt", providers=["openrouter", "claude"])
+    message = str(exc_info.value)
+    assert "whitespace-only" in message, "openrouter's real error was masked"
+    assert "required package not installed" in message, "claude's error should still be present too"
+
+
+def test_call_openrouter_diagnoses_a_non_json_200_body(monkeypatch):
+    """HTTP 200 with an unparseable body (the actual production failure,
+    2026-09-14/15) must not surface as a bare, contextless
+    `json.JSONDecodeError` — it needs to say the response wasn't real
+    content, not just that parsing broke."""
+    import requests as requests_mod
+
+    class _FakeResp:
+        status_code = 200
+        text = "\n   \n\n   \n"     # keep-alive whitespace padding, no JSON
+        headers = {"content-length": "10", "transfer-encoding": "chunked"}
+        def json(self):
+            json.loads(self.text)   # raises the real json.JSONDecodeError
+
+    monkeypatch.setattr(requests_mod, "post", lambda *a, **kw: _FakeResp())
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm, "_openrouter_pace", lambda: None)
+
+    with pytest.raises(llm.LLMError, match="whitespace-only"):
+        llm._call_openrouter("prompt", "some/model:free", 100, None)
 
 
 # ------------------------------------------------- track A: problem emission
