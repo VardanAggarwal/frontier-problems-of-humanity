@@ -27,8 +27,7 @@ from __future__ import annotations
 
 import sqlite3
 
-from embed.model import encode_one
-from embed.texts import clip
+from embed.model import encode_one, fit
 
 # MISMATCH_BELOW was 0.55, chosen conservatively in lieu of a sweep. The sweep
 # has now been run — `poc/gate2-band-sweep.md`, five actors, ~200 pooled URLs
@@ -71,26 +70,28 @@ def confirm(conn: sqlite3.Connection, candidate_name: str,
     silent fail (module docstring, and 01-minimal.md §5/§9: escalation is
     queued, not blocking, and not resolved by guessing).
     """
-    # `right` is already bounded by PREVIEW_CHARS (500 chars) — `clip()`'s
-    # own threshold is 2,000, so wrapping an already-500-char string in it
-    # would be a no-op; not done. `left`'s `candidate_context` is the one
-    # unbounded side (a caller may hand in the full extraction text), hence
-    # `clip()` here and not on `right`.
+    # `right` is bounded by PREVIEW_CHARS (500 chars), which a token-dense
+    # script (CJK, or a scraped page's symbol-heavy nav/footer) can still
+    # blow past e5's 512-token budget — confirmed live 2026-09-15 on one of
+    # candidate 12's fetched sources. `left`'s `candidate_context` is the
+    # unbounded side (a caller may hand in the full extraction text).
     #
-    # A token-dense 500-char `right` (CJK, or a scraped page's symbol-heavy
-    # nav/footer) CAN still exceed e5's 512-token budget and trip the
-    # tokenizer's own "longer than the specified maximum sequence length"
-    # warning — confirmed live 2026-09-15 on one of candidate 12's fetched
-    # sources with `left` already short (empty `candidate_context`).
-    # Verified directly (not assumed) that this is cosmetic, not a
-    # correctness bug: `SentenceTransformer.encode()` truncates internally
-    # regardless of the warning — a forced >512-token string round-tripped
-    # to a well-formed, unit-norm 384-dim vector with no exception. The
-    # warning is noisy but harmless; not chased further than this note.
-    left = clip(f"{candidate_name} {candidate_context}".strip())
-    right = cleaned_text[:PREVIEW_CHARS]
-    if not left or not right:
+    # Originally both were bounded with `clip()`, a cheap character-based
+    # pre-bound — fine for a small overflow, but candidate 28's run
+    # (2026-09-14T22:45) hit a 4464-token overflow (8.7x the limit) on a
+    # `clip()`-ed `left` and the worker hung indefinitely mid-`encode()`
+    # with no exception, killed only by an external signal. `fit()` (unlike
+    # `clip()`) truncates against the encoder's own tokenizer, so the string
+    # handed to `encode_one()` is never more than the true token budget —
+    # it loads the encoder, but `encode_one()` was about to do that anyway.
+    left_raw = f"{candidate_name} {candidate_context}".strip()
+    right_raw = cleaned_text[:PREVIEW_CHARS]
+    if not left_raw or not right_raw:
         return "uncertain", 0.0, "gate2: empty candidate context or empty fetched text"
+    # `fit()` refuses empty text (embed/model.py:prefix), hence the emptiness
+    # check above runs on the raw strings first.
+    left = fit(left_raw, role="query")
+    right = fit(right_raw, role="query")
 
     a = encode_one(left, role="query")
     b = encode_one(right, role="query")

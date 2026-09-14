@@ -134,6 +134,12 @@ def _fetch_and_route(
             verdicts.append(SourceVerdict(
                 source_id=result.source_id, url=url, origin=origin, verdict=None))
             continue
+        # Step-reached, not just failure: the hang that produced candidate
+        # 28's stuck run (2026-09-14T22:45, `[exit null]`, no exception) sat
+        # inside this exact call with nothing logged before or after it —
+        # the last line anyone could see was "Loading weights". This line
+        # exists so a future stall names the URL it stalled on.
+        log(f"search_stage: confirming {url} ({origin}, {len(text)} chars)")
         verdict, cosine, note = confirm(name, evidence, text)
         verdicts.append(SourceVerdict(
             source_id=result.source_id, url=url, origin=origin,
@@ -154,6 +160,11 @@ def _fetch_and_route(
             verdict=decision.verdict,
         )
         if decision.route == PROMPT:
+            # Previously silent — only DROP and VERIFY were logged, so a
+            # clean confirm left no trace in the run log at all. Log the
+            # success path too: `reason` already carries gate2's cosine.
+            log(f"search_stage: confirmed {decision.url} ({decision.origin}): "
+                f"{decision.reason}")
             confirmed.append(source)
         else:
             log(f"search_stage: to verify {decision.url} "
