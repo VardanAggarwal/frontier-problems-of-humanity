@@ -32,14 +32,17 @@ def signals_from_edge(edge: dict) -> dict:
     """-> the four gate signals for a problem-destined edge, each `None` when
     the extraction didn't supply it.
 
-    Reads `obj["signals"]` — named for the edge because that was its only
-    caller, but the shape is the spec's and the prompt puts it on the EMIT
-    (§10). `signals_for_problem` below is what an edge-minted problem goes
-    through; this stays the shaping primitive for both.
+    Reads `obj["signals"]`, off the `works_on` edge that names the problem.
 
-    The prompt began asking for the four fields on 2026-09-14. Before that
-    it showed the model an empty `"signals": {}` placeholder with no
-    instruction anywhere saying what belonged in it, so `{}` was the
+    That is where problems arrive. PoC-2d measured 31 emits across ten calls,
+    every one `actor`, against 23 problems named as `works_on` destinations —
+    the prompt's emits sentence asks for "other organisations or named
+    individuals" while its edges sentence admits "actor or problem". §10's
+    JSON block shows `signals` on a problem EMIT, which the prompt has never
+    elicited; the prompt now asks for them on the edge instead.
+
+    Before 2026-09-14 the schema showed an empty `"signals": {}` placeholder
+    with no instruction anywhere saying what belonged in it, so `{}` was the
     compliant answer and this returned four `None`s on every real response.
     Four `None`s remains the correct value when the source was silent
     ("`null` means the source didn't support it, NOT a 'no'") — it is not a
@@ -49,35 +52,6 @@ def signals_from_edge(edge: dict) -> dict:
     if not isinstance(raw, dict):
         raw = {}
     return {k: raw.get(k) for k in SIGNAL_KEYS}
-
-
-def signals_for_problem(emits, name: str, norm) -> dict:
-    """-> the four gate signals for a problem named by a `works_on` EDGE,
-    read off the matching `emits` entry.
-
-    Why the lookup exists. `03-worker.md` §10 puts `signals` on the problem
-    EMIT — one place in the response where the model describes a problem.
-    The worker's only mint site for a problem, though, is the edges loop: a
-    `works_on` destination that doesn't resolve. Those are two different
-    objects in the same response, so `signals_from_edge(edge)` returned four
-    `None`s even from a perfectly cooperative model — the key was never on
-    the edge and the prompt never asked for it there.
-
-    Asking for the four fields a second time, on the edge, would have the
-    model describe the same problem twice in one response. Matching by name
-    instead keeps the prompt asking once. A miss (the model wrote the edge
-    but no emit for it) is four `None`s, which is the spec's value for "the
-    source didn't support it" and costs nothing.
-    """
-    target = norm(name or "")
-    if not target:
-        return {k: None for k in SIGNAL_KEYS}
-    for e in emits or []:
-        if not isinstance(e, dict) or e.get("kind") != "problem":
-            continue
-        if norm(e.get("name") or "") == target:
-            return signals_from_edge(e)
-    return {k: None for k in SIGNAL_KEYS}
 
 
 def decide_problem_edge(resolution) -> str:

@@ -315,9 +315,10 @@ def extract_prompt_batched(
         "figure or the claim itself. If you cannot point to one, omit "
         "`chunk` — an absent marker is fine, a guessed one is not.\n\n"
         "QUESTIONS:\n" + _question_block(kind) + "\n\n"
-        "A `problem` emit also carries `signals` — the four leafability "
-        "signals, captured while you still have the page open so nothing "
-        "has to refetch it later (`03-worker.md` \u00a710):\n"
+        "A `works_on` edge whose `dst_kind` is `problem` also carries "
+        "`signals` — the four leafability signals for that problem, captured "
+        "while you still have the page open so nothing has to refetch it "
+        "later (`03-worker.md` \u00a710):\n"
         "  `harmed_population` — who is harmed, bounded and nameable\n"
         "  `magnitude`         — the figure, or the string `uncounted`\n"
         "  `agent`             — what triggers the harm\n"
@@ -325,18 +326,18 @@ def extract_prompt_batched(
         "Use `null` for any the source does not support. `null` means "
         "the source was silent, NOT that the answer is no — and "
         "`uncounted` in `magnitude` is a real value, not a null: absence "
-        "of measurement is a finding. An `actor` emit omits `signals`.\n\n"
+        "of measurement is a finding. Every other edge omits `signals`.\n\n"
         "Respond with strict JSON only, no prose, no markdown fences:\n"
         '{"answers": [{"question_id": "...", "source_id": "S2", '
         '"chunk": "S2.3", "answer": "...", "confidence": 0.0}],\n'
         ' "misidentified": [{"source_id": "S3", "about_what": "...", '
         '"why": "..."}],\n'
         ' "emits":   [{"kind": "problem"|"actor", "name": "...", '
-        '"hint": "...", "signals": {"harmed_population": null, '
-        '"magnitude": null, "agent": null, "actionable": null}}],\n'
+        '"hint": "..."}],\n'
         ' "edges":   [{"dst_name": "...", "dst_kind": "...", '
         '"edge_kind": "...", "relevance": 0, "stance": null, '
-        '"evidence": "..."}]}'
+        '"evidence": "...", "signals": {"harmed_population": null, '
+        '"magnitude": null, "agent": null, "actionable": null}}]}'
     )
     blocks = [render_block(s) for s in sources]
     prompt = (f"Entity name: {entity_name}\n\n"
@@ -602,11 +603,11 @@ def verify_and_extract_prompt_batched(
         ' "answers": [{"question_id": "...", "source_id": "S2", '
         '"chunk": "S2.3", "answer": "...", "confidence": 0.0}],\n'
         ' "emits":   [{"kind": "problem"|"actor", "name": "...", '
-        '"hint": "...", "signals": {"harmed_population": null, '
-        '"magnitude": null, "agent": null, "actionable": null}}],\n'
+        '"hint": "..."}],\n'
         ' "edges":   [{"dst_name": "...", "dst_kind": "...", '
         '"edge_kind": "...", "relevance": 0, "stance": null, '
-        '"evidence": "..."}]}\n\n'
+        '"evidence": "...", "signals": {"harmed_population": null, '
+        '"magnitude": null, "agent": null, "actionable": null}}]}\n\n'
         "`verdicts` must carry exactly one entry per source given. "
         "`about_what` is required on `different` and `unrelated` — it is how "
         "a reviewer checks your reasoning without refetching the page."

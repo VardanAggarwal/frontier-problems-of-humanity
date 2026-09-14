@@ -312,7 +312,7 @@ def _write_entity(conn: sqlite3.Connection, corpus: Path, kind: str, name: str,
 
 
 def _mint_or_resolve_problem(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
-                             edge: dict, *, log=print, emits=()) -> tuple[str | None, bool]:
+                             edge: dict, *, log=print) -> tuple[str | None, bool]:
     """Track A: the destination of a `works_on` edge naming a problem that
     doesn't resolve via `db.resolve` (exact/alias) or this batch's own
     writes. -> (dst_id | None, minted). `minted=True` only when a fresh
@@ -355,11 +355,14 @@ def _mint_or_resolve_problem(conn: sqlite3.Connection, source_candidate: sqlite3
     # action == "new" — mint a problem candidate carrying the four gate
     # signals captured at extraction time (03-worker.md §10). Leafability is
     # the orchestrator's decision, not this worker's: signals are captured
-    # and emitted, never gated here. They are read off the matching `emits`
-    # entry, not off this edge: §10 puts them on the emit and the prompt asks
-    # there, so reading `edge["signals"]` yielded four Nones however well the
-    # model cooperated.
-    signals = problem_emit.signals_for_problem(emits, dst_name, db.norm)
+    # and emitted, never gated here. Read off THIS edge: PoC-2d measured 31
+    # emits across ten calls, every one of them `actor`, against 23 problems
+    # named as `works_on` destinations. The prompt's own emits sentence asks
+    # for "other organisations or named individuals" and its edges sentence
+    # admits "actor or problem", so the model was doing as told. §10's JSON
+    # block put `signals` on the emit; the prompt and this mint path both say
+    # edge, and the prompt now asks there.
+    signals = problem_emit.signals_from_edge(edge)
     conn.execute(
         "INSERT INTO candidate (kind, name, url, discovered_via, evidence) "
         "VALUES (?, ?, NULL, ?, ?)",
@@ -413,10 +416,10 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
             continue
         payload = {"hint": e.get("hint", ""), "from_candidate": source_candidate["id"]}
         if ekind == "problem":
-            # The other mint route (`_mint_or_resolve_problem`, from a
-            # `works_on` edge) has always written a `signals` key and this one
-            # never did, so the orchestrator's payload shape depended on which
-            # route happened to mint the candidate. Both write it now.
+            # Both mint routes write the key, so the orchestrator's payload
+            # shape no longer depends on which one minted the candidate. Each
+            # reads its OWN object — the edge route the edge, this one the
+            # emit — rather than one looking the other up by name.
             payload["signals"] = problem_emit.signals_from_edge(e)
         if ekind == "actor" and depth_tier:
             # Track B: the intake-time prediction, stored now so a future
@@ -458,8 +461,7 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
             # only place one turns into a candidate at all, per
             # `03-worker.md` §10.
             dst_id, minted = _mint_or_resolve_problem(
-                conn, source_candidate, e, log=log,
-                emits=claims.get("emits", []) or [])
+                conn, source_candidate, e, log=log)
             if minted:
                 emitted += 1
         if dst_id is None:

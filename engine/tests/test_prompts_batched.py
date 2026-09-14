@@ -522,8 +522,17 @@ def test_single_source_prompt_still_asks_for_claims():
 
 # ------------------------------------------------ signals on problem emits --
 
-def test_batched_schema_asks_for_the_four_gate_signals():
+def test_batched_schema_asks_for_the_four_gate_signals_on_the_edge():
+    """On the `works_on` EDGE, not the emit: PoC-2d measured 31 emits across
+    ten calls, every one `actor`, against 23 problems named as `works_on`
+    destinations. Asking on the emit asks somewhere the model never goes."""
     system, _ = prompts.extract_prompt_batched("actor", "X", [_src()])
     for key in ("harmed_population", "magnitude", "agent", "actionable"):
         assert key in system
     assert "uncounted" in system      # a real value, not a null
+    assert "`works_on` edge whose `dst_kind` is `problem`" in system
+
+    emits_line = next(l for l in system.splitlines() if '"emits"' in l)
+    edges_line = next(l for l in system.splitlines() if '"edges"' in l)
+    assert "signals" not in emits_line
+    assert "signals" in edges_line

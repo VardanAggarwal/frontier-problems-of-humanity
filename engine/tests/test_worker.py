@@ -654,10 +654,12 @@ def test_emit_mints_a_problem_candidate_for_an_unresolvable_works_on_edge(
         "agent": "silica dust", "actionable": "dust suppression"}
 
 
-def test_signals_on_the_edge_are_ignored_not_silently_honoured(conn, monkeypatch):
-    """The old shape must stop working, visibly. If `edge["signals"]` kept
-    being read, the §10 contract would have two homes and whichever the model
-    filled would win by accident."""
+def test_signals_ride_the_works_on_edge(conn, monkeypatch):
+    """Where problems actually arrive. PoC-2d: 31 emits across ten calls, all
+    `actor`; 23 problems, all `works_on` destinations. The prompt asks for
+    emits as "other organisations or named individuals" and for edges as
+    "actor or problem", so a problem emit is not what the model produces —
+    and `signals` on the emit was a key nothing ever filled."""
     actor(conn, "src-actor")
     src = _source_candidate(conn, resolved_to="src-actor")
     monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
@@ -669,14 +671,37 @@ def test_signals_on_the_edge_are_ignored_not_silently_honoured(conn, monkeypatch
         "signals": {"harmed_population": "quarry workers",
                    "magnitude": "uncounted", "agent": "silica dust",
                    "actionable": "dust suppression"}}]}
-    worker._emit(conn, src, claims, {}, log=lambda *a: None)
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
 
+    assert emitted == 1 and edges == 0
     row = conn.execute(
         "SELECT * FROM candidate WHERE kind = 'problem' AND "
         "name = 'Silicosis in stone quarries'").fetchone()
     payload = json.loads(row["evidence"])
-    assert payload["signals"] == {"harmed_population": None, "magnitude": None,
-                                 "agent": None, "actionable": None}
+    assert payload["signals"] == {
+        "harmed_population": "quarry workers", "magnitude": "uncounted",
+        "agent": "silica dust", "actionable": "dust suppression"}
+
+
+def test_edge_without_signals_mints_four_nulls_not_a_missing_key(conn, monkeypatch):
+    """`null` is "the source was silent", not "no" — and the orchestrator
+    reads a fixed shape either way."""
+    actor(conn, "src-actor")
+    src = _source_candidate(conn, resolved_to="src-actor")
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
+
+    claims = {"emits": [], "edges": [{
+        "dst_kind": "problem", "dst_name": "Fluorosis in Nalgonda",
+        "edge_kind": "works_on", "relevance": 2}]}
+    worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    row = conn.execute(
+        "SELECT * FROM candidate WHERE kind = 'problem' AND "
+        "name = 'Fluorosis in Nalgonda'").fetchone()
+    assert json.loads(row["evidence"])["signals"] == {
+        "harmed_population": None, "magnitude": None,
+        "agent": None, "actionable": None}
 
 
 def test_problem_emit_route_writes_signals_too(conn, monkeypatch):
