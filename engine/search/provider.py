@@ -46,10 +46,45 @@ list unchanged (no reshaping, no renaming).
 import json
 from typing import NamedTuple, Optional
 
-# Engine set — frozen by PoC-0. Do not add duckduckgo/qwant back; both are
-# structurally blocked from this environment via the only request path
-# SearXNG's engine implementations have for them.
-CONFIGURED_ENGINES = ("bing", "brave", "google", "mojeek")
+# Engine set — expanded 2026-09-14 from the original PoC-0 four
+# (bing/brave/google/mojeek) after a full-catalog survey (267 engines, via a
+# throwaway unrestricted SearXNG instance's /config endpoint) rather than
+# hand-picking. Every general/news/science/scientific-publications engine
+# with no api_key requirement was live-tested individually against a real
+# query and the actor-name query that collapses plain Bing
+# ("Mine Labour Protection Campaign Trust Jodhpur silicosis", engine.md #3).
+# Full survey results, including everything rejected and why, are in
+# `poc/searxng/settings.yml`'s `use_default_settings.engines` comment — do
+# not re-derive that list from scratch, read it first.
+#
+#   general: yandex added. 0-unresponsive, contributing a meaningful share
+#   of results with sources the other four missed. `startpage` was tried and
+#   RETRACTED — it ships `inactive: true` upstream (Startpage added a
+#   proof-of-work CAPTCHA, PR #6669) and SearXNG hard-skips `inactive`
+#   engines at registration time; no settings.yml override can enable it.
+#   An initial retest wrongly called it working — a methodology bug (results
+#   from `google cse`/`duckduckgo` were misattributed to it because the
+#   per-result `engine` field was never checked; see settings.yml for the
+#   full account). Do not re-add without a SearXNG code change.
+#   news: brave.news, google news, bing news, duckduckgo news added.
+#   `duckduckgo news` is a DIFFERENT backend from the CAPTCHA'd general
+#   `duckduckgo` engine (still dropped) — do not conflate the two, and do
+#   not add plain `duckduckgo`/`qwant`/`yahoo` back (all reconfirmed
+#   structurally blocked or dead 2026-09-14, see settings.yml).
+#   science: pubmed, semantic scholar added (on-topic for the `evidence`
+#   family's prevalence/denominator data).
+#
+# No reddit engine exists in SearXNG's catalog at all — dropped upstream
+# after Reddit's 2023 API lockdown, not a config option.
+#
+# NOTE: `categories` must be sent on every live request (see
+# `SearxngProvider.query`'s DEFAULT_CATEGORIES) for the news/science engines
+# to be queried at all — SearXNG's `/search` defaults to `general` only.
+CONFIGURED_ENGINES = (
+    "bing", "brave", "google", "mojeek", "yandex",
+    "brave.news", "google news", "bing news", "duckduckgo news",
+    "pubmed", "semantic scholar",
+)
 
 # >=2.0s spacing between requests to the same engine (poc0a-results.md
 # Addendum 2). This is a floor on per-request spacing only — a separate,
@@ -193,20 +228,53 @@ class SearxngProvider:
 
     Callers are responsible for spacing requests to the same engine at or
     above `THROTTLE_FLOOR_S`; this class does not throttle internally.
+
+    `language` (added 2026-09-14): SearXNG's own `/search` locale param.
+    Bing's engine (`bing.py:get_locale_params`/`request`) derives `mkt` /
+    `setlang` / `cc` from it and NOTHING ELSE — there is no separate mkt/cc
+    override to set at this call site, and passing them directly would be
+    ignored (SearXNG doesn't forward arbitrary query params to the upstream
+    engine, only ones its own engine code reads off `params["searxng_locale"]`
+    via this `language` field). Measured live: unlocalized, a silicosis+India
+    query returned 10/10 generic global health pages from Bing; the identical
+    query with `language=en-IN` returned 8/8 India-specific occupational-health
+    sources (ResearchGate, IJMEDPH, CWEJournal, PMC, Springer). Defaults to
+    `en-IN` because this corpus is India-anchored by design (CLAUDE.md
+    "Scope: India-anchored") — override per-call only for an explicitly
+    non-Indian leaf.
     """
 
-    def __init__(self, base_url, configured_engines=CONFIGURED_ENGINES, session=None):
+    DEFAULT_LANGUAGE = "en-IN"
+
+    # Added 2026-09-14 alongside the news/science engine expansion — SearXNG's
+    # `/search` defaults to `general` only when `categories` is omitted, so
+    # without this the news/science engines in CONFIGURED_ENGINES are never
+    # actually queried even though `keep_only` allows them. Comma-joined
+    # into one param value; SearXNG accepts either a list or a
+    # comma-separated string here, this adapter always sends the string.
+    DEFAULT_CATEGORIES = ("general", "news", "science", "scientific publications")
+
+    def __init__(self, base_url, configured_engines=CONFIGURED_ENGINES, session=None,
+                 language=DEFAULT_LANGUAGE, categories=DEFAULT_CATEGORIES):
         self.base_url = base_url.rstrip("/")
         self.configured_engines = configured_engines
         self._session = session
+        self.language = language
+        self.categories = categories
 
     def query(self, query_string, **params):
         import requests  # imported lazily so replay-only test runs need no network lib assumption
 
         session = self._session or requests
+        request_params = {"q": query_string, "format": "json"}
+        if self.language:
+            request_params["language"] = self.language
+        if self.categories:
+            request_params["categories"] = ",".join(self.categories)
+        request_params.update(params)  # explicit per-call params win, including language=None to disable
         resp = session.get(
             f"{self.base_url}/search",
-            params={"q": query_string, "format": "json", **params},
+            params=request_params,
             timeout=30,
         )
         resp.raise_for_status()

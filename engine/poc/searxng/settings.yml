@@ -23,24 +23,127 @@ use_default_settings:
     #     the throttle note in poc0a-results.md's dated addendum).
     #
     #   Dropped, both structurally blocked from this environment regardless
-    #   of config (see poc0a-results.md addendum for evidence):
-    #   - duckduckgo: SearXNG's DDG scraper CAPTCHAs on every single request,
-    #     first request included. Known SearXNG/DDG pain point.
-    #   - qwant: tried as the replacement. SearXNG's qwant engine calls
-    #     api.qwant.com behind a `datadome` anti-bot cookie challenge; every
-    #     request through that path came back "access denied" (raw requests
-    #     to the plain www.qwant.com HTML front end succeed fine — the block
-    #     is specific to the API path SearXNG actually uses).
-    #   Also considered and rejected without trying (see task constraints):
-    #   startpage (ships inactive upstream — CPU-bound Anubis proof-of-work
-    #   challenge page, not a simple fetch), marginalia (its public API now
-    #   requires a signup API key), wikipedia/openalex/crossref (not general
-    #   web indexes — poor swap for an NGO/news-site-biased engine).
+    #   of config (see poc0a-results.md addendum for evidence; qwant
+    #   reconfirmed 2026-09-14, see below):
+    #   - duckduckgo (the general/web engine specifically): SearXNG's DDG
+    #     scraper CAPTCHAs on every single request, first request included.
+    #     Known SearXNG/DDG pain point. NOTE: `duckduckgo news` is a
+    #     different backend and is NOT blocked — see the news section below.
+    #   - qwant: SearXNG's qwant engine calls api.qwant.com behind a
+    #     `datadome` anti-bot cookie challenge. Reconfirmed live 2026-09-14
+    #     with debug logging: `HTTP/2 403` from api.qwant.com, a `datadome`
+    #     cookie set, `SearxEngineCaptchaException` raised — unchanged since
+    #     the original finding. `qwant news` independently confirmed dead
+    #     the same way ("access denied").
+    #
+    #   startpage: the ORIGINAL "ships inactive upstream — Anubis
+    #   proof-of-work" claim was RIGHT. RETESTED 2026-09-14 and initially
+    #   miscalled as working (see git history if curious) — that was a
+    #   methodology bug in the retest, not a real result: `engines=startpage`
+    #   was sent on an unrestricted throwaway instance where startpage isn't
+    #   even a registered engine (see below), and SearXNG silently fell back
+    #   to the request's implicit `general` category instead of erroring;
+    #   the "startpage" results were actually `google cse` + `duckduckgo`
+    #   misattributed because the per-result `engine` field was never
+    #   checked. Root cause confirmed by reading
+    #   default-settings.yml directly: `startpage` AND `startpage news` both
+    #   carry `inactive: true` (PR #6669 — Startpage added a
+    #   proof-of-work CAPTCHA SearXNG's scraper can't pass).
+    #   `inactive` is a harder flag than `disabled`: `searx/engines/
+    #   __init__.py:load_engines()` skips any engine with `inactive: true`
+    #   before it's even registered, so it never appears in `/config`'s
+    #   engine list at all and no settings.yml override (keep_only,
+    #   `disabled: false`, anything) can bring it back. Confirmed live:
+    #   `keep_only: [startpage]` alone loads ZERO engines. Not usable, ever,
+    #   without a SearXNG code change. Stays out.
+    #
+    #   marginalia: its public API now requires a signup API key, still
+    #   excluded. wikipedia: see the news/science block below — it's
+    #   parser-incompatible with this adapter, not blocked.
+    #   No reddit engine exists in SearXNG at all (dropped upstream after
+    #   Reddit's 2023 API lockdown killed the lightweight HTML scrape every
+    #   other engine here relies on) — not a config option to enable.
+    #
+    #   yandex: trial addition (2026-09-14), engine.md #9 — the only other
+    #   independent broad-coverage general engine SearXNG ships. Live-tested
+    #   clean: 0 unresponsive, ~40% of results on both a generic problem
+    #   query and the actor-name query that collapsed Bing (engine.md #3),
+    #   several unique sources (scroll.in, 101reporters, Down To Earth,
+    #   Mongabay) none of bing/google/brave surfaced.
+    #
+    # News + science categories added 2026-09-14 after a full-catalog survey
+    # (267 engines, via a throwaway unrestricted instance's /config endpoint
+    # cross-referenced against default-settings.yml for api_key requirements)
+    # rather than hand-picking. Every general/news/science/scientific-
+    # publications engine with no key requirement was live-tested
+    # individually; these cleared:
+    #   - brave.news, google news, bing news, duckduckgo news: real
+    #     per-query results (4-28), 0 unresponsive; bing news and
+    #     duckduckgo news both specifically confirmed clean on the
+    #     actor-name query that collapses plain Bing (engine.md #3) — no
+    #     Minecraft-style junk. duckduckgo news is a DIFFERENT backend from
+    #     the CAPTCHA'd general `duckduckgo`/`duckduckgo web` engines (which
+    #     stay dropped, see above) — do not conflate the two.
+    #   - pubmed, semantic scholar: 10-20 results, on-topic for occupational-
+    #     health/prevalence evidence (the `evidence` family).
+    # Rejected after live-testing, not on assumption:
+    #   - google scholar: CAPTCHA-blocked, matches SearXNG's known issue.
+    #   - arxiv, europepmc: timeout both tries.
+    #   - qwant news: "access denied", same datadome block as base qwant.
+    #   - mojeek news, tagesschau, ansa, tusksearch news: 0 results, no
+    #     error — either no coverage or silently absent; tagesschau/ansa are
+    #     German/Italian wires, low relevance regardless.
+    #   - il post: returned 10 results but all loosely-matched Italian-
+    #     language articles unrelated to the query topic — junk, not a
+    #     genuine hit.
+    #   - fireball: "access denied", same anti-bot class as qwant/yahoo.
+    #   - yahoo: `parsing error` both tries, confirmed via debug logging to
+    #     be the IN-specific endpoint (`in.search.yahoo.com`, from
+    #     `region2domain["IN"]` keyed off `language=en-IN` — not merely an
+    #     international fallback). Root cause: Yahoo serves an HTTP/2 307
+    #     redirect (likely a consent/cookie gate) whose body SearXNG's
+    #     client returns empty ("Document is empty"), so lxml can't parse
+    #     it — a redirect-handling gap, not an IP block, but dead either
+    #     way. Same failure class as duckduckgo/qwant (general).
+    #   - yahoo_news: SearXNG itself ships it `inactive: true`, refuses to
+    #     even load — not a config option.
+    #   - reuters, wikinews, openaire-datasets, openaire-publications:
+    #     return 0 on real multi-word family-template queries — appear to be
+    #     short-title-search-only, a poor fit for this pipeline's query
+    #     shape.
+    # wikipedia returns an `infobox`, not a `results` entry — this adapter's
+    # parser (`search/provider.py:parse_raw_response`) only reads
+    # `raw_response["results"]`, so wikipedia would silently score zero
+    # forever; real value there (a clean one-paragraph summary + URL per
+    # topic) but needs a parser change, not done here — see provider.py's
+    # module docstring.
+    # No reddit engine exists in SearXNG's catalog at all (see above).
+    #
+    # `categories=general,news,science,scientific publications` must be sent
+    # on every request for the news/science engines to be queried at all —
+    # SearXNG's /search defaults to `general` only if categories is omitted.
+    # Wired in `search/provider.py:SearxngProvider.query`.
+    #
+    # Methodology note for future engine testing: the `engines=` request
+    # param is only reliable as a single-engine isolation tool when (a) the
+    # named engine is actually registered (not `inactive: true` — see
+    # startpage above) and (b) `categories` is NOT also passed in the same
+    # request. Passing both together was observed to UNION in whatever the
+    # category's own default engines are, not intersect — verify any
+    # single-engine test by checking the actual `engine`/`engines` field on
+    # each returned result, never trust the request param alone.
     keep_only:
       - brave
       - google
       - bing
       - mojeek
+      - yandex
+      - brave.news
+      - google news
+      - bing news
+      - duckduckgo news
+      - pubmed
+      - semantic scholar
 
 search:
   safe_search: 0
@@ -76,6 +179,15 @@ engines:
     enable_http3: false
   - name: mojeek
     disabled: false
+  - name: yandex
+    disabled: false
+  - name: bing news
+    # bing_news.py sets `enable_http3 = True` at module level too — the same
+    # QUIC failure as plain bing (see the `bing` entry above), confirmed by
+    # reading the module directly. Not yet hit in survey testing (that ran
+    # against an unrestricted throwaway instance, not this network path
+    # necessarily under load) but the fix costs nothing to apply pre-emptively.
+    enable_http3: false
 
 outgoing:
   request_timeout: 6.0

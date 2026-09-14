@@ -38,7 +38,12 @@ def test_replay_loads_a_recorded_file():
     response = provider.query("a2p-energy", "identity")
     assert isinstance(response, SearchResponse)
     assert isinstance(response.results, list)
-    assert response.configured_engines == sorted(CONFIGURED_ENGINES)
+    # PoC-0b's recorded fixtures embed their own `configured_engines` (the
+    # original 4-engine PoC-0 set) which `ReplayProvider.from_recorded`
+    # honours over the live module default — asserting against the fixture's
+    # own recorded value, not the current `CONFIGURED_ENGINES` (expanded
+    # 2026-09-14 with news/science engines the PoC-0b run never used).
+    assert response.configured_engines == sorted(["bing", "brave", "google", "mojeek"])
 
 
 def test_replay_over_every_recorded_file_parses_without_error():
@@ -110,14 +115,16 @@ def test_native_score_none_when_absent():
 def test_silently_absent_engine_synthetic():
     # mojeek returns zero results and is named in neither unresponsive_engines
     # nor any result's engine/engines field — the exact defect PoC-0 found
-    # reproduced three times independently.
+    # reproduced three times independently. Pinned to the original 4-engine
+    # PoC-0 set explicitly rather than the live CONFIGURED_ENGINES default
+    # (expanded 2026-09-14) so this test keeps testing that specific scenario.
     raw_response = {
         "results": [
             {"url": "https://a.example/", "title": "A", "content": "a", "score": 1.0, "engine": "bing", "engines": ["bing"]},
         ],
         "unresponsive_engines": [["google", "Suspended: CAPTCHA"], ["brave", "x"]],
     }
-    response = parse_raw_response(raw_response)
+    response = parse_raw_response(raw_response, configured_engines=["bing", "brave", "google", "mojeek"])
     assert response.engines_seen_in_results == ["bing"]
     assert response.silently_absent_engines == ["mojeek"]
     # google and brave are accounted for (named unresponsive), so neither is "silent"
@@ -132,7 +139,7 @@ def test_engine_named_unresponsive_is_not_also_silently_absent():
             ["bing", "x"], ["brave", "x"], ["google", "x"], ["mojeek", "x"],
         ],
     }
-    response = parse_raw_response(raw_response)
+    response = parse_raw_response(raw_response, configured_engines=["bing", "brave", "google", "mojeek"])
     assert response.silently_absent_engines == []
 
 
