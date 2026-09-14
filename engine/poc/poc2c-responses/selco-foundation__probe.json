@@ -1,0 +1,303 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\n      \"question_id\": \"q1_one_line\",\n      \"source_id\": \"S3\",\n      \"answer\": \"SELCO Foundation improves decentralised healthcare services and promotes sustainable energy solutions for last‑mile communities in India.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q2_type\",\n      \"source_id\": \"S1\",\n      \"answer\": \"org\",\n      \"confidence\": 0.95\n    },\n    {\n      \"question_id\": \"q3_legs\",\n      \"source_id\": \"S1\",\n      \"answer\": \"service\",\n      \"confidence\": 0.85\n    },\n    {\n      \"question_id\": \"q4_lifecycle\",\n      \"source_id\": \"S1\",\n      \"answer\": \"operating as of 2024\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q5_ecosystem_role\",\n      \"source_id\": \"S3\",\n      \"answer\": \"intermediary\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q6_affected_led\",\n      \"source_id\": \"S1\",\n      \"answer\": \"partial\",\n      \"confidence\": 0.7\n    },\n    {\n      \"question_id\": \"q7_representation_unit\",\n      \"source_id\": \"S1\",\n      \"answer\": \"central-org\",\n      \"confidence\": 0.75\n    },\n    {\n      \"question_id\": \"q8_geography\",\n      \"source_id\": \"S3\",\n      \"answer\": \"India (focus on rural and last‑mile areas)\",\n      \"confidence\": 0.85\n    },\n    {\n      \"question_id\": \"q9_contact_route\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Reach out via LinkedIn message or email through the contact form on selcofoundation.org\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q10_funding\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Supported by IKEA Foundation, Waverley Street Foundation, The Lemelson Foundation, The DOEN Foundation, Good Energies Foundation, Axis Bank Foundation, and others; exact budget not disclosed.\",\n      \"confidence\": 0.7\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"IKEA Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Waverley Street Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"The Lemelson Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"The DOEN Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Good Energies Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q10b_funder_identity\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Axis Bank Foundation\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q11_scale_metric\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Hosted the PwD Entrepreneurship & Livelihood Mela on September 4, 2026 in Raichur, Karnataka (self‑reported event count).\",\n      \"confidence\": 0.75\n    },\n    {\n      \"question_id\": \"q12_viability_note\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Viability as a service leg depends on continued donor funding from foundations and bilateral agencies that survive donor exit.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q13_failure_note\",\n      \"source_id\": \"S1\",\n      \"answer\": \"No explicit failure mentioned in the source.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q14_ask_need\",\n      \"source_id\": \"S1\",\n      \"answer\": \"funding\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q14_ask_need\",\n      \"source_id\": \"S1\",\n      \"answer\": \"partners\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q14_ask_need\",\n      \"source_id\": \"S1\",\n      \"answer\": \"data\",\n      \"confidence\": 0.7\n    },\n    {\n      \"question_id\": \"q14_ask_need\",\n      \"source_id\": \"S1\",\n      \"answer\": \"policy access\",\n      \"confidence\": 0.7\n    },\n    {\n      \"question_id\": \"q15_ask_offer\",\n      \"source_id\": \"S1\",\n      \"answer\": \"collaboration opportunities\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q15_ask_offer\",\n      \"source_id\": \"S1\",\n      \"answer\": \"credit facilitation\",\n      \"confidence\": 0.75\n    },\n    {\n      \"question_id\": \"q15_ask_offer\",\n      \"source_id\": \"S1\",\n      \"answer\": \"skilling and machinery support\",\n      \"confidence\": 0.7\n    },\n    {\n      \"question_id\": \"q16_channel\",\n      \"source_id\": \"S1\",\n      \"answer\": \"LinkedIn: https://in.linkedin.com/company/selco-foundation\",\n      \"confidence\": 0.95\n    },\n    {\n      \"question_id\": \"q16_channel\",\n      \"source_id\": \"S1\",\n      \"answer\": \"Website: https://selcofoundation.org\",\n      \"confidence\": 0.95\n    }\n  ],\n  \"misidentified\": [],\n  \"claims\": [\n    {\n      \"field\": \"title\",\n      \"value\": \"SELCO Foundation\",\n      \"confidence\": 0.98\n    },\n    {\n      \"field\": \"type\",\n      \"value\": \"org\",\n      \"confidence\": 0.98\n    },\n    {\n      \"field\": \"legs\",\n      \"value\": \"[\\\"service\\\"]\",\n      \"confidence\": 0.85\n    },\n    {\n      \"field\": \"depth\",\n      \"value\": \"tracked\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"lifecycle\",\n      \"value\": \"operating\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"ecosystem_role\",\n      \"value\": \"[\\\"intermediary\\\"]\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"affected_led\",\n      \"value\": \"partial\",\n      \"confidence\": 0.7\n    },\n    {\n      \"field\": \"representation_unit\",\n      \"value\": \"central-org\",\n      \"confidence\": 0.75\n    },\n    {\n      \"field\": \"stance\",\n      \"value\": \"works-the-remedy\",\n      \"confidence\": 0.8\n    },\n    {\n      \"field\": \"geography\",\n      \"value\": \"India (rural, last-mile)\",\n      \"confidence\": 0.85\n    },\n    {\n      \"field\": \"contact_route\",\n      \"value\": \"LinkedIn message or website contact form\",\n      \"confidence\": 0.8\n    }\n  ],\n  \"emits\": [\n    {\n      \"kind\": \"actor\",\n      \"name\": \"IKEA Foundation\",\n      \"hint\": \"Funder of SELCO Foundation\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Waverley Street Foundation\",\n      \"hint\": \"Funder\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"The Lemelson Foundation\",\n      \"hint\": \"Funder\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"The DOEN Foundation\",\n      \"hint\": \"Funder\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Good Energies Foundation\",\n      \"hint\": \"Funder\",\n      \"signals\": {}\n    },\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Axis Bank Foundation\",\n      \"hint\": \"Funder\",\n      \"signals\": {}\n    }\n  ],\n  \"edges\": [\n    {\n      \"dst_name\": \"decentralised healthcare\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"SELCO Foundation improves the quality, quantity and diversity of decentralised healthcare services provided at the last mile.\"\n    },\n    {\n      \"dst_name\": \"sustainable energy\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"SELCO Foundation promotes sustainable energy solutions for last‑mile communities.\"\n    },\n    {\n      \"dst_name\": \"IKEA Foundation\",\n      \"dst_kind\": \"actor\",\n      \"edge_kind\": \"funds\",\n      \"relevance\": 3,\n      \"evidence\": \"IKEA Foundation listed as a funder of SELCO Foundation.\"\n    }\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S3",
+    "answer": "SELCO Foundation improves decentralised healthcare services and promotes sustainable energy solutions for last‑mile communities in India.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S1",
+    "answer": "org",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S1",
+    "answer": "service",
+    "confidence": 0.85
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S1",
+    "answer": "operating as of 2024",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S3",
+    "answer": "intermediary",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S1",
+    "answer": "partial",
+    "confidence": 0.7
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S1",
+    "answer": "central-org",
+    "confidence": 0.75
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S3",
+    "answer": "India (focus on rural and last‑mile areas)",
+    "confidence": 0.85
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S1",
+    "answer": "Reach out via LinkedIn message or email through the contact form on selcofoundation.org",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q10_funding",
+    "source_id": "S1",
+    "answer": "Supported by IKEA Foundation, Waverley Street Foundation, The Lemelson Foundation, The DOEN Foundation, Good Energies Foundation, Axis Bank Foundation, and others; exact budget not disclosed.",
+    "confidence": 0.7
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "IKEA Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Waverley Street Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "The Lemelson Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "The DOEN Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Good Energies Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "answer": "Axis Bank Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q11_scale_metric",
+    "source_id": "S1",
+    "answer": "Hosted the PwD Entrepreneurship & Livelihood Mela on September 4, 2026 in Raichur, Karnataka (self‑reported event count).",
+    "confidence": 0.75
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S1",
+    "answer": "Viability as a service leg depends on continued donor funding from foundations and bilateral agencies that survive donor exit.",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q13_failure_note",
+    "source_id": "S1",
+    "answer": "No explicit failure mentioned in the source.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S1",
+    "answer": "funding",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S1",
+    "answer": "partners",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S1",
+    "answer": "data",
+    "confidence": 0.7
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S1",
+    "answer": "policy access",
+    "confidence": 0.7
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S1",
+    "answer": "collaboration opportunities",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S1",
+    "answer": "credit facilitation",
+    "confidence": 0.75
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S1",
+    "answer": "skilling and machinery support",
+    "confidence": 0.7
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S1",
+    "answer": "LinkedIn: https://in.linkedin.com/company/selco-foundation",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S1",
+    "answer": "Website: https://selcofoundation.org",
+    "confidence": 0.95
+   }
+  ],
+  "misidentified": [],
+  "claims": [
+   {
+    "field": "title",
+    "value": "SELCO Foundation",
+    "confidence": 0.98
+   },
+   {
+    "field": "type",
+    "value": "org",
+    "confidence": 0.98
+   },
+   {
+    "field": "legs",
+    "value": "[\"service\"]",
+    "confidence": 0.85
+   },
+   {
+    "field": "depth",
+    "value": "tracked",
+    "confidence": 0.8
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating",
+    "confidence": 0.8
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "[\"intermediary\"]",
+    "confidence": 0.8
+   },
+   {
+    "field": "affected_led",
+    "value": "partial",
+    "confidence": 0.7
+   },
+   {
+    "field": "representation_unit",
+    "value": "central-org",
+    "confidence": 0.75
+   },
+   {
+    "field": "stance",
+    "value": "works-the-remedy",
+    "confidence": 0.8
+   },
+   {
+    "field": "geography",
+    "value": "India (rural, last-mile)",
+    "confidence": 0.85
+   },
+   {
+    "field": "contact_route",
+    "value": "LinkedIn message or website contact form",
+    "confidence": 0.8
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "IKEA Foundation",
+    "hint": "Funder of SELCO Foundation",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Waverley Street Foundation",
+    "hint": "Funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "The Lemelson Foundation",
+    "hint": "Funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "The DOEN Foundation",
+    "hint": "Funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Good Energies Foundation",
+    "hint": "Funder",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Axis Bank Foundation",
+    "hint": "Funder",
+    "signals": {}
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "decentralised healthcare",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "SELCO Foundation improves the quality, quantity and diversity of decentralised healthcare services provided at the last mile."
+   },
+   {
+    "dst_name": "sustainable energy",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "SELCO Foundation promotes sustainable energy solutions for last‑mile communities."
+   },
+   {
+    "dst_name": "IKEA Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "funds",
+    "relevance": 3,
+    "evidence": "IKEA Foundation listed as a funder of SELCO Foundation."
+   }
+  ]
+ },
+ "parse_error": null,
+ "system_prompt": "You extract facts about an org or named individual working on a documented failure — an `actor` record — from source text, per the \"who is working on this\" method: establish what leg they work (activism / institution / enterprise / service — enterprise is market-payer only, service is donor-funded direct delivery with no earned revenue, a hybrid org carries both as separate revenue streams), what makes them viable on that leg, and how to reach them. Relevant fields: `title`, `type` (org|individual), `legs` (JSON list from activism/institution/enterprise/service), `depth` (registry|tracked — tracked is for actors operating where the harm is: affected-led local collectives, field enterprises, local regulators actually acting; registry is for cited-but-not-monitored actors like academics, ministers, national advocacy NGOs), `lifecycle` (operating|scaling|distressed|dormant|acquired|shut|won-and-dissolved), `ecosystem_role` (JSON list from funder, intermediary, capacity-builder, convener, field-builder, researcher, operator, platform), `affected_led` (yes|no|partial), `representation_unit` (local-affected|central-org|enterprise|central-at-named-legitimacy-cost), `stance` (works-the-remedy|neutral|organised-against-remedy|ambiguous), `geography`, `contact_route`. Needs and offers are `ask:need:<kind>` / `ask:offer:<kind>` (value = the free-text ask, e.g. `ask:need:funding`). Follow channels are `channel:<kind>` (value = the URL or handle, e.g. `channel:twitter`).\n\nExtract structured claims from the text below about the named entity. Never write prose summaries as a claim value — a claim is one field, one short value, one confidence in [0, 1]. If the text does not support a field, omit it; do not guess.\n\nAlso list `emits`: other organisations or named individuals mentioned in the text who look worth a candidate record of their own (co-petitioners, funders, grantees, officials, affected-led leaders spoken for by an NGO, coalition partners, etc). And list `edges`: typed relations this text evidences between the entity and another named actor or problem, with `edge_kind` one of: part_of, member_of, works_on, cites, funds, board, cohort, convenes, portfolio, affiliated, parent_org, superseded_by. `relevance` on a `works_on` edge is 0 (mentioned) / 1 (adjacent) / 2 (works it) / 3 (load-bearing) — omit if the text does not support a judgment.\n\nRespond with strict JSON only, no prose, no markdown fences:\n{\"claims\": [{\"field\": \"...\", \"value\": \"...\", \"confidence\": 0.0}, ...],\n \"emits\":  [{\"kind\": \"problem\"|\"actor\", \"name\": \"...\", \"hint\": \"...\"}],\n \"edges\":  [{\"dst_name\": \"...\", \"dst_kind\": \"problem\"|\"actor\", \"edge_kind\": \"...\", \"relevance\": 0|1|2|3|null, \"evidence\": \"...\"}]}\n\nSEVERAL SOURCES ARE GIVEN AT ONCE, each opening with a marker line `[Sn] <url>`. Four additional rules follow from that:\n\n1. Answer the numbered questions below. Every answer carries the `question_id` it answers and the `source_id` (`S1`, `S2`, …) of the source it came from. An answer with no source id, or an id not in the list given, is DROPPED — never guess an id, and never merge two sources into one answer.\n2. If two sources disagree — a different figure, date, or status for the same thing — write the disagreement as the answer, naming both sides and both source ids. Do not silently pick one.\n3. A question no source answers is simply absent from `answers`.\n4. These sources passed an automated identity check, but that check is a similarity score over each page's opening and it does get this wrong — most often on a DIFFERENT entity that shares the name (a company with the same word in its name, a person with the same given name). If a source is not about the named entity, list it in `misidentified` with what it is actually about, and do not answer from it. You are reading the whole page and the check was not; flagging one is expected, not a complaint.\n\nQUESTIONS:\n- q1_one_line: In one concrete sentence: what does this actor actually do — not a category label.\n- q2_type: Org or individual?\n- q3_legs: Which leg(s) — activism, institution, enterprise (market-payer only), service (donor-funded, no earned revenue)? [multiple answers allowed]\n- q4_lifecycle: Operating, scaling, distressed, dormant, acquired, shut, or won-and-dissolved — and current as of what date?\n- q5_ecosystem_role: Funder, intermediary, capacity-builder, convener, field-builder, researcher, operator, or platform?\n- q6_affected_led: Is leadership drawn from the harmed population (yes), an NGO/proxy speaking for them (no), or a mix (partial)?\n- q7_representation_unit: `local-affected`, `central-org`, `enterprise`, or `central-at-named-legitimacy-cost`?\n- q8_geography: Where do they operate?\n- q9_contact_route: How would you actually reach them?\n- q10_funding: At what financial scale do they operate — corpus, budget, or latest round/grant — and as of when? One dated sentence.\n- q10b_funder_identity: Who funds them — the named funders, each as its own entry. [multiple answers allowed]\n- q11_scale_metric: The one checkable number showing actual reach (members, homes, users, revenue, units), dated — flag if self-reported.\n- q12_viability_note: What makes them viable on their leg specifically — the paying customer (enterprise), whether donor funding survives donor exit (service), affected-led-ness (activism), or whether their authority contains the harm's source and its reporting unit matches the harm unit (institution)?\n- q13_failure_note: Where has this actor deployed effort and had it fail, and why? Omit if the source shows no failure — don't invent one.\n- q14_ask_need: What does this actor say it needs (funding, partners, data, policy access)? [multiple answers allowed]\n- q15_ask_offer: What can it offer (funding, a channel, a service, distribution)? [multiple answers allowed]\n- q16_channel: What are its live follow channels? [multiple answers allowed]\n\nRespond with strict JSON only, no prose, no markdown fences:\n{\"answers\": [{\"question_id\": \"...\", \"source_id\": \"S2\", \"answer\": \"...\", \"confidence\": 0.0}],\n \"misidentified\": [{\"source_id\": \"S3\", \"about_what\": \"...\", \"why\": \"...\"}],\n \"claims\":  [{\"field\": \"...\", \"value\": \"...\", \"confidence\": 0.0}],\n \"emits\":   [{\"kind\": \"problem\"|\"actor\", \"name\": \"...\", \"hint\": \"...\", \"signals\": {}}],\n \"edges\":   [{\"dst_name\": \"...\", \"dst_kind\": \"...\", \"edge_kind\": \"...\", \"relevance\": 0, \"stance\": null, \"evidence\": \"...\"}]}",
+ "prompt": "Entity name: SELCO Foundation\n\nSources:\n\n[S1] https://in.linkedin.com/company/selco-foundation\nIf you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect. Reach out to us to explore opportunities to collaborate.\n\nWatch the full story: https://lnkd.in/gD-qJxQz\n\n#Millets #SustainableAgriculture #ClimateSmartSolutions #ClimateResilientAgriculture #SmallholderFarmers #RuralLivelihoods #AgriEntrepreneurship #CleanEnergy #SELCOFoundation\n\nComment\n\nShare\n\nSELCO Foundation\n\nComment\n\nShare\n\nSELCO Foundation\n\nWhat started as an interest in baking grew into a dream of running her own bakery. With the right enabling environment, that dream became a growing enterprise.\nGrowth opened up new possibilities—higher production, seasonal employment, and greater ability to invest in her family’s needs.\n\nAn entrepreneur’s journey needs choices—choices to start, choices to grow, and choices to shape what comes next.\n\n#WomenEntrepreneurs #RuralEnterprise #Meghalaya #Entrepreneurship #Livelihoods #SELCOFoundation #PRIMERural\n\nAnd the credit that reaches these families is often built around consumption. A wedding. A phone. Borrowing that draws on income.\n\nWhat they need is credit that enables income — a livelihood that can become the backbone of a family.\n\nThat gap is what this chapter is about.\n\nWhat if accessing an entrepreneurship opportunity didn’t mean navigating multiple systems alone?\n\nFor many Persons with Disabilities, livelihood and enterprise opportunities already exist. Yet access to finance, government schemes, assistive technology, skilling, machinery and markets can remain fragmented and difficult to navigate.\n\nThe PwD Entrepreneurship & Livelihood Mela, held on September 4, 2026, in Raichur, Karnataka, brought these pieces together in one place.\n\nThat question is where this series begins.\n\n🔗 Watch it here: https://lnkd.in/gnMT7wH9\n\n#EnergyAccess #DRE #ClimateFinance #RuralLivelihoods #FinancialInclusion #SELCOFoundation\n\nIKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\n\nLet's strengthen climate-resilient healthcare systems together, all through the year. If you're working on clean energy, climate adaptation, healthcare innovation, or strengthening public health infrastructure in India, we'd love to connect.\n\n🔗 View the full video: https://lnkd.in/gaDEJrUe\n\n#ClimateResilience #DisasterResilience #ClimateAndHealth #ResilientHealthcare #EnergyForHealth #CleanEnergy #ClimateAdaptation #HealthcareInnovation #PublicHealth #HealthcareInfrastructure #SELCOFoundation\n\n🌾 Come celebrate our farmers, discover their stories, and explore fresh produce & farm products straight from the source!\n\nRSVP: https://lnkd.in/dPTAXbwD\n\n#AgriPankh #FarmerEmpowerment #Agritech #RuralInnovation #riidl #SELCOFoundation #SomaiyaVidyaviharUniversity\n\nor\n\nNew to LinkedIn? Join now\n\nBy clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy.\n\n---\n\n[S2] https://cases.som.yale.edu/selco-foundation/overview/introduction\nIntroduction | SELCO Foundation | Yale Case Study Research and Development\n\nSkip to main content\n\n---\n\n[S3] https://selcofoundation.org/\nDecentralised Healthcare and Sustainable Energy\n\nImproving the quality, quantity and diversity of decentralised healthcare services, provided at the last mile which cater to preventive, therapeutic as well as emergency care services\n\nRead More\n\nRaghuram Kulal - Master Potter\n\nLivelihood\n\nRead more\n\nAnnapurna- Pottery Wheel and Built Environment\n\nBuilt EnvironmentsCraftDisabilityLivelihoodMicro Business\n\nRead more\n\nSolar Powered Coir Yarn Making Machine\n\nLivelihood\n\nPDF",
+ "model": "nvidia/nemotron-3-super-120b-a12b:free",
+ "provider": "openrouter",
+ "input_tokens": 2634,
+ "output_tokens": 2971,
+ "truncated": false,
+ "plant": null
+}

@@ -1,0 +1,89 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\n      \"question_id\": \"q1_one_line\",\n      \"source_id\": \"S2\",\n      \"answer\": \"She advocates for climate‑friendly policies, promotes tree planting and conservation, and works to reduce emissions of super‑pollutants.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q2_type\",\n      \"source_id\": \"S2\",\n      \"answer\": \"individual\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q3_legs\",\n      \"source_id\": \"S2\",\n      \"answer\": \"activism\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q5_ecosystem_role\",\n      \"source_id\": \"S2\",\n      \"answer\": \"operator\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q9_contact_route\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Via LinkedIn profile: https://www.linkedin.com/in/bhavreen-kandhari-80283026a\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q15_ask_offer\",\n      \"source_id\": \"S2\",\n      \"answer\": \"Offers tree planting support, conservation efforts, and policy advocacy to protect the planet.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q16_channel\",\n      \"source_id\": \"S2\",\n      \"answer\": \"LinkedIn profile\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q16_channel\",\n      \"source_id\": \"S4\",\n      \"answer\": \"Twitter/X handle @BhavreenMK\",\n      \"confidence\": 0.9\n    }\n  ],\n  \"misidentified\": [\n    {\n      \"source_id\": \"S3\",\n      \"about_what\": \"NCRTC court order regarding the Delhi‑Ghaziabad‑Meerut RRTS project\",\n      \"why\": \"The document discusses a legal case about the RRTS corridor and does not mention Bhavreen Kandhari.\"\n    }\n  ],\n  \"claims\": [],\n  \"emits\": [],\n  \"edges\": [\n    {\n      \"dst_name\": \"Climate change\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"She advocates for policies that protect our planet, promotes tree planting and conservation, and works to reduce emissions of super‑pollutants.\"\n    },\n    {\n      \"dst_name\": \"Super-pollutant emissions\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"evidence\": \"Reducing emissions of super‑pollutants is a key point in her LinkedIn post.\"\n    }\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S2",
+    "answer": "She advocates for climate‑friendly policies, promotes tree planting and conservation, and works to reduce emissions of super‑pollutants.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S2",
+    "answer": "individual",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S2",
+    "answer": "activism",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S2",
+    "answer": "operator",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S2",
+    "answer": "Via LinkedIn profile: https://www.linkedin.com/in/bhavreen-kandhari-80283026a",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S2",
+    "answer": "Offers tree planting support, conservation efforts, and policy advocacy to protect the planet.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S2",
+    "answer": "LinkedIn profile",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S4",
+    "answer": "Twitter/X handle @BhavreenMK",
+    "confidence": 0.9
+   }
+  ],
+  "misidentified": [
+   {
+    "source_id": "S3",
+    "about_what": "NCRTC court order regarding the Delhi‑Ghaziabad‑Meerut RRTS project",
+    "why": "The document discusses a legal case about the RRTS corridor and does not mention Bhavreen Kandhari."
+   }
+  ],
+  "claims": [],
+  "emits": [],
+  "edges": [
+   {
+    "dst_name": "Climate change",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "She advocates for policies that protect our planet, promotes tree planting and conservation, and works to reduce emissions of super‑pollutants."
+   },
+   {
+    "dst_name": "Super-pollutant emissions",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "evidence": "Reducing emissions of super‑pollutants is a key point in her LinkedIn post."
+   }
+  ]
+ },
+ "parse_error": null,
+ "system_prompt": "You extract facts about an org or named individual working on a documented failure — an `actor` record — from source text, per the \"who is working on this\" method: establish what leg they work (activism / institution / enterprise / service — enterprise is market-payer only, service is donor-funded direct delivery with no earned revenue, a hybrid org carries both as separate revenue streams), what makes them viable on that leg, and how to reach them. Relevant fields: `title`, `type` (org|individual), `legs` (JSON list from activism/institution/enterprise/service), `depth` (registry|tracked — tracked is for actors operating where the harm is: affected-led local collectives, field enterprises, local regulators actually acting; registry is for cited-but-not-monitored actors like academics, ministers, national advocacy NGOs), `lifecycle` (operating|scaling|distressed|dormant|acquired|shut|won-and-dissolved), `ecosystem_role` (JSON list from funder, intermediary, capacity-builder, convener, field-builder, researcher, operator, platform), `affected_led` (yes|no|partial), `representation_unit` (local-affected|central-org|enterprise|central-at-named-legitimacy-cost), `stance` (works-the-remedy|neutral|organised-against-remedy|ambiguous), `geography`, `contact_route`. Needs and offers are `ask:need:<kind>` / `ask:offer:<kind>` (value = the free-text ask, e.g. `ask:need:funding`). Follow channels are `channel:<kind>` (value = the URL or handle, e.g. `channel:twitter`).\n\nExtract structured claims from the text below about the named entity. Never write prose summaries as a claim value — a claim is one field, one short value, one confidence in [0, 1]. If the text does not support a field, omit it; do not guess.\n\nAlso list `emits`: other organisations or named individuals mentioned in the text who look worth a candidate record of their own (co-petitioners, funders, grantees, officials, affected-led leaders spoken for by an NGO, coalition partners, etc). And list `edges`: typed relations this text evidences between the entity and another named actor or problem, with `edge_kind` one of: part_of, member_of, works_on, cites, funds, board, cohort, convenes, portfolio, affiliated, parent_org, superseded_by. `relevance` on a `works_on` edge is 0 (mentioned) / 1 (adjacent) / 2 (works it) / 3 (load-bearing) — omit if the text does not support a judgment.\n\nRespond with strict JSON only, no prose, no markdown fences:\n{\"claims\": [{\"field\": \"...\", \"value\": \"...\", \"confidence\": 0.0}, ...],\n \"emits\":  [{\"kind\": \"problem\"|\"actor\", \"name\": \"...\", \"hint\": \"...\"}],\n \"edges\":  [{\"dst_name\": \"...\", \"dst_kind\": \"problem\"|\"actor\", \"edge_kind\": \"...\", \"relevance\": 0|1|2|3|null, \"evidence\": \"...\"}]}\n\nSEVERAL SOURCES ARE GIVEN AT ONCE, each opening with a marker line `[Sn] <url>`. Three additional rules follow from that:\n\n1. Answer the numbered questions below. Every answer carries the `question_id` it answers and the `source_id` (`S1`, `S2`, …) of the source it came from. An answer with no source id, or an id not in the list given, is DROPPED — never guess an id, and never merge two sources into one answer.\n2. If two sources disagree — a different figure, date, or status for the same thing — write the disagreement as the answer, naming both sides and both source ids. Do not silently pick one.\n3. A question no source answers is simply absent from `answers`.\n4. These sources passed an automated identity check, but that check is a similarity score over each page's opening and it does get this wrong — most often on a DIFFERENT entity that shares the name (a company with the same word in its name, a person with the same given name). If a source is not about the named entity, list it in `misidentified` with what it is actually about, and do not answer from it. You are reading the whole page and the check was not; flagging one is expected, not a complaint.\n\nQUESTIONS:\n- q1_one_line: In one concrete sentence: what does this actor actually do — not a category label.\n- q2_type: Org or individual?\n- q3_legs: Which leg(s) — activism, institution, enterprise (market-payer only), service (donor-funded, no earned revenue)? [multiple answers allowed]\n- q4_lifecycle: Operating, scaling, distressed, dormant, acquired, shut, or won-and-dissolved — and current as of what date?\n- q5_ecosystem_role: Funder, intermediary, capacity-builder, convener, field-builder, researcher, operator, or platform?\n- q6_affected_led: Is leadership drawn from the harmed population (yes), an NGO/proxy speaking for them (no), or a mix (partial)?\n- q7_representation_unit: `local-affected`, `central-org`, `enterprise`, or `central-at-named-legitimacy-cost`?\n- q8_geography: Where do they operate?\n- q9_contact_route: How would you actually reach them?\n- q10_funding: At what financial scale do they operate — corpus, budget, or latest round/grant — and as of when? One dated sentence.\n- q10b_funder_identity: Who funds them — the named funders, each as its own entry. [multiple answers allowed]\n- q11_scale_metric: The one checkable number showing actual reach (members, homes, users, revenue, units), dated — flag if self-reported.\n- q12_viability_note: What makes them viable on their leg specifically — the paying customer (enterprise), whether donor funding survives donor exit (service), affected-led-ness (activism), or whether their authority contains the harm's source and its reporting unit matches the harm unit (institution)?\n- q13_failure_note: Where has this actor deployed effort and had it fail, and why? Omit if the source shows no failure — don't invent one.\n- q14_ask_need: What does this actor say it needs (funding, partners, data, policy access)? [multiple answers allowed]\n- q15_ask_offer: What can it offer (funding, a channel, a service, distribution)? [multiple answers allowed]\n- q16_channel: What are its live follow channels? [multiple answers allowed]\n\nRespond with strict JSON only, no prose, no markdown fences:\n{\"answers\": [{\"question_id\": \"...\", \"source_id\": \"S2\", \"answer\": \"...\", \"confidence\": 0.0}],\n \"misidentified\": [{\"source_id\": \"S3\", \"about_what\": \"...\", \"why\": \"...\"}],\n \"claims\":  [{\"field\": \"...\", \"value\": \"...\", \"confidence\": 0.0}],\n \"emits\":   [{\"kind\": \"problem\"|\"actor\", \"name\": \"...\", \"hint\": \"...\", \"signals\": {}}],\n \"edges\":   [{\"dst_name\": \"...\", \"dst_kind\": \"...\", \"edge_kind\": \"...\", \"relevance\": 0, \"stance\": null, \"evidence\": \"...\"}]}",
+ "prompt": "Entity name: Bhavreen Kandhari\n\nSources:\n\n[S1] https://earlychildhoodmatters.online/fr/community/bhavreen-kandhari/\nConnect with our global community\n\nDiscover new voices and connect with contributors from around the world.\nExplore our directory\n\nJoin our community of readers\n\n---\n\n[S2] https://www.linkedin.com/posts/bhavreen-kandhari-80283026a_reducing-emissions-of-super-pollutants-activity-7310353077897699328-L6IS\nPlant trees, support conservation efforts, and advocate for policies that protect our planet\n\nWant to dig deeper? Check out our blog post “Everything You Need to Know About Climate Change” to find clear explanations and practical tips:\n👉 https://lnkd.in/eaUgwF8v\n\nAnd if you're serious about making a difference, you can also download our Climate Change Whitepaper (available on our website) — it outlines evidence, strategies, and pathways forward.\n\n🔍 **Key Points**:\n- Fossil fuels (coal, oil, gas) are the top source of climate emissions.\n- A small group of companies produce most fossil fuel emissions.\n- Burning fossil fuels, not our food choices, is the bigger problem.\n\n🔧 **What Can You Do?**:\n- Reduce your fossil fuel use. Support policies that promote renewable energy.\n- Stay informed to dispel myths about climate impacts and focus discussions on major issues.\n- While making eco-friendly food choices is beneficial, prioritize reducing fossil fuels.\n- Advocate for holding major emitters accountable for their emissions.\n\nFor more insights, check out the full article: [Read here](https://lnkd.in/drB9PnpU) 🌿\n\nView Profile\n\nConnect\n\nExplore related topics\n\nExplore content categories\n\nCareer\n\nProductivity\n\nWorkplace Trends\n\nFundraising\n\nNetworking\n\nor\n\nNew to LinkedIn? Join now\n\nBy clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy.\n\n---\n\n[S3] https://indiankanoon.org/doc/172487029/\n5. As stated in the application filed by the NCRTC, out of the 144 trees\ninitially approved for felling, 108 had already been felled--91 transplanted\nand 17 removed. This fact was also recorded in the order dated 29.05.2024,\nnoting that 91 trees (out of 120 trees) had been transplanted and that\ncompensatory plantation of 14,125 saplings had been carried out.\n\n6. Thereafter, vide order dated 06.12.2024, the learned Amicus Curiae\nwas asked to inspect the status of the transplanted trees along with the\ncompensatory plantation done. Pursuant to the said order, the learned Amicus\nCuriae has filed a note along with the photographs.\n\n7. Learned senior counsel for the applicant has drawn my attention to the\njudgment dated 15.09.2023 passed by the Hon'ble Division Bench of this\ncourt in WP(C) 11740/2023 and more particularly para 4, which reads as\nunder:-\n\nThis is a digitally signed order.\n\nThe authenticity of the order can be re-verified from Delhi High Court Order Portal by scanning the QR code shown above.\nThe Order is downloaded from the DHC Server on 21/03/2025 at 21:45:52\n60:40 equity ratio. The Central Government and the Uttar\nPradesh Government have credited their share and the Asian\nDevelopment Bank has agreed to provide debt part.\n\nThe contribution of the Government of India for the project is\nRs.5,687 crores, State of Uttar Pradesh is Rs.5,828 crores and by\nthe National Capital Region of Delhi is Rs.1,138 crores.\nThe Government of Delhi has not made budgetary provision for\nthis year i.e., 2018-19. It was submitted on its behalf that entire\nexpenditure should be borne by the Central Government. Learned\nAmicus suggested that for this year utilisation of the money may be\nordered from Environment Compensation Charge (ECC), in\nwhich a sum of Rs. 1,106 crores is stated to be lying. It is\npermissible to utilise the amount for aforesaid purpose. However,\nthe Delhi Government is not agreeable for utilising the amount of\nRs. 265 crores from ECC Fund which is to be contributed for this\nyear on the ground that ECC Fund is to be utilised for the\nprocurement of electric buses. It was submitted that they have to\nabide by the direction of this Court and utilize the said amount for\npurchase of buses.\"\n\nWe direct the Government of NCT of Delhi to make appropriate\nbudgetary allocation from next year w. e. f. 1. 4. 2019 onwards each\nyear for the aforesaid RRTS and to go on contributing the amount\ntill the project is completed as per the liability fastened upon it i.e.\n3.6 per cent of the total cost.Let the Delhi Government release the\namount ofRs.265 crores within 10 days from today for the aforesaid\ncorridor.\"\n\n9. He further states that more than Rs. 23,000 crores have been invested in\nthe project for which the permission is sought, and hence the permission, as\nprayed, must be granted.\n\n10. A perusal of the two orders, one by the Hon'ble Division Bench of this\ncourt and the other by the Hon'ble Supreme Court, have clearly highlighted\nthe need and the importance of the project. The\nDelhi-Ghaziabad-Meerut-Corridor is nearing its completion and a sum of\nabout Rs 23,000 crores has already been invested in the said project.\n\n19. The intention of this court has never been to be an impediment to\ngrowth and development but the endeavour is to ensure that the said\ngrowth/development is not done at the cost of public health and\nenvironmental sustenance.\n\n20. In view of the orders of the Hon'ble Division Bench and the Hon'ble\nSupreme Court, the application needs to be allowed, however certain\n\nThis is a digitally signed order.\n\n---\n\n[S4] https://x.com/BhavreenMK\nFollowers\n\nRepliesRepliesRepostsRepostsMediaMedia\n\nPinned",
+ "model": "nvidia/nemotron-3-super-120b-a12b:free",
+ "provider": "openrouter",
+ "input_tokens": 3179,
+ "output_tokens": 3217,
+ "truncated": false,
+ "plant": null
+}

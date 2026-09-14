@@ -1,0 +1,327 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\"question_id\":\"q1_one_line\",\"source_id\":\"S3\",\"chunk\":\"S3.2\",\"answer\":\"SELCO Foundation improves the quality, quantity and diversity of decentralised healthcare services at the last mile.\",\"confidence\":0.9},\n    {\"question_id\":\"q2_type\",\"source_id\":\"S1\",\"chunk\":\"S1.6\",\"answer\":\"Organisation\",\"confidence\":0.9},\n    {\"question_id\":\"q3_legs\",\"source_id\":\"S1\",\"chunk\":\"S1.22\",\"answer\":\"service\",\"confidence\":0.9},\n    {\"question_id\":\"q4_lifecycle\",\"source_id\":\"S1\",\"chunk\":\"S1.18\",\"answer\":\"Operating as of September 4, 2026\",\"confidence\":0.9},\n    {\"question_id\":\"q5_ecosystem_role\",\"source_id\":\"S3\",\"chunk\":\"S3.2\",\"answer\":\"operator\",\"confidence\":0.9},\n    {\"question_id\":\"q8_geography\",\"source_id\":\"S1\",\"chunk\":\"S1.18\",\"answer\":\"India (Karnataka)\",\"confidence\":0.9},\n    {\"question_id\":\"q9_contact_route\",\"source_id\":\"S1\",\"chunk\":\"S1.1\",\"answer\":\"Reach out to us to explore opportunities to collaborate (via LinkedIn)\",\"confidence\":0.9},\n    {\"question_id\":\"q10b_funder_identity\",\"source_id\":\"S1\",\"chunk\":\"S1.22\",\"answer\":\"IKEA Foundation\",\"confidence\":0.9},\n    {\"question_id\":\"q10b_funder_identity\",\"source_id\":\"S1\",\"chunk\":\"S1.22\",\"answer\":\"Waverley Street Foundation\",\"confidence\":0.9},\n    {\"question_id\":\"q10b_funder_identity\",\"source_id\":\"S1\",\"chunk\":\"S1.22\",\"answer\":\"The Lemelson Foundation\",\"confidence\":0.9},\n    {\"question_id\":\"q10b_funder_identity\",\"source_id\":\"S1\",\"chunk\":\"S1.22\",\"answer\":\"The DOEN Foundation\",\"confidence\":0.9},\n    {\"question_id\":\"q10b_funder_identity\",\"source_id\":\"S1\",\"chunk\":\"S1.22\",\"answer\":\"Good Energies Foundation\",\"confidence\":0.9},\n    {\"question_id\":\"q10b_funder_identity\",\"source_id\":\"S1\",\"chunk\":\"S1.22\",\"answer\":\"Axis Bank Foundation\",\"confidence\":0.9},\n    {\"question_id\":\"q10b_funder_identity\",\"source_id\":\"S1\",\"chunk\":\"S1.22\",\"answer\":\"Dhruvi Shah\",\"confidence\":0.9},\n    {\"question_id\":\"q10b_funder_identity\",\"source_id\":\"S1\",\"chunk\":\"S1.22\",\"answer\":\"Harshvardhan Dhawan\",\"confidence\":0.9},\n    {\"question_id\":\"q10b_funder_identity\",\"source_id\":\"S1\",\"chunk\":\"S1.22\",\"answer\":\"Solomon J Manohar\",\"confidence\":0.9},\n    {\"question_id\":\"q12_viability_note\",\"source_id\":\"S1\",\"chunk\":\"S1.22\",\"answer\":\"Donor funding survives donor exit (diversified foundation funders)\",\"confidence\":0.9},\n    {\"question_id\":\"q14_ask_need\",\"source_id\":\"S1\",\"chunk\":\"S1.1\",\"answer\":\"Partners/collaborators\",\"confidence\":0.9},\n    {\"question_id\":\"q16_channel\",\"source_id\":\"S1\",\"chunk\":\"S1.20\",\"answer\":\"LinkedIn video link (https://lnkd.in/gnMT7wH9)\",\"confidence\":0.9}\n  ],\n  \"misidentified\": [],\n  \"emits\": [\n    {\"kind\":\"actor\",\"name\":\"IKEA Foundation\",\"hint\":\"funder\"},\n    {\"kind\":\"actor\",\"name\":\"Waverley Street Foundation\",\"hint\":\"funder\"},\n    {\"kind\":\"actor\",\"name\":\"The Lemelson Foundation\",\"hint\":\"funder\"},\n    {\"kind\":\"actor\",\"name\":\"The DOEN Foundation\",\"hint\":\"funder\"},\n    {\"kind\":\"actor\",\"name\":\"Good Energies Foundation\",\"hint\":\"funder\"},\n    {\"kind\":\"actor\",\"name\":\"Axis Bank Foundation\",\"hint\":\"funder\"},\n    {\"kind\":\"actor\",\"name\":\"Dhruvi Shah\",\"hint\":\"funder\"},\n    {\"kind\":\"actor\",\"name\":\"Harshvardhan Dhawan\",\"hint\":\"funder\"},\n    {\"kind\":\"actor\",\"name\":\"Solomon J Manohar\",\"hint\":\"funder\"}\n  ],\n  \"edges\": [\n    {\"dst_name\":\"Decentralised healthcare\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":3,\"stance\":null,\"evidence\":\"Improving the quality, quantity and diversity of decentralised healthcare services, provided at the last mile which cater to preventive, therapeutic as well as emergency care services\"},\n    {\"dst_name\":\"Sustainable energy\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":3,\"stance\":null,\"evidence\":\"Decentralised Healthcare and Sustainable Energy\"},\n    {\"dst_name\":\"Millets\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":2,\"stance\":null,\"evidence\":\"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\"},\n    {\"dst_name\":\"Clean energy\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":2,\"stance\":null,\"evidence\":\"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\"},\n    {\"dst_name\":\"Women's livelihoods\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":2,\"stance\":null,\"evidence\":\"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\"},\n    {\"dst_name\":\"Farmer-led enterprises\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":2,\"stance\":null,\"evidence\":\"If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect.\"},\n    {\"dst_name\":\"Disability livelihood\",\"dst_kind\":\"problem\",\"edge_kind\":\"works_on\",\"relevance\":2,\"stance\":null,\"evidence\":\"For many Persons with Disabilities, livelihood and enterprise opportunities already exist. Yet access to finance, government schemes, assistive technology, skilling, machinery and markets can remain fragmented and difficult to navigate. The PwD Entrepreneurship & Livelihood Mela, held on September 4, 2026, in Raichur, Karnataka, brought these pieces together in one place.\"},\n    {\"dst_name\":\"IKEA Foundation\",\"dst_kind\":\"actor\",\"edge_kind\":\"affiliated\",\"relevance\":1,\"stance\":null,\"evidence\":\"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"},\n    {\"dst_name\":\"Waverley Street Foundation\",\"dst_kind\":\"actor\",\"edge_kind\":\"affiliated\",\"relevance\":1,\"stance\":null,\"evidence\":\"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"},\n    {\"dst_name\":\"The Lemelson Foundation\",\"dst_kind\":\"actor\",\"edge_kind\":\"affiliated\",\"relevance\":1,\"stance\":null,\"evidence\":\"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"},\n    {\"dst_name\":\"The DOEN Foundation\",\"dst_kind\":\"actor\",\"edge_kind\":\"affiliated\",\"relevance\":1,\"stance\":null,\"evidence\":\"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"},\n    {\"dst_name\":\"Good Energies Foundation\",\"dst_kind\":\"actor\",\"edge_kind\":\"affiliated\",\"relevance\":1,\"stance\":null,\"evidence\":\"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"},\n    {\"dst_name\":\"Axis Bank Foundation\",\"dst_kind\":\"actor\",\"edge_kind\":\"affiliated\",\"relevance\":1,\"stance\":null,\"evidence\":\"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"},\n    {\"dst_name\":\"Dhruvi Shah\",\"dst_kind\":\"actor\",\"edge_kind\":\"affiliated\",\"relevance\":1,\"stance\":null,\"evidence\":\"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"},\n    {\"dst_name\":\"Harshvardhan Dhawan\",\"dst_kind\":\"actor\",\"edge_kind\":\"affiliated\",\"relevance\":1,\"stance\":null,\"evidence\":\"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"},\n    {\"dst_name\":\"Solomon J Manohar\",\"dst_kind\":\"actor\",\"edge_kind\":\"affiliated\",\"relevance\":1,\"stance\":null,\"evidence\":\"IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\"}\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S3",
+    "chunk": "S3.2",
+    "answer": "SELCO Foundation improves the quality, quantity and diversity of decentralised healthcare services at the last mile.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S1",
+    "chunk": "S1.6",
+    "answer": "Organisation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S1",
+    "chunk": "S1.22",
+    "answer": "service",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S1",
+    "chunk": "S1.18",
+    "answer": "Operating as of September 4, 2026",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S3",
+    "chunk": "S3.2",
+    "answer": "operator",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S1",
+    "chunk": "S1.18",
+    "answer": "India (Karnataka)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S1",
+    "chunk": "S1.1",
+    "answer": "Reach out to us to explore opportunities to collaborate (via LinkedIn)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "chunk": "S1.22",
+    "answer": "IKEA Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "chunk": "S1.22",
+    "answer": "Waverley Street Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "chunk": "S1.22",
+    "answer": "The Lemelson Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "chunk": "S1.22",
+    "answer": "The DOEN Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "chunk": "S1.22",
+    "answer": "Good Energies Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "chunk": "S1.22",
+    "answer": "Axis Bank Foundation",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "chunk": "S1.22",
+    "answer": "Dhruvi Shah",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "chunk": "S1.22",
+    "answer": "Harshvardhan Dhawan",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q10b_funder_identity",
+    "source_id": "S1",
+    "chunk": "S1.22",
+    "answer": "Solomon J Manohar",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S1",
+    "chunk": "S1.22",
+    "answer": "Donor funding survives donor exit (diversified foundation funders)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q14_ask_need",
+    "source_id": "S1",
+    "chunk": "S1.1",
+    "answer": "Partners/collaborators",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S1",
+    "chunk": "S1.20",
+    "answer": "LinkedIn video link (https://lnkd.in/gnMT7wH9)",
+    "confidence": 0.9
+   }
+  ],
+  "misidentified": [],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "IKEA Foundation",
+    "hint": "funder"
+   },
+   {
+    "kind": "actor",
+    "name": "Waverley Street Foundation",
+    "hint": "funder"
+   },
+   {
+    "kind": "actor",
+    "name": "The Lemelson Foundation",
+    "hint": "funder"
+   },
+   {
+    "kind": "actor",
+    "name": "The DOEN Foundation",
+    "hint": "funder"
+   },
+   {
+    "kind": "actor",
+    "name": "Good Energies Foundation",
+    "hint": "funder"
+   },
+   {
+    "kind": "actor",
+    "name": "Axis Bank Foundation",
+    "hint": "funder"
+   },
+   {
+    "kind": "actor",
+    "name": "Dhruvi Shah",
+    "hint": "funder"
+   },
+   {
+    "kind": "actor",
+    "name": "Harshvardhan Dhawan",
+    "hint": "funder"
+   },
+   {
+    "kind": "actor",
+    "name": "Solomon J Manohar",
+    "hint": "funder"
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "Decentralised healthcare",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "stance": null,
+    "evidence": "Improving the quality, quantity and diversity of decentralised healthcare services, provided at the last mile which cater to preventive, therapeutic as well as emergency care services"
+   },
+   {
+    "dst_name": "Sustainable energy",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "stance": null,
+    "evidence": "Decentralised Healthcare and Sustainable Energy"
+   },
+   {
+    "dst_name": "Millets",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "stance": null,
+    "evidence": "If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect."
+   },
+   {
+    "dst_name": "Clean energy",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "stance": null,
+    "evidence": "If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect."
+   },
+   {
+    "dst_name": "Women's livelihoods",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "stance": null,
+    "evidence": "If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect."
+   },
+   {
+    "dst_name": "Farmer-led enterprises",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "stance": null,
+    "evidence": "If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect."
+   },
+   {
+    "dst_name": "Disability livelihood",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "stance": null,
+    "evidence": "For many Persons with Disabilities, livelihood and enterprise opportunities already exist. Yet access to finance, government schemes, assistive technology, skilling, machinery and markets can remain fragmented and difficult to navigate. The PwD Entrepreneurship & Livelihood Mela, held on September 4, 2026, in Raichur, Karnataka, brought these pieces together in one place."
+   },
+   {
+    "dst_name": "IKEA Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 1,
+    "stance": null,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "Waverley Street Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 1,
+    "stance": null,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "The Lemelson Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 1,
+    "stance": null,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "The DOEN Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 1,
+    "stance": null,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "Good Energies Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 1,
+    "stance": null,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "Axis Bank Foundation",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 1,
+    "stance": null,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "Dhruvi Shah",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 1,
+    "stance": null,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "Harshvardhan Dhawan",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 1,
+    "stance": null,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   },
+   {
+    "dst_name": "Solomon J Manohar",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 1,
+    "stance": null,
+    "evidence": "IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar"
+   }
+  ]
+ },
+ "parse_error": null,
+ "system_prompt": "You extract facts about an org or named individual working on a documented failure — an `actor` record — from source text, per the \"who is working on this\" method: establish what leg they work (activism / institution / enterprise / service — enterprise is market-payer only, service is donor-funded direct delivery with no earned revenue, a hybrid org carries both as separate revenue streams), what makes them viable on that leg, and how to reach them. Relevant fields: `title`, `type` (org|individual), `legs` (JSON list from activism/institution/enterprise/service), `depth` (registry|tracked — tracked is for actors operating where the harm is: affected-led local collectives, field enterprises, local regulators actually acting; registry is for cited-but-not-monitored actors like academics, ministers, national advocacy NGOs), `lifecycle` (operating|scaling|distressed|dormant|acquired|shut|won-and-dissolved), `ecosystem_role` (JSON list from funder, intermediary, capacity-builder, convener, field-builder, researcher, operator, platform), `affected_led` (yes|no|partial), `representation_unit` (local-affected|central-org|enterprise|central-at-named-legitimacy-cost), `stance` (works-the-remedy|neutral|organised-against-remedy|ambiguous), `geography`, `contact_route`. Needs and offers are `ask:need:<kind>` / `ask:offer:<kind>` (value = the free-text ask, e.g. `ask:need:funding`). Follow channels are `channel:<kind>` (value = the URL or handle, e.g. `channel:twitter`).\n\nExtract structured claims from the text below about the named entity. Never write prose summaries as a claim value — a claim is one field, one short value, one confidence in [0, 1]. If the text does not support a field, omit it; do not guess.\n\nAlso list `emits`: other organisations or named individuals mentioned in the text who look worth a candidate record of their own (co-petitioners, funders, grantees, officials, affected-led leaders spoken for by an NGO, coalition partners, etc). And list `edges`: typed relations this text evidences between the entity and another named actor or problem, with `edge_kind` one of: part_of, member_of, works_on, cites, funds, board, cohort, convenes, portfolio, affiliated, parent_org, superseded_by. `relevance` on a `works_on` edge is 0 (mentioned) / 1 (adjacent) / 2 (works it) / 3 (load-bearing) — omit if the text does not support a judgment.\n\nSEVERAL SOURCES ARE GIVEN AT ONCE, each opening with a marker line `[Sn] <url>`. Five additional rules follow from that:\n\n1. Answer the numbered questions below. Every answer carries the `question_id` it answers and the `source_id` (`S1`, `S2`, …) of the source it came from. An answer with no source id, or an id not in the list given, is DROPPED — never guess an id, and never merge two sources into one answer.\n2. If two sources disagree — a different figure, date, or status for the same thing — write the disagreement as the answer, naming both sides and both source ids. Do not silently pick one.\n3. A question no source answers is simply absent from `answers`.\n4. These sources passed an automated identity check, but that check is a similarity score over each page's opening and it does get this wrong — most often on a DIFFERENT entity that shares the name (a company with the same word in its name, a person with the same given name). If a source is not about the named entity, list it in `misidentified` with what it is actually about, and do not answer from it. You are reading the whole page and the check was not; flagging one is expected, not a complaint.\n5. Inside each source, every chunk is marked `⟨Sn.k⟩`. Each answer also carries `chunk`: the marker of the ONE chunk you read it from, exactly as written (`\"S2.3\"`). If the answer rests on more than one chunk, give the marker of the chunk carrying the figure or the claim itself. If you cannot point to one, omit `chunk` — an absent marker is fine, a guessed one is not.\n\nQUESTIONS:\n- q1_one_line: In one concrete sentence: what does this actor actually do — not a category label.\n- q2_type: Org or individual?\n- q3_legs: Which leg(s) — activism, institution, enterprise (market-payer only), service (donor-funded, no earned revenue)? [multiple answers allowed]\n- q4_lifecycle: Operating, scaling, distressed, dormant, acquired, shut, or won-and-dissolved — and current as of what date?\n- q5_ecosystem_role: Funder, intermediary, capacity-builder, convener, field-builder, researcher, operator, or platform?\n- q6_affected_led: Is leadership drawn from the harmed population (yes), an NGO/proxy speaking for them (no), or a mix (partial)?\n- q7_representation_unit: `local-affected`, `central-org`, `enterprise`, or `central-at-named-legitimacy-cost`?\n- q8_geography: Where do they operate?\n- q9_contact_route: How would you actually reach them?\n- q10_funding: At what financial scale do they operate — corpus, budget, or latest round/grant — and as of when? One dated sentence.\n- q10b_funder_identity: Who funds them — the named funders, each as its own entry. [multiple answers allowed]\n- q11_scale_metric: The one checkable number showing actual reach (members, homes, users, revenue, units), dated — flag if self-reported.\n- q12_viability_note: What makes them viable on their leg specifically — the paying customer (enterprise), whether donor funding survives donor exit (service), affected-led-ness (activism), or whether their authority contains the harm's source and its reporting unit matches the harm unit (institution)?\n- q13_failure_note: Where has this actor deployed effort and had it fail, and why? Omit if the source shows no failure — don't invent one.\n- q14_ask_need: What does this actor say it needs (funding, partners, data, policy access)? [multiple answers allowed]\n- q15_ask_offer: What can it offer (funding, a channel, a service, distribution)? [multiple answers allowed]\n- q16_channel: What are its live follow channels? [multiple answers allowed]\n\nA `problem` emit also carries `signals` — the four leafability signals, captured while you still have the page open so nothing has to refetch it later (`03-worker.md` §10):\n  `harmed_population` — who is harmed, bounded and nameable\n  `magnitude`         — the figure, or the string `uncounted`\n  `agent`             — what triggers the harm\n  `actionable`        — what could be done, and by whom\nUse `null` for any the source does not support. `null` means the source was silent, NOT that the answer is no — and `uncounted` in `magnitude` is a real value, not a null: absence of measurement is a finding. An `actor` emit omits `signals`.\n\nRespond with strict JSON only, no prose, no markdown fences:\n{\"answers\": [{\"question_id\": \"...\", \"source_id\": \"S2\", \"chunk\": \"S2.3\", \"answer\": \"...\", \"confidence\": 0.0}],\n \"misidentified\": [{\"source_id\": \"S3\", \"about_what\": \"...\", \"why\": \"...\"}],\n \"emits\":   [{\"kind\": \"problem\"|\"actor\", \"name\": \"...\", \"hint\": \"...\", \"signals\": {\"harmed_population\": null, \"magnitude\": null, \"agent\": null, \"actionable\": null}}],\n \"edges\":   [{\"dst_name\": \"...\", \"dst_kind\": \"...\", \"edge_kind\": \"...\", \"relevance\": 0, \"stance\": null, \"evidence\": \"...\"}]}",
+ "prompt": "Entity name: SELCO Foundation\n\nSources:\n\n[S1] https://in.linkedin.com/company/selco-foundation\n⟨S1.1⟩ If you’re working on millets, sustainable agriculture, clean energy, food processing, women’s livelihoods or farmer-led enterprises, we’d love to connect. Reach out to us to explore opportunities to collaborate.\n\n⟨S1.2⟩ Watch the full story: https://lnkd.in/gD-qJxQz\n\n⟨S1.3⟩ #Millets #SustainableAgriculture #ClimateSmartSolutions #ClimateResilientAgriculture #SmallholderFarmers #RuralLivelihoods #AgriEntrepreneurship #CleanEnergy #SELCOFoundation\n\n⟨S1.4⟩ Comment\n\n⟨S1.5⟩ Share\n\n⟨S1.6⟩ SELCO Foundation\n\n⟨S1.7⟩ Comment\n\n⟨S1.8⟩ Share\n\n⟨S1.9⟩ SELCO Foundation\n\n⟨S1.10⟩ What started as an interest in baking grew into a dream of running her own bakery. With the right enabling environment, that dream became a growing enterprise.\nGrowth opened up new possibilities—higher production, seasonal employment, and greater ability to invest in her family’s needs.\n\n⟨S1.11⟩ An entrepreneur’s journey needs choices—choices to start, choices to grow, and choices to shape what comes next.\n\n⟨S1.12⟩ #WomenEntrepreneurs #RuralEnterprise #Meghalaya #Entrepreneurship #Livelihoods #SELCOFoundation #PRIMERural\n\n⟨S1.13⟩ And the credit that reaches these families is often built around consumption. A wedding. A phone. Borrowing that draws on income.\n\n⟨S1.14⟩ What they need is credit that enables income — a livelihood that can become the backbone of a family.\n\n⟨S1.15⟩ That gap is what this chapter is about.\n\n⟨S1.16⟩ What if accessing an entrepreneurship opportunity didn’t mean navigating multiple systems alone?\n\n⟨S1.17⟩ For many Persons with Disabilities, livelihood and enterprise opportunities already exist. Yet access to finance, government schemes, assistive technology, skilling, machinery and markets can remain fragmented and difficult to navigate.\n\n⟨S1.18⟩ The PwD Entrepreneurship & Livelihood Mela, held on September 4, 2026, in Raichur, Karnataka, brought these pieces together in one place.\n\n⟨S1.19⟩ That question is where this series begins.\n\n⟨S1.20⟩ 🔗 Watch it here: https://lnkd.in/gnMT7wH9\n\n⟨S1.21⟩ #EnergyAccess #DRE #ClimateFinance #RuralLivelihoods #FinancialInclusion #SELCOFoundation\n\n⟨S1.22⟩ IKEA Foundation | Waverley Street Foundation | The Lemelson Foundation | The DOEN Foundation | Good Energies Foundation | Axis Bank Foundation | Dhruvi Shah | Harshvardhan Dhawan | Solomon J Manohar\n\n⟨S1.23⟩ Let's strengthen climate-resilient healthcare systems together, all through the year. If you're working on clean energy, climate adaptation, healthcare innovation, or strengthening public health infrastructure in India, we'd love to connect.\n\n⟨S1.24⟩ 🔗 View the full video: https://lnkd.in/gaDEJrUe\n\n⟨S1.25⟩ #ClimateResilience #DisasterResilience #ClimateAndHealth #ResilientHealthcare #EnergyForHealth #CleanEnergy #ClimateAdaptation #HealthcareInnovation #PublicHealth #HealthcareInfrastructure #SELCOFoundation\n\n⟨S1.26⟩ 🌾 Come celebrate our farmers, discover their stories, and explore fresh produce & farm products straight from the source!\n\n⟨S1.27⟩ RSVP: https://lnkd.in/dPTAXbwD\n\n⟨S1.28⟩ #AgriPankh #FarmerEmpowerment #Agritech #RuralInnovation #riidl #SELCOFoundation #SomaiyaVidyaviharUniversity\n\n⟨S1.29⟩ or\n\n⟨S1.30⟩ New to LinkedIn? Join now\n\n⟨S1.31⟩ By clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy.\n\n---\n\n[S2] https://cases.som.yale.edu/selco-foundation/overview/introduction\n⟨S2.1⟩ Introduction | SELCO Foundation | Yale Case Study Research and Development\n\n⟨S2.2⟩ Skip to main content\n\n---\n\n[S3] https://selcofoundation.org/\n⟨S3.1⟩ Decentralised Healthcare and Sustainable Energy\n\n⟨S3.2⟩ Improving the quality, quantity and diversity of decentralised healthcare services, provided at the last mile which cater to preventive, therapeutic as well as emergency care services\n\n⟨S3.3⟩ Read More\n\n⟨S3.4⟩ Raghuram Kulal - Master Potter\n\n⟨S3.5⟩ Livelihood\n\n⟨S3.6⟩ Read more\n\n⟨S3.7⟩ Annapurna- Pottery Wheel and Built Environment\n\n⟨S3.8⟩ Built EnvironmentsCraftDisabilityLivelihoodMicro Business\n\n⟨S3.9⟩ Read more\n\n⟨S3.10⟩ Solar Powered Coir Yarn Making Machine\n\n⟨S3.11⟩ Livelihood\n\n⟨S3.12⟩ PDF",
+ "model": "nvidia/nemotron-3-super-120b-a12b:free",
+ "provider": "openrouter",
+ "input_tokens": 3253,
+ "output_tokens": 7724,
+ "truncated": false,
+ "plant": null
+}

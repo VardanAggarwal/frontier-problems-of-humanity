@@ -1,0 +1,172 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\n      \"question_id\": \"q1_one_line\",\n      \"source_id\": \"S2\",\n      \"chunk\": \"S2.1\",\n      \"answer\": \"Bharatiya Kisan Union (Ekta Ugrahan) organizes peasant mobilizations to demand compensation for farmer suicides, resist corporate land acquisition, and advocate for loan waivers and land rights.\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q2_type\",\n      \"source_id\": \"S2\",\n      \"chunk\": \"S2.1\",\n      \"answer\": \"org\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q3_legs\",\n      \"source_id\": \"S2\",\n      \"chunk\": \"S2.2\",\n      \"answer\": \"[\\\"activism\\\"]\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q4_lifecycle\",\n      \"source_id\": \"S2\",\n      \"answer\": \"operating as of 13 Sep 2026\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q5_ecosystem_role\",\n      \"source_id\": \"S2\",\n      \"chunk\": \"S2.9\",\n      \"answer\": \"field-builder\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q6_affected_led\",\n      \"source_id\": \"S2\",\n      \"chunk\": \"S2.2\",\n      \"answer\": \"yes\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q7_representation_unit\",\n      \"source_id\": \"S2\",\n      \"chunk\": \"S2.4\",\n      \"answer\": \"local-affected\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q8_geography\",\n      \"source_id\": \"S2\",\n      \"chunk\": \"S2.6\",\n      \"answer\": \"Punjab, India\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q11_scale_metric\",\n      \"source_id\": \"S2\",\n      \"chunk\": \"S2.3\",\n      \"answer\": \"mobilizes up to 50,000 persons at peak rallies (self-reported as of 13 Sep 2026)\",\n      \"confidence\": 0.9\n    },\n    {\n      \"question_id\": \"q12_viability_note\",\n      \"source_id\": \"S2\",\n      \"chunk\": \"S2.2\",\n      \"answer\": \"Viability stems from being led by affected peasants, granting legitimacy and mobilizational capacity.\",\n      \"confidence\": 0.8\n    },\n    {\n      \"question_id\": \"q13_failure_note\",\n      \"source_id\": \"S2\",\n      \"chunk\": \"S2.4\",\n      \"answer\": \"Demanded plots for landless peasantry; government conceded on 20 Feb but has not implemented, leaving demand unmet.\",\n      \"confidence\": 0.9\n    }\n  ],\n  \"misidentified\": [\n    {\n      \"source_id\": \"S1\",\n      \"about_what\": \"generic Hindustan Times page boilerplate (privacy, copyright, navigation)\",\n      \"why\": \"no mention of Bharatiya Kisan Union (Ekta Ugrahan) in the shown chunks\"\n    }\n  ],\n  \"emits\": [\n    {\n      \"kind\": \"actor\",\n      \"name\": \"Trident\",\n      \"hint\": \"corporate accused of land capture in Punjab\"\n    }\n  ],\n  \"edges\": [\n    {\n      \"dst_name\": \"farmer suicides\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"stance\": null,\n      \"evidence\": \"Important victories have been won in winning compensation for families of farmers who have committed suicide.\"\n    },\n    {\n      \"dst_name\": \"land capture by corporates (Trident)\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"stance\": null,\n      \"evidence\": \"confronting Corporates like Trident from capturing land.\"\n    },\n    {\n      \"dst_name\": \"partial/economic demands of peasants\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 2,\n      \"stance\": null,\n      \"evidence\": \"On an average for partial or economic demands it mobilizes around 10-15000 peasants.\"\n    },\n    {\n      \"dst_name\": \"political issues\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 2,\n      \"stance\": null,\n      \"evidence\": \"for political issues around 4000.\"\n    },\n    {\n      \"dst_name\": \"peak rallies (commemorating Bhagat Singh, protesting suicides, fighting for loan waivers)\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"stance\": null,\n      \"evidence\": \"At peak in rallies commemorating centenary of Bhagat Singh or protesting suicides and fighting for loan waivers it has mobilized upto 50000 persons.\"\n    },\n    {\n      \"dst_name\": \"repression in Kashmir\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 1,\n      \"stance\": null,\n      \"evidence\": \"in protests condemning repression in Kashmir it mobilized around 10000 persons.\"\n    },\n    {\n      \"dst_name\": \"NRC-NPR\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 1,\n      \"stance\": null,\n      \"evidence\": \"also in protests against NRC-NPR.\"\n    },\n    {\n      \"dst_name\": \"landless peasantry\",\n      \"dst_kind\": \"problem\",\n      \"edge_kind\": \"works_on\",\n      \"relevance\": 3,\n      \"stance\": null,\n      \"evidence\": \"government conceded the demand for plots for the landless peasantry but has yet not implemented the demand.\"\n    }\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S2",
+    "chunk": "S2.1",
+    "answer": "Bharatiya Kisan Union (Ekta Ugrahan) organizes peasant mobilizations to demand compensation for farmer suicides, resist corporate land acquisition, and advocate for loan waivers and land rights.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S2",
+    "chunk": "S2.1",
+    "answer": "org",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S2",
+    "chunk": "S2.2",
+    "answer": "[\"activism\"]",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S2",
+    "answer": "operating as of 13 Sep 2026",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S2",
+    "chunk": "S2.9",
+    "answer": "field-builder",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S2",
+    "chunk": "S2.2",
+    "answer": "yes",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S2",
+    "chunk": "S2.4",
+    "answer": "local-affected",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S2",
+    "chunk": "S2.6",
+    "answer": "Punjab, India",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q11_scale_metric",
+    "source_id": "S2",
+    "chunk": "S2.3",
+    "answer": "mobilizes up to 50,000 persons at peak rallies (self-reported as of 13 Sep 2026)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S2",
+    "chunk": "S2.2",
+    "answer": "Viability stems from being led by affected peasants, granting legitimacy and mobilizational capacity.",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q13_failure_note",
+    "source_id": "S2",
+    "chunk": "S2.4",
+    "answer": "Demanded plots for landless peasantry; government conceded on 20 Feb but has not implemented, leaving demand unmet.",
+    "confidence": 0.9
+   }
+  ],
+  "misidentified": [
+   {
+    "source_id": "S1",
+    "about_what": "generic Hindustan Times page boilerplate (privacy, copyright, navigation)",
+    "why": "no mention of Bharatiya Kisan Union (Ekta Ugrahan) in the shown chunks"
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "Trident",
+    "hint": "corporate accused of land capture in Punjab"
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "farmer suicides",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "stance": null,
+    "evidence": "Important victories have been won in winning compensation for families of farmers who have committed suicide."
+   },
+   {
+    "dst_name": "land capture by corporates (Trident)",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "stance": null,
+    "evidence": "confronting Corporates like Trident from capturing land."
+   },
+   {
+    "dst_name": "partial/economic demands of peasants",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "stance": null,
+    "evidence": "On an average for partial or economic demands it mobilizes around 10-15000 peasants."
+   },
+   {
+    "dst_name": "political issues",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "stance": null,
+    "evidence": "for political issues around 4000."
+   },
+   {
+    "dst_name": "peak rallies (commemorating Bhagat Singh, protesting suicides, fighting for loan waivers)",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "stance": null,
+    "evidence": "At peak in rallies commemorating centenary of Bhagat Singh or protesting suicides and fighting for loan waivers it has mobilized upto 50000 persons."
+   },
+   {
+    "dst_name": "repression in Kashmir",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 1,
+    "stance": null,
+    "evidence": "in protests condemning repression in Kashmir it mobilized around 10000 persons."
+   },
+   {
+    "dst_name": "NRC-NPR",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 1,
+    "stance": null,
+    "evidence": "also in protests against NRC-NPR."
+   },
+   {
+    "dst_name": "landless peasantry",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 3,
+    "stance": null,
+    "evidence": "government conceded the demand for plots for the landless peasantry but has yet not implemented the demand."
+   }
+  ]
+ },
+ "parse_error": null,
+ "system_prompt": "You extract facts about an org or named individual working on a documented failure — an `actor` record — from source text, per the \"who is working on this\" method: establish what leg they work (activism / institution / enterprise / service — enterprise is market-payer only, service is donor-funded direct delivery with no earned revenue, a hybrid org carries both as separate revenue streams), what makes them viable on that leg, and how to reach them. Relevant fields: `title`, `type` (org|individual), `legs` (JSON list from activism/institution/enterprise/service), `depth` (registry|tracked — tracked is for actors operating where the harm is: affected-led local collectives, field enterprises, local regulators actually acting; registry is for cited-but-not-monitored actors like academics, ministers, national advocacy NGOs), `lifecycle` (operating|scaling|distressed|dormant|acquired|shut|won-and-dissolved), `ecosystem_role` (JSON list from funder, intermediary, capacity-builder, convener, field-builder, researcher, operator, platform), `affected_led` (yes|no|partial), `representation_unit` (local-affected|central-org|enterprise|central-at-named-legitimacy-cost), `stance` (works-the-remedy|neutral|organised-against-remedy|ambiguous), `geography`, `contact_route`. Needs and offers are `ask:need:<kind>` / `ask:offer:<kind>` (value = the free-text ask, e.g. `ask:need:funding`). Follow channels are `channel:<kind>` (value = the URL or handle, e.g. `channel:twitter`).\n\nExtract structured claims from the text below about the named entity. Never write prose summaries as a claim value — a claim is one field, one short value, one confidence in [0, 1]. If the text does not support a field, omit it; do not guess.\n\nAlso list `emits`: other organisations or named individuals mentioned in the text who look worth a candidate record of their own (co-petitioners, funders, grantees, officials, affected-led leaders spoken for by an NGO, coalition partners, etc). And list `edges`: typed relations this text evidences between the entity and another named actor or problem, with `edge_kind` one of: part_of, member_of, works_on, cites, funds, board, cohort, convenes, portfolio, affiliated, parent_org, superseded_by. `relevance` on a `works_on` edge is 0 (mentioned) / 1 (adjacent) / 2 (works it) / 3 (load-bearing) — omit if the text does not support a judgment.\n\nSEVERAL SOURCES ARE GIVEN AT ONCE, each opening with a marker line `[Sn] <url>`. Five additional rules follow from that:\n\n1. Answer the numbered questions below. Every answer carries the `question_id` it answers and the `source_id` (`S1`, `S2`, …) of the source it came from. An answer with no source id, or an id not in the list given, is DROPPED — never guess an id, and never merge two sources into one answer.\n2. If two sources disagree — a different figure, date, or status for the same thing — write the disagreement as the answer, naming both sides and both source ids. Do not silently pick one.\n3. A question no source answers is simply absent from `answers`.\n4. These sources passed an automated identity check, but that check is a similarity score over each page's opening and it does get this wrong — most often on a DIFFERENT entity that shares the name (a company with the same word in its name, a person with the same given name). If a source is not about the named entity, list it in `misidentified` with what it is actually about, and do not answer from it. You are reading the whole page and the check was not; flagging one is expected, not a complaint.\n5. Inside each source, every chunk is marked `⟨Sn.k⟩`. Each answer also carries `chunk`: the marker of the ONE chunk you read it from, exactly as written (`\"S2.3\"`). If the answer rests on more than one chunk, give the marker of the chunk carrying the figure or the claim itself. If you cannot point to one, omit `chunk` — an absent marker is fine, a guessed one is not.\n\nQUESTIONS:\n- q1_one_line: In one concrete sentence: what does this actor actually do — not a category label.\n- q2_type: Org or individual?\n- q3_legs: Which leg(s) — activism, institution, enterprise (market-payer only), service (donor-funded, no earned revenue)? [multiple answers allowed]\n- q4_lifecycle: Operating, scaling, distressed, dormant, acquired, shut, or won-and-dissolved — and current as of what date?\n- q5_ecosystem_role: Funder, intermediary, capacity-builder, convener, field-builder, researcher, operator, or platform?\n- q6_affected_led: Is leadership drawn from the harmed population (yes), an NGO/proxy speaking for them (no), or a mix (partial)?\n- q7_representation_unit: `local-affected`, `central-org`, `enterprise`, or `central-at-named-legitimacy-cost`?\n- q8_geography: Where do they operate?\n- q9_contact_route: How would you actually reach them?\n- q10_funding: At what financial scale do they operate — corpus, budget, or latest round/grant — and as of when? One dated sentence.\n- q10b_funder_identity: Who funds them — the named funders, each as its own entry. [multiple answers allowed]\n- q11_scale_metric: The one checkable number showing actual reach (members, homes, users, revenue, units), dated — flag if self-reported.\n- q12_viability_note: What makes them viable on their leg specifically — the paying customer (enterprise), whether donor funding survives donor exit (service), affected-led-ness (activism), or whether their authority contains the harm's source and its reporting unit matches the harm unit (institution)?\n- q13_failure_note: Where has this actor deployed effort and had it fail, and why? Omit if the source shows no failure — don't invent one.\n- q14_ask_need: What does this actor say it needs (funding, partners, data, policy access)? [multiple answers allowed]\n- q15_ask_offer: What can it offer (funding, a channel, a service, distribution)? [multiple answers allowed]\n- q16_channel: What are its live follow channels? [multiple answers allowed]\n\nA `problem` emit also carries `signals` — the four leafability signals, captured while you still have the page open so nothing has to refetch it later (`03-worker.md` §10):\n  `harmed_population` — who is harmed, bounded and nameable\n  `magnitude`         — the figure, or the string `uncounted`\n  `agent`             — what triggers the harm\n  `actionable`        — what could be done, and by whom\nUse `null` for any the source does not support. `null` means the source was silent, NOT that the answer is no — and `uncounted` in `magnitude` is a real value, not a null: absence of measurement is a finding. An `actor` emit omits `signals`.\n\nRespond with strict JSON only, no prose, no markdown fences:\n{\"answers\": [{\"question_id\": \"...\", \"source_id\": \"S2\", \"chunk\": \"S2.3\", \"answer\": \"...\", \"confidence\": 0.0}],\n \"misidentified\": [{\"source_id\": \"S3\", \"about_what\": \"...\", \"why\": \"...\"}],\n \"emits\":   [{\"kind\": \"problem\"|\"actor\", \"name\": \"...\", \"hint\": \"...\", \"signals\": {\"harmed_population\": null, \"magnitude\": null, \"agent\": null, \"actionable\": null}}],\n \"edges\":   [{\"dst_name\": \"...\", \"dst_kind\": \"...\", \"edge_kind\": \"...\", \"relevance\": 0, \"stance\": null, \"evidence\": \"...\"}]}",
+ "prompt": "Entity name: Bharatiya Kisan Union (Ekta Ugrahan)\n\nSources:\n\n[S1] https://www.hindustantimes.com/cities/chandigarh-news/bkus-ugrahan-faction-to-boycott-all-party-meeting-on-land-pooling-policy-101752087713648.html\n⟨S1.1⟩ Privacy and Cookie Settings\n\n⟨S1.2⟩ Copyright © HT Digital Streams Ltd. All rights reserved.\n\n⟨S1.3⟩ FOLLOW US\n\n⟨S1.4⟩ Prefer HTon Google\n\n⟨S1.5⟩ Share via\n\n⟨S1.6⟩ Copy link\n\n⟨S1.7⟩ HT Newsletters\n\n⟨S1.8⟩ Subscription\n\n⟨S1.9⟩ Print Ad Rates\n\n⟨S1.10⟩ RSS Feeds\n\n⟨S1.11⟩ © 2026 HindustanTimes\n\n---\n\n[S2] https://countercurrents.org/2020/10/crystallization-of-mass-revolutionary-movement-in-punjab-in-the-last-25-years-tribute-to-the-mass-line-of-t-nagi-reddy/\n⟨S2.1⟩ Important victories have been won in winning compensation for families of farmers who have committed suicide. and in confronting Corporates like Trident from capturing land.\n\n⟨S2.2⟩ With intensity at a crescendo struggles were launched against commission agents for cancellation of re-payment of debts .On an average for partial or economic demands it mobilizes around 10-15000 peasants and for political issues around 4000.\n\n⟨S2.3⟩ At peak in rallies commemorating centenary of Bhagat Singh or protesting suicides and fighting for loan waivers it has mobilized upto 50000 persons. Remarkably in protests condemning repression in Kashmir it mobilized around 10000 persons and also in protests against NRC-NPR.I was most impressed with the numbers of woman who comprised the contingents and the youth.\n\n⟨S2.4⟩ On February 20th government conceded the demand for plots for the landless peasantry but has yet not implemented the demand. At local and district levels the agitation continues like a red lamp continuously burning.\n\n⟨S2.5⟩ The important demands were\n\n⟨S2.6⟩ 1. Demanding compensation for 200 familes in Gobindpura region\n\n⟨S2.7⟩ 1. To draw a clear-cut demarcation from the parliamentary path and to expose the hypocritical nature of those who propogated it as well as the bankruptcy of that ideology towards the liberation path.\n\n⟨S2.8⟩ 2. To give a call to People’s liberation.\n\n⟨S2.9⟩ 3. To highlight the importance of building the Agrarian revolutionary movement as well as the revolutionary United Front.\n\n⟨S2.10⟩ Harsh Thakor is a political commentator\n\n⟨S2.11⟩ Email- [email protected]\n\n⟨S2.12⟩ SIGN UP FOR COUNTERCURRENTS DAILY NEWSLETTER\n\n⟨S2.13⟩ Tags:\n\n⟨S2.14⟩ Join Our Newsletter\n\n⟨S2.15⟩ GET COUNTERCURRENTS DAILY NEWSLETTER STRAIGHT TO YOUR INBOX\n\n⟨S2.16⟩ Join Our Newsletter\n\n⟨S2.17⟩ Get CounterCurrents updates on our WhatsApp and Telegram Channels\n\n⟨S2.18⟩ Join Our WhatsApp ChannelJoin Our Telegram Channel\n\n⟨S2.19⟩ Harsh Thakor\n\n⟨S2.20⟩ Nicolás Maduro Is Innocent\n\n⟨S2.21⟩ by Stephanie Weatherbee Brito and Vijay Prashad\n13/09/2026\n\n⟨S2.22⟩ South Korea Shouldn’t Abet Trump in Hormuz\n\n---\n\n[S3] https://x.com/thind_akashdeep/status/2080690073688015306\n⟨S3.1⟩ Akashdeep Thind\n\n⟨S3.2⟩ @thind_akashdeep\n\n⟨S3.3⟩ Bharatiya Kisan Union (Ekta Ugrahan) has announced that it will join the ongoing students' protest at Jantar Mantar in Delhi. The farmers' union will march to the national capital on July 27 and has said its members will remain in Delhi until the students' demands are accepted.\n\n⟨S3.4⟩ Akashdeep Thind\n\n⟨S3.5⟩ @thind_akashdeep\n\n⟨S3.6⟩ Bharatiya Kisan Union (Ekta Ugrahan) has announced that it will join the ongoing students' protest at Jantar Mantar in Delhi. The farmers' union will march to the national capital on July 27 and has said its members will remain in Delhi until the students' demands are accepted.",
+ "model": "nvidia/nemotron-3-super-120b-a12b:free",
+ "provider": "openrouter",
+ "input_tokens": 3111,
+ "output_tokens": 8255,
+ "truncated": false,
+ "plant": null
+}

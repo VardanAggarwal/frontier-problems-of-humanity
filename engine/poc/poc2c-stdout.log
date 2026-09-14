@@ -1,0 +1,12 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+PoC-2c — reconciliation on a targeted, credible plant
+  pinned=True dry_run=False ratio=1.35 rungs=['openrouter'] radius=1 variants=['baseline', 'v1', 'v2']
+  baseline verified byte-identical to worker.prompts.extract_prompt_batched (6393 chars)
+
+[1] STAGE 1 — probe the unmodified sources for a plantable figure
+
+=== selco-foundation (SELCO Foundation) ===
+  [pinned] 4 sources loaded from fixture, 0 HTTP
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 3800.90it/s]
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

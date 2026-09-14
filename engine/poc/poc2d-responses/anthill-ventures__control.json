@@ -1,0 +1,212 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\"question_id\": \"q1_one_line\", \"source_id\": \"S1\", \"answer\": \"Anthill Ventures sources high-potential startups via global networks and co-invests with angels, family offices, and institutional partners to help them grow.\", \"confidence\": 0.9},\n    {\"question_id\": \"q2_type\", \"source_id\": \"S1\", \"answer\": \"org\", \"confidence\": 0.9},\n    {\"question_id\": \"q3_legs\", \"source_id\": \"S1\", \"answer\": \"[\\\"enterprise\\\"]\", \"confidence\": 0.9},\n    {\"question_id\": \"q4_lifecycle\", \"source_id\": \"S1\", \"answer\": \"operating as of 2025\", \"confidence\": 0.9},\n    {\"question_id\": \"q5_ecosystem_role\", \"source_id\": \"S1\", \"answer\": \"[\\\"funder\\\",\\\"intermediary\\\"]\", \"confidence\": 0.9},\n    {\"question_id\": \"q6_affected_led\", \"source_id\": \"S1\", \"answer\": \"no\", \"confidence\": 0.9},\n    {\"question_id\": \"q7_representation_unit\", \"source_id\": \"S1\", \"answer\": \"central-org\", \"confidence\": 0.9},\n    {\"question_id\": \"q8_geography\", \"source_id\": \"S1\", \"answer\": \"global, with focus on India\", \"confidence\": 0.9},\n    {\"question_id\": \"q9_contact_route\", \"source_id\": \"S1\", \"answer\": \"email Info@anthillventures.com\", \"confidence\": 0.9},\n    {\"question_id\": \"q12_viability_note\", \"source_id\": \"S1\", \"answer\": \"viability comes from paying customers — LPs and investors who provide capital and pay fees, and startups that generate returns\", \"confidence\": 0.9},\n    {\"question_id\": \"q15_ask_offer\", \"source_id\": \"S1\", \"answer\": \"offers capital and strategic support (network, market access)\", \"confidence\": 0.9},\n    {\"question_id\": \"q16_channel\", \"source_id\": \"S1\", \"answer\": \"newsletter subscription via email\", \"confidence\": 0.9}\n  ],\n  \"misidentified\": [],\n  \"claims\": [\n    {\"field\": \"type\", \"value\": \"org\", \"confidence\": 0.9},\n    {\"field\": \"legs\", \"value\": \"[\\\"enterprise\\\"]\", \"confidence\": 0.9},\n    {\"field\": \"depth\", \"value\": \"registry\", \"confidence\": 0.8},\n    {\"field\": \"lifecycle\", \"value\": \"operating\", \"confidence\": 0.9},\n    {\"field\": \"ecosystem_role\", \"value\": \"[\\\"funder\\\",\\\"intermediary\\\"]\", \"confidence\": 0.9},\n    {\"field\": \"affected_led\", \"value\": \"no\", \"confidence\": 0.9},\n    {\"field\": \"representation_unit\", \"value\": \"central-org\", \"confidence\": 0.9},\n    {\"field\": \"stance\", \"value\": \"neutral\", \"confidence\": 0.8},\n    {\"field\": \"geography\", \"value\": \"global, with focus on India\", \"confidence\": 0.9},\n    {\"field\": \"contact_route\", \"value\": \"email Info@anthillventures.com\", \"confidence\": 0.9},\n    {\"field\": \"ask:offer:capital\", \"value\": \"provides capital to startups\", \"confidence\": 0.9},\n    {\"field\": \"ask:offer:strategic_support\", \"value\": \"offers network, market access, and strategic insight\", \"confidence\": 0.9},\n    {\"field\": \"channel:newsletter\", \"value\": \"newsletter subscription via email\", \"confidence\": 0.9}\n  ],\n  \"emits\": [\n    {\"kind\": \"actor\", \"name\": \"Prapti Patel\", \"hint\": \"Associate at Anthill Ventures\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"Ramanaidu Studios\", \"hint\": \"Studio listed in Anthill Ventures contact section\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"SPR DLX Studios\", \"hint\": \"Design firm that created Anthill Ventures website\", \"signals\": {}},\n    {\"kind\": \"actor\", \"name\": \"Razorpay\", \"hint\": \"Payment gateway praised in Anthill Ventures associate testimonial\", \"signals\": {}\n    }\n  ],\n  \"edges\": [\n    {\"dst_name\": \"Prapti Patel\", \"dst_kind\": \"actor\", \"edge_kind\": \"member_of\", \"relevance\": 3, \"evidence\": \"Prapti Patel, Associate at Anthill\"},\n    {\"dst_name\": \"Ramanaidu Studios\", \"dst_kind\": \"actor\", \"edge_kind\": \"affiliated\", \"relevance\": 2, \"evidence\": \"Team Contact Ramanaidu Studios Info@anthillventures.com\"},\n    {\"dst_name\": \"SPR DLX Studios\", \"dst_kind\": \"actor\", \"edge_kind\": \"affiliated\", \"relevance\": 2, \"evidence\": \"Designed by SPR DLX Studios\"},\n    {\"dst_name\": \"Razorpay\", \"dst_kind\": \"actor\", \"edge_kind\": \"affiliated\", \"relevance\": 2, \"evidence\": \"We would recommend Razorpay Rize incorporation services to any founder without a second doubt. The process was beyond efficient and show's razorpay founder's commitment and vision to truly help entrepreneur's and early stage startups to get them incorporated with ease.\"}\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S1",
+    "answer": "Anthill Ventures sources high-potential startups via global networks and co-invests with angels, family offices, and institutional partners to help them grow.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S1",
+    "answer": "org",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S1",
+    "answer": "[\"enterprise\"]",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S1",
+    "answer": "operating as of 2025",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S1",
+    "answer": "[\"funder\",\"intermediary\"]",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S1",
+    "answer": "no",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S1",
+    "answer": "central-org",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S1",
+    "answer": "global, with focus on India",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q9_contact_route",
+    "source_id": "S1",
+    "answer": "email Info@anthillventures.com",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S1",
+    "answer": "viability comes from paying customers — LPs and investors who provide capital and pay fees, and startups that generate returns",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q15_ask_offer",
+    "source_id": "S1",
+    "answer": "offers capital and strategic support (network, market access)",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q16_channel",
+    "source_id": "S1",
+    "answer": "newsletter subscription via email",
+    "confidence": 0.9
+   }
+  ],
+  "misidentified": [],
+  "claims": [
+   {
+    "field": "type",
+    "value": "org",
+    "confidence": 0.9
+   },
+   {
+    "field": "legs",
+    "value": "[\"enterprise\"]",
+    "confidence": 0.9
+   },
+   {
+    "field": "depth",
+    "value": "registry",
+    "confidence": 0.8
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating",
+    "confidence": 0.9
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "[\"funder\",\"intermediary\"]",
+    "confidence": 0.9
+   },
+   {
+    "field": "affected_led",
+    "value": "no",
+    "confidence": 0.9
+   },
+   {
+    "field": "representation_unit",
+    "value": "central-org",
+    "confidence": 0.9
+   },
+   {
+    "field": "stance",
+    "value": "neutral",
+    "confidence": 0.8
+   },
+   {
+    "field": "geography",
+    "value": "global, with focus on India",
+    "confidence": 0.9
+   },
+   {
+    "field": "contact_route",
+    "value": "email Info@anthillventures.com",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:offer:capital",
+    "value": "provides capital to startups",
+    "confidence": 0.9
+   },
+   {
+    "field": "ask:offer:strategic_support",
+    "value": "offers network, market access, and strategic insight",
+    "confidence": 0.9
+   },
+   {
+    "field": "channel:newsletter",
+    "value": "newsletter subscription via email",
+    "confidence": 0.9
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "Prapti Patel",
+    "hint": "Associate at Anthill Ventures",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Ramanaidu Studios",
+    "hint": "Studio listed in Anthill Ventures contact section",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "SPR DLX Studios",
+    "hint": "Design firm that created Anthill Ventures website",
+    "signals": {}
+   },
+   {
+    "kind": "actor",
+    "name": "Razorpay",
+    "hint": "Payment gateway praised in Anthill Ventures associate testimonial",
+    "signals": {}
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "Prapti Patel",
+    "dst_kind": "actor",
+    "edge_kind": "member_of",
+    "relevance": 3,
+    "evidence": "Prapti Patel, Associate at Anthill"
+   },
+   {
+    "dst_name": "Ramanaidu Studios",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "Team Contact Ramanaidu Studios Info@anthillventures.com"
+   },
+   {
+    "dst_name": "SPR DLX Studios",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "Designed by SPR DLX Studios"
+   },
+   {
+    "dst_name": "Razorpay",
+    "dst_kind": "actor",
+    "edge_kind": "affiliated",
+    "relevance": 2,
+    "evidence": "We would recommend Razorpay Rize incorporation services to any founder without a second doubt. The process was beyond efficient and show's razorpay founder's commitment and vision to truly help entrepreneur's and early stage startups to get them incorporated with ease."
+   }
+  ]
+ },
+ "parse_error": null,
+ "system_prompt": "You extract facts about an org or named individual working on a documented failure — an `actor` record — from source text, per the \"who is working on this\" method: establish what leg they work (activism / institution / enterprise / service — enterprise is market-payer only, service is donor-funded direct delivery with no earned revenue, a hybrid org carries both as separate revenue streams), what makes them viable on that leg, and how to reach them. Relevant fields: `title`, `type` (org|individual), `legs` (JSON list from activism/institution/enterprise/service), `depth` (registry|tracked — tracked is for actors operating where the harm is: affected-led local collectives, field enterprises, local regulators actually acting; registry is for cited-but-not-monitored actors like academics, ministers, national advocacy NGOs), `lifecycle` (operating|scaling|distressed|dormant|acquired|shut|won-and-dissolved), `ecosystem_role` (JSON list from funder, intermediary, capacity-builder, convener, field-builder, researcher, operator, platform), `affected_led` (yes|no|partial), `representation_unit` (local-affected|central-org|enterprise|central-at-named-legitimacy-cost), `stance` (works-the-remedy|neutral|organised-against-remedy|ambiguous), `geography`, `contact_route`. Needs and offers are `ask:need:<kind>` / `ask:offer:<kind>` (value = the free-text ask, e.g. `ask:need:funding`). Follow channels are `channel:<kind>` (value = the URL or handle, e.g. `channel:twitter`).\n\nExtract structured claims from the text below about the named entity. Never write prose summaries as a claim value — a claim is one field, one short value, one confidence in [0, 1]. If the text does not support a field, omit it; do not guess.\n\nAlso list `emits`: other organisations or named individuals mentioned in the text who look worth a candidate record of their own (co-petitioners, funders, grantees, officials, affected-led leaders spoken for by an NGO, coalition partners, etc). And list `edges`: typed relations this text evidences between the entity and another named actor or problem, with `edge_kind` one of: part_of, member_of, works_on, cites, funds, board, cohort, convenes, portfolio, affiliated, parent_org, superseded_by. `relevance` on a `works_on` edge is 0 (mentioned) / 1 (adjacent) / 2 (works it) / 3 (load-bearing) — omit if the text does not support a judgment.\n\nRespond with strict JSON only, no prose, no markdown fences:\n{\"claims\": [{\"field\": \"...\", \"value\": \"...\", \"confidence\": 0.0}, ...],\n \"emits\":  [{\"kind\": \"problem\"|\"actor\", \"name\": \"...\", \"hint\": \"...\"}],\n \"edges\":  [{\"dst_name\": \"...\", \"dst_kind\": \"problem\"|\"actor\", \"edge_kind\": \"...\", \"relevance\": 0|1|2|3|null, \"evidence\": \"...\"}]}\n\nSEVERAL SOURCES ARE GIVEN AT ONCE, each opening with a marker line `[Sn] <url>`. Three additional rules follow from that:\n\n1. Answer the numbered questions below. Every answer carries the `question_id` it answers and the `source_id` (`S1`, `S2`, …) of the source it came from. An answer with no source id, or an id not in the list given, is DROPPED — never guess an id, and never merge two sources into one answer.\n2. If two sources disagree — a different figure, date, or status for the same thing — write the disagreement as the answer, naming both sides and both source ids. Do not silently pick one.\n3. A question no source answers is simply absent from `answers`.\n4. These sources passed an automated identity check, but that check is a similarity score over each page's opening and it does get this wrong — most often on a DIFFERENT entity that shares the name (a company with the same word in its name, a person with the same given name). If a source is not about the named entity, list it in `misidentified` with what it is actually about, and do not answer from it. You are reading the whole page and the check was not; flagging one is expected, not a complaint.\n\nQUESTIONS:\n- q1_one_line: In one concrete sentence: what does this actor actually do — not a category label.\n- q2_type: Org or individual?\n- q3_legs: Which leg(s) — activism, institution, enterprise (market-payer only), service (donor-funded, no earned revenue)? [multiple answers allowed]\n- q4_lifecycle: Operating, scaling, distressed, dormant, acquired, shut, or won-and-dissolved — and current as of what date?\n- q5_ecosystem_role: Funder, intermediary, capacity-builder, convener, field-builder, researcher, operator, or platform?\n- q6_affected_led: Is leadership drawn from the harmed population (yes), an NGO/proxy speaking for them (no), or a mix (partial)?\n- q7_representation_unit: `local-affected`, `central-org`, `enterprise`, or `central-at-named-legitimacy-cost`?\n- q8_geography: Where do they operate?\n- q9_contact_route: How would you actually reach them?\n- q10_funding: At what financial scale do they operate — corpus, budget, or latest round/grant — and as of when? One dated sentence.\n- q10b_funder_identity: Who funds them — the named funders, each as its own entry. [multiple answers allowed]\n- q11_scale_metric: The one checkable number showing actual reach (members, homes, users, revenue, units), dated — flag if self-reported.\n- q12_viability_note: What makes them viable on their leg specifically — the paying customer (enterprise), whether donor funding survives donor exit (service), affected-led-ness (activism), or whether their authority contains the harm's source and its reporting unit matches the harm unit (institution)?\n- q13_failure_note: Where has this actor deployed effort and had it fail, and why? Omit if the source shows no failure — don't invent one.\n- q14_ask_need: What does this actor say it needs (funding, partners, data, policy access)? [multiple answers allowed]\n- q15_ask_offer: What can it offer (funding, a channel, a service, distribution)? [multiple answers allowed]\n- q16_channel: What are its live follow channels? [multiple answers allowed]\n\nRespond with strict JSON only, no prose, no markdown fences:\n{\"answers\": [{\"question_id\": \"...\", \"source_id\": \"S2\", \"answer\": \"...\", \"confidence\": 0.0}],\n \"misidentified\": [{\"source_id\": \"S3\", \"about_what\": \"...\", \"why\": \"...\"}],\n \"claims\":  [{\"field\": \"...\", \"value\": \"...\", \"confidence\": 0.0}],\n \"emits\":   [{\"kind\": \"problem\"|\"actor\", \"name\": \"...\", \"hint\": \"...\", \"signals\": {}}],\n \"edges\":   [{\"dst_name\": \"...\", \"dst_kind\": \"...\", \"edge_kind\": \"...\", \"relevance\": 0, \"stance\": null, \"evidence\": \"...\"}]}",
+ "prompt": "Entity name: Anthill Ventures\n\nSources:\n\n[S1] https://anthillventures.com/philosophy\nTeam\n\nContact\n\nRamanaidu Studios\n\nInfo@anthillventures.com\n\nSubscribe\n\nSubscribe to our weekly newsletter for updates and news\n\nOverview\n\nWe source high potential startups through global networks across accelerators, universities, venture partners and industry experts. Our scouting is thesis driven, focused on bold founders solving critical challenges. Every pipeline is carefully curated to align with Anthill’s verticals and India 2030 vision, ensuring early access to scalable, impactful ventures.\n\n02. Invest\n\nOverview\n\nWe activate a powerful syndicate of angels, family offices and institutional partners to co invest in high growth startups. This extended network brings not just capital but strategic insight, market access and long term alignment, amplifying the speed and scale at which ventures grow, raise follow on funding and achieve sustainable market leadership.\n\nOur Speed Scaling Framework\n\nStories\n\nContact\n\nContact\n\nDesigned by SPR DLX Studios\n\nPrivacy Policy\n©2025. All right reserved\n\n---\n\n[S2] https://razorpay.com/rize/investors-list/anthill\nPrapti Patel\n\n,\n\nAssociate at Anthill\n\nWe would recommend Razorpay Rize incorporation services to any founder without a second doubt. The process was beyond efficient and show's razorpay founder's commitment and vision to truly help entrepreneur's and early stage startups to get them incorporated with ease. If you wanna get incorporated, pick them. Thanks for the help Razorpay.\n\n‍\n\n#entrepreneur #tbsmagazine #rize #razorpay #feedback\n\nWe would recommend Razorpay Rize incorporation services to any founder without a second doubt. The process was beyond efficient and show's razorpay founder's commitment and vision to truly help entrepreneur's and early stage startups to get them incorporated with ease. If you wanna get incorporated, pick them. Thanks for the help Razorpay.\n\n‍\n\n#entrepreneur #tbsmagazine #rize #razorpay #feedback",
+ "model": "nvidia/nemotron-3-super-120b-a12b:free",
+ "provider": "openrouter",
+ "input_tokens": 2147,
+ "output_tokens": 4937,
+ "truncated": false,
+ "plant": null
+}

@@ -1,0 +1,30 @@
+PoC-2d — does the enlarged schema still parse?
+  actors=['selco-foundation', 'bku-ekta-ugrahan', 'bhavreen-kandhari', 'anthill-ventures', 'jyoti-pande-lavakare'] arms=['live', 'control'] rung=openrouter radius=1 control_rev=80f1935
+  [pinned] 4 sources loaded from fixture, 0 HTTP
+  selco-foundation: 3 blocks, chunks/block=[31, 2, 12] | live sys=7098 body=4179 | control sys=6394 body=3839
+  [pinned] 4 sources loaded from fixture, 0 HTTP
+  bku-ekta-ugrahan: 3 blocks, chunks/block=[11, 22, 6] | live sys=7098 body=3535 | control sys=6394 body=3247
+  [pinned] 4 sources loaded from fixture, 0 HTTP
+  bhavreen-kandhari: 4 blocks, chunks/block=[3, 18, 12, 3] | live sys=7098 body=5803 | control sys=6394 body=5539
+  [pinned] 2 sources loaded from fixture, 0 HTTP
+  anthill-ventures: 2 blocks, chunks/block=[17, 9] | live sys=7098 body=2179 | control sys=6394 body=1989
+  [pinned] 4 sources loaded from fixture, 0 HTTP
+  jyoti-pande-lavakare: 4 blocks, chunks/block=[18, 12, 3, 6] | live sys=7098 body=2127 | control sys=6394 body=1842
+
+[calls]
+  selco-foundation__live: parsed=True answers=19 valid_ids=19 chunk_cited=19 resolved=19 wrong_source=0 problem_emits=0 signals_filled=0 uncounted=0 claims_volunteered=0 out_tokens=7724
+  selco-foundation__control: parsed=True answers=20 valid_ids=20 chunk_cited=0 resolved=0 wrong_source=0 problem_emits=0 signals_filled=0 uncounted=0 claims_volunteered=0 out_tokens=8811
+  bku-ekta-ugrahan__live: parsed=True answers=11 valid_ids=11 chunk_cited=10 resolved=10 wrong_source=0 problem_emits=0 signals_filled=0 uncounted=0 claims_volunteered=0 out_tokens=8255
+  bku-ekta-ugrahan__control: parsed=True answers=23 valid_ids=23 chunk_cited=0 resolved=0 wrong_source=0 problem_emits=0 signals_filled=0 uncounted=0 claims_volunteered=0 out_tokens=7797
+  bhavreen-kandhari__live: parsed=True answers=8 valid_ids=8 chunk_cited=7 resolved=7 wrong_source=0 problem_emits=0 signals_filled=0 uncounted=0 claims_volunteered=0 out_tokens=3588
+  bhavreen-kandhari__control: parsed=True answers=8 valid_ids=8 chunk_cited=0 resolved=0 wrong_source=0 problem_emits=0 signals_filled=0 uncounted=0 claims_volunteered=0 out_tokens=3217
+  anthill-ventures__live: parsed=True answers=11 valid_ids=8 chunk_cited=11 resolved=11 wrong_source=0 problem_emits=0 signals_filled=0 uncounted=0 claims_volunteered=0 out_tokens=5698
+  anthill-ventures__control: parsed=True answers=12 valid_ids=12 chunk_cited=0 resolved=0 wrong_source=0 problem_emits=0 signals_filled=0 uncounted=0 claims_volunteered=0 out_tokens=4937
+  jyoti-pande-lavakare__live: parsed=True answers=0 valid_ids=0 chunk_cited=0 resolved=0 wrong_source=0 problem_emits=0 signals_filled=0 uncounted=0 claims_volunteered=0 out_tokens=1730
+  jyoti-pande-lavakare__control: parsed=True answers=0 valid_ids=0 chunk_cited=0 resolved=0 wrong_source=0 problem_emits=0 signals_filled=0 uncounted=0 claims_volunteered=0 out_tokens=2009
+
+[summary]
+  live: parsed 5/5 | answers 49 | valid_ids 46/49 | chunk_cited 47/49 (resolved 47, wrong_source 0) | problem_emits 0 (filled 0, uncounted 0) | claims_volunteered 0 | out_tokens 26995
+  control: parsed 5/5 | answers 63 | valid_ids 63/63 | chunk_cited 0/63 (resolved 0, wrong_source 0) | problem_emits 0 (filled 0, uncounted 0) | claims_volunteered 0 | out_tokens 26771
+
+wrote /Users/vardanaggarwal/fph/engine/poc/poc2d_summary.json

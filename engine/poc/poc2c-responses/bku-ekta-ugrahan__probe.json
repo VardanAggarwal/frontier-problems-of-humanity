@@ -1,0 +1,299 @@
+{
+ "raw": "{\n  \"answers\": [\n    {\"question_id\": \"q1_one_line\", \"source_id\": \"S1\", \"answer\": \"It boycotts all-party meetings on land-pooling policy.\", \"confidence\": 0.8},\n    {\"question_id\": \"q1_one_line\", \"source_id\": \"S2\", \"answer\": \"It mobilizes peasants to demand compensation for farmer suicides and to confront corporations capturing land.\", \"confidence\": 0.9},\n    {\"question_id\": \"q1_one_line\", \"source_id\": \"S3\", \"answer\": \"It joins and marches in student protests in Delhi until their demands are accepted.\", \"confidence\": 0.9},\n    {\"question_id\": \"q2_type\", \"source_id\": \"S1\", \"answer\": \"org\", \"confidence\": 0.95},\n    {\"question_id\": \"q2_type\", \"source_id\": \"S2\", \"answer\": \"org\", \"confidence\": 0.95},\n    {\"question_id\": \"q2_type\", \"source_id\": \"S3\", \"answer\": \"org\", \"confidence\": 0.95},\n    {\"question_id\": \"q3_legs\", \"source_id\": \"S1\", \"answer\": \"activism\", \"confidence\": 0.9},\n    {\"question_id\": \"q3_legs\", \"source_id\": \"S2\", \"answer\": \"activism\", \"confidence\": 0.9},\n    {\"question_id\": \"q3_legs\", \"source_id\": \"S3\", \"answer\": \"activism\", \"confidence\": 0.9},\n    {\"question_id\": \"q4_lifecycle\", \"source_id\": \"S2\", \"answer\": \"Operating as of October 2020\", \"confidence\": 0.9},\n    {\"question_id\": \"q5_ecosystem_role\", \"source_id\": \"S1\", \"answer\": \"operator\", \"confidence\": 0.8},\n    {\"question_id\": \"q5_ecosystem_role\", \"source_id\": \"S2\", \"answer\": \"operator\", \"confidence\": 0.9},\n    {\"question_id\": \"q5_ecosystem_role\", \"source_id\": \"S3\", \"answer\": \"operator\", \"confidence\": 0.8},\n    {\"question_id\": \"q6_affected_led\", \"source_id\": \"S1\", \"answer\": \"yes\", \"confidence\": 0.8},\n    {\"question_id\": \"q6_affected_led\", \"source_id\": \"S2\", \"answer\": \"yes\", \"confidence\": 0.9},\n    {\"question_id\": \"q6_affected_led\", \"source_id\": \"S3\", \"answer\": \"yes\", \"confidence\": 0.8},\n    {\"question_id\": \"q7_representation_unit\", \"source_id\": \"S1\", \"answer\": \"local-affected\", \"confidence\": 0.8},\n    {\"question_id\": \"q7_representation_unit\", \"source_id\": \"S2\", \"answer\": \"local-affected\", \"confidence\": 0.9},\n    {\"question_id\": \"q7_representation_unit\", \"source_id\": \"S3\", \"answer\": \"local-affected\", \"confidence\": 0.8},\n    {\"question_id\": \"q8_geography\", \"source_id\": \"S1\", \"answer\": \"Chandigarh/Punjab region\", \"confidence\": 0.8},\n    {\"question_id\": \"q8_geography\", \"source_id\": \"S2\", \"answer\": \"Punjab\", \"confidence\": 0.9},\n    {\"question_id\": \"q8_geography\", \"source_id\": \"S3\", \"answer\": \"Delhi\", \"confidence\": 0.8},\n    {\"question_id\": \"q11_scale_metric\", \"source_id\": \"S2\", \"answer\": \"Mobilizes up to 50,000 persons at peak (self-reported) as of October 2020\", \"confidence\": 0.9},\n    {\"question_id\": \"q12_viability_note\", \"source_id\": \"S2\", \"answer\": \"Their viability stems from being led by affected farmers, giving them legitimacy and mobilization capacity.\", \"confidence\": 0.8}\n  ],\n  \"misidentified\": [],\n  \"claims\": [\n    {\"field\": \"title\", \"value\": \"Bharatiya Kisan Union (Ekta Ugrahan)\", \"confidence\": 0.99},\n    {\"field\": \"type\", \"value\": \"org\", \"confidence\": 0.99},\n    {\"field\": \"legs\", \"value\": [\"activism\"], \"confidence\": 0.9},\n    {\"field\": \"depth\", \"value\": \"tracked\", \"confidence\": 0.85},\n    {\"field\": \"lifecycle\", \"value\": \"operating\", \"confidence\": 0.9},\n    {\"field\": \"ecosystem_role\", \"value\": \"operator\", \"confidence\": 0.85},\n    {\"field\": \"affected_led\", \"value\": \"yes\", \"confidence\": 0.9},\n    {\"field\": \"representation_unit\", \"value\": \"local-affected\", \"confidence\": 0.85},\n    {\"field\": \"geography\", \"value\": \"Punjab, India\", \"confidence\": 0.8}\n  ],\n  \"emits\": [\n    {\"kind\": \"actor\", \"name\": \"Trident\", \"hint\": \"Corporation accused of capturing land in Punjab\", \"signals\": {}},\n    {\"kind\": \"problem\", \"name\": \"land-pooling policy\", \"hint\": \"Policy governing land allocation that BKU Ekta Ugrahan opposes\", \"signals\": {}},\n    {\"kind\": \"problem\", \"name\": \"NRC-NPR\", \"hint\": \"National Register of Citizens/National Population Register policies protested against\", \"signals\": {}},\n    {\"kind\": \"problem\", \"name\": \"Kashmir repression\", \"hint\": \"Repression in Kashmir that BKU Ekta Ugrahan protested\", \"signals\": {}},\n    {\"kind\": \"problem\", \"name\": \"compensation for families of farmers who have committed suicide\", \"hint\": \"Demand for compensation for farmer suicide families\", \"signals\": {}},\n    {\"kind\": \"problem\", \"name\": \"student protest at Jantar Mantar\", \"hint\": \"Ongoing student protest in Delhi that BKU Ekta Ugrahan joined\", \"signals\": {}}\n  ],\n  \"edges\": [\n    {\"dst_name\": \"land-pooling policy\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 2, \"evidence\": \"BKUS Ugrahan faction to boycott all-party meeting on land-pooling policy\"},\n    {\"dst_name\": \"compensation for families of farmers who have committed suicide\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 2, \"evidence\": \"Important victories have been won in winning compensation for families of farmers who have committed suicide\"},\n    {\"dst_name\": \"Trident\", \"dst_kind\": \"actor\", \"edge_kind\": \"works_on\", \"relevance\": 2, \"evidence\": \"confronting Corporates like Trident from capturing land\"},\n    {\"dst_name\": \"NRC-NPR\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 2, \"evidence\": \"also in protests against NRC-NPR\"},\n    {\"dst_name\": \"Kashmir repression\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 2, \"evidence\": \"Remarkably in protests condemning repression in Kashmir it mobilized around 10000 persons\"},\n    {\"dst_name\": \"student protest at Jantar Mantar\", \"dst_kind\": \"problem\", \"edge_kind\": \"works_on\", \"relevance\": 2, \"evidence\": \"Bharatiya Kisan Union (Ekta Ugrahan) has announced that it will join the ongoing students' protest at Jantar Mantar in Delhi\"},\n    {\"dst_name\": \"Bhagat Singh\", \"dst_kind\": \"actor\", \"edge_kind\": \"cites\", \"relevance\": 0, \"evidence\": \"At peak in rallies commemorating centenary of Bhagat Singh\"}\n  ]\n}",
+ "json": {
+  "answers": [
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S1",
+    "answer": "It boycotts all-party meetings on land-pooling policy.",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S2",
+    "answer": "It mobilizes peasants to demand compensation for farmer suicides and to confront corporations capturing land.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q1_one_line",
+    "source_id": "S3",
+    "answer": "It joins and marches in student protests in Delhi until their demands are accepted.",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S1",
+    "answer": "org",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S2",
+    "answer": "org",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q2_type",
+    "source_id": "S3",
+    "answer": "org",
+    "confidence": 0.95
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S1",
+    "answer": "activism",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S2",
+    "answer": "activism",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q3_legs",
+    "source_id": "S3",
+    "answer": "activism",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q4_lifecycle",
+    "source_id": "S2",
+    "answer": "Operating as of October 2020",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S1",
+    "answer": "operator",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S2",
+    "answer": "operator",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q5_ecosystem_role",
+    "source_id": "S3",
+    "answer": "operator",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S1",
+    "answer": "yes",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S2",
+    "answer": "yes",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q6_affected_led",
+    "source_id": "S3",
+    "answer": "yes",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S1",
+    "answer": "local-affected",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S2",
+    "answer": "local-affected",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q7_representation_unit",
+    "source_id": "S3",
+    "answer": "local-affected",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S1",
+    "answer": "Chandigarh/Punjab region",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S2",
+    "answer": "Punjab",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q8_geography",
+    "source_id": "S3",
+    "answer": "Delhi",
+    "confidence": 0.8
+   },
+   {
+    "question_id": "q11_scale_metric",
+    "source_id": "S2",
+    "answer": "Mobilizes up to 50,000 persons at peak (self-reported) as of October 2020",
+    "confidence": 0.9
+   },
+   {
+    "question_id": "q12_viability_note",
+    "source_id": "S2",
+    "answer": "Their viability stems from being led by affected farmers, giving them legitimacy and mobilization capacity.",
+    "confidence": 0.8
+   }
+  ],
+  "misidentified": [],
+  "claims": [
+   {
+    "field": "title",
+    "value": "Bharatiya Kisan Union (Ekta Ugrahan)",
+    "confidence": 0.99
+   },
+   {
+    "field": "type",
+    "value": "org",
+    "confidence": 0.99
+   },
+   {
+    "field": "legs",
+    "value": [
+     "activism"
+    ],
+    "confidence": 0.9
+   },
+   {
+    "field": "depth",
+    "value": "tracked",
+    "confidence": 0.85
+   },
+   {
+    "field": "lifecycle",
+    "value": "operating",
+    "confidence": 0.9
+   },
+   {
+    "field": "ecosystem_role",
+    "value": "operator",
+    "confidence": 0.85
+   },
+   {
+    "field": "affected_led",
+    "value": "yes",
+    "confidence": 0.9
+   },
+   {
+    "field": "representation_unit",
+    "value": "local-affected",
+    "confidence": 0.85
+   },
+   {
+    "field": "geography",
+    "value": "Punjab, India",
+    "confidence": 0.8
+   }
+  ],
+  "emits": [
+   {
+    "kind": "actor",
+    "name": "Trident",
+    "hint": "Corporation accused of capturing land in Punjab",
+    "signals": {}
+   },
+   {
+    "kind": "problem",
+    "name": "land-pooling policy",
+    "hint": "Policy governing land allocation that BKU Ekta Ugrahan opposes",
+    "signals": {}
+   },
+   {
+    "kind": "problem",
+    "name": "NRC-NPR",
+    "hint": "National Register of Citizens/National Population Register policies protested against",
+    "signals": {}
+   },
+   {
+    "kind": "problem",
+    "name": "Kashmir repression",
+    "hint": "Repression in Kashmir that BKU Ekta Ugrahan protested",
+    "signals": {}
+   },
+   {
+    "kind": "problem",
+    "name": "compensation for families of farmers who have committed suicide",
+    "hint": "Demand for compensation for farmer suicide families",
+    "signals": {}
+   },
+   {
+    "kind": "problem",
+    "name": "student protest at Jantar Mantar",
+    "hint": "Ongoing student protest in Delhi that BKU Ekta Ugrahan joined",
+    "signals": {}
+   }
+  ],
+  "edges": [
+   {
+    "dst_name": "land-pooling policy",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "evidence": "BKUS Ugrahan faction to boycott all-party meeting on land-pooling policy"
+   },
+   {
+    "dst_name": "compensation for families of farmers who have committed suicide",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "evidence": "Important victories have been won in winning compensation for families of farmers who have committed suicide"
+   },
+   {
+    "dst_name": "Trident",
+    "dst_kind": "actor",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "evidence": "confronting Corporates like Trident from capturing land"
+   },
+   {
+    "dst_name": "NRC-NPR",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "evidence": "also in protests against NRC-NPR"
+   },
+   {
+    "dst_name": "Kashmir repression",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "evidence": "Remarkably in protests condemning repression in Kashmir it mobilized around 10000 persons"
+   },
+   {
+    "dst_name": "student protest at Jantar Mantar",
+    "dst_kind": "problem",
+    "edge_kind": "works_on",
+    "relevance": 2,
+    "evidence": "Bharatiya Kisan Union (Ekta Ugrahan) has announced that it will join the ongoing students' protest at Jantar Mantar in Delhi"
+   },
+   {
+    "dst_name": "Bhagat Singh",
+    "dst_kind": "actor",
+    "edge_kind": "cites",
+    "relevance": 0,
+    "evidence": "At peak in rallies commemorating centenary of Bhagat Singh"
+   }
+  ]
+ },
+ "parse_error": null,
+ "system_prompt": "You extract facts about an org or named individual working on a documented failure — an `actor` record — from source text, per the \"who is working on this\" method: establish what leg they work (activism / institution / enterprise / service — enterprise is market-payer only, service is donor-funded direct delivery with no earned revenue, a hybrid org carries both as separate revenue streams), what makes them viable on that leg, and how to reach them. Relevant fields: `title`, `type` (org|individual), `legs` (JSON list from activism/institution/enterprise/service), `depth` (registry|tracked — tracked is for actors operating where the harm is: affected-led local collectives, field enterprises, local regulators actually acting; registry is for cited-but-not-monitored actors like academics, ministers, national advocacy NGOs), `lifecycle` (operating|scaling|distressed|dormant|acquired|shut|won-and-dissolved), `ecosystem_role` (JSON list from funder, intermediary, capacity-builder, convener, field-builder, researcher, operator, platform), `affected_led` (yes|no|partial), `representation_unit` (local-affected|central-org|enterprise|central-at-named-legitimacy-cost), `stance` (works-the-remedy|neutral|organised-against-remedy|ambiguous), `geography`, `contact_route`. Needs and offers are `ask:need:<kind>` / `ask:offer:<kind>` (value = the free-text ask, e.g. `ask:need:funding`). Follow channels are `channel:<kind>` (value = the URL or handle, e.g. `channel:twitter`).\n\nExtract structured claims from the text below about the named entity. Never write prose summaries as a claim value — a claim is one field, one short value, one confidence in [0, 1]. If the text does not support a field, omit it; do not guess.\n\nAlso list `emits`: other organisations or named individuals mentioned in the text who look worth a candidate record of their own (co-petitioners, funders, grantees, officials, affected-led leaders spoken for by an NGO, coalition partners, etc). And list `edges`: typed relations this text evidences between the entity and another named actor or problem, with `edge_kind` one of: part_of, member_of, works_on, cites, funds, board, cohort, convenes, portfolio, affiliated, parent_org, superseded_by. `relevance` on a `works_on` edge is 0 (mentioned) / 1 (adjacent) / 2 (works it) / 3 (load-bearing) — omit if the text does not support a judgment.\n\nRespond with strict JSON only, no prose, no markdown fences:\n{\"claims\": [{\"field\": \"...\", \"value\": \"...\", \"confidence\": 0.0}, ...],\n \"emits\":  [{\"kind\": \"problem\"|\"actor\", \"name\": \"...\", \"hint\": \"...\"}],\n \"edges\":  [{\"dst_name\": \"...\", \"dst_kind\": \"problem\"|\"actor\", \"edge_kind\": \"...\", \"relevance\": 0|1|2|3|null, \"evidence\": \"...\"}]}\n\nSEVERAL SOURCES ARE GIVEN AT ONCE, each opening with a marker line `[Sn] <url>`. Four additional rules follow from that:\n\n1. Answer the numbered questions below. Every answer carries the `question_id` it answers and the `source_id` (`S1`, `S2`, …) of the source it came from. An answer with no source id, or an id not in the list given, is DROPPED — never guess an id, and never merge two sources into one answer.\n2. If two sources disagree — a different figure, date, or status for the same thing — write the disagreement as the answer, naming both sides and both source ids. Do not silently pick one.\n3. A question no source answers is simply absent from `answers`.\n4. These sources passed an automated identity check, but that check is a similarity score over each page's opening and it does get this wrong — most often on a DIFFERENT entity that shares the name (a company with the same word in its name, a person with the same given name). If a source is not about the named entity, list it in `misidentified` with what it is actually about, and do not answer from it. You are reading the whole page and the check was not; flagging one is expected, not a complaint.\n\nQUESTIONS:\n- q1_one_line: In one concrete sentence: what does this actor actually do — not a category label.\n- q2_type: Org or individual?\n- q3_legs: Which leg(s) — activism, institution, enterprise (market-payer only), service (donor-funded, no earned revenue)? [multiple answers allowed]\n- q4_lifecycle: Operating, scaling, distressed, dormant, acquired, shut, or won-and-dissolved — and current as of what date?\n- q5_ecosystem_role: Funder, intermediary, capacity-builder, convener, field-builder, researcher, operator, or platform?\n- q6_affected_led: Is leadership drawn from the harmed population (yes), an NGO/proxy speaking for them (no), or a mix (partial)?\n- q7_representation_unit: `local-affected`, `central-org`, `enterprise`, or `central-at-named-legitimacy-cost`?\n- q8_geography: Where do they operate?\n- q9_contact_route: How would you actually reach them?\n- q10_funding: At what financial scale do they operate — corpus, budget, or latest round/grant — and as of when? One dated sentence.\n- q10b_funder_identity: Who funds them — the named funders, each as its own entry. [multiple answers allowed]\n- q11_scale_metric: The one checkable number showing actual reach (members, homes, users, revenue, units), dated — flag if self-reported.\n- q12_viability_note: What makes them viable on their leg specifically — the paying customer (enterprise), whether donor funding survives donor exit (service), affected-led-ness (activism), or whether their authority contains the harm's source and its reporting unit matches the harm unit (institution)?\n- q13_failure_note: Where has this actor deployed effort and had it fail, and why? Omit if the source shows no failure — don't invent one.\n- q14_ask_need: What does this actor say it needs (funding, partners, data, policy access)? [multiple answers allowed]\n- q15_ask_offer: What can it offer (funding, a channel, a service, distribution)? [multiple answers allowed]\n- q16_channel: What are its live follow channels? [multiple answers allowed]\n\nRespond with strict JSON only, no prose, no markdown fences:\n{\"answers\": [{\"question_id\": \"...\", \"source_id\": \"S2\", \"answer\": \"...\", \"confidence\": 0.0}],\n \"misidentified\": [{\"source_id\": \"S3\", \"about_what\": \"...\", \"why\": \"...\"}],\n \"claims\":  [{\"field\": \"...\", \"value\": \"...\", \"confidence\": 0.0}],\n \"emits\":   [{\"kind\": \"problem\"|\"actor\", \"name\": \"...\", \"hint\": \"...\", \"signals\": {}}],\n \"edges\":   [{\"dst_name\": \"...\", \"dst_kind\": \"...\", \"edge_kind\": \"...\", \"relevance\": 0, \"stance\": null, \"evidence\": \"...\"}]}",
+ "prompt": "Entity name: Bharatiya Kisan Union (Ekta Ugrahan)\n\nSources:\n\n[S1] https://www.hindustantimes.com/cities/chandigarh-news/bkus-ugrahan-faction-to-boycott-all-party-meeting-on-land-pooling-policy-101752087713648.html\nPrivacy and Cookie Settings\n\nCopyright © HT Digital Streams Ltd. All rights reserved.\n\nFOLLOW US\n\nPrefer HTon Google\n\nShare via\n\nCopy link\n\nHT Newsletters\n\nSubscription\n\nPrint Ad Rates\n\nRSS Feeds\n\n© 2026 HindustanTimes\n\n---\n\n[S2] https://countercurrents.org/2020/10/crystallization-of-mass-revolutionary-movement-in-punjab-in-the-last-25-years-tribute-to-the-mass-line-of-t-nagi-reddy/\nImportant victories have been won in winning compensation for families of farmers who have committed suicide. and in confronting Corporates like Trident from capturing land.\n\nWith intensity at a crescendo struggles were launched against commission agents for cancellation of re-payment of debts .On an average for partial or economic demands it mobilizes around 10-15000 peasants and for political issues around 4000.\n\nAt peak in rallies commemorating centenary of Bhagat Singh or protesting suicides and fighting for loan waivers it has mobilized upto 50000 persons. Remarkably in protests condemning repression in Kashmir it mobilized around 10000 persons and also in protests against NRC-NPR.I was most impressed with the numbers of woman who comprised the contingents and the youth.\n\nOn February 20th government conceded the demand for plots for the landless peasantry but has yet not implemented the demand. At local and district levels the agitation continues like a red lamp continuously burning.\n\nThe important demands were\n\n1. Demanding compensation for 200 familes in Gobindpura region\n\n1. To draw a clear-cut demarcation from the parliamentary path and to expose the hypocritical nature of those who propogated it as well as the bankruptcy of that ideology towards the liberation path.\n\n2. To give a call to People’s liberation.\n\n3. To highlight the importance of building the Agrarian revolutionary movement as well as the revolutionary United Front.\n\nHarsh Thakor is a political commentator\n\nEmail- [email protected]\n\nSIGN UP FOR COUNTERCURRENTS DAILY NEWSLETTER\n\nTags:\n\nJoin Our Newsletter\n\nGET COUNTERCURRENTS DAILY NEWSLETTER STRAIGHT TO YOUR INBOX\n\nJoin Our Newsletter\n\nGet CounterCurrents updates on our WhatsApp and Telegram Channels\n\nJoin Our WhatsApp ChannelJoin Our Telegram Channel\n\nHarsh Thakor\n\nNicolás Maduro Is Innocent\n\nby Stephanie Weatherbee Brito and Vijay Prashad\n13/09/2026\n\nSouth Korea Shouldn’t Abet Trump in Hormuz\n\n---\n\n[S3] https://x.com/thind_akashdeep/status/2080690073688015306\nAkashdeep Thind\n\n@thind_akashdeep\n\nBharatiya Kisan Union (Ekta Ugrahan) has announced that it will join the ongoing students' protest at Jantar Mantar in Delhi. The farmers' union will march to the national capital on July 27 and has said its members will remain in Delhi until the students' demands are accepted.\n\nAkashdeep Thind\n\n@thind_akashdeep\n\nBharatiya Kisan Union (Ekta Ugrahan) has announced that it will join the ongoing students' protest at Jantar Mantar in Delhi. The farmers' union will march to the national capital on July 27 and has said its members will remain in Delhi until the students' demands are accepted.",
+ "model": "nvidia/nemotron-3-super-120b-a12b:free",
+ "provider": "openrouter",
+ "input_tokens": 2557,
+ "output_tokens": 8091,
+ "truncated": false,
+ "plant": null
+}
