@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
-import { existsSync } from 'node:fs';
+import { existsSync, mkdirSync, createWriteStream } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { openGraphWritable, setActorFields, lastEventValue, tagWrite, linkEdge } from './src/lib/graphdb.mjs';
 
@@ -148,6 +148,7 @@ function excludeWriter() {
 
 const REPO_ROOT = fileURLToPath(new URL('./', import.meta.url));
 const ENGINE_DIR = fileURLToPath(new URL('./engine', import.meta.url));
+const WORKER_RUNS_DIR = fileURLToPath(new URL('./engine/worker/runs', import.meta.url));
 const PYTHON_BIN = ['./engine/.venv/bin/python', './engine/.venv312/bin/python']
   .map((p) => fileURLToPath(new URL(p, import.meta.url)))
   .find((p) => existsSync(p)) || 'python3';
@@ -388,7 +389,15 @@ function candidateLister() {
  *  already have `resolved_to` set instead of skipping them (the CLI ignores
  *  `--force` without `--ids`, so it's silently dropped here too when `ids`
  *  is empty — nothing to force-rerun in the --limit queue, which already
- *  excludes resolved rows by construction). */
+ *  excludes resolved rows by construction).
+ *
+ *  The child OUTLIVES the HTTP connection. A reload/navigate away used to
+ *  kill it (`res`'s 'close' firing mid-stream), which — because worker.py
+ *  only commits per-candidate state at gate/settle checkpoints — could burn
+ *  real LLM calls on a candidate and leave zero DB trace of them. Every run
+ *  is teed to `engine/worker/runs/<timestamp>-<pid>.log` regardless of
+ *  client connection, so a disconnected run is still inspectable and its
+ *  candidates aren't silently re-queued as untouched. */
 function workerRunner() {
   return {
     name: 'fph:worker-runner',
@@ -416,27 +425,45 @@ function workerRunner() {
           }
           if (parsed.noSearch) args.push('--no-search');
 
+          mkdirSync(WORKER_RUNS_DIR, { recursive: true });
+          const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+          const child = spawn(PYTHON_BIN, args, { cwd: ENGINE_DIR });
+          const logPath = `${WORKER_RUNS_DIR}/${stamp}-${child.pid}.log`;
+          const logStream = createWriteStream(logPath);
+          const header = `$ ${PYTHON_BIN} ${args.join(' ')}\n(cwd: ${ENGINE_DIR})\n(log: ${logPath})\n\n`;
+          logStream.write(header);
+
           res.statusCode = 200;
           res.setHeader('content-type', 'text/plain; charset=utf-8');
-          res.write(`$ ${PYTHON_BIN} ${args.join(' ')}\n(cwd: ${ENGINE_DIR})\n\n`);
+          res.write(header);
 
-          const child = spawn(PYTHON_BIN, args, { cwd: ENGINE_DIR });
-          child.stdout.on('data', (c) => res.write(c));
-          child.stderr.on('data', (c) => res.write(c));
-          child.on('error', (e) => { res.write(`\n[spawn failed] ${e.message}\n`); res.end(); });
+          // Both the response (if still connected) and the on-disk log get
+          // every chunk — the log is the one that survives a reload.
+          child.stdout.on('data', (c) => { if (!res.writableEnded) res.write(c); logStream.write(c); });
+          child.stderr.on('data', (c) => { if (!res.writableEnded) res.write(c); logStream.write(c); });
+          child.on('error', (e) => {
+            const msg = `\n[spawn failed] ${e.message}\n`;
+            if (!res.writableEnded) res.write(msg);
+            logStream.write(msg);
+            if (!res.writableEnded) res.end();
+            logStream.end();
+          });
           child.on('close', (code) => {
             markSelfWrite(GRAPH_DB); // a run may have written claims/edges
-            res.write(`\n[exit ${code}]\n`);
-            res.end();
+            const footer = `\n[exit ${code}]\n`;
+            if (!res.writableEnded) res.write(footer);
+            logStream.write(footer);
+            if (!res.writableEnded) res.end();
+            logStream.end();
           });
-          // `req`'s own 'close' fires as soon as its body is fully read (we
-          // already consumed it above), well before the client disconnects —
-          // watching it here killed every run instantly. `res`'s 'close'
-          // firing while we're still mid-stream (writableEnded false) is the
-          // real "client went away" signal.
-          res.on('close', () => {
-            if (!res.writableEnded && !child.killed) child.kill();
-          });
+          // Deliberately no res.on('close', () => child.kill()) — a
+          // disconnect (reload/navigate) used to kill an in-flight batch,
+          // wasting whatever LLM calls it had already made with no DB
+          // commit to show for it (see the comment above the function). The
+          // child now runs to completion regardless of whether anyone's
+          // still watching; the log file above is how you check on it after
+          // the fact, and the queue naturally reflects the outcome once it
+          // finishes (resolved_to / admitted=0 / still-queued).
         });
       });
     },
