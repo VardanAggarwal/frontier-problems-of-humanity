@@ -536,3 +536,54 @@ def test_batched_schema_asks_for_the_four_gate_signals_on_the_edge():
     edges_line = next(l for l in system.splitlines() if '"edges"' in l)
     assert "signals" not in emits_line
     assert "signals" in edges_line
+
+
+# ------------------------ list-valued answers (PoC-2d, 2026-09-14) ----------
+
+def test_list_answer_is_serialised_not_dropped():
+    """`_ACTOR_SYSTEM` calls these fields "a JSON list from …" while the
+    answers schema shows a string, so the model is entitled to either. Three
+    of one PoC-2d call's eleven answers arrived as lists and were discarded
+    as "missing/empty answer text", which they were not."""
+    answers, problems = prompts.parse_answers(
+        {"answers": [{"question_id": "q3_legs", "source_id": "S1",
+                      "answer": ["enterprise", "service"]}]}, [_src()])
+    assert len(answers) == 1
+    assert answers[0].answer == '["enterprise", "service"]'
+    assert any("serialised" in p for p in problems)
+
+
+def test_serialised_list_round_trips_to_a_real_list_for_json_columns():
+    """The serialisation is chosen so `worker._coerce_json_list` parses it
+    back out — the parser cannot import `worker` to learn which columns are
+    list-valued, so the shape has to survive the trip on its own."""
+    from worker.worker import _coerce_json_list
+    answers, _ = prompts.parse_answers(
+        {"answers": [{"question_id": "q3_legs", "source_id": "S1",
+                      "answer": ["enterprise", "service"]}]}, [_src()])
+    assert _coerce_json_list(answers[0].answer) == ["enterprise", "service"]
+
+
+def test_empty_list_answer_is_still_dropped():
+    answers, problems = prompts.parse_answers(
+        {"answers": [{"question_id": "q3_legs", "source_id": "S1",
+                      "answer": []}]}, [_src()])
+    assert answers == [] and any("empty list" in p for p in problems)
+
+
+def test_non_text_answer_reports_its_actual_type():
+    """The old message said "missing/empty", which is what sent a real
+    defect undiagnosed."""
+    _, problems = prompts.parse_answers(
+        {"answers": [{"question_id": "q3_legs", "source_id": "S1",
+                      "answer": 42}]}, [_src()])
+    assert any("is int, not text" in p for p in problems)
+
+
+def test_batched_schema_states_the_dst_kind_enum():
+    """Splitting `_EXTRACT_COMMON` removed the batched prompt's only
+    statement of the allowed values, and PoC-2d measured the cost: 3 of 28
+    live-arm edges used `org`/`individual` against 0 of 22 in the control."""
+    system, _ = prompts.extract_prompt_batched("actor", "X", [_src()])
+    edges_line = next(l for l in system.splitlines() if '"edges"' in l)
+    assert '"dst_kind": "problem"|"actor"' in edges_line

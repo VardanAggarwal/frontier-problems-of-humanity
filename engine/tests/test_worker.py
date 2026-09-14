@@ -885,3 +885,28 @@ def test_write_entity_depth_tier_disabled_degrades_to_model_claim(conn, tmp_path
                                      depth_tier=False)
     row = conn.execute("SELECT * FROM actor WHERE id = ?", (entity_id,)).fetchone()
     assert row["depth"] == "registry"   # ground test never ran — today's behaviour
+
+
+def test_edge_dst_kind_synonyms_are_normalised_not_dropped(conn, monkeypatch):
+    """`org` and `individual` are q2_type's vocabulary, not dst_kind's. Both
+    name an actor; dropping the edge loses a real relation over a word."""
+    actor(conn, "src-actor")
+    actor(conn, "dst-actor")
+    src = _source_candidate(conn, resolved_to="src-actor")
+
+    claims = {"emits": [], "edges": [
+        {"dst_kind": "org", "dst_name": "dst-actor",
+         "edge_kind": "funds", "relevance": 2},
+    ]}
+    _, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+    assert edges == 1
+
+
+def test_unknown_dst_kind_is_logged_not_silent(conn):
+    src = _source_candidate(conn, resolved_to="src-actor")
+    lines = []
+    claims = {"emits": [], "edges": [
+        {"dst_kind": "galaxy", "dst_name": "Andromeda",
+         "edge_kind": "funds"}]}
+    worker._emit(conn, src, claims, {}, log=lines.append)
+    assert any("galaxy" in l for l in lines)

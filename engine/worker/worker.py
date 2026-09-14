@@ -133,6 +133,30 @@ def _coerce_json_list(value):
     return [value]
 
 
+# The model's own vocabulary for an actor, seen in PoC-2d: `org` and
+# `individual` — which are `q2_type`'s values, not `dst_kind`'s. Both name an
+# actor, and dropping them loses a real edge over a word. Normalised rather
+# than accepted blindly: anything not in this map still fails the check below
+# and is now logged instead of vanishing.
+#
+# The cause was a prompt regression, since fixed: splitting `_EXTRACT_COMMON`
+# removed the batched schema's only statement of `"dst_kind": "problem"|
+# "actor"`. 0 of 22 control-arm edges used a bad value against 3 of 28 live.
+_DST_KIND_SYNONYMS = {
+    "org": "actor", "organisation": "actor", "organization": "actor",
+    "individual": "actor", "person": "actor", "people": "actor",
+    "ngo": "actor", "company": "actor", "institution": "actor",
+    "failure": "problem", "need": "problem", "issue": "problem",
+}
+
+
+def _normalise_dst_kind(raw):
+    if not isinstance(raw, str):
+        return raw
+    v = raw.strip().lower()
+    return v if v in ("problem", "actor") else _DST_KIND_SYNONYMS.get(v, raw)
+
+
 def _split_claims(kind: str, claims: list[dict], *, log=print
                   ) -> tuple[dict, list[dict]]:
     """-> (column values to `put`, everything else) for one entity's claims.
@@ -439,9 +463,12 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
 
     edges_written = 0
     for e in claims.get("edges", []) or []:
-        dst_kind, dst_name = e.get("dst_kind"), e.get("dst_name")
+        dst_kind, dst_name = _normalise_dst_kind(e.get("dst_kind")), e.get("dst_name")
         edge_kind = e.get("edge_kind")
         if dst_kind not in ("problem", "actor") or not dst_name or not edge_kind:
+            if dst_name and edge_kind:
+                log(f"worker: edge to {dst_name!r} dropped — dst_kind "
+                    f"{e.get('dst_kind')!r} is not problem/actor")
             continue
         dst_id = db.resolve(conn, dst_kind, dst_name)
         if dst_id is None:

@@ -334,8 +334,8 @@ def extract_prompt_batched(
         '"why": "..."}],\n'
         ' "emits":   [{"kind": "problem"|"actor", "name": "...", '
         '"hint": "..."}],\n'
-        ' "edges":   [{"dst_name": "...", "dst_kind": "...", '
-        '"edge_kind": "...", "relevance": 0, "stance": null, '
+        ' "edges":   [{"dst_name": "...", "dst_kind": "problem"|"actor", '
+        '"edge_kind": "...", "relevance": 0|1|2|3|null, "stance": null, '
         '"evidence": "...", "signals": {"harmed_population": null, '
         '"magnitude": null, "agent": null, "actionable": null}}]}'
     )
@@ -435,10 +435,30 @@ def parse_answers(
             continue
 
         answer_text = a.get("answer")
+        if isinstance(answer_text, list):
+            # The prompt asks for these BOTH ways and the model is entitled to
+            # either: `_ACTOR_SYSTEM` describes `legs`, `ecosystem_role` and
+            # `geography` as "a JSON list from …", while the answers schema
+            # shows `"answer": "..."`. Measured in PoC-2d: three of one call's
+            # eleven answers arrived as lists and were dropped here as
+            # "missing/empty", which they were not.
+            #
+            # Serialised rather than joined, because `worker._coerce_json_list`
+            # already parses a JSON-encoded list back out for the list-valued
+            # columns — so this round-trips to the right shape without
+            # teaching the parser which columns those are (it cannot import
+            # `worker` without a cycle).
+            if not answer_text:
+                problems.append(f"answers[{i}] ({question_id}): empty list "
+                                f"answer — dropped")
+                continue
+            answer_text = json.dumps(answer_text, ensure_ascii=False)
+            problems.append(f"answers[{i}] ({question_id}): list answer "
+                            f"serialised to JSON — kept")
         if not isinstance(answer_text, str) or not answer_text.strip():
             problems.append(
-                f"answers[{i}] ({question_id}): missing/empty answer text "
-                f"— dropped")
+                f"answers[{i}] ({question_id}): answer is "
+                f"{type(a.get('answer')).__name__}, not text — dropped")
             continue
 
         confidence = a.get("confidence")
@@ -604,8 +624,8 @@ def verify_and_extract_prompt_batched(
         '"chunk": "S2.3", "answer": "...", "confidence": 0.0}],\n'
         ' "emits":   [{"kind": "problem"|"actor", "name": "...", '
         '"hint": "..."}],\n'
-        ' "edges":   [{"dst_name": "...", "dst_kind": "...", '
-        '"edge_kind": "...", "relevance": 0, "stance": null, '
+        ' "edges":   [{"dst_name": "...", "dst_kind": "problem"|"actor", '
+        '"edge_kind": "...", "relevance": 0|1|2|3|null, "stance": null, '
         '"evidence": "...", "signals": {"harmed_population": null, '
         '"magnitude": null, "agent": null, "actionable": null}}]}\n\n'
         "`verdicts` must carry exactly one entry per source given. "
