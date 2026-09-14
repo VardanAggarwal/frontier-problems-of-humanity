@@ -84,10 +84,14 @@ def confirm(conn: sqlite3.Connection, candidate_name: str,
     # `clip()`) truncates against the encoder's own tokenizer, so the string
     # handed to `encode_one()` is never more than the true token budget —
     # it loads the encoder, but `encode_one()` was about to do that anyway.
-    left = fit(f"{candidate_name} {candidate_context}".strip(), role="query")
-    right = fit(cleaned_text[:PREVIEW_CHARS], role="query")
-    if not left or not right:
+    left_raw = f"{candidate_name} {candidate_context}".strip()
+    right_raw = cleaned_text[:PREVIEW_CHARS]
+    if not left_raw or not right_raw:
         return "uncertain", 0.0, "gate2: empty candidate context or empty fetched text"
+    # `fit()` refuses empty text (embed/model.py:prefix), hence the emptiness
+    # check above runs on the raw strings first.
+    left = fit(left_raw, role="query")
+    right = fit(right_raw, role="query")
 
     a = encode_one(left, role="query")
     b = encode_one(right, role="query")
