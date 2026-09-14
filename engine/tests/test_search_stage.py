@@ -39,9 +39,18 @@ class _FakeFetchResult:
         self.source_id = source_id
 
 
+# Long enough to clear confirm_policy.THIN_PAGE_CHARS (measured 2026-09-14).
+# A one-line fake used to be fine because no length rule was on; now a short
+# page legitimately routes to the verify pass, so a fixture standing in for an
+# ordinary substantive page has to look like one.
+_PAGE_BODY = ("page text about the entity, at a length that a real fetched "
+              "article would plausibly have, repeated to clear the thin-page "
+              "floor without saying anything. ") * 12
+
+
 def _fetch_all_confirmed(url):
     """Every URL fetches fine; source_id derived deterministically from url."""
-    return _FakeFetchResult(text=f"page text about {url}", source_id=f"src-{url}")
+    return _FakeFetchResult(text=f"{_PAGE_BODY}{url}", source_id=f"src-{url}")
 
 
 def _confirm_all_confirmed(name, evidence, text):
@@ -209,18 +218,62 @@ def test_mismatch_source_is_dropped():
     assert result == []
 
 
-def test_uncertain_source_is_kept_and_flagged():
-    def confirm_uncertain(name, evidence, text):
-        return (UNCERTAIN, 0.65, "gate2: cosine in the unresolved middle band")
+def test_uncertain_source_is_routed_to_verify_not_into_the_prompt():
+    """Changed 2026-09-14. `uncertain` used to be returned in the confirmed
+    set — which put an unconfirmed page straight into the extraction prompt,
+    and putting it there IS resolving it as a pass, the one thing gate2's
+    contract forbids. `poc/gate2-band-sweep.md` measured the cost: ~60 of 200
+    pooled URLs sat in that band and were essentially all junk.
 
+    It is still not dropped. It goes to the verify-and-extract pass."""
+    def confirm_uncertain(name, evidence, text):
+        return (UNCERTAIN, 0.79, "gate2: cosine in the unresolved middle band")
+
+    unverified = []
     result = search_sources(
         NAME, depth=TRACKED_TIER, provider=_provider(),
         fetch=_fetch_all_confirmed, confirm=confirm_uncertain,
-        slug=SLUG, log=lambda *a, **k: None,
+        slug=SLUG, unverified=unverified, log=lambda *a, **k: None,
     )
-    assert result, "uncertain must be kept, not dropped"
-    for src in result:
+    assert result == [], "uncertain must not reach the extraction prompt"
+    assert unverified, "uncertain must not be dropped either"
+    for src in unverified:
         assert src.verdict == UNCERTAIN
+
+
+def test_verify_bucket_is_announced_when_nobody_collects_it():
+    """A caller may decline the verify pass, but material set aside and left
+    unread must be visible rather than looking like there was none."""
+    logged = []
+
+    def confirm_uncertain(name, evidence, text):
+        return (UNCERTAIN, 0.79, "middle band")
+
+    search_sources(
+        NAME, depth=TRACKED_TIER, provider=_provider(),
+        fetch=_fetch_all_confirmed, confirm=confirm_uncertain,
+        slug=SLUG, log=lambda m: logged.append(m),
+    )
+    assert any("no `unverified` list" in m for m in logged)
+
+
+def test_thin_confirmed_source_is_routed_to_verify():
+    """THIN_PAGE_CHARS is measured and on by default now, so a confirmed but
+    very short page is no longer a clean confirm."""
+    def confirm_ok(name, evidence, text):
+        return (CONFIRMED, 0.95, "")
+
+    def fetch_thin(url):
+        return _FakeFetchResult(text="short page", source_id=f"src-{url}")
+
+    unverified = []
+    result = search_sources(
+        NAME, depth=TRACKED_TIER, provider=_provider(),
+        fetch=fetch_thin, confirm=confirm_ok,
+        slug=SLUG, unverified=unverified, log=lambda *a, **k: None,
+    )
+    assert result == []
+    assert unverified, "a thin confirm is set aside, not discarded"
 
 
 def test_dropped_sources_are_logged_not_silent():

@@ -383,3 +383,203 @@ def retry_per_source(
         system, prompt = extract_prompt_batched(kind, entity_name, [solo])
         out.append((s, system, prompt))
     return out
+
+
+# --------------------------------------------------------------------------
+# The verify-and-extract pass (`03-worker.md` §6a) — the uncertain bucket.
+# --------------------------------------------------------------------------
+# Gate 2 is a 500-char cosine. `poc/gate2-band-sweep.md` showed where that is
+# not enough: for `jyoti-pande-lavakare`, four wrong-entity pages sharing the
+# given name — `jyoti.co.in`, `jyoti.com`, `jyotiindia.com` (a water heater
+# manufacturer), `screener.in/company/JYOTICNC` — scored ABOVE her own
+# LinkedIn post and her own book. No global threshold separates those, because
+# the distinguishing evidence is not in the first 500 characters and is not a
+# similarity judgment at all: it is "this page is about a company that makes
+# water heaters, and the entity is a person who writes about air pollution".
+#
+# A model reading the page can make that judgment. So the uncertain bucket is
+# not discarded and not waved through — it gets a call whose FIRST job is the
+# identity decision, per source, and which may only extract from the sources
+# it accepted. One call, because the reject decision and the extraction read
+# the same text; splitting them doubles the token cost to ask one question.
+
+_VERIFY_RULES = (
+    "THESE SOURCES ARE UNVERIFIED. An automated identity check could not "
+    "confirm they are about the named entity, and it could not rule them out "
+    "either. Several are likely to be about a DIFFERENT entity that shares "
+    "the name — a company with the same word in its name, a person with the "
+    "same given name, an unrelated site the search engine ranked highly. "
+    "Assume nothing.\n\n"
+    "Work in two steps, in this order.\n\n"
+    "STEP 1 — VERDICT PER SOURCE. For every `[Sn]` block, decide whether it "
+    "is about the entity described above. Judge on what the page is actually "
+    "about: its subject's line of work, sector, location, and the kind of "
+    "thing it is. A name match is NOT sufficient evidence — it is the reason "
+    "this source is in front of you, not a reason to accept it. Give each "
+    "source exactly one verdict:\n"
+    "  `about`     — the page is about this entity. Say what convinced you.\n"
+    "  `different` — the page is about a DIFFERENT entity with a similar or "
+    "identical name. Say what the page is actually about.\n"
+    "  `unrelated` — the page is not about any entity of this name (a "
+    "product listing, a help page, a converter, an index with no content).\n"
+    "  `insufficient` — too little text to tell. Not a polite `about`.\n\n"
+    "STEP 2 — EXTRACT, FROM `about` SOURCES ONLY. Answer the questions using "
+    "only sources you marked `about`. An answer citing a source you marked "
+    "`different`, `unrelated` or `insufficient` is a contradiction and will "
+    "be dropped. If you marked no source `about`, return an empty `answers` "
+    "list — that is a correct and useful outcome, not a failure.\n\n"
+    "A page being interesting is not a reason to accept it. A page about a "
+    "different entity with the same name is the single most likely thing you "
+    "are looking at, and marking it `different` is the most valuable thing "
+    "you can do here.\n\n"
+)
+
+
+def verify_and_extract_prompt_batched(
+    kind: str, entity_name: str, entity_context: str,
+    sources: list[PromptSource],
+) -> tuple[str, str]:
+    """The second pass over the `uncertain`/thin bucket: identity verdict per
+    source, then extraction restricted to the sources it accepted.
+
+    Differs from `extract_prompt_batched` in three ways, all deliberate:
+
+    1. It is given `entity_context` — the candidate's own description — and
+       the main prompt is not. The sweep found context is what separates a
+       name collision from the real entity (adding it moved `jyoti.co.in`
+       -0.034 and a genuine page +0.10). A verdict asked without it is being
+       asked in the regime where the signal inverts.
+    2. It demands a verdict for EVERY source before any extraction, so a
+       source cannot contribute silently.
+    3. It states outright that a name match is not evidence. That is the
+       specific error this pass exists to catch.
+
+    Returns `(system, prompt)` like its sibling. Parsing is
+    `parse_verified_answers`, which enforces rule 2 rather than trusting it.
+    """
+    if kind not in ("problem", "actor"):
+        raise ValueError(f"kind must be 'problem' or 'actor', got {kind!r}")
+    base = _PROBLEM_SYSTEM if kind == "problem" else _ACTOR_SYSTEM
+    system = (
+        base + "\n\n" + _VERIFY_RULES +
+        "Each answer carries the `question_id` it answers and the "
+        "`source_id` (`S1`, `S2`, …) it came from. Never guess an id, never "
+        "merge two sources into one answer. If two accepted sources disagree, "
+        "write the disagreement as the answer, naming both sides and both "
+        "ids. A question no accepted source answers is absent from "
+        "`answers`.\n\n"
+        "QUESTIONS:\n" + _question_block(kind) + "\n\n"
+        "Respond with strict JSON only, no prose, no markdown fences:\n"
+        '{"verdicts": [{"source_id": "S1", "verdict": "about"|"different"'
+        '|"unrelated"|"insufficient", "about_what": "...", "why": "..."}],\n'
+        ' "answers": [{"question_id": "...", "source_id": "S2", '
+        '"answer": "...", "confidence": 0.0}],\n'
+        ' "emits":   [{"kind": "problem"|"actor", "name": "...", '
+        '"hint": "...", "signals": {}}],\n'
+        ' "edges":   [{"dst_name": "...", "dst_kind": "...", '
+        '"edge_kind": "...", "relevance": 0, "stance": null, '
+        '"evidence": "..."}]}\n\n'
+        "`verdicts` must carry exactly one entry per source given. "
+        "`about_what` is required on `different` and `unrelated` — it is how "
+        "a reviewer checks your reasoning without refetching the page."
+    )
+    blocks = [f"[{s.label}] {s.url}\n{s.text}" for s in sources]
+    prompt = (f"Entity name: {entity_name}\n"
+              f"Entity description: {entity_context or '(none given)'}\n\n"
+              "Unverified sources:\n\n" + "\n\n---\n\n".join(blocks))
+    return system, prompt
+
+
+# Verdict vocabulary for the verify pass. `about` is the only one that lets a
+# source contribute; the other three are all reasons it may not, kept distinct
+# because they mean different things to a reviewer and to the drop ledger.
+V_ABOUT = "about"
+V_DIFFERENT = "different"
+V_UNRELATED = "unrelated"
+V_INSUFFICIENT = "insufficient"
+VERIFY_VERDICTS = (V_ABOUT, V_DIFFERENT, V_UNRELATED, V_INSUFFICIENT)
+
+
+def parse_verified_answers(
+    result_json, sources: list[PromptSource],
+) -> tuple[list[Answer], dict[str, dict], list[str]]:
+    """Parse a `verify_and_extract_prompt_batched` response.
+
+    Returns `(answers, verdicts_by_source_id, problems)`.
+
+    The prompt tells the model it may only answer from sources it marked
+    `about`. This function does not trust that. It parses the verdicts first,
+    then drops any answer citing a source that was not marked `about` —
+    including a source the model gave no verdict for at all, which is the
+    quiet way the rule gets broken. `problems` records every drop, so a model
+    that systematically ignores the rule shows up as a run of log lines rather
+    than as silently-admitted junk.
+
+    A source with no verdict is treated as NOT `about`. That direction is
+    deliberate: the whole bucket arrived here because an automated check could
+    not confirm it, so silence is not consent.
+    """
+    problems: list[str] = []
+    verdicts: dict[str, dict] = {}
+
+    if not isinstance(result_json, dict):
+        return [], {}, [f"result is not a JSON object "
+                        f"(got {type(result_json).__name__})"]
+
+    by_label = {s.label: s for s in sources}
+    raw_verdicts = result_json.get("verdicts")
+    if not isinstance(raw_verdicts, list):
+        problems.append("'verdicts' is missing or not a list — no source can "
+                        "be accepted, every answer will be dropped")
+        raw_verdicts = []
+
+    for i, v in enumerate(raw_verdicts):
+        if not isinstance(v, dict):
+            problems.append(f"verdicts[{i}]: not an object — ignored")
+            continue
+        label = str(v.get("source_id") or "").strip().strip("[]")
+        source = by_label.get(label)
+        if source is None:
+            problems.append(
+                f"verdicts[{i}]: unknown source_id {v.get('source_id')!r} "
+                f"— ignored, never guessed")
+            continue
+        verdict = str(v.get("verdict") or "").strip().lower()
+        if verdict not in VERIFY_VERDICTS:
+            problems.append(
+                f"verdicts[{i}] ({label}): unknown verdict "
+                f"{v.get('verdict')!r} — treated as not-about")
+            verdict = V_INSUFFICIENT
+        if verdict in (V_DIFFERENT, V_UNRELATED) and not str(
+                v.get("about_what") or "").strip():
+            problems.append(
+                f"verdicts[{i}] ({label}): {verdict} with no `about_what` "
+                f"— verdict kept, but the reasoning is unreviewable")
+        verdicts[source.source_id] = {
+            "label": label, "url": source.url, "verdict": verdict,
+            "about_what": str(v.get("about_what") or ""),
+            "why": str(v.get("why") or ""),
+        }
+
+    missing = [s.label for s in sources if s.source_id not in verdicts]
+    if missing:
+        problems.append(
+            f"no verdict returned for {missing} — treated as not-about, so "
+            f"nothing may be extracted from them (silence is not consent)")
+
+    accepted = {sid for sid, v in verdicts.items()
+                if v["verdict"] == V_ABOUT}
+    answers, answer_problems = parse_answers(result_json, sources)
+    problems.extend(answer_problems)
+
+    kept: list[Answer] = []
+    for a in answers:
+        if a.source_id in accepted:
+            kept.append(a)
+            continue
+        verdict = verdicts.get(a.source_id, {}).get("verdict", "no verdict")
+        problems.append(
+            f"answer to {a.question_id} cites source {a.source_id} marked "
+            f"{verdict!r}, not 'about' — dropped, the model contradicted its "
+            f"own verdict")
+    return kept, verdicts, problems

@@ -26,6 +26,7 @@ from store import db
 from text.preview import Preview, fetch_list, group
 
 from search import confirm_policy
+from search.confirm_policy import prompt_set_is_thin
 
 from . import depth as depth_mod
 from . import extract as extract_mod
@@ -33,7 +34,8 @@ from . import fetch as fetchmod
 from . import gate1, gate2, llm, problem_emit, resolve, search_stage
 from .extract_types import Answer, ConfirmedSource
 from .prompts import (extract_prompt, extract_prompt_batched, parse_answers,
-                      retry_per_source)
+                      parse_verified_answers, retry_per_source,
+                      verify_and_extract_prompt_batched)
 from .questions import REGISTRY
 
 # Track B (`04-worker-build-plan.md` §4): predict a depth tier for every
@@ -515,6 +517,14 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         # logged (the resolution a single dict cannot hold), by decision:
         # report-dict-only, not `event` rows and not a new table.
         "hv_questions_open": 0, "unread_pool_urls": 0, "new_query_seeds": 0,
+        # The verify pass (§6a) — how often the confirmed set could not carry
+        # a candidate alone, and what the second opinion found. `verify_
+        # different` is the interesting one: a page an automated cosine could
+        # not rule out that a reading model identified as a different entity
+        # sharing the name.
+        "verify_pass_calls": 0, "verify_answers_merged": 0,
+        "verify_about": 0, "verify_different": 0,
+        "verify_unrelated": 0, "verify_insufficient": 0,
     }
     if not candidates:
         return report
@@ -589,6 +599,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         # document yet, and that is not a reason to stop the pipeline.
         text = ""
         sources: list[ConfirmedSource] = []
+        unverified: list = []
         if cand["url"]:
             fetched = fetchmod.fetch(conn, corpus, cand["url"])
             report["fetched"] += 1
@@ -605,11 +616,28 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                            why=why)
                     conn.commit()
                     continue
-                if verdict == "uncertain":
-                    log(f"worker: candidate {cid} gate2 uncertain — {note}")
-                sources.append(ConfirmedSource(
+                # Everything past `mismatch` goes through the same policy as
+                # a search source. It used to append to `sources`
+                # unconditionally, which meant an `uncertain` SEED reached the
+                # main extraction prompt even after the search path stopped
+                # letting uncertain through — the same hole, one origin later.
+                # Mismatch stays special above because that verdict is the
+                # CANDIDATE's admission decision, which no per-source policy
+                # can express.
+                seed_source = ConfirmedSource(
                     source_id=fetched.source_id, url=cand["url"], text=text,
-                    origin=confirm_policy.SEED, verdict=verdict))
+                    origin=confirm_policy.SEED, verdict=verdict)
+                [seed_decision] = confirm_policy.apply_confirmations([
+                    confirm_policy.SourceVerdict(
+                        source_id=fetched.source_id, url=cand["url"],
+                        origin=confirm_policy.SEED, verdict=verdict,
+                        cosine=cosine, note=note, text_chars=len(text))])
+                if seed_decision.route == confirm_policy.PROMPT:
+                    sources.append(seed_source)
+                else:
+                    log(f"worker: candidate {cid} seed to verify: "
+                        f"{seed_decision.reason}")
+                    unverified.append(seed_source)
 
         # search (track D, wired here). The seed is fetched and gate-2'd
         # above rather than handed to `search_sources`, because that verdict
@@ -641,8 +669,58 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 fetch=lambda url: fetchmod.fetch(conn, corpus, url),
                 confirm=lambda n, ev, txt: gate2.confirm(conn, n, ev, txt),
                 evidence=cand["evidence"] or "", seed_url=None,
-                max_sources=max_sources, counters=search_counters, log=log)
+                max_sources=max_sources, counters=search_counters,
+                unverified=unverified, log=log)
                 if s.source_id not in already)
+            unverified[:] = [s for s in unverified if s.source_id not in already]
+
+        # The verify pass (§6a). `unverified` holds gate-2 `uncertain` and
+        # confirmed-but-thin sources — material that must not enter the main
+        # prompt, but is not junk by default: the band sweep found a real
+        # LinkedIn post and a real book page sitting in it, below four
+        # wrong-entity pages. It buys a second call ONLY when the confirmed
+        # set cannot carry the candidate alone, because the pass costs as
+        # much as the call it supplements.
+        verified_answers: list[Answer] = []
+        verify_sources: list = []
+        thin, why = prompt_set_is_thin([s.text for s in sources])
+        log(f"worker: candidate {cid} verify-pass check: {why}")
+        if thin and unverified:
+            report["verify_pass_calls"] += 1
+            v_sources, _ = extract_mod.assemble(
+                unverified, REGISTRY.retrieval_questions(kind))
+            if v_sources:
+                v_system, v_prompt = verify_and_extract_prompt_batched(
+                    kind, name, cand["evidence"] or "", v_sources)
+                try:
+                    v_result = llm.call(v_prompt, system=v_system,
+                                        tier="judgment", max_tokens=4096)
+                except llm.LLMError as e:
+                    log(f"worker: candidate {cid} verify pass failed: {e}")
+                else:
+                    report["cost"] += v_result.get("cost", 0.0)
+                    v_answers, v_verdicts, v_problems = parse_verified_answers(
+                        v_result.get("json"), v_sources)
+                    for problem in v_problems:
+                        log(f"worker: candidate {cid} verify: {problem}")
+                    for sid, v in v_verdicts.items():
+                        log(f"worker: candidate {cid} verify {v['label']} "
+                            f"{v['verdict']}: {v['url'][:70]}"
+                            + (f" — actually about: {v['about_what'][:60]}"
+                               if v["about_what"] else ""))
+                        report[f"verify_{v['verdict']}"] += 1
+                    # The verify pass's own answers are kept rather than
+                    # thrown away and the accepted sources re-read in the main
+                    # call: the model has already read that text once, and the
+                    # whole point of the §8 batched call is that a source is
+                    # paid for once. They merge into the ledger below with the
+                    # same provenance as any other answer — `verify_sources`
+                    # carries their urls so §9 can attribute them.
+                    verified_answers = v_answers
+                    verify_sources = v_sources
+        elif unverified:
+            log(f"worker: candidate {cid} {len(unverified)} unverified "
+                f"source(s) left unread — confirmed set was adequate")
 
         # claims — the one paid call in the loop (§7 tier 4). With sources in
         # hand it is §8's batched `[S1]…[Sn]` call over selected passages;
@@ -722,10 +800,19 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         # stage 7 — the ledger, written BEFORE claims are resolved (§9), and
         # claims then derived from it rather than taken from the model.
         claims = claims_json.get("claims", [])
-        if batched:
+        if verified_answers:
+            # Merged here, after the main parse, so the verify pass's answers
+            # go through exactly the same ledger and claim derivation as the
+            # confirmed set's — one provenance path, not two.
+            log(f"worker: candidate {cid} merging {len(verified_answers)} "
+                f"answer(s) from the verify pass")
+            answers = list(answers) + verified_answers
+            report["verify_answers_merged"] += len(verified_answers)
+        if batched or verified_answers:
             report["findings_written"] += extract_mod.write_findings(
                 conn, int(cid), answers,
-                urls={s.source_id: s.url for s in prompt_sources})
+                urls={s.source_id: s.url
+                      for s in list(prompt_sources) + list(verify_sources)})
             claims, notes = extract_mod.claims_from_findings(answers)
             for note in notes:
                 log(f"worker: candidate {cid} {note}")

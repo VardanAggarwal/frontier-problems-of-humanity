@@ -25,8 +25,12 @@ from typing import Callable, Optional
 import yaml
 
 from search.confirm_policy import (
+    DROP,
+    PROMPT,
     SEARCH,
     SEED,
+    VERIFY,
+    THIN_PAGE_CHARS,
     SourceVerdict,
     apply_confirmations,
 )
@@ -94,8 +98,9 @@ def search_sources(
         slug: Optional[str] = None,
         families_path=None,
         min_engines_returned: Optional[int] = None,
-        thin_page_chars: Optional[int] = None,
+        thin_page_chars: Optional[int] = THIN_PAGE_CHARS,
         counters: Optional[dict] = None,
+        unverified: Optional[list] = None,
         log: Callable = print,
 ) -> list:
     """name -> a confirmed `list[ConfirmedSource]`, ready for E3's passage
@@ -123,6 +128,12 @@ def search_sources(
     search-sourced picks only — the candidate's own `seed_url`, when
     present, is fetched and confirmed in addition to the capped search set,
     not counted against it, because it is not a `cover()` output at all.
+
+    `thin_page_chars` defaults to the policy's measured value rather than
+    to None, so the rule is ON unless a caller explicitly passes None to
+    switch it off — None is the policy's own "no length rule" sentinel, and
+    defaulting to it here silently disabled a threshold the policy had
+    already set.
 
     `min_engines_returned` / `thin_page_chars` are passed straight through to
     `search.health.is_healthy` / `search.confirm_policy.apply_confirmations`
@@ -196,19 +207,42 @@ def search_sources(
     # back into "let it through" the way worker.py does today.
     decisions = apply_confirmations(verdicts, thin_page_chars=thin_page_chars)
 
-    # --- 7. return the survivors as ConfirmedSource -------------------------
-    confirmed = []
+    # --- 7. route the survivors --------------------------------------------
+    # Three destinations now, not two (`confirm_policy`'s PROMPT/VERIFY/DROP,
+    # 2026-09-14). Only PROMPT sources are returned as the confirmed set. The
+    # VERIFY bucket — gate-2 `uncertain`, plus confirmed-but-thin — is handed
+    # back through the optional `unverified` list rather than widened into the
+    # return type, the same in-place convention `counters` already uses below
+    # and for the same reason: every existing caller keeps working, and a
+    # caller that does not ask for the bucket cannot accidentally put it in
+    # the extraction prompt.
+    confirmed, to_verify = [], []
     for decision in decisions:
-        if not decision.kept:
+        if decision.route == DROP:
             log(f"search_stage: dropped {decision.url} ({decision.origin}): {decision.reason}")
             continue
-        confirmed.append(ConfirmedSource(
+        source = ConfirmedSource(
             source_id=decision.source_id,
             url=decision.url,
             text=texts_by_source_id.get(decision.source_id) or "",
             origin=decision.origin,
             verdict=decision.verdict,
-        ))
+        )
+        if decision.route == PROMPT:
+            confirmed.append(source)
+        else:
+            log(f"search_stage: to verify {decision.url} "
+                f"({decision.origin}): {decision.reason}")
+            to_verify.append(source)
+    if unverified is not None:
+        unverified.extend(to_verify)
+    elif to_verify:
+        # Not an error — a caller that does not run the verify pass is
+        # entitled to skip it — but it must be visible that material was set
+        # aside and nobody collected it, rather than looking like there was
+        # none.
+        log(f"search_stage: {len(to_verify)} source(s) routed to verify but "
+            f"the caller passed no `unverified` list — set aside, unread")
 
     # `counters`, when the caller passes a dict, is filled in place rather
     # than returned: `03-worker.md` §11c's counter 2 ("unread URLs left in
@@ -224,4 +258,6 @@ def search_sources(
         counters["covered"] = len(covered_urls)
         counters["unread_urls"] = [r.url for r in fused
                                    if normalize_url(r.url) not in taken]
+        counters["prompt_sources"] = len(confirmed)
+        counters["verify_sources"] = len(to_verify)
     return confirmed

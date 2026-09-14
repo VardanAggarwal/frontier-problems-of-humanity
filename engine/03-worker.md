@@ -319,6 +319,99 @@ other sources, which is the point of searching.
 
 ---
 
+## 6a. The uncertain bucket — verify and extract (decided 2026-09-14)
+
+Gate 2 returns three verdicts and `confirm_policy` used to turn them into two
+outcomes: `confirmed` and `uncertain` were both **kept**, and kept meant "goes
+into the extraction prompt". Putting an unconfirmed page into the prompt is
+resolving it as a pass, which is the one thing `gate2.py`'s contract forbids
+("never a silent pass and never a silent fail").
+
+`poc/gate2-band-sweep.md` measured the cost — five actors, ~200 pooled URLs,
+against cached text:
+
+- **`MISMATCH_BELOW = 0.55` was dead code.** Lowest cosine anywhere: 0.712.
+  No source had ever been dropped by a `mismatch` verdict, or could be.
+  Recalibrated to **0.78**, below which no genuine page in the sample fell.
+- **The `uncertain` band held roughly 60 of 200 URLs and was essentially all
+  junk** — eight AED→PHP currency converters, nine Filipino dessert recipe
+  blogs, seven "how to get help in Windows", six `360.cn` portal pages,
+  trophy shops, `jiosaavn.com`. All of it was reaching the extraction prompt.
+- **`CONFIRMED_ABOVE = 0.80` is right, and only with real context.** With the
+  candidate's own description passed, genuine minima were 0.811 / 0.831 /
+  0.848 against junk maxima 0.797 / 0.796 / 0.775. With empty context the
+  ranking inverts: `360.cn` outscored a real BKU page.
+- **Every remaining false positive was a thin page**, so `THIN_PAGE_CHARS` is
+  set (700) rather than parked.
+
+### Three routes, not two
+
+`PROMPT` (clean confirm) · `VERIFY` (uncertain, or confirmed-but-thin) ·
+`DROP` (mismatch, or no text to confirm against). This applies to the seed URL
+too — an uncertain seed used to bypass the policy entirely.
+
+### Why the bucket is not simply dropped
+
+One case in the sweep cannot be fixed by moving a threshold. For
+`jyoti-pande-lavakare`, four wrong-entity pages sharing the given name —
+`jyoti.co.in`, `jyoti.com`, `jyotiindia.com` (a water heater manufacturer),
+`screener.in/company/JYOTICNC` — scored 0.801-0.813, **above** her own
+LinkedIn post (0.789) and her own book (0.790). A common Indian given name
+beats a 500-char cosine at any single global threshold.
+
+The distinguishing evidence is not a similarity judgment at all: it is "this
+page is about a company that makes water heaters, and the entity is a person
+who writes about air pollution". A model reading the page can make that call;
+a cosine over the first 500 characters cannot. So the bucket gets a call whose
+**first** job is the identity decision.
+
+### The pass
+
+`prompts.verify_and_extract_prompt_batched`. Two steps in one call, because
+the verdict and the extraction read the same text and splitting them pays for
+that text twice:
+
+1. **A verdict per source** — `about` / `different` / `unrelated` /
+   `insufficient`. `different` and `unrelated` must carry `about_what`, so a
+   reviewer can check the reasoning without refetching. The prompt states
+   outright that a name match is *not* evidence — it is the reason the source
+   is in front of the model, not a reason to accept it.
+2. **Extraction from `about` sources only.** `parse_verified_answers` enforces
+   this rather than trusting it: an answer citing a source marked anything
+   else is dropped and logged. A source with **no** verdict is treated as not
+   `about` — the bucket is here precisely because an automated check could not
+   confirm it, so silence is not consent.
+
+Unlike the main prompt, this one is given the candidate's own description. The
+sweep is why: context is what separates a name collision from the real entity
+(adding it moved `jyoti.co.in` −0.034 and a genuine page +0.10). Asking for a
+verdict without it is asking in the regime where the signal inverts.
+
+### When it fires
+
+Only when the confirmed set cannot carry the candidate alone —
+`confirm_policy.prompt_set_is_thin`, fewer than `MIN_PROMPT_SOURCES` (2) or
+less than `MIN_PROMPT_CHARS` (2,000) of confirmed text. It costs a second paid
+call, and a candidate with an adequate confirmed set must never buy one. Both
+numbers are **unmeasured** and set to the weakest values that express the rule
+— no run has produced a distribution of confirmed-sources-per-candidate,
+because until now every count was inflated by junk. §14 owes both from a
+production run.
+
+Accepted sources are **not** re-read in the main call. The verify pass's own
+answers merge into the same ledger with the same provenance — a source is paid
+for once, which is §8's whole argument.
+
+### What this does not settle
+
+Five actors, one encoder, one 500-char preview, and the genuine-vs-junk labels
+are the author's eye rather than an independent ground truth. Enough to show
+the band was misplaced and the reject bucket miswired; not enough to fix a
+number to three decimals. `verify_different` is the counter to watch: a page
+an automated cosine could not rule out that a reading model identified as a
+different entity sharing the name is the direct measure of what this pass buys.
+
+
 ## 7. Stage 5 — passage retrieval
 
 The step that replaces "cap the page at N characters" with "select what's
@@ -856,8 +949,20 @@ The non-dollar budget is **throughput**: the OpenRouter free rung paces to
    require ≥2 confirmed sources in the non-contributing pass rather than
    leaning on §11b's yield gate.
 
+6. ~~**The gate-2 bands, and what happens to `uncertain`.**~~ **Decided
+   2026-09-14** from `poc/gate2-band-sweep.md`: `MISMATCH_BELOW` 0.55 -> 0.78
+   (0.55 was dead code — nothing scored below 0.712), `CONFIRMED_ABOVE` stays
+   0.80, `THIN_PAGE_CHARS` set to 700, and `uncertain` no longer enters the
+   extraction prompt — it routes to the verify-and-extract pass instead.
+   Full statement in §6a.
+
 **Still open:**
 
+- **`MIN_PROMPT_SOURCES` / `MIN_PROMPT_CHARS`** (§6a) — the trigger for the
+  verify pass, currently 2 and 2,000, the weakest values that express the
+  rule. No distribution of confirmed-sources-per-candidate exists yet, because
+  until the uncertain band was routed out every such count was inflated by
+  junk. Needs one production run.
 - **The `unresponsive_engines` floor** (§4) above which a run is flagged
   degraded and withheld from bandit reward. Needs the §16 step 0 spike to pick
   a number; guessing one now would be the same error `gate2.py` refuses to make.

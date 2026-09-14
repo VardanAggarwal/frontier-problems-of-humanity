@@ -15,11 +15,13 @@ below the low band the page is almost certainly not about the named entity
 at all (mismatch); above the high band it almost certainly is (confirmed);
 the wide middle is `uncertain` and must not be silently resolved either way.
 
-These constants are provisional, unmeasured, and awaiting the kind of
-calibration `embed/calibrate.py` ran for gate 1 — do not treat them as a
-settled finding. When that calibration exists, replace the two numbers, not
-the three-way shape: an `uncertain` band is doing real work (§8's whole
-argument against a bare cutoff) regardless of where its edges sit.
+MISMATCH_BELOW was calibrated 2026-09-14 against a real URL-pool sweep
+(`poc/gate2-band-sweep.md`); CONFIRMED_ABOVE was left where it was because the
+same sweep supports it. Neither is a settled finding — five actors is a small
+sample and the labels are the author's eye, not ground truth. When a fuller
+calibration exists, replace the two numbers, not the three-way shape: an
+`uncertain` band is doing real work (§8's whole argument against a bare
+cutoff) regardless of where its edges sit.
 """
 from __future__ import annotations
 
@@ -27,13 +29,33 @@ import sqlite3
 
 from embed.model import encode_one
 
-# Deliberately conservative and far apart, in lieu of a calibration sweep:
-# below MISMATCH_BELOW the page's opening shares almost nothing with the
-# candidate's own name+context, which not even topic-adjacency should produce;
-# above CONFIRMED_ABOVE two texts about the same named entity are expected to
-# sit, going by the general shape of the actor/problem bands in §8 (unrelated
-# pairs cluster around 0.80-0.84 there). Everything between is uncertain.
-MISMATCH_BELOW = 0.55
+# MISMATCH_BELOW was 0.55, chosen conservatively in lieu of a sweep. The sweep
+# has now been run — `poc/gate2-band-sweep.md`, five actors, ~200 pooled URLs
+# against cached text — and it found 0.55 to be DEAD CODE: the lowest cosine
+# observed anywhere was 0.712, so no source has ever been dropped by a
+# `mismatch` verdict, and none could be. That is e5-small's compression doing
+# exactly what §8 said it does.
+#
+# 0.78 is what that sweep supports, and no more precision than that is claimed:
+# with the candidate's real context passed, no genuine page in the sample fell
+# below it (lowest: 0.789, a real LinkedIn post), while it drops the clear junk
+# — currency converters, recipe blogs, `360.cn` portal pages, Windows help
+# articles — that clustered 0.712-0.779. The junk sitting just above it
+# (0.78-0.80) is not dropped; it lands in `uncertain`, which no longer enters
+# the extraction prompt (see `search/confirm_policy.py`).
+#
+# CONFIRMED_ABOVE stays 0.80. The sweep supports it as-is on organisations
+# (genuine minima 0.811 / 0.831 / 0.848 against junk maxima 0.797 / 0.796 /
+# 0.775) and shows it failing on ONE case it cannot be fixed for by moving:
+# `jyoti-pande-lavakare`, where four wrong-entity pages sharing the given name
+# (a water heater manufacturer among them) score 0.801-0.813 while her own
+# LinkedIn post and her own book score 0.789-0.790. A common personal name
+# beats a 500-char cosine at any single global threshold; that case needs a
+# second signal, not a different number.
+#
+# The three-way shape is unchanged, per this module's own instruction: when a
+# fuller calibration exists, move the numbers, not the shape.
+MISMATCH_BELOW = 0.78
 CONFIRMED_ABOVE = 0.80
 
 PREVIEW_CHARS = 500

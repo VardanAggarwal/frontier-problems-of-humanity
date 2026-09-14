@@ -3,10 +3,12 @@
 
 No network, no LLM call. Recorded-response tests replay real model output
 from `poc/poc2-responses/` against fixture-derived `PromptSource` lists
-built from `poc/fixtures/` — only `anthill-ventures` (2 sources),
-`bku-ekta-ugrahan` (4) and `jyoti-pande-lavakare` (4) are usable;
-`selco-foundation` and `bhavreen-kandhari` captured zero sources at fixture
-time and are not used here (`poc/poc2-results.md` "Open gaps" §1).
+built from `poc/fixtures/`. `selco-foundation` and `bhavreen-kandhari` were
+excluded here as "captured zero sources"; that turned out to be a
+`worker/fetch.py` cache bug rather than a fact about those actors, and both
+now carry four sources (`poc/poc2-results.md`, addendum 2026-09-14). The
+recorded responses still only exist for the original three, so the replay
+tests below are unchanged.
 
 The recorded response files predate `_response_envelope` and carry only
 `raw`/`json`/`parse_error` — no saved prompt or label map — so the exact
@@ -229,3 +231,135 @@ def test_retry_per_source_prompt_matches_solo_batched_call():
 
 def test_retry_per_source_empty_list():
     assert retry_per_source("actor", "X", []) == []
+
+
+# ------------------------------------------------- the verify-and-extract --
+# `prompts.verify_and_extract_prompt_batched` + `parse_verified_answers`, the
+# pass that handles the gate-2 `uncertain` bucket. The prompt instructs the
+# model to give a verdict per source and extract only from sources it marked
+# `about`; the parser does not trust that instruction. These tests are about
+# the not-trusting.
+
+from worker.prompts import (V_ABOUT, V_DIFFERENT, V_INSUFFICIENT,  # noqa: E402
+                            V_UNRELATED, parse_verified_answers,
+                            verify_and_extract_prompt_batched)
+
+
+def _srcs(n=3):
+    return [PromptSource(source_id=f"src{i}", label=f"S{i}",
+                         url=f"https://e{i}.test/", text=f"body {i}",
+                         chunk_refs=(f"src{i}:0",))
+            for i in range(1, n + 1)]
+
+
+def test_verify_prompt_carries_context_and_names_every_source():
+    sources = _srcs(2)
+    system, prompt = verify_and_extract_prompt_batched(
+        "actor", "Jyoti Pande Lavakare",
+        "Co-founder of Care for Air; writes on Delhi air pollution.", sources)
+    assert "UNVERIFIED" in system
+    assert "name match is NOT sufficient" in system
+    # the context is what separates a name collision from the real entity
+    assert "Care for Air" in prompt
+    assert "Entity description:" in prompt
+    for s in sources:
+        assert f"[{s.label}] {s.url}" in prompt
+
+
+def test_verify_prompt_rejects_an_unknown_kind():
+    with pytest.raises(ValueError):
+        verify_and_extract_prompt_batched("neither", "X", "ctx", _srcs(1))
+
+
+def test_answers_from_a_source_marked_different_are_dropped():
+    """The case the pass exists for: a water heater manufacturer sharing the
+    entity's given name. The model correctly calls it `different` — and must
+    not then answer from it."""
+    sources = _srcs(2)
+    body = {
+        "verdicts": [
+            {"source_id": "S1", "verdict": V_ABOUT, "why": "her own bio"},
+            {"source_id": "S2", "verdict": V_DIFFERENT,
+             "about_what": "a company manufacturing water heaters"},
+        ],
+        "answers": [
+            {"question_id": "q10_funding", "source_id": "S1", "answer": "grants"},
+            {"question_id": "q11_scale_metric", "source_id": "S2",
+             "answer": "revenue of 40 crore"},
+        ],
+    }
+    answers, verdicts, problems = parse_verified_answers(body, sources)
+    assert [a.question_id for a in answers] == ["q10_funding"]
+    assert verdicts["src2"]["verdict"] == V_DIFFERENT
+    assert any("contradicted its own verdict" in p for p in problems)
+
+
+def test_a_source_with_no_verdict_cannot_contribute():
+    """Silence is not consent — the whole bucket is here because an automated
+    check could not confirm it."""
+    sources = _srcs(2)
+    body = {
+        "verdicts": [{"source_id": "S1", "verdict": V_ABOUT}],
+        "answers": [
+            {"question_id": "q1", "source_id": "S1", "answer": "kept"},
+            {"question_id": "q2", "source_id": "S2", "answer": "dropped"},
+        ],
+    }
+    answers, _, problems = parse_verified_answers(body, sources)
+    assert [a.question_id for a in answers] == ["q1"]
+    assert any("no verdict returned for ['S2']" in p for p in problems)
+
+
+def test_missing_verdicts_block_everything():
+    """A model that skips step 1 entirely must extract nothing, not
+    everything."""
+    sources = _srcs(2)
+    body = {"answers": [{"question_id": "q1", "source_id": "S1", "answer": "x"}]}
+    answers, verdicts, problems = parse_verified_answers(body, sources)
+    assert answers == []
+    assert verdicts == {}
+    assert any("'verdicts' is missing" in p for p in problems)
+
+
+def test_unknown_verdict_value_is_treated_as_not_about():
+    sources = _srcs(1)
+    body = {
+        "verdicts": [{"source_id": "S1", "verdict": "probably yes"}],
+        "answers": [{"question_id": "q1", "source_id": "S1", "answer": "x"}],
+    }
+    answers, verdicts, problems = parse_verified_answers(body, sources)
+    assert answers == []
+    assert verdicts["src1"]["verdict"] == V_INSUFFICIENT
+    assert any("unknown verdict" in p for p in problems)
+
+
+def test_rejection_without_about_what_is_flagged_but_kept():
+    """`about_what` is how a reviewer checks the model's reasoning without
+    refetching. Its absence does not overturn the verdict — it is recorded as
+    unreviewable."""
+    sources = _srcs(1)
+    body = {"verdicts": [{"source_id": "S1", "verdict": V_UNRELATED}],
+            "answers": []}
+    _, verdicts, problems = parse_verified_answers(body, sources)
+    assert verdicts["src1"]["verdict"] == V_UNRELATED
+    assert any("unreviewable" in p for p in problems)
+
+
+def test_all_sources_rejected_is_a_clean_empty_result():
+    sources = _srcs(2)
+    body = {"verdicts": [
+        {"source_id": "S1", "verdict": V_UNRELATED, "about_what": "a help page"},
+        {"source_id": "S2", "verdict": V_DIFFERENT, "about_what": "another firm"},
+    ], "answers": []}
+    answers, verdicts, problems = parse_verified_answers(body, sources)
+    assert answers == []
+    assert len(verdicts) == 2
+    assert not any("contradicted" in p for p in problems)
+
+
+def test_unknown_source_id_in_a_verdict_is_never_guessed():
+    sources = _srcs(1)
+    body = {"verdicts": [{"source_id": "S9", "verdict": V_ABOUT}], "answers": []}
+    _, verdicts, problems = parse_verified_answers(body, sources)
+    assert verdicts == {}
+    assert any("unknown source_id" in p for p in problems)

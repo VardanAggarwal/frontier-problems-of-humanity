@@ -69,6 +69,20 @@ PAGE_A = "\n\n".join([
     "investments rather than distributed.",
     "Its contact route is a public enquiries address published on the "
     "website, and it accepts unsolicited pitches through a web form.",
+    # Padding, added 2026-09-14. confirm_policy.THIN_PAGE_CHARS is measured
+    # and on by default now, and these fixtures were 644/656 chars — about
+    # 100 words, which is genuinely a stub and correctly routes to the verify
+    # pass. These tests are about search adding sources, not about thinness,
+    # so the fixture is brought up to the length of an ordinary fetched
+    # article rather than the threshold being loosened to fit it.
+    "The annual letter goes on to describe the fund's approach to "
+    "measurement, noting that it tracks reach rather than outcome for most "
+    "of the portfolio, and that outcome measurement is confined to three "
+    "sectors where a validated instrument already exists.",
+    "A section on exits records that the fund has completed fourteen full "
+    "or partial exits since inception, that the median holding period was "
+    "just over seven years, and that two of those exits returned less than "
+    "the original investment.",
 ])
 PAGE_B = "\n\n".join([
     "A profile of the fund notes that it operates in India, Pakistan and "
@@ -80,6 +94,13 @@ PAGE_B = "\n\n".join([
     "Observers have questioned whether the returns reported by the fund are "
     "comparable with commercial venture benchmarks, since the fund's own "
     "cost of capital is a grant.",
+    # See the note on PAGE_A: padded past THIN_PAGE_CHARS deliberately.
+    "The same profile records that the fund publishes an annual portfolio "
+    "list, that the list has grown in every year but two, and that the "
+    "reporting unit is the investee company rather than the end customer.",
+    "It closes by noting that the fund convenes an annual gathering of its "
+    "investees, that attendance is not conditional on continued investment, "
+    "and that several alumni companies continue to attend.",
     "The organisation publishes an annual report and a searchable portfolio "
     "directory listing every company it has backed since inception.",
 ])
@@ -468,3 +489,121 @@ def test_predicted_depth_is_none_for_json_that_is_not_an_object(conn):
     cand = make_candidate(conn, kind="actor", name="List Org",
                           evidence=json.dumps(["tracked"]))
     assert worker._predicted_depth(cand) is None
+
+
+# ------------------------------------------------------ the verify pass ----
+# `03-worker.md` §6a. Gate-2 `uncertain` sources no longer enter the main
+# extraction prompt; they go to a second call whose first job is an identity
+# verdict per source. These tests drive it through `run_batch`.
+
+VERIFY_JSON = {
+    "verdicts": [
+        {"source_id": "S1", "verdict": "about",
+         "why": "describes the fund's portfolio and India office"},
+    ],
+    "answers": [
+        {"question_id": "q8_geography", "source_id": "S1",
+         "answer": "India", "confidence": 0.8},
+    ],
+    "claims": [], "emits": [], "edges": [],
+}
+
+VERIFY_ALL_REJECTED = {
+    "verdicts": [
+        {"source_id": "S1", "verdict": "different",
+         "about_what": "a water heater manufacturer sharing the name"},
+    ],
+    "answers": [
+        {"question_id": "q8_geography", "source_id": "S1",
+         "answer": "Gujarat", "confidence": 0.9},
+    ],
+    "claims": [], "emits": [], "edges": [],
+}
+
+
+def _uncertain_pipeline(monkeypatch, conn, fetch, extract_json, screen_ids):
+    """stub_pipeline, but gate 2 returns `uncertain` for every source, so the
+    whole source set routes to the verify bucket."""
+    return stub_pipeline(monkeypatch, conn, fetch=fetch,
+                         extract_json=extract_json, screen_ids=screen_ids,
+                         verdict="uncertain")
+
+
+def test_uncertain_sources_do_not_reach_the_main_extraction_prompt(
+        conn, monkeypatch, tmp_path):
+    cand = make_candidate(conn, kind="actor", name="Acumen",
+                          url="https://a.test/one")
+    fetch = FakeFetch(conn, {"https://a.test/one": PAGE_A}, default_text=PAGE_B)
+    seen = []
+
+    calls = _uncertain_pipeline(monkeypatch, conn, fetch,
+                               [VERIFY_JSON, BATCHED_JSON], [cand["id"]])
+    real_call = worker.llm.call
+
+    def recording_call(prompt, *, system=None, **kw):
+        seen.append(system or "")
+        return real_call(prompt, system=system, **kw)
+    monkeypatch.setattr(worker.llm, "call", recording_call)
+
+    report = worker.run_batch(conn, tmp_path, [cand],
+                              search_provider=ReplayProvider(POC0B),
+                              max_sources=3)
+
+    assert report["sources_in_prompt"] == 0, (
+        "an uncertain source reached the main extraction prompt")
+    assert report["verify_pass_calls"] == 1
+    assert any("UNVERIFIED" in s for s in seen), "the verify prompt never ran"
+
+
+def test_verify_pass_merges_answers_from_sources_it_accepted(
+        conn, monkeypatch, tmp_path):
+    cand = make_candidate(conn, kind="actor", name="Acumen",
+                          url="https://a.test/one")
+    fetch = FakeFetch(conn, {"https://a.test/one": PAGE_A}, default_text=PAGE_B)
+    _uncertain_pipeline(monkeypatch, conn, fetch, VERIFY_JSON, [cand["id"]])
+
+    report = worker.run_batch(conn, tmp_path, [cand],
+                              search_provider=ReplayProvider(POC0B),
+                              max_sources=3)
+
+    assert report["verify_about"] >= 1
+    assert report["verify_answers_merged"] >= 1
+    assert report["findings_written"] >= 1, (
+        "a verified answer must reach the ledger like any other")
+
+
+def test_verify_pass_rejecting_everything_writes_nothing(
+        conn, monkeypatch, tmp_path):
+    """The wrong-entity case. The model identifies a name collision and its
+    answer from that source must not survive — the parser enforces it rather
+    than trusting the instruction."""
+    cand = make_candidate(conn, kind="actor", name="Acumen",
+                          url="https://a.test/one")
+    fetch = FakeFetch(conn, {"https://a.test/one": PAGE_A}, default_text=PAGE_B)
+    _uncertain_pipeline(monkeypatch, conn, fetch, VERIFY_ALL_REJECTED,
+                        [cand["id"]])
+
+    report = worker.run_batch(conn, tmp_path, [cand],
+                              search_provider=ReplayProvider(POC0B),
+                              max_sources=3)
+
+    assert report["verify_different"] >= 1
+    assert report["verify_answers_merged"] == 0
+    assert report["verify_about"] == 0
+
+
+def test_adequate_confirmed_set_buys_no_verify_call(conn, monkeypatch, tmp_path):
+    """The pass costs a second paid call. A candidate whose confirmed set can
+    carry it alone must not buy one."""
+    cand = make_candidate(conn, kind="actor", name="Acumen",
+                          url="https://a.test/one")
+    fetch = FakeFetch(conn, {"https://a.test/one": PAGE_A}, default_text=PAGE_B)
+    stub_pipeline(monkeypatch, conn, fetch=fetch, extract_json=BATCHED_JSON,
+                  screen_ids=[cand["id"]])   # verdict="confirmed"
+
+    report = worker.run_batch(conn, tmp_path, [cand],
+                              search_provider=ReplayProvider(POC0B),
+                              max_sources=3)
+
+    assert report["sources_in_prompt"] >= 1
+    assert report["verify_pass_calls"] == 0
