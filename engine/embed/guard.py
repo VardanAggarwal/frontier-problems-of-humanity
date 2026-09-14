@@ -46,8 +46,17 @@ def require_fresh(conn: sqlite3.Connection, corpus: Path, *, allow: bool = False
         log(f"!! {problem}\n!! continuing anyway (--stale-ok)")
         return problem
     raise SystemExit(
-        f"{problem}\n\n  cd engine && python -m migrate.from_corpus "
-        f"--corpus {corpus} --out <db> --force\n"
+        f"{problem}\n\n"
+        "  If this store has no worker data worth keeping (a fresh build,\n"
+        "  a test fixture): cd engine && python -m migrate.from_corpus "
+        f"--corpus {corpus} --out <db>\n"
+        "  (refuses if <db> already exists — that is the point; delete it "
+        "yourself first if you mean it)\n\n"
+        "  If it's a live store — candidates, sources, edges, asks or "
+        "channels worth keeping — from_corpus.py will delete all of that. "
+        "Use instead:\n"
+        f"  cd engine && python -m migrate.restamp <db> --corpus {corpus} "
+        "--reason \"...\"\n\n"
         "  (or pass --stale-ok to measure it as it is)")
 
 

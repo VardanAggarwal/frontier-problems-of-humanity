@@ -497,16 +497,38 @@ def corpus_fingerprint(corpus: Path) -> str:
     return db.fingerprint(corpus_files(corpus), root=corpus)
 
 
-def run(corpus: Path, out: Path, *, force: bool = False) -> Report:
-    """`force=False` is the safe default for a caller writing to a real path;
-    main() flips it on --force. Callers who already know they want a fresh
-    file (tests using a scratch tmp_path) can just pass force=True."""
+def run(corpus: Path, out: Path) -> Report:
+    """Builds `out` fresh from `corpus` — always refuses if `out` already
+    exists, unconditionally, no override.
+
+    There used to be a `force` flag here. Removed 2026-09-15: this migration
+    deletes and recreates `out` from nothing, which is safe only when `out`
+    holds nothing worth keeping. It stopped being safe the moment `graph.db`
+    became the engine's durable store rather than a derived cache — `force`
+    was used once, live, against a real `graph.db` that had 11 candidates,
+    92 sources, 524 edges, 383 asks and 655 channels in it (all worker-
+    pipeline state with no representation in the markdown corpus at all),
+    and every one of those rows was silently gone after the run. Recovered
+    from a local `.bak-*` copy; nothing about the tool would have stopped it
+    from happening again, or warned that it had.
+
+    This function still exists for what it was actually for: building a
+    genuinely fresh store (a test's `tmp_path`, a from-scratch bootstrap
+    where `out` does not exist yet). For the everyday case — the store's
+    stamp is stale relative to `corpus` but its `candidate`/`source`/`edge`/
+    `ask`/`channel` data must survive — see `migrate/restamp.py`, which
+    updates only the fingerprint and touches nothing else.
+    """
     report = Report()
-    if out.exists() and not force:
-        raise FileExistsError(
-            f"refusing to overwrite existing output: {out} (pass --force to replace it)")
     if out.exists():
-        out.unlink()
+        raise FileExistsError(
+            f"refusing to overwrite existing output: {out} — this migration "
+            f"only builds a store from nothing. If the store exists and is "
+            f"just stale relative to the corpus, use `migrate/restamp.py` "
+            f"instead; it does not delete anything. If you genuinely want a "
+            f"from-scratch rebuild of a real store, back it up, delete it by "
+            f"hand, and re-run this — that is a deliberate, visible step, "
+            f"not a flag.")
     for suffix in ("-wal", "-shm"):
         side = out.with_name(out.name + suffix)
         if side.exists():
@@ -550,16 +572,14 @@ def main() -> int:
     parser.add_argument("--corpus", default="problems", type=Path)
     parser.add_argument("--out", default="problems/graph.db", type=Path)
     parser.add_argument("--quiet", action="store_true")
-    parser.add_argument("--force", action="store_true",
-                        help="overwrite --out if it already exists")
     args = parser.parse_args()
 
     out = args.out.resolve()
-    if out.exists() and not args.force:
-        print(f"refusing to overwrite existing output: {out} (pass --force to replace it)")
+    try:
+        report = run(args.corpus.resolve(), out)
+    except FileExistsError as e:
+        print(e)
         return 1
-
-    report = run(args.corpus.resolve(), out, force=True)
     if not report.counts:
         print("no counts — nothing migrated")
         return 0
