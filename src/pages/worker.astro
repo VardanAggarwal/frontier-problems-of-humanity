@@ -18,6 +18,12 @@ import Base from '../layouts/Base.astro';
     <strong>Writes only under <code>npm run dev</code>.</strong> A batch run makes real
     fetches and real LLM calls — it costs money and takes real time. Start small.
   </p>
+  <p class="note">
+    A resolved <code>actor</code> candidate shows up on <a href="/actors">/actors</a>
+    immediately. A resolved <code>problem</code> candidate does not — it has no need
+    placement yet, so it stays invisible to <code>/leaf</code> until you place it on
+    <a href="/triage">/triage</a>.
+  </p>
 
   <section class="panel">
     <h2>Seed a candidate</h2>
@@ -130,6 +136,7 @@ import Base from '../layouts/Base.astro';
     .qkind { flex: none; width: 4.2rem; color: var(--muted); font: .68rem/1 var(--mono); text-transform: uppercase; }
     .qname { flex: 1 1 auto; min-width: 0; }
     .qmeta { flex: none; color: var(--muted); font: .68rem/1 var(--mono); }
+    .qmeta a { color: var(--accent); }
     .qempty { font: .8rem/1 var(--sans); color: var(--muted); font-style: italic; padding: .6rem .2rem; }
   </style>
 
@@ -194,7 +201,23 @@ import Base from '../layouts/Base.astro';
           var kind = document.createElement('span'); kind.className = 'qkind'; kind.textContent = r.kind;
           var name = document.createElement('span'); name.className = 'qname'; name.textContent = r.name;
           var meta = document.createElement('span'); meta.className = 'qmeta';
-          meta.textContent = r.resolved_to ? ('resolved → ' + r.resolved_to) : fmtDate(r.first_seen);
+          if (r.resolved_to) {
+            // actor -> its page directly; problem -> /leaf/<id> once
+            // /triage has tagged it kind:leaf, /triage itself until then
+            // (resolved_kind_tag is NULL for every actor row and for a
+            // still-orphaned problem row alike).
+            var href = r.kind === 'actor' ? ('/actor/' + r.resolved_to)
+              : r.resolved_kind_tag === 'leaf' ? ('/leaf/' + r.resolved_to)
+              : '/triage';
+            var label = r.kind === 'actor' ? ('resolved → ' + r.resolved_to)
+              : r.resolved_kind_tag === 'leaf' ? ('resolved → ' + r.resolved_to)
+              : 'resolved — needs triage';
+            var a = document.createElement('a');
+            a.href = href; a.textContent = label;
+            meta.appendChild(a);
+          } else {
+            meta.textContent = fmtDate(r.first_seen);
+          }
           li.appendChild(cb); li.appendChild(id); li.appendChild(kind); li.appendChild(name); li.appendChild(meta);
           qList.appendChild(li);
         });

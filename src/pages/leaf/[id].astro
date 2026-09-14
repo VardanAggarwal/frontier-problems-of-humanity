@@ -211,6 +211,33 @@ const shortenNote = (raw) => {
     </p>
   )}
 
+  {(() => {
+    // worker.py has no doc file to write §B/§C/§D prose into — this content
+    // (engine/questions.yaml p4-p12) lands as needs_legs + six tags instead
+    // and is otherwise invisible on a doc: NULL leaf. Shown whenever any of
+    // them is present, not just on stubs — a machine finding is not prose,
+    // so it never replaces a human-written section above/below it.
+    const rows = [
+      ['Legs this needs', l.needs_legs.length > 0 && l.needs_legs.map((g) => LEG_LABEL[g] ?? g).join(', ')],
+      ['Magnitude', l.magnitude],
+      ['Differential vulnerability', l.differential_vulnerability],
+      ['Measurement state', l.measurement_state],
+      ['Burden', l.burden_note],
+      ['Blocker', l.blocker],
+      ['Representation verdict', l.representation_verdict],
+    ].filter(([, v]) => v);
+    return rows.length > 0 && (
+      <details class="leaf-prose" open>
+        <summary>Machine findings — extracted, not yet written into prose</summary>
+        <dl class="leafmeta">
+          {rows.map(([label, value]) => (
+            <div class="row"><dt>{label}</dt><dd><Fragment set:html={renderInline(String(value))} /></dd></div>
+          ))}
+        </dl>
+      </details>
+    );
+  })()}
+
   {l.lede && (
     <div class="prose" style="margin-top:1.5rem" set:html={render(l.lede)} />
   )}

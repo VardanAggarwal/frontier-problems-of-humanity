@@ -115,7 +115,7 @@ export function loadCorpus() {
   const ccLeaves = [];   // see module-doc debt note — no per-axis files exist yet
   for (const id of idsForKind(g, 'leaf')) {
     const row = g.prepare(
-      'SELECT title, one_line, status, geography, gap_note, doc, updated FROM problem WHERE id = ?'
+      'SELECT title, one_line, status, geography, needs_legs, gap_note, doc, updated FROM problem WHERE id = ?'
     ).get(id);
     const file = row.doc;
     const need = tagValue(g, 'problem', id, 'need');
@@ -138,6 +138,18 @@ export function loadCorpus() {
       gap_note: row.gap_note,
       gap_as_of: tagValue(g, 'problem', id, 'gap_as_of'),
       last_reviewed: tagValue(g, 'problem', id, 'last_reviewed'),
+      // §B/§C/§D narrative findings a human normally writes straight into
+      // the leaf's markdown prose (attachBody -> sections). worker.py has
+      // no doc file to write, so it lands these as tags/a column instead
+      // (engine/questions.yaml: p4_needs_legs, p5-p12) — surfaced here so a
+      // worker-authored leaf with doc: NULL isn't silently missing them.
+      needs_legs: jsonArr(row.needs_legs),
+      magnitude: tagValue(g, 'problem', id, 'magnitude'),
+      differential_vulnerability: tagValue(g, 'problem', id, 'differential_vulnerability'),
+      measurement_state: tagValue(g, 'problem', id, 'measurement_state'),
+      burden_note: tagValue(g, 'problem', id, 'burden_note'),
+      blocker: tagValue(g, 'problem', id, 'blocker'),
+      representation_verdict: tagValue(g, 'problem', id, 'representation_verdict'),
       sources: edgesOut(g, 'problem', id, 'cites').map((e) => {
         const s = g.prepare('SELECT url, title, org, year FROM source WHERE id = ?').get(e.dst_id);
         return s && { url: s.url, title: s.title ?? undefined, org: s.org ?? undefined, year: s.year ?? undefined };
