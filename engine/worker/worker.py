@@ -111,6 +111,43 @@ _ENUMS = {
 }
 
 
+# Which `tag:<ns>` fields are `multi: true` — derived from `questions.yaml`
+# via `REGISTRY`, not retyped, so this can't drift from the prompt's own
+# "[multiple answers allowed]" flag (`prompts.py:_question_block`).
+_TAG_MULTI = {q.claim_field[len("tag:"):]: q.multi
+             for q in REGISTRY.all() if q.claim_field.startswith("tag:")}
+
+# Near-miss synonyms for closed tag-namespace values — the model answers
+# with a real, sensible word that just isn't the exact enum spelling
+# (`store/tags.py`'s `satisfier_relation` wants the noun "absence", a model
+# reliably says the adjective "absent"). Scoped per namespace: the same
+# surface word can mean different things in different namespaces, so this is
+# not a single flat map. Precedent: `_DST_KIND_SYNONYMS` above, for the same
+# class of near-miss on `dst_kind`. Add an entry here only for a value seen
+# rejected in practice — this is not a hedge against every possible synonym.
+_TAG_VALUE_SYNONYMS = {
+    "satisfier_relation": {"absent": "absence"},
+}
+
+
+def _normalise_tag_value(ns: str, value: str) -> str:
+    return _TAG_VALUE_SYNONYMS.get(ns, {}).get(value, value)
+
+
+def _split_multi_tag_value(value):
+    """A `multi: true` tag answer may arrive as a native list, a JSON-list
+    *string* (the prompt now asks for this shape explicitly —
+    `prompts.py:_question_block`), or, from a model that ignores the format
+    instruction, a bare comma-joined string. Only the last needs splitting on
+    ',' — reuses `_coerce_json_list`'s list/JSON-string handling first so a
+    value that already parses as a list isn't also comma-split (a value
+    could legitimately contain a comma inside one item)."""
+    coerced = _coerce_json_list(value)
+    if len(coerced) == 1 and isinstance(coerced[0], str) and "," in coerced[0]:
+        return [v.strip() for v in coerced[0].split(",") if v.strip()]
+    return coerced
+
+
 def _coerce_json_list(value):
     """A list-column claim may arrive as a native list, a bare string (one
     item), or — plausibly, given the extract prompts literally say 'a JSON
@@ -193,11 +230,23 @@ def _apply_other_claims(conn: sqlite3.Connection, kind: str, entity_id: str,
         field, value = c.get("field", ""), c["value"]
         if field.startswith("tag:"):
             ns = field.split(":", 1)[1]
-            try:
-                db.tag(conn, kind, entity_id, ns, value, by=by)
-            except sqlite3.IntegrityError as e:
-                log(f"worker: rejected tag claim {field}={value!r} on "
-                    f"{kind}/{entity_id}: {e}")
+            # `multi: true` questions (mechanism, gap_missing_leg, ...) can
+            # come back as a native list, a JSON-list string, or a bare
+            # comma-joined string — split before writing, one `db.tag()`
+            # call per value, so one bad value in a multi-answer doesn't
+            # sink the good ones alongside it (each call catches its own
+            # IntegrityError). A non-multi field stays a single value, never
+            # run through the splitter — its enum values may themselves
+            # contain no comma but there is no reason to risk it.
+            values = (_split_multi_tag_value(value) if _TAG_MULTI.get(ns)
+                     else [value])
+            for v in values:
+                v = _normalise_tag_value(ns, str(v))
+                try:
+                    db.tag(conn, kind, entity_id, ns, v, by=by)
+                except sqlite3.IntegrityError as e:
+                    log(f"worker: rejected tag claim {field}={v!r} on "
+                        f"{kind}/{entity_id}: {e}")
             continue
         if kind == "actor" and field.startswith("ask:"):
             parts = field.split(":", 2)
@@ -729,6 +778,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             already = {s.source_id for s in sources}
             sources.extend(s for s in search_stage.search_sources(
                 name, depth=_predicted_depth(cand) or depth_mod.TRACKED_TIER,
+                kind=cand["kind"],
                 provider=search_provider,
                 fetch=lambda url: fetchmod.fetch(conn, corpus, url),
                 confirm=lambda n, ev, txt: gate2.confirm(conn, n, ev, txt),

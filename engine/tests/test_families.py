@@ -59,7 +59,11 @@ def test_failure_family_flagged_not_retrievable():
 
 def test_templates_substitute_and_match_recorded_queries():
     # Spot-check: for each family, the template with a real actor name
-    # substituted reproduces a query actually recorded for that family.
+    # substituted reproduces a query actually recorded for that family,
+    # modulo the literal quoting PoC-0b used — 2026-09-14 dropped quoting
+    # `{name}` (exact-phrase match returns near-nothing for a `problem`
+    # candidate's multi-word title), so compare with quotes stripped from
+    # both sides rather than requiring a byte-exact match.
     families = {fam["id"]: fam["query_template"] for fam in _load_families()}
     recorded_by_family = {}
     for path in glob.glob(str(POC0B_RESPONSES / "*.json")):
@@ -70,4 +74,5 @@ def test_templates_substitute_and_match_recorded_queries():
     for family, examples in recorded_by_family.items():
         template = families[family]
         name, expected_query = examples[0]
-        assert template.format(name=name) == expected_query
+        actual = template.format(name=name)
+        assert actual.replace('"', "") == expected_query.replace('"', "")

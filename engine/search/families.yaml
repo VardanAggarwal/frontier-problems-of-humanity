@@ -3,38 +3,64 @@
 # Family ids and query templates are derived from what PoC-0b actually ran
 # (`poc/poc0b_families.yaml`, verified here directly against the `family` and
 # `query` fields recorded across all 120 files in `poc/poc0b-responses/`) —
-# not invented. `{name}` is the actor's display name, substituted verbatim
-# (including surrounding quotes, which are part of the template).
+# not invented. `{name}` is the actor's display name, substituted verbatim.
+#
+# PoC-0b's own templates wrapped `{name}` in literal quotes (exact-phrase
+# match). Dropped 2026-09-14: for a `problem`-kind candidate, `{name}` is a
+# multi-word descriptive title, not a proper noun — quoting it as an exact
+# phrase returns near-nothing (nobody publishes that literal sentence), and
+# it made every family collapse into a single near-empty result set. Bare
+# terms let the search engine's own relevance ranking work. Actor names are
+# short enough that this costs little precision on that kind.
 #
 # PoC-0b's 7th family from `03-worker.md` §3 (`asks`) was dropped from that
 # PoC to land on 20 x 6 = 120 queries — it is not present in the recorded
 # data and is therefore not in this registry. Adding it back is a candidate
 # for later, not done here (track D's brief is to derive from what PoC-0b
 # ran, not to re-add the dropped 7th).
+#
+# `kind` (added 2026-09-14): every family below this point was PoC-0b's, and
+# PoC-0b only ever ran actor names — so all six are `kind: actor`, and until
+# now a `problem`-kind candidate was run through them unchanged (nonsense:
+# "founder director leadership" / "revenue customers model" / "contact
+# twitter newsletter" asked of a disease or a policy failure). `render_queries`
+# defaults to `kind="actor"` for backward compatibility with every existing
+# caller and test; `search_sources` now passes the candidate's own `kind`.
+# The `problem` family set below is derived from `questions.yaml`'s p1-p19
+# (kind: problem) buckets, not from a PoC — there is no PoC-0-equivalent for
+# problem candidates yet, so these templates are a first cut, not a measured
+# one, and should be revisited the way `failure`'s 28% finding revisited
+# actor's.
 
 families:
   - id: identity
-    query_template: '"{name}"'
+    kind: actor
+    query_template: '{name}'
     retrievable: true
 
   - id: money
-    query_template: '"{name}" funding raised grant crore'
+    kind: actor
+    query_template: '{name} funding raised grant crore'
     retrievable: true
 
   - id: people
-    query_template: '"{name}" founder director leadership'
+    kind: actor
+    query_template: '{name} founder director leadership'
     retrievable: true
 
   - id: viability
-    query_template: '"{name}" revenue customers model'
+    kind: actor
+    query_template: '{name} revenue customers model'
     retrievable: true
 
   - id: reach
-    query_template: '"{name}" contact twitter newsletter'
+    kind: actor
+    query_template: '{name} contact twitter newsletter'
     retrievable: true
 
   - id: failure
-    query_template: '"{name}" shut down closed pivot losses'
+    kind: actor
+    query_template: '{name} shut down closed pivot losses'
     # PoC-0b finding (poc/poc0b-results.md, "Real-run results — per-family
     # predicted coverage"): failure scored 28% predicted coverage, the
     # lowest of all six families, and this independently corroborates PoC-1c
@@ -44,3 +70,45 @@ families:
     # in the registry (per the plan doc's instruction not to delete it) but
     # flagged non-retrievable rather than treated as a retrieval bug to fix.
     retrievable: false
+
+  # ---------------------------------------------------------------- problem
+  # First cut, not PoC-measured. Mapped from questions.yaml's problem buckets:
+  # problem-evidence (p9 magnitude+denominator, p11 measurement_state),
+  # problem-who-works-it (p19 who_working — the family that actually answers
+  # "find related individuals"), problem-diagnosis (p14 blocker), problem-core
+  # (p3 geography, already folded into `identity` via the candidate's own name
+  # rather than a separate query).
+  - id: problem_identity
+    kind: problem
+    query_template: '{name}'
+    retrievable: true
+
+  - id: evidence
+    kind: problem
+    query_template: '{name} data statistics prevalence denominator'
+    # p9_magnitude / p11_measurement_state: a number with what it's a
+    # fraction of, or the explicit absence of one.
+    retrievable: true
+
+  - id: who_works_it
+    kind: problem
+    query_template: '{name} NGO organisation working on'
+    # p19_who_working: every actor the text supports, across all four legs
+    # (activism/institution/enterprise/service) — this is the family that
+    # produces the emits/edges the candidate-discovery goal depends on.
+    retrievable: true
+
+  - id: policy
+    kind: problem
+    query_template: '{name} government scheme policy'
+    # p14_blocker / p4_needs_legs: institution-leg coverage and the fiscal/
+    # political/technical constraint keeping a known fix from happening.
+    retrievable: true
+
+  - id: coverage
+    kind: problem
+    query_template: '{name} report investigation'
+    # p10_diff_vuln / p13_burden_note: press/investigative coverage is where
+    # differential-vulnerability and visible-vs-load-bearing-cause material
+    # actually shows up, not in reference/encyclopedia pages.
+    retrievable: true

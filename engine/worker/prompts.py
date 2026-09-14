@@ -41,6 +41,7 @@ import re
 
 from worker.extract_types import Answer, PromptSource
 from worker.questions import REGISTRY
+from store.tags import REGISTRY as TAG_REGISTRY
 
 BATCH_SIZE = 50
 
@@ -255,11 +256,42 @@ def render_block(source) -> str:
 
 def _question_block(kind: str) -> str:
     """One `- <id>: <question>` line per question of `kind`, in registry
-    order — ported from `poc/poc2_extract.py:89-94` unchanged."""
+    order — ported from `poc/poc2_extract.py:89-94` unchanged, extended
+    2026-09-14.
+
+    A `tag:<ns>` question whose namespace is CLOSED (`store/tags.py`'s
+    `open=False`) now has its exact allowed values spelled out inline, plus
+    an explicit output-format instruction for `multi` fields. Before this,
+    the model saw only the English question text and a bare "[multiple
+    answers allowed]" flag with no format spec — measured live on the
+    silicosis leaf: `agent` came back as the literal substance
+    (`"silica dust"`) instead of the category (`industrial-exposure`), and
+    `mechanism`/`gap_missing_leg` came back as a comma-joined string and a
+    JSON-list-shaped *string* respectively, neither of which matched
+    `store/tags.py`'s closed enum or a parseable multi-value shape — all
+    four got rejected at the `tag_validate_ins` trigger and silently
+    dropped. Options are pulled from `store/tags.py`'s REGISTRY (the same
+    source `questions.py` validates `claim_field` against at load time), not
+    retyped here, so the two can't drift."""
     lines = []
     for q in REGISTRY.all(kind):
         flag = " [multiple answers allowed]" if q.multi else ""
-        lines.append(f"- {q.id}: {q.question}{flag}")
+        ns = q.claim_field[len("tag:"):] if q.claim_field.startswith("tag:") else None
+        options_note = ""
+        if ns is not None:
+            _applies_to, is_open, _required_when, values = TAG_REGISTRY[ns]
+            if not is_open and values:
+                options = ", ".join(values)
+                if q.multi:
+                    options_note = (
+                        f" Answer as a JSON array using ONLY these values: "
+                        f"[{options}].")
+                else:
+                    options_note = (
+                        f" Answer with EXACTLY ONE of these values, verbatim "
+                        f"— not a paraphrase or a literal example of it: "
+                        f"{options}.")
+        lines.append(f"- {q.id}: {q.question}{flag}{options_note}")
     return "\n".join(lines)
 
 

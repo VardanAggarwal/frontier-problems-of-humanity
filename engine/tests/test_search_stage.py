@@ -70,7 +70,7 @@ def test_render_queries_only_retrievable_families():
 
 def test_render_queries_substitutes_name_verbatim():
     queries = dict(render_queries(NAME))
-    assert queries["identity"] == f'"{NAME}"'
+    assert queries["identity"] == NAME
     assert NAME in queries["money"]
 
 

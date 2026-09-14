@@ -59,18 +59,22 @@ def _slugify(title: str) -> str:
     return _SLUG_EDGE.sub("", s) or "entity"
 
 
-def _load_retrievable_families(families_path) -> list[dict]:
+def _load_retrievable_families(families_path, kind: str = "actor") -> list[dict]:
     with open(families_path) as f:
         doc = yaml.safe_load(f)
-    return [fam for fam in doc["families"] if fam.get("retrievable")]
+    return [fam for fam in doc["families"]
+            if fam.get("retrievable") and fam.get("kind", "actor") == kind]
 
 
-def render_queries(name: str, families_path=None) -> list[tuple[str, str]]:
+def render_queries(name: str, families_path=None, kind: str = "actor") -> list[tuple[str, str]]:
     """[(family_id, rendered_query_string), ...] for every `retrievable:
-    true` family in `families.yaml`. `{name}` is substituted verbatim,
-    including the template's own surrounding quotes — `search/families.yaml`'s
-    own contract, not reinterpreted here."""
-    families = _load_retrievable_families(families_path or DEFAULT_FAMILIES_PATH)
+    true` family of the given candidate `kind` in `families.yaml`. `{name}`
+    is substituted verbatim — `search/families.yaml`'s own contract, not
+    reinterpreted here. `kind` defaults to `"actor"` for backward
+    compatibility with callers that predate the `problem` family set
+    (2026-09-14) — every family in the registry from before that date is
+    tagged `kind: actor`."""
+    families = _load_retrievable_families(families_path or DEFAULT_FAMILIES_PATH, kind)
     return [(fam["id"], fam["query_template"].format(name=name)) for fam in families]
 
 
@@ -89,6 +93,7 @@ def search_sources(
         name: str,
         *,
         depth: str,
+        kind: str = "actor",
         provider,
         fetch: Callable,
         confirm: Callable,
@@ -105,6 +110,12 @@ def search_sources(
 ) -> list:
     """name -> a confirmed `list[ConfirmedSource]`, ready for E3's passage
     assembly.
+
+    `kind` — the candidate's `kind` (`"problem"` or `"actor"`), selecting
+    which family set in `families.yaml` renders the queries. Defaults to
+    `"actor"` for callers that predate the `problem` family set
+    (2026-09-14); the real caller (`worker/worker.py`) passes the
+    candidate's own `kind`.
 
     `provider` — an object shaped like `search.provider.ReplayProvider` /
     `SearxngProvider`, injected rather than constructed here. Driven through
@@ -151,7 +162,8 @@ def search_sources(
     # PoC-0b-derived query text in front of the provider at all. Do not
     # replace this with a direct families.yaml read that skips it.
     results_by_query = {}
-    for family_id, query_string in render_queries(name, families_path or DEFAULT_FAMILIES_PATH):
+    for family_id, query_string in render_queries(
+            name, families_path or DEFAULT_FAMILIES_PATH, kind=kind):
         response = provider.search(family_id, query_string, slug=resolved_slug)
         if not is_healthy(response, floor):
             log(
