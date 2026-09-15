@@ -92,10 +92,32 @@ def get_encoder():
     global _encoder
     if _encoder is None:
         from sentence_transformers import SentenceTransformer
-        try:
-            _encoder = SentenceTransformer(MODEL_NAME, local_files_only=True, device="cpu")
-        except Exception:
-            _encoder = SentenceTransformer(MODEL_NAME, device="cpu")
+
+        # A live worker (candidate 20/22, 2026-09-15T09:48) hung again after
+        # the device=cpu fix. `lldb -p <pid> -o "bt all"` this time showed the
+        # *main* thread blocked in `_ssl__SSLSocket_read` -> `PySSL_select`
+        # -> `poll` — a live network read, not MPS. `local_files_only=True`
+        # (the prior fix) is a kwarg to `SentenceTransformer`'s own loader;
+        # it does not reliably reach every internal `huggingface_hub` call
+        # some versions make, so with the model fully cached this process
+        # still tried the network and got stuck on a stalled connection with
+        # no timeout anywhere in that path. `HF_HUB_OFFLINE=1` was tried as
+        # the harder switch (huggingface_hub is documented to refuse any
+        # network attempt when it's set) but does not fully hold either:
+        # tested with the network blackholed, this dependency version still
+        # retried live HTTP HEAD requests for optional config files
+        # (`adapter_config.json`, `processor_config.json`) even after the
+        # weights themselves had loaded from cache. So this does not try to
+        # be clever about avoiding the network — it sets the env var anyway
+        # (harmless, may help on other dependency versions) and relies on
+        # `with_timeout` to make the wait bounded rather than infinite,
+        # which the blackholed-network test confirmed: raises `EmbedTimeout`
+        # at 45s instead of hanging forever.
+        import os
+        os.environ.setdefault("HF_HUB_OFFLINE", "1")
+        _encoder = with_timeout(
+            lambda: SentenceTransformer(MODEL_NAME, device="cpu"),
+            timeout_s=45.0, label="get_encoder")
     return _encoder
 
 
