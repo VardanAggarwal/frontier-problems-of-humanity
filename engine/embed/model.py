@@ -72,14 +72,30 @@ def get_encoder():
     check for updates — measured 2s vs. 15s cold-start on this machine with
     the model already on disk. Falls back to the network path so a machine
     without the cache still works, just slower.
+
+    `device="cpu"` — deliberately, not left to auto-select. On Apple Silicon
+    `SentenceTransformer` defaults to `mps:0` (the Metal/GPU backend), and
+    that is the actual root of the "hang" this module's `EmbedTimeout`
+    machinery was built to catch: `lldb -p <pid> -o "bt all"` on a genuinely
+    stuck worker (2026-09-15, candidate 78 "Amit Doshi") showed the main
+    thread wedged inside `at::mps::MPSStream::synchronize` ->
+    `-[_MTLCommandBuffer waitUntilCompleted]` — a Metal command buffer that
+    never signalled completion. Not a tokenizer issue at all; the earlier
+    "Token indices sequence length..." warning was a correlated red herring
+    (both fire on long text) rather than the cause. The `with_timeout` wrap
+    around `fit()`+`encode_one()` stays as a backstop, but a GPU
+    driver-level wait is not reliably interruptible the way CPU/Python code
+    is, so it cannot be trusted alone. Cost of forcing CPU is negligible: a
+    384-dim model encoding one short string per call has nothing for a GPU
+    to meaningfully accelerate.
     """
     global _encoder
     if _encoder is None:
         from sentence_transformers import SentenceTransformer
         try:
-            _encoder = SentenceTransformer(MODEL_NAME, local_files_only=True)
+            _encoder = SentenceTransformer(MODEL_NAME, local_files_only=True, device="cpu")
         except Exception:
-            _encoder = SentenceTransformer(MODEL_NAME)
+            _encoder = SentenceTransformer(MODEL_NAME, device="cpu")
     return _encoder
 
 
