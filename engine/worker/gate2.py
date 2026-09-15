@@ -27,7 +27,7 @@ from __future__ import annotations
 
 import sqlite3
 
-from embed.model import encode_one, fit
+from embed.model import EmbedTimeout, encode_one, fit, with_timeout
 
 # MISMATCH_BELOW was 0.55, chosen conservatively in lieu of a sweep. The sweep
 # has now been run — `poc/gate2-band-sweep.md`, five actors, ~200 pooled URLs
@@ -79,22 +79,37 @@ def confirm(conn: sqlite3.Connection, candidate_name: str,
     # Originally both were bounded with `clip()`, a cheap character-based
     # pre-bound — fine for a small overflow, but candidate 28's run
     # (2026-09-14T22:45) hit a 4464-token overflow (8.7x the limit) on a
-    # `clip()`-ed `left` and the worker hung indefinitely mid-`encode()`
-    # with no exception, killed only by an external signal. `fit()` (unlike
+    # `clip()`-ed `left` and the worker hung indefinitely mid-`encode()` with
+    # no exception, killed only by an external signal. `fit()` (unlike
     # `clip()`) truncates against the encoder's own tokenizer, so the string
-    # handed to `encode_one()` is never more than the true token budget —
-    # it loads the encoder, but `encode_one()` was about to do that anyway.
+    # handed to `encode_one()` is never more than the true token budget — but
+    # candidate 71 (2026-09-15T07:54) hung again at 2922 tokens even with
+    # `fit()` in place, so token-exact truncation alone does not bound the
+    # *cost of computing* the truncation (`fit()`'s own first pass tokenizes
+    # the whole untruncated input). See `_FIT_PRECLIP_CHARS` and
+    # `EmbedTimeout` in embed/model.py for the two-part fix: a cheap char cap
+    # ahead of `fit()`, and a wall-clock timeout as the backstop.
     left_raw = f"{candidate_name} {candidate_context}".strip()
     right_raw = cleaned_text[:PREVIEW_CHARS]
     if not left_raw or not right_raw:
         return "uncertain", 0.0, "gate2: empty candidate context or empty fetched text"
     # `fit()` refuses empty text (embed/model.py:prefix), hence the emptiness
     # check above runs on the raw strings first.
-    left = fit(left_raw, role="query")
-    right = fit(right_raw, role="query")
-
-    a = encode_one(left, role="query")
-    b = encode_one(right, role="query")
+    #
+    # `with_timeout` — not the bare calls — because both candidate 28
+    # (2026-09-14T22:45) and candidate 71 (2026-09-15T07:54) hung
+    # indefinitely right here with no exception, killed only by an external
+    # signal. A timeout turns that into an `uncertain` verdict instead of a
+    # dead worker. Wrapped as a closure over the module's own `fit`/
+    # `encode_one` (not a fixed helper) so tests can still monkeypatch
+    # `gate2.fit`/`gate2.encode_one` directly.
+    try:
+        a = with_timeout(lambda: encode_one(fit(left_raw, role="query"), role="query"),
+                         label="gate2 left-side embed")
+        b = with_timeout(lambda: encode_one(fit(right_raw, role="query"), role="query"),
+                         label="gate2 right-side embed")
+    except EmbedTimeout as exc:
+        return "uncertain", 0.0, f"gate2: {exc} — treated as unconfirmed, routed to verify pass"
     # Plain zip-sum rather than a numpy `(a * b).sum()`: both are
     # L2-normalized so the dot product is cosine either way, but summing by
     # hand works whether `encode_one` returns a numpy array (the real

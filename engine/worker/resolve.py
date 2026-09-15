@@ -57,7 +57,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from embed import index
-from embed.model import encode_one, fit
+from embed.model import EmbedTimeout, encode_one, fit, with_timeout
 from store import db
 from text.preview import content_tokens, _is_distinctive
 
@@ -92,13 +92,24 @@ def resolve_entity(conn: sqlite3.Connection, corpus: Path, kind: str,
 
     # `context` — "candidate evidence, snippet, extracted claims" per the
     # docstring above — can be the full fetched/extracted text, unbounded.
-    # `fit()` truncates against the encoder's own tokenizer (not `clip()`'s
-    # cheap, script-blind character bound — see gate2.py's confirm() for the
-    # same fix): a `clip()`-ed but still token-dense string reached
-    # `encode_one()` un-truncated and hung the worker on candidate 28's run
-    # (2026-09-14T22:45), and this path has the same exposure.
-    text = fit(f"{name} {context}".strip() or name, role="query")
-    vector = encode_one(text, role="query")
+    # `fit()` does token-exact truncation, ahead of it a cheap char pre-clip
+    # (`_FIT_PRECLIP_CHARS` in embed/model.py), and `with_timeout` bounds the
+    # pair by wall-clock — see gate2.py's confirm() for the fuller history:
+    # `fit()` alone (replacing `clip()`) still hung this call chain on
+    # candidate 71 (2026-09-15T07:54) after already having hung it once on
+    # candidate 28 (2026-09-14T22:45), because bounding the *output* size
+    # doesn't bound the cost of getting there. On timeout, treat it the same
+    # as an unreadable/empty context: don't guess, surface it as needing a
+    # human look rather than silently resolving to "new". Closure over the
+    # module's own `fit`/`encode_one` (not a fixed helper) so tests can still
+    # monkeypatch `resolve.fit`/`resolve.encode_one` directly.
+    text = f"{name} {context}".strip() or name
+    try:
+        vector = with_timeout(lambda: encode_one(fit(text, role="query"), role="query"),
+                              label="resolve embed")
+    except EmbedTimeout as exc:
+        return ResolveResult("ambiguous", shortlist=[],
+                             reason=f"embedding timed out, resolution deferred: {exc}")
     shortlist = index.knn(conn, kind, vector, k=SHORTLIST_K)
 
     if not shortlist:
