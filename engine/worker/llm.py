@@ -130,6 +130,12 @@ def _call_openrouter(prompt: str, model: str, max_tokens: int, system: str | Non
             "Content-Type": "application/json",
         },
         json={"model": model, "messages": messages, "max_tokens": max_tokens,
+              # Constrains decoding to syntactically valid JSON on models
+              # that support OpenAI-style JSON mode (both configured free
+              # models do). Doesn't enforce our schema, but kills the
+              # unbalanced-brace/missing-comma/unescaped-quote class of
+              # malformed response outright — cheaper than any retry.
+              "response_format": {"type": "json_object"},
               # Ask OpenRouter to report real dollar cost in usage.cost —
               # omitted, it silently reads as 0.0 even on paid models.
               "usage": {"include": True}},
@@ -179,6 +185,22 @@ def _call_openrouter(prompt: str, model: str, max_tokens: int, system: str | Non
     # budget forever via the backoff path instead).
     if not text and not truncated:
         raise LLMError(f"openrouter empty response: {str(data)[:200]}")
+    # `finish_reason` under-reports truncation on some free-tier models
+    # (observed 2026-09-17, worker/runs/*.log: `json.JSONDecodeError` at char
+    # offsets in the 16K-22K range — right at the max_tokens=4096 character
+    # budget — with finish_reason=="stop" instead of "length"). A JSON-mode
+    # response that doesn't end on a closing brace/bracket almost certainly
+    # got cut off mid-string/mid-array rather than malformed mid-stream —
+    # treat it as truncated too, so call() escalates the budget instead of
+    # retrying the same call at the same budget and failing identically each
+    # time (LLM_MAX_ATTEMPTS). Only applies to non-empty text; an empty
+    # truncated response was already handled above.
+    if not truncated and text:
+        stripped = text.strip()
+        if stripped.endswith("```"):
+            stripped = stripped[:-3].rstrip()
+        if stripped and stripped[-1] not in "}]":
+            truncated = True
     usage = data.get("usage") or {}
     in_tok, out_tok = usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0)
     return {
