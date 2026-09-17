@@ -390,7 +390,11 @@ def extract_prompt_batched(
         "the source was silent, NOT that the answer is no — and "
         "`uncounted` in `magnitude` is a real value, not a null: absence "
         "of measurement is a finding. Every other edge omits `signals`.\n\n"
-        "Respond with strict JSON only, no prose, no markdown fences:\n"
+        "Respond with strict JSON only, no prose, no markdown fences. If any "
+        "string value (an `answer`, `evidence`, `about_what`, `why`, `hint`, "
+        "`reason`) contains a double-quote character — a quoted figure or "
+        "claim copied from the source — escape it as `\\\"` so the JSON "
+        "stays valid; never emit an unescaped `\"` inside a string value:\n"
         '{"answers": [{"question_id": "...", "source_id": "S2", '
         '"chunk": "S2.3", "answer": "...", "confidence": 0.0, '
         '"reason": null}],\n'
