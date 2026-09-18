@@ -19,12 +19,14 @@ because gate 1/2/claims downstream only need to know "is there text or not."
 """
 from __future__ import annotations
 
+import io
 import sqlite3
 import threading
 from dataclasses import dataclass
 from pathlib import Path
 
 import requests
+from pypdf import PdfReader
 
 from text.canonical import canonicalize, url_hash
 from text.clean import clean
@@ -36,6 +38,18 @@ USER_AGENT = (
     "Mozilla/5.0 (compatible; fph-engine/0.1; "
     "+https://github.com/VardanAggarwal/frontier-problems-of-humanity)"
 )
+
+# A PDF beyond either ceiling is a book/report dump, not a fetchable
+# document — full-text extraction of a 1000-page PDF would stall the
+# worker's fetch loop over one url, for a source that was never going to
+# yield a clean passage anyway. Page count is checked first since it's a
+# fast metadata read (`len(PdfReader(...).pages)` doesn't decode any content
+# stream); byte size is checked even earlier, before `PdfReader` even opens
+# the buffer, since it's the cheapest possible signal. 50 pages and 10MB are
+# generous for a report/article/filing — the common case this pipeline
+# actually wants PDF text from — while still excluding a full book or scan.
+PDF_MAX_PAGES = 50
+PDF_MAX_BYTES = 10 * 1024 * 1024
 
 # Guards every sqlite touch in `fetch()` (the cache-check SELECT through
 # `_upsert_source`'s commit) so `search_stage.run_search_stage` can call
@@ -70,6 +84,37 @@ def _network_failure_state(reason: str) -> PageState:
     said no) — but the caller only needs "no usable text," so shape it like
     one rather than inventing a fifth PageState.state value."""
     return PageState("missing", "missing", True, False, 0, reason)
+
+
+def _is_pdf_response(resp: requests.Response, url: str) -> bool:
+    """Content-Type is the primary signal; the url suffix is a fallback for
+    servers that mislabel a PDF as `application/octet-stream` or plain html
+    (the search-stage's fixed instances all served PDFs correctly-labelled,
+    but nothing guarantees every server does)."""
+    content_type = getattr(resp, "headers", {}).get("Content-Type", "")
+    if "application/pdf" in content_type.lower():
+        return True
+    return url.lower().split("?", 1)[0].endswith(".pdf")
+
+
+def _pdf_too_large_state(reason: str) -> PageState:
+    """Same shape as `_network_failure_state` — this isn't a wall or a
+    missing page, but the caller only needs "no usable text," and `blocked`
+    with a `too_large` kind says why without inventing a sixth state."""
+    return PageState("blocked", "too_large", False, False, 0, reason)
+
+
+def _extract_pdf_text(reader: PdfReader) -> str:
+    """Best-effort text extraction from an already-opened `PdfReader`. Caps
+    at `PDF_MAX_PAGES` even though the caller already checked `len(pages)`
+    against the same ceiling — belt and suspenders, since a malformed PDF's
+    reported page count is metadata that can be wrong or absent for some
+    damaged files, and this is the one line standing between that and
+    extracting an entire book. A page with no extractable text (scanned
+    image, form fields only) yields `None` from `extract_text()` — skipped
+    rather than joined in as a literal "None"."""
+    pages = [page.extract_text() for page in reader.pages[:PDF_MAX_PAGES]]
+    return "\n\n".join(p for p in pages if p)
 
 
 def _cached_text_path(corpus: Path, row: sqlite3.Row) -> Path:
@@ -134,7 +179,7 @@ def fetch(conn: sqlite3.Connection, corpus: Path, url: str) -> FetchResult:
     try:
         resp = requests.get(url, timeout=TIMEOUT_S,
                             headers={"User-Agent": USER_AGENT})
-        raw, http_status = resp.text, resp.status_code
+        http_status = resp.status_code
     except requests.RequestException as e:
         state = _network_failure_state(f"{type(e).__name__}: {e}")
         with _DB_LOCK:
@@ -143,6 +188,70 @@ def fetch(conn: sqlite3.Connection, corpus: Path, url: str) -> FetchResult:
         return FetchResult(text=None, state=state, source_id=sid,
                            cache_hit=False, error=state.reason)
 
+    if _is_pdf_response(resp, url):
+        # `resp.content` (bytes), not `resp.text` — `.text` decodes the body
+        # as a string via requests' encoding guess, which mangles binary PDF
+        # bytes before extraction ever sees them.
+        content = resp.content
+
+        # Cheapest check first, before `PdfReader` even opens the buffer.
+        if len(content) > PDF_MAX_BYTES:
+            state = _pdf_too_large_state(
+                f"pdf too large to extract: {len(content)} bytes > "
+                f"{PDF_MAX_BYTES} byte cap")
+            with _DB_LOCK:
+                _upsert_source(conn, sid, url, canonical, text=None, raw="",
+                               state=state, http_status=http_status)
+            return FetchResult(text=None, state=state, source_id=sid,
+                               cache_hit=False, error=state.reason)
+
+        try:
+            reader = PdfReader(io.BytesIO(content))
+            page_count = len(reader.pages)
+        except Exception as e:
+            state = PageState("empty", "", True, False, 0,
+                              f"pdf extraction failed: {type(e).__name__}: {e}")
+            with _DB_LOCK:
+                _upsert_source(conn, sid, url, canonical, text=None, raw="",
+                               state=state, http_status=http_status)
+            return FetchResult(text=None, state=state, source_id=sid,
+                               cache_hit=False, error=state.reason)
+
+        # Page count is a fast metadata read — no content stream decoded —
+        # so this gate runs before the (much more expensive) full extraction
+        # below rather than after it.
+        if page_count > PDF_MAX_PAGES:
+            state = _pdf_too_large_state(
+                f"pdf too large to extract: {page_count} pages > "
+                f"{PDF_MAX_PAGES} page cap")
+            with _DB_LOCK:
+                _upsert_source(conn, sid, url, canonical, text=None, raw="",
+                               state=state, http_status=http_status)
+            return FetchResult(text=None, state=state, source_id=sid,
+                               cache_hit=False, error=state.reason)
+
+        try:
+            text = _extract_pdf_text(reader)
+        except Exception as e:
+            state = PageState("empty", "", True, False, 0,
+                              f"pdf extraction failed: {type(e).__name__}: {e}")
+            with _DB_LOCK:
+                _upsert_source(conn, sid, url, canonical, text=None, raw="",
+                               state=state, http_status=http_status)
+            return FetchResult(text=None, state=state, source_id=sid,
+                               cache_hit=False, error=state.reason)
+        # No HTML markup to fingerprint for a PDF — pass the extracted text
+        # itself as `raw` too, so `assess()`'s "empty body" vs "no
+        # extractable text" distinction still holds without special-casing
+        # pagestate.py for this caller.
+        state = assess(text, raw=text, http_status=http_status)
+        with _DB_LOCK:
+            _upsert_source(conn, sid, url, canonical, text=text, raw=text,
+                           state=state, http_status=http_status, corpus=corpus)
+        return FetchResult(text=text if state.usable else None, state=state,
+                           source_id=sid, cache_hit=False)
+
+    raw = resp.text
     text = clean(raw, url=url)
     state = assess(text, raw=raw, http_status=http_status)
     with _DB_LOCK:

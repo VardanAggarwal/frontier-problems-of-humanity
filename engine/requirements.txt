@@ -11,6 +11,7 @@ sqlite-vec>=0.1.9         # vec0 virtual tables, in the same file as the graph
 sentence-transformers>=3  # tier 1 encoder, local
 numpy
 requests>=2               # worker/fetch.py HTTP fetch, worker/llm.py openrouter rung
+pypdf>=4                  # worker/fetch.py PDF text extraction — core pipeline behaviour
 pytest>=8
 
 # Optional — only needed if the matching rung of worker/llm.py's fallback
