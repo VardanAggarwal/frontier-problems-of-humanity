@@ -202,12 +202,17 @@ def select(chunks: Sequence[Chunk], questions: Sequence[Question], k: int | None
     ranked_by_rank: dict[str, int] = {}   # chunk_ref -> best (lowest) rank seen
     kept: dict[str, Chunk] = {}
 
+    # Encoded once for every bucket below, not once per bucket — the chunk
+    # vectors are query-independent. `None` means the encoder is unreachable;
+    # `_rank_chunks` then returns the given order, exactly as before.
+    p_vecs = _encode_chunks(chunks)
+
     for bucket_id in bucket_ids:
         bucket = registry.bucket(bucket_id)
         query = bucket.retrieval_query
         if not query:
             continue
-        ranking = _rank_chunks(query, chunks)
+        ranking = _rank_chunks(query, chunks, p_vecs)
         for rank, ch in enumerate(ranking[:k]):
             ref = ch.chunk_ref
             if ref not in kept or rank < ranked_by_rank[ref]:
@@ -314,15 +319,45 @@ def expand_neighbours(selected: Sequence[Chunk], pool: Sequence[Chunk],
     return sorted(out.values(), key=lambda c: (priority[c.chunk_ref], c.source_id, c.ordinal))
 
 
-def _rank_chunks(query: str, chunks: Sequence[Chunk]) -> list[Chunk]:
+def _encode_chunks(chunks: Sequence[Chunk]):
+    """The chunk matrix, encoded once. `None` if the encoder is unreachable.
+
+    Split out of `_rank_chunks` because the passage vectors do not depend on
+    the query: `select()` ranks the same chunk set against one retrieval
+    query per bucket, and encoding inside that loop re-encoded every chunk
+    once per bucket. `questions.yaml` defines six problem buckets and six
+    actor buckets, so a run was paying 6x the necessary passage encodes —
+    the single largest embed cost in the worker, and pure waste.
+
+    Failure is `None`, not a raise: `_rank_chunks`'s contract is to degrade
+    to "whatever order chunking produced" when the encoder can't be loaded
+    at all (no network for a first-time model download in a constrained
+    test/CI environment), and hoisting must not turn that into a crash.
+    """
+    try:
+        return encode([c.text for c in chunks], role="passage")
+    except Exception:
+        return None
+
+
+def _rank_chunks(query: str, chunks: Sequence[Chunk], p_vecs=None) -> list[Chunk]:
     """`chunks` ranked best-first by cosine against `query`. Falls back to
     the given order (stable) if the encoder can't be loaded at all — e.g. no
     network for a first-time model download in a constrained test/CI
     environment — so a caller degrades to "whatever order chunking produced"
-    rather than raising."""
+    rather than raising.
+
+    `p_vecs` is the already-encoded chunk matrix from `_encode_chunks`. When
+    omitted this encodes them itself, so the function stays callable on its
+    own (tests, and any future single-query caller) with the same signature
+    it had before the hoist.
+    """
+    if p_vecs is None:
+        p_vecs = _encode_chunks(chunks)
+        if p_vecs is None:
+            return list(chunks)
     try:
         q_vec = encode([query], role="query")[0]
-        p_vecs = encode([c.text for c in chunks], role="passage")
     except Exception:
         return list(chunks)
     scored = sorted(

@@ -19,6 +19,7 @@ import json
 import os
 import sqlite3
 import sys
+import time
 from pathlib import Path
 
 from embed.guard import add_store_args, open_store
@@ -741,6 +742,50 @@ def _backfill_trigger_edge(conn: sqlite3.Connection, cand: sqlite3.Row, kind: st
             f"rejected: {ex}")
 
 
+def make_log(*, quiet: bool = False, stream=None):
+    """The run's log callable — `print` plus elapsed and per-line delta.
+
+    Every stage in the worker takes `log` injected (`log=print` defaults
+    throughout this module, `search_stage.search_sources`, `gate1.screen`),
+    so there is exactly one place a run's logger is built and this is it.
+
+    Two numbers, because they answer different questions:
+      `[03:12.4 +31.2s] search_stage: confirming https://...`
+       ^^^^^^^ elapsed since the run started — where in the run this is
+                ^^^^^ time since the PREVIOUS line — what that step cost
+
+    The delta is the one that finds a stall. Bare `print` gave neither, so a
+    run that took 50 minutes was indistinguishable from one that took 50
+    seconds, and the line before a hang looked exactly like any other line.
+    Candidate 28's stuck run (2026-09-14T22:45) was diagnosed by attaching
+    lldb to a live process, because the log could not say which step had
+    been sitting there and for how long.
+
+    `flush=True` is not cosmetic. These runs are redirected to a file
+    (`worker/runs/<ts>-<pid>.log`), where stdout is block-buffered, so a run
+    killed externally — exactly what happens to a hang — lost the last
+    several KB of its log, including the line naming the step it died in.
+    Flushing per line costs nothing at this volume and means the log on disk
+    is always current as of the last thing that happened.
+    """
+    if quiet:
+        return lambda *a, **k: None
+    t0 = time.monotonic()
+    last = [t0]
+
+    def log(*args, **kwargs):
+        now = time.monotonic()
+        elapsed, delta = now - t0, now - last[0]
+        last[0] = now
+        stamp = f"[{int(elapsed // 60):02d}:{elapsed % 60:04.1f} +{delta:5.1f}s]"
+        kwargs.setdefault("flush", True)
+        if stream is not None:
+            kwargs.setdefault("file", stream)
+        print(stamp, *args, **kwargs)
+
+    return log
+
+
 def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.Row],
              *, log=print, depth_tier: bool | None = None,
              problem_emission: bool | None = None, search_provider=None,
@@ -938,6 +983,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 provider=search_provider,
                 fetch=lambda url: fetchmod.fetch(conn, corpus, url),
                 confirm=lambda n, ev, txt: gate2.confirm(conn, n, ev, txt),
+                confirm_many=lambda n, ev, txts: gate2.confirm_many(conn, n, ev, txts),
                 evidence=cand["evidence"] or "", seed_url=None,
                 max_sources=max_sources, escalate=True,
                 counters=search_counters,
@@ -1295,7 +1341,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args(argv)
 
-    log = (lambda *a, **k: None) if args.quiet else print
+    log = make_log(quiet=args.quiet)
     search_provider = _build_search_provider(
         None if args.no_search else args.search_url)
     conn = open_store(args, log=log)

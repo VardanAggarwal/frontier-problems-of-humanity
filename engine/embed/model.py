@@ -120,7 +120,7 @@ def get_encoder():
 
         def _load():
             from sentence_transformers import SentenceTransformer
-            return SentenceTransformer(MODEL_NAME, device="cpu")
+            return SentenceTransformer(MODEL_NAME)
 
         _encoder = with_timeout(_load, timeout_s=45.0, label="get_encoder")
     return _encoder
