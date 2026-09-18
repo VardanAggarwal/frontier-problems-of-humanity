@@ -959,19 +959,58 @@ def test_call_raises_json_parse_error_when_every_attempt_is_broken_json(
     retried like any transient failure, and on exhaustion raised as a plain
     LLMError — indistinguishable from a real outage by the time worker.py
     saw it, so it could never route to the §13 per-source rescue. It must
-    now raise the more specific JSONParseError instead."""
+    now raise the more specific JSONParseError instead.
+
+    The fixture text must survive `_repair_json`'s `json_repair.loads` too,
+    not just `json.loads` — `{"answers": [}` (the original fixture here)
+    turns out to be exactly the kind of bracket-balance slip json_repair
+    fixes cleanly (`json_repair.loads('{"answers": [}')` == `{"answers":
+    []}`), so it no longer represents an unrepairable failure once
+    `_repair_json` is in the loop. Plain prose has no JSON structure for
+    json_repair to recover — `json_repair.loads` on it returns `''`, not a
+    dict — so it stays a real, unrepairable parse failure."""
     monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
     monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 2)
     monkeypatch.setattr(llm.time, "sleep", lambda s: None)
 
     def fake_call_openrouter(prompt, model, max_tokens, system):
-        return {"text": '{"answers": [}', "provider": "openrouter",
+        return {"text": "the model just wrote prose here, not JSON at all",
+                "provider": "openrouter",
                 "model": model, "input_tokens": 1, "output_tokens": 1,
                 "cost": 0.0, "truncated": False}
     monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
 
     with pytest.raises(llm.JSONParseError):
         llm.call("prompt", tier="judgment", providers=["openrouter"])
+
+
+def test_call_repairs_malformed_but_recoverable_json(monkeypatch, capsys):
+    """A trailing comma / unbalanced bracket — the class json_repair targets
+    — must parse successfully via the repair path instead of raising
+    JSONParseError, and the repair must be logged so a persistently broken
+    model still shows up as an anomaly."""
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 2)
+    monkeypatch.setattr(llm.time, "sleep", lambda s: None)
+
+    def fake_call_openrouter(prompt, model, max_tokens, system):
+        # Missing closing brace on the array — a genuine bracket-balance
+        # slip, not prose.
+        return {"text": '{"answers": [}', "provider": "openrouter",
+                "model": model, "input_tokens": 1, "output_tokens": 1,
+                "cost": 0.0, "truncated": False}
+    monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
+
+    result = llm.call("prompt", tier="judgment", providers=["openrouter"])
+    assert result["json"] == {"answers": []}
+    assert "repaired" in capsys.readouterr().out
+
+
+def test_repair_json_rejects_a_non_dict_repair():
+    """json_repair.loads on pure prose returns '' (or some other non-dict),
+    not an exception — `_repair_json` must not hand that back as a usable
+    result."""
+    assert llm._repair_json("just some prose, no JSON structure here") is None
 
 
 def test_json_parse_error_is_still_an_llmerror(monkeypatch):
