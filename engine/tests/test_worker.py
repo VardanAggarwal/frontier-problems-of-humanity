@@ -674,6 +674,94 @@ def test_run_batch_isolates_a_crashing_candidate_from_the_rest_of_the_batch(
     assert fine_row["resolved_to"] is not None and fine_row["admitted"] == 1
 
 
+def test_run_batch_rescues_via_13_then_resolves_with_sane_attribution(
+        conn, monkeypatch, tmp_path):
+    """2026-09-18T14:00 production log, candidate 528: the batched extraction
+    call raised `llm.JSONParseError` on every attempt, the §13 per-source
+    rescue then succeeded (one source parsed clean on retry), and
+    `stage=resolve` crashed with `UnboundLocalError: cannot access local
+    variable 'result'` — the §13 branch never sets `result`, but the
+    attribution line at the bottom of the per-candidate loop unconditionally
+    read `result.get('model', '?')`. This asserts the rescued path reaches
+    resolve/write without crashing, is NOT counted as `candidate_crashed`,
+    and gets a sane (non-crashing) attribution string derived from the
+    rescue call's own model rather than the absent batched-call `result`."""
+    from worker import extract as extract_mod
+    from worker.extract_types import PromptSource
+    from text.pagestate import PageState
+
+    cand = make_candidate(conn, kind="actor", name="Rescued Org",
+                          url="https://x.test/rescued")
+
+    # A real `source` row: `write_findings` FK-references `source.id`, so the
+    # `fetchmod.fetch` stub below still needs a matching row on disk (the
+    # real fetch() would have inserted one itself).
+    conn.execute(
+        "INSERT INTO source (id, url, url_canonical) VALUES (?, ?, ?)",
+        ("src-1", "https://x.test/rescued", "https://x.test/rescued"))
+    conn.commit()
+
+    # fetch — long enough text to clear THIN_PAGE_CHARS and route PROMPT.
+    fake_fetch = fetchmod.FetchResult(
+        text="x" * 1000, state=PageState("ok", "", False, True, 500, ""),
+        source_id="src-1", cache_hit=False)
+    monkeypatch.setattr(fetchmod, "fetch", lambda conn, corpus, url: fake_fetch)
+    monkeypatch.setattr(gate2, "confirm", lambda conn, name, ev, text: ("confirmed", 0.95, "ok"))
+
+    # assemble — bypass real chunking/ranking, hand back one prompt source so
+    # `batched` is True and the §13 rescue path (which only fires when
+    # `batched`) is reachable.
+    solo = PromptSource(source_id="src-1", label="S1", url="https://x.test/rescued",
+                        text="x" * 1000, chunk_refs=("src-1:0",))
+    monkeypatch.setattr(extract_mod, "assemble",
+                        lambda sources, questions, **kw: ([solo], {}))
+
+    calls = {"n": 0}
+
+    def fake_call(prompt, *, system=None, tier="mechanical", max_tokens=2048, **kw):
+        if "decisions" in prompt or "Screen these candidates" in prompt:
+            return {"json": {"decisions": [
+                {"id": str(cand["id"]), "keep": True, "reason": "ok"}]},
+                    "model": "gate-model", "cost": 0.0}
+        calls["n"] += 1
+        if calls["n"] == 1:
+            # The batched extraction call — every retry inside `llm.call`
+            # exhausted itself on malformed JSON.
+            raise llm.JSONParseError("malformed json on every attempt")
+        # §13's per-source retry call — this is the one that rescued
+        # candidate 528 in the production log.
+        return {"json": {"answers": [
+            {"question_id": "q1", "answer": "yes", "source_id": "S1",
+             "confidence": 0.9}]},
+                "model": "rescue-model", "cost": 0.001}
+
+    monkeypatch.setattr(worker.llm, "call", fake_call)
+    monkeypatch.setattr(gate1.llm, "call", fake_call)
+    monkeypatch.setattr(resolve, "encode_one", lambda text, *, role: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
+
+    candidates = [conn.execute("SELECT * FROM candidate WHERE id = ?",
+                               (cand["id"],)).fetchone()]
+    report = worker.run_batch(conn, tmp_path, candidates)
+
+    assert report.get("candidate_crashed", 0) == 0
+    assert report["retry_per_source_rescued"] == 1
+    assert report["resolved_new"] == 1
+
+    row = conn.execute("SELECT * FROM candidate WHERE id = ?", (cand["id"],)).fetchone()
+    assert row["resolved_to"] is not None and row["admitted"] == 1
+
+    # Attribution: the `by=` string built from `model_used`, not a crash.
+    # No single extraction-call `result` exists on the rescue path, so it
+    # must be derived from the rescuing per-source call's own model.
+    events = conn.execute(
+        "SELECT * FROM event WHERE entity_kind = ? AND entity_id = ? "
+        "ORDER BY id", (cand["kind"], row["resolved_to"])).fetchall()
+    assert events, "expected at least one event recorded for the written entity"
+    assert any(e["by"] == "worker:rescue-model" for e in events), \
+        [dict(e) for e in events]
+
+
 def test_run_batch_gate0_duplicate_inherits_the_survivors_terminal_state(
         conn, monkeypatch, tmp_path):
     """A candidate gate 0 collapses into another must not be left forever

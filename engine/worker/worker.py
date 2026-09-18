@@ -1044,6 +1044,16 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             extract_max_tokens = (llm.extraction_max_tokens(len(prompt_sources))
                                   if batched else 4096)
             claims_json = None
+            # Tracks which model(s) produced `claims_json`, for the `by=`
+            # attribution string used at resolve/write time below. The normal
+            # `else:` branch sets it from the one extraction call; the §13
+            # per-source rescue path (candidate 528, 2026-09-18 production
+            # log) has no single `result` to read `.model` off — each rescued
+            # source is its own `llm.call()` with its own model — so it is
+            # built up there instead. Never left unset: an UnboundLocalError
+            # here previously killed the whole batch (crash isolation added
+            # in cdadad3 would have only hidden it as a per-candidate crash).
+            model_used: str = "?"
             try:
                 result = llm.call(prompt, system=system, tier="judgment",
                                   max_tokens=extract_max_tokens)
@@ -1065,6 +1075,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             else:
                 report["cost"] += result.get("cost", 0.0)
                 claims_json = result.get("json")
+                model_used = result.get("model", "?")
 
             answers: list[Answer] = []
             if batched and not isinstance(claims_json, dict):
@@ -1074,6 +1085,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 # the retry is warranted by the observation, not by a size rule.
                 log(f"worker: candidate {cid} batched parse failed, retrying "
                     f"{len(prompt_sources)} sources one at a time (§13)")
+                rescue_models: set[str] = set()
                 for src, sys_p, usr_p in retry_per_source(kind, name, prompt_sources):
                     report["retry_per_source_calls"] += 1
                     try:
@@ -1090,11 +1102,20 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                     if got:
                         report["retry_per_source_rescued"] += 1
                         answers.extend(got)
+                        rescue_models.add(one.get("model", "?"))
                 if not answers:
                     log(f"worker: candidate {cid} malformed extraction JSON "
                         f"({type(claims_json).__name__}) and no source rescued it, "
                         "skipping")
                     continue
+                # §13's per-source rescue has no single extraction call to
+                # attribute to — each surviving source may even have used a
+                # different model on retry. One model across the board: name
+                # it. More than one, or none recorded: a clear "rescued"
+                # marker rather than a fabricated single model name.
+                model_used = (rescue_models.pop() if len(rescue_models) == 1
+                             else "rescued:" + "+".join(sorted(rescue_models))
+                             if rescue_models else "rescued:?")
                 claims_json = {"claims": [], "emits": [], "edges": []}
             elif not isinstance(claims_json, dict) or not all(
                     isinstance(claims_json.get(k), list)
@@ -1186,7 +1207,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                                               (cand["evidence"] or ""))
             report[f"resolved_{decision.decision if decision.decision != 'shortlist_top' else 'shortlist'}"] += 1
 
-            by = f"worker:{result.get('model', '?')}"
+            by = f"worker:{model_used}"
             if decision.decision == "ambiguous":
                 why = json.dumps([{"id": i, "cosine": c} for i, c in decision.shortlist])
                 db.record(conn, "candidate", cid, "resolve", None, why,
