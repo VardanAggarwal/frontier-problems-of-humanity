@@ -180,7 +180,7 @@ const shortenNote = (raw) => {
 
   <p class="note" id="rerunbox" data-id={l.id} style="margin-top:1.5rem">
     <button id="rerunbtn" type="button">Re-run through worker</button>{' '}
-    <span id="rerunstate">Reprocesses this leaf's candidate row(s) with <code>--force</code> — real fetches, real LLM calls. Writes only under <code>npm run dev</code>.</span>
+    <span id="rerunstate">Reprocesses this leaf's candidate row(s) with <code>--force</code> — or, if none exist yet, seeds one for this exact record and runs it — real fetches, real LLM calls. Writes only under <code>npm run dev</code>.</span>
   </p>
   <pre id="rerunlog" hidden></pre>
   <script is:inline>

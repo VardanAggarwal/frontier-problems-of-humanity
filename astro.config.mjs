@@ -477,11 +477,26 @@ function workerRunner() {
 /** Dev-only. POST /api/worker/rerun {kind, id, noSearch?} → finds every
  *  candidate row whose resolved_to is this entity, and re-runs worker.py
  *  against them with --force, streaming stdout/stderr exactly like
- *  /api/worker/run. Convenience for a leaf/actor page's "re-run through
- *  worker" button — the alternative is hunting the same candidate ids by
- *  hand on /worker. 404s with no process spawned when no candidate row
- *  resolves to this entity (a record created outside the worker, e.g. via
- *  /triage or process-leaf, has none — nothing for --force to reprocess). */
+ *  /api/worker/run (log-teed to WORKER_RUNS_DIR, survives a disconnect,
+ *  same reasoning as that function's own comment). Convenience for a
+ *  leaf/actor page's "re-run through worker" button — the alternative is
+ *  hunting the same candidate ids by hand on /worker.
+ *
+ *  When NO candidate resolves to this entity — a record minted outside the
+ *  worker (process-leaf, /triage, a hand-written actor file) has none —
+ *  one is seeded instead of refusing: `INSERT INTO candidate` with
+ *  `kind`/`name = <the entity's own id>`/`admitted = 1`. `name` is
+ *  deliberately the id, not the title: `worker/resolve.py:resolve_entity`
+ *  tries `store/db.py:resolve` FIRST, and that function's first check is a
+ *  literal `SELECT id FROM <table> WHERE id = ?` against whatever name it's
+ *  given — so passing the id itself is an exact primary-key hit,
+ *  independent of title drift, alias-table gaps or the embedding
+ *  shortlist's cosine noise (fuzzy match is a fallback ONLY on a miss, per
+ *  that module's docstring). This is the one case where the row does not
+ *  need `--force`: it starts with `resolved_to` NULL, so run_batch takes
+ *  its normal first-time path, and `_write_entity`'s `exact`/`shortlist_top`
+ *  branches both write matched columns onto the existing row rather than
+ *  minting a duplicate. */
 function workerRerunEntity() {
   return {
     name: 'fph:worker-rerun-entity',
@@ -503,37 +518,80 @@ function workerRerunEntity() {
           if (!id) { res.statusCode = 400; return res.end('id is required'); }
 
           const g = openGraphWritable(GRAPH_DB);
-          let ids;
+          let ids, seeded = false, force = true;
           try {
             ids = g.prepare(
               'SELECT id FROM candidate WHERE kind = ? AND resolved_to = ? ORDER BY first_seen'
             ).all(kind, id).map((r) => r.id);
+
+            if (ids.length === 0) {
+              const table = kind; // validated above to 'problem' | 'actor'
+              const entity = g.prepare(`SELECT id, title, one_line FROM ${table} WHERE id = ?`).get(id);
+              if (!entity) {
+                res.statusCode = 404;
+                return res.end(`no such ${kind}: ${id}`);
+              }
+              const ins = g.prepare(
+                'INSERT INTO candidate (kind, name, url, discovered_via, evidence, admitted) '
+                + 'VALUES (?, ?, NULL, ?, ?, 1)'
+              );
+              const info = ins.run(kind, entity.id, 'human:dev-rerun-ui', entity.one_line || entity.title || '');
+              ids = [Number(info.lastInsertRowid)];
+              seeded = true;
+              force = false; // fresh row, resolved_to already NULL — nothing to force past
+            }
           } finally { g.close(); }
 
-          if (ids.length === 0) {
-            res.statusCode = 404;
-            return res.end(`no candidate row resolves to ${kind}/${id} — nothing to re-run (seed one from /worker instead)`);
-          }
-
-          const args = ['-m', 'worker.worker', '--db', GRAPH_DB, '--corpus', REPO_ROOT,
-            '--ids', ids.join(','), '--force'];
+          const args = ['-m', 'worker.worker', '--db', GRAPH_DB, '--corpus', REPO_ROOT, '--ids', ids.join(',')];
+          if (force) args.push('--force');
           if (noSearch) args.push('--no-search');
+
+          mkdirSync(WORKER_RUNS_DIR, { recursive: true });
+          const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+          const child = spawn(PYTHON_BIN, args, { cwd: ENGINE_DIR });
+          const logPath = `${WORKER_RUNS_DIR}/${stamp}-${child.pid}.log`;
+          const logStream = createWriteStream(logPath);
+          const header = (seeded
+            ? `seeded candidate #${ids[0]} for ${kind}/${id} (name=${id}, no prior candidate row)\n`
+            : `re-running ${ids.length} existing candidate(s) resolved to ${kind}/${id}: ${ids.join(', ')}\n`)
+            + `$ ${PYTHON_BIN} ${args.join(' ')}\n(cwd: ${ENGINE_DIR})\n(log: ${logPath})\n\n`;
+          logStream.write(header);
 
           res.statusCode = 200;
           res.setHeader('content-type', 'text/plain; charset=utf-8');
-          res.write(`$ ${PYTHON_BIN} ${args.join(' ')}\n(cwd: ${ENGINE_DIR})\n\n`);
+          res.write(header);
 
-          const child = spawn(PYTHON_BIN, args, { cwd: ENGINE_DIR });
-          child.stdout.on('data', (c) => res.write(c));
-          child.stderr.on('data', (c) => res.write(c));
-          child.on('error', (e) => { res.write(`\n[spawn failed] ${e.message}\n`); res.end(); });
+          child.stdout.on('data', (c) => { if (!res.writableEnded) res.write(c); logStream.write(c); });
+          child.stderr.on('data', (c) => { if (!res.writableEnded) res.write(c); logStream.write(c); });
+          child.on('error', (e) => {
+            const msg = `\n[spawn failed] ${e.message}\n`;
+            if (!res.writableEnded) res.write(msg);
+            logStream.write(msg);
+            if (!res.writableEnded) res.end();
+            logStream.end();
+          });
           child.on('close', (code) => {
             markSelfWrite(GRAPH_DB); // a run may have written claims/edges
-            res.write(`\n[exit ${code}]\n`);
-            res.end();
-          });
-          res.on('close', () => {
-            if (!res.writableEnded && !child.killed) child.kill();
+            // Verify the seed actually landed back on THIS entity — the
+            // exact-id-match guarantee holds for `resolve_entity`, but a
+            // catastrophic write failure (`_write_entity`'s `_safe_put`
+            // fallback) or an LLM/extraction error that skips the candidate
+            // entirely could still leave `resolved_to` NULL. Surface that
+            // rather than let the button silently claim success.
+            let verify = '';
+            try {
+              const g2 = openGraphWritable(GRAPH_DB);
+              try {
+                const row = g2.prepare('SELECT resolved_to, admitted FROM candidate WHERE id = ?').get(ids[0]);
+                if (row && row.resolved_to === id) verify = `\n[verified] candidate #${ids[0]} resolved_to ${id} ✓\n`;
+                else if (row) verify = `\n[check] candidate #${ids[0]} resolved_to=${row.resolved_to ?? 'NULL'} admitted=${row.admitted ?? 'NULL'} (expected resolved_to=${id}) — see /worker\n`;
+              } finally { g2.close(); }
+            } catch { /* best-effort — don't let the verify step mask the run's own exit code */ }
+            const footer = `\n[exit ${code}]\n` + verify;
+            if (!res.writableEnded) res.write(footer);
+            logStream.write(footer);
+            if (!res.writableEnded) res.end();
+            logStream.end();
           });
         });
       });
