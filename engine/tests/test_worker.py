@@ -899,6 +899,57 @@ def test_extraction_max_tokens_scales_with_source_count_and_caps():
     assert llm.extraction_max_tokens(1000) == llm.MAX_TOKENS_CEILING
 
 
+def test_call_raises_json_parse_error_when_every_attempt_is_broken_json(
+        monkeypatch):
+    """2026-09-18, candidates 528/552/560: the model itself emitted broken
+    JSON on every attempt (genuine syntax errors — unquoted keys, missing
+    commas — not a network blip). Before this, `parse_json`'s
+    JSONDecodeError was caught by call()'s generic `except Exception`,
+    retried like any transient failure, and on exhaustion raised as a plain
+    LLMError — indistinguishable from a real outage by the time worker.py
+    saw it, so it could never route to the §13 per-source rescue. It must
+    now raise the more specific JSONParseError instead."""
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 2)
+    monkeypatch.setattr(llm.time, "sleep", lambda s: None)
+
+    def fake_call_openrouter(prompt, model, max_tokens, system):
+        return {"text": '{"answers": [}', "provider": "openrouter",
+                "model": model, "input_tokens": 1, "output_tokens": 1,
+                "cost": 0.0, "truncated": False}
+    monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
+
+    with pytest.raises(llm.JSONParseError):
+        llm.call("prompt", tier="judgment", providers=["openrouter"])
+
+
+def test_json_parse_error_is_still_an_llmerror(monkeypatch):
+    """Every other `except llm.LLMError` in worker.py (network failures,
+    unconfigured providers) must keep catching this — JSONParseError adds a
+    more specific branch, it doesn't replace the general one."""
+    assert issubclass(llm.JSONParseError, llm.LLMError)
+
+
+def test_call_does_not_misclassify_a_real_network_failure_as_json_parse_error(
+        monkeypatch):
+    """Guard against over-broadening: a plain connection/provider error must
+    still raise the ordinary LLMError, not JSONParseError, so it keeps being
+    treated as a network/provider outage rather than routed into the §13
+    per-source rescue (which would just repeat the same real failure once
+    per source for no benefit)."""
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 1)
+    monkeypatch.setattr(llm.time, "sleep", lambda s: None)
+
+    def fake_call_openrouter(prompt, model, max_tokens, system):
+        raise llm.LLMError("openrouter 503: upstream overloaded")
+    monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
+
+    with pytest.raises(llm.LLMError) as exc_info:
+        llm.call("prompt", tier="judgment", providers=["openrouter"])
+    assert not isinstance(exc_info.value, llm.JSONParseError)
+
+
 # ------------------------------------------------- track A: problem emission
 
 def _source_candidate(conn, *, resolved_to, evidence=None, kind="actor"):

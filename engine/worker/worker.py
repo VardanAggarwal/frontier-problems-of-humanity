@@ -1027,14 +1027,28 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         # scale by, and was never observed to trip this failure.
         extract_max_tokens = (llm.extraction_max_tokens(len(prompt_sources))
                               if batched else 4096)
+        claims_json = None
         try:
             result = llm.call(prompt, system=system, tier="judgment",
                               max_tokens=extract_max_tokens)
+        except llm.JSONParseError as e:
+            # The model itself emitted broken JSON on every attempt (not a
+            # network blip) — 2026-09-18, candidates 528/552/560. Batched:
+            # fall through to the same §13 per-source rescue below instead
+            # of skipping the whole candidate; `claims_json` stays `None`,
+            # which the `not isinstance(claims_json, dict)` check below
+            # already treats as a parse failure. Non-batched has no
+            # per-source rescue to fall into, so it still just skips.
+            log(f"worker: candidate {cid} extraction JSON parse failed on "
+                f"every attempt: {e}")
+            if not batched:
+                continue
         except llm.LLMError as e:
             log(f"worker: candidate {cid} extraction failed, skipping: {e}")
             continue
-        report["cost"] += result.get("cost", 0.0)
-        claims_json = result.get("json")
+        else:
+            report["cost"] += result.get("cost", 0.0)
+            claims_json = result.get("json")
 
         answers: list[Answer] = []
         if batched and not isinstance(claims_json, dict):

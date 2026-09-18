@@ -46,6 +46,22 @@ class RateLimitError(LLMError):
         self.retry_after = retry_after
 
 
+class JSONParseError(LLMError):
+    """Every attempt, across every configured provider, returned text that
+    failed `json.loads` even after call()'s own retry-with-backoff — the
+    model itself is emitting syntactically broken JSON (unquoted keys,
+    missing commas, trailing data), not a transient network blip that a
+    retry fixes. Raised distinctly from plain LLMError (2026-09-18,
+    candidates 528/552/560) so a caller with a per-source rescue —
+    worker.py's `retry_per_source`, §13 — can fall back to it instead of
+    treating this the same as a real network/provider outage and skipping
+    the whole candidate. Before this, a persistent parse failure never
+    reached that rescue at all: `parse_json`'s JSONDecodeError was caught by
+    call()'s generic `except Exception`, retried, and on exhaustion raised
+    as a plain LLMError — indistinguishable from any other failure by the
+    time it reached worker.py."""
+
+
 # Serializes openrouter dispatches to keep them ≥ OPENROUTER_MIN_INTERVAL_S
 # apart (client-side pacing under the free-tier req/min cap). Holding the lock
 # across the sleep is intentional: it spaces concurrent callers, not just this
@@ -130,12 +146,33 @@ def _call_openrouter(prompt: str, model: str, max_tokens: int, system: str | Non
             "Content-Type": "application/json",
         },
         json={"model": model, "messages": messages, "max_tokens": max_tokens,
+              # Low, not zero: some free-tier backends reject temperature=0
+              # outright on certain routes. Matches `_call_gemini`'s 0.1 —
+              # lower sampling entropy means fewer of the formatting mistakes
+              # (unquoted keys, dropped commas, duplicated objects) seen
+              # 2026-09-17/18 regardless of whether response_format is
+              # actually honored underneath (see require_parameters below).
+              "temperature": 0.1,
               # Constrains decoding to syntactically valid JSON on models
               # that support OpenAI-style JSON mode (both configured free
-              # models do). Doesn't enforce our schema, but kills the
-              # unbalanced-brace/missing-comma/unescaped-quote class of
-              # malformed response outright — cheaper than any retry.
+              # models CLAIM to). Doesn't enforce our schema, but is meant to
+              # kill the unbalanced-brace/missing-comma/unescaped-quote class
+              # of malformed response outright — cheaper than any retry.
               "response_format": {"type": "json_object"},
+              # `response_format` alone turned out not to be reliable
+              # (2026-09-18, candidates 528/552/560: genuine syntax breaks —
+              # unquoted keys, missing commas, trailing extra data — kept
+              # occurring after it shipped 2026-09-17). OpenRouter can route
+              # a `:free` model to a backend that silently ignores a request
+              # parameter it doesn't actually implement rather than erroring,
+              # so `response_format` may have been a no-op on some requests.
+              # `require_parameters` tells OpenRouter to only route to a
+              # backend that actually supports every parameter in this
+              # request — trading "might get an unsupported-backend error"
+              # for "silently got unenforced JSON mode", which is the
+              # correct trade since an error is caught by the retry/model-
+              # fallback chain below and a silent no-op isn't.
+              "provider": {"require_parameters": True},
               # Ask OpenRouter to report real dollar cost in usage.cost —
               # omitted, it silently reads as 0.0 even on paid models.
               "usage": {"include": True}},
@@ -360,6 +397,12 @@ def call(prompt: str, tier: str = "mechanical", max_tokens: int = 2048,
     status and retries next time.
     """
     last_err: Exception | None = None
+    # Latches True the moment any attempt's failure was a JSON parse error
+    # rather than a network/provider one — sticky across providers so a
+    # later provider's different (or absent, if unconfigured) failure can't
+    # erase the signal. Read at the final raise below to pick JSONParseError
+    # over the generic LLMError.
+    json_parse_failed = False
     # One entry per provider that was tried and gave up, "{provider}: {err}".
     # `last_err` alone used to be the final raise's only evidence — it gets
     # overwritten by every subsequent provider, so a real failure (the one
@@ -482,6 +525,8 @@ def call(prompt: str, tier: str = "mechanical", max_tokens: int = 2048,
                 break
             except Exception as e:
                 last_err = e
+                if isinstance(e, json.JSONDecodeError):
+                    json_parse_failed = True
                 attempt += 1
                 if attempt < attempts:
                     time.sleep(config.LLM_BACKOFF_BASE * (2 ** (attempt - 1)))
@@ -492,6 +537,8 @@ def call(prompt: str, tier: str = "mechanical", max_tokens: int = 2048,
         if last_err is not None:
             attempts_log.append(f"{provider}: {last_err}")
     detail = "; ".join(attempts_log) if attempts_log else str(last_err)
+    if json_parse_failed:
+        raise JSONParseError(f"all providers failed (JSON parse): {detail}")
     raise LLMError(f"all providers failed: {detail}")
 
 
