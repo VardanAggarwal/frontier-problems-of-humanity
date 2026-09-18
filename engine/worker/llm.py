@@ -23,6 +23,8 @@ import re
 import threading
 import time
 
+import json_repair
+
 from . import config
 
 # $ per MTok (input, output)
@@ -122,6 +124,29 @@ def parse_json(raw: str) -> dict:
         raise
 
 
+def _repair_json(raw: str) -> dict | None:
+    """Best-effort recovery for a response that already failed `parse_json`'s
+    strict `json.loads` — the genuine syntax breaks logged 2026-09-18 even
+    under JSON mode (unquoted keys, missing commas, trailing data:
+    `Expecting property name enclosed in double quotes`, `Expecting ','
+    delimiter`, `Extra data`). Tried once per attempt, before that attempt is
+    counted as a parse failure, so a single stray comma no longer costs a
+    retry or routes the whole candidate to the §13 per-source rescue.
+
+    Returns the parsed dict on success, None on anything else (including a
+    successful repair that isn't a dict — json_repair returns `''` rather
+    than raising on pure prose, which must NOT be treated as a usable
+    result). None is not a silent mask: the caller still raises exactly as
+    before when this returns None, and a caller-visible log line marks every
+    successful repair, so a model that is persistently broken remains
+    visible as an anomaly even though it no longer aborts the attempt."""
+    try:
+        repaired = json_repair.loads(raw)
+    except Exception:
+        return None
+    return repaired if isinstance(repaired, dict) else None
+
+
 def estimate_cost(model: str, input_tokens: int, output_tokens: int,
                   batch: bool = False) -> float:
     inp, out = _PRICES.get(model, (3.0, 15.0))
@@ -158,6 +183,22 @@ def _call_openrouter(prompt: str, model: str, max_tokens: int, system: str | Non
               # models CLAIM to). Doesn't enforce our schema, but is meant to
               # kill the unbalanced-brace/missing-comma/unescaped-quote class
               # of malformed response outright — cheaper than any retry.
+              # Considered switching to `{"type": "json_schema", ...}`
+              # (NVIDIA's own Nemotron docs recommend it, and this model
+              # supports it) — deferred 2026-09-18. The batched-extraction
+              # shape (`worker/prompts.py::extract_prompt_batched`) has an
+              # `answer` field whose type varies per question (free text,
+              # enum, or a list for `geography`-style multi-answers — see
+              # `parse_answers`'s own comment on that), an open `question_id`
+              # enum sourced from `questions.yaml` that grows over time, and
+              # several fields present only conditionally (`chunk`, `reason`,
+              # `signals`). Pinning that in strict JSON Schema either forces
+              # every optional/polymorphic field to `anyOf`-with-null (a
+              # schema that needs editing every time a question is added) or
+              # loosens `strict` enough to lose the enforcement this was for.
+              # `json_repair` below (see `_repair_json`) targets the actual
+              # observed failure mode — syntax breaks, not shape drift — at
+              # far less maintenance cost. Revisit if the schema stabilizes.
               "response_format": {"type": "json_object"},
               # `response_format` alone turned out not to be reliable
               # (2026-09-18, candidates 528/552/560: genuine syntax breaks —
@@ -501,7 +542,16 @@ def call(prompt: str, tier: str = "mechanical", max_tokens: int = 2048,
                     attempt += 1
                     continue  # retry same provider immediately, no backoff sleep
                 if json_out:
-                    result["json"] = parse_json(result["text"])
+                    try:
+                        result["json"] = parse_json(result["text"])
+                    except json.JSONDecodeError:
+                        repaired = _repair_json(result["text"])
+                        if repaired is None:
+                            raise
+                        print(f"llm: repaired malformed JSON output from "
+                              f"{provider} (strict parse failed, json_repair "
+                              f"succeeded)")
+                        result["json"] = repaired
                 return result
             except RateLimitError as e:
                 # Wait out the rate-limit window on THIS rung rather than

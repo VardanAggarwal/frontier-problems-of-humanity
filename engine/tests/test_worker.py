@@ -623,6 +623,145 @@ def test_run_batch_returns_empty_report_for_no_candidates(conn, tmp_path):
     assert report["gate1_kept"] == 0 and report["cost"] == 0.0
 
 
+def test_run_batch_isolates_a_crashing_candidate_from_the_rest_of_the_batch(
+        conn, monkeypatch, tmp_path):
+    """2026-09-18: candidate 528 raised mid-`resolve` in a 6-candidate `--ids`
+    run and took the other 5 down with it — the per-candidate loop had no
+    try/except, so one candidate's bug crashed the whole batch (`[exit 1]`,
+    no other candidate even started). A crash must now cost only that
+    candidate: no exception escapes run_batch, its own row is left
+    untouched (rolled back, not half-written), report["candidate_crashed"]
+    counts it, and every other candidate still gets fully processed."""
+    c_boom = make_candidate(conn, kind="actor", name="Boom Org")
+    c_fine = make_candidate(conn, kind="actor", name="Fine Org")
+
+    screen_decisions = [
+        {"id": str(c_boom["id"]), "keep": True, "reason": "ok"},
+        {"id": str(c_fine["id"]), "keep": True, "reason": "ok"},
+    ]
+    extract_json = {"claims": [], "emits": [], "edges": []}
+    _stub_llm_for_run_batch(monkeypatch, screen_decisions=screen_decisions,
+                            extract_json=extract_json)
+
+    real_resolve_entity = resolve.resolve_entity
+
+    def flaky_resolve_entity(conn, corpus, kind, name, evidence):
+        if name == "Boom Org":
+            raise RuntimeError("simulated crash — e.g. an embedder deadlock")
+        return real_resolve_entity(conn, corpus, kind, name, evidence)
+
+    monkeypatch.setattr(resolve, "resolve_entity", flaky_resolve_entity)
+    monkeypatch.setattr(resolve, "encode_one", lambda text, *, role: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
+
+    candidates = [conn.execute("SELECT * FROM candidate WHERE id = ?", (c["id"],)).fetchone()
+                 for c in (c_boom, c_fine)]
+    report = worker.run_batch(conn, tmp_path, candidates)
+
+    assert report["candidate_crashed"] == 1
+    assert report["resolved_new"] == 1   # c_fine still resolved normally
+
+    boom_row = conn.execute("SELECT * FROM candidate WHERE id = ?",
+                            (c_boom["id"],)).fetchone()
+    # `admitted=1` was gate1's decision, committed before the per-candidate
+    # loop even starts — the crash (inside resolve, later) and its rollback
+    # can't touch that. `resolved_to` is what the crash must have prevented:
+    # `_settle`'s write never reached a commit for this candidate.
+    assert boom_row["resolved_to"] is None
+
+    fine_row = conn.execute("SELECT * FROM candidate WHERE id = ?",
+                            (c_fine["id"],)).fetchone()
+    assert fine_row["resolved_to"] is not None and fine_row["admitted"] == 1
+
+
+def test_run_batch_rescues_via_13_then_resolves_with_sane_attribution(
+        conn, monkeypatch, tmp_path):
+    """2026-09-18T14:00 production log, candidate 528: the batched extraction
+    call raised `llm.JSONParseError` on every attempt, the §13 per-source
+    rescue then succeeded (one source parsed clean on retry), and
+    `stage=resolve` crashed with `UnboundLocalError: cannot access local
+    variable 'result'` — the §13 branch never sets `result`, but the
+    attribution line at the bottom of the per-candidate loop unconditionally
+    read `result.get('model', '?')`. This asserts the rescued path reaches
+    resolve/write without crashing, is NOT counted as `candidate_crashed`,
+    and gets a sane (non-crashing) attribution string derived from the
+    rescue call's own model rather than the absent batched-call `result`."""
+    from worker import extract as extract_mod
+    from worker.extract_types import PromptSource
+    from text.pagestate import PageState
+
+    cand = make_candidate(conn, kind="actor", name="Rescued Org",
+                          url="https://x.test/rescued")
+
+    # A real `source` row: `write_findings` FK-references `source.id`, so the
+    # `fetchmod.fetch` stub below still needs a matching row on disk (the
+    # real fetch() would have inserted one itself).
+    conn.execute(
+        "INSERT INTO source (id, url, url_canonical) VALUES (?, ?, ?)",
+        ("src-1", "https://x.test/rescued", "https://x.test/rescued"))
+    conn.commit()
+
+    # fetch — long enough text to clear THIN_PAGE_CHARS and route PROMPT.
+    fake_fetch = fetchmod.FetchResult(
+        text="x" * 1000, state=PageState("ok", "", False, True, 500, ""),
+        source_id="src-1", cache_hit=False)
+    monkeypatch.setattr(fetchmod, "fetch", lambda conn, corpus, url: fake_fetch)
+    monkeypatch.setattr(gate2, "confirm", lambda conn, name, ev, text: ("confirmed", 0.95, "ok"))
+
+    # assemble — bypass real chunking/ranking, hand back one prompt source so
+    # `batched` is True and the §13 rescue path (which only fires when
+    # `batched`) is reachable.
+    solo = PromptSource(source_id="src-1", label="S1", url="https://x.test/rescued",
+                        text="x" * 1000, chunk_refs=("src-1:0",))
+    monkeypatch.setattr(extract_mod, "assemble",
+                        lambda sources, questions, **kw: ([solo], {}))
+
+    calls = {"n": 0}
+
+    def fake_call(prompt, *, system=None, tier="mechanical", max_tokens=2048, **kw):
+        if "decisions" in prompt or "Screen these candidates" in prompt:
+            return {"json": {"decisions": [
+                {"id": str(cand["id"]), "keep": True, "reason": "ok"}]},
+                    "model": "gate-model", "cost": 0.0}
+        calls["n"] += 1
+        if calls["n"] == 1:
+            # The batched extraction call — every retry inside `llm.call`
+            # exhausted itself on malformed JSON.
+            raise llm.JSONParseError("malformed json on every attempt")
+        # §13's per-source retry call — this is the one that rescued
+        # candidate 528 in the production log.
+        return {"json": {"answers": [
+            {"question_id": "q1", "answer": "yes", "source_id": "S1",
+             "confidence": 0.9}]},
+                "model": "rescue-model", "cost": 0.001}
+
+    monkeypatch.setattr(worker.llm, "call", fake_call)
+    monkeypatch.setattr(gate1.llm, "call", fake_call)
+    monkeypatch.setattr(resolve, "encode_one", lambda text, *, role: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
+
+    candidates = [conn.execute("SELECT * FROM candidate WHERE id = ?",
+                               (cand["id"],)).fetchone()]
+    report = worker.run_batch(conn, tmp_path, candidates)
+
+    assert report.get("candidate_crashed", 0) == 0
+    assert report["retry_per_source_rescued"] == 1
+    assert report["resolved_new"] == 1
+
+    row = conn.execute("SELECT * FROM candidate WHERE id = ?", (cand["id"],)).fetchone()
+    assert row["resolved_to"] is not None and row["admitted"] == 1
+
+    # Attribution: the `by=` string built from `model_used`, not a crash.
+    # No single extraction-call `result` exists on the rescue path, so it
+    # must be derived from the rescuing per-source call's own model.
+    events = conn.execute(
+        "SELECT * FROM event WHERE entity_kind = ? AND entity_id = ? "
+        "ORDER BY id", (cand["kind"], row["resolved_to"])).fetchall()
+    assert events, "expected at least one event recorded for the written entity"
+    assert any(e["by"] == "worker:rescue-model" for e in events), \
+        [dict(e) for e in events]
+
+
 def test_run_batch_gate0_duplicate_inherits_the_survivors_terminal_state(
         conn, monkeypatch, tmp_path):
     """A candidate gate 0 collapses into another must not be left forever
@@ -908,19 +1047,58 @@ def test_call_raises_json_parse_error_when_every_attempt_is_broken_json(
     retried like any transient failure, and on exhaustion raised as a plain
     LLMError — indistinguishable from a real outage by the time worker.py
     saw it, so it could never route to the §13 per-source rescue. It must
-    now raise the more specific JSONParseError instead."""
+    now raise the more specific JSONParseError instead.
+
+    The fixture text must survive `_repair_json`'s `json_repair.loads` too,
+    not just `json.loads` — `{"answers": [}` (the original fixture here)
+    turns out to be exactly the kind of bracket-balance slip json_repair
+    fixes cleanly (`json_repair.loads('{"answers": [}')` == `{"answers":
+    []}`), so it no longer represents an unrepairable failure once
+    `_repair_json` is in the loop. Plain prose has no JSON structure for
+    json_repair to recover — `json_repair.loads` on it returns `''`, not a
+    dict — so it stays a real, unrepairable parse failure."""
     monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
     monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 2)
     monkeypatch.setattr(llm.time, "sleep", lambda s: None)
 
     def fake_call_openrouter(prompt, model, max_tokens, system):
-        return {"text": '{"answers": [}', "provider": "openrouter",
+        return {"text": "the model just wrote prose here, not JSON at all",
+                "provider": "openrouter",
                 "model": model, "input_tokens": 1, "output_tokens": 1,
                 "cost": 0.0, "truncated": False}
     monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
 
     with pytest.raises(llm.JSONParseError):
         llm.call("prompt", tier="judgment", providers=["openrouter"])
+
+
+def test_call_repairs_malformed_but_recoverable_json(monkeypatch, capsys):
+    """A trailing comma / unbalanced bracket — the class json_repair targets
+    — must parse successfully via the repair path instead of raising
+    JSONParseError, and the repair must be logged so a persistently broken
+    model still shows up as an anomaly."""
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 2)
+    monkeypatch.setattr(llm.time, "sleep", lambda s: None)
+
+    def fake_call_openrouter(prompt, model, max_tokens, system):
+        # Missing closing brace on the array — a genuine bracket-balance
+        # slip, not prose.
+        return {"text": '{"answers": [}', "provider": "openrouter",
+                "model": model, "input_tokens": 1, "output_tokens": 1,
+                "cost": 0.0, "truncated": False}
+    monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
+
+    result = llm.call("prompt", tier="judgment", providers=["openrouter"])
+    assert result["json"] == {"answers": []}
+    assert "repaired" in capsys.readouterr().out
+
+
+def test_repair_json_rejects_a_non_dict_repair():
+    """json_repair.loads on pure prose returns '' (or some other non-dict),
+    not an exception — `_repair_json` must not hand that back as a usable
+    result."""
+    assert llm._repair_json("just some prose, no JSON structure here") is None
 
 
 def test_json_parse_error_is_still_an_llmerror(monkeypatch):
