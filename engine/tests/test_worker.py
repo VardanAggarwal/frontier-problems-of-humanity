@@ -837,26 +837,6 @@ def test_shortlist_top_resolution_caches_an_alias(conn):
     assert db.resolve(conn, "actor", "Existing Org (alt spelling)") == "existing-org"
 
 
-def test_call_fails_fast_on_a_missing_provider_package(monkeypatch):
-    """A missing `anthropic`/`google-genai` install must not burn every
-    retry's backoff sleep before falling through — that's indistinguishable
-    from a slow network failure and wastes the whole attempt budget on
-    something no retry can fix."""
-    monkeypatch.setattr(llm.config, "ANTHROPIC_KEY", "x")
-    monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 3)
-
-    def boom(*a, **kw):
-        raise ImportError("no module named anthropic")
-    monkeypatch.setattr(llm, "_call_claude", boom)
-
-    slept = []
-    monkeypatch.setattr(llm.time, "sleep", lambda s: slept.append(s))
-
-    with pytest.raises(llm.LLMError, match="required package not installed"):
-        llm.call("prompt", providers=["claude"])
-    assert slept == []   # no backoff sleep — the provider was abandoned, not retried
-
-
 def test_openrouter_falls_back_to_the_next_configured_model(monkeypatch):
     """Candidate 12 (groundwater-depletion-from-irrigation, 2026-09-14/15):
     the single configured openrouter model came back HTTP 200 with a
@@ -876,7 +856,7 @@ def test_openrouter_falls_back_to_the_next_configured_model(monkeypatch):
                "input_tokens": 1, "output_tokens": 1, "cost": 0.0}
     monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
 
-    result = llm.call("prompt", tier="judgment", providers=["openrouter"])
+    result = llm.call("prompt", tier="judgment")
     assert calls == ["flaky/model:free", "backup/model:free"]
     assert result["model"] == "backup/model:free"
 
@@ -903,7 +883,7 @@ def test_openrouter_model_fallback_tries_next_model_on_rate_limit(monkeypatch):
                "input_tokens": 1, "output_tokens": 1, "cost": 0.0}
     monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
 
-    result = llm.call("prompt", tier="judgment", providers=["openrouter"])
+    result = llm.call("prompt", tier="judgment")
     assert calls == ["model-a:free", "model-b:free"]
     assert result["model"] == "model-b:free"
 
@@ -925,31 +905,68 @@ def test_openrouter_rate_limit_still_reaches_outer_wait_handler_if_every_model_f
     monkeypatch.setattr(llm.time, "sleep", lambda s: None)
 
     with pytest.raises(llm.LLMError, match="model-b:free"):
-        llm.call("prompt", tier="judgment", providers=["openrouter"])
+        llm.call("prompt", tier="judgment")
     assert calls == ["model-a:free", "model-b:free"]
 
 
-def test_all_providers_failed_message_includes_every_providers_error(monkeypatch):
-    """The masking bug candidate 12 hit: `last_err` used to be overwritten
-    by each subsequent provider, so openrouter's real failure disappeared
-    behind claude's/gemini's expected "package not installed". The final
-    message must show every rung's own error, not just the last one."""
+def test_all_models_failed_message_includes_every_models_error(monkeypatch):
+    """The masking bug candidate 12 hit: `last_err` used to be overwritten by
+    each subsequent try, so the failure that mattered disappeared behind a
+    later, uninteresting one. The axis used to be providers and is now models
+    (the claude/gemini/local rungs went 2026-09-18), but the requirement is
+    unchanged — the final message must show every model's own error."""
     monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
-    monkeypatch.setattr(llm.config, "ANTHROPIC_KEY", "x")
+    monkeypatch.setattr(llm.config, "OPENROUTER_MODELS_MECHANICAL",
+                        ["model-a:free", "model-b:free"])
+    monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 1)
 
-    def boom_openrouter(*a, **kw):
-        raise llm.LLMError("HTTP 200 but body is whitespace-only")
-    monkeypatch.setattr(llm, "_call_openrouter", boom_openrouter)
-
-    def boom_claude(*a, **kw):
-        raise ImportError("no module named anthropic")
-    monkeypatch.setattr(llm, "_call_claude", boom_claude)
+    def boom(prompt, model, max_tokens, system):
+        if model == "model-a:free":
+            raise llm.LLMError("HTTP 200 but body is whitespace-only")
+        raise llm.LLMError("404 No endpoints found")
+    monkeypatch.setattr(llm, "_call_openrouter", boom)
 
     with pytest.raises(llm.LLMError) as exc_info:
-        llm.call("prompt", providers=["openrouter", "claude"])
+        llm.call("prompt")
     message = str(exc_info.value)
-    assert "whitespace-only" in message, "openrouter's real error was masked"
-    assert "required package not installed" in message, "claude's error should still be present too"
+    assert "whitespace-only" in message, "model-a's real error was masked"
+    assert "404 No endpoints found" in message, "model-b's error should be present too"
+
+
+def test_call_sends_reasoning_disabled(monkeypatch):
+    """The 2026-09-18 extraction failure in one assertion. Every configured
+    free model is a reasoning model and OpenRouter bills hidden chain-of-
+    thought against `max_tokens`; measured on the real 8-source prompt, that
+    was 8,922 of a 10,240-token budget, leaving too little for the answer and
+    returning a force-closed partial object. Extraction copies spans into a
+    fixed schema — there is nothing to reason about — so the request must
+    always carry `reasoning: {enabled: False}`. Without it the call does not
+    fail loudly; it returns truncated JSON and burns 110s doing it."""
+    import requests as requests_mod
+    sent = {}
+
+    class FakeResp:
+        status_code = 200
+        headers: dict = {}
+        text = '{"choices": []}'
+
+        def json(self):
+            return {"choices": [{"message": {"content": '{"ok": true}'},
+                                 "finish_reason": "stop"}],
+                    "usage": {"prompt_tokens": 1, "completion_tokens": 1, "cost": 0.0}}
+
+    def fake_post(url, headers=None, json=None, timeout=None):
+        sent.update(json)
+        return FakeResp()
+    monkeypatch.setattr(requests_mod, "post", fake_post)
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm.config, "OPENROUTER_MIN_INTERVAL_S", 0)
+
+    llm.call("prompt", tier="judgment")
+    assert sent["reasoning"] == {"enabled": False}
+    assert "provider" not in sent, (
+        "require_parameters was removed — it 404'd on models that declare "
+        "neither response_format nor structured_outputs")
 
 
 def test_call_openrouter_diagnoses_a_non_json_200_body(monkeypatch):
@@ -1069,7 +1086,7 @@ def test_call_raises_json_parse_error_when_every_attempt_is_broken_json(
     monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
 
     with pytest.raises(llm.JSONParseError):
-        llm.call("prompt", tier="judgment", providers=["openrouter"])
+        llm.call("prompt", tier="judgment")
 
 
 def test_call_repairs_malformed_but_recoverable_json(monkeypatch, capsys):
@@ -1089,7 +1106,7 @@ def test_call_repairs_malformed_but_recoverable_json(monkeypatch, capsys):
                 "cost": 0.0, "truncated": False}
     monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
 
-    result = llm.call("prompt", tier="judgment", providers=["openrouter"])
+    result = llm.call("prompt", tier="judgment")
     assert result["json"] == {"answers": []}
     assert "repaired" in capsys.readouterr().out
 
@@ -1124,7 +1141,7 @@ def test_call_does_not_misclassify_a_real_network_failure_as_json_parse_error(
     monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
 
     with pytest.raises(llm.LLMError) as exc_info:
-        llm.call("prompt", tier="judgment", providers=["openrouter"])
+        llm.call("prompt", tier="judgment")
     assert not isinstance(exc_info.value, llm.JSONParseError)
 
 

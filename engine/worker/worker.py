@@ -1420,15 +1420,38 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 log(f"worker: candidate {cid} batched parse failed, retrying "
                     f"{len(prompt_sources)} sources one at a time (§13)")
                 rescue_models: set[str] = set()
+                # Circuit breaker, added 2026-09-18. §13's rescue was designed
+                # for a PROMPT-shaped failure — one oversized batch the model
+                # couldn't render cleanly, where splitting it genuinely helps.
+                # It is useless against a PROVIDER-shaped one, and candidate
+                # 528 is the case: every model was failing identically, so all
+                # 8 per-source calls failed identically too, each burning the
+                # full attempts x models fan-out (~5 minutes apiece) to learn
+                # the same thing the batched call had already established.
+                # 45 minutes, no output. If the first two sources both fail
+                # outright, the provider is down and the remaining sources
+                # cannot inform that — stop and let the candidate record a
+                # failure it can be resumed from. A rescue that has worked
+                # even once resets the counter, because then the failures
+                # really are per-source.
+                consecutive_failures = 0
                 for src, sys_p, usr_p in retry_per_source(kind, name, prompt_sources):
+                    if consecutive_failures >= 2:
+                        log(f"worker: candidate {cid} §13 rescue abandoned after "
+                            f"{consecutive_failures} consecutive provider failures "
+                            f"— this is a provider outage, not a prompt-size "
+                            f"problem; the remaining sources would fail identically")
+                        break
                     report["retry_per_source_calls"] += 1
                     try:
                         one = llm.call(usr_p, system=sys_p, tier="judgment",
                                        max_tokens=4096)
                     except llm.LLMError as e:
+                        consecutive_failures += 1
                         log(f"worker: candidate {cid} retry on {src.source_id} "
                             f"failed: {e}")
                         continue
+                    consecutive_failures = 0
                     report["cost"] += one.get("cost", 0.0)
                     got, problems = parse_answers(one.get("json"), [src._replace(label="S1")])
                     for problem in problems:
