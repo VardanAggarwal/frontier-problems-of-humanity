@@ -96,6 +96,12 @@ import Base from '../layouts/Base.astro';
         <span><code>--force</code> (reprocess ticked rows even if already resolved —
           ignored when nothing's ticked)</span>
       </label>
+      <label class="check">
+        <input name="noResume" type="checkbox" />
+        <span><code>--no-resume</code> (re-run search and gate 2 instead of
+          reusing the stored source set — for when the inputs changed, not to
+          retry a failed extraction)</span>
+      </label>
       <button type="submit" id="run-btn">Run batch</button>
     </form>
     <pre id="run-log" hidden></pre>
@@ -275,6 +281,7 @@ import Base from '../layouts/Base.astro';
         var ids = Object.keys(checked).map(Number).filter(function (n) { return !isNaN(n); });
         var payload = {
           noSearch: fd.get('noSearch') === 'on',
+          noResume: fd.get('noResume') === 'on',
         };
         if (ids.length) {
           payload.ids = ids;

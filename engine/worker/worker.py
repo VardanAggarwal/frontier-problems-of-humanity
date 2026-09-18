@@ -34,7 +34,7 @@ from . import depth as depth_mod
 from . import extract as extract_mod
 from . import fetch as fetchmod
 from . import gate1, gate2, llm, problem_emit, resolve, search_stage
-from .extract_types import Answer, ConfirmedSource
+from .extract_types import Answer, ConfirmedSource, PromptSource
 from .prompts import (drop_misidentified, extract_prompt,
                       extract_prompt_batched, parse_answers,
                       parse_misidentified, parse_verified_answers,
@@ -741,10 +741,227 @@ def _backfill_trigger_edge(conn: sqlite3.Connection, cand: sqlite3.Row, kind: st
             f"rejected: {ex}")
 
 
+# --------------------------------------------------- the extraction resume ---
+# `05-worker-optimisations.md`: "Extraction fails, restart -> another half an
+# hour gone. Instead just continue from extraction?"
+#
+# The two stages above extraction are the expensive ones and neither is paid
+# for in tokens: the search stage runs ~17 query families at
+# `provider.THROTTLE_FLOOR_S` (2s) apiece plus a fetch per covered URL, and
+# gate 2 embeds every fetched page locally. Extraction is one call that
+# either parses or does not. Retrying the cheap failing stage by redoing both
+# expensive ones is the wrong ratio.
+#
+# The page text never needed saving — `source.path` has held cleaned text on
+# disk since E0 and `fetch()` short-circuits on `url_canonical` before any
+# HTTP. What died with the frame was the SET: which URLs search chose for
+# this candidate, and what gate 2 said about each. Persisting those two facts
+# (`candidate_source`) is what makes the fetch cache usable as a resume point
+# rather than merely a bandwidth saving.
+
+
+PROMPT_BUCKET = "prompt"
+VERIFY_BUCKET = "verify"
+
+
+def _save_assembly(conn: sqlite3.Connection, cid: str, bucket: str,
+                   prompt_sources, coverage: dict) -> None:
+    """Freeze one `assemble()` output. `label` is not written — see
+    `store/schema.sql`'s note on `candidate_prompt.blocks`; it is re-derived
+    on load, which reproduces it exactly because `assemble` assigns labels by
+    first appearance in the order stored here."""
+    blocks = [{"source_id": s.source_id, "url": s.url, "text": s.text,
+               "chunk_refs": list(s.chunk_refs),
+               "chunk_texts": list(s.chunk_texts)}
+              for s in prompt_sources]
+    conn.execute(
+        "INSERT OR REPLACE INTO candidate_prompt "
+        "(candidate_id, bucket, blocks, coverage, assembled_at) "
+        "VALUES (?, ?, ?, ?, datetime('now'))",
+        (int(cid), bucket, json.dumps(blocks), json.dumps(coverage or {})))
+    conn.commit()
+
+
+def _load_assembly(conn: sqlite3.Connection, cid: str, bucket: str):
+    """-> `(prompt_sources, coverage)`, or None when this bucket was never
+    assembled for this candidate.
+
+    An empty `blocks` array is a real answer, not a miss: `assemble` returning
+    nothing is §13's degrade into the whole-text call, and re-running the
+    ranking pass to rediscover that costs exactly what this table exists to
+    avoid."""
+    row = conn.execute(
+        "SELECT blocks, coverage FROM candidate_prompt "
+        "WHERE candidate_id = ? AND bucket = ?", (int(cid), bucket)).fetchone()
+    if row is None:
+        return None
+    blocks = json.loads(row["blocks"])
+    coverage = json.loads(row["coverage"] or "{}")
+    prompt_sources = [
+        PromptSource(source_id=b["source_id"], label=f"S{i}", url=b["url"],
+                     text=b["text"], chunk_refs=tuple(b["chunk_refs"]),
+                     chunk_texts=tuple(b.get("chunk_texts") or ()))
+        for i, b in enumerate(blocks, start=1)]
+    return prompt_sources, coverage
+
+
+def _save_resolution(conn: sqlite3.Connection, cid: str, decision) -> None:
+    """Freeze the resolver's verdict for this candidate."""
+    conn.execute(
+        "INSERT OR REPLACE INTO candidate_resolution "
+        "(candidate_id, decision, entity_id, shortlist, reason, resolved_at) "
+        "VALUES (?, ?, ?, ?, ?, datetime('now'))",
+        (int(cid), decision.decision, decision.entity_id,
+         json.dumps([[i, c] for i, c in decision.shortlist]), decision.reason))
+    conn.commit()
+
+
+def _load_resolution(conn: sqlite3.Connection, cid: str, kind: str, name: str,
+                     *, log=print):
+    """-> a stored `ResolveResult`, or None to resolve live.
+
+    This is the only cached stage whose correct answer legitimately changes
+    between runs: the graph gains entities, so a candidate that resolved
+    `new` an hour ago may match one now. Reusing the row blindly would mint a
+    duplicate. Two guards, both free — neither loads the encoder, which is
+    the entire point of reusing this at all:
+
+    1. **The alias match is re-run first.** `db.resolve` is the same
+       normalized exact match `resolve_entity` opens with, it costs a lookup,
+       and a live hit beats the stored row — which is exactly the case where
+       the graph moved under a cached `new`.
+    2. **A stored `entity_id` must still exist.** A merged-away or deleted
+       entity falls through to a full resolve rather than being written to.
+    """
+    row = conn.execute("SELECT * FROM candidate_resolution WHERE candidate_id = ?",
+                       (int(cid),)).fetchone()
+    if row is None:
+        return None
+
+    exact = db.resolve(conn, kind, name)
+    if exact is not None and exact != row["entity_id"]:
+        log(f"worker: candidate {cid} stored resolution superseded — the "
+            f"alias match now hits {exact}, resolving live")
+        return None
+
+    entity_id = row["entity_id"]
+    if entity_id is not None and conn.execute(
+            f"SELECT 1 FROM {kind} WHERE id = ?", (entity_id,)).fetchone() is None:
+        log(f"worker: candidate {cid} stored resolution points at {entity_id}, "
+            "which is gone — resolving live")
+        return None
+
+    return resolve.ResolveResult(
+        decision=row["decision"], entity_id=entity_id,
+        shortlist=[(i, c) for i, c in json.loads(row["shortlist"] or "[]")],
+        reason=row["reason"] or "")
+
+
+def _resume_available(conn: sqlite3.Connection) -> bool:
+    """Whether this store carries schema v4's two resume structures.
+
+    Checked once per batch rather than defended against per statement: on an
+    unmigrated store the whole feature is off — no recording, no resuming —
+    which is exactly the pre-v4 behaviour, instead of a run that dies at the
+    first candidate over a missing table.
+    """
+    wanted = {"candidate_source", "candidate_prompt", "candidate_resolution"}
+    tables = {r[0] for r in conn.execute(
+        "SELECT name FROM sqlite_master WHERE type = 'table'")}
+    column = any(r[1] == "searched_at"
+                 for r in conn.execute("PRAGMA table_info(candidate)"))
+    return wanted <= tables and column
+
+
+def _record_sources(conn: sqlite3.Connection, cid: str,
+                    sources: list[ConfirmedSource],
+                    unverified: list[ConfirmedSource]) -> None:
+    """Freeze this candidate's post-gate-2 source set, and stamp
+    `searched_at`.
+
+    Rewritten whole rather than appended to: a re-run with `--no-resume`
+    produces a new set, and a half-old/half-new union is not a set any run
+    ever had. `searched_at` is stamped even when both lists are empty —
+    "searched, found nothing" is a real outcome and must not read as "never
+    searched" on the next pass.
+    """
+    conn.execute("DELETE FROM candidate_source WHERE candidate_id = ?", (int(cid),))
+    # The assembled blocks are derived from the set being replaced, so they
+    # go with it. Keeping them would resume a new source set into an old
+    # prompt — the one way this cache could produce a wrong answer rather
+    # than a slow one.
+    conn.execute("DELETE FROM candidate_prompt WHERE candidate_id = ?", (int(cid),))
+    # Likewise the resolution: its embedding context is the seed page, so a
+    # new source set can mean a different vector and a different verdict.
+    conn.execute("DELETE FROM candidate_resolution WHERE candidate_id = ?",
+                 (int(cid),))
+    rows = [(int(cid), s.source_id, s.url, s.origin, route, s.verdict)
+            for route, bucket in ((confirm_policy.PROMPT, sources),
+                                  (confirm_policy.VERIFY, unverified))
+            for s in bucket]
+    if rows:
+        conn.executemany(
+            "INSERT OR REPLACE INTO candidate_source "
+            "(candidate_id, source_id, url, origin, route, verdict) "
+            "VALUES (?, ?, ?, ?, ?, ?)", rows)
+    conn.execute("UPDATE candidate SET searched_at = datetime('now') WHERE id = ?",
+                 (int(cid),))
+    conn.commit()
+
+
+def _load_sources(conn: sqlite3.Connection, corpus: Path, cand: sqlite3.Row,
+                  *, log=print):
+    """-> `(sources, unverified, text)`, or None when this candidate has
+    never been searched.
+
+    Text comes back through `fetch()`, which is a pure cache read here: every
+    `source_id` in the table was fetched on the first pass, so the
+    `url_canonical` lookup hits and no HTTP happens. A row whose text has
+    since gone missing from disk (a cleared `problems/private/sources/`) is
+    dropped with a log line rather than resurrected by a network call — a
+    resumed set is allowed to be smaller than the original, but never to
+    silently differ from it.
+
+    `text` is the SEED page, which `resolve.resolve_entity` and the
+    non-batched extraction path both need and which is not reconstructible
+    from the prompt sources (they need not include the seed at all).
+    """
+    if cand["searched_at"] is None:
+        return None
+    rows = conn.execute(
+        # `origin` before `recorded_at` puts the seed back at the head of the
+        # prompt set, where the first run appended it — the whole row set is
+        # usually written in one statement, so `recorded_at` alone ties and
+        # cannot restore that order. Labels (`S1`…`Sn`) are assigned in list
+        # order downstream, so this keeps a resumed prompt as close to the
+        # original as the stored data allows.
+        "SELECT * FROM candidate_source WHERE candidate_id = ? "
+        "ORDER BY route, origin, recorded_at", (int(cand["id"]),)).fetchall()
+
+    sources: list[ConfirmedSource] = []
+    unverified: list[ConfirmedSource] = []
+    text = ""
+    for row in rows:
+        fetched = fetchmod.fetch(conn, corpus, row["url"])
+        if not fetched.text:
+            log(f"worker: candidate {cand['id']} cached source "
+                f"{row['source_id']} has no text on disk, dropped from the "
+                f"resumed set: {row['url'][:70]}")
+            continue
+        source = ConfirmedSource(source_id=row["source_id"], url=row["url"],
+                                 text=fetched.text, origin=row["origin"],
+                                 verdict=row["verdict"])
+        if row["origin"] == confirm_policy.SEED:
+            text = fetched.text
+        (sources if row["route"] == confirm_policy.PROMPT
+         else unverified).append(source)
+    return sources, unverified, text
+
+
 def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.Row],
              *, log=print, depth_tier: bool | None = None,
              problem_emission: bool | None = None, search_provider=None,
-             max_sources: int | None = None) -> dict:
+             max_sources: int | None = None, resume: bool = True) -> dict:
     """`search_provider=None` is track D's documented degrade (§13): the
     candidate's own URL as the single source, which is exactly what this
     loop did before track D existed. Pass a `search.provider` adapter to
@@ -754,6 +971,13 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
     default. They are parameters rather than env switches because
     `04-worker-build-plan.md` §6 called the env vars a workaround for this
     function being frozen, and E6 is where that freeze lifts.
+
+    `resume=True` (the default) re-enters a candidate that has already been
+    searched at the extraction stage, rebuilding its source set from
+    `candidate_source` + the fetch cache instead of re-running search and
+    gate 2. `resume=False` redoes both — which is what you want when the
+    first run's set was thin and a wider cap or a fixed provider should now
+    produce a better one, and nothing else.
     """
     depth_tier = _DEPTH_TIER_DEFAULT if depth_tier is None else depth_tier
     problem_emission = (_PROBLEM_EMISSION_DEFAULT if problem_emission is None
@@ -791,10 +1015,20 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         "verify_pass_calls": 0, "verify_answers_merged": 0,
         "verify_about": 0, "verify_different": 0,
         "verify_unrelated": 0, "verify_insufficient": 0,
+        # The resume point. `resumed` counts candidates that skipped
+        # fetch/search/gate 2 entirely; `resumed_sources` the sources they
+        # got back without a single HTTP request or embedding call;
+        # `resolve_reused` the resolutions that did not re-pay encode + kNN.
+        "resumed": 0, "resumed_sources": 0, "resolve_reused": 0,
     }
     if not candidates:
         return report
     by_id = {str(c["id"]): c for c in candidates}
+    persist_sources = _resume_available(conn)
+    if not persist_sources:
+        log("worker: store predates schema v4 — resume disabled; run "
+            "`python -m migrate.m0004_candidate_source <db>` to enable it")
+    resume = resume and persist_sources
 
     # gate 0 — preview dedup, free, before anything is fetched. `fetch_list`
     # keeps exactly one representative per merge group (its first member) and
@@ -832,12 +1066,26 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                       by="worker:gate0", why=f"collapsed into {cid}: {why}")
 
     # gate 1 — batched pre-fetch screen, tuned for recall.
+    #
+    # A candidate being resumed is not re-screened. Gate 1 reads the name and
+    # the intake snippet — exactly the inputs it read the first time, none of
+    # which change between runs — so a second screen can only agree at a cost,
+    # or disagree and throw away a source set already paid for in search time.
+    # The first screen's verdict stands; `searched_at` is the evidence it
+    # passed.
+    resumable = ({str(c["id"]) for c in candidates
+                  if str(c["id"]) in survivors and c["searched_at"] is not None}
+                 if resume else set())
     items = [{"id": str(c["id"]), "kind": c["kind"], "name": c["name"],
              "snippet": c["evidence"] or "", "url": c["url"] or ""}
-             for c in candidates if str(c["id"]) in survivors]
-    decisions, gate1_cost = gate1.screen(items, log=log)
+             for c in candidates
+             if str(c["id"]) in survivors and str(c["id"]) not in resumable]
+    decisions, gate1_cost = gate1.screen(items, log=log) if items else ({}, 0.0)
     report["cost"] += gate1_cost
     alive: list[str] = []
+    for cid in (str(c["id"]) for c in candidates if str(c["id"]) in resumable):
+        alive.append(cid)
+        report["gate1_kept"] += 1
     for cid, (keep, reason) in decisions.items():
         if keep:
             alive.append(cid)
@@ -861,13 +1109,28 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         name, kind = cand["name"], cand["kind"]
         log(f"worker: candidate {cid} stage=start ({kind} {name!r})")
 
-        # fetch — a bare name (no URL) skips straight to extraction with
-        # empty text: a stub actor from a registry row legitimately has no
-        # document yet, and that is not a reason to stop the pipeline.
         text = ""
         sources: list[ConfirmedSource] = []
         unverified: list = []
-        if cand["url"]:
+
+        # resume — the whole of fetch + search + gate 2, replaced by one
+        # table read and a disk read per source. Every stage below that is
+        # guarded on `cached is None` is a stage this candidate has already
+        # paid for. Guarded rather than nested so the first-run path reads
+        # exactly as it did before, unindented and unchanged.
+        cached = _load_sources(conn, corpus, cand, log=log) if resume else None
+        if cached is not None:
+            sources, unverified, text = cached
+            report["resumed"] += 1
+            report["resumed_sources"] += len(sources) + len(unverified)
+            log(f"worker: candidate {cid} stage=resume — {len(sources)} prompt "
+                f"+ {len(unverified)} unverified source(s) from the set "
+                f"searched {cand['searched_at']}, no fetch/search/gate2")
+
+        # fetch — a bare name (no URL) skips straight to extraction with
+        # empty text: a stub actor from a registry row legitimately has no
+        # document yet, and that is not a reason to stop the pipeline.
+        if cached is None and cand["url"]:
             log(f"worker: candidate {cid} stage=fetch {cand['url']}")
             fetched = fetchmod.fetch(conn, corpus, cand["url"])
             report["fetched"] += 1
@@ -920,7 +1183,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         # name alone, because a bare registry row with no document is
         # legitimate (§7) and was never a source to drop in the first place.
         search_counters: dict = {}
-        if search_provider is not None:
+        if cached is None and search_provider is not None:
             log(f"worker: candidate {cid} stage=search")
             # Deduped against the seed: `search_sources` is called with
             # `seed_url=None`, but nothing stops set cover from picking the
@@ -945,6 +1208,13 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 if s.source_id not in already)
             unverified[:] = [s for s in unverified if s.source_id not in already]
 
+        # Freeze the set here — after search and gate 2, before the first
+        # paid call of the candidate. Everything from this line on (verify,
+        # extraction, resolve, emit) can fail and be retried for the price of
+        # the call that failed.
+        if cached is None and persist_sources:
+            _record_sources(conn, cid, sources, unverified)
+
         # The verify pass (§6a). `unverified` holds gate-2 `uncertain` and
         # confirmed-but-thin sources — material that must not enter the main
         # prompt, but is not junk by default: the band sweep found a real
@@ -959,9 +1229,21 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         if thin and unverified:
             log(f"worker: candidate {cid} stage=verify")
             report["verify_pass_calls"] += 1
-            v_sources, _ = extract_mod.assemble(
-                unverified, REGISTRY.retrieval_questions(kind),
-                geography_bias=(kind == "problem"))
+            # Cached like the main set: §6a assembles its own bucket and pays
+            # its own ranking pass, so a resume that only cached the main one
+            # would still chunk and encode every unverified source.
+            v_cached = (_load_assembly(conn, cid, VERIFY_BUCKET)
+                        if cached is not None else None)
+            if v_cached is not None:
+                v_sources, _ = v_cached
+                log(f"worker: candidate {cid} verify set from cache "
+                    f"({len(v_sources)} block(s)), no ranking pass")
+            else:
+                v_sources, v_coverage = extract_mod.assemble(
+                    unverified, REGISTRY.retrieval_questions(kind),
+                    geography_bias=(kind == "problem"))
+                if persist_sources:
+                    _save_assembly(conn, cid, VERIFY_BUCKET, v_sources, v_coverage)
             if v_sources:
                 v_system, v_prompt = verify_and_extract_prompt_batched(
                     kind, name, cand["evidence"] or "", v_sources)
@@ -1000,11 +1282,26 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         # hand it is §8's batched `[S1]…[Sn]` call over selected passages;
         # with none it is the original whole-text call, which is also §13's
         # degrade path when passage assembly yields nothing.
+        #
+        # The ranking pass is the expensive half of a resume: `assemble`
+        # chunks every source and `passages._rank_chunks` encodes every chunk
+        # against every retrieval question — strictly more embedding than
+        # gate 2 does, and it loads the tokenizer besides. Cached, a resumed
+        # candidate touches the encoder only for `resolve`'s single name
+        # vector.
         prompt_sources, coverage = ([], {})
-        if sources:
+        assembly = (_load_assembly(conn, cid, PROMPT_BUCKET)
+                    if cached is not None else None)
+        if assembly is not None:
+            prompt_sources, coverage = assembly
+            log(f"worker: candidate {cid} prompt set from cache "
+                f"({len(prompt_sources)} block(s)), no chunking or ranking")
+        elif sources:
             prompt_sources, coverage = extract_mod.assemble(
                 sources, REGISTRY.retrieval_questions(kind),
                 geography_bias=(kind == "problem"))
+            if persist_sources:
+                _save_assembly(conn, cid, PROMPT_BUCKET, prompt_sources, coverage)
         batched = bool(prompt_sources)
         for key in ("sources_fetched", "sources_in_prompt",
                     "sources_never_selected", "sources_dropped_by_cap"):
@@ -1131,6 +1428,18 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             answers = list(answers) + verified_answers
             report["verify_answers_merged"] += len(verified_answers)
         if batched or verified_answers:
+            # A retry re-derives the whole ledger for this candidate from the
+            # same source set, so the old rows are not history, they are the
+            # same findings written twice — `write_findings` inserts
+            # unconditionally and has no unique key to collide on. Cleared
+            # here rather than in `write_findings` because only the caller
+            # knows the unit being replaced is the candidate; on a first run
+            # this deletes nothing.
+            stale = conn.execute("DELETE FROM finding WHERE candidate_id = ?",
+                                 (int(cid),)).rowcount
+            if stale:
+                log(f"worker: candidate {cid} cleared {stale} finding(s) from "
+                    "a previous run before rewriting the ledger")
             report["findings_written"] += extract_mod.write_findings(
                 conn, int(cid), answers,
                 urls={s.source_id: s.url
@@ -1166,8 +1475,17 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
 
         # resolve — normalized match first, embedding shortlist as fallback.
         log(f"worker: candidate {cid} stage=resolve")
-        decision = resolve.resolve_entity(conn, corpus, kind, name, text or
-                                          (cand["evidence"] or ""))
+        decision = (_load_resolution(conn, cid, kind, name, log=log)
+                    if resume else None)
+        if decision is not None:
+            report["resolve_reused"] += 1
+            log(f"worker: candidate {cid} resolution reused ({decision.decision}"
+                f"), no encode + kNN")
+        else:
+            decision = resolve.resolve_entity(conn, corpus, kind, name, text or
+                                              (cand["evidence"] or ""))
+            if persist_sources:
+                _save_resolution(conn, cid, decision)
         report[f"resolved_{decision.decision if decision.decision != 'shortlist_top' else 'shortlist'}"] += 1
 
         by = f"worker:{result.get('model', '?')}"
@@ -1273,16 +1591,29 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--force", action="store_true",
                     help="with --ids, reprocess candidates that already have "
                          "resolved_to set instead of skipping them. Re-runs "
-                         "search/extraction from scratch and re-resolves "
+                         "extraction and re-resolves "
                          "against the existing entity — `worker/resolve.py` "
                          "matches the candidate's name to the entity already "
                          "on disk, so this refreshes that entity's claims "
-                         "rather than minting a duplicate. Use when the first "
-                         "run's source set was thin (e.g. a search-cap "
-                         "escalation, or a manually-widened FPH_MAX_SOURCES_* "
-                         "env var, now gives a better set). Ignored without "
+                         "rather than minting a duplicate. The stored source "
+                         "set is reused unless --no-resume is given too — so "
+                         "pair the two when the first run's set was thin and "
+                         "a search-cap escalation or a widened "
+                         "FPH_MAX_SOURCES_* should now give a better one. "
+                         "Ignored without "
                          "--ids — the --limit queue already excludes resolved "
                          "rows by construction.")
+    ap.add_argument("--no-resume", action="store_true",
+                    help="re-run fetch, search and gate 2 for candidates that "
+                         "already have a stored source set, instead of "
+                         "resuming at extraction from it. The default is to "
+                         "resume: the search stage is ~17 throttled queries "
+                         "plus a fetch each and gate 2 embeds every page, so "
+                         "retrying a failed extraction is otherwise a half-"
+                         "hour round trip to redo work whose inputs did not "
+                         "change. Pass this when the inputs DID change — a "
+                         "widened FPH_MAX_SOURCES_*, a fixed SearXNG "
+                         "instance, a thin first set worth re-searching.")
     ap.add_argument("--search-url", default=config.SEARXNG_URL,
                     help="SearXNG base URL (track D). Default reads "
                          "FPH_SEARXNG_URL / " + config.SEARXNG_URL + ". Start "
@@ -1308,7 +1639,8 @@ def main(argv: list[str] | None = None) -> int:
                 "SELECT * FROM candidate WHERE admitted = 1 AND resolved_to IS NULL "
                 "ORDER BY first_seen LIMIT ?", (args.limit,)).fetchall()
         report = run_batch(conn, Path(args.corpus), candidates, log=log,
-                           search_provider=search_provider)
+                           search_provider=search_provider,
+                           resume=not args.no_resume)
     finally:
         conn.close()
     log("worker:", ", ".join(f"{k}={v}" for k, v in report.items()))
