@@ -541,11 +541,158 @@ function workerRerunEntity() {
   };
 }
 
+/** Dev-only. GET /api/candidates/pool?kind=problem|actor&limit=50 → the
+ *  UPSTREAM discovery pool, which is a different population from
+ *  `candidateLister`'s queue: `admitted IS NULL` (never promoted) rather than
+ *  `admitted = 1 AND resolved_to IS NULL` (promoted, awaiting the deep dive).
+ *  Duplicates (`dup_of` set) are excluded outright — that is the whole point
+ *  of the dedup pass, and showing both copies of a row is what the pass
+ *  exists to stop.
+ *
+ *  `cluster_size` is 1 + however many rows point their `dup_of` at this one,
+ *  so a representative shows what it stands for. It reads 1 for everything
+ *  until the dedup pass has actually run and written `dup_of`.
+ *
+ *  ONE QUERY PER KIND, each with its own LIMIT — never a single combined
+ *  query capped across both kinds and split afterwards. Actor rows outnumber
+ *  problem rows roughly 3:1 here and score higher on average, so a shared cap
+ *  would crowd problems out of the list before the kinds were ever separated.
+ *  A kind's `total` is counted unfiltered by the cap, so the page can say how
+ *  much it is not showing.
+ *
+ *  `score` is NULL for anything the scoring pass has not seen (never run, or
+ *  the row arrived after the last run). Those sort last rather than erroring
+ *  or being dropped: unscored is a state worth seeing. */
+function candidatePoolLister() {
+  return {
+    name: 'fph:candidate-pool-lister',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use('/api/candidates/pool', (req, res, next) => {
+        if (req.method !== 'GET') return next();
+        const done = (code, obj) => {
+          res.statusCode = code;
+          res.setHeader('content-type', 'application/json');
+          res.end(JSON.stringify(obj));
+        };
+        try {
+          const url = new URL(req.url, 'http://localhost');
+          const asked = url.searchParams.get('kind');
+          const kinds = (asked === 'problem' || asked === 'actor') ? [asked] : ['problem', 'actor'];
+          const limit = Math.min(500, Math.max(1, Number(url.searchParams.get('limit')) || 50));
+          const g = openGraphWritable(GRAPH_DB); // read-only use; avoids a second connection mode
+          const pools = {};
+          try {
+            const rows = g.prepare(
+              'SELECT c.id, c.kind, c.name, c.score, c.first_seen, ' +
+              '1 + (SELECT COUNT(*) FROM candidate d WHERE d.dup_of = c.id) AS cluster_size ' +
+              'FROM candidate c ' +
+              'WHERE c.kind = ? AND c.admitted IS NULL AND c.dup_of IS NULL ' +
+              'ORDER BY c.score IS NULL, c.score DESC, c.first_seen LIMIT ?'
+            );
+            const total = g.prepare(
+              'SELECT COUNT(*) AS n FROM candidate WHERE kind = ? AND admitted IS NULL AND dup_of IS NULL'
+            );
+            for (const kind of kinds) {
+              pools[kind] = { rows: rows.all(kind, limit), total: total.get(kind).n };
+            }
+          } finally { g.close(); }
+          done(200, { ok: true, limit, pools });
+        } catch (e) {
+          done(500, { error: String((e && e.message) || e) });
+        }
+      });
+    },
+  };
+}
+
+/** Dev-only. POST /api/candidates/dedup-score → runs
+ *  `python -m worker.dedup_candidates` and then
+ *  `python -m worker.score_candidates` over problems/graph.db, in that order,
+ *  streaming both processes' output through one response.
+ *
+ *  Order is load-bearing, not cosmetic. `score_candidates` scores one row per
+ *  dedup cluster and its D term counts distinct `discovered_via` across a
+ *  cluster's members, so running it first would rank a pool it has not yet
+ *  collapsed. (It calls `dedup_candidates.compute_clusters` itself, so it is
+ *  correct either way — but only dedup writes `dup_of`, and this endpoint's
+ *  whole job is to leave the store in a state the pool list can read.)
+ *
+ *  Both scripts write by default; `--dry-run` is their opt-in preview and is
+ *  deliberately NOT passed here. Unlike `/api/worker/run` this makes no
+ *  network calls and no LLM calls — it is local and cheap (one sentence-
+ *  transformer encode over the pool) — but it is a real write to `dup_of` and
+ *  `score`. If dedup exits non-zero, scoring is skipped rather than run
+ *  against a half-deduped pool. */
+function dedupScoreRunner() {
+  return {
+    name: 'fph:dedup-score-runner',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use('/api/candidates/dedup-score', (req, res, next) => {
+        if (req.method !== 'POST') return next();
+        let body = '';
+        req.on('data', (c) => (body += c));
+        req.on('end', () => {
+          try { JSON.parse(body || '{}'); } catch (e) {
+            res.statusCode = 400; return res.end('bad JSON body: ' + e.message);
+          }
+          const steps = [
+            ['dedup', ['-m', 'worker.dedup_candidates', '--db', GRAPH_DB, '--corpus', REPO_ROOT]],
+            ['score', ['-m', 'worker.score_candidates', '--db', GRAPH_DB, '--corpus', REPO_ROOT]],
+          ];
+
+          res.statusCode = 200;
+          res.setHeader('content-type', 'text/plain; charset=utf-8');
+
+          let child = null;
+          let aborted = false;
+          const finish = () => {
+            if (res.writableEnded) return;
+            markSelfWrite(GRAPH_DB); // dup_of / score / event rows just landed
+            res.end();
+          };
+          const runStep = (i) => {
+            if (aborted || res.writableEnded) return;
+            if (i >= steps.length) return finish();
+            const [label, args] = steps[i];
+            res.write(`=== ${label} ===\n$ ${PYTHON_BIN} ${args.join(' ')}\n(cwd: ${ENGINE_DIR})\n\n`);
+            child = spawn(PYTHON_BIN, args, { cwd: ENGINE_DIR });
+            child.stdout.on('data', (c) => res.write(c));
+            child.stderr.on('data', (c) => res.write(c));
+            child.on('error', (e) => { res.write(`\n[spawn failed] ${e.message}\n`); finish(); });
+            child.on('close', (code) => {
+              if (aborted || res.writableEnded) return;
+              res.write(`\n[${label} exit ${code}]\n\n`);
+              if (code !== 0) {
+                res.write(`[stopped — ${label} did not exit clean, later steps skipped]\n`);
+                return finish();
+              }
+              runStep(i + 1);
+            });
+          };
+          runStep(0);
+          // Same reasoning as workerRunner: `req`'s 'close' fires once its
+          // body is read, not when the client goes away. `res` closing
+          // mid-stream is the real disconnect.
+          res.on('close', () => {
+            if (!res.writableEnded) {
+              aborted = true;
+              if (child && !child.killed) child.kill();
+            }
+          });
+        });
+      });
+    },
+  };
+}
+
 export default defineConfig({
   site: 'https://frontier-problems.example',
   outDir: './dist',
   build: { format: 'directory' },
   markdown: { syntaxHighlight: false },
   vite: { plugins: [watchCorpus(), followWriter(), excludeWriter(), candidateSeeder(), candidateLister(),
+    candidatePoolLister(), dedupScoreRunner(),
     workerRunner(), workerRerunEntity(), problemOrphanLister(), needsLister(), problemPromoter()] },
 });
