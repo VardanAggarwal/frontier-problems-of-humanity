@@ -94,7 +94,7 @@ from store import db
 from text.preview import (DEFAULT_CONTAINMENT, Preview, _Union,
                           _is_distinctive, containment, content_tokens, group)
 
-from .resolve import SAFE_MATCH_ABOVE
+from .resolve import SAFE_MATCH_ABOVE, resolve_entity
 
 KINDS = ("problem", "actor")
 
@@ -174,14 +174,33 @@ class Cluster:
         return [m for m in self.members if m != self.representative]
 
 
-def compare_name(name: str) -> str:
+def compare_name(name: str, kind: str = "actor") -> str:
     """The string a name is COMPARED as. Storage, logging and the chosen
-    representative all keep the original — only matching sees this."""
+    representative all keep the original — only matching sees this.
+
+    The trailing-parenthetical strip is ACTOR-ONLY. It was added for the
+    Person(Org) shape — `Nitheshnirmal Sadhasivam (Virginia Tech)` was being
+    absorbed into `Virginia Tech`, which is an `affiliated` edge, not an
+    identity — and on actor names a trailing parenthesis is nearly always an
+    acronym or an affiliation, i.e. not the distinguishing part.
+
+    On PROBLEM names it is the opposite: the parenthesis carries the
+    substance — a contaminant list, a disease qualifier. Stripping it reduced
+    `Fluorosis (skeletal and dental)` to bare `Fluorosis`, throwing away the
+    only tokens (fluorosis/skeletal/dental) that could clear the two-token
+    bar against `Fluorosis (dental/skeletal) from excessive fluoride in
+    drinking water` — so the fix for one false merge created a missed merge
+    in the other kind. Conditioning on `kind` was chosen over sniffing the
+    parenthetical's content: "is this an affiliation or a qualifier" is a
+    judgment call this module would get wrong silently, while `kind` is a
+    column."""
+    if kind != "actor":
+        return name or ""
     stripped = _TRAILING_PAREN.sub("", name or "").strip()
     return stripped or (name or "")
 
 
-def same_name(a: str, b: str) -> bool:
+def same_name(a: str, b: str, kind: str = "actor") -> bool:
     """The two names normalize to the same string once a trailing
     parenthetical is stripped.
 
@@ -206,8 +225,8 @@ def same_name(a: str, b: str) -> bool:
     `Food Corporation of India (FCI)` is one name plus its own acronym, which
     is the case the strip exists for. Two DIFFERENT parentheticals on the same
     stem fall through to the ordinary >= MIN_SHARED bar instead."""
-    if content_tokens(compare_name(a)) != content_tokens(compare_name(b)) or \
-            not content_tokens(compare_name(a)):
+    if content_tokens(compare_name(a, kind)) != content_tokens(compare_name(b, kind)) \
+            or not content_tokens(compare_name(a, kind)):
         return False
     both_qualified = (_TRAILING_PAREN.search(a or "")
                       and _TRAILING_PAREN.search(b or ""))
@@ -216,10 +235,11 @@ def same_name(a: str, b: str) -> bool:
     return content_tokens(a) == content_tokens(b)
 
 
-def distinctive_shared(a: str, b: str) -> set[str]:
+def distinctive_shared(a: str, b: str, kind: str = "actor") -> set[str]:
     """Shared tokens that survive both filters: `_COMMON` (via the existing
     `_is_distinctive`, token by token) and this module's `_DOMAIN_STOP`."""
-    shared = content_tokens(compare_name(a)) & content_tokens(compare_name(b))
+    shared = (content_tokens(compare_name(a, kind))
+              & content_tokens(compare_name(b, kind)))
     return {t for t in shared
             if t not in _DOMAIN_STOP and _is_distinctive({t})}
 
@@ -244,7 +264,7 @@ def _pick_representative(members: list, rows_by_id: dict) -> str:
     return min(members, key=lambda cid: _sort_key(cid, rows_by_id))
 
 
-def _tier1(rows: list, rows_by_id: dict, uf: _Union, log
+def _tier1(rows: list, rows_by_id: dict, kind: str, uf: _Union, log
           ) -> dict[str, list[str]]:
     """Union tier-1 `merge` groups into `uf`. Returns {rep_key: [reason,...]}
     for logging — `group()`'s own reasons (identifier hit or containment
@@ -273,7 +293,7 @@ def _tier1(rows: list, rows_by_id: dict, uf: _Union, log
     `_DOMAIN_STOP`, or identical names). Pairs that fail are logged, not
     silently dropped: a rejected pair is still the most likely duplicate in
     the pool and is what a review surface would want first."""
-    previews = [Preview(key=str(r["id"]), title=compare_name(r["name"]),
+    previews = [Preview(key=str(r["id"]), title=compare_name(r["name"], kind),
                         snippet=r["evidence"] or "", url=r["url"] or "")
                for r in rows]
     reasons: dict[str, list[str]] = {}
@@ -285,8 +305,8 @@ def _tier1(rows: list, rows_by_id: dict, uf: _Union, log
     def pair(a: str, b: str) -> tuple[str, set[str]] | None:
         """-> (reason, shared tokens) if a and b may merge, else None."""
         na, nb = rows_by_id[a]["name"], rows_by_id[b]["name"]
-        shared = distinctive_shared(na, nb)
-        lexical_ok = len(shared) >= MIN_SHARED or same_name(na, nb)
+        shared = distinctive_shared(na, nb, kind)
+        lexical_ok = len(shared) >= MIN_SHARED or same_name(na, nb, kind)
         common_ids = ids_by_key[a] & ids_by_key[b]
         if common_ids and lexical_ok:
             return f"identifier {sorted(common_ids)[0]}", shared
@@ -323,8 +343,8 @@ def _tier1(rows: list, rows_by_id: dict, uf: _Union, log
     return reasons
 
 
-def _tier2(rows_by_id: dict, survivor_ids: list[str], uf: _Union, log
-          ) -> dict[str, list[str]]:
+def _tier2(rows_by_id: dict, survivor_ids: list[str], kind: str, uf: _Union,
+           log) -> dict[str, list[str]]:
     """Embed the tier-1 survivors once, then STAR-cluster them: walk in
     `first_seen` order and compare each row only against the rows that have
     already become cluster representatives. A row either joins one of them or
@@ -356,8 +376,8 @@ def _tier2(rows_by_id: dict, survivor_ids: list[str], uf: _Union, log
             if cosine <= SAFE_MATCH_ABOVE:
                 continue
             na, nb = rows_by_id[cid]["name"], rows_by_id[order[rpos]]["name"]
-            shared = distinctive_shared(na, nb)
-            if len(shared) < MIN_SHARED and not same_name(na, nb):
+            shared = distinctive_shared(na, nb, kind)
+            if len(shared) < MIN_SHARED and not same_name(na, nb, kind):
                 continue  # topical closeness, not identity — resolve.py's rescue
             if best is None or cosine > best[0]:
                 best = (cosine, rpos, shared)
@@ -407,7 +427,7 @@ def compute_clusters(conn, kind: str, *, log=_silent) -> list[Cluster]:
     uf = _Union(rows_by_id.keys())
     all_reasons: dict[str, list[str]] = {}
 
-    t1_reasons = _tier1(rows, rows_by_id, uf, log)
+    t1_reasons = _tier1(rows, rows_by_id, kind, uf, log)
     for rep, rs in t1_reasons.items():
         all_reasons.setdefault(rep, []).extend(rs)
 
@@ -423,7 +443,7 @@ def compute_clusters(conn, kind: str, *, log=_silent) -> list[Cluster]:
     survivor_ids = [_pick_representative(m, rows_by_id)
                     for m in clusters_after_t1.values()]
 
-    t2_reasons = _tier2(rows_by_id, survivor_ids, uf, log)
+    t2_reasons = _tier2(rows_by_id, survivor_ids, kind, uf, log)
     for rep, rs in t2_reasons.items():
         all_reasons.setdefault(rep, []).extend(rs)
 
@@ -456,7 +476,134 @@ def compute_clusters(conn, kind: str, *, log=_silent) -> list[Cluster]:
     return out
 
 
-def dedup_kind(conn, kind: str, *, dry_run: bool, log=print) -> dict:
+def resolve_against_minted(conn, corpus: Path, kind: str,
+                           clusters: list[Cluster], *, dry_run: bool,
+                           log=print) -> dict:
+    """Third pass: check what survived candidate-vs-candidate clustering
+    against the entities ALREADY MINTED in `problem`/`actor`.
+
+    The first two tiers only ever compare candidates to each other, so a
+    candidate that restates something the corpus already holds sits in the
+    pool forever looking novel. Live examples, all problem-kind: "Waterborne
+    diseases (cholera, dysentery, hepatitis A/E)" against the minted
+    `waterborne-diseases-cholera-dysentery-hepatitis`; "Virtual water trade
+    imbalance" against `virtual-water-exports-depleting-groundwater`.
+
+    The check itself is NOT new code. `resolve.resolve_entity` already does
+    exactly this — normalized alias/id match first, embedding shortlist as
+    the fallback, lexical rescue below the safe band — and it is calibrated
+    for this exact comparison (candidate name+context vs indexed entity
+    text). It has only ever been called one candidate at a time from inside
+    `worker.py` at promotion. This is the same call run in bulk over the
+    pool, not a second resolver.
+
+    One call per cluster REPRESENTATIVE, not per row: the duplicates behind
+    a representative are already accounted for by `dup_of`, and re-resolving
+    them would pay for the same embedding several times to reach the same
+    answer.
+
+    Decisions are honoured as `resolve.py` defines them, and only the two
+    confident ones act:
+      - `exact` / `shortlist_top` -> set `resolved_to` AND `admitted = 1`.
+        The candidate is finished: it names something the store already has,
+        so there is nothing for the deep dive to find. That is the same state
+        `worker.py` would leave it in had it gone through admission and
+        matched the same entity.
+      - `ambiguous` -> LEFT ALONE. `resolve.py`'s §9 reasoning is that an
+        ambiguous merge is an escalation, not something to settle by
+        comparing two texts harder. Auto-resolving here would be exactly the
+        per-record machine judgment that module refuses to make.
+      - `new` -> left alone, continues to normal scoring and admission.
+
+    A wrong `resolved_to` is the worst outcome available here — worse than a
+    missed one — because the candidate stops being its own row and is
+    absorbed into another problem's identity, silently. Hence: the two
+    confident decisions only, no widening of the band.
+
+    A `shortlist_top` cosine is additionally gated on the SAME lexical bar
+    the two candidate-vs-candidate tiers use — >= MIN_SHARED distinctive
+    shared tokens (or `same_name`) between the candidate's name and the
+    matched entity's title. The first dry-run over the backfilled index is
+    why: the 0.90 band is inverted for this particular comparison. `Soil
+    inorganic carbon (SIC) depletion` matched `soil-organic-carbon-soc-
+    depletion` at 0.911 and `Food loss in Indian supply chains` matched
+    `urban-food-cost-of-living-crisis-from-supply-chain-fragmentation` at
+    0.902, while `Waterborne diseases (cholera, dysentery, hepatitis A/E)`
+    against the minted `Waterborne diseases (cholera, dysentery, hepatitis)`
+    — five shared distinctive tokens, the same problem — sat at 0.893 and
+    was refused. `resolve.py`'s docstring already flags its band as
+    "unmeasured for the resolver's specific comparison"; this is that
+    measurement, and the lexical signal is the cheap correction, exactly as
+    it was for tier 2.
+
+    The gate is local to this pass. `resolve_entity`'s own contract and its
+    other caller (`worker.py`'s admission-time resolution) are untouched —
+    that is a separate decision.
+
+    `exact` is NOT gated: a normalized alias/id match is identity by
+    construction, with no cosine in it to distrust.
+
+    Known miss, accepted rather than patched: the SIC/SOC pair shares
+    {soil, carbon, depletion} and so clears a >= 2 token bar despite
+    "organic" vs "inorganic" making them different pools. Antonym-aware
+    tokenizing is a rabbit hole; the pair is logged as `ambiguous` only if
+    the cosine happens not to clear."""
+    acted = ambiguous = fresh = 0
+    for c in clusters:
+        row = conn.execute(
+            "SELECT name, evidence FROM candidate WHERE id = ?",
+            (c.representative,)).fetchone()
+        if row is None:
+            continue
+        name = row["name"]
+        result = resolve_entity(conn, corpus, kind, name, row["evidence"] or "")
+        decision, entity_id = result.decision, result.entity_id
+        gate = ""
+        if decision == "shortlist_top" and entity_id:
+            title = db.title_of(conn, kind, entity_id) or ""
+            shared = distinctive_shared(name, title, kind)
+            if len(shared) >= MIN_SHARED or same_name(name, title, kind):
+                gate = f"; lexical gate passed, shares {sorted(shared)!r}"
+            else:
+                # Cosine says yes, the names do not. Same handling as
+                # resolve.py's own `ambiguous`: don't merge, don't escalate
+                # anywhere new.
+                decision = "ambiguous"
+                result.reason = (
+                    f"cosine cleared ({result.reason}) but the names share "
+                    f"{sorted(shared) or 'no'} distinctive token(s) with "
+                    f"{entity_id!r} ({title!r}) — under {MIN_SHARED}, so not "
+                    f"auto-resolved")
+                entity_id = None
+
+        if decision in ("exact", "shortlist_top") and entity_id:
+            acted += 1
+            why = f"{decision}: {result.reason}{gate}"
+            log(f"minted[{kind}]: {c.representative} ({name!r}) "
+                f"-> resolved_to {entity_id!r}, admitted — {why}")
+            if not dry_run:
+                conn.execute(
+                    "UPDATE candidate SET resolved_to = ?, admitted = 1 "
+                    "WHERE id = ?", (entity_id, c.representative))
+                db.record(conn, "candidate", str(c.representative),
+                          "resolved_to", None, entity_id,
+                          by="dedup_candidates", why=why)
+        elif decision == "ambiguous":
+            ambiguous += 1
+            log(f"minted[{kind}]: {c.representative} ({name!r}) "
+                f"-> ambiguous, left for review — {result.reason}")
+        else:
+            fresh += 1
+
+    log(f"minted[{kind}]: checked={len(clusters)} resolved={acted} "
+        f"ambiguous={ambiguous} new={fresh}"
+        f"{' (dry-run, nothing written)' if dry_run else ''}")
+    return dict(kind=kind, checked=len(clusters), resolved=acted,
+                ambiguous=ambiguous, new=fresh)
+
+
+def dedup_kind(conn, kind: str, *, dry_run: bool, corpus: Path | None = None,
+               log=print) -> dict:
     rows = _pool(conn, kind)
     pool_in = len(rows)
     if pool_in < 2:
@@ -467,7 +614,8 @@ def dedup_kind(conn, kind: str, *, dry_run: bool, log=print) -> dict:
 
     merged_count = 0
     cluster_count = 0
-    for c in compute_clusters(conn, kind, log=log):
+    clusters = compute_clusters(conn, kind, log=log)
+    for c in clusters:
         if len(c.members) < 2:
             continue
         cluster_count += 1
@@ -490,8 +638,18 @@ def dedup_kind(conn, kind: str, *, dry_run: bool, log=print) -> dict:
     log(f"dedup[{kind}]: pool_in={pool_in} clusters={cluster_count} "
         f"merged={merged_count} survivors={survivors}"
         f"{' (dry-run, nothing written)' if dry_run else ''}")
+
+    # Runs AFTER clustering, on one row per cluster — see
+    # `resolve_against_minted`. Skipped only if no corpus root was passed.
+    minted = None
+    if corpus is not None:
+        minted = resolve_against_minted(conn, corpus, kind, clusters,
+                                        dry_run=dry_run, log=log)
+        if not dry_run:
+            conn.commit()
+
     return dict(kind=kind, pool_in=pool_in, clusters=cluster_count,
-                merged=merged_count, survivors=survivors)
+                merged=merged_count, survivors=survivors, minted=minted)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -502,15 +660,21 @@ def main(argv: list[str] | None = None) -> int:
                          "problem and actor pools never compared to each other")
     ap.add_argument("--dry-run", action="store_true",
                     help="compute and log clusters, write nothing")
+    ap.add_argument("--no-minted", action="store_true",
+                    help="skip the minted-entity pass (candidate-vs-candidate "
+                         "clustering only, as this module behaved before it "
+                         "could resolve against `problem`/`actor`)")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args(argv)
 
     log = (lambda *a, **k: None) if args.quiet else print
     conn = open_store(args, log=log)
+    corpus = None if args.no_minted else Path(args.corpus)
     try:
         kinds = [args.kind] if args.kind else list(KINDS)
         for kind in kinds:
-            dedup_kind(conn, kind, dry_run=args.dry_run, log=log)
+            dedup_kind(conn, kind, dry_run=args.dry_run, corpus=corpus,
+                       log=log)
     finally:
         conn.close()
     return 0
