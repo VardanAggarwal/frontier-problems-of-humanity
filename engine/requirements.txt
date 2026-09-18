@@ -15,6 +15,7 @@ json_repair>=0.30         # worker/llm.py: best-effort recovery for a model
                           # response that fails strict json.loads (unquoted
                           # keys, missing commas, trailing data) before that
                           # attempt is counted as a parse failure
+pypdf>=4                  # worker/fetch.py PDF text extraction — core pipeline behaviour
 pytest>=8
 
 # Optional — only needed if the matching rung of worker/llm.py's fallback

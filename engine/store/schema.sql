@@ -116,8 +116,13 @@ CREATE TABLE source (
   -- refetch strategy might help (PageState.kind, empty string stored as NULL).
   page_state    TEXT CHECK (page_state IS NULL OR page_state IN
                 ('ok', 'thin', 'blocked', 'missing', 'empty')),
+  -- 'too_large' (worker/fetch.py's PDF page/byte-size cap, 2026-09-19) is not
+  -- a wall — nothing refused to serve the page — but it shares page_kind's
+  -- "why is this not usable" job, so it lives in the same enum rather than a
+  -- new column.
   page_kind     TEXT CHECK (page_kind IS NULL OR page_kind IN
-                ('js', 'cookies', 'bot', 'forbidden', 'login', 'missing', 'shell')),
+                ('js', 'cookies', 'bot', 'forbidden', 'login', 'missing', 'shell',
+                 'too_large')),
   words         INTEGER,
   http_status   INTEGER,
   fetched_at    TEXT,
