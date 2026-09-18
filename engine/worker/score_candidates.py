@@ -28,25 +28,24 @@ Why these four terms, and why these weights:
   (`discovered_via` starts with `human:`) — a person naming something is a
   stronger prior than one more autonomous worker branch landing on it.
 
-  The cluster comes from `dedup_candidates.compute_clusters`, imported, not
-  re-derived. This term used to group by `resolve._slugify(name)` as a cheap
-  stand-in, written that way only because that module was being repaired
-  concurrently and could not be depended on. Keeping the stand-in now would
-  leave two duplicate detectors in one pipeline, and the one that is not the
-  CLI's is the one nobody notices drifting. The slug proxy was also strictly
-  weaker: it could only ever see exact name matches, so `FCI` and `Food
-  Corporation of India (FCI)` corroborated nothing, and the real tier-2
-  embedding pass is what recovers those.
+  The cluster is read from the persisted `candidate.dup_of` column —
+  `dedup_candidates` has now run for real, so this is the one source of
+  truth, not a second independent computation. This term used to group by
+  `resolve._slugify(name)` as a cheap stand-in (written that way only
+  because that module was being repaired concurrently and could not be
+  depended on), and after that it called `dedup_candidates.compute_clusters`
+  fresh on every run (written that way only because `dup_of` was still NULL
+  throughout the store — dedup had only ever run with `--dry-run`). Both were
+  correct for their moment and wrong to keep: two independently-computed
+  duplicate detectors in one pipeline drift, and the recompute paid for
+  dedup's tier-2 embedding pass on every scoring run for no reason once a
+  real write exists to just read.
 
-- **The pool is cluster REPRESENTATIVES, not every row.** A duplicate does
-  not get its own score. Ranking each copy separately is what put `Food
-  Corporation of India (FCI)` at #3 and #4 and `Ministry of Jal Shakti` at
-  #7 and #8 in the first dry-run — the queue's top slots spent on one entity
-  discovered twice. Note this has to be recomputed live: `dedup_candidates`
-  has only ever run with `--dry-run`, so `candidate.dup_of` is still NULL
-  throughout the store, and a `WHERE dup_of IS NULL` pool would quietly be
-  the un-deduped pool. The cost is that scoring now pays for dedup's tier-2
-  encode on every run.
+- **The pool is cluster REPRESENTATIVES (`dup_of IS NULL`), not every row.**
+  A duplicate does not get its own score. Ranking each copy separately is
+  what put `Food Corporation of India (FCI)` at #3 and #4 and `Ministry of
+  Jal Shakti` at #7 and #8 in the first dry-run — the queue's top slots spent
+  on one entity discovered twice.
 
 - **F (freshness, 0.20)** is exp(-age_days / 60): a candidate seen last week
   outranks a stale one at equal G/D/S, but the 60-day half-life-ish decay is
@@ -75,7 +74,7 @@ from datetime import datetime, timezone
 from embed.guard import add_store_args, open_store
 from store import db
 
-from .dedup_candidates import KINDS, Cluster, compute_clusters
+from .dedup_candidates import KINDS, Cluster
 
 MAX_HOPS = 10
 MAX_LEGS = 4.0
@@ -214,18 +213,28 @@ def score_all(conn: sqlite3.Connection, *, log=None) -> list[dict]:
 
     The full unadmitted pool is still read, because G walks parent chains
     through it and D counts routes across every member of a cluster; only
-    the representative is scored and written."""
+    the representative (`dup_of IS NULL`) is scored and written. Clusters are
+    built from the persisted `dup_of` column, not recomputed — see the
+    module docstring's D section for why that changed."""
     rows = [dict(r) for r in conn.execute(
         "SELECT id, kind, name, discovered_via, evidence, first_seen, "
-        "resolved_to, score AS old_score FROM candidate "
+        "resolved_to, dup_of, score AS old_score FROM candidate "
         "WHERE admitted IS NULL").fetchall()]
     if not rows:
         return []
 
     by_id = {r["id"]: r for r in rows}
-    clusters: list[Cluster] = []
-    for kind in KINDS:
-        clusters.extend(compute_clusters(conn, kind))
+
+    members_by_rep: dict[int, list[int]] = {}
+    for r in rows:
+        if r["dup_of"] is not None:
+            members_by_rep.setdefault(r["dup_of"], []).append(r["id"])
+    clusters: list[Cluster] = [
+        Cluster(kind=r["kind"], representative=r["id"],
+                members=[r["id"]] + members_by_rep.get(r["id"], []),
+                why="", reasons={})
+        for r in rows if r["dup_of"] is None
+    ]
 
     g_by_id = compute_gap(conn, by_id)
     d_by_rep = compute_discovery(clusters, by_id)
