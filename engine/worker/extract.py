@@ -182,7 +182,8 @@ def assemble(
 
 def write_findings(conn: sqlite3.Connection, candidate_id: int,
                    answers: Sequence[Answer], *,
-                   urls: Mapping[str, str] | None = None) -> int:
+                   urls: Mapping[str, str] | None = None,
+                   chunk_texts: Mapping[str, str] | None = None) -> int:
     """One `finding` row per `Answer`. -> rows inserted.
 
     The only DB-touching function in this module; everything else here is
@@ -194,21 +195,34 @@ def write_findings(conn: sqlite3.Connection, candidate_id: int,
     :323, E0) and the URL is reachable through it; passing it stores the URL
     a reviewer sees without a join, and matches §9's original column list.
 
+    `chunk_texts` maps `chunk_ref` -> the paragraph text the caller already
+    assembled for the prompt (`PromptSource.chunk_texts`,
+    `worker/extract_types.py`), for `finding.chunk_text`
+    (schema v5, `migrate/m0005_finding_chunk_text.py`). Resolved here rather
+    than by a reader re-chunking `source.path` later, so the reference stays
+    pinned to the paragraph extraction actually saw. Optional and looked up
+    by `a.chunk_ref`; an answer with no chunk marker, or one from a path that
+    never built a `chunk_texts` map (e.g. `retry_per_source`'s solo blocks),
+    simply writes NULL — never guessed.
+
     `gathered_at` is left to the column default (`datetime('now')`). No
     commit: the caller owns the transaction, as everywhere else the worker
     writes (`worker.py:run_batch` commits once per candidate).
     """
     urls = urls or {}
+    chunk_texts = chunk_texts or {}
     rows = [
         (candidate_id, a.question_id, a.answer, a.confidence,
-         urls.get(a.source_id), a.source_id, a.chunk_ref, a.reason)
+         urls.get(a.source_id), a.source_id, a.chunk_ref, a.reason,
+         chunk_texts.get(a.chunk_ref) if a.chunk_ref else None)
         for a in answers
     ]
     if not rows:
         return 0
     conn.executemany(
         "INSERT INTO finding (candidate_id, question_id, answer, confidence, "
-        "source_url, source_id, chunk_ref, reason) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", rows)
+        "source_url, source_id, chunk_ref, reason, chunk_text) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", rows)
     return len(rows)
 
 

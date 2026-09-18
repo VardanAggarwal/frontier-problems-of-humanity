@@ -103,6 +103,37 @@ def test_write_findings_without_reason_leaves_it_null(conn):
     assert row["reason"] is None
 
 
+def test_write_findings_resolves_chunk_text_by_chunk_ref(conn):
+    """`chunk_texts` maps `chunk_ref` -> paragraph; `finding.chunk_text`
+    must carry the paragraph for the answer's own `chunk_ref`, not any
+    other entry in the map (schema v5, migrate/m0005_finding_chunk_text.py)."""
+    n = extract.write_findings(
+        conn, 1, [A("q1_one_line", "x", "s-a", chunk_ref="s-a:3")],
+        chunk_texts={"s-a:2": "wrong paragraph", "s-a:3": "the right paragraph"})
+    assert n == 1
+    row = conn.execute("SELECT chunk_text FROM finding").fetchone()
+    assert row["chunk_text"] == "the right paragraph"
+
+
+def test_write_findings_without_chunk_ref_leaves_chunk_text_null(conn):
+    """An answer with no resolvable chunk marker must not guess a paragraph
+    from the map, even when the map is non-empty."""
+    extract.write_findings(
+        conn, 1, [A("q1_one_line", "x", "s-a")],
+        chunk_texts={"s-a:0": "some paragraph"})
+    row = conn.execute("SELECT chunk_text FROM finding").fetchone()
+    assert row["chunk_text"] is None
+
+
+def test_write_findings_chunk_ref_absent_from_map_leaves_chunk_text_null(conn):
+    """A chunk_ref that does not resolve in the map (e.g. `retry_per_source`'s
+    solo blocks, which never build one) writes NULL rather than raising."""
+    extract.write_findings(
+        conn, 1, [A("q1_one_line", "x", "s-a", chunk_ref="s-a:9")])
+    row = conn.execute("SELECT chunk_text FROM finding").fetchone()
+    assert row["chunk_text"] is None
+
+
 def test_write_findings_source_id_is_a_real_fk(conn):
     """`finding.source_id REFERENCES source (id)` with foreign_keys ON."""
     import sqlite3
