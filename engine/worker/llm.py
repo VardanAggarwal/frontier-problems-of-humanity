@@ -203,6 +203,18 @@ def _call_openrouter(prompt: str, model: str, max_tokens: int, system: str | Non
             truncated = True
     usage = data.get("usage") or {}
     in_tok, out_tok = usage.get("prompt_tokens", 0), usage.get("completion_tokens", 0)
+    # The bracket check above is blind to the failure it was added for once
+    # `response_format=json_object` (this function, above) is in play: a
+    # grammar-constrained decoder that runs out of budget force-closes the
+    # object early to stay valid JSON, so the response ends on `}` either
+    # way — syntactically complete, semantically short a key (`emits`/
+    # `edges` dropped), and `json.loads` never complains (2026-09-18,
+    # candidate 560's "malformed extraction JSON (dict)"). completion_tokens
+    # landing at (or past) the requested budget is the only signal left that
+    # generation was cut off rather than finished early — a small margin
+    # below max_tokens covers off-by-a-few accounting between providers.
+    if not truncated and out_tok and out_tok >= max_tokens - 4:
+        truncated = True
     return {
         "text": text,
         "provider": "openrouter",
@@ -311,6 +323,24 @@ def _call_gemini(prompt: str, model: str, max_tokens: int, system: str | None) -
 
 
 MAX_TOKENS_CEILING = 16384  # cap for the truncation-retry escalation below
+
+
+def extraction_max_tokens(n_sources: int) -> int:
+    """Starting `max_tokens` budget for a batched extraction call, scaled by
+    source count instead of a flat 4096 — the actual bottleneck behind
+    "malformed extraction JSON (dict)" (2026-09-18). `_call_openrouter`'s
+    `response_format=json_object` makes a truncated generation come back as
+    a syntactically valid but incomplete dict (missing `emits`/`edges`)
+    rather than a parse failure, so the truncation never trips `truncated`
+    below and never reaches `call()`'s own retry/escalation loop — it
+    silently parses and only fails worker.py's schema check downstream. A
+    5-source batch (candidate 560, 2026-09-17 log) already tripped this at
+    4096; each source can carry several `answers` (with `reason`/`chunk`)
+    plus `edges` (each with a `signals` object), so per-source cost isn't
+    flat. 2048 base (schema overhead, `misidentified`) + ~1024/source is a
+    reasoned budget, not a measurement — capped at MAX_TOKENS_CEILING so a
+    large batch doesn't request more than a configured model will honor."""
+    return min(2048 + 1024 * max(1, n_sources), MAX_TOKENS_CEILING)
 
 
 def call(prompt: str, tier: str = "mechanical", max_tokens: int = 2048,

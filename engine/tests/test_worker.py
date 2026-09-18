@@ -835,6 +835,70 @@ def test_call_openrouter_diagnoses_a_non_json_200_body(monkeypatch):
         llm._call_openrouter("prompt", "some/model:free", 100, None)
 
 
+def test_call_openrouter_flags_truncation_even_when_json_mode_closes_cleanly(
+        monkeypatch):
+    """2026-09-18, candidate 560: `response_format=json_object` (added
+    2026-09-17 to kill unbalanced-brace errors) makes a grammar-constrained
+    decoder force-close the object when it runs out of budget, so a
+    truncated generation still ends on `}` — the bracket-ending heuristic
+    added the same day can't see this, and it silently parsed into a valid
+    but incomplete dict (missing `emits`/`edges`) that only failed
+    worker.py's schema check, never call()'s own retry/escalation. Output
+    tokens landing at the requested budget must still flag `truncated`."""
+    import requests as requests_mod
+
+    class _FakeResp:
+        status_code = 200
+        headers = {}
+        def json(self):
+            return {
+                "choices": [{"message": {"content": '{"answers": []}'},
+                            "finish_reason": "stop"}],
+                "usage": {"prompt_tokens": 500, "completion_tokens": 100,
+                         "cost": 0.0},
+            }
+
+    monkeypatch.setattr(requests_mod, "post", lambda *a, **kw: _FakeResp())
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm, "_openrouter_pace", lambda: None)
+
+    result = llm._call_openrouter("prompt", "some/model:free", 100, None)
+    assert result["truncated"] is True
+
+
+def test_call_openrouter_does_not_flag_truncation_well_under_budget(monkeypatch):
+    """The new output-token-ratio check must not fire on an ordinary
+    complete response that simply didn't use its whole budget."""
+    import requests as requests_mod
+
+    class _FakeResp:
+        status_code = 200
+        headers = {}
+        def json(self):
+            return {
+                "choices": [{"message": {"content": '{"answers": []}'},
+                            "finish_reason": "stop"}],
+                "usage": {"prompt_tokens": 500, "completion_tokens": 20,
+                         "cost": 0.0},
+            }
+
+    monkeypatch.setattr(requests_mod, "post", lambda *a, **kw: _FakeResp())
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm, "_openrouter_pace", lambda: None)
+
+    result = llm._call_openrouter("prompt", "some/model:free", 100, None)
+    assert result["truncated"] is False
+
+
+def test_extraction_max_tokens_scales_with_source_count_and_caps():
+    """Flat 4096 was the real bottleneck behind candidate 560's "malformed
+    extraction JSON (dict)" — the budget must grow with batch size, and
+    never exceed MAX_TOKENS_CEILING regardless of how large the batch is."""
+    assert llm.extraction_max_tokens(1) < llm.extraction_max_tokens(5)
+    assert llm.extraction_max_tokens(5) < llm.extraction_max_tokens(20)
+    assert llm.extraction_max_tokens(1000) == llm.MAX_TOKENS_CEILING
+
+
 # ------------------------------------------------- track A: problem emission
 
 def _source_candidate(conn, *, resolved_to, evidence=None, kind="actor"):

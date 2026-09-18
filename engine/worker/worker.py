@@ -966,8 +966,9 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 v_system, v_prompt = verify_and_extract_prompt_batched(
                     kind, name, cand["evidence"] or "", v_sources)
                 try:
-                    v_result = llm.call(v_prompt, system=v_system,
-                                        tier="judgment", max_tokens=4096)
+                    v_result = llm.call(
+                        v_prompt, system=v_system, tier="judgment",
+                        max_tokens=llm.extraction_max_tokens(len(v_sources)))
                 except llm.LLMError as e:
                     log(f"worker: candidate {cid} verify pass failed: {e}")
                 else:
@@ -1019,8 +1020,16 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         log(f"worker: candidate {cid} stage=extract "
             f"({'batched' if batched else 'single'}, "
             f"{len(prompt_sources)} source(s))")
+        # Batched calls scale with source count (§ llm.extraction_max_tokens
+        # docstring — flat 4096 was the real bottleneck behind "malformed
+        # extraction JSON (dict)", 2026-09-18). The non-batched whole-text
+        # path keeps the flat budget: it has no `prompt_sources` count to
+        # scale by, and was never observed to trip this failure.
+        extract_max_tokens = (llm.extraction_max_tokens(len(prompt_sources))
+                              if batched else 4096)
         try:
-            result = llm.call(prompt, system=system, tier="judgment", max_tokens=4096)
+            result = llm.call(prompt, system=system, tier="judgment",
+                              max_tokens=extract_max_tokens)
         except llm.LLMError as e:
             log(f"worker: candidate {cid} extraction failed, skipping: {e}")
             continue
