@@ -228,12 +228,11 @@ import Base from '../layouts/Base.astro';
       }
 
       function renderQueue(rows) {
+        // Server already filters by kind (astro.config.mjs) before applying
+        // its scope=all LIMIT 300, so no client-side kind filter here — doing
+        // it client-side after that limit would undercount.
         queueRows = rows.slice().sort(byScoreDesc);
-
-        var kind = qKindFilter.value;
-        var shownRows = kind === 'all'
-          ? queueRows
-          : queueRows.filter(function (r) { return r.kind === kind; });
+        var shownRows = queueRows;
 
         qList.innerHTML = '';
         if (!shownRows.length) {
@@ -295,17 +294,15 @@ import Base from '../layouts/Base.astro';
         qStatus.textContent = 'loading…';
         delete qStatus.dataset.tone;
         var scope = qShowAll.checked ? 'all' : 'queue';
-        fetch('/api/candidates/list?scope=' + scope).then(function (res) {
+        var kind = qKindFilter.value;
+        var qs = 'scope=' + scope + (kind === 'all' ? '' : '&kind=' + kind);
+        fetch('/api/candidates/list?' + qs).then(function (res) {
           if (!res.ok) return res.text().then(function (t) { throw new Error('HTTP ' + res.status + ': ' + t); });
           return res.json();
         }).then(function (j) {
           if (j.error) throw new Error(j.error);
           renderQueue(j.candidates);
-          var kind = qKindFilter.value;
-          var count = kind === 'all'
-            ? j.candidates.length
-            : j.candidates.filter(function (r) { return r.kind === kind; }).length;
-          qStatus.textContent = count + ' shown';
+          qStatus.textContent = j.candidates.length + ' shown';
         }).catch(function (e) {
           qStatus.textContent = 'not loaded (' + e.message + ') — needs `npm run dev`';
           qStatus.dataset.tone = 'err';
@@ -313,14 +310,7 @@ import Base from '../layouts/Base.astro';
       }
       document.getElementById('q-refresh').addEventListener('click', loadQueue);
       qShowAll.addEventListener('change', loadQueue);
-      qKindFilter.addEventListener('change', function () {
-        renderQueue(queueRows);
-        var kind = qKindFilter.value;
-        var count = kind === 'all'
-          ? queueRows.length
-          : queueRows.filter(function (r) { return r.kind === kind; }).length;
-        qStatus.textContent = count + ' shown';
-      });
+      qKindFilter.addEventListener('change', loadQueue);
       qAllToggle.addEventListener('click', function () {
         var rows = Array.prototype.slice.call(qList.querySelectorAll('.qrow:not([data-resolved="1"])'));
         var allChecked = rows.length > 0 && rows.every(function (r) { return checked[r.dataset.id]; });

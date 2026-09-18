@@ -328,11 +328,15 @@ function problemPromoter() {
   };
 }
 
-/** Dev-only. GET /api/candidates/list?scope=queue|all → rows from `candidate`
- *  for the /worker page's picker. `queue` (default) is worker.py's own
- *  selection (admitted = 1 AND resolved_to IS NULL, oldest first) — the same
- *  set --limit would drain; `all` adds already-resolved/rejected rows too,
- *  for re-running or just seeing what happened to something. */
+/** Dev-only. GET /api/candidates/list?scope=queue|all&kind=problem|actor →
+ *  rows from `candidate` for the /worker page's picker. `queue` (default) is
+ *  worker.py's own selection (admitted = 1 AND resolved_to IS NULL, oldest
+ *  first) — the same set --limit would drain; `all` adds already-resolved/
+ *  rejected rows too, for re-running or just seeing what happened to
+ *  something. `kind`, when given, filters server-side BEFORE the `all`
+ *  scope's LIMIT 300 — filtering client-side after the limit instead would
+ *  undercount (e.g. show 73 of 300 rows as "all problems" when far more than
+ *  73 problem rows exist). */
 function candidateLister() {
   return {
     name: 'fph:candidate-lister',
@@ -348,6 +352,8 @@ function candidateLister() {
         try {
           const url = new URL(req.url, 'http://localhost');
           const scope = url.searchParams.get('scope') === 'all' ? 'all' : 'queue';
+          const askedKind = url.searchParams.get('kind');
+          const kind = (askedKind === 'problem' || askedKind === 'actor') ? askedKind : null;
           // resolved_kind_tag: for a resolved problem, whatever 'kind' tag it
           // landed with (NULL until /triage promotes it, or for actors —
           // that tag namespace never applies to actor rows) — lets the
@@ -359,13 +365,19 @@ function candidateLister() {
           const g = openGraphWritable(GRAPH_DB); // read-only use; avoids a second connection mode
           let rows;
           try {
-            rows = scope === 'all'
-              ? g.prepare(`SELECT ${cols} FROM candidate c ORDER BY first_seen DESC LIMIT 300`).all()
-              : g.prepare(
-                  `SELECT ${cols} FROM candidate c WHERE admitted = 1 AND resolved_to IS NULL ORDER BY first_seen`
-                ).all();
+            if (scope === 'all') {
+              const where = kind ? 'WHERE c.kind = ?' : '';
+              const stmt = g.prepare(`SELECT ${cols} FROM candidate c ${where} ORDER BY first_seen DESC LIMIT 300`);
+              rows = kind ? stmt.all(kind) : stmt.all();
+            } else {
+              const where = kind
+                ? 'WHERE c.admitted = 1 AND c.resolved_to IS NULL AND c.kind = ?'
+                : 'WHERE c.admitted = 1 AND c.resolved_to IS NULL';
+              const stmt = g.prepare(`SELECT ${cols} FROM candidate c ${where} ORDER BY first_seen`);
+              rows = kind ? stmt.all(kind) : stmt.all();
+            }
           } finally { g.close(); }
-          done(200, { ok: true, scope, candidates: rows });
+          done(200, { ok: true, scope, kind, candidates: rows });
         } catch (e) {
           done(500, { error: String((e && e.message) || e) });
         }
