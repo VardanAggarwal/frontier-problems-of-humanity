@@ -69,6 +69,14 @@ import Base from '../layouts/Base.astro';
         <input id="q-show-all" type="checkbox" />
         <span>show resolved/rejected too</span>
       </label>
+      <label>
+        Kind
+        <select id="q-kind-filter">
+          <option value="all">all</option>
+          <option value="actor">actors</option>
+          <option value="problem">problems</option>
+        </select>
+      </label>
       <span id="q-status" role="status" aria-live="polite"></span>
     </div>
     <ul id="q-list" class="qlist"></ul>
@@ -140,14 +148,14 @@ import Base from '../layouts/Base.astro';
     #q-status { font: .72rem/1 var(--mono); color: var(--muted); }
     #q-status[data-tone="err"] { color: var(--alarm); }
     .qlist { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); max-height: 22rem; overflow: auto; }
-    .qrow {
-      display: flex; gap: .7rem; align-items: baseline; padding: .4rem .2rem;
+    :global(.qrow) {
+      display: flex; gap: 3rem; align-items: baseline; padding: .4rem .2rem;
       border-bottom: 1px solid var(--rule); font: .78rem/1.4 var(--sans);
     }
-    .qrow[data-resolved="1"] { opacity: .55; }
+    :global(.qrow) [data-resolved="1"] { opacity: .55; }
     .qid { flex: none; width: 2.6rem; color: var(--muted); font: .7rem/1 var(--mono); }
     .qkind { flex: none; width: 4.2rem; color: var(--muted); font: .68rem/1 var(--mono); text-transform: uppercase; }
-    .qname { flex: 1 1 auto; min-width: 0; }
+    .qname { flex: 1 1 auto; min-width: 0; margin: 3rem}
     .qmeta { flex: none; color: var(--muted); font: .68rem/1 var(--mono); }
     .qmeta a { color: var(--accent); }
     .qempty { font: .8rem/1 var(--sans); color: var(--muted); font-style: italic; padding: .6rem .2rem; }
@@ -185,20 +193,29 @@ import Base from '../layouts/Base.astro';
       var qStatus = document.getElementById('q-status');
       var qShowAll = document.getElementById('q-show-all');
       var qAllToggle = document.getElementById('q-all-toggle');
+      var qKindFilter = document.getElementById('q-kind-filter');
       var checked = {}; // candidate id -> true, survives a refresh
+      var queueRows = [];
 
       function fmtDate(s) { return (s || '').slice(0, 10); }
 
       function renderQueue(rows) {
+        queueRows = rows;
+
+        var kind = qKindFilter.value;
+        var shownRows = kind === 'all'
+          ? rows
+          : rows.filter(function (r) { return r.kind === kind; });
+
         qList.innerHTML = '';
-        if (!rows.length) {
+        if (!shownRows.length) {
           var li = document.createElement('li');
           li.className = 'qempty';
           li.textContent = 'nothing queued';
           qList.appendChild(li);
           return;
         }
-        rows.forEach(function (r) {
+        shownRows.forEach(function (r) {
           var li = document.createElement('li');
           li.className = 'qrow';
           li.dataset.id = r.id;
@@ -249,7 +266,11 @@ import Base from '../layouts/Base.astro';
         }).then(function (j) {
           if (j.error) throw new Error(j.error);
           renderQueue(j.candidates);
-          qStatus.textContent = j.candidates.length + ' shown';
+          var kind = qKindFilter.value;
+          var count = kind === 'all'
+            ? j.candidates.length
+            : j.candidates.filter(function (r) { return r.kind === kind; }).length;
+          qStatus.textContent = count + ' shown';
         }).catch(function (e) {
           qStatus.textContent = 'not loaded (' + e.message + ') — needs `npm run dev`';
           qStatus.dataset.tone = 'err';
@@ -257,6 +278,14 @@ import Base from '../layouts/Base.astro';
       }
       document.getElementById('q-refresh').addEventListener('click', loadQueue);
       qShowAll.addEventListener('change', loadQueue);
+      qKindFilter.addEventListener('change', function () {
+        renderQueue(queueRows);
+        var kind = qKindFilter.value;
+        var count = kind === 'all'
+          ? queueRows.length
+          : queueRows.filter(function (r) { return r.kind === kind; }).length;
+        qStatus.textContent = count + ' shown';
+      });
       qAllToggle.addEventListener('click', function () {
         var rows = Array.prototype.slice.call(qList.querySelectorAll('.qrow:not([data-resolved="1"])'));
         var allChecked = rows.length > 0 && rows.every(function (r) { return checked[r.dataset.id]; });
