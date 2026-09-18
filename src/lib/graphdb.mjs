@@ -121,3 +121,34 @@ export function edgesIn(g, dstKind, dstId, kind) {
     'WHERE dst_kind = ? AND dst_id = ? AND kind = ?'
   ).all(dstKind, dstId, kind);
 }
+
+const _norm = (s) => String(s ?? '').toLowerCase().replace(/[^\w\s]+/g, ' ').replace(/\s+/g, ' ').trim();
+
+// Resolve a problem's machine-extracted field value (a `tag:` claim, e.g.
+// leaf.magnitude) back to the exact paragraph engine/worker/extract.py's
+// write_findings pinned as `finding.chunk_text` (schema v5,
+// migrate/m0005_finding_chunk_text.py) — the paragraph extraction actually
+// read the answer from, not a re-chunk of the source at read time.
+//
+// A leaf's tag value comes from `claims_from_findings` (03-worker.md §9),
+// which for a genuine conflict holds BOTH sides in one claim (rule 3/4) —
+// there is then no single finding whose `answer` matches the tag verbatim,
+// so this deliberately returns null rather than citing one side as if it
+// were the whole claim. Only the common case (one finding -> one claim, or
+// consistent duplicates collapsing to the most specific) has exactly one
+// matching finding and gets a citation.
+export function findingRef(g, problemId, questionId, value) {
+  if (value == null) return null;
+  const rows = g.prepare(
+    `SELECT f.answer, f.chunk_text, s.url AS source_url, s.title AS source_title
+     FROM finding f
+     JOIN candidate c ON c.id = f.candidate_id
+     LEFT JOIN source s ON s.id = f.source_id
+     WHERE c.kind = 'problem' AND c.resolved_to = ? AND f.question_id = ?`
+  ).all(problemId, questionId);
+  const target = _norm(value);
+  const matches = rows.filter((r) => r.chunk_text && _norm(r.answer) === target);
+  if (matches.length !== 1) return null;
+  const m = matches[0];
+  return { text: m.chunk_text, url: m.source_url ?? null, title: m.source_title ?? null };
+}
