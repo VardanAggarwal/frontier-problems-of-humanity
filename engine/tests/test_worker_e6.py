@@ -13,6 +13,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 import json
 import math
+import threading
 
 import pytest
 
@@ -116,14 +117,24 @@ class FakeFetch:
         self.texts = texts          # url -> text
         self.default_text = default_text
         self.urls = []
+        # `search_stage._fetch_and_route` fetches URLs from a thread pool, and
+        # the real `worker/fetch.py` guards every sqlite touch with its own
+        # `_DB_LOCK` for exactly that reason (fetch.py:46). This stub stands in
+        # for that function, so it owes the same guard: without it two pool
+        # threads interleave statements on one connection and sqlite raises
+        # `InterfaceError: bad parameter or other API misuse` — intermittently,
+        # and only on the escalation path, where `_fetch_and_route` runs a
+        # second time.
+        self.lock = threading.Lock()
 
     def __call__(self, conn, corpus, url):
-        self.urls.append(url)
         text = self.texts.get(url, self.default_text)
         source_id = "src-" + str(abs(hash(url)) % 10 ** 9)
-        self.conn.execute(
-            "INSERT OR IGNORE INTO source (id, url, url_canonical) "
-            "VALUES (?, ?, ?)", (source_id, url, url))
+        with self.lock:
+            self.urls.append(url)
+            self.conn.execute(
+                "INSERT OR IGNORE INTO source (id, url, url_canonical) "
+                "VALUES (?, ?, ?)", (source_id, url, url))
         return type("FetchResult", (), {"text": text, "source_id": source_id})()
 
 

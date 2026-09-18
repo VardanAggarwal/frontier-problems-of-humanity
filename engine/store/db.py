@@ -18,7 +18,7 @@ from typing import Any, Iterable, Sequence
 from . import tags
 
 SCHEMA = Path(__file__).with_name("schema.sql")
-SCHEMA_VERSION = "3"
+SCHEMA_VERSION = "4"
 FINGERPRINT = "corpus_fingerprint"
 
 class _Clear:

@@ -30,11 +30,18 @@ def test_fresh_db_has_reason_column(conn):
     assert "reason" in cols
 
 
-def test_fresh_db_is_schema_version_3(conn):
+def test_fresh_db_is_stamped_at_the_current_schema_version(conn):
+    """Pinned to `db.SCHEMA_VERSION` rather than to a literal: this asserts
+    that `init()` stamps the version at all, which is what a migration reads
+    to decide whether it has work to do. Pinning the literal made every
+    schema bump fail here (v4, the resume point, was the first) for no
+    reason the test was written to catch. The floor keeps it from passing on
+    an empty or absent stamp."""
     row = conn.execute(
         "SELECT value FROM meta WHERE key = 'schema_version'"
     ).fetchone()
-    assert row["value"] == "3"
+    assert row["value"] == db.SCHEMA_VERSION
+    assert int(row["value"]) >= 3
 
 
 def _v1_db(path) -> sqlite3.Connection:

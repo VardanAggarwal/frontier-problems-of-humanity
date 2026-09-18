@@ -424,6 +424,10 @@ function workerRunner() {
             args.push('--limit', String(limit));
           }
           if (parsed.noSearch) args.push('--no-search');
+          // Resume is the default (03-worker.md §13a): a candidate that has
+          // already been searched re-enters at extraction. This is the
+          // opt-out, for when the search stage's inputs changed.
+          if (parsed.noResume) args.push('--no-resume');
 
           mkdirSync(WORKER_RUNS_DIR, { recursive: true });
           const stamp = new Date().toISOString().replace(/[:.]/g, '-');
