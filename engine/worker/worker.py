@@ -1606,7 +1606,14 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 report["findings_written"] += extract_mod.write_findings(
                     conn, int(cid), answers,
                     urls={s.source_id: s.url
-                          for s in list(prompt_sources) + list(verify_sources)})
+                          for s in list(prompt_sources) + list(verify_sources)},
+                    # chunk_ref -> paragraph text, from whichever block
+                    # produced it — both buckets' `PromptSource.chunk_texts`
+                    # are already in hand, so this is a free lookup, not a
+                    # re-chunk (schema v5, migrate/m0005_finding_chunk_text.py).
+                    chunk_texts={ref: text
+                                 for s in list(prompt_sources) + list(verify_sources)
+                                 for ref, text in zip(s.chunk_refs, s.chunk_texts)})
                 claims, notes = extract_mod.claims_from_findings(answers)
                 for note in notes:
                     log(f"worker: candidate {cid} {note}")

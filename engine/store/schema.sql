@@ -443,6 +443,14 @@ CREATE TABLE finding (
   -- Nullable: only closed-enum classification answers carry a reason;
   -- everything else writes None.
   reason        TEXT,
+  -- chunk_text (schema v5, migrate/m0005_finding_chunk_text.py): the exact
+  -- paragraph `chunk_ref` points at, taken verbatim from the
+  -- `PromptSource.chunk_texts` already in hand at extraction time rather
+  -- than re-chunked from `source.path` at read time — a reference for a
+  -- leaf page or generated doc to show without re-deriving chunk
+  -- boundaries later. Nullable: only set when the answer resolved a
+  -- chunk marker (worker/extract_types.py's Answer.chunk_ref).
+  chunk_text    TEXT,
   gathered_at   TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
