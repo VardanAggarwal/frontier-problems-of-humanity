@@ -19,6 +19,7 @@ import json
 import os
 import sqlite3
 import sys
+import traceback
 from pathlib import Path
 
 from embed.guard import add_store_args, open_store
@@ -764,6 +765,20 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         "extracted": 0, "resolved_exact": 0, "resolved_shortlist": 0,
         "resolved_ambiguous": 0, "resolved_new": 0, "edges_written": 0,
         "candidates_emitted": 0, "cost": 0.0,
+        # A candidate whose per-candidate body raised an exception that
+        # wasn't one of the specific cases already handled above (§13's
+        # extraction rescue, gate2 mismatch, ambiguous resolve, failed
+        # entity write) — rolled back and skipped rather than crashing the
+        # whole batch. Motivating case, 2026-09-18: candidate 528 crashed
+        # mid-`resolve` in a 6-candidate `--ids` run and took candidates
+        # 530/552/560/577/580 down with it — `[exit 1]`, and even the
+        # traceback that should have gone to stderr never showed up in the
+        # run log, so the exact cause is still unconfirmed. Isolating the
+        # loop per candidate means that class of failure costs one
+        # candidate, not the batch, regardless of whether the cause is ever
+        # pinned down. `traceback.format_exc()` is logged explicitly here so
+        # the next occurrence at least has a stack trace to read.
+        "candidate_crashed": 0,
         # stage 7 (§9) and the batched call (§8)
         "findings_written": 0, "cites_written": 0,
         "extracted_batched": 0, "extracted_single": 0,
@@ -861,357 +876,366 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         name, kind = cand["name"], cand["kind"]
         log(f"worker: candidate {cid} stage=start ({kind} {name!r})")
 
-        # fetch — a bare name (no URL) skips straight to extraction with
-        # empty text: a stub actor from a registry row legitimately has no
-        # document yet, and that is not a reason to stop the pipeline.
-        text = ""
-        sources: list[ConfirmedSource] = []
-        unverified: list = []
-        if cand["url"]:
-            log(f"worker: candidate {cid} stage=fetch {cand['url']}")
-            fetched = fetchmod.fetch(conn, corpus, cand["url"])
-            report["fetched"] += 1
-            text = fetched.text or ""
-
-            if text:
-                verdict, cosine, note = gate2.confirm(conn, name, cand["evidence"] or "", text)
-                report[f"gate2_{verdict}"] += 1
-                if verdict == "mismatch":
-                    why = f"mismatch at cosine {cosine:.3f}"
-                    db.record(conn, "candidate", cid, "admitted", None, 0,
-                              by="worker:gate2", why=why)
-                    _settle(cid, resolved_to=None, admitted=0, by="worker:gate2",
-                           why=why)
-                    conn.commit()
-                    continue
-                # Everything past `mismatch` goes through the same policy as
-                # a search source. It used to append to `sources`
-                # unconditionally, which meant an `uncertain` SEED reached the
-                # main extraction prompt even after the search path stopped
-                # letting uncertain through — the same hole, one origin later.
-                # Mismatch stays special above because that verdict is the
-                # CANDIDATE's admission decision, which no per-source policy
-                # can express.
-                seed_source = ConfirmedSource(
-                    source_id=fetched.source_id, url=cand["url"], text=text,
-                    origin=confirm_policy.SEED, verdict=verdict)
-                [seed_decision] = confirm_policy.apply_confirmations([
-                    confirm_policy.SourceVerdict(
-                        source_id=fetched.source_id, url=cand["url"],
-                        origin=confirm_policy.SEED, verdict=verdict,
-                        cosine=cosine, note=note, text_chars=len(text))])
-                if seed_decision.route == confirm_policy.PROMPT:
-                    sources.append(seed_source)
-                else:
-                    log(f"worker: candidate {cid} seed to verify: "
-                        f"{seed_decision.reason}")
-                    unverified.append(seed_source)
-
-        # search (track D, wired here). The seed is fetched and gate-2'd
-        # above rather than handed to `search_sources`, because that verdict
-        # is the CANDIDATE's admission decision — a mismatch rejects the
-        # candidate outright, which is not something a per-source policy can
-        # express. So the search stage is asked only for what the seed did
-        # not supply, hence `seed_url=None`.
-        #
-        # The NO_VERDICT drop (D3's policy, adopted at integration) applies
-        # to search sources. A seed that fetched no text yields no source
-        # here either — but the CANDIDATE still reaches extraction on its
-        # name alone, because a bare registry row with no document is
-        # legitimate (§7) and was never a source to drop in the first place.
-        search_counters: dict = {}
-        if search_provider is not None:
-            log(f"worker: candidate {cid} stage=search")
-            # Deduped against the seed: `search_sources` is called with
-            # `seed_url=None`, but nothing stops set cover from picking the
-            # seed's own URL out of the search results. `fetch` is cached on
-            # `url_canonical` and returns the same `source.id` for it, so the
-            # seed would otherwise be gate-2'd a second time and appear twice
-            # in `sources` — which `extract.assemble` then chunks twice,
-            # repeating the same passages inside one `[Sn]` block and
-            # inflating `sources_fetched`. `source_id` is the durable
-            # identity (`extract_types.py`), so it is the right key here.
-            already = {s.source_id for s in sources}
-            sources.extend(s for s in search_stage.search_sources(
-                name, depth=_predicted_depth(cand) or depth_mod.TRACKED_TIER,
-                kind=cand["kind"],
-                provider=search_provider,
-                fetch=lambda url: fetchmod.fetch(conn, corpus, url),
-                confirm=lambda n, ev, txt: gate2.confirm(conn, n, ev, txt),
-                evidence=cand["evidence"] or "", seed_url=None,
-                max_sources=max_sources, escalate=True,
-                counters=search_counters,
-                unverified=unverified, log=log)
-                if s.source_id not in already)
-            unverified[:] = [s for s in unverified if s.source_id not in already]
-
-        # The verify pass (§6a). `unverified` holds gate-2 `uncertain` and
-        # confirmed-but-thin sources — material that must not enter the main
-        # prompt, but is not junk by default: the band sweep found a real
-        # LinkedIn post and a real book page sitting in it, below four
-        # wrong-entity pages. It buys a second call ONLY when the confirmed
-        # set cannot carry the candidate alone, because the pass costs as
-        # much as the call it supplements.
-        verified_answers: list[Answer] = []
-        verify_sources: list = []
-        thin, why = prompt_set_is_thin([s.text for s in sources])
-        log(f"worker: candidate {cid} stage=verify-check: {why}")
-        if thin and unverified:
-            log(f"worker: candidate {cid} stage=verify")
-            report["verify_pass_calls"] += 1
-            v_sources, _ = extract_mod.assemble(
-                unverified, REGISTRY.retrieval_questions(kind),
-                geography_bias=(kind == "problem"))
-            if v_sources:
-                v_system, v_prompt = verify_and_extract_prompt_batched(
-                    kind, name, cand["evidence"] or "", v_sources)
-                try:
-                    v_result = llm.call(
-                        v_prompt, system=v_system, tier="judgment",
-                        max_tokens=llm.extraction_max_tokens(len(v_sources)))
-                except llm.LLMError as e:
-                    log(f"worker: candidate {cid} verify pass failed: {e}")
-                else:
-                    report["cost"] += v_result.get("cost", 0.0)
-                    v_answers, v_verdicts, v_problems = parse_verified_answers(
-                        v_result.get("json"), v_sources)
-                    for problem in v_problems:
-                        log(f"worker: candidate {cid} verify: {problem}")
-                    for sid, v in v_verdicts.items():
-                        log(f"worker: candidate {cid} verify {v['label']} "
-                            f"{v['verdict']}: {v['url'][:70]}"
-                            + (f" — actually about: {v['about_what'][:60]}"
-                               if v["about_what"] else ""))
-                        report[f"verify_{v['verdict']}"] += 1
-                    # The verify pass's own answers are kept rather than
-                    # thrown away and the accepted sources re-read in the main
-                    # call: the model has already read that text once, and the
-                    # whole point of the §8 batched call is that a source is
-                    # paid for once. They merge into the ledger below with the
-                    # same provenance as any other answer — `verify_sources`
-                    # carries their urls so §9 can attribute them.
-                    verified_answers = v_answers
-                    verify_sources = v_sources
-        elif unverified:
-            log(f"worker: candidate {cid} {len(unverified)} unverified "
-                f"source(s) left unread — confirmed set was adequate")
-
-        # claims — the one paid call in the loop (§7 tier 4). With sources in
-        # hand it is §8's batched `[S1]…[Sn]` call over selected passages;
-        # with none it is the original whole-text call, which is also §13's
-        # degrade path when passage assembly yields nothing.
-        prompt_sources, coverage = ([], {})
-        if sources:
-            prompt_sources, coverage = extract_mod.assemble(
-                sources, REGISTRY.retrieval_questions(kind),
-                geography_bias=(kind == "problem"))
-        batched = bool(prompt_sources)
-        for key in ("sources_fetched", "sources_in_prompt",
-                    "sources_never_selected", "sources_dropped_by_cap"):
-            report[key] += int(coverage.get(key, 0))
-        if coverage:
-            log(f"worker: candidate {cid} coverage " +
-                " ".join(f"{k}={v}" for k, v in sorted(coverage.items())))
-
-        if batched:
-            system, prompt = extract_prompt_batched(kind, name, prompt_sources)
-        else:
-            system, prompt = extract_prompt(kind, name, text)
-        log(f"worker: candidate {cid} stage=extract "
-            f"({'batched' if batched else 'single'}, "
-            f"{len(prompt_sources)} source(s))")
-        # Batched calls scale with source count (§ llm.extraction_max_tokens
-        # docstring — flat 4096 was the real bottleneck behind "malformed
-        # extraction JSON (dict)", 2026-09-18). The non-batched whole-text
-        # path keeps the flat budget: it has no `prompt_sources` count to
-        # scale by, and was never observed to trip this failure.
-        extract_max_tokens = (llm.extraction_max_tokens(len(prompt_sources))
-                              if batched else 4096)
-        claims_json = None
         try:
-            result = llm.call(prompt, system=system, tier="judgment",
-                              max_tokens=extract_max_tokens)
-        except llm.JSONParseError as e:
-            # The model itself emitted broken JSON on every attempt (not a
-            # network blip) — 2026-09-18, candidates 528/552/560. Batched:
-            # fall through to the same §13 per-source rescue below instead
-            # of skipping the whole candidate; `claims_json` stays `None`,
-            # which the `not isinstance(claims_json, dict)` check below
-            # already treats as a parse failure. Non-batched has no
-            # per-source rescue to fall into, so it still just skips.
-            log(f"worker: candidate {cid} extraction JSON parse failed on "
-                f"every attempt: {e}")
-            if not batched:
-                continue
-        except llm.LLMError as e:
-            log(f"worker: candidate {cid} extraction failed, skipping: {e}")
-            continue
-        else:
-            report["cost"] += result.get("cost", 0.0)
-            claims_json = result.get("json")
+            # fetch — a bare name (no URL) skips straight to extraction with
+            # empty text: a stub actor from a registry row legitimately has no
+            # document yet, and that is not a reason to stop the pipeline.
+            text = ""
+            sources: list[ConfirmedSource] = []
+            unverified: list = []
+            if cand["url"]:
+                log(f"worker: candidate {cid} stage=fetch {cand['url']}")
+                fetched = fetchmod.fetch(conn, corpus, cand["url"])
+                report["fetched"] += 1
+                text = fetched.text or ""
 
-        answers: list[Answer] = []
-        if batched and not isinstance(claims_json, dict):
-            # §13's per-source fallback. PoC-2 measured it rescuing 1/1 parse
-            # failures, and that one failure was NOT prompt-size-driven — it
-            # fired at 4,082 chars while a larger response parsed clean — so
-            # the retry is warranted by the observation, not by a size rule.
-            log(f"worker: candidate {cid} batched parse failed, retrying "
-                f"{len(prompt_sources)} sources one at a time (§13)")
-            for src, sys_p, usr_p in retry_per_source(kind, name, prompt_sources):
-                report["retry_per_source_calls"] += 1
-                try:
-                    one = llm.call(usr_p, system=sys_p, tier="judgment",
-                                   max_tokens=4096)
-                except llm.LLMError as e:
-                    log(f"worker: candidate {cid} retry on {src.source_id} "
-                        f"failed: {e}")
+                if text:
+                    verdict, cosine, note = gate2.confirm(conn, name, cand["evidence"] or "", text)
+                    report[f"gate2_{verdict}"] += 1
+                    if verdict == "mismatch":
+                        why = f"mismatch at cosine {cosine:.3f}"
+                        db.record(conn, "candidate", cid, "admitted", None, 0,
+                                  by="worker:gate2", why=why)
+                        _settle(cid, resolved_to=None, admitted=0, by="worker:gate2",
+                               why=why)
+                        conn.commit()
+                        continue
+                    # Everything past `mismatch` goes through the same policy as
+                    # a search source. It used to append to `sources`
+                    # unconditionally, which meant an `uncertain` SEED reached the
+                    # main extraction prompt even after the search path stopped
+                    # letting uncertain through — the same hole, one origin later.
+                    # Mismatch stays special above because that verdict is the
+                    # CANDIDATE's admission decision, which no per-source policy
+                    # can express.
+                    seed_source = ConfirmedSource(
+                        source_id=fetched.source_id, url=cand["url"], text=text,
+                        origin=confirm_policy.SEED, verdict=verdict)
+                    [seed_decision] = confirm_policy.apply_confirmations([
+                        confirm_policy.SourceVerdict(
+                            source_id=fetched.source_id, url=cand["url"],
+                            origin=confirm_policy.SEED, verdict=verdict,
+                            cosine=cosine, note=note, text_chars=len(text))])
+                    if seed_decision.route == confirm_policy.PROMPT:
+                        sources.append(seed_source)
+                    else:
+                        log(f"worker: candidate {cid} seed to verify: "
+                            f"{seed_decision.reason}")
+                        unverified.append(seed_source)
+
+            # search (track D, wired here). The seed is fetched and gate-2'd
+            # above rather than handed to `search_sources`, because that verdict
+            # is the CANDIDATE's admission decision — a mismatch rejects the
+            # candidate outright, which is not something a per-source policy can
+            # express. So the search stage is asked only for what the seed did
+            # not supply, hence `seed_url=None`.
+            #
+            # The NO_VERDICT drop (D3's policy, adopted at integration) applies
+            # to search sources. A seed that fetched no text yields no source
+            # here either — but the CANDIDATE still reaches extraction on its
+            # name alone, because a bare registry row with no document is
+            # legitimate (§7) and was never a source to drop in the first place.
+            search_counters: dict = {}
+            if search_provider is not None:
+                log(f"worker: candidate {cid} stage=search")
+                # Deduped against the seed: `search_sources` is called with
+                # `seed_url=None`, but nothing stops set cover from picking the
+                # seed's own URL out of the search results. `fetch` is cached on
+                # `url_canonical` and returns the same `source.id` for it, so the
+                # seed would otherwise be gate-2'd a second time and appear twice
+                # in `sources` — which `extract.assemble` then chunks twice,
+                # repeating the same passages inside one `[Sn]` block and
+                # inflating `sources_fetched`. `source_id` is the durable
+                # identity (`extract_types.py`), so it is the right key here.
+                already = {s.source_id for s in sources}
+                sources.extend(s for s in search_stage.search_sources(
+                    name, depth=_predicted_depth(cand) or depth_mod.TRACKED_TIER,
+                    kind=cand["kind"],
+                    provider=search_provider,
+                    fetch=lambda url: fetchmod.fetch(conn, corpus, url),
+                    confirm=lambda n, ev, txt: gate2.confirm(conn, n, ev, txt),
+                    evidence=cand["evidence"] or "", seed_url=None,
+                    max_sources=max_sources, escalate=True,
+                    counters=search_counters,
+                    unverified=unverified, log=log)
+                    if s.source_id not in already)
+                unverified[:] = [s for s in unverified if s.source_id not in already]
+
+            # The verify pass (§6a). `unverified` holds gate-2 `uncertain` and
+            # confirmed-but-thin sources — material that must not enter the main
+            # prompt, but is not junk by default: the band sweep found a real
+            # LinkedIn post and a real book page sitting in it, below four
+            # wrong-entity pages. It buys a second call ONLY when the confirmed
+            # set cannot carry the candidate alone, because the pass costs as
+            # much as the call it supplements.
+            verified_answers: list[Answer] = []
+            verify_sources: list = []
+            thin, why = prompt_set_is_thin([s.text for s in sources])
+            log(f"worker: candidate {cid} stage=verify-check: {why}")
+            if thin and unverified:
+                log(f"worker: candidate {cid} stage=verify")
+                report["verify_pass_calls"] += 1
+                v_sources, _ = extract_mod.assemble(
+                    unverified, REGISTRY.retrieval_questions(kind),
+                    geography_bias=(kind == "problem"))
+                if v_sources:
+                    v_system, v_prompt = verify_and_extract_prompt_batched(
+                        kind, name, cand["evidence"] or "", v_sources)
+                    try:
+                        v_result = llm.call(
+                            v_prompt, system=v_system, tier="judgment",
+                            max_tokens=llm.extraction_max_tokens(len(v_sources)))
+                    except llm.LLMError as e:
+                        log(f"worker: candidate {cid} verify pass failed: {e}")
+                    else:
+                        report["cost"] += v_result.get("cost", 0.0)
+                        v_answers, v_verdicts, v_problems = parse_verified_answers(
+                            v_result.get("json"), v_sources)
+                        for problem in v_problems:
+                            log(f"worker: candidate {cid} verify: {problem}")
+                        for sid, v in v_verdicts.items():
+                            log(f"worker: candidate {cid} verify {v['label']} "
+                                f"{v['verdict']}: {v['url'][:70]}"
+                                + (f" — actually about: {v['about_what'][:60]}"
+                                   if v["about_what"] else ""))
+                            report[f"verify_{v['verdict']}"] += 1
+                        # The verify pass's own answers are kept rather than
+                        # thrown away and the accepted sources re-read in the main
+                        # call: the model has already read that text once, and the
+                        # whole point of the §8 batched call is that a source is
+                        # paid for once. They merge into the ledger below with the
+                        # same provenance as any other answer — `verify_sources`
+                        # carries their urls so §9 can attribute them.
+                        verified_answers = v_answers
+                        verify_sources = v_sources
+            elif unverified:
+                log(f"worker: candidate {cid} {len(unverified)} unverified "
+                    f"source(s) left unread — confirmed set was adequate")
+
+            # claims — the one paid call in the loop (§7 tier 4). With sources in
+            # hand it is §8's batched `[S1]…[Sn]` call over selected passages;
+            # with none it is the original whole-text call, which is also §13's
+            # degrade path when passage assembly yields nothing.
+            prompt_sources, coverage = ([], {})
+            if sources:
+                prompt_sources, coverage = extract_mod.assemble(
+                    sources, REGISTRY.retrieval_questions(kind),
+                    geography_bias=(kind == "problem"))
+            batched = bool(prompt_sources)
+            for key in ("sources_fetched", "sources_in_prompt",
+                        "sources_never_selected", "sources_dropped_by_cap"):
+                report[key] += int(coverage.get(key, 0))
+            if coverage:
+                log(f"worker: candidate {cid} coverage " +
+                    " ".join(f"{k}={v}" for k, v in sorted(coverage.items())))
+
+            if batched:
+                system, prompt = extract_prompt_batched(kind, name, prompt_sources)
+            else:
+                system, prompt = extract_prompt(kind, name, text)
+            log(f"worker: candidate {cid} stage=extract "
+                f"({'batched' if batched else 'single'}, "
+                f"{len(prompt_sources)} source(s))")
+            # Batched calls scale with source count (§ llm.extraction_max_tokens
+            # docstring — flat 4096 was the real bottleneck behind "malformed
+            # extraction JSON (dict)", 2026-09-18). The non-batched whole-text
+            # path keeps the flat budget: it has no `prompt_sources` count to
+            # scale by, and was never observed to trip this failure.
+            extract_max_tokens = (llm.extraction_max_tokens(len(prompt_sources))
+                                  if batched else 4096)
+            claims_json = None
+            try:
+                result = llm.call(prompt, system=system, tier="judgment",
+                                  max_tokens=extract_max_tokens)
+            except llm.JSONParseError as e:
+                # The model itself emitted broken JSON on every attempt (not a
+                # network blip) — 2026-09-18, candidates 528/552/560. Batched:
+                # fall through to the same §13 per-source rescue below instead
+                # of skipping the whole candidate; `claims_json` stays `None`,
+                # which the `not isinstance(claims_json, dict)` check below
+                # already treats as a parse failure. Non-batched has no
+                # per-source rescue to fall into, so it still just skips.
+                log(f"worker: candidate {cid} extraction JSON parse failed on "
+                    f"every attempt: {e}")
+                if not batched:
                     continue
-                report["cost"] += one.get("cost", 0.0)
-                got, problems = parse_answers(one.get("json"), [src._replace(label="S1")])
-                for problem in problems:
-                    log(f"worker: candidate {cid} retry {src.source_id}: {problem}")
-                if got:
-                    report["retry_per_source_rescued"] += 1
-                    answers.extend(got)
-            if not answers:
-                log(f"worker: candidate {cid} malformed extraction JSON "
-                    f"({type(claims_json).__name__}) and no source rescued it, "
-                    "skipping")
+            except llm.LLMError as e:
+                log(f"worker: candidate {cid} extraction failed, skipping: {e}")
                 continue
-            claims_json = {"claims": [], "emits": [], "edges": []}
-        elif not isinstance(claims_json, dict) or not all(
-                isinstance(claims_json.get(k), list)
-                for k in (("emits", "edges") if batched
-                          else ("claims", "emits", "edges"))):
-            # `claims` left the BATCHED schema 2026-09-14 — claims are derived
-            # from findings there, so requiring the key would fail every
-            # batched response the moment the prompt stopped asking for it.
-            # The single-source prompt still asks and still needs it: that
-            # path has no findings to derive from.
-            # `.get` on a non-dict (the model returned a bare array, or
-            # `parse_json` failed and left `json` unset) would crash the
-            # batch — a malformed shape is a logged skip, same discipline as
-            # gate1's non-object guard.
-            log(f"worker: candidate {cid} malformed extraction JSON "
-                f"({type(claims_json).__name__}), skipping")
-            continue
-        elif batched:
-            answers, problems = parse_answers(claims_json, prompt_sources)
-            # Rule 4: the model may flag a source that cleared gate 2 as being
-            # about a different entity. It reads the whole page and gate 2
-            # read 500 characters of it, so it is the better-informed of the
-            # two — but the flag is enforced here rather than trusted, the
-            # same as the verify pass's verdicts.
-            flagged, flag_problems = parse_misidentified(claims_json, prompt_sources)
-            problems.extend(flag_problems)
-            if flagged:
-                answers, dropped = drop_misidentified(answers, flagged)
-                problems.extend(dropped)
-                for sid, f in flagged.items():
-                    report["sources_flagged_misidentified"] += 1
-                    log(f"worker: candidate {cid} model flagged {f['label']} "
-                        f"as misidentified: {f['url'][:70]}"
-                        + (f" — actually about: {f['about_what'][:60]}"
-                           if f["about_what"] else ""))
-            for problem in problems:
-                log(f"worker: candidate {cid} {problem}")
-        report["extracted"] += 1
-        report["extracted_batched" if batched else "extracted_single"] += 1
+            else:
+                report["cost"] += result.get("cost", 0.0)
+                claims_json = result.get("json")
 
-        # stage 7 — the ledger, written BEFORE claims are resolved (§9), and
-        # claims then derived from it rather than taken from the model.
-        claims = claims_json.get("claims", [])
-        if verified_answers:
-            # Merged here, after the main parse, so the verify pass's answers
-            # go through exactly the same ledger and claim derivation as the
-            # confirmed set's — one provenance path, not two.
-            log(f"worker: candidate {cid} merging {len(verified_answers)} "
-                f"answer(s) from the verify pass")
-            answers = list(answers) + verified_answers
-            report["verify_answers_merged"] += len(verified_answers)
-        if batched or verified_answers:
-            report["findings_written"] += extract_mod.write_findings(
-                conn, int(cid), answers,
-                urls={s.source_id: s.url
-                      for s in list(prompt_sources) + list(verify_sources)})
-            claims, notes = extract_mod.claims_from_findings(answers)
-            for note in notes:
-                log(f"worker: candidate {cid} {note}")
-            # The batched schema no longer asks for `claims` (2026-09-14):
-            # claims come from findings, so the model's own list was a second
-            # source of truth for the same value and the prompt was paying
-            # output tokens for it. The log stays, inverted in meaning — a
-            # non-zero count here now means the model volunteered a key it
-            # was not asked for, which is worth seeing, not routine.
-            model_claims = len(claims_json.get("claims") or [])
-            if model_claims:
-                log(f"worker: candidate {cid} discarded {model_claims} "
-                    f"unasked-for model claims in favour of {len(claims)} "
-                    f"derived from findings")
+            answers: list[Answer] = []
+            if batched and not isinstance(claims_json, dict):
+                # §13's per-source fallback. PoC-2 measured it rescuing 1/1 parse
+                # failures, and that one failure was NOT prompt-size-driven — it
+                # fired at 4,082 chars while a larger response parsed clean — so
+                # the retry is warranted by the observation, not by a size rule.
+                log(f"worker: candidate {cid} batched parse failed, retrying "
+                    f"{len(prompt_sources)} sources one at a time (§13)")
+                for src, sys_p, usr_p in retry_per_source(kind, name, prompt_sources):
+                    report["retry_per_source_calls"] += 1
+                    try:
+                        one = llm.call(usr_p, system=sys_p, tier="judgment",
+                                       max_tokens=4096)
+                    except llm.LLMError as e:
+                        log(f"worker: candidate {cid} retry on {src.source_id} "
+                            f"failed: {e}")
+                        continue
+                    report["cost"] += one.get("cost", 0.0)
+                    got, problems = parse_answers(one.get("json"), [src._replace(label="S1")])
+                    for problem in problems:
+                        log(f"worker: candidate {cid} retry {src.source_id}: {problem}")
+                    if got:
+                        report["retry_per_source_rescued"] += 1
+                        answers.extend(got)
+                if not answers:
+                    log(f"worker: candidate {cid} malformed extraction JSON "
+                        f"({type(claims_json).__name__}) and no source rescued it, "
+                        "skipping")
+                    continue
+                claims_json = {"claims": [], "emits": [], "edges": []}
+            elif not isinstance(claims_json, dict) or not all(
+                    isinstance(claims_json.get(k), list)
+                    for k in (("emits", "edges") if batched
+                              else ("claims", "emits", "edges"))):
+                # `claims` left the BATCHED schema 2026-09-14 — claims are derived
+                # from findings there, so requiring the key would fail every
+                # batched response the moment the prompt stopped asking for it.
+                # The single-source prompt still asks and still needs it: that
+                # path has no findings to derive from.
+                # `.get` on a non-dict (the model returned a bare array, or
+                # `parse_json` failed and left `json` unset) would crash the
+                # batch — a malformed shape is a logged skip, same discipline as
+                # gate1's non-object guard.
+                log(f"worker: candidate {cid} malformed extraction JSON "
+                    f"({type(claims_json).__name__}), skipping")
+                continue
+            elif batched:
+                answers, problems = parse_answers(claims_json, prompt_sources)
+                # Rule 4: the model may flag a source that cleared gate 2 as being
+                # about a different entity. It reads the whole page and gate 2
+                # read 500 characters of it, so it is the better-informed of the
+                # two — but the flag is enforced here rather than trusted, the
+                # same as the verify pass's verdicts.
+                flagged, flag_problems = parse_misidentified(claims_json, prompt_sources)
+                problems.extend(flag_problems)
+                if flagged:
+                    answers, dropped = drop_misidentified(answers, flagged)
+                    problems.extend(dropped)
+                    for sid, f in flagged.items():
+                        report["sources_flagged_misidentified"] += 1
+                        log(f"worker: candidate {cid} model flagged {f['label']} "
+                            f"as misidentified: {f['url'][:70]}"
+                            + (f" — actually about: {f['about_what'][:60]}"
+                               if f["about_what"] else ""))
+                for problem in problems:
+                    log(f"worker: candidate {cid} {problem}")
+            report["extracted"] += 1
+            report["extracted_batched" if batched else "extracted_single"] += 1
 
-        # §11c's counters, per candidate. Counter 1 counts high-value
-        # questions left UNFILLED (§7) and is readable as a signal about §11b.
-        answered = {a.question_id for a in answers}
-        unfilled = {q.id for q in REGISTRY.unfilled_questions(answered)}
-        hv_open = sum(1 for q in _HIGH_VALUE_QUESTIONS if q in unfilled)
-        unread = len(search_counters.get("unread_urls", []))
-        seeds = {(e or {}).get("name", "") for e in claims_json.get("emits", [])}
-        new_seeds = sum(1 for n in seeds if n and db.norm(n) != db.norm(name))
-        report["hv_questions_open"] += hv_open
-        report["unread_pool_urls"] += unread
-        report["new_query_seeds"] += new_seeds
-        log(f"worker: candidate {cid} §11c hv_open={hv_open} "
-            f"unread_pool={unread} new_seeds={new_seeds}")
+            # stage 7 — the ledger, written BEFORE claims are resolved (§9), and
+            # claims then derived from it rather than taken from the model.
+            claims = claims_json.get("claims", [])
+            if verified_answers:
+                # Merged here, after the main parse, so the verify pass's answers
+                # go through exactly the same ledger and claim derivation as the
+                # confirmed set's — one provenance path, not two.
+                log(f"worker: candidate {cid} merging {len(verified_answers)} "
+                    f"answer(s) from the verify pass")
+                answers = list(answers) + verified_answers
+                report["verify_answers_merged"] += len(verified_answers)
+            if batched or verified_answers:
+                report["findings_written"] += extract_mod.write_findings(
+                    conn, int(cid), answers,
+                    urls={s.source_id: s.url
+                          for s in list(prompt_sources) + list(verify_sources)})
+                claims, notes = extract_mod.claims_from_findings(answers)
+                for note in notes:
+                    log(f"worker: candidate {cid} {note}")
+                # The batched schema no longer asks for `claims` (2026-09-14):
+                # claims come from findings, so the model's own list was a second
+                # source of truth for the same value and the prompt was paying
+                # output tokens for it. The log stays, inverted in meaning — a
+                # non-zero count here now means the model volunteered a key it
+                # was not asked for, which is worth seeing, not routine.
+                model_claims = len(claims_json.get("claims") or [])
+                if model_claims:
+                    log(f"worker: candidate {cid} discarded {model_claims} "
+                        f"unasked-for model claims in favour of {len(claims)} "
+                        f"derived from findings")
 
-        # resolve — normalized match first, embedding shortlist as fallback.
-        log(f"worker: candidate {cid} stage=resolve")
-        decision = resolve.resolve_entity(conn, corpus, kind, name, text or
-                                          (cand["evidence"] or ""))
-        report[f"resolved_{decision.decision if decision.decision != 'shortlist_top' else 'shortlist'}"] += 1
+            # §11c's counters, per candidate. Counter 1 counts high-value
+            # questions left UNFILLED (§7) and is readable as a signal about §11b.
+            answered = {a.question_id for a in answers}
+            unfilled = {q.id for q in REGISTRY.unfilled_questions(answered)}
+            hv_open = sum(1 for q in _HIGH_VALUE_QUESTIONS if q in unfilled)
+            unread = len(search_counters.get("unread_urls", []))
+            seeds = {(e or {}).get("name", "") for e in claims_json.get("emits", [])}
+            new_seeds = sum(1 for n in seeds if n and db.norm(n) != db.norm(name))
+            report["hv_questions_open"] += hv_open
+            report["unread_pool_urls"] += unread
+            report["new_query_seeds"] += new_seeds
+            log(f"worker: candidate {cid} §11c hv_open={hv_open} "
+                f"unread_pool={unread} new_seeds={new_seeds}")
 
-        by = f"worker:{result.get('model', '?')}"
-        if decision.decision == "ambiguous":
-            why = json.dumps([{"id": i, "cosine": c} for i, c in decision.shortlist])
-            db.record(conn, "candidate", cid, "resolve", None, why,
-                      by="worker", why=decision.reason)
-            _settle(cid, resolved_to=None, admitted=None, by="worker",
-                   why=decision.reason, field="resolve")
+            # resolve — normalized match first, embedding shortlist as fallback.
+            log(f"worker: candidate {cid} stage=resolve")
+            decision = resolve.resolve_entity(conn, corpus, kind, name, text or
+                                              (cand["evidence"] or ""))
+            report[f"resolved_{decision.decision if decision.decision != 'shortlist_top' else 'shortlist'}"] += 1
+
+            by = f"worker:{result.get('model', '?')}"
+            if decision.decision == "ambiguous":
+                why = json.dumps([{"id": i, "cosine": c} for i, c in decision.shortlist])
+                db.record(conn, "candidate", cid, "resolve", None, why,
+                          by="worker", why=decision.reason)
+                _settle(cid, resolved_to=None, admitted=None, by="worker",
+                       why=decision.reason, field="resolve")
+                conn.commit()
+                continue
+
+            entity_id = _write_entity(conn, corpus, kind, name, decision,
+                                      claims, by=by, log=log,
+                                      predicted_depth=_predicted_depth(cand),
+                                      depth_tier=depth_tier)
+            if entity_id is None:
+                # `_write_entity` could not write even a minimal row — give up on
+                # this candidate rather than leave it endlessly re-selectable
+                # (resolved_to stays NULL, which the CLI's queue treats as "not
+                # yet processed") with the same failure recurring every retry.
+                why = "entity write failed even for a minimal row"
+                db.record(conn, "candidate", cid, "admitted", None, 0,
+                          by="worker:write", why=why)
+                _settle(cid, resolved_to=None, admitted=0, by="worker:write", why=why)
+                conn.commit()
+                continue
+            report["cites_written"] += _write_cites(conn, kind, entity_id, answers,
+                                                    by=by, log=log)
+            _backfill_trigger_edge(conn, cand, kind, entity_id, by=by, log=log)
+            _settle(cid, resolved_to=entity_id, admitted=1, by=by,
+                   why="resolved and written", field="resolve")
+            resolved_this_batch[(kind, db.norm(name))] = entity_id
             conn.commit()
-            continue
 
-        entity_id = _write_entity(conn, corpus, kind, name, decision,
-                                  claims, by=by, log=log,
-                                  predicted_depth=_predicted_depth(cand),
-                                  depth_tier=depth_tier)
-        if entity_id is None:
-            # `_write_entity` could not write even a minimal row — give up on
-            # this candidate rather than leave it endlessly re-selectable
-            # (resolved_to stays NULL, which the CLI's queue treats as "not
-            # yet processed") with the same failure recurring every retry.
-            why = "entity write failed even for a minimal row"
-            db.record(conn, "candidate", cid, "admitted", None, 0,
-                      by="worker:write", why=why)
-            _settle(cid, resolved_to=None, admitted=0, by="worker:write", why=why)
+            log(f"worker: candidate {cid} stage=emit")
+            row = conn.execute("SELECT * FROM candidate WHERE id = ?", (int(cid),)).fetchone()
+            emitted, edges = _emit(conn, row, claims_json, resolved_this_batch,
+                                   log=log, depth_tier=depth_tier,
+                                   problem_emission=problem_emission)
+            report["candidates_emitted"] += emitted
+            report["edges_written"] += edges
             conn.commit()
+            log(f"worker: candidate {cid} stage=done")
+        except Exception as e:
+            conn.rollback()
+            report["candidate_crashed"] = report.get("candidate_crashed", 0) + 1
+            log(f"worker: candidate {cid} crashed, rolled back and skipping "
+                f"(one candidate's failure must not lose the rest of the batch "
+                f"— 2026-09-18, exit-1 mid-batch with no traceback captured): "
+                f"{e!r}\n{traceback.format_exc()}")
             continue
-        report["cites_written"] += _write_cites(conn, kind, entity_id, answers,
-                                                by=by, log=log)
-        _backfill_trigger_edge(conn, cand, kind, entity_id, by=by, log=log)
-        _settle(cid, resolved_to=entity_id, admitted=1, by=by,
-               why="resolved and written", field="resolve")
-        resolved_this_batch[(kind, db.norm(name))] = entity_id
-        conn.commit()
-
-        log(f"worker: candidate {cid} stage=emit")
-        row = conn.execute("SELECT * FROM candidate WHERE id = ?", (int(cid),)).fetchone()
-        emitted, edges = _emit(conn, row, claims_json, resolved_this_batch,
-                               log=log, depth_tier=depth_tier,
-                               problem_emission=problem_emission)
-        report["candidates_emitted"] += emitted
-        report["edges_written"] += edges
-        conn.commit()
-        log(f"worker: candidate {cid} stage=done")
 
     return report
 

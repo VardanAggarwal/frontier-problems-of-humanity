@@ -623,6 +623,57 @@ def test_run_batch_returns_empty_report_for_no_candidates(conn, tmp_path):
     assert report["gate1_kept"] == 0 and report["cost"] == 0.0
 
 
+def test_run_batch_isolates_a_crashing_candidate_from_the_rest_of_the_batch(
+        conn, monkeypatch, tmp_path):
+    """2026-09-18: candidate 528 raised mid-`resolve` in a 6-candidate `--ids`
+    run and took the other 5 down with it — the per-candidate loop had no
+    try/except, so one candidate's bug crashed the whole batch (`[exit 1]`,
+    no other candidate even started). A crash must now cost only that
+    candidate: no exception escapes run_batch, its own row is left
+    untouched (rolled back, not half-written), report["candidate_crashed"]
+    counts it, and every other candidate still gets fully processed."""
+    c_boom = make_candidate(conn, kind="actor", name="Boom Org")
+    c_fine = make_candidate(conn, kind="actor", name="Fine Org")
+
+    screen_decisions = [
+        {"id": str(c_boom["id"]), "keep": True, "reason": "ok"},
+        {"id": str(c_fine["id"]), "keep": True, "reason": "ok"},
+    ]
+    extract_json = {"claims": [], "emits": [], "edges": []}
+    _stub_llm_for_run_batch(monkeypatch, screen_decisions=screen_decisions,
+                            extract_json=extract_json)
+
+    real_resolve_entity = resolve.resolve_entity
+
+    def flaky_resolve_entity(conn, corpus, kind, name, evidence):
+        if name == "Boom Org":
+            raise RuntimeError("simulated crash — e.g. an embedder deadlock")
+        return real_resolve_entity(conn, corpus, kind, name, evidence)
+
+    monkeypatch.setattr(resolve, "resolve_entity", flaky_resolve_entity)
+    monkeypatch.setattr(resolve, "encode_one", lambda text, *, role: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
+
+    candidates = [conn.execute("SELECT * FROM candidate WHERE id = ?", (c["id"],)).fetchone()
+                 for c in (c_boom, c_fine)]
+    report = worker.run_batch(conn, tmp_path, candidates)
+
+    assert report["candidate_crashed"] == 1
+    assert report["resolved_new"] == 1   # c_fine still resolved normally
+
+    boom_row = conn.execute("SELECT * FROM candidate WHERE id = ?",
+                            (c_boom["id"],)).fetchone()
+    # `admitted=1` was gate1's decision, committed before the per-candidate
+    # loop even starts — the crash (inside resolve, later) and its rollback
+    # can't touch that. `resolved_to` is what the crash must have prevented:
+    # `_settle`'s write never reached a commit for this candidate.
+    assert boom_row["resolved_to"] is None
+
+    fine_row = conn.execute("SELECT * FROM candidate WHERE id = ?",
+                            (c_fine["id"],)).fetchone()
+    assert fine_row["resolved_to"] is not None and fine_row["admitted"] == 1
+
+
 def test_run_batch_gate0_duplicate_inherits_the_survivors_terminal_state(
         conn, monkeypatch, tmp_path):
     """A candidate gate 0 collapses into another must not be left forever
