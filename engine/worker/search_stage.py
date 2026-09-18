@@ -111,6 +111,7 @@ def _fetch_and_route(
         confirm: Callable,
         thin_page_chars: Optional[int],
         log: Callable,
+        confirm_many: Optional[Callable] = None,
 ) -> tuple[list, list]:
     """`[(url, origin), ...] -> (confirmed, to_verify)` — steps 4-7 of
     `search_sources`'s docstring pipeline (fetch -> gate 2 -> confirm_policy
@@ -123,26 +124,41 @@ def _fetch_and_route(
 
     verdicts = []
     texts_by_source_id = {}
+    # Split first, confirm second. Pages with no fetched text never reach
+    # `confirm` at all (blocked fetch, empty page): they are recorded as
+    # NO_VERDICT (verdict=None) rather than confirmed against an empty
+    # string — confirm_policy.SourceVerdict's own contract for this case.
+    pending = []
     for (url, origin), result in zip(to_fetch, results):
         text = result.text
         texts_by_source_id[result.source_id] = text
         if not text:
-            # No fetched text to confirm against at all (blocked fetch, empty
-            # page). Recorded as NO_VERDICT (verdict=None) rather than calling
-            # `confirm` on empty text — confirm_policy.SourceVerdict's own
-            # contract for this case.
             verdicts.append(SourceVerdict(
                 source_id=result.source_id, url=url, origin=origin, verdict=None))
             continue
-        # Step-reached, not just failure: the hang that produced candidate
-        # 28's stuck run (2026-09-14T22:45, `[exit null]`, no exception) sat
-        # inside this exact call with nothing logged before or after it —
-        # the last line anyone could see was "Loading weights". This line
-        # exists so a future stall names the URL it stalled on.
-        log(f"search_stage: confirming {url} ({origin}, {len(text)} chars)")
-        verdict, cosine, note = confirm(name, evidence, text)
+        pending.append((url, origin, result.source_id, text))
+
+    # Step-reached, not just failure: the hang that produced candidate 28's
+    # stuck run (2026-09-14T22:45, `[exit null]`, no exception) sat inside
+    # the confirm call with nothing logged before or after it — the last line
+    # anyone could see was "Loading weights". These lines exist so a future
+    # stall names the URL it stalled on. In the batched path the whole batch
+    # is named up front, since one `encode()` covers all of them and there is
+    # no longer a per-URL boundary to stall at.
+    if confirm_many is not None and pending:
+        for url, origin, _sid, text in pending:
+            log(f"search_stage: confirming {url} ({origin}, {len(text)} chars)")
+        log(f"search_stage: gate2 batch of {len(pending)} page(s)")
+        outcomes = confirm_many(name, evidence, [t for _u, _o, _s, t in pending])
+    else:
+        outcomes = []
+        for url, origin, _sid, text in pending:
+            log(f"search_stage: confirming {url} ({origin}, {len(text)} chars)")
+            outcomes.append(confirm(name, evidence, text))
+
+    for (url, origin, source_id, text), (verdict, cosine, note) in zip(pending, outcomes):
         verdicts.append(SourceVerdict(
-            source_id=result.source_id, url=url, origin=origin,
+            source_id=source_id, url=url, origin=origin,
             verdict=verdict, cosine=cosine, note=note, text_chars=len(text)))
 
     decisions = apply_confirmations(verdicts, thin_page_chars=thin_page_chars)
@@ -181,6 +197,7 @@ def search_sources(
         provider,
         fetch: Callable,
         confirm: Callable,
+        confirm_many: Optional[Callable] = None,
         evidence: str = "",
         seed_url: Optional[str] = None,
         max_sources: Optional[int] = None,
@@ -319,6 +336,7 @@ def search_sources(
     # apply_confirmations` drops NO_VERDICT outright instead.
     confirmed, to_verify = _fetch_and_route(
         to_fetch, name=name, evidence=evidence, fetch=fetch, confirm=confirm,
+        confirm_many=confirm_many,
         thin_page_chars=thin_page_chars, log=log)
 
     # --- 8. one escalation round, opt-in (`escalate=True`) ------------------
@@ -351,7 +369,8 @@ def search_sources(
                     "url(s) from the fused pool")
                 more_confirmed, more_to_verify = _fetch_and_route(
                     more_to_fetch, name=name, evidence=evidence, fetch=fetch,
-                    confirm=confirm, thin_page_chars=thin_page_chars, log=log)
+                    confirm=confirm, confirm_many=confirm_many,
+                    thin_page_chars=thin_page_chars, log=log)
                 confirmed.extend(more_confirmed)
                 to_verify.extend(more_to_verify)
             else:

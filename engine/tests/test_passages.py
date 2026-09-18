@@ -389,7 +389,7 @@ def test_select_geography_bias_pulls_in_india_chunk_that_ranks_low_on_every_buck
     # Pin the ranking: filler always beats india_chunk, deterministically,
     # regardless of query text — this is the "loses every bucket" premise
     # the top-up exists to cover, made exact instead of measured.
-    def fixed_ranking(query, chunks):
+    def fixed_ranking(query, chunks, p_vecs=None):
         return sorted(chunks, key=lambda c: 0 if c is not india_chunk else 1)
     monkeypatch.setattr(passages, "_rank_chunks", fixed_ranking)
 

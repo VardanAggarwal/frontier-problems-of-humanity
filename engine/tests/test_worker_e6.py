@@ -160,8 +160,15 @@ def stub_pipeline(monkeypatch, conn, *, fetch, extract_json, screen_ids,
     monkeypatch.setattr(worker.llm, "call", fake_call)
     monkeypatch.setattr(gate1.llm, "call", fake_call)
     monkeypatch.setattr(worker.fetchmod, "fetch", fetch)
+    # Both entry points, from one `verdict`, so they cannot drift: the search
+    # stage takes the batched `confirm_many` when the worker injects one and
+    # falls back to per-URL `confirm` otherwise, so stubbing only `confirm`
+    # would silently let the real encoder run.
     monkeypatch.setattr(worker.gate2, "confirm",
                         lambda c, name, ev, text: (verdict, 0.91, "stub"))
+    monkeypatch.setattr(worker.gate2, "confirm_many",
+                        lambda c, name, ev, texts: [(verdict, 0.91, "stub")
+                                                    for _ in texts])
     monkeypatch.setattr(resolve, "encode_one", lambda text, *, role: unit(1.0))
     monkeypatch.setattr(resolve.index, "knn",
                         lambda c, kind, v, *, k=10, role="query", exclude=None: [])
