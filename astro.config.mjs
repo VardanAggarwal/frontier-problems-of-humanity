@@ -476,11 +476,14 @@ function workerRunner() {
 
 /** Dev-only. POST /api/worker/rerun {kind, id, noSearch?} → finds every
  *  candidate row whose resolved_to is this entity, and re-runs worker.py
- *  against them with --force, streaming stdout/stderr exactly like
- *  /api/worker/run (log-teed to WORKER_RUNS_DIR, survives a disconnect,
- *  same reasoning as that function's own comment). Convenience for a
- *  leaf/actor page's "re-run through worker" button — the alternative is
- *  hunting the same candidate ids by hand on /worker.
+ *  against them with --force --no-resume, streaming stdout/stderr exactly
+ *  like /api/worker/run (log-teed to WORKER_RUNS_DIR, survives a
+ *  disconnect, same reasoning as that function's own comment). --no-resume
+ *  is always on, not a caller option: a deliberate re-run click means
+ *  discard whatever stale search/gate-2 state resume-at-extraction would
+ *  otherwise reuse, not compound it. Convenience for a leaf/actor page's
+ *  "re-run through worker" button — the alternative is hunting the same
+ *  candidate ids by hand on /worker.
  *
  *  When NO candidate resolves to this entity — a record minted outside the
  *  worker (process-leaf, /triage, a hand-written actor file) has none —
@@ -545,6 +548,13 @@ function workerRerunEntity() {
           const args = ['-m', 'worker.worker', '--db', GRAPH_DB, '--corpus', REPO_ROOT, '--ids', ids.join(',')];
           if (force) args.push('--force');
           if (noSearch) args.push('--no-search');
+          // Always, not conditionally: resume-at-extraction (worker.py's
+          // default, 03-worker.md §13a) skips straight past search/gate 2
+          // for a candidate that was already searched — exactly the stale
+          // state a deliberate "re-run through worker" click means to
+          // discard. --no-search still short-circuits the search stage
+          // entirely when both are set; the two aren't mutually exclusive.
+          args.push('--no-resume');
 
           mkdirSync(WORKER_RUNS_DIR, { recursive: true });
           const stamp = new Date().toISOString().replace(/[:.]/g, '-');
