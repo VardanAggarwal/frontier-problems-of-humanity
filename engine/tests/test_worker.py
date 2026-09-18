@@ -199,22 +199,28 @@ def test_gate2_empty_input_is_uncertain_not_a_crash(monkeypatch):
     assert verdict == "uncertain" and cosine == 0.0 and note
 
 
-def test_gate2_long_context_is_clipped_before_encode(monkeypatch):
+def test_gate2_long_context_is_fit_before_encode(monkeypatch):
     """candidate_context can be the full extracted text, not just a snippet
-    (production case: an 854-token string past e5's 512 budget hit the
-    tokenizer's own overflow warning). `left` must be bounded before it
-    reaches `encode_one`, same as `right` already is via PREVIEW_CHARS."""
+    (production case: candidate 28's run, 2026-09-14T22:45, hit an
+    8.7x-over-budget string past `clip()`'s character bound and hung the
+    worker inside `encode_one` with no exception). `left`/`right` must be
+    bounded by `fit()` — token-exact, not char-based — before they reach
+    `encode_one`."""
     seen = {}
 
     def recording_encode_one(text, *, role):
         seen.setdefault(role, []).append(text)
         return unit(1.0)
 
+    # `fit()` itself needs the real encoder (to tokenize) — stub it here so
+    # this test stays offline, same as `encode_one` above, per this file's
+    # own "offline by default" contract (module docstring).
     monkeypatch.setattr(gate2, "encode_one", recording_encode_one)
-    long_context = "word " * 3000  # far past embed.texts.clip's MAX_CHARS
+    monkeypatch.setattr(gate2, "fit", lambda text, *, role: text[:2000])
+    long_context = "word " * 3000  # far past any reasonable token budget
     gate2.confirm(None, "Some Org", long_context, "short fetched text")
     left_sent = seen["query"][0]
-    assert len(left_sent) <= 2000, "candidate_context was not clipped before encode_one"
+    assert len(left_sent) <= 2000, "candidate_context was not fit before encode_one"
 
 
 @needs_model
@@ -241,10 +247,11 @@ def test_exact_match_short_circuits_before_any_embedding_call(conn, monkeypatch)
     assert result.decision == "exact" and result.entity_id == "mlpc"
 
 
-def test_resolve_long_context_is_clipped_before_encode(conn, monkeypatch):
+def test_resolve_long_context_is_fit_before_encode(conn, monkeypatch):
     """`context` can be the full extracted/fetched text (worker.py passes
     the candidate's own extraction text or raw evidence), unbounded — must
-    be clipped before `encode_one`, same fix as gate2.confirm's `left`."""
+    be bounded by `fit()` before `encode_one`, same fix as gate2.confirm's
+    `left`."""
     seen = {}
 
     def recording_encode_one(text, *, role):
@@ -252,11 +259,12 @@ def test_resolve_long_context_is_clipped_before_encode(conn, monkeypatch):
         return unit(1.0)
 
     monkeypatch.setattr(resolve, "encode_one", recording_encode_one)
+    monkeypatch.setattr(resolve, "fit", lambda text, *, role: text[:2000])
     monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
 
     long_context = "word " * 3000
     resolve.resolve_entity(conn, pathlib.Path("."), "actor", "Some Org", long_context)
-    assert len(seen["text"]) <= 2000, "context was not clipped before encode_one"
+    assert len(seen["text"]) <= 2000, "context was not fit before encode_one"
 
 
 def test_new_id_slugifies_and_dedupes_on_collision(conn):
@@ -615,6 +623,145 @@ def test_run_batch_returns_empty_report_for_no_candidates(conn, tmp_path):
     assert report["gate1_kept"] == 0 and report["cost"] == 0.0
 
 
+def test_run_batch_isolates_a_crashing_candidate_from_the_rest_of_the_batch(
+        conn, monkeypatch, tmp_path):
+    """2026-09-18: candidate 528 raised mid-`resolve` in a 6-candidate `--ids`
+    run and took the other 5 down with it — the per-candidate loop had no
+    try/except, so one candidate's bug crashed the whole batch (`[exit 1]`,
+    no other candidate even started). A crash must now cost only that
+    candidate: no exception escapes run_batch, its own row is left
+    untouched (rolled back, not half-written), report["candidate_crashed"]
+    counts it, and every other candidate still gets fully processed."""
+    c_boom = make_candidate(conn, kind="actor", name="Boom Org")
+    c_fine = make_candidate(conn, kind="actor", name="Fine Org")
+
+    screen_decisions = [
+        {"id": str(c_boom["id"]), "keep": True, "reason": "ok"},
+        {"id": str(c_fine["id"]), "keep": True, "reason": "ok"},
+    ]
+    extract_json = {"claims": [], "emits": [], "edges": []}
+    _stub_llm_for_run_batch(monkeypatch, screen_decisions=screen_decisions,
+                            extract_json=extract_json)
+
+    real_resolve_entity = resolve.resolve_entity
+
+    def flaky_resolve_entity(conn, corpus, kind, name, evidence):
+        if name == "Boom Org":
+            raise RuntimeError("simulated crash — e.g. an embedder deadlock")
+        return real_resolve_entity(conn, corpus, kind, name, evidence)
+
+    monkeypatch.setattr(resolve, "resolve_entity", flaky_resolve_entity)
+    monkeypatch.setattr(resolve, "encode_one", lambda text, *, role: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
+
+    candidates = [conn.execute("SELECT * FROM candidate WHERE id = ?", (c["id"],)).fetchone()
+                 for c in (c_boom, c_fine)]
+    report = worker.run_batch(conn, tmp_path, candidates)
+
+    assert report["candidate_crashed"] == 1
+    assert report["resolved_new"] == 1   # c_fine still resolved normally
+
+    boom_row = conn.execute("SELECT * FROM candidate WHERE id = ?",
+                            (c_boom["id"],)).fetchone()
+    # `admitted=1` was gate1's decision, committed before the per-candidate
+    # loop even starts — the crash (inside resolve, later) and its rollback
+    # can't touch that. `resolved_to` is what the crash must have prevented:
+    # `_settle`'s write never reached a commit for this candidate.
+    assert boom_row["resolved_to"] is None
+
+    fine_row = conn.execute("SELECT * FROM candidate WHERE id = ?",
+                            (c_fine["id"],)).fetchone()
+    assert fine_row["resolved_to"] is not None and fine_row["admitted"] == 1
+
+
+def test_run_batch_rescues_via_13_then_resolves_with_sane_attribution(
+        conn, monkeypatch, tmp_path):
+    """2026-09-18T14:00 production log, candidate 528: the batched extraction
+    call raised `llm.JSONParseError` on every attempt, the §13 per-source
+    rescue then succeeded (one source parsed clean on retry), and
+    `stage=resolve` crashed with `UnboundLocalError: cannot access local
+    variable 'result'` — the §13 branch never sets `result`, but the
+    attribution line at the bottom of the per-candidate loop unconditionally
+    read `result.get('model', '?')`. This asserts the rescued path reaches
+    resolve/write without crashing, is NOT counted as `candidate_crashed`,
+    and gets a sane (non-crashing) attribution string derived from the
+    rescue call's own model rather than the absent batched-call `result`."""
+    from worker import extract as extract_mod
+    from worker.extract_types import PromptSource
+    from text.pagestate import PageState
+
+    cand = make_candidate(conn, kind="actor", name="Rescued Org",
+                          url="https://x.test/rescued")
+
+    # A real `source` row: `write_findings` FK-references `source.id`, so the
+    # `fetchmod.fetch` stub below still needs a matching row on disk (the
+    # real fetch() would have inserted one itself).
+    conn.execute(
+        "INSERT INTO source (id, url, url_canonical) VALUES (?, ?, ?)",
+        ("src-1", "https://x.test/rescued", "https://x.test/rescued"))
+    conn.commit()
+
+    # fetch — long enough text to clear THIN_PAGE_CHARS and route PROMPT.
+    fake_fetch = fetchmod.FetchResult(
+        text="x" * 1000, state=PageState("ok", "", False, True, 500, ""),
+        source_id="src-1", cache_hit=False)
+    monkeypatch.setattr(fetchmod, "fetch", lambda conn, corpus, url: fake_fetch)
+    monkeypatch.setattr(gate2, "confirm", lambda conn, name, ev, text: ("confirmed", 0.95, "ok"))
+
+    # assemble — bypass real chunking/ranking, hand back one prompt source so
+    # `batched` is True and the §13 rescue path (which only fires when
+    # `batched`) is reachable.
+    solo = PromptSource(source_id="src-1", label="S1", url="https://x.test/rescued",
+                        text="x" * 1000, chunk_refs=("src-1:0",))
+    monkeypatch.setattr(extract_mod, "assemble",
+                        lambda sources, questions, **kw: ([solo], {}))
+
+    calls = {"n": 0}
+
+    def fake_call(prompt, *, system=None, tier="mechanical", max_tokens=2048, **kw):
+        if "decisions" in prompt or "Screen these candidates" in prompt:
+            return {"json": {"decisions": [
+                {"id": str(cand["id"]), "keep": True, "reason": "ok"}]},
+                    "model": "gate-model", "cost": 0.0}
+        calls["n"] += 1
+        if calls["n"] == 1:
+            # The batched extraction call — every retry inside `llm.call`
+            # exhausted itself on malformed JSON.
+            raise llm.JSONParseError("malformed json on every attempt")
+        # §13's per-source retry call — this is the one that rescued
+        # candidate 528 in the production log.
+        return {"json": {"answers": [
+            {"question_id": "q1", "answer": "yes", "source_id": "S1",
+             "confidence": 0.9}]},
+                "model": "rescue-model", "cost": 0.001}
+
+    monkeypatch.setattr(worker.llm, "call", fake_call)
+    monkeypatch.setattr(gate1.llm, "call", fake_call)
+    monkeypatch.setattr(resolve, "encode_one", lambda text, *, role: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
+
+    candidates = [conn.execute("SELECT * FROM candidate WHERE id = ?",
+                               (cand["id"],)).fetchone()]
+    report = worker.run_batch(conn, tmp_path, candidates)
+
+    assert report.get("candidate_crashed", 0) == 0
+    assert report["retry_per_source_rescued"] == 1
+    assert report["resolved_new"] == 1
+
+    row = conn.execute("SELECT * FROM candidate WHERE id = ?", (cand["id"],)).fetchone()
+    assert row["resolved_to"] is not None and row["admitted"] == 1
+
+    # Attribution: the `by=` string built from `model_used`, not a crash.
+    # No single extraction-call `result` exists on the rescue path, so it
+    # must be derived from the rescuing per-source call's own model.
+    events = conn.execute(
+        "SELECT * FROM event WHERE entity_kind = ? AND entity_id = ? "
+        "ORDER BY id", (cand["kind"], row["resolved_to"])).fetchall()
+    assert events, "expected at least one event recorded for the written entity"
+    assert any(e["by"] == "worker:rescue-model" for e in events), \
+        [dict(e) for e in events]
+
+
 def test_run_batch_gate0_duplicate_inherits_the_survivors_terminal_state(
         conn, monkeypatch, tmp_path):
     """A candidate gate 0 collapses into another must not be left forever
@@ -690,26 +837,6 @@ def test_shortlist_top_resolution_caches_an_alias(conn):
     assert db.resolve(conn, "actor", "Existing Org (alt spelling)") == "existing-org"
 
 
-def test_call_fails_fast_on_a_missing_provider_package(monkeypatch):
-    """A missing `anthropic`/`google-genai` install must not burn every
-    retry's backoff sleep before falling through — that's indistinguishable
-    from a slow network failure and wastes the whole attempt budget on
-    something no retry can fix."""
-    monkeypatch.setattr(llm.config, "ANTHROPIC_KEY", "x")
-    monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 3)
-
-    def boom(*a, **kw):
-        raise ImportError("no module named anthropic")
-    monkeypatch.setattr(llm, "_call_claude", boom)
-
-    slept = []
-    monkeypatch.setattr(llm.time, "sleep", lambda s: slept.append(s))
-
-    with pytest.raises(llm.LLMError, match="required package not installed"):
-        llm.call("prompt", providers=["claude"])
-    assert slept == []   # no backoff sleep — the provider was abandoned, not retried
-
-
 def test_openrouter_falls_back_to_the_next_configured_model(monkeypatch):
     """Candidate 12 (groundwater-depletion-from-irrigation, 2026-09-14/15):
     the single configured openrouter model came back HTTP 200 with a
@@ -729,7 +856,7 @@ def test_openrouter_falls_back_to_the_next_configured_model(monkeypatch):
                "input_tokens": 1, "output_tokens": 1, "cost": 0.0}
     monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
 
-    result = llm.call("prompt", tier="judgment", providers=["openrouter"])
+    result = llm.call("prompt", tier="judgment")
     assert calls == ["flaky/model:free", "backup/model:free"]
     assert result["model"] == "backup/model:free"
 
@@ -756,7 +883,7 @@ def test_openrouter_model_fallback_tries_next_model_on_rate_limit(monkeypatch):
                "input_tokens": 1, "output_tokens": 1, "cost": 0.0}
     monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
 
-    result = llm.call("prompt", tier="judgment", providers=["openrouter"])
+    result = llm.call("prompt", tier="judgment")
     assert calls == ["model-a:free", "model-b:free"]
     assert result["model"] == "model-b:free"
 
@@ -778,31 +905,68 @@ def test_openrouter_rate_limit_still_reaches_outer_wait_handler_if_every_model_f
     monkeypatch.setattr(llm.time, "sleep", lambda s: None)
 
     with pytest.raises(llm.LLMError, match="model-b:free"):
-        llm.call("prompt", tier="judgment", providers=["openrouter"])
+        llm.call("prompt", tier="judgment")
     assert calls == ["model-a:free", "model-b:free"]
 
 
-def test_all_providers_failed_message_includes_every_providers_error(monkeypatch):
-    """The masking bug candidate 12 hit: `last_err` used to be overwritten
-    by each subsequent provider, so openrouter's real failure disappeared
-    behind claude's/gemini's expected "package not installed". The final
-    message must show every rung's own error, not just the last one."""
+def test_all_models_failed_message_includes_every_models_error(monkeypatch):
+    """The masking bug candidate 12 hit: `last_err` used to be overwritten by
+    each subsequent try, so the failure that mattered disappeared behind a
+    later, uninteresting one. The axis used to be providers and is now models
+    (the claude/gemini/local rungs went 2026-09-18), but the requirement is
+    unchanged — the final message must show every model's own error."""
     monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
-    monkeypatch.setattr(llm.config, "ANTHROPIC_KEY", "x")
+    monkeypatch.setattr(llm.config, "OPENROUTER_MODELS_MECHANICAL",
+                        ["model-a:free", "model-b:free"])
+    monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 1)
 
-    def boom_openrouter(*a, **kw):
-        raise llm.LLMError("HTTP 200 but body is whitespace-only")
-    monkeypatch.setattr(llm, "_call_openrouter", boom_openrouter)
-
-    def boom_claude(*a, **kw):
-        raise ImportError("no module named anthropic")
-    monkeypatch.setattr(llm, "_call_claude", boom_claude)
+    def boom(prompt, model, max_tokens, system):
+        if model == "model-a:free":
+            raise llm.LLMError("HTTP 200 but body is whitespace-only")
+        raise llm.LLMError("404 No endpoints found")
+    monkeypatch.setattr(llm, "_call_openrouter", boom)
 
     with pytest.raises(llm.LLMError) as exc_info:
-        llm.call("prompt", providers=["openrouter", "claude"])
+        llm.call("prompt")
     message = str(exc_info.value)
-    assert "whitespace-only" in message, "openrouter's real error was masked"
-    assert "required package not installed" in message, "claude's error should still be present too"
+    assert "whitespace-only" in message, "model-a's real error was masked"
+    assert "404 No endpoints found" in message, "model-b's error should be present too"
+
+
+def test_call_sends_reasoning_disabled(monkeypatch):
+    """The 2026-09-18 extraction failure in one assertion. Every configured
+    free model is a reasoning model and OpenRouter bills hidden chain-of-
+    thought against `max_tokens`; measured on the real 8-source prompt, that
+    was 8,922 of a 10,240-token budget, leaving too little for the answer and
+    returning a force-closed partial object. Extraction copies spans into a
+    fixed schema — there is nothing to reason about — so the request must
+    always carry `reasoning: {enabled: False}`. Without it the call does not
+    fail loudly; it returns truncated JSON and burns 110s doing it."""
+    import requests as requests_mod
+    sent = {}
+
+    class FakeResp:
+        status_code = 200
+        headers: dict = {}
+        text = '{"choices": []}'
+
+        def json(self):
+            return {"choices": [{"message": {"content": '{"ok": true}'},
+                                 "finish_reason": "stop"}],
+                    "usage": {"prompt_tokens": 1, "completion_tokens": 1, "cost": 0.0}}
+
+    def fake_post(url, headers=None, json=None, timeout=None):
+        sent.update(json)
+        return FakeResp()
+    monkeypatch.setattr(requests_mod, "post", fake_post)
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm.config, "OPENROUTER_MIN_INTERVAL_S", 0)
+
+    llm.call("prompt", tier="judgment")
+    assert sent["reasoning"] == {"enabled": False}
+    assert "provider" not in sent, (
+        "require_parameters was removed — it 404'd on models that declare "
+        "neither response_format nor structured_outputs")
 
 
 def test_call_openrouter_diagnoses_a_non_json_200_body(monkeypatch):
@@ -825,6 +989,160 @@ def test_call_openrouter_diagnoses_a_non_json_200_body(monkeypatch):
 
     with pytest.raises(llm.LLMError, match="whitespace-only"):
         llm._call_openrouter("prompt", "some/model:free", 100, None)
+
+
+def test_call_openrouter_flags_truncation_even_when_json_mode_closes_cleanly(
+        monkeypatch):
+    """2026-09-18, candidate 560: `response_format=json_object` (added
+    2026-09-17 to kill unbalanced-brace errors) makes a grammar-constrained
+    decoder force-close the object when it runs out of budget, so a
+    truncated generation still ends on `}` — the bracket-ending heuristic
+    added the same day can't see this, and it silently parsed into a valid
+    but incomplete dict (missing `emits`/`edges`) that only failed
+    worker.py's schema check, never call()'s own retry/escalation. Output
+    tokens landing at the requested budget must still flag `truncated`."""
+    import requests as requests_mod
+
+    class _FakeResp:
+        status_code = 200
+        headers = {}
+        def json(self):
+            return {
+                "choices": [{"message": {"content": '{"answers": []}'},
+                            "finish_reason": "stop"}],
+                "usage": {"prompt_tokens": 500, "completion_tokens": 100,
+                         "cost": 0.0},
+            }
+
+    monkeypatch.setattr(requests_mod, "post", lambda *a, **kw: _FakeResp())
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm, "_openrouter_pace", lambda: None)
+
+    result = llm._call_openrouter("prompt", "some/model:free", 100, None)
+    assert result["truncated"] is True
+
+
+def test_call_openrouter_does_not_flag_truncation_well_under_budget(monkeypatch):
+    """The new output-token-ratio check must not fire on an ordinary
+    complete response that simply didn't use its whole budget."""
+    import requests as requests_mod
+
+    class _FakeResp:
+        status_code = 200
+        headers = {}
+        def json(self):
+            return {
+                "choices": [{"message": {"content": '{"answers": []}'},
+                            "finish_reason": "stop"}],
+                "usage": {"prompt_tokens": 500, "completion_tokens": 20,
+                         "cost": 0.0},
+            }
+
+    monkeypatch.setattr(requests_mod, "post", lambda *a, **kw: _FakeResp())
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm, "_openrouter_pace", lambda: None)
+
+    result = llm._call_openrouter("prompt", "some/model:free", 100, None)
+    assert result["truncated"] is False
+
+
+def test_extraction_max_tokens_scales_with_source_count_and_caps():
+    """Flat 4096 was the real bottleneck behind candidate 560's "malformed
+    extraction JSON (dict)" — the budget must grow with batch size, and
+    never exceed MAX_TOKENS_CEILING regardless of how large the batch is."""
+    assert llm.extraction_max_tokens(1) < llm.extraction_max_tokens(5)
+    assert llm.extraction_max_tokens(5) < llm.extraction_max_tokens(20)
+    assert llm.extraction_max_tokens(1000) == llm.MAX_TOKENS_CEILING
+
+
+def test_call_raises_json_parse_error_when_every_attempt_is_broken_json(
+        monkeypatch):
+    """2026-09-18, candidates 528/552/560: the model itself emitted broken
+    JSON on every attempt (genuine syntax errors — unquoted keys, missing
+    commas — not a network blip). Before this, `parse_json`'s
+    JSONDecodeError was caught by call()'s generic `except Exception`,
+    retried like any transient failure, and on exhaustion raised as a plain
+    LLMError — indistinguishable from a real outage by the time worker.py
+    saw it, so it could never route to the §13 per-source rescue. It must
+    now raise the more specific JSONParseError instead.
+
+    The fixture text must survive `_repair_json`'s `json_repair.loads` too,
+    not just `json.loads` — `{"answers": [}` (the original fixture here)
+    turns out to be exactly the kind of bracket-balance slip json_repair
+    fixes cleanly (`json_repair.loads('{"answers": [}')` == `{"answers":
+    []}`), so it no longer represents an unrepairable failure once
+    `_repair_json` is in the loop. Plain prose has no JSON structure for
+    json_repair to recover — `json_repair.loads` on it returns `''`, not a
+    dict — so it stays a real, unrepairable parse failure."""
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 2)
+    monkeypatch.setattr(llm.time, "sleep", lambda s: None)
+
+    def fake_call_openrouter(prompt, model, max_tokens, system):
+        return {"text": "the model just wrote prose here, not JSON at all",
+                "provider": "openrouter",
+                "model": model, "input_tokens": 1, "output_tokens": 1,
+                "cost": 0.0, "truncated": False}
+    monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
+
+    with pytest.raises(llm.JSONParseError):
+        llm.call("prompt", tier="judgment")
+
+
+def test_call_repairs_malformed_but_recoverable_json(monkeypatch, capsys):
+    """A trailing comma / unbalanced bracket — the class json_repair targets
+    — must parse successfully via the repair path instead of raising
+    JSONParseError, and the repair must be logged so a persistently broken
+    model still shows up as an anomaly."""
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 2)
+    monkeypatch.setattr(llm.time, "sleep", lambda s: None)
+
+    def fake_call_openrouter(prompt, model, max_tokens, system):
+        # Missing closing brace on the array — a genuine bracket-balance
+        # slip, not prose.
+        return {"text": '{"answers": [}', "provider": "openrouter",
+                "model": model, "input_tokens": 1, "output_tokens": 1,
+                "cost": 0.0, "truncated": False}
+    monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
+
+    result = llm.call("prompt", tier="judgment")
+    assert result["json"] == {"answers": []}
+    assert "repaired" in capsys.readouterr().out
+
+
+def test_repair_json_rejects_a_non_dict_repair():
+    """json_repair.loads on pure prose returns '' (or some other non-dict),
+    not an exception — `_repair_json` must not hand that back as a usable
+    result."""
+    assert llm._repair_json("just some prose, no JSON structure here") is None
+
+
+def test_json_parse_error_is_still_an_llmerror(monkeypatch):
+    """Every other `except llm.LLMError` in worker.py (network failures,
+    unconfigured providers) must keep catching this — JSONParseError adds a
+    more specific branch, it doesn't replace the general one."""
+    assert issubclass(llm.JSONParseError, llm.LLMError)
+
+
+def test_call_does_not_misclassify_a_real_network_failure_as_json_parse_error(
+        monkeypatch):
+    """Guard against over-broadening: a plain connection/provider error must
+    still raise the ordinary LLMError, not JSONParseError, so it keeps being
+    treated as a network/provider outage rather than routed into the §13
+    per-source rescue (which would just repeat the same real failure once
+    per source for no benefit)."""
+    monkeypatch.setattr(llm.config, "OPENROUTER_KEY", "x")
+    monkeypatch.setattr(llm.config, "LLM_MAX_ATTEMPTS", 1)
+    monkeypatch.setattr(llm.time, "sleep", lambda s: None)
+
+    def fake_call_openrouter(prompt, model, max_tokens, system):
+        raise llm.LLMError("openrouter 503: upstream overloaded")
+    monkeypatch.setattr(llm, "_call_openrouter", fake_call_openrouter)
+
+    with pytest.raises(llm.LLMError) as exc_info:
+        llm.call("prompt", tier="judgment")
+    assert not isinstance(exc_info.value, llm.JSONParseError)
 
 
 # ------------------------------------------------- track A: problem emission
@@ -1030,6 +1348,145 @@ def test_emit_problem_emission_disabled_degrades_to_dropping_the_edge(
     assert conn.execute(
         "SELECT count(*) c FROM candidate WHERE kind = 'problem'"
     ).fetchone()["c"] == 0
+
+
+# ------------------------------------------------ trigger-edge backfill on promotion
+
+def test_new_problem_mint_carries_the_trigger_edge_on_its_own_evidence(
+        conn, monkeypatch):
+    """The edge dropped at mint time (`_mint_or_resolve_problem`'s "new"
+    path) is not lost — it rides on the destination candidate's own
+    evidence so `_backfill_trigger_edge` can write it once that candidate
+    is promoted."""
+    actor(conn, "src-actor")
+    src = _source_candidate(conn, resolved_to="src-actor")
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])
+
+    claims = {"emits": [], "edges": [{
+        "dst_kind": "problem", "dst_name": "Fluorosis in Nalgonda",
+        "edge_kind": "works_on", "relevance": 2, "evidence": "cited groundwater study"}]}
+    worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    row = conn.execute(
+        "SELECT * FROM candidate WHERE kind = 'problem' AND "
+        "name = 'Fluorosis in Nalgonda'").fetchone()
+    payload = json.loads(row["evidence"])
+    assert payload["from_kind"] == "actor"
+    assert payload["from_id"] == "src-actor"
+    assert payload["edge_kind"] == "works_on"
+    assert payload["edge_relevance"] == 2
+    assert payload["edge_evidence"] == "cited groundwater study"
+
+
+def test_emit_mints_an_actor_candidate_for_an_unresolvable_edge(conn, monkeypatch):
+    """Actor counterpart of the problem mint: before this, an edge naming an
+    actor that the `emits` loop hadn't already surfaced was dropped outright
+    — no candidate at all, unlike problems (which at least minted)."""
+    problem(conn, "silicosis-quarries", title="Silicosis in Stone Quarries")
+    src = _source_candidate(conn, resolved_to="silicosis-quarries", kind="problem")
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])   # empty -> new
+
+    claims = {"emits": [], "edges": [{
+        "dst_kind": "actor", "dst_name": "Quarry Workers Collective",
+        "edge_kind": "works_on", "relevance": 3, "evidence": "leads the campaign"}]}
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert emitted == 1
+    assert edges == 0   # deferred, same as the problem case
+    row = conn.execute(
+        "SELECT * FROM candidate WHERE kind = 'actor' AND "
+        "name = 'Quarry Workers Collective'").fetchone()
+    assert row is not None
+    assert row["resolved_to"] is None
+    payload = json.loads(row["evidence"])
+    assert payload["from_kind"] == "problem"
+    assert payload["from_id"] == "silicosis-quarries"
+    assert payload["edge_kind"] == "works_on"
+    assert payload["edge_relevance"] == 3
+
+
+def test_emit_actor_edge_does_not_double_mint_an_already_emitted_actor(
+        conn, monkeypatch):
+    """The same duplicate guard `minted_problems` already gave problems,
+    extended to actors: a name minted by the `emits` loop must not be minted
+    again by the edges loop's new actor mint path."""
+    actor(conn, "src-actor")
+    src = _source_candidate(conn, resolved_to="src-actor")
+    monkeypatch.setattr(resolve, "encode_one",
+                        lambda *a, **kw: (_ for _ in ()).throw(
+                            AssertionError("must not re-resolve an already-emitted name")))
+
+    claims = {"emits": [{"kind": "actor", "name": "Warrior Moms", "hint": "coalition partner"}],
+              "edges": [{"dst_kind": "actor", "dst_name": "Warrior Moms",
+                        "edge_kind": "affiliated", "relevance": 2}]}
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert emitted == 1   # once, from the emits loop
+    assert edges == 0
+    assert conn.execute(
+        "SELECT count(*) c FROM candidate WHERE kind = 'actor' AND name = 'Warrior Moms'"
+    ).fetchone()["c"] == 1
+
+
+def test_backfill_trigger_edge_writes_the_deferred_edge_on_promotion(conn):
+    """The other half: once a candidate minted this way is itself promoted
+    to a real actor/problem row, the edge its own evidence remembers gets
+    written — this is the fix for actors and the problems that emitted them
+    never ending up linked."""
+    actor(conn, "src-actor")
+    cand = make_candidate(
+        conn, kind="problem", name="Fluorosis in Nalgonda",
+        evidence=json.dumps({"from_kind": "actor", "from_id": "src-actor",
+                            "edge_kind": "works_on", "edge_relevance": 2,
+                            "edge_evidence": "cited groundwater study"}))
+
+    worker._backfill_trigger_edge(conn, cand, "problem", "fluorosis-nalgonda",
+                                  by="worker:test", log=lambda *a: None)
+
+    linked = conn.execute(
+        "SELECT * FROM edge WHERE src_kind = 'actor' AND src_id = 'src-actor' "
+        "AND dst_kind = 'problem' AND dst_id = 'fluorosis-nalgonda' "
+        "AND kind = 'works_on'").fetchone()
+    assert linked is None   # dst doesn't exist as an entity yet -> trigger rejects it
+
+    problem(conn, "fluorosis-nalgonda", title="Fluorosis in Nalgonda")
+    worker._backfill_trigger_edge(conn, cand, "problem", "fluorosis-nalgonda",
+                                  by="worker:test", log=lambda *a: None)
+    linked = conn.execute(
+        "SELECT * FROM edge WHERE src_kind = 'actor' AND src_id = 'src-actor' "
+        "AND dst_kind = 'problem' AND dst_id = 'fluorosis-nalgonda' "
+        "AND kind = 'works_on'").fetchone()
+    assert linked is not None
+    assert linked["relevance"] == 2
+    assert linked["evidence"] == "cited groundwater study"
+
+
+def test_backfill_trigger_edge_is_a_noop_for_candidates_without_one(conn):
+    """A candidate minted any other way (corpus migration, a bare `emits`
+    mention) has no `edge_kind` in its evidence — same "parse failure is the
+    normal case" contract as `_predicted_depth`."""
+    cand = make_candidate(conn, kind="actor", name="Some Org", evidence="just a snippet")
+    worker._backfill_trigger_edge(conn, cand, "actor", "some-org",
+                                  by="worker:test", log=lambda *a: None)
+    assert conn.execute("SELECT count(*) c FROM edge").fetchone()["c"] == 0
+
+
+def test_backfill_trigger_edge_logs_rather_than_raises_when_source_is_gone(conn):
+    """The source entity id captured at mint time could, in principle,
+    later be renamed/merged out from under this — the same defensive
+    IntegrityError handling `_emit`'s own `db.link` call already has."""
+    problem(conn, "fluorosis-nalgonda", title="Fluorosis in Nalgonda")
+    cand = make_candidate(
+        conn, kind="problem", name="Fluorosis in Nalgonda",
+        evidence=json.dumps({"from_kind": "actor", "from_id": "no-such-actor",
+                            "edge_kind": "works_on"}))
+    logged = []
+    worker._backfill_trigger_edge(conn, cand, "problem", "fluorosis-nalgonda",
+                                  by="worker:test", log=logged.append)
+    assert any("rejected" in m for m in logged)
+    assert conn.execute("SELECT count(*) c FROM edge").fetchone()["c"] == 0
 
 
 # ---------------------------------------------------------- track B: depth tier

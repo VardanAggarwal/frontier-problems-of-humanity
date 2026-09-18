@@ -28,6 +28,7 @@ problems/private/
 # (engine/.venv312) slipped past `engine/.venv/` on 2026-09-13.
 engine/.venv*/
 engine/tests/fixtures/live/
+engine/worker/runs/
 
 # Engine v2 graph. Committed as of 01-minimal.md §11 item 3b-B: corpus
 # markdown is prose-only now, so graph.db is no longer derivable from it —

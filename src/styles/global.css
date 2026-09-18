@@ -180,6 +180,21 @@ details.leaf-prose > .prose { padding: .5rem 1rem 1rem; }
 .datanotes > b { font: .7rem/1.6 var(--mono); text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
 .datanotes ol { margin: .35rem 0 0; padding-left: 1.2rem; }
 .datanotes li { font-size: .82rem; color: var(--muted); margin: .25rem 0; }
+
+/* citation on a machine-extracted field — the paragraph finding.chunk_text
+   (schema v5) pinned it to, collapsed by default */
+details.citeref { margin-top: .35rem; }
+details.citeref > summary {
+  cursor: pointer; font: .72rem/1.5 var(--mono); color: var(--muted); list-style: none;
+}
+details.citeref > summary::-webkit-details-marker { display: none; }
+details.citeref > summary::before { content: "▸ "; }
+details.citeref[open] > summary::before { content: "▾ "; }
+details.citeref blockquote {
+  margin: .35rem 0 0; padding-left: .75rem; border-left: 2px solid var(--rule);
+  font-size: .85rem; color: var(--muted);
+}
+details.citeref .citeurl { margin: .3rem 0 0; font-size: .78rem; }
 a.secref { font: .8em var(--mono); color: var(--accent); text-decoration: none; white-space: nowrap; }
 a.secref:hover { text-decoration: underline; }
 a.xref { color: var(--accent); text-decoration: none; border-bottom: 1px dotted var(--accent); }

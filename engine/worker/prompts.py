@@ -399,7 +399,19 @@ def extract_prompt_batched(
         "the source was silent, NOT that the answer is no — and "
         "`uncounted` in `magnitude` is a real value, not a null: absence "
         "of measurement is a finding. Every other edge omits `signals`.\n\n"
-        "Respond with strict JSON only, no prose, no markdown fences:\n"
+        "Respond with strict JSON only, no prose, no markdown fences. Output "
+        "EXACTLY ONE JSON object, matching the shape below, and nothing "
+        "else — no text before it, no text after it, do not repeat or "
+        "restate the object. Every key and every string value is wrapped "
+        "in double quotes, exactly as in the shape below — never single "
+        "quotes, never a bare/unquoted key. Every `}}`/`]` you open must be "
+        "closed, and every item in an array is separated from the next by "
+        "a comma (no comma after the LAST item in an array or object). If "
+        "any string value (an `answer`, `evidence`, `about_what`, `why`, "
+        "`hint`, `reason`) contains a double-quote character — a quoted "
+        "figure or claim copied from the source — escape it as `\\\"` so "
+        "the JSON stays valid; never emit an unescaped `\"` inside a string "
+        "value:\n"
         '{"answers": [{"question_id": "...", "source_id": "S2", '
         '"chunk": "S2.3", "answer": "...", "confidence": 0.0, '
         '"reason": null}],\n'
@@ -697,7 +709,14 @@ def verify_and_extract_prompt_batched(
         "`reason`: the one-clause justification for this value over a "
         "neighbouring one. Omit for non-classification answers.\n\n"
         "QUESTIONS:\n" + _question_block(kind) + "\n\n"
-        "Respond with strict JSON only, no prose, no markdown fences:\n"
+        "Respond with strict JSON only, no prose, no markdown fences. Output "
+        "EXACTLY ONE JSON object, matching the shape below, and nothing "
+        "else — no text before it, no text after it, do not repeat or "
+        "restate the object. Every key and every string value is wrapped "
+        "in double quotes, exactly as in the shape below — never single "
+        "quotes, never a bare/unquoted key. Every `}}`/`]` you open must be "
+        "closed, and every item in an array is separated from the next by "
+        "a comma (no comma after the LAST item in an array or object):\n"
         '{"verdicts": [{"source_id": "S1", "verdict": "about"|"different"'
         '|"unrelated"|"insufficient", "about_what": "...", "why": "..."}],\n'
         ' "answers": [{"question_id": "...", "source_id": "S2", '

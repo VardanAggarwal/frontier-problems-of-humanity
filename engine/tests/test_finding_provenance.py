@@ -11,6 +11,7 @@ import pytest
 from store import db
 from migrate import m0002_finding_provenance as mig
 from migrate import m0003_finding_reason as mig3
+from migrate import m0005_finding_chunk_text as mig5
 
 
 @pytest.fixture
@@ -30,11 +31,23 @@ def test_fresh_db_has_reason_column(conn):
     assert "reason" in cols
 
 
-def test_fresh_db_is_schema_version_3(conn):
+def test_fresh_db_has_chunk_text_column(conn):
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(finding)")}
+    assert "chunk_text" in cols
+
+
+def test_fresh_db_is_stamped_at_the_current_schema_version(conn):
+    """Pinned to `db.SCHEMA_VERSION` rather than to a literal: this asserts
+    that `init()` stamps the version at all, which is what a migration reads
+    to decide whether it has work to do. Pinning the literal made every
+    schema bump fail here (v4, the resume point, was the first) for no
+    reason the test was written to catch. The floor keeps it from passing on
+    an empty or absent stamp."""
     row = conn.execute(
         "SELECT value FROM meta WHERE key = 'schema_version'"
     ).fetchone()
-    assert row["value"] == "3"
+    assert row["value"] == db.SCHEMA_VERSION
+    assert int(row["value"]) >= 3
 
 
 def _v1_db(path) -> sqlite3.Connection:
@@ -200,4 +213,84 @@ def test_m0003_migration_is_idempotent(tmp_path):
     cols = [row[1] for row in conn.execute("PRAGMA table_info(finding)")]
     # ALTER TABLE ADD COLUMN was not run twice — no duplicate columns.
     assert cols.count("reason") == 1
+    conn.close()
+
+
+# ------------------------------------------------- v3 -> v5: chunk_text ----
+# m0004 (candidate_source/candidate_prompt/candidate_resolution/searched_at)
+# adds no `finding` column, so v3's finding shape carries straight through
+# to what m0005 migrates from.
+def _v3_db(path) -> sqlite3.Connection:
+    """A hand-built v3 database: schema.sql's finding table after m0003 but
+    before m0005, so the test exercises the real pre->post transition rather
+    than migrating a database that already has the `chunk_text` column."""
+    conn = sqlite3.connect(path)
+    conn.executescript("""
+        CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT NOT NULL) WITHOUT ROWID;
+        CREATE TABLE candidate (id INTEGER PRIMARY KEY);
+        CREATE TABLE source (id TEXT PRIMARY KEY);
+        CREATE TABLE finding (
+          id            INTEGER PRIMARY KEY,
+          candidate_id  INTEGER NOT NULL REFERENCES candidate (id),
+          question_id   TEXT NOT NULL,
+          answer        TEXT NOT NULL,
+          confidence    REAL CHECK (confidence IS NULL OR confidence BETWEEN 0 AND 1),
+          source_url    TEXT,
+          source_id     TEXT REFERENCES source (id),
+          chunk_ref     TEXT,
+          reason        TEXT,
+          gathered_at   TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+        INSERT INTO meta (key, value) VALUES ('schema_version', '3');
+        INSERT INTO candidate (id) VALUES (1);
+        INSERT INTO finding (candidate_id, question_id, answer, source_url, chunk_ref)
+          VALUES (1, 'q1', 'some answer', 'https://example.org', 'src-1:2');
+    """)
+    conn.commit()
+    return conn
+
+
+def test_v3_db_migrates_to_v5_with_chunk_text_and_no_backfill(tmp_path):
+    path = tmp_path / "v3.db"
+    conn = _v3_db(path)
+    conn.close()
+
+    conn = sqlite3.connect(path)
+    changed = mig5.migrate(conn)
+    assert changed is True
+
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(finding)")}
+    assert "chunk_text" in cols
+
+    version = conn.execute(
+        "SELECT value FROM meta WHERE key = 'schema_version'"
+    ).fetchone()[0]
+    assert version == "5"
+
+    # No backfill: a pre-existing row's chunk_ref does not get its paragraph
+    # re-derived — chunk_text comes back NULL even though chunk_ref is set.
+    row = conn.execute(
+        "SELECT chunk_ref, chunk_text FROM finding WHERE candidate_id = 1"
+    ).fetchone()
+    assert row == ("src-1:2", None)
+    conn.close()
+
+
+def test_m0005_migration_is_idempotent(tmp_path):
+    path = tmp_path / "v3.db"
+    conn = _v3_db(path)
+    conn.close()
+
+    conn = sqlite3.connect(path)
+    first = mig5.migrate(conn)
+    second = mig5.migrate(conn)
+    conn.close()
+
+    assert first is True
+    assert second is False  # nothing left to do the second time
+
+    conn = sqlite3.connect(path)
+    cols = [row[1] for row in conn.execute("PRAGMA table_info(finding)")]
+    # ALTER TABLE ADD COLUMN was not run twice — no duplicate columns.
+    assert cols.count("chunk_text") == 1
     conn.close()

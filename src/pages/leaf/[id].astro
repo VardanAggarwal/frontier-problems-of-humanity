@@ -178,6 +178,59 @@ const shortenNote = (raw) => {
     )}
   </dl>
 
+  <p class="note" id="rerunbox" data-id={l.id} style="margin-top:1.5rem">
+    <button id="rerunbtn" type="button">Re-run through worker</button>{' '}
+    <span id="rerunstate">Reprocesses this leaf's candidate row(s) with <code>--force</code> — or, if none exist yet, seeds one for this exact record and runs it — real fetches, real LLM calls. Writes only under <code>npm run dev</code>.</span>
+  </p>
+  <pre id="rerunlog" hidden></pre>
+  <script is:inline>
+    (function () {
+      var box = document.getElementById('rerunbox');
+      var btn = document.getElementById('rerunbtn');
+      var state = document.getElementById('rerunstate');
+      var log = document.getElementById('rerunlog');
+      if (!box || !btn) return;
+      btn.addEventListener('click', function () {
+        btn.disabled = true;
+        state.textContent = 'starting…';
+        log.hidden = false;
+        log.textContent = '';
+        fetch('/api/worker/rerun', {
+          method: 'POST', headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ kind: 'problem', id: box.dataset.id }),
+        }).then(function (res) {
+          // The server answered — dev middleware is up. A non-2xx here is a
+          // real verdict from the endpoint itself (e.g. no candidate row
+          // resolves to this leaf), not a "start npm run dev" situation, so
+          // it's tagged `fromServer` and shown as-is rather than blamed on
+          // the dev server being down.
+          if (!res.ok || !res.body) return res.text().then(function (t) {
+            var e = new Error(t || ('HTTP ' + res.status)); e.fromServer = true; throw e;
+          });
+          var reader = res.body.getReader();
+          var decoder = new TextDecoder();
+          function pump() {
+            return reader.read().then(function (r) {
+              if (r.done) return;
+              log.textContent += decoder.decode(r.value, { stream: true });
+              log.scrollTop = log.scrollHeight;
+              return pump();
+            });
+          }
+          return pump();
+        }).then(function () {
+          state.textContent = 'Done — reload the page to see any changes.';
+        }).catch(function (e) {
+          state.textContent = e.fromServer
+            ? e.message
+            : 'Not run (' + e.message + ') — needs `npm run dev`.';
+        }).finally(function () {
+          btn.disabled = false;
+        });
+      });
+    })();
+  </script>
+
   {(l.status === 'stub' || !l.path) && (() => {
     const hasBody = Boolean(l.lede) || ['evidence', 'diagnosis'].some(sec);
     const missing = [];
@@ -218,20 +271,32 @@ const shortenNote = (raw) => {
     // them is present, not just on stubs — a machine finding is not prose,
     // so it never replaces a human-written section above/below it.
     const rows = [
-      ['Legs this needs', l.needs_legs.length > 0 && l.needs_legs.map((g) => LEG_LABEL[g] ?? g).join(', ')],
-      ['Magnitude', l.magnitude],
-      ['Differential vulnerability', l.differential_vulnerability],
-      ['Measurement state', l.measurement_state],
-      ['Burden', l.burden_note],
-      ['Blocker', l.blocker],
-      ['Representation verdict', l.representation_verdict],
+      ['Legs this needs', l.needs_legs.length > 0 && l.needs_legs.map((g) => LEG_LABEL[g] ?? g).join(', '), null],
+      ['Magnitude', l.magnitude, l.magnitude_ref],
+      ['Differential vulnerability', l.differential_vulnerability, l.differential_vulnerability_ref],
+      ['Measurement state', l.measurement_state, l.measurement_state_ref],
+      ['Burden', l.burden_note, l.burden_note_ref],
+      ['Blocker', l.blocker, l.blocker_ref],
+      ['Representation verdict', l.representation_verdict, l.representation_verdict_ref],
     ].filter(([, v]) => v);
     return rows.length > 0 && (
       <details class="leaf-prose" open>
         <summary>Machine findings — extracted, not yet written into prose</summary>
         <dl class="leafmeta">
-          {rows.map(([label, value]) => (
-            <div class="row"><dt>{label}</dt><dd><Fragment set:html={renderInline(String(value))} /></dd></div>
+          {rows.map(([label, value, ref]) => (
+            <div class="row">
+              <dt>{label}</dt>
+              <dd>
+                <Fragment set:html={renderInline(String(value))} />
+                {ref && (
+                  <details class="citeref">
+                    <summary>source paragraph</summary>
+                    <blockquote set:html={renderInline(ref.text)} />
+                    {ref.url && <p class="citeurl"><a href={ref.url}>{ref.title ?? ref.url}</a></p>}
+                  </details>
+                )}
+              </dd>
+            </div>
           ))}
         </dl>
       </details>
@@ -341,4 +406,17 @@ const shortenNote = (raw) => {
       });
     })();
   </script>
+
+  <style>
+    #rerunlog {
+      margin-top: .6rem; max-height: 26rem; overflow: auto; white-space: pre-wrap;
+      font: .72rem/1.5 var(--mono); background: var(--panel); border: 1px solid var(--rule);
+      border-radius: .3rem; padding: .7rem;
+    }
+    #rerunbtn {
+      font: .8rem/1 var(--mono); color: var(--accent); background: var(--accent-soft);
+      border: 1px solid var(--accent); border-radius: .3rem; padding: .35rem .7rem; cursor: pointer;
+    }
+    #rerunbtn:disabled { opacity: .5; cursor: wait; }
+  </style>
 </Base>

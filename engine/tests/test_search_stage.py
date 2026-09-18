@@ -447,9 +447,11 @@ def test_escalate_does_not_double_fetch_urls_the_first_pass_already_took():
 
 
 # ---------------------------------------------------------------------------
-# PDF rejection — no text extraction exists, so a .pdf url is dropped before
-# cover() ever spends a slot on it (candidate 12's CGWB Kollam district PDF,
-# 2026-09-14: fetched, page_state 'missing', 0 words)
+# PDF urls — `worker/fetch.py` now extracts text from PDFs, so a `.pdf` url
+# is treated like any other url: it reaches `fetch`, counts against the
+# cover cap, and is not specially logged or rejected here. (Superseded
+# 2026-09-19; candidate 12's CGWB Kollam district PDF, 2026-09-14, was the
+# instance that motivated the old pre-fetch rejection.)
 # ---------------------------------------------------------------------------
 
 class _FixedResponseProvider:
@@ -468,7 +470,7 @@ class _FixedResponseProvider:
             raw_results=list(self._results))
 
 
-def test_pdf_url_never_reaches_fetch():
+def test_pdf_url_reaches_fetch_like_any_other_url():
     fetch_calls = []
 
     def counting_fetch(url):
@@ -484,26 +486,12 @@ def test_pdf_url_never_reaches_fetch():
         fetch=counting_fetch, confirm=_confirm_all_confirmed,
         slug=SLUG, log=lambda *a, **k: None,
     )
-    assert not any(u.lower().endswith(".pdf") for u in fetch_calls), \
-        "a .pdf url was fetched despite having no text extraction"
+    assert any(u.lower().endswith(".pdf") for u in fetch_calls), \
+        "a .pdf url should reach fetch now that fetch() extracts pdf text"
     assert "https://groundwater.kerala.gov.in" in fetch_calls
 
 
-def test_pdf_url_rejection_is_logged():
-    logged = []
-    provider = _FixedResponseProvider([
-        "https://cgwb.gov.in/old_website/District_Profile/Kerala/kollam.pdf",
-        "https://groundwater.kerala.gov.in",
-    ])
-    search_sources(
-        NAME, depth=TRACKED_TIER, provider=provider,
-        fetch=_fetch_all_confirmed, confirm=_confirm_all_confirmed,
-        slug=SLUG, log=logged.append,
-    )
-    assert any("rejected 1 pdf" in m for m in logged)
-
-
-def test_pdf_seed_url_is_rejected_not_fetched():
+def test_pdf_seed_url_is_fetched_not_rejected():
     fetch_calls = []
 
     def counting_fetch(url):
@@ -517,14 +505,14 @@ def test_pdf_seed_url_is_rejected_not_fetched():
         slug=SLUG, seed_url="https://a2p-energy.example/report.pdf",
         log=logged.append,
     )
-    assert "https://a2p-energy.example/report.pdf" not in fetch_calls
-    assert any("seed url is a pdf" in m for m in logged)
+    assert "https://a2p-energy.example/report.pdf" in fetch_calls
+    assert not any("seed url is a pdf" in m for m in logged)
 
 
-def test_pdf_url_does_not_count_against_the_cover_cap():
-    """The whole point: a rejected pdf doesn't just avoid its own wasted
-    fetch, it frees the slot cover() would have spent on it for a url that
-    can actually yield text."""
+def test_pdf_url_counts_against_the_cover_cap():
+    """A pdf url is a normal pool member now — cover() may spend a slot on
+    it just like any other url, and a cap of 2 over a 3-url pool (one pdf)
+    still only returns 2 confirmed sources."""
     provider = _FixedResponseProvider([
         "https://cgwb.gov.in/old_website/District_Profile/Kerala/kollam.pdf",
         "https://groundwater.kerala.gov.in",
@@ -535,7 +523,7 @@ def test_pdf_url_does_not_count_against_the_cover_cap():
         fetch=_fetch_all_confirmed, confirm=_confirm_all_confirmed,
         slug=SLUG, max_sources=2, log=lambda *a, **k: None,
     )
-    assert len(result) == 2, "both non-pdf urls should have been covered, not just one"
+    assert len(result) == 2
 
 
 def test_escalate_logs_when_the_widened_pool_has_nothing_new(monkeypatch):

@@ -27,54 +27,75 @@ def _csv(var: str, default: list[str]) -> list[str]:
 
 
 # ── API keys ──────────────────────────────────────────────────────────────
-ANTHROPIC_KEY = os.getenv("ANTHROPIC_API_KEY", "")
-GEMINI_KEY = os.getenv("GEMINI_API_KEY", "")
+# OpenRouter is the only provider (2026-09-18). `ANTHROPIC_API_KEY`,
+# `GEMINI_API_KEY`, `CLAUDE_CODE_OAUTH_TOKEN`, `CLAUDE_MODEL_*`,
+# `GEMINI_MODELS` and `LLM_FALLBACK_ORDER` were all removed with the fallback
+# chain — see `worker/llm.py::call`. The keys can stay in `.env`; nothing
+# reads them.
 OPENROUTER_KEY = os.getenv("OPENROUTER_API_KEY", "")
 
-# Claude Code subscription token (`claude setup-token`) — bills the Max/Pro
-# subscription instead of the API key.
-CLAUDE_CODE_OAUTH_TOKEN = os.getenv("CLAUDE_CODE_OAUTH_TOKEN", "")
-
-# ── Model tiering — mechanical (gate 1 screening) vs judgment (claims
-# extraction, merge/split) — §7's tier-4 split. ──────────────────────────
-CLAUDE_MODEL_MECHANICAL = os.getenv("CLAUDE_MODEL_MECHANICAL", "claude-haiku-4-5")
-CLAUDE_MODEL_JUDGMENT = os.getenv("CLAUDE_MODEL_JUDGMENT", "claude-sonnet-4-6")
-
-# Model-level fallback within the openrouter rung (2026-09-15). Motivating
-# case: candidate 12 (groundwater-depletion-from-irrigation) — a real
-# judgment-tier call (13 sources, max_tokens=4096) on the single configured
-# free model came back HTTP 200 with a body that was keep-alive whitespace
-# padding and no JSON at all (`resp.json()`: "Expecting value: line 1 column
-# 1 (char 0)"), most likely the free-tier gateway closing the stream before
-# a slow/reasoning-heavy generation finished. `llm.call()`'s outer retry-with-
-# backoff retried the SAME model 3x (LLM_MAX_ATTEMPTS), failed the same way
-# each time, then fell through to claude/gemini — both deliberately
-# uninstalled (`requirements.txt`), so the only real provider's real error
-# ended up masked behind two expected ImportErrors (`last_err` keeps only
-# the most recent). A second model, from a different backend, is not subject
-# to the same generation-speed profile.
+# ── Models, in try order. `call()` walks this list, moving to the next entry
+# when one fails outright (dead backend, persistent 429, unparseable
+# response). It is a list for backend redundancy, NOT a quality ladder and
+# NOT a retry budget — every entry must be able to do the job alone, because
+# entry 0 is what almost every call actually uses.
 #
-# `OPENROUTER_MODEL_MECHANICAL`/`_JUDGMENT` (singular, pre-2026-09-15) still
-# work as before — they set element 0 of the list below, so an existing .env
-# override is not silently ignored. `OPENROUTER_MODELS_MECHANICAL`/`_JUDGMENT`
-# (plural), if set, replace the whole list instead. `google/gemma-4-31b-it:
-# free` was picked as the default second rung by querying openrouter's live
-# `/models` endpoint for current `:free` entries 2026-09-15 (not guessed) —
-# a different vendor's infra than the nvidia/nemotron default, so a gateway-
-# level issue specific to one backend is less likely to hit both.
+# Two hard requirements for anything added here, both checkable against
+# OpenRouter's live `/models` endpoint (`supported_parameters`) rather than
+# assumed:
+#
+#  1. It must declare `response_format` (or `structured_outputs`). Three of
+#     the four models configured in `.env` on 2026-09-18 declared neither,
+#     which is how the candidate-528 run earned a hard `404 No endpoints
+#     found that can handle the requested parameters`.
+#  2. If it is a reasoning model — and on the free tier they all are — it
+#     must honour `reasoning: {enabled: false}`, which `_call_openrouter`
+#     sends. Unhonoured, hidden chain-of-thought eats the `max_tokens` budget
+#     and the answer comes back truncated; that was the whole of the
+#     2026-09-18 extraction failure.
+#
+# Every `:free` model OpenRouter listed on 2026-09-18 that was worth trying,
+# run against the REAL 8-source batched extraction prompt (14,981 input
+# tokens, max_tokens=10,240) with reasoning off. Not a paper comparison of
+# `supported_parameters` — several models that declare the right parameters
+# fail the actual call:
+#
+#   nvidia/nemotron-3-super-120b-a12b:free  PASS  26s, 2,023 output tokens
+#   deepseek/deepseek-v4-flash-0731:free    PASS  57s, 1,832 output tokens
+#   google/gemma-4-31b-it:free              429   rate-limited upstream (1s)
+#   google/gemma-4-26b-a4b-it:free          429   rate-limited upstream (1s)
+#   qwen/qwen3.8-27b:free                   429   rate-limited upstream (1s)
+#   thinkingmachines/inkling:free           403   "only available on agentic
+#   thinkingmachines/inkling-small:free     403    harnesses" — never usable
+#   liquid/lfm-2.5-2.6b:free                400   "Reasoning is mandatory for
+#                                                  this endpoint and cannot be
+#                                                  disabled"
+#
+# PASS means the complete expected shape: 19 answers + misidentified + emits
+# + edges. Nemotron-super leads on latency; deepseek is a different vendor's
+# backend, which is the entire point of a second entry.
+#
+# Three things that table settles and a `/models` query does not:
+#   - `inkling-small` was configured in `.env` and had been 403-ing on every
+#     call since it was added. A model in the list is not a model that works.
+#   - `lfm-2.5-2.6b` REJECTS `reasoning: {enabled: false}` with a hard 400.
+#     Requirement 2 above is not a preference; a model that cannot honour it
+#     fails 100% of calls instantly.
+#   - The three 429s fail in ~1s, so they are cheap to carry as trailing
+#     entries if the two above are ever both down — but they are congested
+#     often enough that they are not in the default list.
+#
+# The singular `OPENROUTER_MODEL_MECHANICAL`/`_JUDGMENT` overrides still set
+# element 0, so an existing `.env` is not silently ignored; the plural
+# `OPENROUTER_MODELS_*` replace the whole list.
+_DEFAULT_MODELS = ["nvidia/nemotron-3-super-120b-a12b:free",
+                   "deepseek/deepseek-v4-flash-0731:free"]
 OPENROUTER_MODELS_MECHANICAL = _csv(
     "OPENROUTER_MODELS_MECHANICAL",
-    [os.getenv("OPENROUTER_MODEL_MECHANICAL", "nvidia/nemotron-3-super-120b-a12b:free"),
-     "google/gemma-4-31b-it:free"])
+    [os.getenv("OPENROUTER_MODEL_MECHANICAL", _DEFAULT_MODELS[0])] + _DEFAULT_MODELS[1:])
 OPENROUTER_MODELS_JUDGMENT = _csv(
     "OPENROUTER_MODELS_JUDGMENT",
-    [os.getenv("OPENROUTER_MODEL_JUDGMENT", "nvidia/nemotron-3-super-120b-a12b:free"),
-     "google/gemma-4-31b-it:free"])
-
-# openrouter tried first: one key, many underlying models, its own failover.
-# Direct rungs (claude-cli/claude/gemini) are the fallback chain below it.
-LLM_FALLBACK_ORDER = _csv("LLM_FALLBACK_ORDER", ["openrouter", "claude", "gemini", "local"])
-GEMINI_MODELS = _csv("GEMINI_MODELS", ["gemini-2.5-flash", "gemini-2.5-flash-lite"])
+    [os.getenv("OPENROUTER_MODEL_JUDGMENT", _DEFAULT_MODELS[0])] + _DEFAULT_MODELS[1:])
 
 # ── LLM retry/backoff (absorb transient 503/429/overload within a run) ────
 LLM_MAX_ATTEMPTS = int(os.getenv("LLM_MAX_ATTEMPTS", "3"))

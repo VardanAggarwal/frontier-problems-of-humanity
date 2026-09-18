@@ -13,6 +13,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 import json
 import math
+import threading
 
 import pytest
 
@@ -116,14 +117,24 @@ class FakeFetch:
         self.texts = texts          # url -> text
         self.default_text = default_text
         self.urls = []
+        # `search_stage._fetch_and_route` fetches URLs from a thread pool, and
+        # the real `worker/fetch.py` guards every sqlite touch with its own
+        # `_DB_LOCK` for exactly that reason (fetch.py:46). This stub stands in
+        # for that function, so it owes the same guard: without it two pool
+        # threads interleave statements on one connection and sqlite raises
+        # `InterfaceError: bad parameter or other API misuse` — intermittently,
+        # and only on the escalation path, where `_fetch_and_route` runs a
+        # second time.
+        self.lock = threading.Lock()
 
     def __call__(self, conn, corpus, url):
-        self.urls.append(url)
         text = self.texts.get(url, self.default_text)
         source_id = "src-" + str(abs(hash(url)) % 10 ** 9)
-        self.conn.execute(
-            "INSERT OR IGNORE INTO source (id, url, url_canonical) "
-            "VALUES (?, ?, ?)", (source_id, url, url))
+        with self.lock:
+            self.urls.append(url)
+            self.conn.execute(
+                "INSERT OR IGNORE INTO source (id, url, url_canonical) "
+                "VALUES (?, ?, ?)", (source_id, url, url))
         return type("FetchResult", (), {"text": text, "source_id": source_id})()
 
 
@@ -149,8 +160,15 @@ def stub_pipeline(monkeypatch, conn, *, fetch, extract_json, screen_ids,
     monkeypatch.setattr(worker.llm, "call", fake_call)
     monkeypatch.setattr(gate1.llm, "call", fake_call)
     monkeypatch.setattr(worker.fetchmod, "fetch", fetch)
+    # Both entry points, from one `verdict`, so they cannot drift: the search
+    # stage takes the batched `confirm_many` when the worker injects one and
+    # falls back to per-URL `confirm` otherwise, so stubbing only `confirm`
+    # would silently let the real encoder run.
     monkeypatch.setattr(worker.gate2, "confirm",
                         lambda c, name, ev, text: (verdict, 0.91, "stub"))
+    monkeypatch.setattr(worker.gate2, "confirm_many",
+                        lambda c, name, ev, texts: [(verdict, 0.91, "stub")
+                                                    for _ in texts])
     monkeypatch.setattr(resolve, "encode_one", lambda text, *, role: unit(1.0))
     monkeypatch.setattr(resolve.index, "knn",
                         lambda c, kind, v, *, k=10, role="query", exclude=None: [])
@@ -465,6 +483,42 @@ def test_problem_emission_reaches_emit_through_run_batch(
     minted = conn.execute(
         "SELECT count(*) c FROM candidate WHERE kind = 'problem'").fetchone()["c"]
     assert (minted > 0) is problem_emission
+
+
+def test_edge_dropped_at_mint_time_is_backfilled_once_its_destination_promotes(
+        conn, monkeypatch, tmp_path):
+    """End to end, through two `run_batch` passes: the `works_on` edge in
+    `_emitting_json` names a problem that doesn't exist yet, so pass 1 mints
+    it instead of linking it (Track A) — the actor and the problem it named
+    are NOT attached to each other yet. Pass 2 processes that minted problem
+    candidate; once it promotes, the edge dropped in pass 1 is finally
+    written, using nothing but what pass 1 already stashed on its evidence."""
+    cand = make_candidate(conn, kind="actor", name="Registry Stub Org")
+    stub_pipeline(monkeypatch, conn, fetch=FakeFetch(conn, {}),
+                  screen_ids=[cand["id"]], extract_json=_emitting_json())
+    worker.run_batch(conn, tmp_path, [cand], problem_emission=True)
+
+    actor_id = conn.execute(
+        "SELECT id FROM actor WHERE title = 'Registry Stub Org'").fetchone()["id"]
+    minted = conn.execute(
+        "SELECT * FROM candidate WHERE kind = 'problem' AND "
+        "name = 'Nobody counts silicosis'").fetchone()
+    assert minted is not None and minted["resolved_to"] is None
+    assert conn.execute("SELECT count(*) c FROM edge").fetchone()["c"] == 0
+
+    stub_pipeline(monkeypatch, conn, fetch=FakeFetch(conn, {}),
+                  screen_ids=[minted["id"]],
+                  extract_json={"claims": [], "emits": [], "edges": []})
+    worker.run_batch(conn, tmp_path, [minted], problem_emission=True)
+
+    problem_id = conn.execute(
+        "SELECT id FROM problem WHERE title = 'Nobody counts silicosis'").fetchone()["id"]
+    linked = conn.execute(
+        "SELECT * FROM edge WHERE src_kind = 'actor' AND src_id = ? "
+        "AND dst_kind = 'problem' AND dst_id = ? AND kind = 'works_on'",
+        (actor_id, problem_id)).fetchone()
+    assert linked is not None
+    assert linked["relevance"] == 3
 
 
 # ------------------------------------------------------- 8. _predicted_depth --

@@ -22,7 +22,6 @@ import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Callable, Optional
-from urllib.parse import urlsplit
 
 import yaml
 
@@ -53,16 +52,6 @@ DEFAULT_FAMILIES_PATH = Path(__file__).resolve().parents[1] / "search" / "famili
 # lines and unlikely to drift.
 _SLUG_STRIP = re.compile(r"[^a-z0-9]+")
 _SLUG_EDGE = re.compile(r"^-+|-+$")
-
-
-def _is_pdf_url(url: str) -> bool:
-    """`worker/fetch.py`/`text/pagestate.py` has no PDF text extraction — a
-    `.pdf` url always comes back `page_state: missing`, 0 words (candidate
-    12's CGWB Kollam district PDF, 2026-09-14, is the real instance). Fetched
-    anyway, it's not just wasted network — it's a wasted `cover()` slot that
-    could have gone to a url that actually yields text. Rejected here,
-    before `cover()` ever sees it, rather than discovered after fetching."""
-    return urlsplit(url).path.lower().endswith(".pdf")
 
 
 def _slugify(title: str) -> str:
@@ -111,6 +100,7 @@ def _fetch_and_route(
         confirm: Callable,
         thin_page_chars: Optional[int],
         log: Callable,
+        confirm_many: Optional[Callable] = None,
 ) -> tuple[list, list]:
     """`[(url, origin), ...] -> (confirmed, to_verify)` — steps 4-7 of
     `search_sources`'s docstring pipeline (fetch -> gate 2 -> confirm_policy
@@ -123,20 +113,41 @@ def _fetch_and_route(
 
     verdicts = []
     texts_by_source_id = {}
+    # Split first, confirm second. Pages with no fetched text never reach
+    # `confirm` at all (blocked fetch, empty page): they are recorded as
+    # NO_VERDICT (verdict=None) rather than confirmed against an empty
+    # string — confirm_policy.SourceVerdict's own contract for this case.
+    pending = []
     for (url, origin), result in zip(to_fetch, results):
         text = result.text
         texts_by_source_id[result.source_id] = text
         if not text:
-            # No fetched text to confirm against at all (blocked fetch, empty
-            # page). Recorded as NO_VERDICT (verdict=None) rather than calling
-            # `confirm` on empty text — confirm_policy.SourceVerdict's own
-            # contract for this case.
             verdicts.append(SourceVerdict(
                 source_id=result.source_id, url=url, origin=origin, verdict=None))
             continue
-        verdict, cosine, note = confirm(name, evidence, text)
+        pending.append((url, origin, result.source_id, text))
+
+    # Step-reached, not just failure: the hang that produced candidate 28's
+    # stuck run (2026-09-14T22:45, `[exit null]`, no exception) sat inside
+    # the confirm call with nothing logged before or after it — the last line
+    # anyone could see was "Loading weights". These lines exist so a future
+    # stall names the URL it stalled on. In the batched path the whole batch
+    # is named up front, since one `encode()` covers all of them and there is
+    # no longer a per-URL boundary to stall at.
+    if confirm_many is not None and pending:
+        for url, origin, _sid, text in pending:
+            log(f"search_stage: confirming {url} ({origin}, {len(text)} chars)")
+        log(f"search_stage: gate2 batch of {len(pending)} page(s)")
+        outcomes = confirm_many(name, evidence, [t for _u, _o, _s, t in pending])
+    else:
+        outcomes = []
+        for url, origin, _sid, text in pending:
+            log(f"search_stage: confirming {url} ({origin}, {len(text)} chars)")
+            outcomes.append(confirm(name, evidence, text))
+
+    for (url, origin, source_id, text), (verdict, cosine, note) in zip(pending, outcomes):
         verdicts.append(SourceVerdict(
-            source_id=result.source_id, url=url, origin=origin,
+            source_id=source_id, url=url, origin=origin,
             verdict=verdict, cosine=cosine, note=note, text_chars=len(text)))
 
     decisions = apply_confirmations(verdicts, thin_page_chars=thin_page_chars)
@@ -154,6 +165,11 @@ def _fetch_and_route(
             verdict=decision.verdict,
         )
         if decision.route == PROMPT:
+            # Previously silent — only DROP and VERIFY were logged, so a
+            # clean confirm left no trace in the run log at all. Log the
+            # success path too: `reason` already carries gate2's cosine.
+            log(f"search_stage: confirmed {decision.url} ({decision.origin}): "
+                f"{decision.reason}")
             confirmed.append(source)
         else:
             log(f"search_stage: to verify {decision.url} "
@@ -170,6 +186,7 @@ def search_sources(
         provider,
         fetch: Callable,
         confirm: Callable,
+        confirm_many: Optional[Callable] = None,
         evidence: str = "",
         seed_url: Optional[str] = None,
         max_sources: Optional[int] = None,
@@ -265,25 +282,15 @@ def search_sources(
         results_by_query[family_id] = response.results_for_fuse()
 
     # --- 3. fuse + cover -----------------------------------------------------
-    # PDFs are dropped from the pool BEFORE cover() sees them, not after
-    # fetching finds out the hard way — see `_is_pdf_url`. This also means
-    # `counters["pool_size"]`/`unread_urls` below report the real usable
-    # pool, not one padded with urls cover() would only waste a slot on.
-    fused_raw = fuse(results_by_query)
-    fused = [r for r in fused_raw if not _is_pdf_url(r.url)]
-    pdf_rejected = len(fused_raw) - len(fused)
-    if pdf_rejected:
-        log(f"search_stage: {resolved_slug} rejected {pdf_rejected} pdf "
-            "url(s) from the fused pool before cover() — no text extraction "
-            "for pdf")
+    # PDF urls flow through the pool like any other url now that
+    # `worker/fetch.py` extracts text from them — no pre-fetch rejection.
+    fused = fuse(results_by_query)
     covered_urls = cover(fused, cap)
 
     # --- 4. fetch: seed is SEED, everything from search is SEARCH ----------
     to_fetch = []  # [(url, origin), ...]
     seen_norm = set()
-    if seed_url and _is_pdf_url(seed_url):
-        log(f"search_stage: {resolved_slug} seed url is a pdf, rejecting: {seed_url}")
-    elif seed_url:
+    if seed_url:
         to_fetch.append((seed_url, SEED))
         seen_norm.add(normalize_url(seed_url))
     for url in covered_urls:
@@ -308,6 +315,7 @@ def search_sources(
     # apply_confirmations` drops NO_VERDICT outright instead.
     confirmed, to_verify = _fetch_and_route(
         to_fetch, name=name, evidence=evidence, fetch=fetch, confirm=confirm,
+        confirm_many=confirm_many,
         thin_page_chars=thin_page_chars, log=log)
 
     # --- 8. one escalation round, opt-in (`escalate=True`) ------------------
@@ -340,7 +348,8 @@ def search_sources(
                     "url(s) from the fused pool")
                 more_confirmed, more_to_verify = _fetch_and_route(
                     more_to_fetch, name=name, evidence=evidence, fetch=fetch,
-                    confirm=confirm, thin_page_chars=thin_page_chars, log=log)
+                    confirm=confirm, confirm_many=confirm_many,
+                    thin_page_chars=thin_page_chars, log=log)
                 confirmed.extend(more_confirmed)
                 to_verify.extend(more_to_verify)
             else:

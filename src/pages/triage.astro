@@ -130,7 +130,8 @@ import Base from '../layouts/Base.astro';
           }).then(function (j) {
             if (j.error) throw new Error(j.error);
             li.classList.add('done');
-            say(msg, 'promoted → ' + j.url, 'ok');
+            msg.innerHTML = 'promoted → <a href="' + j.url + '">open leaf</a>';
+            msg.dataset.tone = 'ok';
           }).catch(function (e) {
             btn.disabled = false;
             say(msg, 'not saved (' + e.message + ') — writes need `npm run dev`', 'err');

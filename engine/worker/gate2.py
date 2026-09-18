@@ -26,9 +26,9 @@ cutoff) regardless of where its edges sit.
 from __future__ import annotations
 
 import sqlite3
+from typing import Sequence
 
-from embed.model import encode_one
-from embed.texts import clip
+from embed.model import EmbedTimeout, encode, encode_one, fit, with_timeout
 
 # MISMATCH_BELOW was 0.55, chosen conservatively in lieu of a sweep. The sweep
 # has now been run — `poc/gate2-band-sweep.md`, five actors, ~200 pooled URLs
@@ -71,35 +71,55 @@ def confirm(conn: sqlite3.Connection, candidate_name: str,
     silent fail (module docstring, and 01-minimal.md §5/§9: escalation is
     queued, not blocking, and not resolved by guessing).
     """
-    # `right` is already bounded by PREVIEW_CHARS (500 chars) — `clip()`'s
-    # own threshold is 2,000, so wrapping an already-500-char string in it
-    # would be a no-op; not done. `left`'s `candidate_context` is the one
-    # unbounded side (a caller may hand in the full extraction text), hence
-    # `clip()` here and not on `right`.
+    # `right` is bounded by PREVIEW_CHARS (500 chars), which a token-dense
+    # script (CJK, or a scraped page's symbol-heavy nav/footer) can still
+    # blow past e5's 512-token budget — confirmed live 2026-09-15 on one of
+    # candidate 12's fetched sources. `left`'s `candidate_context` is the
+    # unbounded side (a caller may hand in the full extraction text).
     #
-    # A token-dense 500-char `right` (CJK, or a scraped page's symbol-heavy
-    # nav/footer) CAN still exceed e5's 512-token budget and trip the
-    # tokenizer's own "longer than the specified maximum sequence length"
-    # warning — confirmed live 2026-09-15 on one of candidate 12's fetched
-    # sources with `left` already short (empty `candidate_context`).
-    # Verified directly (not assumed) that this is cosmetic, not a
-    # correctness bug: `SentenceTransformer.encode()` truncates internally
-    # regardless of the warning — a forced >512-token string round-tripped
-    # to a well-formed, unit-norm 384-dim vector with no exception. The
-    # warning is noisy but harmless; not chased further than this note.
-    left = clip(f"{candidate_name} {candidate_context}".strip())
-    right = cleaned_text[:PREVIEW_CHARS]
-    if not left or not right:
-        return "uncertain", 0.0, "gate2: empty candidate context or empty fetched text"
+    # Originally both were bounded with `clip()`, a cheap character-based
+    # pre-bound — fine for a small overflow, but candidate 28's run
+    # (2026-09-14T22:45) hit a 4464-token overflow (8.7x the limit) on a
+    # `clip()`-ed `left` and the worker hung indefinitely mid-`encode()` with
+    # no exception, killed only by an external signal. `fit()` (unlike
+    # `clip()`) truncates against the encoder's own tokenizer, so the string
+    # handed to `encode_one()` is never more than the true token budget — but
+    # candidate 71 (2026-09-15T07:54) hung again at 2922 tokens even with
+    # `fit()` in place, so token-exact truncation alone does not bound the
+    # *cost of computing* the truncation (`fit()`'s own first pass tokenizes
+    # the whole untruncated input). See `_FIT_PRECLIP_CHARS` and
+    # `EmbedTimeout` in embed/model.py for the two-part fix: a cheap char cap
+    # ahead of `fit()`, and a wall-clock timeout as the backstop.
+    left_raw = f"{candidate_name} {candidate_context}".strip()
+    right_raw = cleaned_text[:PREVIEW_CHARS]
+    if not left_raw or not right_raw:
+        return "uncertain", 0.0, EMPTY_NOTE
+    # `fit()` refuses empty text (embed/model.py:prefix), hence the emptiness
+    # check above runs on the raw strings first.
+    #
+    # `with_timeout` — not the bare calls — because both candidate 28
+    # (2026-09-14T22:45) and candidate 71 (2026-09-15T07:54) hung
+    # indefinitely right here with no exception, killed only by an external
+    # signal. A timeout turns that into an `uncertain` verdict instead of a
+    # dead worker. Wrapped as a closure over the module's own `fit`/
+    # `encode_one` (not a fixed helper) so tests can still monkeypatch
+    # `gate2.fit`/`gate2.encode_one` directly.
+    try:
+        a = with_timeout(lambda: encode_one(fit(left_raw, role="query"), role="query"),
+                         label="gate2 left-side embed")
+        b = with_timeout(lambda: encode_one(fit(right_raw, role="query"), role="query"),
+                         label="gate2 right-side embed")
+    except EmbedTimeout as exc:
+        return "uncertain", 0.0, f"gate2: {exc} — treated as unconfirmed, routed to verify pass"
+    return _band(_cosine(a, b))
 
-    a = encode_one(left, role="query")
-    b = encode_one(right, role="query")
-    # Plain zip-sum rather than a numpy `(a * b).sum()`: both are
-    # L2-normalized so the dot product is cosine either way, but summing by
-    # hand works whether `encode_one` returns a numpy array (the real
-    # encoder) or a plain list (test doubles), with no numpy dependency here.
-    cosine = float(sum(x * y for x, y in zip(a, b)))
 
+EMPTY_NOTE = "gate2: empty candidate context or empty fetched text"
+
+
+def _band(cosine: float) -> tuple[str, float, str]:
+    """The three-way verdict, factored out of `confirm` so `confirm_many`
+    bands identically — one copy of the numbers, one copy of the note."""
     if cosine < MISMATCH_BELOW:
         return "mismatch", cosine, ""
     if cosine > CONFIRMED_ABOVE:
@@ -108,3 +128,79 @@ def confirm(conn: sqlite3.Connection, candidate_name: str,
             f"gate2: cosine {cosine:.3f} in the unresolved middle band "
             f"({MISMATCH_BELOW}-{CONFIRMED_ABOVE}) — bands are provisional, "
             f"not measured; flag for review rather than deciding")
+
+
+def _cosine(a, b) -> float:
+    """Plain zip-sum rather than a numpy `(a * b).sum()`: both sides are
+    L2-normalized so the dot product is cosine either way, but summing by
+    hand works whether the encoder returned a numpy array (the real one) or
+    a plain list (a test double), with no numpy dependency here."""
+    return float(sum(x * y for x, y in zip(a, b)))
+
+
+def confirm_many(conn: sqlite3.Connection, candidate_name: str,
+                 candidate_context: str,
+                 texts: "Sequence[str]") -> "list[tuple[str, float, str]]":
+    """`confirm` over N fetched pages at once -> one `(verdict, cosine, note)`
+    per entry of `texts`, in the same order. Same bands, same notes, same
+    verdicts as calling `confirm` N times — this is purely a cost change.
+
+    Two wastes in the per-URL loop it replaces (`search_stage._fetch_and_route`),
+    both from the fact that **`left` does not vary across the loop**: the
+    candidate's name and evidence are fixed for the whole run
+    (`search_stage.search_sources` takes `name`/`evidence` once), while only
+    the fetched page changes.
+
+    1. `confirm` re-ran `fit()` + `encode_one()` on that identical `left`
+       string once per URL — N-1 encodes and N-1 tokenizer passes computing a
+       vector already in hand. Here it is computed once.
+    2. The `right` sides went one `encode_one` at a time. Here they go as one
+       batched `encode()` call, which is where the local encoder is actually
+       efficient: measured on this machine (2026-09-18, multilingual-e5-small,
+       mps), a batch of 50 costs ~1.45s against ~2.1s for 50 singles, and the
+       gap widens with N.
+
+    Deliberately NOT a module-level cache of the left vector, which would be
+    the obvious way to get win 1 without a new function: `tests/test_worker.py`
+    monkeypatches `gate2.encode_one`/`gate2.fit` per test, so a vector cached
+    across calls would be computed by one test's double and handed to the
+    next. Hoisting inside a single call has no cross-call state to leak.
+
+    `EmbedTimeout` keeps `confirm`'s contract — the whole batch degrades to
+    `uncertain` (routed to the verify pass), never to a silent pass or fail.
+    """
+    rights = [(t or "")[:PREVIEW_CHARS].strip() for t in texts]
+    left_raw = f"{candidate_name} {candidate_context}".strip()
+    if not left_raw:
+        return [("uncertain", 0.0, EMPTY_NOTE) for _ in rights]
+
+    # Which rows have something to compare at all. `fit()` refuses empty text
+    # (embed/model.py:prefix), so the emptiness check runs on the raw strings
+    # first, exactly as `confirm` does.
+    live = [i for i, r in enumerate(rights) if r]
+    out: list[tuple[str, float, str]] = [
+        ("uncertain", 0.0, EMPTY_NOTE) for _ in rights]
+    if not live:
+        return out
+
+    # The batch timeout scales with N — `with_timeout`'s 45s default is sized
+    # for a single call plus cold start (embed/model.py:with_timeout), and a
+    # batch of 40 legitimately takes longer than a batch of 1 without being
+    # the candidate-28 class of hang this bounds.
+    batch_timeout = 45.0 + 1.0 * len(live)
+    try:
+        a = with_timeout(
+            lambda: encode_one(fit(left_raw, role="query"), role="query"),
+            label="gate2 left-side embed")
+        b_vecs = with_timeout(
+            lambda: encode([fit(rights[i], role="query") for i in live],
+                           role="query"),
+            timeout_s=batch_timeout,
+            label=f"gate2 right-side embed (batch of {len(live)})")
+    except EmbedTimeout as exc:
+        note = (f"gate2: {exc} — treated as unconfirmed, routed to verify pass")
+        return [("uncertain", 0.0, note) for _ in rights]
+
+    for i, b in zip(live, b_vecs):
+        out[i] = _band(_cosine(a, b))
+    return out

@@ -901,6 +901,72 @@ The non-dollar budget is **throughput**: the OpenRouter free rung paces to
 | Encoder unavailable | Fall back to first-N-chars per source, capped. Degraded, not broken |
 | Emitted problem is unbounded/trend-shaped | Emitted anyway with `signals`; the orchestrator's gate rejects or stubs it |
 
+### 13a. Resuming at extraction (shipped 2026-09-18)
+
+Every row above that ends in "log and move on" used to cost a full re-run to
+retry: the candidate went back through stages 2–4 — ~17 throttled search
+queries, a fetch per covered URL, and a local embedding pass per fetched page
+— to recover one call that takes seconds. Half an hour repaid for a JSON
+parse failure. The ratio was backwards, and it made the cheapest failures the
+most expensive ones to fix.
+
+The page text was never what was missing: `source.path` has held cleaned text
+on disk since E0, and `fetch()` short-circuits on `url_canonical` before any
+HTTP. What died with `run_batch`'s frame was the *membership* — which URLs
+the search stage chose for this candidate, and what gate 2 said about each.
+
+`candidate_source` (schema v4, `migrate/m0004_candidate_source.py`) stores
+exactly that and nothing else: `source_id`, `url`, `origin`, `route`,
+`verdict`. It is written once per candidate, immediately after gate 2 and
+**before the first paid call**, so everything downstream of it — verify,
+extraction, resolve, emit — is retryable for the price of the stage that
+failed. `candidate.searched_at` is the resume flag, and it is stamped even
+when the set is empty, because "searched, found nothing" and "never searched"
+are different states that a row count cannot tell apart.
+
+That alone got the retry back to the same source set without the network, and
+it was not enough. Replaying whole page text still pays §7: `assemble` chunks
+every source and `passages._rank_chunks` encodes every chunk against every
+retrieval question — **strictly more embedding work than gate 2 does** (two
+vectors per source), and it loads the tokenizer besides (`text/chunk.py:104`).
+So the resume skipped the cheap embedding pass and kept the expensive one.
+
+`candidate_prompt` closes that: the assembled `[Sn]` blocks, per bucket —
+`prompt` for the main call, `verify` for §6a, which assembles its own set and
+pays its own ranking. A resumed candidate reads them and goes straight to
+prompt construction, touching the encoder only for `resolve`'s single name
+vector. Two rules on it:
+
+- **The label is not stored.** §8's contract (`worker/extract_types.py`) is
+  that `label` is prompt-local and `source_id` durable; persisting `S1` would
+  break it. Labels are re-derived as `S{i}` over the stored order, which
+  reproduces the original exactly because `assemble` assigns them by first
+  appearance in that same order.
+- **`assemble`'s coverage counters are stored, not recomputed.** They are
+  E3's regression detector; a resumed run silently reporting zeroes would
+  disarm it.
+
+The blocks are derived from the source set, so they are deleted whenever the
+set is rewritten. Keeping them across a re-search would resume a new set into
+an old prompt — the one way this cache could be wrong rather than merely
+slow.
+
+A resumed candidate also skips gate 1. That screen reads the name and the
+intake snippet — the same inputs, unchanged between runs — so a second screen
+can only agree at a cost, or disagree and discard a source set already paid
+for in search time.
+
+`--no-resume` re-runs the three stages, and it is the right flag exactly when
+their *inputs* changed: a widened `FPH_MAX_SOURCES_*`, a repaired SearXNG
+instance, a first set thin enough to be worth re-searching. Nothing expires
+the stored set on age; staleness is the operator's call, not a timer's.
+
+One consequence, handled: `write_findings` inserts unconditionally and
+`finding` has no unique key, so a second pass would double the ledger and
+leave `claims_from_findings` reconciling a source against itself. The
+candidate's findings are cleared immediately before the rewrite — the ledger
+is re-derived per run, not accumulated across runs.
+
 ---
 
 ## 14. Open decisions

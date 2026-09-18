@@ -116,8 +116,13 @@ CREATE TABLE source (
   -- refetch strategy might help (PageState.kind, empty string stored as NULL).
   page_state    TEXT CHECK (page_state IS NULL OR page_state IN
                 ('ok', 'thin', 'blocked', 'missing', 'empty')),
+  -- 'too_large' (worker/fetch.py's PDF page/byte-size cap, 2026-09-19) is not
+  -- a wall — nothing refused to serve the page — but it shares page_kind's
+  -- "why is this not usable" job, so it lives in the same enum rather than a
+  -- new column.
   page_kind     TEXT CHECK (page_kind IS NULL OR page_kind IN
-                ('js', 'cookies', 'bot', 'forbidden', 'login', 'missing', 'shell')),
+                ('js', 'cookies', 'bot', 'forbidden', 'login', 'missing', 'shell',
+                 'too_large')),
   words         INTEGER,
   http_status   INTEGER,
   fetched_at    TEXT,
@@ -290,11 +295,120 @@ CREATE TABLE candidate (
   resolved_to    TEXT,         -- id in problem/actor once promoted
   dup_of         INTEGER REFERENCES candidate (id),
   evidence       TEXT,
+  -- searched_at (schema v4, migrate/m0004_candidate_source.py): when the
+  -- fetch+search+gate-2 stages last completed for this candidate. Not a
+  -- timestamp for display — it is the resume flag. NULL means those stages
+  -- have never run, so `candidate_source` holding no rows for this id is
+  -- "not searched yet"; non-NULL means they ran and the source set below is
+  -- complete, even when it is empty (a candidate whose every source was
+  -- dropped is a real, reproducible outcome, not a missing cache).
+  searched_at    TEXT,
   first_seen     TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
 CREATE INDEX candidate_queue_ix ON candidate (admitted, score DESC)
   WHERE admitted IS NULL;
+
+-- ------------------------------------------------------- candidate_source ---
+-- The resume point (05-worker-optimisations.md, "Handling failures instead
+-- starting from scratch"). Extraction is the failure-prone stage and the one
+-- worth retrying, but a retry used to redo the two stages above it: ~17
+-- search families at a 2s throttle floor, then a local embedding pass per
+-- fetched page. Half an hour, repaid to recover a call that costs seconds.
+--
+-- The page TEXT was never the missing piece — `source.path` has held it on
+-- disk since E0. What died with `run_batch`'s frame was the *membership*:
+-- which URLs search chose for THIS candidate, and what gate 2 said about
+-- each. That is all this table stores; text is read back through `source`.
+--
+-- No text column, and no row per dropped source: a DROP is not part of the
+-- set by definition, and `searched_at` above already distinguishes "searched,
+-- found nothing" from "never searched".
+CREATE TABLE candidate_source (
+  candidate_id INTEGER NOT NULL REFERENCES candidate (id),
+  source_id    TEXT NOT NULL REFERENCES source (id),
+  url          TEXT NOT NULL,
+  -- search/confirm_policy.py's vocabulary, verbatim — SEED/SEARCH and
+  -- PROMPT/VERIFY. `route` is the field the worker branches on when it
+  -- rebuilds the set: PROMPT sources go to the extraction prompt, VERIFY
+  -- sources to the verify-and-extract pass, exactly as on the first run.
+  origin       TEXT NOT NULL CHECK (origin IN ('seed', 'search')),
+  route        TEXT NOT NULL CHECK (route IN ('prompt', 'verify')),
+  -- gate 2's own verdict, so resuming never re-embeds. NULL is impossible
+  -- for a routed source today (NO_VERDICT drops), but stays nullable rather
+  -- than asserting a policy invariant in a storage constraint.
+  verdict      TEXT CHECK (verdict IS NULL OR verdict IN ('confirmed', 'uncertain')),
+  recorded_at  TEXT NOT NULL DEFAULT (datetime('now')),
+  PRIMARY KEY (candidate_id, source_id)
+) WITHOUT ROWID;
+
+-- ------------------------------------------------------- candidate_prompt ---
+-- The second half of the resume point, and the larger half in wall clock.
+--
+-- `candidate_source` above gets a retry back to the same source set without
+-- the network. It does NOT get it there without the encoder:
+-- `worker/extract.py:assemble` still chunks every source and
+-- `worker/passages.py:_rank_chunks` still encodes every chunk against every
+-- retrieval question. That is strictly more embedding work than gate 2 does
+-- (two vectors per source), and it loads the tokenizer besides
+-- (`text/chunk.py:104`). Replaying whole text therefore skipped the cheap
+-- embedding pass and kept the expensive one.
+--
+-- So the assembly output is stored too: the `[Sn]` blocks exactly as
+-- `assemble` built them, per bucket — `prompt` for the main extraction call,
+-- `verify` for §6a's second-opinion pass, which assembles its own set and
+-- pays its own ranking. A resumed candidate reads these and goes straight to
+-- prompt construction, loading the encoder only for `resolve`'s single
+-- name vector.
+--
+-- `blocks` is a JSON array in label order. The LABEL ITSELF IS NOT STORED,
+-- deliberately: `worker/extract_types.py` freezes "label is prompt-local,
+-- `source_id` is durable", and persisting `S1` would break that. Labels are
+-- re-derived as `S{i}` over the array on load, which reproduces the original
+-- exactly because `assemble` assigns them by first appearance in this same
+-- order.
+--
+-- Derived and disposable. Dropping every row costs one re-assembly, never a
+-- fact — which is why the text is duplicated here without apology.
+CREATE TABLE candidate_prompt (
+  candidate_id INTEGER NOT NULL REFERENCES candidate (id),
+  bucket       TEXT NOT NULL CHECK (bucket IN ('prompt', 'verify')),
+  blocks       TEXT NOT NULL,   -- JSON: [{source_id, url, text, chunk_refs, chunk_texts}]
+  -- `assemble`'s own counters (sources_fetched / in_prompt / never_selected
+  -- / dropped_by_cap). Stored rather than recomputed so a resumed run's
+  -- report reads identically to the run that built the set — E3's coverage
+  -- counters are a regression detector, and a resume that silently reported
+  -- zeroes would disarm it.
+  coverage     TEXT,
+  assembled_at TEXT NOT NULL DEFAULT (datetime('now')),
+  PRIMARY KEY (candidate_id, bucket)
+) WITHOUT ROWID;
+
+-- --------------------------------------------------- candidate_resolution ---
+-- The last encoder call on a resumed candidate. `worker/resolve.py` tries the
+-- free normalized alias match first and only pays an encode + kNN when that
+-- misses — so this table does nothing for a `--force` refresh (the entity's
+-- alias is already written, the match hits, no model loads). Where it does
+-- bite is the escalation queue: an `ambiguous` candidate keeps
+-- `resolved_to IS NULL`, so the CLI's queue re-selects it on every run, and
+-- it paid a fresh encode + kNN every time to reach the same verdict.
+--
+-- Reuse is NOT blind, because this is the one cached stage whose correct
+-- answer legitimately changes between runs — the graph gains entities, so a
+-- candidate that was `new` an hour ago may match one now. Two guards, both
+-- free, in `worker/worker.py:_load_resolution`: the alias match is re-run
+-- first and a live hit beats the cached row, and a cached `entity_id` that
+-- no longer exists falls through to a full resolve. Cleared with the source
+-- set, since the embedding context is the seed text.
+CREATE TABLE candidate_resolution (
+  candidate_id INTEGER PRIMARY KEY REFERENCES candidate (id),
+  decision     TEXT NOT NULL CHECK (decision IN
+               ('exact', 'shortlist_top', 'ambiguous', 'new')),
+  entity_id    TEXT,
+  shortlist    TEXT,          -- JSON: [[entity_id, cosine], …]
+  reason       TEXT,
+  resolved_at  TEXT NOT NULL DEFAULT (datetime('now'))
+) WITHOUT ROWID;
 
 -- ---------------------------------------------------------------- finding ---
 -- The dive loop's raw fact ledger (`worker/dive.py`, `worker/questions.py`) —
@@ -329,6 +443,14 @@ CREATE TABLE finding (
   -- Nullable: only closed-enum classification answers carry a reason;
   -- everything else writes None.
   reason        TEXT,
+  -- chunk_text (schema v5, migrate/m0005_finding_chunk_text.py): the exact
+  -- paragraph `chunk_ref` points at, taken verbatim from the
+  -- `PromptSource.chunk_texts` already in hand at extraction time rather
+  -- than re-chunked from `source.path` at read time — a reference for a
+  -- leaf page or generated doc to show without re-deriving chunk
+  -- boundaries later. Nullable: only set when the answer resolved a
+  -- chunk marker (worker/extract_types.py's Answer.chunk_ref).
+  chunk_text    TEXT,
   gathered_at   TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
