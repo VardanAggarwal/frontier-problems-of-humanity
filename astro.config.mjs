@@ -443,11 +443,78 @@ function workerRunner() {
   };
 }
 
+/** Dev-only. POST /api/worker/rerun {kind, id, noSearch?} → finds every
+ *  candidate row whose resolved_to is this entity, and re-runs worker.py
+ *  against them with --force, streaming stdout/stderr exactly like
+ *  /api/worker/run. Convenience for a leaf/actor page's "re-run through
+ *  worker" button — the alternative is hunting the same candidate ids by
+ *  hand on /worker. 404s with no process spawned when no candidate row
+ *  resolves to this entity (a record created outside the worker, e.g. via
+ *  /triage or process-leaf, has none — nothing for --force to reprocess). */
+function workerRerunEntity() {
+  return {
+    name: 'fph:worker-rerun-entity',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use('/api/worker/rerun', (req, res, next) => {
+        if (req.method !== 'POST') return next();
+        let body = '';
+        req.on('data', (c) => (body += c));
+        req.on('end', () => {
+          let parsed;
+          try { parsed = JSON.parse(body || '{}'); } catch (e) {
+            res.statusCode = 400; return res.end('bad JSON body: ' + e.message);
+          }
+          const { kind, id, noSearch } = parsed;
+          if (kind !== 'problem' && kind !== 'actor') {
+            res.statusCode = 400; return res.end('kind must be "problem" or "actor"');
+          }
+          if (!id) { res.statusCode = 400; return res.end('id is required'); }
+
+          const g = openGraphWritable(GRAPH_DB);
+          let ids;
+          try {
+            ids = g.prepare(
+              'SELECT id FROM candidate WHERE kind = ? AND resolved_to = ? ORDER BY first_seen'
+            ).all(kind, id).map((r) => r.id);
+          } finally { g.close(); }
+
+          if (ids.length === 0) {
+            res.statusCode = 404;
+            return res.end(`no candidate row resolves to ${kind}/${id} — nothing to re-run (seed one from /worker instead)`);
+          }
+
+          const args = ['-m', 'worker.worker', '--db', GRAPH_DB, '--corpus', REPO_ROOT,
+            '--ids', ids.join(','), '--force'];
+          if (noSearch) args.push('--no-search');
+
+          res.statusCode = 200;
+          res.setHeader('content-type', 'text/plain; charset=utf-8');
+          res.write(`$ ${PYTHON_BIN} ${args.join(' ')}\n(cwd: ${ENGINE_DIR})\n\n`);
+
+          const child = spawn(PYTHON_BIN, args, { cwd: ENGINE_DIR });
+          child.stdout.on('data', (c) => res.write(c));
+          child.stderr.on('data', (c) => res.write(c));
+          child.on('error', (e) => { res.write(`\n[spawn failed] ${e.message}\n`); res.end(); });
+          child.on('close', (code) => {
+            markSelfWrite(GRAPH_DB); // a run may have written claims/edges
+            res.write(`\n[exit ${code}]\n`);
+            res.end();
+          });
+          res.on('close', () => {
+            if (!res.writableEnded && !child.killed) child.kill();
+          });
+        });
+      });
+    },
+  };
+}
+
 export default defineConfig({
   site: 'https://frontier-problems.example',
   outDir: './dist',
   build: { format: 'directory' },
   markdown: { syntaxHighlight: false },
   vite: { plugins: [watchCorpus(), followWriter(), excludeWriter(), candidateSeeder(), candidateLister(),
-    workerRunner(), problemOrphanLister(), needsLister(), problemPromoter()] },
+    workerRunner(), workerRerunEntity(), problemOrphanLister(), needsLister(), problemPromoter()] },
 });
