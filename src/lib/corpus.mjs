@@ -33,7 +33,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
 import { parseSections, sectionIssues, parseTierFile } from './sections.mjs';
-import { openGraph, tagValue, tagValues, aliasesOf, jsonArr, edgesOut, edgesIn } from './graphdb.mjs';
+import { openGraph, tagValue, tagValues, aliasesOf, jsonArr, edgesOut, edgesIn, findingRef } from './graphdb.mjs';
 
 export const ROOT = path.resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const P = (...s) => path.join(ROOT, ...s);
@@ -144,12 +144,28 @@ export function loadCorpus() {
       // (engine/questions.yaml: p4_needs_legs, p5-p12) — surfaced here so a
       // worker-authored leaf with doc: NULL isn't silently missing them.
       needs_legs: jsonArr(row.needs_legs),
-      magnitude: tagValue(g, 'problem', id, 'magnitude'),
-      differential_vulnerability: tagValue(g, 'problem', id, 'differential_vulnerability'),
-      measurement_state: tagValue(g, 'problem', id, 'measurement_state'),
-      burden_note: tagValue(g, 'problem', id, 'burden_note'),
-      blocker: tagValue(g, 'problem', id, 'blocker'),
-      representation_verdict: tagValue(g, 'problem', id, 'representation_verdict'),
+      // Six free-text fields, each paired with a `_ref` citation resolved
+      // straight to `finding.chunk_text` (schema v5) when exactly one
+      // finding produced the value — see graphdb.mjs:findingRef. The
+      // question_id (p9.../p15...) is engine/questions.yaml's id, not the
+      // tag namespace `tagValue` reads (its claim_field's `tag:` suffix).
+      ...(() => {
+        const FINDING_FIELDS = [
+          ['magnitude', 'p9_magnitude'],
+          ['differential_vulnerability', 'p10_diff_vuln'],
+          ['measurement_state', 'p11_measurement_state'],
+          ['burden_note', 'p13_burden_note'],
+          ['blocker', 'p14_blocker'],
+          ['representation_verdict', 'p15_representation_verdict'],
+        ];
+        const out = {};
+        for (const [ns, qid] of FINDING_FIELDS) {
+          const v = tagValue(g, 'problem', id, ns);
+          out[ns] = v;
+          out[`${ns}_ref`] = findingRef(g, id, qid, v);
+        }
+        return out;
+      })(),
       sources: edgesOut(g, 'problem', id, 'cites').map((e) => {
         const s = g.prepare('SELECT url, title, org, year FROM source WHERE id = ?').get(e.dst_id);
         return s && { url: s.url, title: s.title ?? undefined, org: s.org ?? undefined, year: s.year ?? undefined };
