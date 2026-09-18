@@ -54,48 +54,28 @@ import Base from '../layouts/Base.astro';
   </section>
 
   <section class="panel">
-    <h2>Prioritized pool</h2>
-    <p class="note">
-      The <em>upstream</em> population, not the queue below: <code>admitted IS NULL</code>
-      rows the worker discovered but nothing has promoted yet. Running the pass collapses
-      duplicates (<code>dedup_candidates.py</code> writes <code>dup_of</code>) and ranks
-      what survives (<code>score_candidates.py</code> writes <code>score</code> —
-      0.40·gap + 0.25·discovery + 0.20·freshness + 0.15·scale, one score per cluster).
-      Only representatives are listed; a <code>×N</code> badge says how many rows the
-      representative stands for.
-    </p>
-    <p class="note">
-      <strong>Writes for real, under <code>npm run dev</code>.</strong> Unlike a batch run
-      this makes no fetches and no LLM calls — it's local and cheap, a few seconds of
-      embedding over the pool — but it does write <code>dup_of</code> and
-      <code>score</code>, with an <code>event</code> row per change. Re-running is safe;
-      it recomputes from scratch.
-    </p>
-    <form id="pool-form">
-      <button type="submit" id="pool-btn">Run dedup + score</button>
-    </form>
-    <pre id="pool-log" hidden></pre>
-    <div class="qbar">
-      <button type="button" id="pool-refresh">Refresh</button>
-      <span id="pool-status" role="status" aria-live="polite"></span>
-    </div>
-    <!-- Future work: an "admit" action here, promoting a representative into
-         the Queue section below. Deliberately not built yet. -->
-    <div id="pool-cols" class="pool-cols"></div>
-  </section>
-
-  <section class="panel">
     <h2>Queue</h2>
     <p class="note">
       Admitted, unresolved candidates — the same set <code>worker.py</code>'s
-      <code>--limit</code> would drain, oldest first. Tick the ones to run, or leave
-      none ticked to run the oldest N via the limit box below. Check "show
+      <code>--limit</code> would drain, sorted by <code>score</code> (highest first,
+      unscored last — <code>score_candidates.py</code>'s
+      0.40·gap + 0.25·discovery + 0.20·freshness + 0.15·scale). Tick the ones to run,
+      or leave none ticked to run the oldest N via the limit box below. Check "show
       resolved/rejected too" to tick an already-resolved row — pair it with
       <code>--force</code> below to reprocess it instead of having the run skip it.
+    </p>
+    <p class="note">
+      <strong>"Run dedup + score" writes for real, under <code>npm run dev</code>.</strong>
+      Unlike a batch run this makes no fetches and no LLM calls — it's local and cheap,
+      a few seconds of embedding over the pool — but it does collapse duplicates
+      (<code>dedup_candidates.py</code> writes <code>dup_of</code>) and write
+      <code>score</code>, with an <code>event</code> row per change. Re-running is safe;
+      it recomputes from scratch.
     </p>
     <div class="qbar">
       <button type="button" id="q-refresh">Refresh</button>
       <button type="button" id="q-all-toggle">Select shown</button>
+      <button type="button" id="q-dedup-score-btn">Run dedup + score</button>
       <label class="check">
         <input id="q-show-all" type="checkbox" />
         <span>show resolved/rejected too</span>
@@ -110,6 +90,7 @@ import Base from '../layouts/Base.astro';
       </label>
       <span id="q-status" role="status" aria-live="polite"></span>
     </div>
+    <pre id="q-dedup-log" hidden></pre>
     <ul id="q-list" class="qlist"></ul>
   </section>
 
@@ -190,34 +171,14 @@ import Base from '../layouts/Base.astro';
     .qmeta { flex: none; color: var(--muted); font: .68rem/1 var(--mono); }
     .qmeta a { color: var(--accent); }
     .qempty { font: .8rem/1 var(--sans); color: var(--muted); font-style: italic; padding: .6rem .2rem; }
-    #pool-log {
+    .qscore { flex: none; width: 2.9rem; text-align: right; font: .72rem/1 var(--mono); color: var(--accent); }
+    .qscore[data-null="1"] { color: var(--muted); }
+    #q-dedup-log {
       margin-top: .6rem; max-height: 20rem; overflow: auto; white-space: pre-wrap;
       font: .72rem/1.5 var(--mono); background: var(--panel); border: 1px solid var(--rule);
       border-radius: .3rem; padding: .7rem;
     }
-    #pool-log[data-tone="err"] { color: var(--alarm); }
-    #pool-status { font: .72rem/1 var(--mono); color: var(--muted); }
-    #pool-status[data-tone="err"] { color: var(--alarm); }
-    .pool-cols { display: flex; flex-wrap: wrap; gap: 1.4rem; }
-    .pool-col { flex: 1 1 22rem; min-width: 0; }
-    .pool-col h3 {
-      font: .7rem/1 var(--mono); color: var(--muted); text-transform: uppercase;
-      margin: 0 0 .2rem; letter-spacing: .04em;
-    }
-    .pool-trunc { font: .68rem/1.4 var(--mono); color: var(--muted); margin: .1rem 0 .4rem; }
-    .plist { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); max-height: 24rem; overflow: auto; }
-    .prow {
-      display: flex; gap: .55rem; align-items: baseline; padding: .34rem .2rem;
-      border-bottom: 1px solid var(--rule); font: .78rem/1.4 var(--sans);
-    }
-    .pscore { flex: none; width: 2.9rem; text-align: right; font: .72rem/1 var(--mono); color: var(--accent); }
-    .pscore[data-null="1"] { color: var(--muted); }
-    .pbadge {
-      flex: none; font: .64rem/1 var(--mono); color: var(--muted);
-      border: 1px solid var(--rule); border-radius: 999px; padding: .15rem .38rem;
-    }
-    .pname { flex: 1 1 auto; min-width: 0; }
-    .pmeta { flex: none; color: var(--muted); font: .66rem/1 var(--mono); }
+    #q-dedup-log[data-tone="err"] { color: var(--alarm); }
   </style>
 
   <script is:inline>
@@ -258,13 +219,21 @@ import Base from '../layouts/Base.astro';
 
       function fmtDate(s) { return (s || '').slice(0, 10); }
 
+      function byScoreDesc(a, b) {
+        var as = a.score === null || a.score === undefined;
+        var bs = b.score === null || b.score === undefined;
+        if (as !== bs) return as ? 1 : -1; // unscored sorts last
+        if (as && bs) return 0;
+        return b.score - a.score;
+      }
+
       function renderQueue(rows) {
-        queueRows = rows;
+        queueRows = rows.slice().sort(byScoreDesc);
 
         var kind = qKindFilter.value;
         var shownRows = kind === 'all'
-          ? rows
-          : rows.filter(function (r) { return r.kind === kind; });
+          ? queueRows
+          : queueRows.filter(function (r) { return r.kind === kind; });
 
         qList.innerHTML = '';
         if (!shownRows.length) {
@@ -291,6 +260,13 @@ import Base from '../layouts/Base.astro';
           });
           var id = document.createElement('span'); id.className = 'qid'; id.textContent = '#' + r.id;
           var kind = document.createElement('span'); kind.className = 'qkind'; kind.textContent = r.kind;
+          var sc = document.createElement('span'); sc.className = 'qscore';
+          if (r.score === null || r.score === undefined) {
+            sc.textContent = '—'; sc.dataset.null = '1';
+            sc.title = 'not scored yet — run dedup + score';
+          } else {
+            sc.textContent = Number(r.score).toFixed(3);
+          }
           var name = document.createElement('span'); name.className = 'qname'; name.textContent = r.name;
           var meta = document.createElement('span'); meta.className = 'qmeta';
           if (r.resolved_to) {
@@ -310,7 +286,7 @@ import Base from '../layouts/Base.astro';
           } else {
             meta.textContent = fmtDate(r.first_seen);
           }
-          li.appendChild(cb); li.appendChild(id); li.appendChild(kind); li.appendChild(name); li.appendChild(meta);
+          li.appendChild(cb); li.appendChild(id); li.appendChild(kind); li.appendChild(sc); li.appendChild(name); li.appendChild(meta);
           qList.appendChild(li);
         });
       }
@@ -360,125 +336,42 @@ import Base from '../layouts/Base.astro';
       // immediately tickable without a manual refresh.
       seedForm.addEventListener('submit', function () { setTimeout(loadQueue, 300); });
 
-      // ── Prioritized pool: the upstream `admitted IS NULL` population ──
-      var POOL_LIMIT = 50;
-      var poolCols = document.getElementById('pool-cols');
-      var poolStatus = document.getElementById('pool-status');
-      var poolForm = document.getElementById('pool-form');
-      var poolBtn = document.getElementById('pool-btn');
-      var poolLog = document.getElementById('pool-log');
+      // ── Dedup + score: collapses duplicates and (re)ranks the whole
+      // candidate pool (queued and upstream alike); reload the queue after so
+      // its score sort reflects the new numbers. ──
+      var dedupScoreBtn = document.getElementById('q-dedup-score-btn');
+      var dedupLog = document.getElementById('q-dedup-log');
 
-      function renderPool(pools) {
-        poolCols.innerHTML = '';
-        ['problem', 'actor'].forEach(function (kind) {
-          var pool = pools[kind];
-          if (!pool) return;
-          var col = document.createElement('div');
-          col.className = 'pool-col';
-          var h = document.createElement('h3');
-          h.textContent = kind + ' — ' + pool.total + ' representative' + (pool.total === 1 ? '' : 's');
-          col.appendChild(h);
-          if (pool.total > pool.rows.length) {
-            var t = document.createElement('p');
-            t.className = 'pool-trunc';
-            t.textContent = 'showing top ' + pool.rows.length + ' by score; ' +
-              (pool.total - pool.rows.length) + ' more not shown';
-            col.appendChild(t);
-          }
-          var ul = document.createElement('ul');
-          ul.className = 'plist';
-          if (!pool.rows.length) {
-            var empty = document.createElement('li');
-            empty.className = 'qempty';
-            empty.textContent = 'pool empty';
-            ul.appendChild(empty);
-          }
-          pool.rows.forEach(function (r) {
-            var li = document.createElement('li');
-            li.className = 'prow';
-            var sc = document.createElement('span');
-            sc.className = 'pscore';
-            if (r.score === null || r.score === undefined) {
-              sc.textContent = '—'; sc.dataset.null = '1';
-              sc.title = 'not scored yet — run dedup + score';
-            } else {
-              sc.textContent = Number(r.score).toFixed(3);
-            }
-            var name = document.createElement('span');
-            name.className = 'pname'; name.textContent = r.name;
-            var meta = document.createElement('span');
-            meta.className = 'pmeta'; meta.textContent = fmtDate(r.first_seen);
-            li.appendChild(sc);
-            if (r.cluster_size > 1) {
-              var b = document.createElement('span');
-              b.className = 'pbadge';
-              b.textContent = '×' + r.cluster_size;
-              b.title = 'stands for ' + r.cluster_size + ' candidate rows';
-              li.appendChild(b);
-            }
-            li.appendChild(name); li.appendChild(meta);
-            ul.appendChild(li);
-          });
-          col.appendChild(ul);
-          poolCols.appendChild(col);
-        });
-      }
-
-      function loadPool() {
-        poolStatus.textContent = 'loading…';
-        delete poolStatus.dataset.tone;
-        fetch('/api/candidates/pool?limit=' + POOL_LIMIT).then(function (res) {
-          if (!res.ok) return res.text().then(function (t) { throw new Error('HTTP ' + res.status + ': ' + t); });
-          return res.json();
-        }).then(function (j) {
-          if (j.error) throw new Error(j.error);
-          renderPool(j.pools);
-          var n = 0, scored = 0;
-          Object.keys(j.pools).forEach(function (k) {
-            n += j.pools[k].total;
-            scored += j.pools[k].rows.filter(function (r) { return r.score !== null; }).length;
-          });
-          poolStatus.textContent = n + ' representatives' + (scored ? '' : ' — none scored yet');
-        }).catch(function (e) {
-          poolCols.innerHTML = '';
-          poolStatus.textContent = 'not loaded (' + e.message + ') — needs `npm run dev`';
-          poolStatus.dataset.tone = 'err';
-        });
-      }
-      document.getElementById('pool-refresh').addEventListener('click', loadPool);
-
-      poolForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        poolBtn.disabled = true;
-        delete poolLog.dataset.tone;
-        poolLog.hidden = false;
-        poolLog.textContent = 'starting…\n';
+      dedupScoreBtn.addEventListener('click', function () {
+        dedupScoreBtn.disabled = true;
+        delete dedupLog.dataset.tone;
+        dedupLog.hidden = false;
+        dedupLog.textContent = 'starting…\n';
         fetch('/api/candidates/dedup-score', {
           method: 'POST', headers: { 'content-type': 'application/json' },
           body: '{}',
         }).then(function (res) {
           if (!res.ok || !res.body) return res.text().then(function (t) { throw new Error('HTTP ' + res.status + ': ' + t); });
-          poolLog.textContent = '';
+          dedupLog.textContent = '';
           var reader = res.body.getReader();
           var decoder = new TextDecoder();
           function pump() {
             return reader.read().then(function (r) {
               if (r.done) return;
-              poolLog.textContent += decoder.decode(r.value, { stream: true });
-              poolLog.scrollTop = poolLog.scrollHeight;
+              dedupLog.textContent += decoder.decode(r.value, { stream: true });
+              dedupLog.scrollTop = dedupLog.scrollHeight;
               return pump();
             });
           }
           return pump();
         }).catch(function (e) {
-          poolLog.textContent += '\n[failed] ' + e.message + '\n';
-          poolLog.dataset.tone = 'err';
+          dedupLog.textContent += '\n[failed] ' + e.message + '\n';
+          dedupLog.dataset.tone = 'err';
         }).then(function () {
-          poolBtn.disabled = false;
-          loadPool();
+          dedupScoreBtn.disabled = false;
+          loadQueue();
         });
       });
-      loadPool();
 
       var runForm = document.getElementById('run-form');
       var runBtn = document.getElementById('run-btn');
