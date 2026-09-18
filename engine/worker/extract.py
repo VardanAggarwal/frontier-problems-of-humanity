@@ -356,8 +356,15 @@ def claims_from_findings(
         # `_apply_other_claims` a literal "<kind>" to log and drop. The finding
         # is written either way; only the claim is withheld.
         if field == "emits/edges" or "<" in field:
-            notes.append(f"{qid}: claim_field {field!r} is not a bare claim "
-                         f"field — {len(group)} finding(s) kept, no claim")
+            # Phrased as the routing decision it is, not as a complaint
+            # (2026-09-18). The old wording — "claim_field 'emits/edges' is not
+            # a bare claim field" — fires on every single problem candidate,
+            # reads like a warning about a misconfiguration, and sent a reader
+            # of the run log hunting for a bug in questions.yaml. Nothing is
+            # wrong when this fires; it is the designed path.
+            notes.append(f"{qid}: {len(group)} finding(s) kept, routed to "
+                         f"{'stage 8 (emits/edges)' if field == 'emits/edges' else f'{field} at write time'} "
+                         f"rather than a claim — as designed, not an error")
             continue
 
         if len(group) == 1:

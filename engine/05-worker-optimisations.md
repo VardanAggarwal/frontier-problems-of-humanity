@@ -1,3 +1,55 @@
+## 2026-09-18b — post-drop thin check, trailing fallbacks, log wording
+
+Three follow-ups off the first clean run.
+
+**1. Post-drop thin check (`worker/worker.py`).** Candidate 528 had 7 of its 8
+sources flagged misidentified by Rule 4 — urbandictionary.com, openai.com, a UK
+cost-of-living article, a Nigerian logistics post, a Hindi UP-government page —
+and then wrote a complete 19-finding record off the single survivor with
+nothing saying so. The existing escalation (`prompt_set_is_thin`,
+`MAX_SOURCES_ESCALATE`) could never catch this: it runs *before* extraction on
+gate 2's verdict, and Rule 4 exists precisely because gate 2's verdict is the
+unreliable one — it reads ~500 characters, the extraction model reads the whole
+page. So the case where the confirmed set collapses was the one case that could
+not ask for a second witness.
+
+The §6a verify pass is now factored into `_run_verify_pass()` with two callers:
+the original pre-extraction gate, and a re-check after `drop_misidentified`
+that runs the same function against the set we actually ended up with. New
+counter `post_drop_thin`. When there is nothing left to escalate to, it says so
+in the log rather than writing a record that reads as well-sourced.
+
+Verified on 528: `post-drop thin check: 7 of 8 source(s) dropped — confirmed
+set has 1 source(s), below min_sources=2` → verify pass runs → `verify_about=1,
+verify_different=1`. The pool held nothing usable (gourban.in turned out to be
+a smartwatch e-commerce site), which is the correct outcome and a
+search-precision finding, not a machinery failure.
+
+Note: the check counts `sources`, not `prompt_sources`, matching the
+pre-extraction check's input population so the two verdicts are comparable. A
+source never selected into the prompt is therefore counted as surviving.
+
+**2. Trailing fallback models (`.env`).** gemma-4-31b, gemma-4-26b-a4b and
+qwen3.8-27b are congested upstream and 429 on nearly every call — but they 429
+in ~1s, so carrying them after the two verified entries costs ~3s worst case
+and covers both primaries being down at once.
+
+**3. Log wording (`worker/extract.py`).** `claim_field 'emits/edges' is not a
+bare claim field` fired on every problem candidate and read like a
+misconfiguration warning. Nothing is wrong when it fires; it is the designed
+routing path. Now: `19 finding(s) kept, routed to stage 8 (emits/edges) rather
+than a claim — as designed, not an error`.
+
+**Still open, in priority order.** Candidate concurrency (76% of wall time is
+one blocking HTTP call per candidate and `run_batch` is a strict `for cid in
+alive:`; `_openrouter_pace` is already a thread-safe lock built for concurrent
+callers and serves exactly one — blocked on the shared sqlite conn). PDF
+extraction (37 PDFs dropped across three candidates while openai.com and
+urbanacres.in blogspam got through). Gate 2 band precision (0.78/0.80, labelled
+"provisional, not measured" in their own log line; 528 measures them). Why 552
+put all 19 findings on 1 of 7 sources with zero misidentified flags, while 560
+spread across 6 of 6.
+
 ## 2026-09-18 — extraction failure: hidden reasoning tokens, not malformed JSON
 
 Candidates 528/552/560 had been failing extraction for two days. Every fix

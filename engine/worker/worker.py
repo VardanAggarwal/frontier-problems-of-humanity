@@ -1058,6 +1058,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         # `verify_different` — that one is the uncertain bucket's false
         # negatives, this one is the confirmed set's false positives.
         "sources_flagged_misidentified": 0,
+        "post_drop_thin": 0,
         "verify_pass_calls": 0, "verify_answers_merged": 0,
         "verify_about": 0, "verify_different": 0,
         "verify_unrelated": 0, "verify_insufficient": 0,
@@ -1276,9 +1277,20 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             # much as the call it supplements.
             verified_answers: list[Answer] = []
             verify_sources: list = []
-            thin, why = prompt_set_is_thin([s.text for s in sources])
-            log(f"worker: candidate {cid} stage=verify-check: {why}")
-            if thin and unverified:
+
+            def _run_verify_pass() -> tuple[list, list]:
+                """The §6a pass over `unverified`, factored out 2026-09-18 so it
+                has two callers. It used to have one, here, gated on gate 2's
+                pre-extraction thinness verdict — but that is the verdict Rule 4
+                exists to overrule, so the one case that most needs a second
+                witness was the one case that could not ask for one. See the
+                post-drop re-check below `drop_misidentified`.
+
+                Returns `(answers, sources)`, both empty when the pass does not
+                run or fails. Idempotent per candidate in practice: the second
+                caller only fires when the first did not."""
+                v_answers_out: list = []
+                v_sources_out: list = []
                 log(f"worker: candidate {cid} stage=verify")
                 report["verify_pass_calls"] += 1
                 # Cached like the main set: §6a assembles its own bucket and pays
@@ -1324,8 +1336,14 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                         # paid for once. They merge into the ledger below with the
                         # same provenance as any other answer — `verify_sources`
                         # carries their urls so §9 can attribute them.
-                        verified_answers = v_answers
-                        verify_sources = v_sources
+                        v_answers_out = v_answers
+                        v_sources_out = v_sources
+                return v_answers_out, v_sources_out
+
+            thin, why = prompt_set_is_thin([s.text for s in sources])
+            log(f"worker: candidate {cid} stage=verify-check: {why}")
+            if thin and unverified:
+                verified_answers, verify_sources = _run_verify_pass()
             elif unverified:
                 log(f"worker: candidate {cid} {len(unverified)} unverified "
                     f"source(s) left unread — confirmed set was adequate")
@@ -1508,6 +1526,54 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                             f"as misidentified: {f['url'][:70]}"
                             + (f" — actually about: {f['about_what'][:60]}"
                                if f["about_what"] else ""))
+                    # Re-run the thinness check on what SURVIVED the drop
+                    # (2026-09-18). Candidate 528 is the motivating case: 7 of
+                    # its 8 sources were flagged misidentified — urbandictionary
+                    # .com, openai.com, a UK cost-of-living article, a Nigerian
+                    # logistics post, a Hindi UP-government page, all of which
+                    # gate 2 had CONFIRMED (urbandictionary at cosine 0.812,
+                    # openai.com at 0.811, against a candidate name containing
+                    # the word "urban") — and the candidate then wrote a
+                    # complete 19-finding record off the single survivor without
+                    # anything saying so.
+                    #
+                    # The pre-extraction check above cannot catch this: it runs
+                    # on gate 2's verdict, and Rule 4 exists precisely because
+                    # gate 2's verdict is the unreliable one — it reads ~500
+                    # characters, the extraction model reads the whole page. So
+                    # the case where the confirmed set collapses is exactly the
+                    # case the existing escalation could never see. Same
+                    # function, same thresholds, applied to the set we actually
+                    # ended up with rather than the one we hoped for.
+                    surviving = [s_ for s_ in sources
+                                 if s_.source_id not in flagged]
+                    post_thin, post_why = prompt_set_is_thin(
+                        [s_.text for s_ in surviving])
+                    log(f"worker: candidate {cid} post-drop thin check: "
+                        f"{len(flagged)} of {len(sources)} source(s) dropped — "
+                        f"{post_why}")
+                    if post_thin:
+                        report["post_drop_thin"] += 1
+                        if unverified and not verified_answers:
+                            # The unverified pool was left unread because the
+                            # PRE-drop set looked adequate. It no longer is, and
+                            # this is the pool's whole purpose — gate-2
+                            # `uncertain` material that the band sweep showed is
+                            # not uniformly junk. Read it now.
+                            log(f"worker: candidate {cid} post-drop set is thin "
+                                f"and {len(unverified)} unverified source(s) "
+                                f"were left unread — running the verify pass now")
+                            verified_answers, verify_sources = _run_verify_pass()
+                        else:
+                            # Nothing left to escalate to. Say so plainly rather
+                            # than writing a record that reads as well-sourced:
+                            # this is a coverage finding about the candidate, not
+                            # a silent success.
+                            log(f"worker: candidate {cid} post-drop set is thin "
+                                f"and there is nothing left to escalate to "
+                                f"({len(unverified)} unverified, verify pass "
+                                f"{'already run' if verified_answers else 'unavailable'})"
+                                f" — findings rest on {len(surviving)} source(s)")
                 for problem in problems:
                     log(f"worker: candidate {cid} {problem}")
             report["extracted"] += 1

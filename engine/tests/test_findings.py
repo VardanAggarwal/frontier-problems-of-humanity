@@ -265,7 +265,11 @@ def test_templated_and_emit_claim_fields_make_no_claim():
     ])
     assert claims == []
     assert len(notes) == 2
-    assert all("no claim" in n for n in notes)
+    # Wording changed 2026-09-18: this note fires on every problem candidate
+    # and used to read like a misconfiguration warning. What it must still
+    # assert is that no claim was produced and the finding was kept.
+    assert all("rather than a claim" in n for n in notes)
+    assert all("finding(s) kept" in n for n in notes)
 
 
 def test_unknown_question_id_makes_no_claim_but_is_reported():
