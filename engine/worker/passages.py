@@ -74,6 +74,29 @@ explicitly (`questions.yaml`) — a bucket that ranks India-relevant content
 higher to begin with needs this top-up less, but a term-list top-up costs
 nothing when the ranking already got it right (it only adds chunks no
 bucket already kept).
+
+**Candidate-identity gate.** All of the above ranks by topical similarity to
+the question buckets; nothing checked that a chunk was actually about the
+candidate being processed. 2026-09-19: `anaemia-mukt-bharat` (candidate.id
+839) had all 20 of its extracted answers describe an unrelated org,
+"WeTheChange" (a menstrual-health nonprofit). Root cause: one fetched source,
+a LinkedIn page pulled in because it mentioned "Anaemia Mukt Bharat" once,
+also carried an unrelated WeTheChange "we're hiring" job-ad paragraph
+(feed/sidebar bleed from the page's own layout). That paragraph was a
+near-perfect semantic match for buckets like funding/contact/ask-offer, so it
+out-scored the ~34 genuinely on-topic chunks across nearly every bucket and
+dominated the extraction prompt. `select(..., candidate_name=...)` adds a
+cheap pre-filter, reusing `worker/identity.py`'s `_name_tokens`/
+`_text_mentions_actor` (built for the structurally identical
+`tara-mani-sah` channel-mismatch bug, see that module's docstring): before
+ranking, narrow `chunks` to those that mention at least one of the
+candidate's own distinctive name tokens, *if* any chunk does. If none of the
+fetched chunks ever spell out the candidate's name (abbreviation-only or
+pronoun-heavy source set — a real, if rarer, shape than the failure above),
+the filter is a no-op rather than a wipeout: `select()` degrades to the
+unfiltered pool, same "degraded selection rather than a crash" philosophy as
+the encoder-unavailable path above (`03-worker.md` §13) — precision over
+recall, with a non-zero-recall escape hatch rather than an empty result.
 """
 from __future__ import annotations
 
@@ -82,6 +105,7 @@ from typing import Sequence
 
 from embed.model import encode
 from text.chunk import Chunk
+from worker.identity import _name_tokens, _text_mentions_actor
 from worker.questions import Question, Registry
 from worker.questions import REGISTRY as DEFAULT_REGISTRY
 
@@ -165,7 +189,8 @@ def _bucket_ids(questions: Sequence[Question]) -> list[str]:
 def select(chunks: Sequence[Chunk], questions: Sequence[Question], k: int | None = None,
            *, registry: Registry = DEFAULT_REGISTRY,
            neighbour_radius: int | None = None,
-           geography_bias: bool = False) -> list[Chunk]:
+           geography_bias: bool = False,
+           candidate_name: str | None = None) -> list[Chunk]:
     """Top-`k` chunks per retrieval bucket touched by `questions`, unioned
     and deduped by `chunk_ref`, capped at `PASSAGE_TOKEN_CAP` tokens with at
     least one chunk kept per source (§7).
@@ -189,11 +214,27 @@ def select(chunks: Sequence[Chunk], questions: Sequence[Question], k: int | None
     `geography_bias`: also run the India-anchor top-up (module docstring).
     Callers pass this only for `kind: problem` candidates — never for
     actors, which are legitimately global.
+
+    `candidate_name`: the candidate-identity gate (module docstring,
+    "Candidate-identity gate"). When given and at least one fetched chunk
+    mentions one of the candidate's own distinctive name tokens, `chunks` is
+    narrowed to just those before ranking/top-up/neighbour-expansion run —
+    an unrelated, topically-similar chunk from another actor's bleed-through
+    content can no longer win a bucket. When no chunk mentions the name at
+    all, the gate is a no-op (degrade, not a wipeout) — see the module
+    docstring for why.
     """
     k = k if k is not None else _TOP_K_PER_BUCKET
     chunks = list(chunks)
     if not chunks:
         return []
+
+    if candidate_name:
+        name_tokens = _name_tokens(candidate_name)
+        if name_tokens:
+            mentioning = [c for c in chunks if _text_mentions_actor(c.text, name_tokens)]
+            if mentioning:
+                chunks = mentioning
 
     bucket_ids = _bucket_ids(questions)
     if not bucket_ids:

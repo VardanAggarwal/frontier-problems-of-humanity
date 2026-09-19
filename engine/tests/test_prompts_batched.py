@@ -475,6 +475,67 @@ def test_drop_misidentified_is_a_no_op_with_no_flags():
     assert kept == answers and dropped == []
 
 
+# --------------------- rule 4's chunk sibling: unmentioned chunks (2026-09-19c)
+
+from worker.prompts import flag_unmentioned_answers  # noqa: E402
+
+
+def _answer(question_id="q1_one_line", chunk_ref="src:0"):
+    return Answer(question_id=question_id, answer="a", source_id="src1",
+                  chunk_ref=chunk_ref)
+
+
+def test_answer_backed_by_a_chunk_that_never_names_the_candidate_is_dropped():
+    """The anaemia-mukt-bharat shape: a chunk that survived both upstream
+    gates and genuinely backs an answer, but never says the candidate's
+    name — the WeTheChange paragraph, had it made it this far."""
+    answers = [_answer("q1_one_line", "src:0"), _answer("q2_status", "src:1")]
+    chunk_texts = {
+        "src:0": "Anaemia Mukt Bharat is a national programme on anaemia.",
+        "src:1": "WeTheChange is hiring a growth marketer, apply now.",
+    }
+    kept, problems = flag_unmentioned_answers(
+        answers, chunk_texts, "Anaemia Mukt Bharat")
+    assert [a.question_id for a in kept] == ["q1_one_line"]
+    assert any("q2_status" in p and "src:1" in p for p in problems)
+
+
+def test_answer_with_no_resolvable_chunk_ref_passes_through_unchecked():
+    answers = [_answer("q1_one_line", None)]
+    kept, problems = flag_unmentioned_answers(answers, {}, "Anaemia Mukt Bharat")
+    assert kept == answers and problems == []
+
+
+def test_chunk_ref_not_in_the_given_chunk_texts_passes_through_unchecked():
+    answers = [_answer("q1_one_line", "src:9")]
+    kept, problems = flag_unmentioned_answers(
+        answers, {"src:0": "unrelated text"}, "Anaemia Mukt Bharat")
+    assert kept == answers and problems == []
+
+
+def test_all_answers_failing_is_the_safety_valve_not_a_wipe():
+    """An acronym-only name that never spells out in body text: every
+    checkable chunk legitimately fails, so nothing is dropped — one summary
+    problem instead of losing the whole record."""
+    answers = [_answer("q1_one_line", "src:0"), _answer("q2_status", "src:1")]
+    chunk_texts = {"src:0": "AMB runs iron-supplementation camps.",
+                   "src:1": "AMB also does school screening."}
+    kept, problems = flag_unmentioned_answers(
+        answers, chunk_texts, "Anaemia Mukt Bharat")
+    assert kept == answers
+    assert len(problems) == 1
+    assert "ALL checkable answers failed" in problems[0]
+
+
+def test_empty_name_tokens_is_a_no_op():
+    """A candidate name that is nothing but short/generic tokens (mirrors
+    `passages.py`'s own degrade choice) — can't check, so don't."""
+    answers = [_answer("q1_one_line", "src:0")]
+    chunk_texts = {"src:0": "completely unrelated text"}
+    kept, problems = flag_unmentioned_answers(answers, chunk_texts, "The")
+    assert kept == answers and problems == []
+
+
 # ------------------------------------- rule 5: per-chunk markers (2026-09-14)
 
 def _src(label="S1", refs=("src:0", "src:1", "src:2"),

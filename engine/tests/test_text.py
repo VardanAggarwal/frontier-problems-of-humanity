@@ -6,7 +6,7 @@ import pytest
 from text.canonical import canonicalize, url_hash, same_document
 from text.simhash import (simhash, distance, is_duplicate, is_reliable,
                           band_keys, shingles, MIN_SHINGLES)
-from text.clean import clean, tidy, reduction
+from text.clean import clean, tidy, reduction, dedupe_repeated_blocks
 
 
 # ---------------------------------------------------------------- canonical
@@ -211,3 +211,53 @@ def test_clean_returns_empty_for_nothing():
 
 def test_tidy_preserves_paragraphs_collapses_runs():
     assert tidy("a  \t b\n\n\n\nc") == "a b\n\nc"
+
+
+# ---------------------------------------------------- dedupe_repeated_blocks
+# Regression for the anaemia-mukt-bharat/WeTheChange bug, 2026-09-19: a
+# LinkedIn permalink scrape carried the on-topic post plus an unrelated
+# "we're hiring" job ad, near-verbatim, TWICE — feed/sidebar bleed captured
+# into one scrape. The hijack case is shaped as: one on-topic paragraph that
+# appears once, and an unrelated substantial block that appears twice,
+# differing only by a trailing period (punctuation-perturbed, not reworded).
+_ANAEMIA_PARA = (
+    "Anaemia Mukt Bharat is a national programme addressing anaemia across "
+    "life stages through iron folic acid supplementation, deworming and "
+    "testing in schools and anganwadis. The programme is coordinated by the "
+    "Ministry of Health and Family Welfare and implemented through state "
+    "health systems nationwide."
+)
+_WETHECHANGE_A = (
+    "This is not a job description. It's a calling. WeTheChange is looking "
+    "for the person who will help us end period poverty in India. We "
+    "provide menstrual health education, safe biodegradable products, and "
+    "dignity to those who never had a choice. We work across India and "
+    "East Africa. Communities know us. Lives are changing."
+)
+# Same paragraph, one trailing period added before "Lead" — the actual
+# perturbation between the two copies in the source file.
+_WETHECHANGE_B = _WETHECHANGE_A + " Lead."
+_WETHECHANGE_A = _WETHECHANGE_A + " Lead"
+
+
+def test_repeated_substantial_block_is_collapsed_to_first_occurrence():
+    text = "\n\n".join([
+        _ANAEMIA_PARA,
+        _WETHECHANGE_A,
+        "Some unrelated middle paragraph that appears only once in this "
+        "document and should survive untouched by the dedup pass here.",
+        _WETHECHANGE_B,
+    ])
+    out = dedupe_repeated_blocks(text)
+    assert out.count("WeTheChange is looking") == 1
+    assert "Anaemia Mukt Bharat" in out
+    assert _ANAEMIA_PARA in out
+
+
+def test_short_repeated_phrase_is_not_touched():
+    # A nav breadcrumb well under the word-count floor, repeated twice —
+    # legitimate short boilerplate, must survive both times.
+    breadcrumb = "Home > About > Contact"
+    text = "\n\n".join([breadcrumb, _ANAEMIA_PARA, breadcrumb])
+    out = dedupe_repeated_blocks(text)
+    assert out.count(breadcrumb) == 2

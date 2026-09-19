@@ -400,3 +400,56 @@ def test_select_geography_bias_pulls_in_india_chunk_that_ranks_low_on_every_buck
     assert india_chunk not in without_bias, \
         "test fixture assumption broken: india_chunk must lose the bucket ranking"
     assert india_chunk in with_bias
+
+
+# ---------------------------------------------------------- candidate-identity gate --
+
+@needs_model
+def test_select_candidate_name_gate_excludes_unrelated_chunk_when_ontopic_exists(monkeypatch):
+    """Regression for the `anaemia-mukt-bharat` bug (2026-09-19,
+    `worker/passages.py`'s "Candidate-identity gate" docstring): a chunk
+    about an unrelated org out-scored every on-topic chunk across nearly
+    every bucket because it was a near-perfect semantic match for the
+    bucket's query, with nothing checking it was actually about the
+    candidate. Ranking is pinned (same technique as the geography-bias test
+    above) so the unrelated chunk deterministically wins the bucket ranking
+    — the fixture reproduces the bug's premise exactly, rather than hoping
+    the real encoder agrees on this specific sentence pair."""
+    reach_questions = list(REGISTRY.in_bucket("actor-reach"))
+    ontopic = _chunk(
+        "Anaemia Mukt Bharat runs community iron-folic acid distribution "
+        "across state blocks; reach the programme office by email.",
+        source_id="s1", ordinal=0)
+    unrelated = _chunk(
+        "WeTheChange is hiring! Email careers@wethechange.org to join our "
+        "menstrual health outreach team.", source_id="s2", ordinal=0)
+
+    def fixed_ranking(query, chunks, p_vecs=None):
+        return sorted(chunks, key=lambda c: 0 if c is unrelated else 1)
+    monkeypatch.setattr(passages, "_rank_chunks", fixed_ranking)
+
+    without_gate = passages.select([ontopic, unrelated], reach_questions, k=1,
+                                   neighbour_radius=0)
+    with_gate = passages.select([ontopic, unrelated], reach_questions, k=1,
+                                neighbour_radius=0, candidate_name="Anaemia Mukt Bharat")
+
+    # Backward compat: no candidate_name -> old behaviour, unrelated chunk
+    # still wins the (pinned) bucket ranking exactly as it did before this
+    # gate existed.
+    assert unrelated in without_gate, \
+        "test fixture assumption broken: unrelated must win the pinned ranking"
+    # With the gate: the unrelated chunk is filtered out before ranking ever
+    # runs, because it never mentions the candidate's name.
+    assert unrelated not in with_gate
+    assert ontopic in with_gate
+
+
+def test_select_candidate_name_gate_degrades_when_no_chunk_mentions_the_name():
+    """None of the fetched chunks ever spell out the candidate's name (e.g.
+    an abbreviation-only or pronoun-heavy source set) — the gate must not
+    wipe the pool to empty. It no-ops, same as if `candidate_name` were
+    never passed (module docstring: "degrade, not a wipeout")."""
+    unbucketed = [q for q in REGISTRY.all("actor") if q.bucket is None]
+    chunks = [_chunk(f"chunk {i}", ordinal=i) for i in range(3)]
+    out = passages.select(chunks, unbucketed, k=2, candidate_name="Anaemia Mukt Bharat")
+    assert out == chunks[:2]

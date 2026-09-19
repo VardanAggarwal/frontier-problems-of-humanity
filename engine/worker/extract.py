@@ -73,6 +73,7 @@ def assemble(
     neighbour_radius: int | None = None,
     degrade: bool = False,
     geography_bias: bool = False,
+    candidate_name: str | None = None,
 ) -> tuple[list[PromptSource], dict[str, int | float]]:
     """`sources` (E1's confirmed fetches) -> `[Sn]`-labelled prompt blocks
     plus the counters that distinguish why a source did or didn't make it.
@@ -89,6 +90,13 @@ def assemble(
     `geography_bias` passes straight through to `select()` — the caller
     (`worker/worker.py`) sets it for `kind: problem` candidates only
     (`worker/passages.py`'s India-anchor top-up, added 2026-09-14).
+
+    `candidate_name` also passes straight through to `select()` — the
+    candidate-identity gate (`worker/passages.py`'s "Candidate-identity
+    gate", added 2026-09-19 for the `anaemia-mukt-bharat` bug). Both callers
+    in `worker/worker.py` already have `name` in scope next to the
+    `verify_and_extract_prompt_batched(kind, name, ...)` call and pass it
+    here as `candidate_name=name`.
 
     Labels are assigned `S1..Sn` by first appearance in the final, capped,
     priority-ordered chunk list — matching
@@ -113,7 +121,7 @@ def assemble(
     #    module controls expansion itself, at the caller's own radius, once).
     if all_chunks and questions:
         selected = select(all_chunks, questions, k=top_k, neighbour_radius=0,
-                         geography_bias=geography_bias)
+                         geography_bias=geography_bias, candidate_name=candidate_name)
     else:
         selected = []
 

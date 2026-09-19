@@ -39,7 +39,10 @@ from __future__ import annotations
 import json
 import re
 
+from typing import Mapping, Sequence
+
 from worker.extract_types import Answer, PromptSource
+from worker.identity import _name_tokens, _text_mentions_actor
 from worker.questions import REGISTRY
 from store.tags import REGISTRY as TAG_REGISTRY
 
@@ -978,6 +981,81 @@ def drop_misidentified(
             f"flagged as misidentified"
             + (f" (actually about: {f['about_what']})" if f["about_what"] else "")
             + " — dropped")
+    return kept, problems
+
+
+def flag_unmentioned_answers(
+    answers: Sequence[Answer], chunk_texts: Mapping[str, str], candidate_name: str,
+) -> tuple[list[Answer], list[str]]:
+    """Rule 4's chunk-granularity sibling: even a source the model did not
+    flag can have one chunk (of several selected for it) that backs an
+    answer about a DIFFERENT entity than the candidate.
+
+    `parse_misidentified`/`drop_misidentified` operate at source granularity
+    — the model flags a whole URL. `anaemia-mukt-bharat` (candidate.id=839,
+    2026-09-19) was the case neither the model nor gate 2 caught: its entire
+    20-answer record was extracted from one chunk of a LinkedIn scrape that
+    was genuinely, mostly, about the candidate — the model had no reason to
+    flag the SOURCE — except that one paragraph was feed/sidebar bleed from
+    an unrelated org, "WeTheChange". Two earlier, independent fixes narrow
+    how often that chunk is even offered up (`passages.py:select()`'s
+    `candidate_name` gate) or survives chunking at all
+    (`text/clean.py:dedupe_repeated_blocks()`); this is the last line of
+    defense, checked at write time against the literal text the answer cites
+    rather than trusting either upstream gate to have already caught it.
+
+    For each answer with a resolvable `chunk_ref`, look up its chunk text and
+    ask the same cheap, exact-string question `passages.py` and
+    `search_stage.py` already ask (`worker.identity._text_mentions_actor`):
+    does this specific passage even say the candidate's name? If not, the
+    answer is dropped — the passage backing it never names the entity it is
+    being written as a fact about, regardless of what the rest of the source
+    contains.
+
+    `answer.chunk_ref` absent, or naming a chunk this call was not given text
+    for, passes through unchecked — there is nothing to check it against,
+    and the parser never guesses (same rule as `parse_misidentified`'s
+    unknown `source_id`).
+
+    Same safety valve as `passages.py`'s own gate: an empty `name_tokens`
+    (candidate name too short/generic to check, e.g. an acronym-only name)
+    is a no-op, not a "never matches". And if EVERY answer with a checkable
+    chunk fails the check, that is a sign the check itself doesn't apply
+    here (an entity referred to by acronym throughout its own sources, never
+    spelled out in body text) rather than that every answer is wrong —
+    dropping all of them would regress recall for a real candidate, which
+    the degrade-rather-than-crash philosophy (03-worker.md §13) rules out.
+    That case keeps every answer and logs one summary problem instead of one
+    per answer.
+    """
+    name_tokens = _name_tokens(candidate_name)
+    if not name_tokens:
+        return list(answers), []
+
+    answers = list(answers)
+    kept: list[Answer] = []
+    unmentioned: list[Answer] = []
+    for a in answers:
+        chunk_text = chunk_texts.get(a.chunk_ref) if a.chunk_ref else None
+        if chunk_text is None or _text_mentions_actor(chunk_text, name_tokens):
+            kept.append(a)
+            continue
+        unmentioned.append(a)
+
+    if not unmentioned:
+        return kept, []
+    if not kept:
+        # Every checkable answer failed — the acronym-only escape hatch.
+        return answers, [
+            f"{len(unmentioned)} answer(s) cite chunks that never mention "
+            f"{candidate_name!r} by name, but ALL checkable answers failed "
+            "the check — kept rather than dropped (likely an acronym-only "
+            "name never spelled out in body text)"]
+
+    problems = [
+        f"answer to {a.question_id} cites chunk {a.chunk_ref}, which never "
+        f"mentions {candidate_name!r} — dropped"
+        for a in unmentioned]
     return kept, problems
 
 

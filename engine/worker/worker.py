@@ -40,7 +40,8 @@ from . import fetch as fetchmod
 from . import gate1, gate2, llm, problem_emit, resolve, search_stage
 from .extract_types import Answer, ConfirmedSource, PromptSource
 from .prompts import (channel_identity_prompt, drop_misidentified,
-                      extract_prompt, extract_prompt_batched, parse_answers,
+                      extract_prompt, extract_prompt_batched,
+                      flag_unmentioned_answers, parse_answers,
                       parse_channel_identity, parse_misidentified,
                       parse_verified_answers, retry_per_source,
                       verify_and_extract_prompt_batched)
@@ -1343,6 +1344,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
         # `verify_different` — that one is the uncertain bucket's false
         # negatives, this one is the confirmed set's false positives.
         "sources_flagged_misidentified": 0,
+        "answers_dropped_unmentioned": 0,
         "post_drop_thin": 0,
         "verify_pass_calls": 0, "verify_answers_merged": 0,
         "verify_about": 0, "verify_different": 0,
@@ -1595,7 +1597,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 else:
                     v_sources, v_coverage = extract_mod.assemble(
                         unverified, REGISTRY.retrieval_questions(kind),
-                        geography_bias=(kind == "problem"))
+                        geography_bias=(kind == "problem"), candidate_name=name)
                     if persist_sources:
                         _save_assembly(conn, cid, VERIFY_BUCKET, v_sources, v_coverage)
                 if v_sources:
@@ -1659,7 +1661,7 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             elif sources:
                 prompt_sources, coverage = extract_mod.assemble(
                     sources, REGISTRY.retrieval_questions(kind),
-                    geography_bias=(kind == "problem"))
+                    geography_bias=(kind == "problem"), candidate_name=name)
                 if persist_sources:
                     _save_assembly(conn, cid, PROMPT_BUCKET, prompt_sources, coverage)
             batched = bool(prompt_sources)
@@ -1868,6 +1870,25 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                                 f" — findings rest on {len(surviving)} source(s)")
                 for problem in problems:
                     log(f"worker: candidate {cid} {problem}")
+
+                # Chunk-granularity sibling of Rule 4 (2026-09-19c): even a
+                # source the model did not flag can have one chunk backing an
+                # answer that never mentions the candidate at all (the
+                # `anaemia-mukt-bharat` shape). `chunk_texts` is built here,
+                # ahead of its other use a few lines below at `write_findings`,
+                # so both share one lookup rather than two.
+                chunk_texts = {ref: text
+                               for s in list(prompt_sources) + list(verify_sources)
+                               for ref, text in zip(s.chunk_refs, s.chunk_texts)}
+                before_count = len(answers)
+                answers, unmentioned_problems = flag_unmentioned_answers(
+                    answers, chunk_texts, name)
+                for problem in unmentioned_problems:
+                    log(f"worker: candidate {cid} {problem}")
+                # `before_count - len(answers)` rather than
+                # `len(unmentioned_problems)`: the safety-valve path logs one
+                # problem line but drops nothing.
+                report["answers_dropped_unmentioned"] += before_count - len(answers)
             report["extracted"] += 1
             report["extracted_batched" if batched else "extracted_single"] += 1
 
@@ -1903,9 +1924,14 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                     # produced it — both buckets' `PromptSource.chunk_texts`
                     # are already in hand, so this is a free lookup, not a
                     # re-chunk (schema v5, migrate/m0005_finding_chunk_text.py).
-                    chunk_texts={ref: text
-                                 for s in list(prompt_sources) + list(verify_sources)
-                                 for ref, text in zip(s.chunk_refs, s.chunk_texts)})
+                    # The `batched` branch above already built this exact dict
+                    # for `flag_unmentioned_answers` — reused here rather than
+                    # rebuilt; the non-batched path (no prior `chunk_texts`)
+                    # still builds it fresh.
+                    chunk_texts=(chunk_texts if batched else
+                                 {ref: text
+                                  for s in list(prompt_sources) + list(verify_sources)
+                                  for ref, text in zip(s.chunk_refs, s.chunk_texts)}))
                 claims, notes = extract_mod.claims_from_findings(answers)
                 for note in notes:
                     log(f"worker: candidate {cid} {note}")
