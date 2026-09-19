@@ -293,6 +293,60 @@ def _resolve_max_sources(depth: str, max_sources: Optional[int]) -> int:
         f"unknown depth {depth!r}, expected {TRACKED_TIER!r} or {REGISTRY_TIER!r}")
 
 
+def _hint_anchor_top_up(covered_urls: list, fused) -> list:
+    """The hint-covered URL `cover()`'s greedy set-cover can starve out under
+    a small cap (raghubar-das, candidate 1102, 2026-09-19): he was seeded on
+    one specific angle — an interim-relief order and an Aadhaar-directive
+    conflict tied to Santoshi Kumari's death — via `evidence.hint`, and
+    `render_queries` already issues a `("hint", f"{name} {hint}")` query
+    anchored on exactly that angle. But for a well-known public figure,
+    dozens of URLs each satisfy one of the many GENERIC family ids
+    (identity, bio, elections, channel_twitter, ...) and `cover()`'s greedy
+    max-coverage selection — correctly, by its own contract — treats every
+    family id as equal weight, so those generic hits fill `max_sources`
+    before the one or two URLs that uniquely satisfy `hint` ever get picked.
+    The extracted profile ends up entirely about the wrong story: right
+    person, wrong topic, which defeats the reason he was tracked at all.
+
+    Same shape of miss as `worker/passages.py`'s `_entity_dense_top_up` /
+    `_india_anchor_top_up` — a bucket-shaped selection missing content that
+    a different, non-bucket-shaped signal would have caught — one pipeline
+    stage earlier (source selection, not passage selection). Like those, this
+    is purely additive at the CALL SITE: `search/cover.py:cover()` is a
+    frozen, pure, pipeline-agnostic contract (its own docstring) and is not
+    touched. This only ever grows `covered_urls` by at most one URL; it never
+    evicts anything `cover()` selected, so it cannot make a source set worse,
+    only fill a specific, named gap `cover()`'s generic weighting can't see.
+
+    `fused` (the `search.fuse.fuse()` output already computed by the caller)
+    is used rather than re-reading `results_by_query["hint"]` directly,
+    because `fused`'s `coverage_set` already tells us, post-normalisation,
+    exactly which URLs the `hint` family actually returned, and its
+    `rrf_score` is the same ranking signal `cover()` itself uses — so "top-
+    ranked hint URL" means the same thing here as it does inside `cover()`.
+
+    No-op, provably, whenever:
+      - no `hint` family was queried at all (candidate has no
+        `evidence.hint`, or predates it) — `fused` then has no entry whose
+        `coverage_set` contains `"hint"`, so every existing caller that never
+        passes a hint sees identical behaviour to before this function
+        existed.
+      - a hint-covered URL is already present in `covered_urls` — the
+        floor is already met, nothing to add.
+    """
+    hint_hits = [r for r in fused if "hint" in r.coverage_set]
+    if not hint_hits:
+        return covered_urls
+    covered_norm = {normalize_url(u) for u in covered_urls}
+    if any(normalize_url(r.url) in covered_norm for r in hint_hits):
+        return covered_urls
+    # Tie-break matches `cover()`'s own: highest rrf_score first, url
+    # ascending breaks ties, for a deterministic pick.
+    hint_hits.sort(key=lambda r: (-r.rrf_score, r.url))
+    top = hint_hits[0]
+    return covered_urls + [top.url]
+
+
 def _fetch_and_route(
         to_fetch: list[tuple[str, str]],
         *,
@@ -489,6 +543,14 @@ def search_sources(
     # `worker/fetch.py` extracts text from them — no pre-fetch rejection.
     fused = fuse(results_by_query)
     covered_urls = cover(fused, cap)
+    # Hint-anchor top-up (2026-09-19, `_hint_anchor_top_up` docstring above
+    # for the full rationale) — guarantees a hint-covered URL a floor in the
+    # fetched set rather than leaving it to `cover()`'s generic-family
+    # greedy selection alone. Applied once, on the first-pass cover() only:
+    # the escalation cover() below re-covers the SAME `fused` pool at a
+    # wider cap and dedups against `seen_norm`, so the URL this adds is
+    # already fetched/seen by the time escalation runs and needs no repeat.
+    covered_urls = _hint_anchor_top_up(covered_urls, fused)
 
     # --- 4. fetch: seed is SEED, everything from search is SEARCH ----------
     to_fetch = []  # [(url, origin), ...]

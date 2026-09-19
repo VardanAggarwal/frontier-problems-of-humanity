@@ -18,12 +18,15 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 import pytest
 
 from search.confirm_policy import CONFIRMED, MISMATCH, SEARCH, SEED, UNCERTAIN
+from search.cover import cover
+from search.fuse import FusedResult
 from search.provider import ReplayProvider, SearchResponse
 from worker.config import MAX_SOURCES_ESCALATE, MAX_SOURCES_REGISTRY, MAX_SOURCES_TRACKED
 from worker.depth import REGISTRY_TIER, TRACKED_TIER
 from worker.extract_types import ConfirmedSource
 from worker.search_stage import (
-    channels_from_confirmed, extract_hint, render_queries, search_sources,
+    _hint_anchor_top_up, channels_from_confirmed, extract_hint,
+    render_queries, search_sources,
 )
 
 HERE = pathlib.Path(__file__).parent
@@ -428,6 +431,110 @@ def test_explicit_max_sources_overrides_depth_default():
         slug=SLUG, max_sources=2, log=lambda *a, **k: None,
     )
     assert len(result) <= 2
+
+
+# ---------------------------------------------------------------------------
+# hint-anchor top-up (raghubar-das / candidate 1102, 2026-09-19) — guarantees
+# a hint-covered URL a floor in the fetched set even when cover()'s greedy,
+# family-id-equal-weight selection would otherwise fill the cap with generic
+# hits first.
+# ---------------------------------------------------------------------------
+
+def test_hint_anchor_top_up_rescues_url_crowded_out_by_generic_families():
+    """Direct unit test of `_hint_anchor_top_up`, reproducing the actual
+    crowding-out shape: one URL that appears in every generic family's
+    results (a political-bio page cited under identity/money/elections/...)
+    gets picked first by cover()'s greedy max-coverage — its gain is huge —
+    and a small cap is exhausted before the URL uniquely covering the `hint`
+    family is ever reached. Plain `cover()` drops the hint URL; the top-up
+    must add it back."""
+    crowd_url = "https://example.com/generic-bio"
+    hint_url = "https://example.com/santoshi-kumari-aadhaar-directive"
+    fused = [
+        FusedResult(crowd_url, 0.5, frozenset(
+            {"identity", "money", "people", "viability", "reach"})),
+        FusedResult(hint_url, 0.01, frozenset({"hint"})),
+    ]
+    # cover() alone, cap=1: greedy picks crowd_url (gain 5) and stops —
+    # exactly the bug.
+    plain = cover(fused, 1)
+    assert hint_url not in plain, "test setup must reproduce the crowd-out"
+
+    topped_up = _hint_anchor_top_up(plain, fused)
+    assert hint_url in topped_up
+    assert crowd_url in topped_up, "top-up must not evict cover()'s picks"
+    assert len(topped_up) == len(plain) + 1, "top-up grows the set by at most one"
+
+
+def test_hint_anchor_top_up_is_noop_when_hint_url_already_covered():
+    hint_url = "https://example.com/hint-page"
+    fused = [
+        FusedResult(hint_url, 0.9, frozenset({"identity", "hint"})),
+    ]
+    covered_urls = cover(fused, 5)
+    assert hint_url in covered_urls
+    result = _hint_anchor_top_up(covered_urls, fused)
+    assert result == covered_urls, "hint URL already present — no-op"
+
+
+def test_hint_anchor_top_up_is_noop_when_no_hint_family_was_queried():
+    """Every caller that predates `evidence.hint`, or a candidate with none:
+    `fused` carries no `hint`-covered entry at all. Must be provably
+    harmless — identical output to plain `cover()`."""
+    fused = [
+        FusedResult("https://example.com/a", 0.5, frozenset({"identity"})),
+        FusedResult("https://example.com/b", 0.4, frozenset({"money"})),
+    ]
+    covered_urls = cover(fused, 1)
+    result = _hint_anchor_top_up(covered_urls, fused)
+    assert result == covered_urls
+
+
+def test_hint_anchor_top_up_picks_top_ranked_hint_url_when_several_exist():
+    hi = "https://example.com/hint-strong"
+    lo = "https://example.com/hint-weak"
+    fused = [
+        FusedResult("https://example.com/crowd", 0.9, frozenset({"identity"})),
+        FusedResult(lo, 0.05, frozenset({"hint"})),
+        FusedResult(hi, 0.2, frozenset({"hint"})),
+    ]
+    plain = cover(fused, 1)
+    result = _hint_anchor_top_up(plain, fused)
+    assert hi in result
+    assert lo not in result
+
+
+def test_search_sources_end_to_end_rescues_crowded_out_hint_source():
+    """Integration: through `search_sources` itself, with a provider that
+    reproduces the real crowding shape — every generic actor family returns
+    the same well-known-figure bio URL, only `hint` returns the one URL
+    anchored on the actual seeding reason — and a cap of 1. Without the
+    top-up, the confirmed set would be entirely the generic bio page (the
+    raghubar-das bug: right person, wrong topic); with it, the hint-anchored
+    source is also fetched and confirmed."""
+    crowd_url = "https://example.com/generic-bio"
+    hint_url = "https://example.com/santoshi-kumari-aadhaar-directive"
+
+    class CrowdingProvider:
+        def search(self, family_id, query_string, *, slug=None):
+            url = hint_url if family_id == "hint" else crowd_url
+            return SearchResponse(
+                results=[], unresponsive_engines=[],
+                engines_seen_in_results=["bing", "brave", "google", "mojeek", "yandex"],
+                configured_engines=[], silently_absent_engines=[],
+                raw_results=[{"url": url, "score": 1.0, "engine": "bing"}])
+
+    result = search_sources(
+        "Raghubar Das", depth=TRACKED_TIER, provider=CrowdingProvider(),
+        fetch=_fetch_all_confirmed, confirm=_confirm_all_confirmed,
+        evidence=('{"hint": "Jharkhand Chief Minister who issued interim '
+                   "relief and ordered a probe after Santoshi Kumari's "
+                   'death; in conflict with Saryu Roy over Aadhaar directive."}'),
+        slug="raghubar-das", max_sources=1, log=lambda *a, **k: None,
+    )
+    urls = {s.url for s in result}
+    assert hint_url in urls, "hint-anchored source must survive the crowd-out"
+    assert crowd_url in urls, "top-up must not evict cover()'s own pick"
 
 
 def test_unknown_depth_raises():

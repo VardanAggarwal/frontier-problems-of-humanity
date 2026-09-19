@@ -616,6 +616,37 @@ def _write_entity(conn: sqlite3.Connection, corpus: Path, kind: str, name: str,
     else:  # ambiguous
         return None
 
+    if kind == "actor":
+        # `ask`/`channel` rows written by `_apply_other_claims` below are
+        # append-only inserts with no unique constraint tying a row to "the
+        # current claim set" (unlike `tag`, which upserts on a real key, and
+        # unlike `finding`, whose per-candidate ledger is explicitly cleared
+        # before rewrite a few hundred lines up — "old rows are not history,
+        # they are the same findings written twice"). A reprocess of an
+        # EXISTING actor (`decision.decision in ('exact', 'shortlist_top')`)
+        # re-derives the same claims from this run's own extraction and
+        # calls `_apply_other_claims` again, which then appends a second
+        # copy alongside the first instead of replacing it. On a brand-new
+        # entity (`decision.decision == 'new'`) this deletes nothing, so
+        # clearing unconditionally here is safe on every path — same
+        # reasoning as the `finding` clear, just scoped to `_write_entity`
+        # instead of the candidate loop, because only this function knows
+        # the unit being replaced is the entity's other-claims. Confirmed
+        # live 2026-09-19: candidate 839 (anaemia-mukt-bharat) and candidate
+        # 823 (poshan-abhiyaan) were each reprocessed (`searched_at` moved
+        # past `first_seen`), each reprocess resolved `exact` to the same
+        # existing actor, and each run's `_apply_other_claims` appended a
+        # fresh ask/channel set on top of the stale one from the first run —
+        # visible on `/actor/<id>` as a duplicate need entry differing only
+        # in capitalization (poshan-abhiyaan) and a stale, unrelated hiring
+        # ask plus email channel surviving from a first, now-superseded run
+        # (anaemia-mukt-bharat). `ask`/`channel` are actor-only tables
+        # (`store/schema.sql`: both `actor_id NOT NULL REFERENCES actor`),
+        # matching the `kind == "actor"` guard both claim branches below
+        # already use — a `kind == "problem"` call never reaches here.
+        conn.execute("DELETE FROM ask WHERE actor_id = ?", (entity_id,))
+        conn.execute("DELETE FROM channel WHERE actor_id = ?", (entity_id,))
+
     _apply_other_claims(conn, kind, entity_id, other, by=by, log=log)
     return entity_id
 
@@ -698,6 +729,76 @@ def _trigger_edge_fields(source_candidate: sqlite3.Row, edge: dict) -> dict:
         "edge_relevance": edge.get("relevance"),
         "edge_evidence": edge.get("evidence"),
     }
+
+
+# Cap on `_ancestor_problem`'s walk — generous against the 3-hop chain that
+# motivated it (raghubar-das/1102 -> saryu-roy/1075 -> santoshi-kumari/761 ->
+# aadhaar-linked-pds-exclusion/649, 2026-09-19), cheap against a malformed or
+# cyclic `from_candidate` chain.
+_ANCESTOR_PROBLEM_MAX_HOPS = 10
+
+
+def _ancestor_problem(conn: sqlite3.Connection, candidate_row: sqlite3.Row,
+                      *, log=print,
+                      max_hops: int = _ANCESTOR_PROBLEM_MAX_HOPS) -> str | None:
+    """`works_on` is `actor -> problem` only (`store/schema.sql`'s `edge.kind`
+    CHECK comment) — but `_emit`'s implicit-works_on synthesis only fires for
+    `(problem, actor)` / `(actor, problem)` source/emit pairs. An actor that
+    emits another actor (raghubar-das/candidate 1102, minted off saryu-roy/
+    candidate 1075 — Saryu Roy is a Jharkhand PDS minister who questioned his
+    own government's Aadhaar directive after Santoshi Kumari's death, and his
+    research named Raghubar Das as a related figure) got neither an implicit
+    edge nor any explicit one from the model reliably, leaving the new actor
+    with zero `works_on` edges — confirmed live 2026-09-19 via `problems/
+    graph.db`. Writing an actor->actor `works_on` edge instead would be
+    semantically wrong (not what the schema's `works_on` means, and nothing
+    downstream reads it — `problem_leg`'s view in `store/schema.sql` requires
+    `src_kind = 'actor' AND dst_kind = 'problem'`).
+
+    So: walk `from_candidate` up from `candidate_row` — first to its own
+    emitter, then that emitter's, and so on — until an ancestor's `kind` is
+    `problem`. Returns that ancestor's `resolved_to` (may itself be `None` if
+    the problem candidate hasn't been promoted yet — the caller treats that
+    the same as "no ancestor found", not an error) or `None` if the chain
+    bottoms out (an ancestor with no further `from_candidate`), cycles, or
+    exceeds `max_hops`. An intermediate ancestor does NOT need to be resolved
+    itself — santoshi-kumari/761 never was — only its `kind` and its own
+    `from_candidate` are read at each hop.
+    """
+    seen = {candidate_row["id"]}
+    row = candidate_row
+    hops = 0
+    while hops < max_hops:
+        try:
+            payload = json.loads(row["evidence"] or "")
+        except (ValueError, TypeError):
+            return None
+        if not isinstance(payload, dict):
+            return None
+        parent_id = payload.get("from_candidate")
+        if parent_id is None:
+            return None   # chain bottoms out — nothing upstream to check
+        if parent_id in seen:
+            log(f"worker: ancestor-problem walk from candidate "
+                f"{candidate_row['id']} hit a cycle at {parent_id} — bailing")
+            return None
+        seen.add(parent_id)
+        parent = conn.execute(
+            "SELECT id, kind, resolved_to, evidence FROM candidate WHERE id = ?",
+            (parent_id,)).fetchone()
+        if parent is None:
+            return None
+        if parent["kind"] == "problem":
+            if not parent["resolved_to"]:
+                log(f"worker: ancestor-problem walk from candidate "
+                    f"{candidate_row['id']} found problem candidate "
+                    f"{parent_id} but it isn't resolved yet — no edge yet")
+            return parent["resolved_to"]
+        row = parent
+        hops += 1
+    log(f"worker: ancestor-problem walk from candidate {candidate_row['id']} "
+        f"exceeded {max_hops} hops — bailing")
+    return None
 
 
 def _mint_or_resolve_actor(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
@@ -816,6 +917,17 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
             (source_candidate["kind"], ekind) in
             {("problem", "actor"), ("actor", "problem")}
             and db.norm(ename) not in explicit_works_on)
+        # An actor emitting another actor isn't `implicit_works_on` above (no
+        # (actor, actor) pair in that set — `works_on` is actor -> problem,
+        # not actor -> actor) but it isn't nothing either: walk up to the
+        # nearest ancestor problem instead of dropping it. See
+        # `_ancestor_problem`'s docstring (raghubar-das/saryu-roy,
+        # 2026-09-19) for why this exists. Computed once per emit, not
+        # unconditionally, since the walk is a handful of extra queries.
+        actor_ancestor_problem = None
+        if (source_candidate["kind"] == "actor" and ekind == "actor"
+                and db.norm(ename) not in explicit_works_on):
+            actor_ancestor_problem = _ancestor_problem(conn, source_candidate, log=log)
         # A mention of an entity that already exists (on disk, or just
         # written earlier in this same batch) is not a new candidate — the
         # `edges` loop below already makes exactly this check for its
@@ -837,6 +949,18 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
                     edges_written += 1
                 except sqlite3.IntegrityError as ex:
                     log(f"worker: implicit works_on {src} -> {dst} rejected: {ex}")
+            elif actor_ancestor_problem is not None:
+                # The emitted actor already resolves to an existing entity,
+                # so there's no candidate row for `_backfill_trigger_edge`
+                # to act on later — write the ancestor-problem edge now.
+                src, dst = ("actor", existing_id), ("problem", actor_ancestor_problem)
+                try:
+                    db.link(conn, src, "works_on", dst,
+                            by=f"worker:{source_candidate['id']}",
+                            evidence=e.get("hint"))
+                    edges_written += 1
+                except sqlite3.IntegrityError as ex:
+                    log(f"worker: ancestor works_on {src} -> {dst} rejected: {ex}")
             continue
         payload = {"hint": e.get("hint", ""), "from_candidate": source_candidate["id"]}
         if ekind == "problem":
@@ -863,6 +987,18 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
             payload["from_id"] = source_candidate["resolved_to"]
             payload["edge_kind"] = "works_on"
             payload["edge_evidence"] = e.get("hint")
+        elif (source_candidate["kind"] == "actor" and ekind == "actor"
+                and db.norm(ename) not in explicit_works_on):
+            # Deferred counterpart of the `existing_id` branch above: this
+            # candidate doesn't exist yet, so the ancestor-problem edge can't
+            # be written now. Flag it (rather than stamping the ancestor id
+            # found just above) so `_backfill_trigger_edge` re-walks at
+            # promotion time — the ancestor problem may resolve in between,
+            # which is exactly what happened for raghubar-das/saryu-roy: the
+            # ancestor (candidate 649) had already resolved by the time 1075
+            # itself resolved, but a later-resolving ancestor is the more
+            # general case and re-walking handles both.
+            payload["ancestor_problem_check"] = True
         cur = conn.execute(
             "INSERT INTO candidate (kind, name, url, discovered_via, evidence) "
             "VALUES (?, ?, NULL, ?, ?)",
@@ -1005,7 +1141,18 @@ def _backfill_trigger_edge(conn: sqlite3.Connection, cand: sqlite3.Row, kind: st
 
     A candidate minted any other way (corpus migration, the `emits` loop,
     manually) simply has no `edge_kind` in its evidence and this is a no-op —
-    same "parse failure is the normal case" contract as `_predicted_depth`."""
+    same "parse failure is the normal case" contract as `_predicted_depth`.
+
+    2026-09-19 fix: an actor minted off another actor's `emits` is exactly
+    that "no `edge_kind`" case above — `_emit`'s implicit-works_on synthesis
+    never fires for an (actor, actor) pair — but it isn't a true no-op
+    candidate; `_emit` flags it (`ancestor_problem_check`) instead of
+    stamping `from_kind`/`edge_kind` directly, because the right edge is to
+    an ANCESTOR problem, not the immediate actor parent, and which ancestor
+    (if any) resolves first isn't known at mint time. Handled below, after
+    the ordinary trigger-edge check, by re-walking from this candidate's own
+    `from_candidate` chain via `_ancestor_problem` — see its docstring for
+    the raghubar-das/saryu-roy case this closes."""
     try:
         payload = json.loads(cand["evidence"] or "")
     except (ValueError, TypeError):
@@ -1015,18 +1162,35 @@ def _backfill_trigger_edge(conn: sqlite3.Connection, cand: sqlite3.Row, kind: st
     from_kind, from_id, edge_kind = (payload.get("from_kind"),
                                       payload.get("from_id"),
                                       payload.get("edge_kind"))
-    if not (from_kind and from_id and edge_kind):
+    if from_kind and from_id and edge_kind:
+        try:
+            db.link(conn, (from_kind, from_id), edge_kind, (kind, entity_id),
+                    by=by, relevance=payload.get("edge_relevance"),
+                    evidence=payload.get("edge_evidence"),
+                    why=f"backfilled on promotion of candidate {cand['id']} — "
+                        "edge was dropped at mint time because this candidate "
+                        "wasn't an entity yet")
+        except sqlite3.IntegrityError as ex:
+            log(f"worker: backfilled edge {edge_kind} {from_id} -> {entity_id} "
+                f"rejected: {ex}")
         return
-    try:
-        db.link(conn, (from_kind, from_id), edge_kind, (kind, entity_id),
-                by=by, relevance=payload.get("edge_relevance"),
-                evidence=payload.get("edge_evidence"),
-                why=f"backfilled on promotion of candidate {cand['id']} — "
-                    "edge was dropped at mint time because this candidate "
-                    "wasn't an entity yet")
-    except sqlite3.IntegrityError as ex:
-        log(f"worker: backfilled edge {edge_kind} {from_id} -> {entity_id} "
-            f"rejected: {ex}")
+
+    if kind == "actor" and payload.get("ancestor_problem_check"):
+        ancestor_id = _ancestor_problem(conn, cand, log=log)
+        if ancestor_id is None:
+            log(f"worker: candidate {cand['id']} ({entity_id}) was minted "
+                "from another actor's emit and has no resolvable ancestor "
+                "problem — no works_on edge written")
+            return
+        try:
+            db.link(conn, ("actor", entity_id), "works_on",
+                    ("problem", ancestor_id), by=by, evidence=payload.get("hint"),
+                    why=f"backfilled ancestor-problem works_on for candidate "
+                        f"{cand['id']} — minted from another actor's emit, "
+                        "no direct problem parent")
+        except sqlite3.IntegrityError as ex:
+            log(f"worker: ancestor works_on actor:{entity_id} -> "
+                f"problem:{ancestor_id} rejected: {ex}")
 
 
 # --------------------------------------------------- the extraction resume ---

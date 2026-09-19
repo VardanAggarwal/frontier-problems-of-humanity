@@ -860,6 +860,60 @@ def test_write_detected_channels_does_not_duplicate_an_existing_kind(conn):
     assert [r["url"] for r in rows] == ["https://twitter.com/from_llm"]
 
 
+def test_write_entity_replaces_ask_and_channel_rows_on_reprocess(conn, tmp_path):
+    """candidate 839 (anaemia-mukt-bharat) / 823 (poshan-abhiyaan), 2026-09-19:
+    a reprocessed actor resolves 'exact' to the same existing entity and
+    `_write_entity` re-runs `_apply_other_claims`, which inserts `ask`/
+    `channel` unconditionally with no unique key tying a row to "the
+    current claim set" — the second run's rows landed ALONGSIDE the first
+    run's instead of replacing them (a duplicate need entry differing only
+    in capitalization; a stale hiring ask and email channel surviving from
+    a superseded first run). `_write_entity` must clear an existing actor's
+    `ask`/`channel` rows once before applying the new claim set."""
+    actor(conn, "poshan-abhiyaan")
+    decision = resolve.ResolveResult(decision="exact", entity_id="poshan-abhiyaan",
+                                     shortlist=[], reason="")
+    first_claims = [{"field": "title", "value": "Poshan Abhiyaan"},
+                    {"field": "ask:need:funding", "value": "seed grant"},
+                    {"field": "channel:twitter", "value": "@poshan_old"}]
+    worker._write_entity(conn, tmp_path, "actor", "Poshan Abhiyaan", decision,
+                         first_claims, by="test", log=lambda *a: None)
+    second_claims = [{"field": "title", "value": "Poshan Abhiyaan"},
+                     {"field": "ask:need:volunteers", "value": "field staff"},
+                     {"field": "channel:twitter", "value": "@poshan_new"}]
+    worker._write_entity(conn, tmp_path, "actor", "Poshan Abhiyaan", decision,
+                         second_claims, by="test", log=lambda *a: None)
+    asks = conn.execute(
+        "SELECT direction, kind, text FROM ask WHERE actor_id = ?",
+        ("poshan-abhiyaan",)).fetchall()
+    assert [(r["direction"], r["kind"], r["text"]) for r in asks] == [
+        ("need", "volunteers", "field staff")]
+    channels = conn.execute(
+        "SELECT handle FROM channel WHERE actor_id = ?",
+        ("poshan-abhiyaan",)).fetchall()
+    assert [r["handle"] for r in channels] == ["@poshan_new"]
+
+
+def test_write_entity_first_write_still_works_with_no_prior_ask_or_channel(conn, tmp_path):
+    """A brand-new actor has nothing to clear — the unconditional DELETE
+    added before `_apply_other_claims` (for the reprocess case above) must
+    not error, or drop anything, on an entity's first write."""
+    decision = resolve.ResolveResult(decision="new", entity_id=None,
+                                     shortlist=[], reason="")
+    claims = [{"field": "title", "value": "New Org"},
+             {"field": "ask:offer:mentoring", "value": "monthly office hours"},
+             {"field": "channel:linkedin",
+              "value": "https://linkedin.com/company/neworg"}]
+    entity_id = worker._write_entity(conn, tmp_path, "actor", "New Org", decision,
+                                     claims, by="test", log=lambda *a: None)
+    asks = conn.execute("SELECT text FROM ask WHERE actor_id = ?",
+                        (entity_id,)).fetchall()
+    assert [r["text"] for r in asks] == ["monthly office hours"]
+    channels = conn.execute("SELECT url FROM channel WHERE actor_id = ?",
+                            (entity_id,)).fetchall()
+    assert [r["url"] for r in channels] == ["https://linkedin.com/company/neworg"]
+
+
 def test_ecosystem_role_tag_claim_mirrors_into_the_actor_column(conn):
     """arjun-subedi/globus-warehousing/lt-foods/ncml, 2026-09-18 run:
     `finding.answer == "operator"` for q5_ecosystem_role on all four, the
@@ -1653,6 +1707,172 @@ def test_backfill_trigger_edge_logs_rather_than_raises_when_source_is_gone(conn)
                                   by="worker:test", log=logged.append)
     assert any("rejected" in m for m in logged)
     assert conn.execute("SELECT count(*) c FROM edge").fetchone()["c"] == 0
+
+
+# -------------------------------------- actor->actor emits: ancestor problem
+# 2026-09-19: raghubar-das (candidate 1102) was minted off saryu-roy
+# (candidate 1075) — both `kind: actor` — and ended up with zero `works_on`
+# edges, because `_emit`'s implicit-works_on synthesis only fires for
+# (problem, actor) / (actor, problem) source/emit pairs, never (actor,
+# actor). `works_on` is actor -> problem only (`store/schema.sql`), so the
+# fix isn't to link the new actor to its immediate actor parent — it's to
+# walk `from_candidate` up to the nearest ancestor that resolves to a
+# problem. `_ancestor_problem` is the walk; `_emit` and
+# `_backfill_trigger_edge` are its two call sites (an already-resolved
+# destination actor vs. one still to be minted/promoted).
+
+def test_ancestor_problem_walks_up_an_actor_chain_to_the_resolved_problem(conn):
+    """The raghubar-das/saryu-roy chain, condensed: an actor candidate minted
+    off another actor candidate, itself minted off a resolved problem
+    candidate. The middle actor (santoshi-kumari in the real chain) is never
+    resolved itself — only its `kind` and `from_candidate` matter."""
+    grandparent = make_candidate(conn, kind="problem", name="Aadhaar-linked PDS exclusion")
+    conn.execute("UPDATE candidate SET resolved_to = ? WHERE id = ?",
+                ("aadhaar-linked-pds-exclusion", grandparent["id"]))
+    conn.commit()
+    middle = make_candidate(
+        conn, kind="actor", name="Santoshi Kumari",
+        evidence=json.dumps({"from_candidate": grandparent["id"]}))
+    leaf = make_candidate(
+        conn, kind="actor", name="Saryu Roy",
+        evidence=json.dumps({"from_candidate": middle["id"]}))
+
+    ancestor = worker._ancestor_problem(conn, leaf, log=lambda *a: None)
+    assert ancestor == "aadhaar-linked-pds-exclusion"
+
+
+def test_ancestor_problem_returns_none_when_the_chain_bottoms_out(conn):
+    """An actor with no further `from_candidate` (no lineage to walk) — the
+    chain simply ends in another actor, no problem anywhere upstream."""
+    root_actor = make_candidate(conn, kind="actor", name="Root Actor",
+                                evidence=json.dumps({"hint": "no lineage"}))
+    child = make_candidate(
+        conn, kind="actor", name="Child Actor",
+        evidence=json.dumps({"from_candidate": root_actor["id"]}))
+
+    assert worker._ancestor_problem(conn, child, log=lambda *a: None) is None
+
+
+def test_ancestor_problem_caps_the_walk_and_does_not_crash_on_a_cycle(conn):
+    """A malformed/cyclic evidence chain (a from a's own descendant) must
+    bail via the cycle guard rather than looping forever."""
+    a = make_candidate(conn, kind="actor", name="A", evidence=json.dumps({}))
+    b = make_candidate(
+        conn, kind="actor", name="B",
+        evidence=json.dumps({"from_candidate": a["id"]}))
+    conn.execute("UPDATE candidate SET evidence = ? WHERE id = ?",
+                (json.dumps({"from_candidate": b["id"]}), a["id"]))
+    conn.commit()
+    a = conn.execute("SELECT * FROM candidate WHERE id = ?", (a["id"],)).fetchone()
+
+    logged = []
+    assert worker._ancestor_problem(conn, a, log=logged.append) is None
+    assert any("cycle" in m for m in logged)
+
+
+def test_emit_flags_ancestor_problem_check_for_actor_emitting_new_actor(
+        conn, monkeypatch):
+    """An actor candidate that emits another actor gets no implicit
+    works_on (that mechanism only covers problem<->actor pairs) but IS
+    flagged for the ancestor-problem backfill at promotion time, instead of
+    being dropped as before."""
+    actor(conn, "src-actor")
+    src = _source_candidate(conn, resolved_to="src-actor", kind="actor")
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])   # empty -> new
+
+    claims = {"emits": [{"kind": "actor", "name": "Related Figure",
+                        "hint": "named as a related figure"}], "edges": []}
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert emitted == 1
+    assert edges == 0   # deferred — no edge_kind path fires for actor->actor
+    row = conn.execute(
+        "SELECT * FROM candidate WHERE kind = 'actor' AND "
+        "name = 'Related Figure'").fetchone()
+    payload = json.loads(row["evidence"])
+    assert payload.get("ancestor_problem_check") is True
+    assert "edge_kind" not in payload
+
+
+def test_emit_writes_ancestor_works_on_immediately_for_an_already_resolved_actor(
+        conn, monkeypatch):
+    """When the emitted actor name already resolves to an existing entity
+    (no candidate/promotion to defer to), the ancestor-problem edge is
+    written right away instead of silently dropped."""
+    problem(conn, "aadhaar-linked-pds-exclusion", title="Aadhaar-linked PDS exclusion")
+    grandparent = make_candidate(conn, kind="problem", name="Aadhaar-linked PDS exclusion")
+    conn.execute("UPDATE candidate SET resolved_to = ? WHERE id = ?",
+                ("aadhaar-linked-pds-exclusion", grandparent["id"]))
+    actor(conn, "src-actor")
+    src = _source_candidate(
+        conn, resolved_to="src-actor", kind="actor",
+        evidence=json.dumps({"from_candidate": grandparent["id"]}))
+    actor(conn, "related-figure")   # already exists as an entity
+
+    claims = {"emits": [{"kind": "actor", "name": "related-figure",
+                        "hint": "named as a related figure"}], "edges": []}
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert emitted == 0
+    assert edges == 1
+    linked = conn.execute(
+        "SELECT * FROM edge WHERE src_kind = 'actor' AND src_id = 'related-figure' "
+        "AND dst_kind = 'problem' AND dst_id = 'aadhaar-linked-pds-exclusion' "
+        "AND kind = 'works_on'").fetchone()
+    assert linked is not None
+
+
+def test_backfill_trigger_edge_resolves_actor_chain_to_ancestor_problem(conn):
+    """Full raghubar-das/saryu-roy regression: an actor candidate minted off
+    another actor candidate, whose OWN `from_candidate` resolves to a
+    problem, ends up with a `works_on` edge to that ANCESTOR PROBLEM on
+    promotion — not the immediate actor parent, and not left unlinked."""
+    problem(conn, "aadhaar-linked-pds-exclusion", title="Aadhaar-linked PDS exclusion")
+    grandparent = make_candidate(conn, kind="problem", name="Aadhaar-linked PDS exclusion")
+    conn.execute("UPDATE candidate SET resolved_to = ? WHERE id = ?",
+                ("aadhaar-linked-pds-exclusion", grandparent["id"]))
+    parent = make_candidate(
+        conn, kind="actor", name="Santoshi Kumari",
+        evidence=json.dumps({"from_candidate": grandparent["id"]}))
+    cand = make_candidate(
+        conn, kind="actor", name="Saryu Roy",
+        evidence=json.dumps({"from_candidate": parent["id"],
+                            "ancestor_problem_check": True}))
+    conn.commit()
+    actor(conn, "saryu-roy")
+
+    worker._backfill_trigger_edge(conn, cand, "actor", "saryu-roy",
+                                  by="worker:test", log=lambda *a: None)
+
+    linked = conn.execute(
+        "SELECT * FROM edge WHERE src_kind = 'actor' AND src_id = 'saryu-roy' "
+        "AND dst_kind = 'problem' AND dst_id = 'aadhaar-linked-pds-exclusion' "
+        "AND kind = 'works_on'").fetchone()
+    assert linked is not None
+    # Not linked to the immediate actor parent — that edge would be
+    # semantically wrong (works_on is actor -> problem only).
+    assert conn.execute(
+        "SELECT count(*) c FROM edge WHERE dst_kind = 'actor'"
+    ).fetchone()["c"] == 0
+
+
+def test_backfill_trigger_edge_noop_when_actor_chain_has_no_ancestor_problem(conn):
+    """The chain bottoms out in another actor with no further
+    `from_candidate` — no edge written, no crash, just a log line."""
+    root = make_candidate(conn, kind="actor", name="Root Actor", evidence=json.dumps({}))
+    cand = make_candidate(
+        conn, kind="actor", name="Child Actor",
+        evidence=json.dumps({"from_candidate": root["id"],
+                            "ancestor_problem_check": True}))
+    actor(conn, "child-actor")
+
+    logged = []
+    worker._backfill_trigger_edge(conn, cand, "actor", "child-actor",
+                                  by="worker:test", log=logged.append)
+
+    assert conn.execute("SELECT count(*) c FROM edge").fetchone()["c"] == 0
+    assert any("no resolvable ancestor problem" in m for m in logged)
 
 
 # ---------------------------------------------------------- track B: depth tier
