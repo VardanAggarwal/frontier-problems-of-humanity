@@ -1915,6 +1915,39 @@ def test_backfill_trigger_edge_noop_when_actor_chain_has_no_ancestor_problem(con
     assert any("no resolvable ancestor problem" in m for m in logged)
 
 
+def test_backfill_trigger_edge_links_an_actor_with_no_explicit_trigger_edge_at_all(conn):
+    """2026-09-19e: the `jj-spices`/`niehs`/`priyanka-sharma` shape — an
+    actor minted directly off a PROBLEM's `emits`, whose evidence carries
+    neither `edge_kind` NOR `ancestor_problem_check` (both landed after
+    these were minted). Previously this hit the "no `edge_kind`" no-op
+    contract and stayed unlinked forever, no matter how many times it was
+    reprocessed, because this function only ever reads evidence that was
+    already there. The ancestor walk must fire for this shape too, not
+    just the flagged actor-emits-actor case — no flag required."""
+    parent = make_candidate(conn, kind="problem",
+                            name="Vector-borne disease expansion")
+    conn.execute("UPDATE candidate SET resolved_to = ? WHERE id = ?",
+                ("vector-borne-disease", parent["id"]))
+    conn.commit()
+    cand = make_candidate(
+        conn, kind="actor", name="Priyanka Sharma",
+        evidence=json.dumps({
+            "hint": "Journalist covering the ministry's response",
+            "from_candidate": parent["id"],
+            "predicted_depth": "registry"}))
+    problem(conn, "vector-borne-disease", title="Vector-borne disease expansion")
+    actor(conn, "priyanka-sharma")
+
+    worker._backfill_trigger_edge(conn, cand, "actor", "priyanka-sharma",
+                                  by="worker:test", log=lambda *a: None)
+
+    linked = conn.execute(
+        "SELECT * FROM edge WHERE src_kind = 'actor' AND src_id = 'priyanka-sharma' "
+        "AND dst_kind = 'problem' AND dst_id = 'vector-borne-disease' "
+        "AND kind = 'works_on'").fetchone()
+    assert linked is not None
+
+
 # ---------------------------------------------------------- track B: depth tier
 
 def test_emit_stores_a_predicted_depth_for_an_actor_mention(conn):

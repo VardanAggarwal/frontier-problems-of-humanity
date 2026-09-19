@@ -51,7 +51,10 @@ CREATE TABLE problem (
 CREATE TABLE actor (
   id                  TEXT PRIMARY KEY,
   title               TEXT NOT NULL,
-  one_line            TEXT,          -- what they do, one sentence (mirrors problem.one_line)
+  one_line            TEXT,          -- what they do, a short paragraph (widened from
+                                     -- one sentence 2026-09-19d, questions.yaml:q1_one_line —
+                                     -- name/field kept for history, content is no longer
+                                     -- one line). `problem.one_line` stays one sentence.
   -- context (schema v7, migrate/m0007_actor_context_and_finding_kind.py):
   -- WHY this actor was worth minting — the candidate's own `evidence.hint`
   -- (`worker.py`'s mint path) as a floor, upgraded by a dedicated question

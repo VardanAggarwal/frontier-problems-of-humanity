@@ -191,6 +191,21 @@ def test_resolve_by_alias_ignores_case_and_punctuation(conn):
     assert db.resolve(conn, "actor", "nobody") is None
 
 
+def test_resolve_ignores_a_dangling_alias(conn):
+    """2026-09-19d: `santoshi-kumari` had an `alias` row committed with no
+    matching `actor` row (the insert that should have created it never did,
+    or was rolled back separately) — `resolve` trusted the alias anyway and
+    handed back a phantom id, which then blew up the first `db.link` that
+    tried to use it as a src (`edge.src_id: no such actor`). An alias
+    pointing nowhere must resolve to "not an entity", not to a lie."""
+    db.alias(conn, "actor", "santoshi-kumari", "Santoshi Kumari", by="test")
+    assert db.resolve(conn, "actor", "Santoshi Kumari") is None
+    # Once the row actually exists, the same alias resolves normally — the
+    # fix is about staleness, not about breaking aliasing altogether.
+    actor(conn, "santoshi-kumari")
+    assert db.resolve(conn, "actor", "Santoshi Kumari") == "santoshi-kumari"
+
+
 # ------------------------------------------------- provenance beyond put ------
 # tag / alias / CLEAR were added after the first pass, when the module docstring
 # claimed every mutation wrote an event and only put() and link() actually did.

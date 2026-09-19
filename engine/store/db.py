@@ -260,7 +260,22 @@ def alias(conn: sqlite3.Connection, entity_kind: str, entity_id: str,
 # ------------------------------------------------------------------- reads ---
 def resolve(conn: sqlite3.Connection, entity_kind: str, name: str) -> str | None:
     """Exact id, then alias, then normalized title. Nothing fuzzy — that is the
-    resolver's job (build step 3), and it needs vectors this layer does not have."""
+    resolver's job (build step 3), and it needs vectors this layer does not have.
+
+    2026-09-19d: an alias can outlive the row it points at — found live as
+    `santoshi-kumari` (an `alias` row committed, the `actor` insert for the
+    same candidate never did or was rolled back separately, leaving the
+    alias dangling). Trusting the alias blindly broke two different callers
+    downstream: `worker.py`'s `db.link` calls treated the phantom id as a
+    real entity and hit `edge`'s existence-check trigger with an opaque
+    `IntegrityError` (`ancestor works_on ('actor', 'santoshi-kumari') -> ...
+    rejected: edge.src_id: no such actor`), and any caller using `resolve`
+    for dedupe would treat the name as already-an-entity and skip minting a
+    real candidate for it — silently losing the actor, not just one edge.
+    Verifying the row exists before returning the alias hit closes both:
+    a dangling alias now resolves to `None`, i.e. "not an entity yet",
+    which is what it actually is.
+    """
     if entity_kind not in ("problem", "actor"):
         raise ValueError(f"resolve is for problem/actor, not {entity_kind}")
     table = entity_kind
@@ -271,7 +286,12 @@ def resolve(conn: sqlite3.Connection, entity_kind: str, name: str) -> str | None
         "SELECT entity_id FROM alias WHERE entity_kind = ? AND norm = ?",
         (entity_kind, norm(name)),
     ).fetchone()
-    return row["entity_id"] if row else None
+    if row is None:
+        return None
+    entity_id = row["entity_id"]
+    exists = conn.execute(
+        f"SELECT 1 FROM {table} WHERE id = ?", (entity_id,)).fetchone()
+    return entity_id if exists else None
 
 
 def title_of(conn: sqlite3.Connection, entity_kind: str, entity_id: str) -> str | None:

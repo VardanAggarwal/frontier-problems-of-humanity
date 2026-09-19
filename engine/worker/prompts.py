@@ -42,7 +42,7 @@ import re
 from typing import Mapping, Sequence
 
 from worker.extract_types import Answer, PromptSource
-from worker.identity import _name_tokens, _text_mentions_actor
+from worker.identity import _name_tokens, _text_mentions_actor, _url_is_own_domain
 from worker.questions import REGISTRY
 from store.tags import REGISTRY as TAG_REGISTRY
 
@@ -986,6 +986,7 @@ def drop_misidentified(
 
 def flag_unmentioned_answers(
     answers: Sequence[Answer], chunk_texts: Mapping[str, str], candidate_name: str,
+    source_urls: Mapping[str, str] | None = None,
 ) -> tuple[list[Answer], list[str]]:
     """Rule 4's chunk-granularity sibling: even a source the model did not
     flag can have one chunk (of several selected for it) that backs an
@@ -1007,15 +1008,32 @@ def flag_unmentioned_answers(
     For each answer with a resolvable `chunk_ref`, look up its chunk text and
     ask the same cheap, exact-string question `passages.py` and
     `search_stage.py` already ask (`worker.identity._text_mentions_actor`):
-    does this specific passage even say the candidate's name? If not, the
-    answer is dropped — the passage backing it never names the entity it is
-    being written as a fact about, regardless of what the rest of the source
-    contains.
+    does this specific passage say the candidate's name? If not, and the
+    chunk's own SOURCE isn't the candidate's own domain either (see
+    `_url_is_own_domain`), the answer is dropped.
 
-    `answer.chunk_ref` absent, or naming a chunk this call was not given text
-    for, passes through unchecked — there is nothing to check it against,
-    and the parser never guesses (same rule as `parse_misidentified`'s
-    unknown `source_id`).
+    2026-09-19d fix: originally dropped on the cited chunk's silence alone,
+    which over-dropped `jj-spices`' entire extraction — its cited chunk was
+    a quality-standards data table (pathogen/pesticide limits) copied from
+    JJ Spices' own, gate2-confirmed `jjspices.in/quality` page, which simply
+    never repeats the brand name mid-table. Widening to "any chunk from the
+    same source" was tried and rejected: it silently re-opens the exact
+    WeTheChange bug this check exists to catch (see
+    `test_answer_backed_by_a_chunk_that_never_names_the_candidate_is_dropped`
+    — one LinkedIn *scrape* page there mixes a chunk genuinely about the
+    candidate with a chunk of unrelated sidebar bleed; source-level trust
+    would keep both). The domain check is narrower and doesn't have that
+    hole: a bleed chunk on a third-party aggregator still gets no exemption,
+    while a chunk on the candidate's own site — confirmed independently by
+    its hostname, not by anything an LLM said about the text — does, even
+    when that one paragraph is pure data with no brand name in it.
+
+    `source_urls` is optional and keyed by `source_id` (the part of
+    `chunk_ref` before the last `:`); omitted or missing entries just skip
+    the domain exemption; `chunk_ref` absent, or naming a chunk this call
+    was not given text for, passes through unchecked — there is nothing to
+    check it against, and the parser never guesses (same rule as
+    `parse_misidentified`'s unknown `source_id`).
 
     Same safety valve as `passages.py`'s own gate: an empty `name_tokens`
     (candidate name too short/generic to check, e.g. an acronym-only name)
@@ -1031,13 +1049,21 @@ def flag_unmentioned_answers(
     name_tokens = _name_tokens(candidate_name)
     if not name_tokens:
         return list(answers), []
+    source_urls = source_urls or {}
 
     answers = list(answers)
     kept: list[Answer] = []
     unmentioned: list[Answer] = []
     for a in answers:
         chunk_text = chunk_texts.get(a.chunk_ref) if a.chunk_ref else None
-        if chunk_text is None or _text_mentions_actor(chunk_text, name_tokens):
+        if chunk_text is None:
+            kept.append(a)
+            continue
+        if _text_mentions_actor(chunk_text, name_tokens):
+            kept.append(a)
+            continue
+        source_id = a.chunk_ref.rsplit(":", 1)[0] if a.chunk_ref else None
+        if source_id and _url_is_own_domain(source_urls.get(source_id, ""), name_tokens):
             kept.append(a)
             continue
         unmentioned.append(a)

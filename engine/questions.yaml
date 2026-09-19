@@ -215,9 +215,27 @@ questions:
   # ===================================================== actor — 16 ====
   # Identity — split retrieval (q1, q6, q8) vs inference (q2, q3, q5, q7)
   # per poc1c-results.md §3.
+  # 2026-09-19d: widened from "one concrete sentence" to a short paragraph
+  # (`niehs`/`jj-spices`: the single-sentence answer read as thin/generic
+  # boilerplate even when the source material supported more — nothing in
+  # the pipeline pulls in richer actor narrative besides this field, so a
+  # sentence cap was capping the whole platform's actor description, not
+  # just this one question). `claim_field` stays `one_line` deliberately —
+  # renaming the DB column/`actor.one_line` would ripple into every page
+  # that reads it (`src/pages/actor/[id].astro`'s lede, `corpus.mjs`) for
+  # no benefit; only the CONTENT grows; the id and field are historical
+  # naming, not a promise the value is one line long.
   - id: q1_one_line
     kind: actor
-    question: "In one concrete sentence: what does this actor actually do — not a category label."
+    question: >-
+      In a short paragraph (3-5 sentences): what does this actor actually
+      do, concretely — not a category label. Describe what they build,
+      run, fund, campaign for or enforce; who it's for or who's affected;
+      and, if the source material supports it, how they go about it or
+      what makes their approach distinctive. Every sentence must be
+      grounded in the source text — do not pad with generic filler to
+      reach length; a shorter, fully-grounded paragraph beats a longer one
+      that guesses.
     claim_field: one_line
     multi: false
     retrieval: true

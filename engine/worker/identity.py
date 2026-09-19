@@ -17,7 +17,9 @@ No import of anything heavy — only `store.db` (stdlib `sqlite3`/`hashlib`/
 """
 from __future__ import annotations
 
+import re
 from typing import Sequence
+from urllib.parse import urlsplit
 
 from store import db
 
@@ -62,3 +64,33 @@ def _text_mentions_actor(text: str, name_tokens: Sequence[str]) -> bool:
         return True
     words = set(db.norm(text or "").split())
     return any(t in words for t in name_tokens)
+
+
+def _url_is_own_domain(url: str, name_tokens: Sequence[str]) -> bool:
+    """Does `url`'s hostname itself spell the candidate's name (minus
+    generic parts)? `jjspices.in` for "JJ Spices", `niehs.nih.gov` for
+    "NIEHS" — an own-domain page is trustworthy on its whole self by
+    construction, independent of what any single chunk or fetch happens to
+    say. A third-party host (linkedin.com, a news site, a directory) never
+    matches this.
+
+    2026-09-19d: added for `worker/prompts.py:flag_unmentioned_answers`'s
+    `jj-spices` fix (a same-domain chunk is trusted even when it's silent on
+    the brand name — see that function's docstring for why source-level
+    trust was rejected in favour of this narrower, deterministic check) and
+    reused by `worker/search_stage.py:website_and_feed_channels` (the
+    confirmed own-domain source becomes the `website` channel, and its root
+    is where feed-path candidates get probed from).
+    """
+    if not url or not name_tokens:
+        return False
+    host = urlsplit(url).netloc.lower().split(":")[0]
+    host = re.sub(r"^www\.", "", host)
+    host_norm = re.sub(r"[^a-z0-9]", "", host)
+    if not host_norm:
+        return False
+    # Require the FULL concatenated name (not just any one token) to appear
+    # in the hostname — "spices" alone would match half the internet's
+    # spice retailers; "jjspices" is distinctive.
+    joined = "".join(name_tokens)
+    return len(joined) >= 4 and joined in host_norm

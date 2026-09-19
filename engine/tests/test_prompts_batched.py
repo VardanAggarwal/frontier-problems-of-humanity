@@ -536,6 +536,54 @@ def test_empty_name_tokens_is_a_no_op():
     assert kept == answers and problems == []
 
 
+def test_own_domain_exempts_a_silent_chunk_the_jj_spices_shape():
+    """2026-09-19d: a chunk from the candidate's OWN domain that just never
+    repeats the brand name (a spec/data table, e.g. JJ Spices' quality
+    page) is kept, not dropped — the hostname itself is independent
+    evidence this is the candidate's own page."""
+    answers = [_answer("q11_scale_metric", "src:4")]
+    chunk_texts = {"src:4": "E. coli | PCR | <10 CFU/g | Salmonella | Absent"}
+    kept, problems = flag_unmentioned_answers(
+        answers, chunk_texts, "JJ Spices",
+        source_urls={"src": "https://jjspices.in/ne/quality"})
+    assert kept == answers and problems == []
+
+
+def test_own_domain_exemption_does_not_reopen_the_wethechange_hole():
+    """The domain check must stay narrower than the earlier same-source
+    attempt: a third-party host (a LinkedIn scrape, not the candidate's own
+    site) gets no exemption, even though it's the same `chunk_texts` shape
+    as the jj-spices case above — this is exactly the regression the
+    anaemia-mukt-bharat test above guards, restated with `source_urls`
+    supplied to confirm the new parameter doesn't change that outcome."""
+    answers = [_answer("q1_one_line", "src:0"), _answer("q2_status", "src:1")]
+    chunk_texts = {
+        "src:0": "Anaemia Mukt Bharat is a national programme on anaemia.",
+        "src:1": "WeTheChange is hiring a growth marketer, apply now.",
+    }
+    kept, problems = flag_unmentioned_answers(
+        answers, chunk_texts, "Anaemia Mukt Bharat",
+        source_urls={"src": "https://www.linkedin.com/posts/some-scrape"})
+    assert [a.question_id for a in kept] == ["q1_one_line"]
+    assert any("q2_status" in p and "src:1" in p for p in problems)
+
+
+def test_own_domain_requires_the_full_joined_name_not_one_token():
+    """A single generic token ("spices") must not be enough to claim a
+    domain as the candidate's own — that would match half the spice
+    retailers on the internet. Only the full joined name counts. A second,
+    mentioning answer keeps the safety valve (`not kept` -> keep-everything)
+    from masking the drop under test."""
+    answers = [_answer("q1_one_line", "src:0"), _answer("q2_status", "src:1")]
+    chunk_texts = {"src:0": "unrelated text naming no one",
+                   "src:1": "JJ Spices tests every batch for lead."}
+    kept, problems = flag_unmentioned_answers(
+        answers, chunk_texts, "JJ Spices",
+        source_urls={"src": "https://www.genericspicewholesaler.example"})
+    assert [a.question_id for a in kept] == ["q2_status"]
+    assert any("q1_one_line" in p and "src:0" in p for p in problems)
+
+
 # ------------------------------------- rule 5: per-chunk markers (2026-09-14)
 
 def _src(label="S1", refs=("src:0", "src:1", "src:2"),

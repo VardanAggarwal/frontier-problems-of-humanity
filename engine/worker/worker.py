@@ -1176,7 +1176,28 @@ def _backfill_trigger_edge(conn: sqlite3.Connection, cand: sqlite3.Row, kind: st
     (if any) resolves first isn't known at mint time. Handled below, after
     the ordinary trigger-edge check, by re-walking from this candidate's own
     `from_candidate` chain via `_ancestor_problem` — see its docstring for
-    the raghubar-das/saryu-roy case this closes."""
+    the raghubar-das/saryu-roy case this closes.
+
+    2026-09-19e fix: gating the walk on `ancestor_problem_check` left a
+    second, larger hole — any actor minted directly off a PROBLEM's own
+    `emits`, BEFORE `_emit`'s implicit-works_on synthesis existed
+    (e2e95d0), carries neither `edge_kind` nor `ancestor_problem_check`; its
+    evidence was frozen at mint time and this function only ever reads what
+    is already there, so re-running it on every reprocess was a permanent
+    no-op regardless of how many times the candidate got promoted.
+    `jj-spices`/`niehs`/`priyanka-sharma`/`community-farms` (all minted
+    2026-09-18, live 2026-09-19) hit exactly this — a one-off migration
+    (`migrate/backfill_works_on.py`) can clear the already-promoted
+    backlog, but every OLD not-yet-promoted candidate would keep landing
+    here with zero edges forever, one at a time, as each finally got
+    processed. The walk below now runs unconditionally for any `actor`
+    promotion with no explicit trigger edge, not just the flagged case —
+    `_ancestor_problem` already no-ops safely on a candidate with no
+    `from_candidate` chain at all, so this is strictly more coverage, not a
+    looser rule: the underlying claim ("an actor works on whatever problem
+    named it, however many hops up") was already the accepted semantics for
+    the flagged case; this just stops requiring the flag to act on it.
+    """
     try:
         payload = json.loads(cand["evidence"] or "")
     except (ValueError, TypeError):
@@ -1199,19 +1220,20 @@ def _backfill_trigger_edge(conn: sqlite3.Connection, cand: sqlite3.Row, kind: st
                 f"rejected: {ex}")
         return
 
-    if kind == "actor" and payload.get("ancestor_problem_check"):
+    if kind == "actor":
         ancestor_id = _ancestor_problem(conn, cand, log=log)
         if ancestor_id is None:
-            log(f"worker: candidate {cand['id']} ({entity_id}) was minted "
-                "from another actor's emit and has no resolvable ancestor "
-                "problem — no works_on edge written")
+            log(f"worker: candidate {cand['id']} ({entity_id}) has no "
+                "resolvable ancestor problem (no from_candidate chain, or "
+                "the chain bottoms out before reaching one) — no works_on "
+                "edge written")
             return
         try:
             db.link(conn, ("actor", entity_id), "works_on",
                     ("problem", ancestor_id), by=by, evidence=payload.get("hint"),
                     why=f"backfilled ancestor-problem works_on for candidate "
-                        f"{cand['id']} — minted from another actor's emit, "
-                        "no direct problem parent")
+                        f"{cand['id']} at promotion time — no explicit "
+                        "trigger edge on its own evidence")
         except sqlite3.IntegrityError as ex:
             log(f"worker: ancestor works_on actor:{entity_id} -> "
                 f"problem:{ancestor_id} rejected: {ex}")
@@ -2088,9 +2110,17 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 chunk_texts = {ref: text
                                for s in list(prompt_sources) + list(verify_sources)
                                for ref, text in zip(s.chunk_refs, s.chunk_texts)}
+                # source_id -> url, so flag_unmentioned_answers can exempt a
+                # silent chunk when its OWN source is the candidate's own
+                # domain (2026-09-19d fix, jj-spices) without reopening the
+                # anaemia-mukt-bharat hole (same-source, different-chunk
+                # bleed still gets no exemption — see that function's
+                # docstring).
+                source_urls = {s.source_id: s.url
+                               for s in list(prompt_sources) + list(verify_sources)}
                 before_count = len(answers)
                 answers, unmentioned_problems = flag_unmentioned_answers(
-                    answers, chunk_texts, name)
+                    answers, chunk_texts, name, source_urls=source_urls)
                 for problem in unmentioned_problems:
                     log(f"worker: candidate {cid} {problem}")
                 # `before_count - len(answers)` rather than
@@ -2245,11 +2275,37 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 # never talked to each other.
                 channel_sources = [s_ for s_ in sources
                                    if s_.source_id not in flagged]
+                detected_channels = search_stage.channels_from_confirmed(
+                    channel_sources, name=name, context=cand["evidence"] or "",
+                    judge=_channel_judge)
+                # website/rss: deterministic, own-domain-confirmed channels
+                # `channels_from_confirmed` deliberately doesn't attempt
+                # (its own docstring: a bare domain can't be told apart from
+                # "an article about the actor" by pattern alone) — closes
+                # the niehs/jj-spices gap where q16's model answer had no
+                # URL to cite at all. Guessed feed paths are only written
+                # once fetched AND gate2-confirmed against this candidate,
+                # same bar as every other source (see that function's
+                # docstring).
+                #
+                # `fetch`/`confirm` are omitted (feed-path probing skipped)
+                # on a resumed candidate (`cached is not None`, mirroring
+                # the `cached is None and search_provider is not None` gate
+                # above) — the `website` entry itself still runs for free
+                # off `channel_sources` already in hand, but re-probing feed
+                # paths would re-run gate2's embedding call on every resume,
+                # which is exactly the cost §13a's resume path exists to
+                # avoid (`test_worker_resume.py:
+                # test_second_run_skips_search_gate2_and_gate1`).
+                detected_channels += search_stage.website_and_feed_channels(
+                    channel_sources, name=name, evidence=cand["evidence"] or "",
+                    fetch=(lambda url: fetchmod.fetch(conn, corpus, url))
+                          if cached is None else None,
+                    confirm=(lambda n, ev, txt: gate2.confirm(conn, n, ev, txt))
+                            if cached is None else None,
+                    log=log)
                 _write_detected_channels(
-                    conn, entity_id, search_stage.channels_from_confirmed(
-                        channel_sources, name=name, context=cand["evidence"] or "",
-                        judge=_channel_judge),
-                    by=by, log=log)
+                    conn, entity_id, detected_channels, by=by, log=log)
             report["cites_written"] += _write_cites(conn, kind, entity_id, answers,
                                                     by=by, log=log)
             _backfill_trigger_edge(conn, cand, kind, entity_id, by=by, log=log)

@@ -45,7 +45,8 @@ from search.health import MIN_ENGINES_RETURNED, engines_returned, is_healthy
 from worker.config import MAX_SOURCES_ESCALATE, MAX_SOURCES_REGISTRY, MAX_SOURCES_TRACKED
 from worker.depth import REGISTRY_TIER, TRACKED_TIER
 from worker.extract_types import ConfirmedSource
-from worker.identity import _NAME_TOKEN_STOPWORDS, _name_tokens, _text_mentions_actor  # noqa: F401
+from worker.identity import (  # noqa: F401
+    _NAME_TOKEN_STOPWORDS, _name_tokens, _text_mentions_actor, _url_is_own_domain)
 
 DEFAULT_FAMILIES_PATH = Path(__file__).resolve().parents[1] / "search" / "families.yaml"
 
@@ -280,6 +281,98 @@ def channels_from_confirmed(
             seen[kind] = s.url
             break
     return [{"kind": k, "url": u} for k, u in seen.items()]
+
+
+# Common feed paths, cheapest/most-likely first. Not exhaustive — this is a
+# handful of probes against ONE already-confirmed domain, not a crawl.
+_FEED_PATH_CANDIDATES: tuple[str, ...] = (
+    "/feed", "/feed/", "/rss", "/rss.xml", "/feed.xml", "/atom.xml",
+    "/index.xml", "/rss/",
+)
+
+
+def _domain_root(url: str) -> str:
+    parts = urlparse(url)
+    return f"{parts.scheme}://{parts.netloc}"
+
+
+def website_and_feed_channels(
+        sources: Sequence[ConfirmedSource],
+        name: str = "",
+        evidence: str = "",
+        fetch: Optional[Callable[[str], object]] = None,
+        confirm: Optional[Callable[[str, str, str], tuple]] = None,
+        log: Callable = print,
+) -> list[dict]:
+    """Confirmed sources -> at most one `website` channel and one `rss`
+    channel, found by domain ownership plus a small set of guessed-and-
+    VERIFIED candidate URLs — never by trusting anything the model says
+    about a link it can't quote a URL for.
+
+    `channels_from_confirmed`'s own docstring says why it has no `website`
+    entry: "a generic domain cannot be told apart from 'an article about the
+    actor' by a URL pattern alone; that one stays the LLM's job." That LLM
+    job is `channel:website`/`channel:rss` via `q16_channel` — and it has a
+    real gap: `worker/questions.yaml:497`'s prompt correctly forbids
+    constructing a URL that isn't literally in the text, but a cleaned page
+    has no hrefs (`niehs`, 2026-09-19: the model could only report the
+    anchor LABEL "Subscribe to our RSS Feed", no URL, so nothing was ever
+    written). This function closes that gap the same way
+    `channels_from_confirmed` closes its own: deterministically, from the
+    confirmed source set, rather than hoping generation surfaces it.
+
+    Step 1 — `website`: among CONFIRMED sources, find the one whose hostname
+    IS the candidate's own name (`identity._url_is_own_domain` — `jjspices
+    .in`, `niehs.nih.gov`). That's independent, structural evidence this is
+    the candidate's own site; no LLM call needed. None found -> no channels
+    at all (nothing to probe feed paths against either).
+
+    Step 2 — `rss`: this is the "send candidate URLs to be confirmed"
+    half. Rather than wait for a model to notice and correctly quote a feed
+    URL, guess the obvious ones (`_FEED_PATH_CANDIDATES`) off the confirmed
+    domain root and run each through the SAME fetch + gate2 `confirm` any
+    other candidate URL goes through — a guess is only ever written if it
+    fetches usable text AND gate2 confirms that text against the
+    candidate's identity. `fetch`/`confirm` follow `search_sources`' own
+    injection contract (this module still touches neither the network nor
+    the database); omit either to get the `website` channel alone (e.g. a
+    caller with no budget for extra fetches this candidate). Stops at the
+    first confirmed hit — this is a probe for "does an obvious one exist",
+    not an enumeration of every feed the site has.
+    """
+    name_tokens = _name_tokens(name)
+    if not name_tokens:
+        return []
+    own = next((s for s in sources
+                if s.verdict == CONFIRMED and _url_is_own_domain(s.url, name_tokens)),
+               None)
+    if own is None:
+        return []
+    root = _domain_root(own.url)
+    channels = [{"kind": "website", "url": root}]
+    if fetch is None or confirm is None:
+        return channels
+    for path in _FEED_PATH_CANDIDATES:
+        candidate_url = root + path
+        try:
+            result = fetch(candidate_url)
+        except Exception as ex:
+            log(f"search_stage: feed candidate {candidate_url} fetch failed: "
+                f"{type(ex).__name__}: {ex}")
+            continue
+        text = getattr(result, "text", None)
+        if not text:
+            continue
+        verdict, cosine, note = confirm(name, evidence, text)
+        if verdict != CONFIRMED:
+            log(f"search_stage: feed candidate {candidate_url} not confirmed "
+                f"({verdict}, cosine={cosine:.3f}) — skipped")
+            continue
+        log(f"search_stage: feed candidate {candidate_url} confirmed "
+            f"(cosine={cosine:.3f}) — written as rss channel")
+        channels.append({"kind": "rss", "url": candidate_url})
+        break
+    return channels
 
 
 def _resolve_max_sources(depth: str, max_sources: Optional[int]) -> int:

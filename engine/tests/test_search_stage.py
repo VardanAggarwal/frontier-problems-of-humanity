@@ -26,7 +26,7 @@ from worker.depth import REGISTRY_TIER, TRACKED_TIER
 from worker.extract_types import ConfirmedSource
 from worker.search_stage import (
     _hint_anchor_top_up, channels_from_confirmed, extract_hint,
-    render_queries, search_sources,
+    render_queries, search_sources, website_and_feed_channels,
 )
 
 HERE = pathlib.Path(__file__).parent
@@ -337,6 +337,73 @@ def test_channels_from_confirmed_accepts_facebook_profile_php_id():
         "kind": "facebook",
         "url": "https://www.facebook.com/profile.php?id=100012345678",
     }]
+
+
+# ------------------------- website_and_feed_channels (2026-09-19d) ---------
+
+def test_website_and_feed_channels_no_own_domain_yields_nothing():
+    """No confirmed source's hostname spells the candidate's name — nothing
+    to anchor a website channel to, so no feed probing either."""
+    channels = website_and_feed_channels(
+        [_cs("https://en.wikipedia.org/wiki/JJ_Spices")], name="JJ Spices")
+    assert channels == []
+
+
+def test_website_and_feed_channels_website_only_without_fetch_confirm():
+    """Own domain found, but no `fetch`/`confirm` injected (e.g. no budget
+    left this candidate) — the website channel is still free, feed probing
+    is just skipped."""
+    channels = website_and_feed_channels(
+        [_cs("https://jjspices.in/ne/quality")], name="JJ Spices")
+    assert channels == [{"kind": "website", "url": "https://jjspices.in"}]
+
+
+def test_website_and_feed_channels_confirms_a_guessed_feed_path():
+    """The niehs shape: the model had a link LABEL but no URL to cite. This
+    guesses common feed paths off the confirmed domain root and only writes
+    one that both fetches usable text and gate2-confirms against the
+    candidate — never a bare construction."""
+    def fetch(url):
+        if url == "https://niehs.nih.gov/feed":
+            return _FakeFetchResult("NIEHS RSS Feed — latest research", "f1")
+        return _FakeFetchResult(None, "other")
+
+    def confirm(name, evidence, text):
+        return (CONFIRMED, 0.9, "") if "NIEHS" in text else (MISMATCH, 0.5, "")
+
+    channels = website_and_feed_channels(
+        [_cs("https://niehs.nih.gov/about/visiting")], name="NIEHS",
+        fetch=fetch, confirm=confirm)
+    assert channels == [
+        {"kind": "website", "url": "https://niehs.nih.gov"},
+        {"kind": "rss", "url": "https://niehs.nih.gov/feed"},
+    ]
+
+
+def test_website_and_feed_channels_never_writes_an_unconfirmed_guess():
+    """Every guessed path either 404s (no text) or fails gate2 — no `rss`
+    channel is written, only `website`. This is the "never construct a URL
+    that isn't verified" guarantee `q16_channel`'s prompt asks the model
+    for, enforced here at the pipeline level instead of by instruction."""
+    channels = website_and_feed_channels(
+        [_cs("https://jjspices.in/ne/quality")], name="JJ Spices",
+        fetch=lambda url: _FakeFetchResult(None, "x"),
+        confirm=lambda *a: (CONFIRMED, 0.99, ""))
+    assert channels == [{"kind": "website", "url": "https://jjspices.in"}]
+
+
+def test_website_and_feed_channels_stops_at_first_confirmed_hit():
+    calls = []
+
+    def fetch(url):
+        calls.append(url)
+        return _FakeFetchResult("JJ Spices quality feed", "f")
+
+    channels = website_and_feed_channels(
+        [_cs("https://jjspices.in/ne/quality")], name="JJ Spices",
+        fetch=fetch, confirm=lambda *a: (CONFIRMED, 0.9, ""))
+    assert len(calls) == 1
+    assert channels[-1]["kind"] == "rss"
 
 
 def test_channels_from_confirmed_rejects_instagram_post_and_reel_permalinks():
