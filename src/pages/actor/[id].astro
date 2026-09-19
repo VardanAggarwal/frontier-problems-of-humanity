@@ -6,8 +6,6 @@ export function getStaticPaths() {
   return corpus.actors.map((a) => ({ params: { id: a.id }, props: { a } }));
 }
 const { a } = Astro.props;
-const sourced = a.needs.filter((n) => /^https?:\/\//.test(n.source ?? ''));
-const withheld = a.needs.length - sourced.length;
 const leaves = a.leaves
   .map(({ id, role }) => ({ l: corpus.allLeaves.find((x) => x.id === id), role }))
   .filter((r) => r.l)
@@ -142,10 +140,16 @@ const feeds = a.sources
   </div>
 
   <h2>What they need</h2>
-  {sourced.length === 0 ? <p class="empty">Nothing published.</p> : (
-    <ul>{sourced.map((n) => <li><b>{n.kind}</b> — {n.text} <a class="tag" href={n.source}>source</a> {n.as_of && <span class="tag">{n.as_of}</span>}</li>)}</ul>
+  {a.needs.length === 0 ? <p class="empty">Nothing published.</p> : (
+    <ul>{a.needs.map((n) => {
+      const verified = /^https?:\/\//.test(n.source ?? '');
+      return <li><b>{n.kind}</b> — {n.text}{' '}
+        {verified
+          ? <a class="tag" href={n.source}>source</a>
+          : <span class="tag warn">unverified</span>}
+        {' '}{n.as_of && <span class="tag">{n.as_of}</span>}</li>;
+    })}</ul>
   )}
-  {withheld > 0 && <p class="empty">{withheld} further ask{withheld > 1 ? 's' : ''} recorded without a public source, held back from publication.</p>}
 
   <h2>What they can offer</h2>
   {a.offers.length === 0 ? <p class="empty">Nothing recorded.</p> :

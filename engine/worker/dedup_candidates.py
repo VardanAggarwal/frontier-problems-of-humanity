@@ -91,8 +91,9 @@ from pathlib import Path
 from embed.guard import REPO, add_store_args, open_store
 from embed.model import encode
 from store import db
-from text.preview import (DEFAULT_CONTAINMENT, Preview, _Union,
-                          _is_distinctive, containment, content_tokens, group)
+from text.preview import (_STOP, DEFAULT_CONTAINMENT, Preview, _Union,
+                          _is_distinctive, containment, content_tokens, group,
+                          normalize_title)
 
 from .resolve import SAFE_MATCH_ABOVE, resolve_entity
 
@@ -200,6 +201,42 @@ def compare_name(name: str, kind: str = "actor") -> str:
     return stripped or (name or "")
 
 
+def _acronym_swap(a: str, b: str, kind: str) -> bool:
+    """One side's stem, after `compare_name` strips ITS OWN trailing
+    parenthetical, is a bare single-token acronym, and the other side's stem
+    is the multi-word expansion whose initials spell that same acronym.
+
+    Live case: candidate #747 `"LEEP (Lead Exposure Elimination Project)"`
+    and #751 `"Lead Exposure Elimination Project (LEEP)"` — the same org,
+    filed twice from the same source with the acronym and the full name
+    swapped across the parenthesis. `compare_name` strips the trailing
+    parenthetical on both (that's what it's for — dropping an affiliation
+    tag), which leaves `"LEEP"` on one side and the full expansion on the
+    other. Those share zero tokens: `"leep"` is not a substring token of
+    `"lead exposure elimination project"`, so neither the ordinary
+    `>= MIN_SHARED` token-overlap bar nor `containment` (needs shared
+    tokens) sees any relation, and the pair was left unmerged.
+
+    Actor-only, same reasoning as `compare_name`'s own restriction — on
+    problem names a parenthetical carries substance, not an alias."""
+    if kind != "actor":
+        return False
+    for short, long in ((a, b), (b, a)):
+        stem_short = compare_name(short, kind)
+        if len(content_tokens(stem_short)) != 1:
+            continue
+        (tok,) = content_tokens(stem_short)
+        if not tok.isalpha():
+            continue
+        stem_long = compare_name(long, kind)
+        words = [w for w in normalize_title(stem_long).split() if w not in _STOP]
+        if len(words) < 2:
+            continue
+        if "".join(w[0] for w in words) == tok:
+            return True
+    return False
+
+
 def same_name(a: str, b: str, kind: str = "actor") -> bool:
     """The two names normalize to the same string once a trailing
     parenthetical is stripped.
@@ -227,7 +264,7 @@ def same_name(a: str, b: str, kind: str = "actor") -> bool:
     stem fall through to the ordinary >= MIN_SHARED bar instead."""
     if content_tokens(compare_name(a, kind)) != content_tokens(compare_name(b, kind)) \
             or not content_tokens(compare_name(a, kind)):
-        return False
+        return _acronym_swap(a, b, kind)
     both_qualified = (_TRAILING_PAREN.search(a or "")
                       and _TRAILING_PAREN.search(b or ""))
     if not both_qualified:
@@ -377,7 +414,8 @@ def _tier2(rows_by_id: dict, survivor_ids: list[str], kind: str, uf: _Union,
                 continue
             na, nb = rows_by_id[cid]["name"], rows_by_id[order[rpos]]["name"]
             shared = distinctive_shared(na, nb, kind)
-            if len(shared) < MIN_SHARED and not same_name(na, nb, kind):
+            lexical_ok = len(shared) >= MIN_SHARED or same_name(na, nb, kind)
+            if not lexical_ok:
                 continue  # topical closeness, not identity — resolve.py's rescue
             if best is None or cosine > best[0]:
                 best = (cosine, rpos, shared)
@@ -388,9 +426,14 @@ def _tier2(rows_by_id: dict, survivor_ids: list[str], kind: str, uf: _Union,
         rep_id = order[rpos]
         uf.union(cid, rep_id)
         root = uf.find(rep_id)
+        na, nb = rows_by_id[cid]["name"], rows_by_id[rep_id]["name"]
+        lexical = (f"shares {sorted(shared)!r}" if shared
+                  else f"acronym match {compare_name(na, kind)!r}/"
+                       f"{compare_name(nb, kind)!r}" if _acronym_swap(na, nb, kind)
+                  else "identical name")
         reasons.setdefault(root, []).append(
             f"tier2: cosine {cosine:.3f} clears {SAFE_MATCH_ABOVE}, "
-            f"shares {sorted(shared)!r} between {cid!r} and {rep_id!r}")
+            f"{lexical} between {cid!r} and {rep_id!r}")
     return reasons
 
 
