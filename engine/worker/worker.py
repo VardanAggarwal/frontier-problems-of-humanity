@@ -691,19 +691,53 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
     # set, an actor named in both `emits` and `edges` in the same call would
     # mint twice.
     minted_actors: set[str] = set()
+    edges_written = 0
+    # `works_on` is implicit whenever a problem candidate emits an actor, or
+    # an actor candidate emits a problem — that IS the relation. Asking the
+    # model to also restate it as an `edges` entry doesn't work in practice:
+    # it reliably lists the actor under `emits` (for the stub) without
+    # reliably pairing a `works_on` edge to it (same unreliability the
+    # duplicate-mint comment below documents for problems), which left
+    # newly-minted actors with nothing for `_backfill_trigger_edge` to
+    # backfill at promotion time — their "Working on" list stayed empty even
+    # though the source material said exactly who was working on what.
+    # Synthesized in the loop below instead of asking the model twice. A
+    # name already carrying an explicit `works_on` edge from the model is
+    # left alone, so as not to attempt a harmless-but-noisy duplicate write.
+    explicit_works_on = {
+        db.norm(e.get("dst_name") or "")
+        for e in (claims.get("edges", []) or [])
+        if e.get("edge_kind") == "works_on"
+    }
     for e in claims.get("emits", []) or []:
         ekind, ename = e.get("kind"), e.get("name")
         if ekind not in ("problem", "actor") or not ename:
             continue
+        implicit_works_on = (
+            (source_candidate["kind"], ekind) in
+            {("problem", "actor"), ("actor", "problem")}
+            and db.norm(ename) not in explicit_works_on)
         # A mention of an entity that already exists (on disk, or just
         # written earlier in this same batch) is not a new candidate — the
         # `edges` loop below already makes exactly this check for its
         # destinations; `emits` was missing it, which would otherwise spawn
         # an unconsolidated duplicate stub every time any candidate's text
         # so much as names an already-tracked actor.
-        if db.resolve(conn, ekind, ename) is not None:
-            continue
-        if resolved_this_batch.get((ekind, db.norm(ename))) is not None:
+        existing_id = db.resolve(conn, ekind, ename)
+        if existing_id is None:
+            existing_id = resolved_this_batch.get((ekind, db.norm(ename)))
+        if existing_id is not None:
+            if implicit_works_on:
+                known_id = source_candidate["resolved_to"]
+                src = ("actor", existing_id if ekind == "actor" else known_id)
+                dst = ("problem", existing_id if ekind == "problem" else known_id)
+                try:
+                    db.link(conn, src, "works_on", dst,
+                            by=f"worker:{source_candidate['id']}",
+                            evidence=e.get("hint"))
+                    edges_written += 1
+                except sqlite3.IntegrityError as ex:
+                    log(f"worker: implicit works_on {src} -> {dst} rejected: {ex}")
             continue
         payload = {"hint": e.get("hint", ""), "from_candidate": source_candidate["id"]}
         if ekind == "problem":
@@ -720,6 +754,16 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
             # captured here so that plumbing has data to read once it does.
             payload["predicted_depth"] = depth_mod.predict_tier(
                 {"name": ename, "hint": e.get("hint", "")})
+        if implicit_works_on:
+            # Deferred, same contract `_trigger_edge_fields` gives the
+            # `edges` loop's own mint path below (`_mint_or_resolve_actor` /
+            # `_mint_or_resolve_problem`) — `_backfill_trigger_edge` reads
+            # these same keys regardless of which mint path wrote them, and
+            # completes the write once this candidate is itself promoted.
+            payload["from_kind"] = source_candidate["kind"]
+            payload["from_id"] = source_candidate["resolved_to"]
+            payload["edge_kind"] = "works_on"
+            payload["edge_evidence"] = e.get("hint")
         conn.execute(
             "INSERT INTO candidate (kind, name, url, discovered_via, evidence) "
             "VALUES (?, ?, NULL, ?, ?)",
@@ -730,7 +774,6 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
             minted_actors.add(db.norm(ename))
         emitted += 1
 
-    edges_written = 0
     for e in claims.get("edges", []) or []:
         dst_kind, dst_name = _normalise_dst_kind(e.get("dst_kind")), e.get("dst_name")
         edge_kind = e.get("edge_kind")

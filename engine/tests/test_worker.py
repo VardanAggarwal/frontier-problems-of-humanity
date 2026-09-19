@@ -1541,6 +1541,56 @@ def test_emit_actor_edge_does_not_double_mint_an_already_emitted_actor(
     ).fetchone()["c"] == 1
 
 
+def test_emit_synthesizes_works_on_for_an_actor_named_only_in_emits(
+        conn, monkeypatch):
+    """The bug this fix closes: the model reliably lists a `works_on` actor
+    under `emits` (for the stub) but doesn't reliably restate it as an
+    `edges` entry too — so newly-minted actors ended up with nothing for
+    `_backfill_trigger_edge` to backfill and their "Working on" section
+    stayed empty. `_emit` now synthesizes the `works_on` edge itself from a
+    plain `emits` entry, with no matching `edges` entry required."""
+    problem(conn, "silicosis-quarries", title="Silicosis in Stone Quarries")
+    src = _source_candidate(conn, resolved_to="silicosis-quarries", kind="problem")
+    monkeypatch.setattr(resolve, "encode_one", lambda *a, **kw: unit(1.0))
+    monkeypatch.setattr(resolve.index, "knn", lambda *a, **kw: [])   # empty -> new
+
+    claims = {"emits": [{"kind": "actor", "name": "Quarry Workers Collective",
+                         "hint": "leads the campaign"}], "edges": []}
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert emitted == 1   # minted once, by the emits loop
+    assert edges == 0   # deferred — the actor isn't an entity yet
+    row = conn.execute(
+        "SELECT * FROM candidate WHERE kind = 'actor' AND "
+        "name = 'Quarry Workers Collective'").fetchone()
+    payload = json.loads(row["evidence"])
+    assert payload["from_kind"] == "problem"
+    assert payload["from_id"] == "silicosis-quarries"
+    assert payload["edge_kind"] == "works_on"
+
+
+def test_emit_does_not_double_write_works_on_when_model_states_it_explicitly(
+        conn, monkeypatch):
+    """An actor already resolved (not minted) that the model both `emits`
+    and links via an explicit `works_on` edge must get exactly one edge, not
+    a synthesized second attempt that then has to be swallowed as a
+    duplicate-key error."""
+    problem(conn, "silicosis-quarries", title="Silicosis in Stone Quarries")
+    actor(conn, "Quarry Workers Collective")   # id == dst_name -> resolves by exact id
+    src = _source_candidate(conn, resolved_to="silicosis-quarries", kind="problem")
+
+    claims = {"emits": [{"kind": "actor", "name": "Quarry Workers Collective",
+                         "hint": "leads the campaign"}],
+              "edges": [{"dst_kind": "actor", "dst_name": "Quarry Workers Collective",
+                        "edge_kind": "works_on", "relevance": 3}]}
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert edges == 1
+    assert conn.execute(
+        "SELECT count(*) c FROM edge WHERE kind = 'works_on'"
+    ).fetchone()["c"] == 1
+
+
 def test_backfill_trigger_edge_writes_the_deferred_edge_on_promotion(conn):
     """The other half: once a candidate minted this way is itself promoted
     to a real actor/problem row, the edge its own evidence remembers gets
