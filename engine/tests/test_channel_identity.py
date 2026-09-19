@@ -36,10 +36,30 @@ def test_channel_identity_prompt_truncates_long_text():
     assert prompt.count("x") <= 2000 + 200  # generous slack for the rest of the prompt's own text
 
 
-def test_parse_channel_identity_accepts_true():
-    ok, why = parse_channel_identity({"is_own_channel": True, "why": "bio matches"})
+def test_parse_channel_identity_accepts_true_with_matched_detail():
+    ok, why = parse_channel_identity({
+        "is_own_channel": True, "matched_detail": "bio says CEO of Waterlife India",
+        "why": "bio matches"})
     assert ok is True
     assert why == "bio matches"
+
+
+def test_parse_channel_identity_rejects_true_without_matched_detail():
+    # 2026-09-19: a bare `is_own_channel: true` with no corroborating fact is
+    # exactly how `sudesh-menon` got a same-named different person's LinkedIn
+    # profile written as his channel — the model verified "a real profile of
+    # someone with this name," not "a profile of this entity." Downgraded to
+    # not-confirmed regardless of what the model claims.
+    ok, why = parse_channel_identity({"is_own_channel": True, "why": "bio matches"})
+    assert ok is False
+    assert "matched_detail is empty" in why
+
+
+def test_parse_channel_identity_rejects_true_with_blank_matched_detail():
+    ok, why = parse_channel_identity({
+        "is_own_channel": True, "matched_detail": "   ", "why": "bio matches"})
+    assert ok is False
+    assert "matched_detail is empty" in why
 
 
 def test_parse_channel_identity_accepts_false():
@@ -67,6 +87,7 @@ def test_parse_channel_identity_rejects_non_bool_value():
 
 
 def test_parse_channel_identity_defaults_why_to_empty_string():
-    ok, why = parse_channel_identity({"is_own_channel": True})
+    ok, why = parse_channel_identity({
+        "is_own_channel": True, "matched_detail": "bio says CEO of Waterlife India"})
     assert ok is True
     assert why == ""

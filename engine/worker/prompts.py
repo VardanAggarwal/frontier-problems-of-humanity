@@ -134,7 +134,14 @@ _EXTRACT_COMMON_PROSE = (
     "works_on, cites, funds, board, cohort, convenes, portfolio, "
     "affiliated, parent_org, superseded_by. `relevance` on a `works_on` "
     "edge is 0 (mentioned) / 1 (adjacent) / 2 (works it) / 3 "
-    "(load-bearing) — omit if the text does not support a judgment.\n\n"
+    "(load-bearing) — omit if the text does not support a judgment. "
+    "Whenever the text states a named individual's role at a named "
+    "organisation (staff, founder, CEO, director, spokesperson, trustee, "
+    "etc), and both are emitted as actors, ALSO emit an `affiliated` edge "
+    "from the individual (`dst_kind: \"actor\"`, `dst_name`: the org) — "
+    "this is what links the person's actor record back to the org's; "
+    "without it the two sit unconnected even when the text plainly ties "
+    "them together.\n\n"
     "When answering p19_who_working / a `works_on` edge, consider all four "
     "response legs — activism, institution, enterprise (market-payer only), "
     "service (donor-funded, no earned revenue) — separately. If the given "
@@ -1008,17 +1015,28 @@ def channel_identity_prompt(
         "channel URL with the text fetched from that URL, decide whether the "
         "page IS that entity's own channel — a profile, account or page they "
         "themselves control or post to.\n\n"
-        "A name appearing in the text is not by itself evidence: a page can "
-        "mention someone without being theirs, and a name can belong to more "
-        "than one person or organisation. Decide from what the page actually "
-        "says about itself (its own bio, its own posts, its own \"about\") "
-        "against the entity description given. If the page gives too little "
-        "to tell — no bio, no identifying content, generic boilerplate — "
-        "say so rather than guessing either way.\n\n"
+        "A name appearing in the text is NOT evidence on its own — common "
+        "names collide, and a page can be a real, self-authored profile "
+        "while still belonging to a different person or org who happens to "
+        "share the name. A plausible-looking profile of *someone with this "
+        "name* is not the same claim as a profile of *this entity* — do not "
+        "let the first stand in for the second.\n\n"
+        "You must find at least one SPECIFIC, checkable fact in the page's "
+        "own text (its bio, its posts, its \"about\") that matches something "
+        "in the entity description beyond the bare name — e.g. the stated "
+        "role, employer/organisation, sector, location, or project named in "
+        "the description. Quote or closely paraphrase that matching detail "
+        "in `matched_detail`. If the page's own text contains no such "
+        "detail — no bio, no identifying content, generic boilerplate, or "
+        "simply nothing that corroborates the entity description beyond the "
+        "name — `matched_detail` must be empty and `is_own_channel` must be "
+        "false. Do not guess true because nothing CONTRADICTS the entity "
+        "description either; absence of contradiction is not confirmation.\n\n"
         "Respond with strict JSON only, no prose, no markdown fences, "
         "exactly one object:\n"
-        '{"is_own_channel": true|false, "why": "one clause, citing what in '
-        'the page text supports the verdict"}'
+        '{"matched_detail": "the specific fact from the page that matches '
+        'the entity description, or empty string if none", '
+        '"is_own_channel": true|false, "why": "one clause"}'
     )
     prompt = (
         f"Entity name: {entity_name}\n"
@@ -1038,11 +1056,30 @@ def parse_channel_identity(result_json) -> tuple[bool, str]:
     not consent": a channel write is the failure mode this whole prompt
     exists to prevent, so an ambiguous model response must not default to
     writing it anyway.
+
+    2026-09-19: trusting the model's bare `is_own_channel` bool let
+    `sudesh-menon`'s channel get written from a same-named different
+    person's profile (Business Manager at Crayon, not the Waterlife India
+    CEO) — the model's own `why` never referenced the entity description at
+    all ("displays his name, location, professional activity, and posts"),
+    meaning it verified "a real profile of someone with this name" and
+    called that a match, not "a real profile of THIS entity". The prompt
+    now requires a non-empty `matched_detail` naming a specific fact from
+    the page that corroborates the entity description beyond the bare
+    name. `is_own_channel: true` with an empty/missing `matched_detail` is
+    treated as not confirmed regardless of what the model claims — the
+    check is enforced here, not trusted from the model's self-report,
+    because a model under mild pressure will set the bool true without
+    actually having done the comparison the prompt asks for.
     """
     if not isinstance(result_json, dict):
         return False, f"result is not a JSON object (got {type(result_json).__name__})"
     val = result_json.get("is_own_channel")
     why = str(result_json.get("why") or "")
+    matched = str(result_json.get("matched_detail") or "").strip()
     if not isinstance(val, bool):
         return False, f"is_own_channel missing or non-bool ({val!r}) — treated as not confirmed"
+    if val and not matched:
+        return False, (f"is_own_channel=true but matched_detail is empty — "
+                       f"name-only match, not confirmed (model why: {why})")
     return val, why

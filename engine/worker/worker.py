@@ -782,6 +782,13 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
     # set, an actor named in both `emits` and `edges` in the same call would
     # mint twice.
     minted_actors: set[str] = set()
+    # `(kind, norm(name)) -> candidate.id` for every candidate minted by the
+    # `emits` loop THIS call — lets the `edges` loop patch a just-minted
+    # candidate's trigger-edge fields onto its own row when the model named
+    # the same actor/problem in both `emits` and an explicit `works_on`
+    # edge (2026-09-19 fix: previously dropped silently — see the comment
+    # this replaces, below).
+    minted_this_call: dict[tuple[str, str], int] = {}
     edges_written = 0
     # `works_on` is implicit whenever a problem candidate emits an actor, or
     # an actor candidate emits a problem — that IS the relation. Asking the
@@ -855,10 +862,11 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
             payload["from_id"] = source_candidate["resolved_to"]
             payload["edge_kind"] = "works_on"
             payload["edge_evidence"] = e.get("hint")
-        conn.execute(
+        cur = conn.execute(
             "INSERT INTO candidate (kind, name, url, discovered_via, evidence) "
             "VALUES (?, ?, NULL, ?, ?)",
             (ekind, ename, f"worker:{source_candidate['id']}", json.dumps(payload)))
+        minted_this_call[(ekind, db.norm(ename))] = cur.lastrowid
         if ekind == "problem":
             minted_problems.add(db.norm(ename))
         else:
@@ -884,9 +892,38 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
             # Minting again would duplicate the candidate and double-count
             # `emitted`; the edge still can't be linked (a candidate is not
             # an entity), which is the same deferral the `dst_id is None`
-            # case below has always taken. The candidate's OWN evidence now
-            # carries the triggering edge either way (`_trigger_edge_fields`
-            # / the emits-loop payload), so nothing here needs to remember it.
+            # case below has always taken.
+            #
+            # 2026-09-19 fix: the candidate's OWN evidence does NOT carry
+            # the triggering edge "either way" as this comment used to
+            # claim. The emits loop only stamps trigger fields when
+            # `implicit_works_on` was true, and `implicit_works_on` is
+            # false exactly when this name ALSO appears in
+            # `explicit_works_on` — i.e. exactly the case reaching this
+            # branch. Both loops were deferring to the other and neither
+            # wrote anything: `sudesh-menon`/`smita-misra`/`bhavna-bhatia`
+            # were minted off `inadequate-water-quality-monitoring-and-
+            # reporting-in-rural-india` (candidate 764) with a `hint` but no
+            # `edge_kind`, so `_backfill_trigger_edge` had nothing to act on
+            # once they were promoted — permanently unlinked to the problem
+            # that named them. Patch the just-minted row directly instead:
+            # this loop has the model's own edge_kind/relevance/evidence
+            # for it, which is strictly better than the emit's generic hint.
+            mcid = minted_this_call.get((dst_kind, db.norm(dst_name)))
+            if mcid is not None:
+                row = conn.execute(
+                    "SELECT evidence FROM candidate WHERE id = ?", (mcid,)).fetchone()
+                try:
+                    mpayload = json.loads(row[0] or "") if row else {}
+                except (ValueError, TypeError):
+                    mpayload = {}
+                if not isinstance(mpayload, dict):
+                    mpayload = {}
+                if not mpayload.get("edge_kind"):
+                    mpayload.update(_trigger_edge_fields(source_candidate, e))
+                    conn.execute(
+                        "UPDATE candidate SET evidence = ? WHERE id = ?",
+                        (json.dumps(mpayload), mcid))
             continue
         if dst_id is None and problem_emission:
             # Track A (problem) + its actor counterpart: a `works_on`-style
@@ -1412,6 +1449,11 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             text = ""
             sources: list[ConfirmedSource] = []
             unverified: list = []
+            # Default for the non-batched path, which never runs the Rule 4
+            # misidentification check below — kept in scope so the
+            # channel-judge call site (kind == "actor", further down) can
+            # always filter `sources` by it without an unbound-name branch.
+            flagged: dict = {}
 
             # resume — the whole of fetch + search + gate 2, replaced by one
             # table read and a disk read per source. Every stage below that is
@@ -1957,9 +1999,21 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                         f"{ok} ({why})")
                     return ok, why
 
+                # Drop sources the model already flagged as misidentified
+                # during extraction (`flagged`, above) — that check reads
+                # the whole page against this candidate's full context,
+                # strictly more informed than anything the channel judge
+                # re-derives from a 2000-char snippet. Without this,
+                # `sudesh-menon` got `sudesh-menon-53914835` (Business
+                # Manager at Crayon) written as his LinkedIn channel even
+                # though the SAME run had already flagged that exact URL
+                # as misidentified two stages earlier — the two checks
+                # never talked to each other.
+                channel_sources = [s_ for s_ in sources
+                                   if s_.source_id not in flagged]
                 _write_detected_channels(
                     conn, entity_id, search_stage.channels_from_confirmed(
-                        sources, name=name, context=cand["evidence"] or "",
+                        channel_sources, name=name, context=cand["evidence"] or "",
                         judge=_channel_judge),
                     by=by, log=log)
             report["cites_written"] += _write_cites(conn, kind, entity_id, answers,
