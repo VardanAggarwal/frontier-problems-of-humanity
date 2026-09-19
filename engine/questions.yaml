@@ -496,7 +496,16 @@ questions:
 
   - id: q16_channel
     kind: actor
-    question: "What are its live follow channels?"
+    question: >-
+      What are its live follow channels (social handle, newsletter, RSS,
+      Telegram/WhatsApp broadcast)? Give the exact URL or handle as it
+      appears in the text — never construct one that isn't literally there.
+      Only attribute a channel to this actor if the text ties it to them by
+      name, bio, or byline, not just topical proximity. When the text shows
+      a named individual's own channel distinct from the org's, prefer that
+      person's channel (they're already captured separately via `emits` —
+      don't duplicate their channel here as the org's) — the org channel is
+      the fallback, not the default.
     claim_field: "channel:<kind>"
     multi: true
     retrieval: true

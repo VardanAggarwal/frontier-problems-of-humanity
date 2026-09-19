@@ -23,6 +23,7 @@ import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Callable, Optional, Sequence
+from urllib.parse import urljoin, urlparse
 
 import yaml
 
@@ -47,6 +48,18 @@ from worker.depth import REGISTRY_TIER, TRACKED_TIER
 from worker.extract_types import ConfirmedSource
 
 DEFAULT_FAMILIES_PATH = Path(__file__).resolve().parents[1] / "search" / "families.yaml"
+
+# Well-known feed paths probed directly off a candidate's own `seed_url`
+# (2026-09-19), porting `actor-channel-finder`'s manual RSS-hunting step —
+# a technique the `channel_*` search families above can't replicate, since a
+# feed URL usually isn't itself indexed by a search engine the way a site's
+# main pages are. No pre-check of our own: each candidate URL is just handed
+# to the existing fetch -> gate2 -> confirm_policy pipeline below like any
+# other URL, so a path that 404s or doesn't exist comes back with no/thin
+# text and gets dropped by the existing DROP logic, same as any dead URL.
+FEED_PROBE_PATHS: tuple[str, ...] = (
+    "/feed", "/feed/", "/rss", "/rss.xml", "/atom.xml", "/blog/feed",
+)
 
 # A local copy of `worker/resolve.py`'s `_slugify`, not an import of it: that
 # module also imports `store.db` and `embed.index` (real DB/model surface),
@@ -519,6 +532,28 @@ def search_sources(
     if seed_url:
         to_fetch.append((seed_url, SEED))
         seen_norm.add(normalize_url(seed_url))
+        # RSS/feed direct probe (`FEED_PROBE_PATHS`, module docstring above)
+        # — uncapped, same as the seed line just above: this is an extension
+        # of the same seed-adjacent exception the `max_sources` docstring
+        # already documents, not a `cover()` output, so it must not count
+        # against the search-sourced cap. `SEARCH` origin reused (no
+        # `confirm_policy` bucket fits better) since these aren't the seed
+        # itself but aren't search-engine-sourced either.
+        parsed_seed = urlparse(seed_url)
+        probe_added = 0
+        if parsed_seed.scheme and parsed_seed.netloc:
+            base = f"{parsed_seed.scheme}://{parsed_seed.netloc}"
+            for path in FEED_PROBE_PATHS:
+                probe_url = urljoin(base, path)
+                norm = normalize_url(probe_url)
+                if norm in seen_norm:
+                    continue
+                to_fetch.append((probe_url, SEARCH))
+                seen_norm.add(norm)
+                probe_added += 1
+        if probe_added:
+            log(f"search_stage: probing {probe_added} feed path(s) off the "
+                f"seed for {resolved_slug}")
     for url in covered_urls:
         norm = normalize_url(url)
         if norm in seen_norm:

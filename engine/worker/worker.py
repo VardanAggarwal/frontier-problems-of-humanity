@@ -23,6 +23,7 @@ import sys
 import time
 import traceback
 from pathlib import Path
+from urllib.parse import urlparse
 
 from embed.guard import add_store_args, open_store
 from store import db
@@ -289,6 +290,44 @@ def _split_claims(kind: str, claims: list[dict], *, log=print
 _MIRROR_TO_JSON_COLUMN = {"actor": {"ecosystem_role"}}
 
 
+# Known platform hostnames per `channel:<kind>`, for matching a bare handle
+# (no scheme) against the hostname of the confirmed source page it was
+# claimed from — `_apply_other_claims`'s `channel:` branch only, deciding
+# `live` vs `unconfirmed` for a claim-derived (not detected-from-confirmed)
+# channel.
+_CHANNEL_PLATFORM_HOSTS: dict[str, tuple[str, ...]] = {
+    "x": ("x.com", "twitter.com"),
+    "twitter": ("x.com", "twitter.com"),
+    "linkedin": ("linkedin.com",),
+    "facebook": ("facebook.com",),
+    "instagram": ("instagram.com",),
+    "youtube": ("youtube.com",),
+    "telegram": ("t.me",),
+}
+
+
+def _channel_hostname(url: str | None) -> str | None:
+    """`url` -> lowercase hostname with any leading `www.` stripped, or
+    `None` if `url` is falsy/unparseable."""
+    if not url:
+        return None
+    try:
+        host = urlparse(url).hostname
+    except ValueError:
+        return None
+    if not host:
+        return None
+    host = host.lower()
+    return host[4:] if host.startswith("www.") else host
+
+
+def _same_host(a: str, b: str) -> bool:
+    """`a`/`b` already lowercased, `www.`-stripped hostnames. Equal, or
+    either a subdomain of the other (a source fetched off a country/locale
+    subdomain of the platform's own domain still counts as the same site)."""
+    return a == b or a.endswith("." + b) or b.endswith("." + a)
+
+
 def _apply_other_claims(conn: sqlite3.Connection, kind: str, entity_id: str,
                         other: list[dict], *, by: str, log=print) -> None:
     """`tag:` / `ask:` / `channel:` claims — the conventions documented in
@@ -337,6 +376,39 @@ def _apply_other_claims(conn: sqlite3.Connection, kind: str, entity_id: str,
             val = str(value)
             is_url = val.startswith(("http://", "https://"))
             url_val, handle_val = (val, None) if is_url else (None, val)
+            # Liveness (2026-09-19, closing the gap `channels_from_confirmed`
+            # doesn't cover): THIS path writes a channel the model merely
+            # NAMED in a claim — unlike `_write_detected_channels` below, it
+            # is never identity-judged, so a claimed handle could equally be
+            # a channel the source page just mentions in passing ("follow us
+            # @handle") rather than the channel's own page. `source_id`,
+            # when the claim carries one (`extract.claims_from_findings`'s
+            # templated-field branch, `channel:<kind>` case), tells us which
+            # confirmed source the claim came from — if THAT source's own
+            # URL is itself on the claimed platform, the extraction text
+            # came from the channel's own confirmed, gate2-passed page, which
+            # is the same strength of evidence `channels_from_confirmed`
+            # treats as live. Otherwise it's a same-strength case to today's
+            # unconfirmed default. No `source_id` (the single-source degrade
+            # path, `prompts.extract_prompt`, never sets one) keeps today's
+            # behaviour exactly — `status`/`last_checked` are left out of the
+            # INSERT and the table's own `DEFAULT 'unconfirmed'` applies.
+            source_id = c.get("source_id")
+            status = None
+            if source_id is not None:
+                row = conn.execute(
+                    "SELECT url FROM source WHERE id = ?", (source_id,)).fetchone()
+                source_host = _channel_hostname(row[0]) if row else None
+                if source_host is None:
+                    status = "unconfirmed"
+                elif is_url:
+                    chan_host = _channel_hostname(val)
+                    status = "live" if (chan_host is not None and _same_host(
+                        source_host, chan_host)) else "unconfirmed"
+                else:
+                    known_hosts = _CHANNEL_PLATFORM_HOSTS.get(chan_kind, ())
+                    status = "live" if any(
+                        _same_host(source_host, h) for h in known_hosts) else "unconfirmed"
             # `UNIQUE(actor_id, kind, url, handle)` cannot dedupe a
             # handle-only channel via INSERT OR IGNORE: SQL's NULL is never
             # equal to NULL, so the unique index sees every handle-only row
@@ -348,9 +420,16 @@ def _apply_other_claims(conn: sqlite3.Connection, kind: str, entity_id: str,
                 "url IS ? AND handle IS ?",
                 (entity_id, chan_kind, url_val, handle_val)).fetchone()
             if exists is None:
-                conn.execute(
-                    "INSERT INTO channel (actor_id, kind, url, handle) "
-                    "VALUES (?, ?, ?, ?)", (entity_id, chan_kind, url_val, handle_val))
+                if status is not None:
+                    conn.execute(
+                        "INSERT INTO channel (actor_id, kind, url, handle, "
+                        "status, last_checked) VALUES (?, ?, ?, ?, ?, "
+                        "datetime('now'))",
+                        (entity_id, chan_kind, url_val, handle_val, status))
+                else:
+                    conn.execute(
+                        "INSERT INTO channel (actor_id, kind, url, handle) "
+                        "VALUES (?, ?, ?, ?)", (entity_id, chan_kind, url_val, handle_val))
                 db.record(conn, kind, entity_id, field, None, val, by=by)
             continue
         log(f"worker: unrecognised claim field {field!r} on {kind}/{entity_id}, skipped")
@@ -367,6 +446,16 @@ def _write_detected_channels(conn: sqlite3.Connection, actor_id: str,
     for the same platform), but this pass exists to make sure a platform
     isn't missed entirely, not to arbitrate between two candidate URLs for
     one platform; the first one recorded, LLM or deterministic, stands.
+
+    `status='live'` (2026-09-19, was hardcoded `'unconfirmed'`): every entry
+    here already survived `channels_from_confirmed`'s full chain — a gate2
+    CONFIRMED-verdict source, a URL pattern match, an actor-name-token check,
+    and (whenever the real call site's `judge` is supplied, which it always
+    is in `run_batch`) an LLM identity confirmation that the page IS this
+    entity's own channel. That is strictly stronger evidence than the
+    hostname check `_apply_other_claims`'s `channel:` branch above uses to
+    earn `live`, so writing `unconfirmed` here regardless was understating
+    the signal, not being cautious about it.
     """
     for c in detected:
         exists = conn.execute(
@@ -375,8 +464,9 @@ def _write_detected_channels(conn: sqlite3.Connection, actor_id: str,
         if exists is not None:
             continue
         conn.execute(
-            "INSERT INTO channel (actor_id, kind, url, status) "
-            "VALUES (?, ?, ?, 'unconfirmed')", (actor_id, c["kind"], c["url"]))
+            "INSERT INTO channel (actor_id, kind, url, status, last_checked) "
+            "VALUES (?, ?, ?, 'live', datetime('now'))",
+            (actor_id, c["kind"], c["url"]))
         db.record(conn, "actor", actor_id, f"channel:{c['kind']}", None,
                   c["url"], by=by)
         log(f"worker: {actor_id} channel:{c['kind']} detected from confirmed "

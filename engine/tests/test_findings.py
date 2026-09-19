@@ -324,12 +324,17 @@ def test_templated_channel_field_with_kind_resolves_to_a_concrete_claim():
     `finding` and never became a `channel` row because this function had no
     way to resolve `channel:<kind>` into a concrete field. `kind` (now on
     `Answer`, supplied by the model per `prompts.py`'s per-question
-    instruction) closes that."""
+    instruction) closes that.
+
+    `source_id` (2026-09-19): `channel:*` claims carry it — only `channel:*`
+    — so `worker._apply_other_claims` can tell whether the claim came from
+    the channel's own confirmed page (liveness). No other templated field
+    (`ask:need`/`ask:offer`) gets it; nothing downstream reads it there."""
     claims, _ = extract.claims_from_findings([
         A("q16_channel", "ncml.com", "s-a", kind="website"),
     ])
     assert claims == [{"field": "channel:website", "value": "ncml.com",
-                       "confidence": None}]
+                       "confidence": None, "source_id": "s-a"}]
 
 
 def test_templated_ask_field_two_kinds_become_two_claims_not_one_disagreement():

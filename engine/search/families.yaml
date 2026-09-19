@@ -96,6 +96,24 @@ families:
     query_template: '{name} official website'
     retrievable: true
 
+  # Added 2026-09-19, alongside the five `channel_*` families above but
+  # covering platforms `channels_from_confirmed` (`worker/search_stage.py`)
+  # has no URL pattern for yet — newsletter/Substack/Telegram (grassroots,
+  # researcher and movement actors that don't run an org website) and the
+  # Indian civic-journalism aggregators (IndiaSpend, Scroll, The Wire, Down
+  # To Earth, Mongabay-India, Article 14) actor-channel-finder falls back to
+  # when a direct search finds nothing — bylines, coalition/speaker pages
+  # that name the working contact.
+  - id: channel_feed
+    kind: actor
+    query_template: '{name} newsletter OR substack OR telegram'
+    retrievable: true
+
+  - id: channel_press
+    kind: actor
+    query_template: '{name} site:indiaspend.org OR site:scroll.in OR site:thewire.in OR site:downtoearth.org.in OR site:mongabay.com OR site:article-14.com'
+    retrievable: true
+
   - id: failure
     kind: actor
     query_template: '{name} shut down closed pivot losses'

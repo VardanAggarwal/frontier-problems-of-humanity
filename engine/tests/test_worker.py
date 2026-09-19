@@ -829,12 +829,17 @@ def test_write_detected_channels_inserts_one_row_per_platform(conn):
                {"kind": "twitter", "url": "https://twitter.com/ncml_official"}]
     worker._write_detected_channels(conn, "ncml", detected, by="test")
     rows = conn.execute(
-        "SELECT kind, url, status FROM channel WHERE actor_id='ncml' "
-        "ORDER BY kind").fetchall()
+        "SELECT kind, url, status, last_checked FROM channel "
+        "WHERE actor_id='ncml' ORDER BY kind").fetchall()
+    # `live`, not `unconfirmed` (2026-09-19): everything reaching this
+    # function already passed `channels_from_confirmed`'s full identity
+    # chain (gate2 CONFIRMED + URL pattern + name-token + LLM judge when
+    # supplied) — see `_write_detected_channels`'s own docstring.
     assert [(r["kind"], r["url"], r["status"]) for r in rows] == [
-        ("linkedin", "https://in.linkedin.com/company/ncml", "unconfirmed"),
-        ("twitter", "https://twitter.com/ncml_official", "unconfirmed"),
+        ("linkedin", "https://in.linkedin.com/company/ncml", "live"),
+        ("twitter", "https://twitter.com/ncml_official", "live"),
     ]
+    assert all(r["last_checked"] for r in rows)
 
 
 def test_write_detected_channels_does_not_duplicate_an_existing_kind(conn):

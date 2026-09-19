@@ -406,10 +406,20 @@ def claims_from_findings(
                     f"without it)")
             for k, kgroup in by_kind.items():
                 resolved_field = field.replace("<kind>", k)
+                # `source_id` rides along only for `channel:*` claims — the
+                # only templated field `worker.py:_apply_other_claims` reads
+                # it back for (liveness: is the source this claim came from
+                # itself a page on the claimed platform?). `ask:need`/
+                # `ask:offer` claims don't carry it; no consumer wants it
+                # there and it would just be dead weight on the dict.
+                is_channel = resolved_field.startswith("channel:")
                 if len(kgroup) == 1:
                     a = kgroup[0]
-                    claims.append({"field": resolved_field, "value": a.answer,
-                                   "confidence": a.confidence})
+                    claim = {"field": resolved_field, "value": a.answer,
+                             "confidence": a.confidence}
+                    if is_channel:
+                        claim["source_id"] = a.source_id
+                    claims.append(claim)
                     continue
                 norms = [_norm(a.answer) for a in kgroup]
                 all_consistent = all(
@@ -417,8 +427,11 @@ def claims_from_findings(
                     for i in range(len(norms)) for j in range(i + 1, len(norms)))
                 if all_consistent:
                     best = max(kgroup, key=lambda a: len(_norm(a.answer)))
-                    claims.append({"field": resolved_field, "value": best.answer,
-                                   "confidence": _confidence(kgroup)})
+                    claim = {"field": resolved_field, "value": best.answer,
+                             "confidence": _confidence(kgroup)}
+                    if is_channel:
+                        claim["source_id"] = best.source_id
+                    claims.append(claim)
                     notes.append(
                         f"{qid}/{k}: {len(kgroup)} consistent findings -> "
                         f"the most specific ({best.source_id})")

@@ -98,11 +98,14 @@ def test_render_queries_only_retrievable_families():
     # added 2026-09-19 (not PoC-measured — see families.yaml's comment on
     # them — one `site:` query per major platform instead of relying on
     # `reach`'s single generic query to surface whichever one an actor
-    # happens to be on).
+    # happens to be on), plus `channel_feed`/`channel_press` (same date) for
+    # platforms the site-targeted five don't cover — newsletter/Substack/
+    # Telegram and the Indian civic-journalism aggregator fallback.
     assert set(ids) == {
         "identity", "money", "people", "viability", "reach",
         "channel_linkedin", "channel_twitter", "channel_facebook",
         "channel_instagram", "channel_website",
+        "channel_feed", "channel_press",
     }
 
 
