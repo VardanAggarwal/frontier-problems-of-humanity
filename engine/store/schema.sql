@@ -52,6 +52,17 @@ CREATE TABLE actor (
   id                  TEXT PRIMARY KEY,
   title               TEXT NOT NULL,
   one_line            TEXT,          -- what they do, one sentence (mirrors problem.one_line)
+  -- context (schema v7, migrate/m0007_actor_context_and_finding_kind.py):
+  -- WHY this actor was worth minting — the candidate's own `evidence.hint`
+  -- (`worker.py`'s mint path) as a floor, upgraded by a dedicated question
+  -- (q0_relevance, questions.yaml) that reads the hint plus this actor's own
+  -- fetched sources. `one_line` answers "what does this org/person do" —
+  -- a for-profit's `one_line` reads as generic company-boilerplate
+  -- (globus-warehousing: "provides warehousing services including
+  -- scheduling shipments..."), which says nothing about why THIS actor
+  -- showed up on THIS platform. `context` answers that second question
+  -- instead of trying to overload `one_line` with both.
+  context             TEXT,
   type                TEXT NOT NULL CHECK (type IN ('org', 'individual')),
   legs                TEXT NOT NULL DEFAULT '[]' CHECK (json_valid(legs)),
   depth               TEXT NOT NULL DEFAULT 'registry'
@@ -451,6 +462,14 @@ CREATE TABLE finding (
   -- boundaries later. Nullable: only set when the answer resolved a
   -- chunk marker (worker/extract_types.py's Answer.chunk_ref).
   chunk_text    TEXT,
+  -- kind (schema v7, migrate/m0007_actor_context_and_finding_kind.py): a
+  -- templated claim_field's free-text remainder (worker/extract_types.py's
+  -- Answer.kind) — "funding" for `ask:need:<kind>`, "twitter" for
+  -- `channel:<kind>`. Nullable: only q14_ask_need/q15_ask_offer/q16_channel
+  -- answers carry one; everything else writes NULL. Persisted for the same
+  -- audit reason `reason` was (m0003): so a reader of `finding` can see
+  -- which concrete field an answer resolved to without re-deriving it.
+  kind          TEXT,
   gathered_at   TEXT NOT NULL DEFAULT (datetime('now'))
 );
 

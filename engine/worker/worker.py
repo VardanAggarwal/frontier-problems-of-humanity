@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sqlite3
 import sys
 import time
@@ -82,8 +83,12 @@ _COLUMNS = {
     # (`q1_one_line`, `q10_funding`, `q11_scale_metric`) — so those claims
     # were extracted, logged and dropped. Found by E4 while deriving claims
     # from findings; fixed here, in E6, because this is E6's file.
-    "actor": {"title", "type", "one_line", "legs", "depth", "lifecycle",
-              "lifecycle_as_of", "ecosystem_role", "affected_led",
+    # `context` (2026-09-19): `_write_entity` backfills it from the
+    # candidate's own `evidence.hint` when the model's `q0_relevance`
+    # answer doesn't supply one — see store/schema.sql's comment on the
+    # column for why this is not the same thing as `one_line`.
+    "actor": {"title", "type", "one_line", "context", "legs", "depth",
+              "lifecycle", "lifecycle_as_of", "ecosystem_role", "affected_led",
               "representation_unit", "stance", "geography", "contact_route",
               "funding", "scale_metric", "followed", "followed_date",
               "last_checked", "doc", "updated"},
@@ -113,6 +118,42 @@ _ENUMS = {
     ("actor", "stance"): {"works-the-remedy", "neutral",
                           "organised-against-remedy", "ambiguous"},
 }
+
+# `q10_funding`/`q11_scale_metric` (questions.yaml) ask for a dated financial
+# scale or a checkable reach number — `prompts.py`'s shared prose already
+# says "if the text does not support a field, omit it; do not guess" and
+# requires a `chunk` marker or omission, but on a for-profit actor with no
+# disclosed financials the model has, twice in practice, ignored that and
+# substituted the nearest money-shaped number in the source pool instead of
+# `null`: a paid company-report's own price tag written as `funding` ("USD
+# 29.95 (price of the company report, not funding scale)" — globus-warehousing,
+# 2026-09-18 run), and a fabricated job-posting salary band written as
+# `funding` ("Based on industry standards, expected compensation for Area
+# Manager is [...], as of the 2026 recruitment posting." — ncml, same run).
+# A third shape, same run, same field: Arjun Subedi's `q10_funding` answer
+# came back "No specific financial scale mentioned; operates as an
+# individual professional seeking projects." — the model correctly found
+# nothing, but said so AS an answer instead of producing zero findings for
+# the question (extract.py's own contract: "zero -> no claim. Not a guess,
+# not 'unknown'."). Semantically this belongs in `finding` for audit (it
+# is), never as a `funding` claim.
+#
+# Both values self-report their own irrelevance/fabrication in the text —
+# the model told on itself but the claim got written anyway. Cheap guardrail:
+# reject a `funding`/`scale_metric` claim whose value contains one of these
+# tells, rather than trying to out-word the prompt into never doing this
+# again. Add a phrase here only for one seen rejected in practice — same
+# discipline as `_TAG_VALUE_SYNONYMS` above, not a hedge against every
+# possible hallucination.
+_HEDGE_FIELDS = {"funding", "scale_metric"}
+_HEDGE_PATTERN = re.compile(
+    r"not (?:a |the )?funding\b|"
+    r"based on industry standards?\b|"
+    r"expected compensation\b|"
+    r"estimated (?:compensation|salary)\b|"
+    r"industry[- ]standard\b|"
+    r"no specific .{0,40}mentioned\b",
+    re.I)
 
 
 # Which `tag:<ns>` fields are `multi: true` — derived from `questions.yaml`
@@ -219,10 +260,32 @@ def _split_claims(kind: str, claims: list[dict], *, log=print
                 log(f"worker: rejected {kind} claim {field}={value!r} — "
                     f"not one of {sorted(allowed)}")
                 continue
+            if (field in _HEDGE_FIELDS and isinstance(value, str)
+                    and _HEDGE_PATTERN.search(value)):
+                log(f"worker: rejected {kind} claim {field}={value!r} — "
+                    f"self-flags as not a real answer (hedge phrase)")
+                continue
             columns[field] = value
         else:
             other.append(c)
     return columns, other
+
+
+# `tag:<ns>` namespaces that ALSO have a bare, JSON-list actor column of
+# the same name — `store/schema.sql`'s `ecosystem_role` column, and
+# `src/lib/corpus.mjs:251`'s `ecosystem_role: jsonArr(row.ecosystem_role)`
+# render it directly, never by reading the `tag` table. `questions.yaml`'s
+# q5_ecosystem_role uses `claim_field: "tag:ecosystem_role"` (so its closed
+# enum gets `tag_validate_ins`'s validation, same as every other tag), which
+# means the value has always landed ONLY in `tag` — `actor.ecosystem_role`
+# stayed `[]` for every actor this worker ever wrote, tripping
+# `corpus.mjs:274-276`'s own "attaches to nothing" warning even when the
+# actor plainly has a role (arjun-subedi/globus-warehousing/lt-foods/ncml,
+# 2026-09-18 run: `finding.answer == "operator"` for all four, `tag` table
+# has the row, `actor.ecosystem_role` is `[]`). Mirrored here rather than
+# retyping q5's `claim_field` to a bare column, which would drop the enum
+# check `tag_validate_ins` gives for free.
+_MIRROR_TO_JSON_COLUMN = {"actor": {"ecosystem_role"}}
 
 
 def _apply_other_claims(conn: sqlite3.Connection, kind: str, entity_id: str,
@@ -244,13 +307,18 @@ def _apply_other_claims(conn: sqlite3.Connection, kind: str, entity_id: str,
             # contain no comma but there is no reason to risk it.
             values = (_split_multi_tag_value(value) if _TAG_MULTI.get(ns)
                      else [value])
+            accepted: list[str] = []
             for v in values:
                 v = _normalise_tag_value(ns, str(v))
                 try:
                     db.tag(conn, kind, entity_id, ns, v, by=by)
+                    accepted.append(v)
                 except sqlite3.IntegrityError as e:
                     log(f"worker: rejected tag claim {field}={v!r} on "
                         f"{kind}/{entity_id}: {e}")
+            if accepted and ns in _MIRROR_TO_JSON_COLUMN.get(kind, ()):
+                _safe_put(conn, kind, {"id": entity_id, ns: accepted},
+                         by=by, log=log)
             continue
         if kind == "actor" and field.startswith("ask:"):
             parts = field.split(":", 2)
@@ -285,6 +353,33 @@ def _apply_other_claims(conn: sqlite3.Connection, kind: str, entity_id: str,
                 db.record(conn, kind, entity_id, field, None, val, by=by)
             continue
         log(f"worker: unrecognised claim field {field!r} on {kind}/{entity_id}, skipped")
+
+
+def _write_detected_channels(conn: sqlite3.Connection, actor_id: str,
+                             detected: list[dict], *, by: str, log=print) -> None:
+    """`search_stage.channels_from_confirmed`'s domain-pattern matches ->
+    `channel` rows, independent of whether extraction's `channel:<kind>`
+    claim path (`_apply_other_claims` above) ever produced the same one.
+
+    Skips a `kind` the actor already has a channel row for — not a strict
+    identity check (a re-run could, in principle, detect a different URL
+    for the same platform), but this pass exists to make sure a platform
+    isn't missed entirely, not to arbitrate between two candidate URLs for
+    one platform; the first one recorded, LLM or deterministic, stands.
+    """
+    for c in detected:
+        exists = conn.execute(
+            "SELECT 1 FROM channel WHERE actor_id = ? AND kind = ?",
+            (actor_id, c["kind"])).fetchone()
+        if exists is not None:
+            continue
+        conn.execute(
+            "INSERT INTO channel (actor_id, kind, url, status) "
+            "VALUES (?, ?, ?, 'unconfirmed')", (actor_id, c["kind"], c["url"]))
+        db.record(conn, "actor", actor_id, f"channel:{c['kind']}", None,
+                  c["url"], by=by)
+        log(f"worker: {actor_id} channel:{c['kind']} detected from confirmed "
+            f"source url (no LLM involved): {c['url']}")
 
 
 def _write_cites(conn: sqlite3.Connection, kind: str, entity_id: str,
@@ -349,7 +444,8 @@ def _safe_put(conn: sqlite3.Connection, kind: str, row: dict, *, by: str,
 def _write_entity(conn: sqlite3.Connection, corpus: Path, kind: str, name: str,
                   decision: resolve.ResolveResult, claims: list[dict], *,
                   by: str, log=print, predicted_depth: str | None = None,
-                  depth_tier: bool | None = None) -> str | None:
+                  depth_tier: bool | None = None,
+                  hint: str = "") -> str | None:
     """Apply one candidate's claims per its resolution. -> the written/matched
     entity id, or None when nothing was written — either `ambiguous`
     (module docstring: escalation writes no graph rows) or a catastrophic
@@ -360,9 +456,27 @@ def _write_entity(conn: sqlite3.Connection, corpus: Path, kind: str, name: str,
     does not yet plumb a candidate's stored prediction through to here (that
     would touch `run_batch`, frozen for this track), so it defaults to None
     and `needs_requeue` simply has nothing to compare against on that path.
+
+    `hint` (2026-09-19) — the candidate's own `evidence.hint`
+    (`search_stage.extract_hint`'s same source string), the reason this
+    candidate was minted in the first place. Used only as a floor for
+    `context`: when the model's own `q0_relevance` answer produced one,
+    that wins (`columns.setdefault`, not overwrite) — the hint is a terse,
+    upstream-derived sentence about the EMITTING candidate's context, not
+    this actor's own sources, so a model answer grounded in this actor's
+    fetched pages is strictly better when available.
     """
     columns, other = _split_claims(kind, claims, log=log)
     depth_tier = _DEPTH_TIER_DEFAULT if depth_tier is None else depth_tier
+
+    if kind == "actor" and hint and decision.decision == "new":
+        # Only on first write. An existing actor's `context` may already
+        # hold a real `q0_relevance` answer from a previous run that this
+        # run's claims don't repeat (the verify pass doesn't always ask it)
+        # — backfilling from `hint` here on every re-run would silently
+        # downgrade that to the terser, upstream-derived sentence. A new
+        # entity has no prior value to protect.
+        columns.setdefault("context", hint)
 
     if kind == "actor" and depth_tier and any(
             f in columns for f in ("affected_led", "representation_unit", "legs")):
@@ -1381,7 +1495,9 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                     " ".join(f"{k}={v}" for k, v in sorted(coverage.items())))
 
             if batched:
-                system, prompt = extract_prompt_batched(kind, name, prompt_sources)
+                system, prompt = extract_prompt_batched(
+                    kind, name, prompt_sources,
+                    hint=search_stage.extract_hint(cand["evidence"] or ""))
             else:
                 system, prompt = extract_prompt(kind, name, text)
             log(f"worker: candidate {cid} stage=extract "
@@ -1671,7 +1787,9 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
             entity_id = _write_entity(conn, corpus, kind, name, decision,
                                       claims, by=by, log=log,
                                       predicted_depth=_predicted_depth(cand),
-                                      depth_tier=depth_tier)
+                                      depth_tier=depth_tier,
+                                      hint=search_stage.extract_hint(
+                                          cand["evidence"] or ""))
             if entity_id is None:
                 # `_write_entity` could not write even a minimal row — give up on
                 # this candidate rather than leave it endlessly re-selectable
@@ -1683,6 +1801,10 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 _settle(cid, resolved_to=None, admitted=0, by="worker:write", why=why)
                 conn.commit()
                 continue
+            if kind == "actor":
+                _write_detected_channels(
+                    conn, entity_id, search_stage.channels_from_confirmed(sources),
+                    by=by, log=log)
             report["cites_written"] += _write_cites(conn, kind, entity_id, answers,
                                                     by=by, log=log)
             _backfill_trigger_edge(conn, cand, kind, entity_id, by=by, log=log)

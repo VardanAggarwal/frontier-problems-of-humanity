@@ -311,7 +311,25 @@ def _question_block(kind: str) -> str:
         flag = " [multiple answers allowed]" if q.multi else ""
         ns = q.claim_field[len("tag:"):] if q.claim_field.startswith("tag:") else None
         options_note = ""
-        if ns is not None:
+        if "<kind>" in q.claim_field:
+            # `ask:need:<kind>` / `ask:offer:<kind>` / `channel:<kind>`
+            # (2026-09-19): the `<kind>` half of the field name is the
+            # model's own classification of the free-text answer, not
+            # something this parser can infer — `extract.py`'s
+            # `claims_from_findings` used to have no way to resolve these
+            # into a concrete field and dropped every one, keeping only the
+            # ledger row. Examples are illustrative, not a closed enum
+            # (unlike a `tag:` namespace) — the model may use a better slug
+            # a listed example doesn't cover.
+            examples = ("funding, mentorship, tech-help, distribution, "
+                       "policy-access, data" if "ask:" in q.claim_field else
+                       "twitter, linkedin, facebook, instagram, website, "
+                       "newsletter, telegram, whatsapp, youtube")
+            options_note = (
+                f" Also give `kind`: a short lowercase slug classifying this "
+                f"answer (e.g. {examples}). Without `kind` this answer "
+                f"cannot become a claim — it stays in the ledger only.")
+        elif ns is not None:
             _applies_to, is_open, _required_when, values = TAG_REGISTRY[ns]
             if not is_open and values:
                 options = ", ".join(values)
@@ -333,7 +351,8 @@ def _question_block(kind: str) -> str:
 
 
 def extract_prompt_batched(
-    kind: str, entity_name: str, sources: list[PromptSource],
+    kind: str, entity_name: str, sources: list[PromptSource], *,
+    hint: str = "",
 ) -> tuple[str, str]:
     """The batched `[S1]…[Sn]` extraction call (`03-worker.md` §8). One call
     over every given source at once, so reconciliation ("sources disagree ->
@@ -352,6 +371,16 @@ def extract_prompt_batched(
     model is already reading the whole page to answer the questions; asking it
     to say so costs one schema key and no extra call. Parsed by
     `parse_misidentified`, which the caller applies to `answers`.
+
+    `hint` (2026-09-19) — the candidate's own `evidence.hint`
+    (`search_stage.extract_hint`), the sentence that caused this candidate
+    to be minted. Previously this function had no way to tell the model WHY
+    it was looking at this entity at all, so extraction ran cold against
+    whatever a for-profit's own pages say about themselves — measured on
+    globus-warehousing/ncml/lt-foods (2026-09-18 run): fine for `one_line`
+    ("what do they do"), useless for judging relevance, and this is also
+    what `q0_relevance`'s `context` answer (questions.yaml) is grounded on.
+    Optional and additive: omitted, the prompt is byte-identical to before.
     """
     if kind not in ("problem", "actor"):
         raise ValueError(f"kind must be 'problem' or 'actor', got {kind!r}")
@@ -385,7 +414,11 @@ def extract_prompt_batched(
         "`chunk` — an absent marker is fine, a guessed one is not.\n"
         "6. For a closed-enum classification answer, also give `reason`: "
         "the one-clause justification for this value over a neighbouring "
-        "one. Omit for non-classification answers.\n\n"
+        "one. Omit for non-classification answers.\n"
+        "7. A question whose own line below says to also give `kind` "
+        "(ask:need / ask:offer / channel questions) needs it to become a "
+        "claim at all — omit it there and the answer is kept for the "
+        "record but never written anywhere else.\n\n"
         "QUESTIONS:\n" + _question_block(kind) + "\n\n"
         "A `works_on` edge whose `dst_kind` is `problem` also carries "
         "`signals` — the four leafability signals for that problem, captured "
@@ -414,7 +447,7 @@ def extract_prompt_batched(
         "value:\n"
         '{"answers": [{"question_id": "...", "source_id": "S2", '
         '"chunk": "S2.3", "answer": "...", "confidence": 0.0, '
-        '"reason": null}],\n'
+        '"reason": null, "kind": null}],\n'
         ' "misidentified": [{"source_id": "S3", "about_what": "...", '
         '"why": "..."}],\n'
         ' "emits":   [{"kind": "problem"|"actor", "name": "...", '
@@ -426,6 +459,10 @@ def extract_prompt_batched(
     )
     blocks = [render_block(s) for s in sources]
     prompt = (f"Entity name: {entity_name}\n\n"
+              + (f"Why this entity is being looked at (from the mention that "
+                 f"caused it to be added — use it to focus the extraction, "
+                 f"do not just restate it as an answer): {hint}\n\n"
+                 if hint else "") +
               "Sources:\n\n" + "\n\n---\n\n".join(blocks))
     return system, prompt
 
@@ -584,6 +621,17 @@ def parse_answers(
         if not isinstance(reason, str):
             reason = None
 
+        # `kind` (2026-09-19): the free-text remainder of a templated
+        # claim_field (`ask:need:<kind>`, `channel:<kind>`) — see
+        # `_question_block`'s per-question instruction and `extract.py`'s
+        # `claims_from_findings`, which is what actually needs this. Not
+        # validated against an enum here (unlike `reason`'s closed-enum
+        # questions, `kind` is a free slug the model invents), just typed
+        # and lowercased so a stray "Twitter" and "twitter" don't split into
+        # two different claim fields for the same platform.
+        raw_kind = a.get("kind")
+        answer_kind = raw_kind.strip().lower() if isinstance(raw_kind, str) and raw_kind.strip() else None
+
         answers.append(Answer(
             question_id=question_id,
             answer=answer_text,
@@ -591,6 +639,7 @@ def parse_answers(
             confidence=confidence,
             chunk_ref=chunk_ref,
             reason=reason,
+            kind=answer_kind,
         ))
 
     return answers, problems
@@ -721,7 +770,7 @@ def verify_and_extract_prompt_batched(
         '|"unrelated"|"insufficient", "about_what": "...", "why": "..."}],\n'
         ' "answers": [{"question_id": "...", "source_id": "S2", '
         '"chunk": "S2.3", "answer": "...", "confidence": 0.0, '
-        '"reason": null}],\n'
+        '"reason": null, "kind": null}],\n'
         ' "emits":   [{"kind": "problem"|"actor", "name": "...", '
         '"hint": "..."}],\n'
         ' "edges":   [{"dst_name": "...", "dst_kind": "problem"|"actor", '

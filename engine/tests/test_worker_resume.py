@@ -23,12 +23,17 @@ vec = pytest.importorskip("sqlite_vec")
 
 from embed import index
 from migrate import m0004_candidate_source as mig4
-from search.provider import ReplayProvider
 from store import db
 from worker import gate1, worker
 
+# `ReplayProvider` here is `test_worker_e6`'s tolerant shadow, not
+# `search.provider`'s own — see that module's docstring on it: the
+# `channel_*` search families (2026-09-19) postdate the frozen PoC-0b
+# recording set, and every test below goes through the full retrievable
+# family list incidentally via `worker.run_batch`.
 from test_worker_e6 import (BATCHED_JSON, POC0B, PAGE_A, PAGE_B, FakeFetch,
-                            make_candidate, needs_model, stub_pipeline)
+                            ReplayProvider, make_candidate, needs_model,
+                            stub_pipeline)
 
 
 @pytest.fixture
@@ -581,4 +586,12 @@ def test_schema_sql_and_the_migration_agree(tmp_path):
     migrated.close()
 
     assert fresh_cols == migrated_cols
-    assert db.SCHEMA_VERSION == mig4.TARGET_VERSION
+    # Not `==`: this went stale at m0005 (chunk_text) and again would have at
+    # m0006/m0007 had it stayed an equality check — `db.SCHEMA_VERSION` is
+    # the CURRENT latest migration's target, not m0004's specifically, so it
+    # moves forward every time a migration ships while m0004's own
+    # TARGET_VERSION never does. The real invariant this test protects
+    # (`fresh_cols == migrated_cols`, above) doesn't need this line at all;
+    # kept only as a sanity check that the schema has moved forward from
+    # m0004, never backward.
+    assert int(db.SCHEMA_VERSION) >= int(mig4.TARGET_VERSION)

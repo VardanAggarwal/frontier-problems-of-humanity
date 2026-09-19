@@ -22,7 +22,9 @@ from search.provider import ReplayProvider, SearchResponse
 from worker.config import MAX_SOURCES_ESCALATE, MAX_SOURCES_REGISTRY, MAX_SOURCES_TRACKED
 from worker.depth import REGISTRY_TIER, TRACKED_TIER
 from worker.extract_types import ConfirmedSource
-from worker.search_stage import render_queries, search_sources
+from worker.search_stage import (
+    channels_from_confirmed, extract_hint, render_queries, search_sources,
+)
 
 HERE = pathlib.Path(__file__).parent
 POC0B_RESPONSES = HERE.parent / "poc" / "poc0b-responses"
@@ -31,8 +33,33 @@ NAME = "A2P Energy Solution Pvt Ltd"
 SLUG = "a2p-energy"
 
 
+class _ReplayOrEmptyProvider(ReplayProvider):
+    """`ReplayProvider`, tolerant of a family with no recorded fixture.
+
+    The five `channel_*` families (2026-09-19, families.yaml) postdate the
+    frozen PoC-0b recording set in `poc/poc0b-responses/` — no
+    `{slug}__channel_linkedin.json` etc. was ever going to exist for them.
+    `ReplayProvider` itself stays strict (a real typo in `family_id`/`slug`
+    elsewhere should still raise loudly); this subclass exists only so the
+    tests below, which exercise escalation/seed/concurrency/routing logic
+    and go through the FULL retrievable family list incidentally (one
+    provider call per family, from `search_stage.search_sources`), aren't
+    collateral damage every time a new family is added without a matching
+    recording. An unrecorded family behaves like "no data" — a live
+    SearxngProvider would just return few/no results for a very specific
+    `site:` query on an obscure entity too."""
+    def query(self, slug, family):
+        try:
+            return super().query(slug, family)
+        except FileNotFoundError:
+            return SearchResponse(results=[], unresponsive_engines=[],
+                                  engines_seen_in_results=[],
+                                  configured_engines=self.configured_engines,
+                                  silently_absent_engines=[], raw_results=[])
+
+
 def _provider():
-    return ReplayProvider(POC0B_RESPONSES)
+    return _ReplayOrEmptyProvider(POC0B_RESPONSES)
 
 
 class _FakeFetchResult:
@@ -67,13 +94,165 @@ def test_render_queries_only_retrievable_families():
     queries = render_queries(NAME)
     ids = [q[0] for q in queries]
     assert "failure" not in ids, "failure is retrievable: false, must be excluded"
-    assert set(ids) == {"identity", "money", "people", "viability", "reach"}
+    # PoC-0b's original five, plus the five site-targeted channel families
+    # added 2026-09-19 (not PoC-measured — see families.yaml's comment on
+    # them — one `site:` query per major platform instead of relying on
+    # `reach`'s single generic query to surface whichever one an actor
+    # happens to be on).
+    assert set(ids) == {
+        "identity", "money", "people", "viability", "reach",
+        "channel_linkedin", "channel_twitter", "channel_facebook",
+        "channel_instagram", "channel_website",
+    }
 
 
 def test_render_queries_substitutes_name_verbatim():
     queries = dict(render_queries(NAME))
     assert queries["identity"] == NAME
     assert NAME in queries["money"]
+
+
+def test_render_queries_channel_families_target_their_platform():
+    queries = dict(render_queries(NAME))
+    assert queries["channel_linkedin"] == f"{NAME} site:linkedin.com"
+    assert queries["channel_twitter"] == f"{NAME} site:twitter.com OR site:x.com"
+    assert queries["channel_facebook"] == f"{NAME} site:facebook.com"
+    assert queries["channel_instagram"] == f"{NAME} site:instagram.com"
+    assert queries["channel_website"] == f"{NAME} official website"
+
+
+def test_render_queries_no_hint_leaves_the_poc0b_measured_templates_untouched():
+    """No `evidence.hint` on the candidate (every caller before 2026-09-19,
+    and any candidate minted before `evidence.hint` existed): the original
+    five PoC-0b-measured query TEXTS must be byte-identical to before this
+    change — `families.yaml`'s own rule, "not invented". The full id SET
+    grew with the 2026-09-19 channel-search additions (checked above); what
+    must not move is what these five specific ids render to."""
+    queries = dict(render_queries(NAME))
+    assert "hint" not in queries
+    assert queries["identity"] == NAME
+    assert queries["money"] == f"{NAME} funding raised grant crore"
+    assert queries["people"] == f"{NAME} founder director leadership"
+    assert queries["viability"] == f"{NAME} revenue customers model"
+    assert queries["reach"] == f"{NAME} contact twitter newsletter"
+
+
+def test_render_queries_with_hint_adds_one_anchored_query():
+    """A common name or a generic company (Arjun Subedi, LT Foods) is blind
+    without the sentence that caused the candidate to be minted in the first
+    place — see search_stage.py's `render_queries` docstring. The extra
+    query carries name+hint; the five measured families are untouched."""
+    hint = "Key private company in warehousing and logistics"
+    queries = dict(render_queries(NAME, hint=hint))
+    assert queries["hint"] == f"{NAME} {hint}"
+    assert queries["money"] == f"{NAME} funding raised grant crore", (
+        "measured families must not be rewritten to fold in the hint")
+
+
+def test_extract_hint_parses_the_evidence_json():
+    evidence = ('{"hint": "Researcher who studied biochar-vermicompost '
+               'effects on okra yield.", "from_candidate": 675}')
+    assert extract_hint(evidence) == (
+        "Researcher who studied biochar-vermicompost effects on okra yield.")
+
+
+def test_extract_hint_falls_back_to_the_raw_string():
+    """`evidence` predates the JSON shape and is not guaranteed to parse —
+    a bare string (or malformed JSON) is itself the hint, not nothing."""
+    assert extract_hint("a plain-text hint, not JSON") == (
+        "a plain-text hint, not JSON")
+
+
+def test_extract_hint_json_without_a_hint_key_yields_empty():
+    assert extract_hint('{"from_candidate": 675}') == ""
+
+
+def test_extract_hint_empty_evidence_yields_empty():
+    assert extract_hint("") == ""
+
+
+def _cs(url, verdict=CONFIRMED, source_id=None):
+    return ConfirmedSource(source_id=source_id or url, url=url, text="x",
+                           origin=SEARCH, verdict=verdict)
+
+
+def test_channels_from_confirmed_matches_each_platform():
+    sources = [
+        _cs("https://in.linkedin.com/company/ncml"),
+        _cs("https://twitter.com/CeetleHero"),
+        _cs("https://www.facebook.com/ncmlindia"),
+        _cs("https://www.instagram.com/ncml_official"),
+        _cs("https://example.com/an-article-about-ncml"),
+    ]
+    channels = {c["kind"]: c["url"] for c in channels_from_confirmed(sources)}
+    assert channels == {
+        "linkedin": "https://in.linkedin.com/company/ncml",
+        "twitter": "https://twitter.com/CeetleHero",
+        "facebook": "https://www.facebook.com/ncmlindia",
+        "instagram": "https://www.instagram.com/ncml_official",
+    }
+
+
+def test_channels_from_confirmed_x_dot_com_counts_as_twitter():
+    channels = channels_from_confirmed([_cs("https://x.com/CeetleHero")])
+    assert channels == [{"kind": "twitter", "url": "https://x.com/CeetleHero"}]
+
+
+def test_channels_from_confirmed_ignores_unconfirmed_sources():
+    channels = channels_from_confirmed([
+        _cs("https://twitter.com/maybe_this_one", verdict=UNCERTAIN),
+    ])
+    assert channels == []
+
+
+def test_channels_from_confirmed_excludes_share_and_intent_links():
+    """A `facebook.com/sharer/...` or `twitter.com/intent/tweet?...` URL is
+    another site's "share to X" button, not X's own page about the actor."""
+    channels = channels_from_confirmed([
+        _cs("https://www.facebook.com/sharer/sharer.php?u=https://example.com"),
+        _cs("https://twitter.com/intent/tweet?text=hello"),
+    ])
+    assert channels == []
+
+
+def test_channels_from_confirmed_first_match_wins_per_platform():
+    """List order is search_sources' own return order (earliest, most
+    on-topic query result) — the second twitter URL must not replace the
+    first."""
+    channels = channels_from_confirmed([
+        _cs("https://twitter.com/real_handle"),
+        _cs("https://twitter.com/a_retweet_mentioning_them"),
+    ])
+    assert channels == [{"kind": "twitter", "url": "https://twitter.com/real_handle"}]
+
+
+def test_channels_from_confirmed_has_no_website_entry():
+    """A generic domain can't be told apart from "an article about the
+    actor" by URL pattern alone — deliberately left to the LLM path."""
+    channels = channels_from_confirmed([_cs("https://ncml.com")])
+    assert channels == []
+
+
+def test_search_sources_hint_query_reaches_the_provider():
+    """End to end: a candidate's `evidence` JSON hint must show up as an
+    actual query string handed to the provider, not just as gate2's
+    post-fetch confirmation context (which it already reached before this
+    change) — the fix this closes is that the *search* itself was blind."""
+    seen = {}
+
+    class RecordingProvider(_FixedResponseProvider):
+        def search(self, family_id, query_string, *, slug=None):
+            seen[family_id] = query_string
+            return super().search(family_id, query_string, slug=slug)
+
+    search_sources(
+        "LT Foods", depth=TRACKED_TIER,
+        provider=RecordingProvider(["https://example.com/a"]),
+        fetch=_fetch_all_confirmed, confirm=_confirm_all_confirmed,
+        evidence='{"hint": "Key private company in warehousing and logistics"}',
+        slug="lt-foods", log=lambda *a, **k: None,
+    )
+    assert seen["hint"] == "LT Foods Key private company in warehousing and logistics"
 
 
 # ---------------------------------------------------------------------------

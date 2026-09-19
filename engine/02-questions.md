@@ -95,12 +95,13 @@ problem to a cross-need node **only when the text names one** — never infer a
 node from the mechanism alone. Never invent a tier or need id; those come from
 the browse tree.
 
-## `actor` — 17 questions
+## `actor` — 18 questions
 
 ### Identity
 
 | # | Question | Claim field | Multi |
 |---|---|---|---|
+| 0 | Given why this actor is being looked at and what its own sources say, one sentence on WHY it matters here — not what it does in general. | `context` | |
 | 1 | In one concrete sentence: what does this actor actually do — not a category label. | `one_line` | |
 | 2 | Org or individual? | `type` | |
 | 3 | Which leg(s) — activism, institution, enterprise (**market-payer only**), service (**donor-funded, no earned revenue**)? | `legs` | |

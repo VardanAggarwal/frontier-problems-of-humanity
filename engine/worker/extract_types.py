@@ -67,3 +67,11 @@ class Answer(NamedTuple):
     reason: str | None = None       # closed-enum classification only: the
                                     # one-clause justification for this value
                                     # over a neighbouring one. None elsewhere.
+    kind: str | None = None         # a templated claim_field only (2026-09-19):
+                                    # `ask:need:<kind>` / `ask:offer:<kind>` /
+                                    # `channel:<kind>`'s free-text remainder —
+                                    # "funding", "twitter", etc. `extract.py`'s
+                                    # `claims_from_findings` substitutes it into
+                                    # the field template; None means the finding
+                                    # is kept in the ledger with no claim
+                                    # (unresolvable without it). None elsewhere.

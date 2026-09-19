@@ -17,15 +17,17 @@ returns, seed or search, has passed `confirm_policy.apply_confirmations`.
 """
 from __future__ import annotations
 
+import json
 import re
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable, Optional, Sequence
 
 import yaml
 
 from search.confirm_policy import (
+    CONFIRMED,
     DROP,
     PROMPT,
     SEARCH,
@@ -68,16 +70,110 @@ def _load_retrievable_families(families_path, kind: str = "actor") -> list[dict]
             if fam.get("retrievable") and fam.get("kind", "actor") == kind]
 
 
-def render_queries(name: str, families_path=None, kind: str = "actor") -> list[tuple[str, str]]:
+def extract_hint(evidence: str) -> str:
+    """Pull the disambiguating `hint` out of a candidate's `evidence` column,
+    e.g. `{"hint": "Researcher who studied biochar-vermicompost effects on
+    okra yield...", "from_candidate": 675, ...}` (`worker.py`'s mint path).
+    `evidence` predates this parsing and is not guaranteed to be JSON (a bare
+    string, or empty) — any failure to parse or find a `hint` key falls back
+    to treating the whole value as the hint, which is what every pre-JSON
+    caller already meant by "evidence"."""
+    if not evidence:
+        return ""
+    try:
+        parsed = json.loads(evidence)
+    except (TypeError, ValueError):
+        return evidence
+    if isinstance(parsed, dict):
+        return str(parsed.get("hint") or "")
+    return evidence
+
+
+def render_queries(name: str, families_path=None, kind: str = "actor",
+                   hint: str = "") -> list[tuple[str, str]]:
     """[(family_id, rendered_query_string), ...] for every `retrievable:
     true` family of the given candidate `kind` in `families.yaml`. `{name}`
     is substituted verbatim — `search/families.yaml`'s own contract, not
     reinterpreted here. `kind` defaults to `"actor"` for backward
     compatibility with callers that predate the `problem` family set
     (2026-09-14) — every family in the registry from before that date is
-    tagged `kind: actor`."""
+    tagged `kind: actor`.
+
+    `hint` (2026-09-19) — the candidate's own `evidence.hint`, the sentence
+    that caused it to be minted (`worker.py`'s `payload["hint"]` /
+    `edge.get("evidence", "")`). families.yaml's six/twenty templates are
+    measured from PoC-0b/questions.yaml and are deliberately left untouched
+    (module comment: "not invented" — do not fold hint text into them). A
+    bare `{name}` query is blind on a common name ("Arjun Subedi" collides
+    with a security tool, a journalist, a Twitter handle with no relation to
+    the actual person — gate2.py:37-45's documented "second signal" gap) and
+    on a generic company (LT Foods returns stock-ticker boilerplate instead
+    of whatever angle it was actually cited for). One extra query anchored
+    on name+hint targets the cited angle directly without touching the
+    measured set; skipped when there is no hint to add (every pre-existing
+    caller, and any candidate minted before `evidence.hint` existed)."""
     families = _load_retrievable_families(families_path or DEFAULT_FAMILIES_PATH, kind)
-    return [(fam["id"], fam["query_template"].format(name=name)) for fam in families]
+    queries = [(fam["id"], fam["query_template"].format(name=name)) for fam in families]
+    if hint:
+        queries.append(("hint", f"{name} {hint}"))
+    return queries
+
+
+# Domain patterns for the deterministic channel classifier below. Order is
+# the check order per source, not a priority order across sources — see
+# `channels_from_confirmed`'s docstring for how ties across sources resolve.
+_CHANNEL_URL_PATTERNS: tuple[tuple[str, "re.Pattern"], ...] = (
+    ("linkedin", re.compile(r"^https?://(?:[\w-]+\.)?linkedin\.com/", re.I)),
+    ("twitter", re.compile(r"^https?://(?:[\w-]+\.)?(?:twitter|x)\.com/", re.I)),
+    ("facebook", re.compile(r"^https?://(?:[\w-]+\.)?facebook\.com/", re.I)),
+    ("instagram", re.compile(r"^https?://(?:[\w-]+\.)?instagram\.com/", re.I)),
+)
+
+# A share/intent/embed link is never a page to follow — it is another site
+# putting a "share to X" button on ITS OWN page, not X's page about the
+# actor. Checked before the domain patterns above claim the URL.
+_CHANNEL_URL_EXCLUDE = re.compile(
+    r"/(?:share|sharer|intent|plugins|dialog|embed)(?:[/?]|$)", re.I)
+
+
+def channels_from_confirmed(sources: Sequence[ConfirmedSource]) -> list[dict]:
+    """Confirmed source URLs -> `[{"kind": ..., "url": ...}, ...]`, one per
+    platform, by domain pattern alone — no LLM involved.
+
+    Closes a reliability gap the LLM-extracted `channel:<kind>` path
+    (`worker/extract.py`, `Answer.kind` fixed 2026-09-19) still has: it
+    depends on the model NOTICING a channel URL among the pages it read and
+    correctly naming a `kind` for it — a platform's own URL sitting
+    confirmed in the source set is a cheaper, deterministic signal than
+    hoping generation surfaces it. Paired with `families.yaml`'s
+    `channel_linkedin`/`channel_twitter`/`channel_facebook`/
+    `channel_instagram` site-search families (same date): those get the
+    platform's URL INTO the confirmed set, this reads it back out — get-in
+    and read-out are two different failure points and this only fixes the
+    second, so both changes ship together.
+
+    One `kind` per call: first CONFIRMED-verdict match wins per platform.
+    `sources` is expected in `search_sources`' own return order (identity/
+    money/... families before the channel_* families before `hint`, per
+    `render_queries`), so "first match" is "earliest, most on-topic query
+    result", not an arbitrary pick. No `website` entry — a generic domain
+    cannot be told apart from "an article about the actor" by a URL pattern
+    alone; that one stays the LLM's job (`channel:website`, still routed
+    through `Answer.kind` as of the same fix).
+    """
+    seen: dict[str, str] = {}
+    for s in sources:
+        if s.verdict != CONFIRMED:
+            continue
+        if _CHANNEL_URL_EXCLUDE.search(s.url):
+            continue
+        for kind, pat in _CHANNEL_URL_PATTERNS:
+            if kind in seen:
+                continue
+            if pat.match(s.url):
+                seen[kind] = s.url
+                break
+    return [{"kind": k, "url": u} for k, u in seen.items()]
 
 
 def _resolve_max_sources(depth: str, max_sources: Optional[int]) -> int:
@@ -270,7 +366,8 @@ def search_sources(
     # replace this with a direct families.yaml read that skips it.
     results_by_query = {}
     for family_id, query_string in render_queries(
-            name, families_path or DEFAULT_FAMILIES_PATH, kind=kind):
+            name, families_path or DEFAULT_FAMILIES_PATH, kind=kind,
+            hint=extract_hint(evidence)):
         response = provider.search(family_id, query_string, slug=resolved_slug)
         if not is_healthy(response, floor):
             log(
