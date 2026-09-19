@@ -216,13 +216,25 @@ def select(chunks: Sequence[Chunk], questions: Sequence[Question], k: int | None
     actors, which are legitimately global.
 
     `candidate_name`: the candidate-identity gate (module docstring,
-    "Candidate-identity gate"). When given and at least one fetched chunk
-    mentions one of the candidate's own distinctive name tokens, `chunks` is
-    narrowed to just those before ranking/top-up/neighbour-expansion run —
-    an unrelated, topically-similar chunk from another actor's bleed-through
-    content can no longer win a bucket. When no chunk mentions the name at
-    all, the gate is a no-op (degrade, not a wipeout) — see the module
-    docstring for why.
+    "Candidate-identity gate"), applied PER SOURCE, not across the whole
+    pool. For each source that has at least one chunk mentioning one of the
+    candidate's own distinctive name tokens, that source is narrowed to just
+    its name-mentioning chunks before ranking/top-up/neighbour-expansion run
+    — an unrelated, topically-similar chunk bled into an otherwise on-topic
+    page (the WeTheChange-in-an-Anaemia-Mukt-Bharat-source shape) can no
+    longer win a bucket. A source with ZERO name-mentioning chunks anywhere
+    in itself is left untouched, not dropped — a source can legitimately
+    read entirely as "the fund"/"it" after gate 2 already confirmed the page
+    is about this candidate, and a global (pool-wide) version of this gate
+    filtered such a source's real content out entirely whenever ANY other
+    source in the pool happened to name-drop the candidate (regression
+    caught by `test_seed_url_returned_by_search_is_not_a_second_source` /
+    `test_no_resume_discards_the_cached_blocks`, 2026-09-19 — PAGE_B never
+    says "Acumen" and was silently dropped from a 2-source pool because
+    PAGE_A did). Per-source scoping keeps the WeTheChange-shaped protection
+    (that source DOES have a name-mentioning chunk, so its noise chunk still
+    loses) without punishing a legitimately pronoun-heavy source that has
+    none at all.
     """
     k = k if k is not None else _TOP_K_PER_BUCKET
     chunks = list(chunks)
@@ -232,9 +244,15 @@ def select(chunks: Sequence[Chunk], questions: Sequence[Question], k: int | None
     if candidate_name:
         name_tokens = _name_tokens(candidate_name)
         if name_tokens:
-            mentioning = [c for c in chunks if _text_mentions_actor(c.text, name_tokens)]
-            if mentioning:
-                chunks = mentioning
+            by_source: dict[str, list[Chunk]] = {}
+            for c in chunks:
+                by_source.setdefault(c.source_id, []).append(c)
+            gated: list[Chunk] = []
+            for src_chunks in by_source.values():
+                mentioning = [c for c in src_chunks
+                             if _text_mentions_actor(c.text, name_tokens)]
+                gated.extend(mentioning if mentioning else src_chunks)
+            chunks = gated
 
     bucket_ids = _bucket_ids(questions)
     if not bucket_ids:

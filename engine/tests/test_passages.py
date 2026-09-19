@@ -414,7 +414,16 @@ def test_select_candidate_name_gate_excludes_unrelated_chunk_when_ontopic_exists
     candidate. Ranking is pinned (same technique as the geography-bias test
     above) so the unrelated chunk deterministically wins the bucket ranking
     — the fixture reproduces the bug's premise exactly, rather than hoping
-    the real encoder agrees on this specific sentence pair."""
+    the real encoder agrees on this specific sentence pair.
+
+    SAME `source_id` for both chunks — this matters after the 2026-09-19
+    per-source rescoping of this gate (the real bug was one LinkedIn page
+    whose scrape mixed an on-topic paragraph with an unrelated org's ad,
+    both under one `source_id`). Two DIFFERENT source_ids would exercise a
+    different, already-covered path (an entire unrelated SOURCE with no
+    on-topic chunk at all is left alone, not filtered — see the degrade
+    test below and its sibling for the legitimately-pronoun-only-source
+    case)."""
     reach_questions = list(REGISTRY.in_bucket("actor-reach"))
     ontopic = _chunk(
         "Anaemia Mukt Bharat runs community iron-folic acid distribution "
@@ -422,7 +431,7 @@ def test_select_candidate_name_gate_excludes_unrelated_chunk_when_ontopic_exists
         source_id="s1", ordinal=0)
     unrelated = _chunk(
         "WeTheChange is hiring! Email careers@wethechange.org to join our "
-        "menstrual health outreach team.", source_id="s2", ordinal=0)
+        "menstrual health outreach team.", source_id="s1", ordinal=1)
 
     def fixed_ranking(query, chunks, p_vecs=None):
         return sorted(chunks, key=lambda c: 0 if c is unrelated else 1)
@@ -442,6 +451,38 @@ def test_select_candidate_name_gate_excludes_unrelated_chunk_when_ontopic_exists
     # runs, because it never mentions the candidate's name.
     assert unrelated not in with_gate
     assert ontopic in with_gate
+
+
+@needs_model
+def test_select_candidate_name_gate_leaves_a_pronoun_only_source_untouched(monkeypatch):
+    """Regression for a second bug the pool-wide version of this gate
+    introduced (2026-09-19, caught by `test_worker_e6.py`'s
+    `test_seed_url_returned_by_search_is_not_a_second_source` and
+    `test_worker_resume.py`'s `test_no_resume_discards_the_cached_blocks`):
+    a SECOND, entirely legitimate source that never spells out the
+    candidate's name at all (it says "the fund"/"it" throughout, after
+    gate 2 already confirmed the page is about this candidate) was being
+    silently dropped from the prompt whenever ANY other source in the same
+    pool happened to name-drop the candidate — filtering ran across the
+    whole pool, not per source. The fix scopes the gate per `source_id`:
+    a source with zero name-mentioning chunks of its own is left alone."""
+    reach_questions = list(REGISTRY.in_bucket("actor-reach"))
+    named = _chunk(
+        "Acumen is a fund based in Mumbai that places patient capital into "
+        "early-stage enterprises.", source_id="s1", ordinal=0)
+    pronoun_only = _chunk(
+        "A profile of the fund notes that it operates in India, Pakistan "
+        "and several African countries.", source_id="s2", ordinal=0)
+
+    def fixed_ranking(query, chunks, p_vecs=None):
+        return list(chunks)   # order irrelevant here — both must survive
+    monkeypatch.setattr(passages, "_rank_chunks", fixed_ranking)
+
+    out = passages.select([named, pronoun_only], reach_questions, k=2,
+                          neighbour_radius=0, candidate_name="Acumen")
+    assert named in out
+    assert pronoun_only in out, \
+        "a whole source with no literal name match must not be dropped"
 
 
 def test_select_candidate_name_gate_degrades_when_no_chunk_mentions_the_name():

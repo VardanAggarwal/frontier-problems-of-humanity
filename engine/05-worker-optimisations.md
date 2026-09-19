@@ -1,3 +1,46 @@
+## 2026-09-19g — chunk_texts UnboundLocalError on the §13 rescue path, and the candidate-identity gate over-filtering
+
+Two bugs, both regressions from earlier today's fixes, both caught running
+the full `tests/` sweep after `2026-09-19g`:
+
+**`chunk_texts` crash.** `2026-09-19c`'s `flag_unmentioned_answers` wiring
+built `chunk_texts` only inside the `elif batched:` branch of the
+extraction if/elif chain (`worker/worker.py`). The §13 per-source rescue
+path (malformed JSON on the first attempt, retried one source at a time)
+sets `batched = True` too, but is a sibling `if`, not that `elif` — so
+`write_findings`'s `chunk_texts if batched else {...}` crashed with
+`UnboundLocalError` whenever rescue fired
+(`test_run_batch_rescues_via_13_then_resolves_with_sane_attribution`,
+confirmed failing back to `2026-09-19c`'s commit, not pre-existing as two
+agents' git-stash checks wrongly concluded — they diffed against their own
+uncommitted work, not the true pre-session baseline). Fixed by hoisting a
+default build of `chunk_texts` above the if/elif chain (from `prompt_sources`
++ `verify_sources` at that point — exactly what the rescue loop iterates
+over); the original build inside `elif batched:` stays, now as a refresh for
+when `_run_verify_pass()` runs again later in that branch.
+
+**Candidate-identity gate over-filtering.** `2026-09-19b`'s gate
+(`worker/passages.py:select()`) filtered the WHOLE fetched-chunk pool down
+to name-mentioning chunks the moment ANY chunk anywhere mentioned the
+candidate — so a second, entirely legitimate source that happens to say
+"the fund"/"it" throughout (after gate 2 already confirmed the page) got
+silently dropped whenever a different source in the same pool named the
+candidate once. Caught by `test_worker_e6.py`'s
+`test_seed_url_returned_by_search_is_not_a_second_source` and
+`test_worker_resume.py`'s `test_no_resume_discards_the_cached_blocks`
+(`sources_in_prompt` 1 instead of 2 — PAGE_B never says "Acumen"). Rescoped
+the gate to run PER `source_id`: a source with ≥1 name-mentioning chunk is
+narrowed to just those (still catches the WeTheChange-shaped case — that
+source DID have a name-mentioning chunk); a source with ZERO is left
+untouched rather than dropped. `test_passages.py`'s regression test for the
+original bug now uses one `source_id` for both chunks (the real
+`anaemia-mukt-bharat` shape — one mixed page, not two separate sources) and
+a new test (`test_select_candidate_name_gate_leaves_a_pronoun_only_source_
+untouched`) pins the fix.
+
+Full `pytest tests/` (from `engine/`, via `.venv/bin/python3`): 662 passed,
+14 skipped, 0 failed.
+
 ## 2026-09-19f — actor->actor emits now resolve to the ancestor problem, not dropped
 
 Same `raghubar-das`/`saryu-roy` chain as `2026-09-19e` below, a different

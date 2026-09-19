@@ -1577,6 +1577,46 @@ def test_emit_mints_an_actor_candidate_for_an_unresolvable_edge(conn, monkeypatc
     assert payload["edge_relevance"] == 3
 
 
+def test_emit_flips_explicit_works_on_edge_to_actor_source_when_dst_already_exists(
+        conn, monkeypatch):
+    """2026-09-19: a PROBLEM candidate explicitly naming an ALREADY-RESOLVED
+    actor via `edges` (`edge_kind: works_on`) used to write the edge as
+    src=problem/dst=actor — literally following source_candidate/dst_kind
+    with no regard for edge_kind. `works_on` is schema-defined actor ->
+    problem, and `edgesOut(g, 'actor', id, 'works_on')` (what populates an
+    actor page's "Working on" list) only reads that one direction, so the
+    edge existed but was invisible. Found auditing 14 such rows (niti-aayog,
+    central-pollution-control-board, pure-earth, ...) while chasing the
+    raghubar-das/saryu-roy ancestor-linking gap. This asserts the fix:
+    orientation flips to actor -> problem regardless of which one was the
+    source candidate."""
+    problem(conn, "silicosis-quarries", title="Silicosis in Stone Quarries")
+    actor(conn, "quarry-workers-collective", title="Quarry Workers Collective")
+    src = _source_candidate(conn, resolved_to="silicosis-quarries", kind="problem")
+
+    claims = {"emits": [], "edges": [{
+        # `db.resolve` is exact-id-then-alias only (no title match) — name
+        # it by its id, same as this file's other exact-match cases, so
+        # this test exercises the flip logic itself rather than resolution.
+        "dst_kind": "actor", "dst_name": "quarry-workers-collective",
+        "edge_kind": "works_on", "relevance": 3, "evidence": "leads the campaign"}]}
+    emitted, edges = worker._emit(conn, src, claims, {}, log=lambda *a: None)
+
+    assert emitted == 0
+    assert edges == 1
+    row = conn.execute(
+        "SELECT * FROM edge WHERE kind = 'works_on' AND "
+        "src_id = 'quarry-workers-collective'").fetchone()
+    assert row is not None
+    assert row["src_kind"] == "actor"
+    assert row["dst_kind"] == "problem"
+    assert row["dst_id"] == "silicosis-quarries"
+    # No backwards row left behind.
+    assert conn.execute(
+        "SELECT count(*) c FROM edge WHERE kind = 'works_on' AND "
+        "src_kind = 'problem' AND dst_kind = 'actor'").fetchone()["c"] == 0
+
+
 def test_emit_actor_edge_does_not_double_mint_an_already_emitted_actor(
         conn, monkeypatch):
     """The same duplicate guard `minted_problems` already gave problems,

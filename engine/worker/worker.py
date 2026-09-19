@@ -1084,9 +1084,33 @@ def _emit(conn: sqlite3.Connection, source_candidate: sqlite3.Row,
                        # `edge_kind` are on the minted candidate's own
                        # evidence, so `_backfill_trigger_edge` writes this
                        # edge once that candidate is promoted.
+        # `works_on` is schema-defined as actor -> problem (`edge`'s `kind`
+        # CHECK constraint comment), and `edgesOut(g, 'actor', id,
+        # 'works_on')` — what populates an actor page's "Working on" list —
+        # only ever looks in that one direction. Every OTHER write path for
+        # this edge kind already orients it that way (the implicit_works_on
+        # branch above, `_ancestor_problem`'s writes). This one didn't: it
+        # wrote src=source_candidate/dst=named-target unconditionally, so a
+        # PROBLEM candidate explicitly naming an actor via an `edges` entry
+        # with `edge_kind: works_on` landed the edge backwards
+        # (src=problem, dst=actor) — present, but invisible to the actor
+        # page and to anything else reading the actor-is-src convention.
+        # Found 2026-09-19 auditing 14 such rows (niti-aayog,
+        # central-pollution-control-board, pure-earth, and others) while
+        # chasing the raghubar-das/saryu-roy ancestor-linking gap. Flip
+        # orientation for this one edge kind only; every other kind keeps
+        # the source-candidate-is-src convention this loop has always used.
+        src_kind, src_id = source_candidate["kind"], source_candidate["resolved_to"]
+        link_dst_kind, link_dst_id = dst_kind, dst_id
+        if edge_kind == "works_on":
+            if src_kind == "problem" and dst_kind == "actor":
+                (src_kind, src_id), (link_dst_kind, link_dst_id) = (
+                    ("actor", dst_id), ("problem", source_candidate["resolved_to"]))
+            elif src_kind == "actor" and dst_kind == "problem":
+                pass  # already actor -> problem, nothing to flip
         try:
-            db.link(conn, (source_candidate["kind"], source_candidate["resolved_to"]),
-                    edge_kind, (dst_kind, dst_id), by=f"worker:{source_candidate['id']}",
+            db.link(conn, (src_kind, src_id),
+                    edge_kind, (link_dst_kind, link_dst_id), by=f"worker:{source_candidate['id']}",
                     relevance=e.get("relevance"), evidence=e.get("evidence"))
             edges_written += 1
         except sqlite3.IntegrityError as ex:
@@ -1829,6 +1853,21 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 if persist_sources:
                     _save_assembly(conn, cid, PROMPT_BUCKET, prompt_sources, coverage)
             batched = bool(prompt_sources)
+            # Hoisted above the extraction if/elif chain (2026-09-19, fixing
+            # a regression from the same date): built unconditionally here so
+            # every branch that can reach `batched=True` at write_findings
+            # time — including the §13 per-source rescue path a few lines
+            # below, which sets `batched` true but is a sibling `if`, never
+            # the `elif batched:` branch that used to build this — has it.
+            # Previously built only inside `elif batched:`, which crashed
+            # `write_findings`'s `chunk_texts if batched else {...}` with an
+            # UnboundLocalError whenever §13's rescue fired (malformed JSON
+            # on the first attempt, one source rescued individually) —
+            # `test_run_batch_rescues_via_13_then_resolves_with_sane_attribution`
+            # is exactly this shape.
+            chunk_texts = {ref: text
+                           for s in list(prompt_sources) + list(verify_sources)
+                           for ref, text in zip(s.chunk_refs, s.chunk_texts)}
             for key in ("sources_fetched", "sources_in_prompt",
                         "sources_never_selected", "sources_dropped_by_cap"):
                 report[key] += int(coverage.get(key, 0))
@@ -2038,9 +2077,14 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 # Chunk-granularity sibling of Rule 4 (2026-09-19c): even a
                 # source the model did not flag can have one chunk backing an
                 # answer that never mentions the candidate at all (the
-                # `anaemia-mukt-bharat` shape). `chunk_texts` is built here,
-                # ahead of its other use a few lines below at `write_findings`,
-                # so both share one lookup rather than two.
+                # `anaemia-mukt-bharat` shape). Rebuilt here (a cheaper
+                # top-level default already exists above, near
+                # `batched = bool(prompt_sources)`) because `verify_sources`
+                # can gain entries between the two points — the post-drop
+                # thin re-check above may have just run `_run_verify_pass()`
+                # for the first time. Refreshing here, ahead of its other use
+                # a few lines below at `write_findings`, keeps both in sync
+                # with whatever `verify_sources` actually ended up being.
                 chunk_texts = {ref: text
                                for s in list(prompt_sources) + list(verify_sources)
                                for ref, text in zip(s.chunk_refs, s.chunk_texts)}
