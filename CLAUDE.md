@@ -40,6 +40,7 @@ problems/
 src/                                the portal — Astro pages + the corpus loader (lib/schema.mjs, lib/sections.mjs, lib/corpus.mjs)
 scripts/build-index.mjs             emits problems/index.db + problems/index.json; `npm run validate` for the loader alone
 scripts/follow-list.mjs             emits problems/follow-list.md; `npm run follow` (also runs inside `npm run build`)
+engine/                             Engine v2 — the unbuilt generalized successor to problems/'s pipeline; the worker (gate→fetch→gate→claims→resolve→write→emit) is shipped, the orchestrator/bandit is not. See `engine/CLAUDE.md` and `engine/worker/CLAUDE.md`.
 catalyst-platform/
   00-plan.md                       the platform: list problems, research each, list everyone working it; catalyst division of labour; sequence
   01-scoreboard.md                 the counters that make catalyst work visible — connections, actors reachable, leaves, stale
