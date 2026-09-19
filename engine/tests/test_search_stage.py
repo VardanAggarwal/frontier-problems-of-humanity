@@ -171,8 +171,8 @@ def test_extract_hint_empty_evidence_yields_empty():
     assert extract_hint("") == ""
 
 
-def _cs(url, verdict=CONFIRMED, source_id=None):
-    return ConfirmedSource(source_id=source_id or url, url=url, text="x",
+def _cs(url, verdict=CONFIRMED, source_id=None, text="x"):
+    return ConfirmedSource(source_id=source_id or url, url=url, text=text,
                            origin=SEARCH, verdict=verdict)
 
 
@@ -224,6 +224,70 @@ def test_channels_from_confirmed_first_match_wins_per_platform():
         _cs("https://twitter.com/a_retweet_mentioning_them"),
     ])
     assert channels == [{"kind": "twitter", "url": "https://twitter.com/real_handle"}]
+
+
+def test_channels_from_confirmed_rejects_url_whose_text_never_mentions_the_name():
+    """The tara-mani-sah regression: a pattern-matched, gate2-CONFIRMED URL
+    whose fetched text shares no token with the actor's name must not be
+    written as their channel, even with no `judge` supplied."""
+    channels = channels_from_confirmed([
+        _cs("https://x.com/DonaldTrump",
+            text="Donald J. Trump 45th & 47th President of the United States"),
+    ], name="Tara Mani Sah")
+    assert channels == []
+
+
+def test_channels_from_confirmed_accepts_url_whose_text_mentions_the_name():
+    channels = channels_from_confirmed([
+        _cs("https://x.com/TaraManiSah", text="Tara Mani Sah — activist, Simdega"),
+    ], name="Tara Mani Sah")
+    assert channels == [{"kind": "twitter", "url": "https://x.com/TaraManiSah"}]
+
+
+def test_channels_from_confirmed_name_check_falls_through_to_next_source():
+    """A first URL that fails the name-mention check must not block a later,
+    genuine URL for the same platform from being written instead."""
+    channels = channels_from_confirmed([
+        _cs("https://x.com/DonaldTrump", text="Donald Trump's official account"),
+        _cs("https://x.com/TaraManiSah", text="Tara Mani Sah, Simdega activist"),
+    ], name="Tara Mani Sah")
+    assert channels == [{"kind": "twitter", "url": "https://x.com/TaraManiSah"}]
+
+
+def test_channels_from_confirmed_no_name_given_skips_the_mention_check():
+    """Backward compatible: a caller with no `name` (or one that is nothing
+    but stopwords) gets the old URL-pattern-only behaviour."""
+    channels = channels_from_confirmed([_cs("https://x.com/CeetleHero")])
+    assert channels == [{"kind": "twitter", "url": "https://x.com/CeetleHero"}]
+
+
+def test_channels_from_confirmed_judge_rejection_falls_through():
+    """A `judge` that rejects a name-token-passing URL is treated the same
+    as a failed name-mention check — try the next source for that platform."""
+    def judge(name, context, url, text):
+        return ("TaraManiSah" in url), "handle mismatch" if "TaraManiSah" not in url else "match"
+
+    channels = channels_from_confirmed([
+        _cs("https://x.com/tara_unrelated", text="Tara something else entirely"),
+        _cs("https://x.com/TaraManiSah", text="Tara Mani Sah, Simdega activist"),
+    ], name="Tara Mani Sah", judge=judge)
+    assert channels == [{"kind": "twitter", "url": "https://x.com/TaraManiSah"}]
+
+
+def test_channels_from_confirmed_judge_not_called_when_name_check_fails():
+    """The judge is spent only on URLs that already passed the free
+    name-token check — never called at all when that check rejects first."""
+    calls = []
+
+    def judge(name, context, url, text):
+        calls.append(url)
+        return True, "would have accepted"
+
+    channels = channels_from_confirmed([
+        _cs("https://x.com/DonaldTrump", text="no relation to the query"),
+    ], name="Tara Mani Sah", judge=judge)
+    assert channels == []
+    assert calls == []
 
 
 def test_channels_from_confirmed_has_no_website_entry():

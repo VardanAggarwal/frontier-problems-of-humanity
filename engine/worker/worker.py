@@ -38,10 +38,11 @@ from . import extract as extract_mod
 from . import fetch as fetchmod
 from . import gate1, gate2, llm, problem_emit, resolve, search_stage
 from .extract_types import Answer, ConfirmedSource, PromptSource
-from .prompts import (drop_misidentified, extract_prompt,
-                      extract_prompt_batched, parse_answers,
-                      parse_misidentified, parse_verified_answers,
-                      retry_per_source, verify_and_extract_prompt_batched)
+from .prompts import (channel_identity_prompt, drop_misidentified,
+                      extract_prompt, extract_prompt_batched, parse_answers,
+                      parse_channel_identity, parse_misidentified,
+                      parse_verified_answers, retry_per_source,
+                      verify_and_extract_prompt_batched)
 from .questions import REGISTRY
 
 # Track B (`04-worker-build-plan.md` §4): predict a depth tier for every
@@ -1845,8 +1846,31 @@ def run_batch(conn: sqlite3.Connection, corpus: Path, candidates: list[sqlite3.R
                 conn.commit()
                 continue
             if kind == "actor":
+                def _channel_judge(entity_name, entity_context, url, text):
+                    # Injected into `channels_from_confirmed` per that
+                    # function's own `judge` contract — only called for a URL
+                    # that already passed the free name-token check, so this
+                    # is at most a handful of calls per actor candidate, not
+                    # one per confirmed source.
+                    c_system, c_prompt = channel_identity_prompt(
+                        entity_name, entity_context, url, text)
+                    try:
+                        c_result = llm.call(c_prompt, system=c_system,
+                                            tier="judgment", max_tokens=256)
+                    except llm.LLMError as e:
+                        log(f"worker: candidate {cid} channel identity check "
+                            f"failed for {url}: {e} — treated as not confirmed")
+                        return False, str(e)
+                    report["cost"] += c_result.get("cost", 0.0)
+                    ok, why = parse_channel_identity(c_result.get("json"))
+                    log(f"worker: candidate {cid} channel identity {url} -> "
+                        f"{ok} ({why})")
+                    return ok, why
+
                 _write_detected_channels(
-                    conn, entity_id, search_stage.channels_from_confirmed(sources),
+                    conn, entity_id, search_stage.channels_from_confirmed(
+                        sources, name=name, context=cand["evidence"] or "",
+                        judge=_channel_judge),
                     by=by, log=log)
             report["cites_written"] += _write_cites(conn, kind, entity_id, answers,
                                                     by=by, log=log)

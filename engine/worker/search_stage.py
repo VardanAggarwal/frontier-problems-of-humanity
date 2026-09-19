@@ -41,6 +41,7 @@ from search.confirm_policy import (
 from search.cover import cover
 from search.fuse import fuse, normalize_url
 from search.health import MIN_ENGINES_RETURNED, engines_returned, is_healthy
+from store import db
 from worker.config import MAX_SOURCES_ESCALATE, MAX_SOURCES_REGISTRY, MAX_SOURCES_TRACKED
 from worker.depth import REGISTRY_TIER, TRACKED_TIER
 from worker.extract_types import ConfirmedSource
@@ -174,9 +175,58 @@ _CHANNEL_URL_EXCLUDE = re.compile(
     r"/(?:share|sharer|intent|plugins|dialog|embed)(?:[/?]|$)", re.I)
 
 
-def channels_from_confirmed(sources: Sequence[ConfirmedSource]) -> list[dict]:
+# Generic legal-entity / filler words that would otherwise count as a
+# "distinctive" name token and match almost anything (`Foundation Trust`
+# appears in hundreds of unrelated bios). Stripped before the mention check
+# below; org-type suffixes only — a real given/family name never collides
+# with this list.
+_NAME_TOKEN_STOPWORDS = {
+    "pvt", "ltd", "private", "limited", "the", "and", "of", "foundation",
+    "trust", "india", "group", "inc", "llp", "co", "company", "society",
+    "association", "committee", "welfare",
+}
+
+
+def _name_tokens(name: str) -> list[str]:
+    """`name` -> its distinctive tokens for the mention check below: casefolded/
+    punctuation-stripped (`store.db.norm`), 3+ chars, legal-suffix words
+    dropped. Empty for a name that is nothing but stopwords/short tokens —
+    the caller treats that as "can't check" rather than "never matches"."""
+    return [t for t in db.norm(name).split()
+            if len(t) >= 3 and t not in _NAME_TOKEN_STOPWORDS]
+
+
+def _text_mentions_actor(text: str, name_tokens: Sequence[str]) -> bool:
+    """Does `text` contain at least one of the actor's own distinctive name
+    tokens, as a whole word? Word-boundary, not substring — `"sah"` must not
+    match inside `"flash"`.
+
+    2026-09-19: `tara-mani-sah`'s `channel:twitter` was written as
+    `x.com/DonaldTrump` — gate2 embed-confirmed a thin, templated X.com
+    profile shell (161 words, no page-specific content) against the
+    candidate's context, and `channels_from_confirmed` trusted that verdict
+    on URL pattern alone, never looking at what the page actually said. A
+    genuine profile page says the actor's own name somewhere in its first
+    ~500-1000 chars (bio, page title, "About"); a mismatched page fetched
+    clean off a generic search hit does not. This is a second, independent
+    signal on top of gate2's cosine band, not a replacement for it — cheap,
+    exact-string, and catches exactly the class of failure a semantic
+    embedding is worst at (a templated page with no distinguishing text)."""
+    if not name_tokens:
+        return True
+    words = set(db.norm(text or "").split())
+    return any(t in words for t in name_tokens)
+
+
+def channels_from_confirmed(
+        sources: Sequence[ConfirmedSource],
+        name: str = "",
+        context: str = "",
+        judge: Optional[Callable[[str, str, str, str], tuple[bool, str]]] = None,
+) -> list[dict]:
     """Confirmed source URLs -> `[{"kind": ..., "url": ...}, ...]`, one per
-    platform, by domain pattern alone — no LLM involved.
+    platform, by domain pattern first, then two identity checks the URL
+    pattern alone cannot do.
 
     Closes a reliability gap the LLM-extracted `channel:<kind>` path
     (`worker/extract.py`, `Answer.kind` fixed 2026-09-19) still has: it
@@ -190,6 +240,39 @@ def channels_from_confirmed(sources: Sequence[ConfirmedSource]) -> list[dict]:
     and read-out are two different failure points and this only fixes the
     second, so both changes ship together.
 
+    2026-09-19: the domain pattern plus gate2's CONFIRMED verdict was not
+    enough — `tara-mani-sah` got `x.com/DonaldTrump` written as her twitter
+    channel because gate2 embed-confirmed a thin, templated profile shell
+    against her candidate context, and this function never looked at what
+    the page actually said. Two checks now sit between "URL shape matches"
+    and "written as the channel", cheapest first:
+
+      1. `_text_mentions_actor` (free, no LLM): does the fetched text
+         contain even one of the entity's own distinctive name tokens?
+         Zero-overlap pages — a wrong same-shape URL fetched off a noisy
+         search hit — are rejected here for the cost of a set lookup. This
+         alone would have caught the Trump case: nothing in a Trump-profile
+         fetch shares a token with "Tara Mani Sah".
+      2. `judge`, when supplied — `(name, context, url, text) -> (bool, why)`,
+         normally `prompts.channel_identity_prompt` + an `llm.call` + `
+         prompts.parse_channel_identity`, injected by the caller the same
+         way `fetch`/`confirm` are injected elsewhere in this module (this
+         module still does not import `llm` or touch the network itself).
+         Only called for a URL that already passed check 1 — the harder
+         case check 1 cannot resolve (a same-named different person, or a
+         passing mention that isn't the entity's own page), spent only on
+         URLs cheap enough already-plausible to be worth an LLM call.
+         `judge is None` skips this check (test callers, or a run with no
+         model budget for it) and keeps check 1 as the only gate — better
+         than the old always-trust-gate2 behaviour, not as strong as with
+         a judge.
+
+    A URL that fails either check is skipped, not just for the current
+    source — the loop moves on to the NEXT confirmed source for that
+    platform (first-match-wins operates over the URLs that pass both
+    checks, not over the raw confirmed set), so a misidentified top hit
+    doesn't block a genuine second one from being written instead.
+
     One `kind` per call: first CONFIRMED-verdict match wins per platform.
     `sources` is expected in `search_sources`' own return order (identity/
     money/... families before the channel_* families before `hint`, per
@@ -199,6 +282,7 @@ def channels_from_confirmed(sources: Sequence[ConfirmedSource]) -> list[dict]:
     alone; that one stays the LLM's job (`channel:website`, still routed
     through `Answer.kind` as of the same fix).
     """
+    name_tokens = _name_tokens(name)
     seen: dict[str, str] = {}
     for s in sources:
         if s.verdict != CONFIRMED:
@@ -208,9 +292,16 @@ def channels_from_confirmed(sources: Sequence[ConfirmedSource]) -> list[dict]:
         for kind, pat in _CHANNEL_URL_PATTERNS:
             if kind in seen:
                 continue
-            if pat.match(s.url):
-                seen[kind] = s.url
+            if not pat.match(s.url):
+                continue
+            if not _text_mentions_actor(s.text, name_tokens):
                 break
+            if judge is not None:
+                ok, _why = judge(name, context, s.url, s.text)
+                if not ok:
+                    break
+            seen[kind] = s.url
+            break
     return [{"kind": k, "url": u} for k, u in seen.items()]
 
 

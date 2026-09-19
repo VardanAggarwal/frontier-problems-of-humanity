@@ -972,3 +972,77 @@ def drop_misidentified(
             + (f" (actually about: {f['about_what']})" if f["about_what"] else "")
             + " — dropped")
     return kept, problems
+
+
+def channel_identity_prompt(
+    entity_name: str, entity_context: str, url: str, text: str,
+) -> tuple[str, str]:
+    """One candidate channel URL (`search_stage.channels_from_confirmed`'s
+    domain-pattern match) -> a single yes/no: is this page the entity's OWN
+    channel — not merely a page that mentions the name, not a different
+    person or org who happens to share it?
+
+    2026-09-19: `tara-mani-sah`'s `channel:twitter` was written as
+    `x.com/DonaldTrump`. The pattern matcher only checks the URL SHAPE and
+    trusts gate2's embedding verdict; gate2 confirmed a thin, templated
+    X.com profile shell (161 words of boilerplate, no page-specific content)
+    against the candidate's context, and nothing downstream ever read what
+    the page actually said. `search_stage._text_mentions_actor` closes the
+    zero-overlap case for free (no page text at all shares a token with the
+    name); this prompt is the harder case that check cannot resolve on its
+    own — a same-named different person, or a page that mentions the entity
+    in passing without being their channel. Same reasoning as
+    `verify_and_extract_prompt_batched`'s rule that "a name match is not
+    evidence", scoped down to one URL instead of a batch because a channel
+    write has no extraction to bundle it with and the wrong answer here
+    doesn't just drop a fact — it becomes the place a reviewer or an
+    outreach draft goes to find and contact the WRONG person.
+
+    Deliberately its own prompt rather than a reuse of
+    `verify_and_extract_prompt_batched`: that prompt asks for a full
+    question-set extraction on top of the identity verdict, which is wasted
+    tokens for a call whose only output this call site uses is the verdict.
+    """
+    system = (
+        "You verify identity, nothing else. Given an entity and a candidate "
+        "channel URL with the text fetched from that URL, decide whether the "
+        "page IS that entity's own channel — a profile, account or page they "
+        "themselves control or post to.\n\n"
+        "A name appearing in the text is not by itself evidence: a page can "
+        "mention someone without being theirs, and a name can belong to more "
+        "than one person or organisation. Decide from what the page actually "
+        "says about itself (its own bio, its own posts, its own \"about\") "
+        "against the entity description given. If the page gives too little "
+        "to tell — no bio, no identifying content, generic boilerplate — "
+        "say so rather than guessing either way.\n\n"
+        "Respond with strict JSON only, no prose, no markdown fences, "
+        "exactly one object:\n"
+        '{"is_own_channel": true|false, "why": "one clause, citing what in '
+        'the page text supports the verdict"}'
+    )
+    prompt = (
+        f"Entity name: {entity_name}\n"
+        f"Entity description: {entity_context or '(none given)'}\n\n"
+        f"Candidate channel URL: {url}\n\n"
+        f"Fetched page text:\n{(text or '')[:2000]}"
+    )
+    return system, prompt
+
+
+def parse_channel_identity(result_json) -> tuple[bool, str]:
+    """Parse `channel_identity_prompt`'s response -> `(is_own_channel, why)`.
+
+    Anything that isn't a clean `{"is_own_channel": true, ...}` is treated as
+    NOT confirmed — malformed JSON, a missing key, a non-bool value, all fall
+    to `False`. Same direction as `parse_verified_answers`' "no verdict is
+    not consent": a channel write is the failure mode this whole prompt
+    exists to prevent, so an ambiguous model response must not default to
+    writing it anyway.
+    """
+    if not isinstance(result_json, dict):
+        return False, f"result is not a JSON object (got {type(result_json).__name__})"
+    val = result_json.get("is_own_channel")
+    why = str(result_json.get("why") or "")
+    if not isinstance(val, bool):
+        return False, f"is_own_channel missing or non-bool ({val!r}) — treated as not confirmed"
+    return val, why
