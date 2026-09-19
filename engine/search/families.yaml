@@ -58,6 +58,44 @@ families:
     query_template: '{name} contact twitter newsletter'
     retrievable: true
 
+  # Added 2026-09-19, not PoC-0b-measured (same caveat as the `problem`
+  # families below — a first cut, re-tune from real runs). `reach`'s
+  # generic '{name} contact twitter newsletter' relies on ONE query
+  # surfacing whichever platform an actor happens to be on; it measurably
+  # doesn't for a common-name individual or a generic-sounding company
+  # (ncml/arjun-subedi, 2026-09-18 run: real channels — ncml.com,
+  # twitter.com/CeetleHero — existed in `finding` but never became a
+  # `channel` row because search never targeted the platform directly and
+  # the extraction claim-field routing was separately broken, fixed
+  # alongside this). One `site:` query per major platform costs one extra
+  # search-provider call each but makes each platform's own top result
+  # available to `cover()`, rather than hoping one generic query's top-N
+  # happens to include it.
+  - id: channel_linkedin
+    kind: actor
+    query_template: '{name} site:linkedin.com'
+    retrievable: true
+
+  - id: channel_twitter
+    kind: actor
+    query_template: '{name} site:twitter.com OR site:x.com'
+    retrievable: true
+
+  - id: channel_facebook
+    kind: actor
+    query_template: '{name} site:facebook.com'
+    retrievable: true
+
+  - id: channel_instagram
+    kind: actor
+    query_template: '{name} site:instagram.com'
+    retrievable: true
+
+  - id: channel_website
+    kind: actor
+    query_template: '{name} official website'
+    retrievable: true
+
   - id: failure
     kind: actor
     query_template: '{name} shut down closed pivot losses'

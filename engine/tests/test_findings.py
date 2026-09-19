@@ -25,9 +25,11 @@ from worker import extract
 from worker.extract_types import Answer
 
 
-def A(qid, answer, source_id="src-1", confidence=None, chunk_ref=None, reason=None):
+def A(qid, answer, source_id="src-1", confidence=None, chunk_ref=None,
+     reason=None, kind=None):
     return Answer(question_id=qid, answer=answer, source_id=source_id,
-                  confidence=confidence, chunk_ref=chunk_ref, reason=reason)
+                  confidence=confidence, chunk_ref=chunk_ref, reason=reason,
+                  kind=kind)
 
 
 # ------------------------------------------------------- write_findings ---
@@ -289,18 +291,85 @@ def test_multi_valued_question_still_prefers_the_most_specific_per_group():
         "aggregation masks failure", "authority mismatched to harm"}
 
 
-def test_templated_and_emit_claim_fields_make_no_claim():
+def test_emit_edges_claim_field_makes_no_claim():
     claims, notes = extract.claims_from_findings([
-        A("q16_channel", "https://x.example/feed", "s-a"),   # channel:<kind>
         A("q10b_funder_identity", "Azim Premji Philanthropic Initiatives", "s-b"),
     ])
     assert claims == []
-    assert len(notes) == 2
+    assert len(notes) == 1
     # Wording changed 2026-09-18: this note fires on every problem candidate
     # and used to read like a misconfiguration warning. What it must still
     # assert is that no claim was produced and the finding was kept.
-    assert all("rather than a claim" in n for n in notes)
-    assert all("finding(s) kept" in n for n in notes)
+    assert "rather than a claim" in notes[0]
+    assert "finding(s) kept" in notes[0]
+
+
+def test_templated_channel_field_with_no_kind_makes_no_claim():
+    """2026-09-19: `ask:need:<kind>` / `ask:offer:<kind>` / `channel:<kind>`
+    used to be unconditionally unresolvable here (the model's `kind` had
+    nowhere to land — `Answer` had no such field). Now it resolves when
+    `kind` is given (see below) but a kind-less answer still can't."""
+    claims, notes = extract.claims_from_findings([
+        A("q16_channel", "https://x.example/feed", "s-a"),   # kind=None
+    ])
+    assert claims == []
+    assert len(notes) == 1
+    assert "no `kind` supplied" in notes[0]
+    assert "kept in the ledger" in notes[0]
+
+
+def test_templated_channel_field_with_kind_resolves_to_a_concrete_claim():
+    """ncml/arjun-subedi, 2026-09-18 run: `q16_channel` answers with real
+    content (`"ncml.com"`, `"https://twitter.com/CeetleHero"`) sat in
+    `finding` and never became a `channel` row because this function had no
+    way to resolve `channel:<kind>` into a concrete field. `kind` (now on
+    `Answer`, supplied by the model per `prompts.py`'s per-question
+    instruction) closes that."""
+    claims, _ = extract.claims_from_findings([
+        A("q16_channel", "ncml.com", "s-a", kind="website"),
+    ])
+    assert claims == [{"field": "channel:website", "value": "ncml.com",
+                       "confidence": None}]
+
+
+def test_templated_ask_field_two_kinds_become_two_claims_not_one_disagreement():
+    """Two different needs (funding, mentorship) on the same question_id are
+    NOT the same field disagreeing with itself — each `kind` is its own
+    field/claim. Grouping by kind first (before the one/consistent/
+    conflicting reconciliation) is what keeps them apart."""
+    claims, _ = extract.claims_from_findings([
+        A("q14_ask_need", "Grant funding for the next expansion phase.",
+          "s-a", kind="funding"),
+        A("q14_ask_need", "A technical mentor for the ops team.",
+          "s-b", kind="mentorship"),
+    ])
+    fields = {c["field"]: c["value"] for c in claims}
+    assert fields == {
+        "ask:need:funding": "Grant funding for the next expansion phase.",
+        "ask:need:mentorship": "A technical mentor for the ops team.",
+    }
+
+
+def test_templated_field_same_kind_conflicting_answers_still_disagree():
+    claims, notes = extract.claims_from_findings([
+        A("q16_channel", "https://twitter.com/old_handle", "s-a", kind="twitter"),
+        A("q16_channel", "https://twitter.com/new_handle", "s-b", kind="twitter"),
+    ])
+    assert len(claims) == 1
+    assert claims[0]["field"] == "channel:twitter"
+    assert "sources disagree" in claims[0]["value"]
+    assert "conflicting values" in notes[0]
+
+
+def test_templated_field_same_kind_consistent_answers_pick_most_specific():
+    claims, notes = extract.claims_from_findings([
+        A("q15_ask_offer", "Warehousing.", "s-a", kind="distribution"),
+        A("q15_ask_offer", "Warehousing across 4 states.", "s-b", kind="distribution"),
+    ])
+    assert claims == [{"field": "ask:offer:distribution",
+                       "value": "Warehousing across 4 states.",
+                       "confidence": None}]
+    assert "consistent findings" in notes[0]
 
 
 def test_unknown_question_id_makes_no_claim_but_is_reported():
@@ -344,6 +413,41 @@ def test_split_claims_keeps_the_three_actor_fields_e6_added():
     columns, other = _split_claims("actor", claims, log=lambda *_: None)
     assert sorted(columns) == ["funding", "one_line", "scale_metric"]
     assert other == []
+
+
+@pytest.mark.parametrize("field, value", [
+    ("funding", "USD 29.95 (price of the company report, not funding scale)"),
+    ("funding", "Based on industry standards, expected compensation for Area "
+               "Manager is ₹6–12 LPA and BDE Manager ₹5–10 LPA, "
+               "as of the 2026 recruitment posting."),
+    ("funding", "No specific financial scale mentioned; operates as an "
+               "individual professional seeking projects."),
+])
+def test_split_claims_drops_hedged_funding_and_scale_answers(field, value):
+    """globus-warehousing, ncml and arjun-subedi, 2026-09-18 run: the model
+    filled `funding`/`scale_metric` with a number it flagged in its own
+    words as not a real answer, instead of omitting the field per
+    `prompts.py`'s "if the text does not support a field, omit it; do not
+    guess." `_split_claims` is the last stop before `db.put` — this is
+    where the claim must die instead of reaching `actor.funding`."""
+    from worker.worker import _split_claims
+    claims, _ = extract.claims_from_findings([A("q10_funding", value, "s-a")])
+    logged: list[str] = []
+    columns, other = _split_claims("actor", claims, log=logged.append)
+    assert "funding" not in columns
+    assert other == []
+    assert logged and "hedge phrase" in logged[0]
+
+
+def test_split_claims_keeps_a_real_funding_answer():
+    """The filter must not swallow a legitimate dated figure alongside the
+    hallucinated ones — LT Foods' actual q10_funding answer, same run."""
+    from worker.worker import _split_claims
+    claims, _ = extract.claims_from_findings([
+        A("q10_funding", "Market cap of Rs 14,695.74 Crore as of 18 Sep 2026", "s-a"),
+    ])
+    columns, _ = _split_claims("actor", claims, log=lambda *_: None)
+    assert columns["funding"] == "Market cap of Rs 14,695.74 Crore as of 18 Sep 2026"
 
 
 def test_ledger_and_claims_are_derived_from_the_same_answers(conn):

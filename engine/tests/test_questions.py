@@ -13,13 +13,13 @@ from worker import questions as qmod
 
 def test_default_registry_loads():
     r = qmod.load()
-    assert len(r.questions) == 36
+    assert len(r.questions) == 37
 
 
 def test_counts_match_02_questions_md():
     r = qmod.load()
     assert len(r.all("problem")) == 19
-    assert len(r.all("actor")) == 17
+    assert len(r.all("actor")) == 18
 
 
 def test_ids_unique():
@@ -43,8 +43,8 @@ def test_every_bucket_has_at_least_one_question():
 
 
 def test_non_retrieval_questions():
-    """Two distinct reasons a question drives no retrieval, and both live
-    behind the same `retrieval: false` flag.
+    """Three distinct reasons a question drives no retrieval, and all three
+    live behind the same `retrieval: false` flag.
 
     Five are PoC-1c's whole-record inferences — q2 type, q3 legs,
     q5 ecosystem_role, q7 representation_unit, q13 failure_note — enum
@@ -53,15 +53,22 @@ def test_non_retrieval_questions():
     One is q10b_funder_identity, which is different in kind: the fact is
     localized, but it is a *relation* rather than a property, so it arrives
     as an edge through the emit path instead of by retrieving a sentence.
-    Keep the two reasons distinguishable; a future change that revives
-    retrieval for one class must not silently revive it for the other.
+
+    One is q0_relevance (added 2026-09-19): answered against the whole
+    passed-in source set plus the candidate's own `hint`, not a
+    retrieval-ranked subset — and unlike the five above, this is not a
+    closed-enum whole-record inference, it just has no measured
+    retrieval_query yet (poc1b/poc1c's method: don't wire one in unmeasured).
+
+    Keep the three reasons distinguishable; a future change that revives
+    retrieval for one class must not silently revive it for the others.
     """
     r = qmod.load()
     non_retrieval = {q.id for q in r.questions if not q.retrieval}
     assert non_retrieval == {
         "q2_type", "q3_legs", "q5_ecosystem_role",
         "q7_representation_unit", "q13_failure_note",
-        "q10b_funder_identity",
+        "q10b_funder_identity", "q0_relevance",
     }
     for qid in non_retrieval:
         q = r.get(qid)

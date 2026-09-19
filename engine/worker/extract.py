@@ -214,15 +214,15 @@ def write_findings(conn: sqlite3.Connection, candidate_id: int,
     rows = [
         (candidate_id, a.question_id, a.answer, a.confidence,
          urls.get(a.source_id), a.source_id, a.chunk_ref, a.reason,
-         chunk_texts.get(a.chunk_ref) if a.chunk_ref else None)
+         chunk_texts.get(a.chunk_ref) if a.chunk_ref else None, a.kind)
         for a in answers
     ]
     if not rows:
         return 0
     conn.executemany(
         "INSERT INTO finding (candidate_id, question_id, answer, confidence, "
-        "source_url, source_id, chunk_ref, reason, chunk_text) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", rows)
+        "source_url, source_id, chunk_ref, reason, chunk_text, kind) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", rows)
     return len(rows)
 
 
@@ -362,14 +362,8 @@ def claims_from_findings(
             continue
 
         field = question.claim_field
-        # Two claim_field shapes are not bare fields and cannot be turned into
-        # a claim from the answer text alone: `emits/edges` (the answer drives
-        # stage 8, not a claim) and the templated `ask:need:<kind>` /
-        # `channel:<kind>`, whose `<kind>` the model supplies per answer and
-        # this function never sees. Emitting them anyway would hand
-        # `_apply_other_claims` a literal "<kind>" to log and drop. The finding
-        # is written either way; only the claim is withheld.
-        if field == "emits/edges" or "<" in field:
+        # `emits/edges`: the answer drives stage 8, not a claim.
+        if field == "emits/edges":
             # Phrased as the routing decision it is, not as a complaint
             # (2026-09-18). The old wording — "claim_field 'emits/edges' is not
             # a bare claim field" — fires on every single problem candidate,
@@ -377,8 +371,66 @@ def claims_from_findings(
             # of the run log hunting for a bug in questions.yaml. Nothing is
             # wrong when this fires; it is the designed path.
             notes.append(f"{qid}: {len(group)} finding(s) kept, routed to "
-                         f"{'stage 8 (emits/edges)' if field == 'emits/edges' else f'{field} at write time'} "
-                         f"rather than a claim — as designed, not an error")
+                         f"stage 8 (emits/edges) rather than a claim — as "
+                         f"designed, not an error")
+            continue
+
+        # The templated `ask:need:<kind>` / `ask:offer:<kind>` / `channel:
+        # <kind>` claim fields (2026-09-19, closing the gap opened
+        # 2026-09-18): each resolves to a FAMILY of concrete fields, one per
+        # `Answer.kind` (`ask:need:funding`, `channel:twitter`, ...) — the
+        # model now supplies `kind` per answer (`prompts.py`'s per-question
+        # instruction for a templated field), and `Answer.kind` carries it
+        # (`extract_types.py`). Before `kind` existed, this whole family was
+        # unresolvable here and every finding was kept in the ledger with no
+        # claim ever produced — see git history for that version of this
+        # block. Grouped by `kind` FIRST, then each kind's answers go
+        # through the same one/consistent/conflicting reconciliation as any
+        # other field: two channel URLs on different platforms are two
+        # channels, not "sources disagree about the channel", so they must
+        # not be merged into one disagreement claim just because they share
+        # a question_id.
+        if "<" in field:
+            by_kind: dict[str, list[Answer]] = defaultdict(list)
+            kindless = 0
+            for a in group:
+                k = (a.kind or "").strip().lower()
+                if not k:
+                    kindless += 1
+                    continue
+                by_kind[k].append(a)
+            if kindless:
+                notes.append(
+                    f"{qid}: {kindless} finding(s) with no `kind` supplied — "
+                    f"kept in the ledger, no claim ({field!r} cannot resolve "
+                    f"without it)")
+            for k, kgroup in by_kind.items():
+                resolved_field = field.replace("<kind>", k)
+                if len(kgroup) == 1:
+                    a = kgroup[0]
+                    claims.append({"field": resolved_field, "value": a.answer,
+                                   "confidence": a.confidence})
+                    continue
+                norms = [_norm(a.answer) for a in kgroup]
+                all_consistent = all(
+                    _consistent(norms[i], norms[j])
+                    for i in range(len(norms)) for j in range(i + 1, len(norms)))
+                if all_consistent:
+                    best = max(kgroup, key=lambda a: len(_norm(a.answer)))
+                    claims.append({"field": resolved_field, "value": best.answer,
+                                   "confidence": _confidence(kgroup)})
+                    notes.append(
+                        f"{qid}/{k}: {len(kgroup)} consistent findings -> "
+                        f"the most specific ({best.source_id})")
+                    continue
+                sides = _sides(kgroup)
+                claims.append({"field": resolved_field,
+                               "value": _disagreement(sides),
+                               "confidence": _confidence(kgroup)})
+                notes.append(
+                    f"{qid}/{k}: {len(sides)} conflicting values across "
+                    f"{len(kgroup)} findings -> one claim stating the "
+                    f"disagreement")
             continue
 
         if len(group) == 1:

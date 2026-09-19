@@ -82,6 +82,40 @@ def test_renders_given_labels_and_urls_in_order():
     assert prompt.index("[S1]") < prompt.index("[S2]")
 
 
+def test_hint_appears_in_the_prompt_when_given():
+    """globus-warehousing/lt-foods/arjun-subedi, 2026-09-18 run: extraction
+    had no way to know WHY the candidate was minted, only what its own pages
+    say about themselves. `hint` (the emitting candidate's `evidence.hint`)
+    closes that — grounds `q0_relevance`/`context` on something."""
+    system, prompt = extract_prompt_batched(
+        "actor", "LT Foods", [],
+        hint="Key private company in warehousing and logistics")
+    assert "Key private company in warehousing and logistics" in prompt
+
+
+def test_no_hint_leaves_the_prompt_unchanged():
+    """Optional and additive — every caller before 2026-09-19, and any
+    candidate minted before `evidence.hint` existed, must get a
+    byte-identical prompt to before this parameter existed."""
+    with_no_hint = extract_prompt_batched("actor", "X", [])
+    with_empty_hint = extract_prompt_batched("actor", "X", [], hint="")
+    assert with_no_hint == with_empty_hint
+
+
+def test_templated_claim_field_questions_instruct_the_model_to_give_kind():
+    """`ask:need:<kind>` / `ask:offer:<kind>` / `channel:<kind>` questions
+    must tell the model to supply `kind` — without it `claims_from_findings`
+    cannot resolve the field at all (worker/extract.py)."""
+    system, _ = extract_prompt_batched("actor", "X", [])
+    for q in REGISTRY.all("actor"):
+        if "<kind>" in q.claim_field:
+            assert f"- {q.id}:" in system
+            idx = system.index(f"- {q.id}:")
+            line_end = system.index("\n", idx)
+            assert "`kind`" in system[idx:line_end], (
+                f"{q.id}'s line must instruct the model to give `kind`")
+
+
 def test_batched_system_prompt_carries_the_batching_rules_and_questions():
     system, _ = extract_prompt_batched("actor", "X", [])
     assert "DROPPED" in system

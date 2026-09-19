@@ -224,6 +224,47 @@ questions:
     bucket: actor-identity
     depth_tier: registry   # asked at both tiers; registry gets this cheap pass at minimum
 
+  # Added 2026-09-19, closing a gap the 2026-09-18 run exposed:
+  # globus-warehousing/ncml/lt-foods all got a `one_line` that reads as
+  # generic company boilerplate ("provides warehousing services including
+  # scheduling shipments, unloading goods...") because `one_line` answers
+  # "what does it do", never "why does this platform care about it". The
+  # candidate's own `evidence.hint` (why it was minted) is now passed into
+  # the extraction prompt (`extract_prompt_batched`'s `hint` param,
+  # `search_stage.extract_hint`) precisely so this question can be answered
+  # against it instead of against the org's self-description alone.
+  # `retrieval: false` (not an inference question like q2/q3/q5/q7 either —
+  # it needs the actual source text, just not a separate retrieval-ranked
+  # assembly pass): there is no measured retrieval_query for it yet, and
+  # forcing one in without measurement would be exactly the kind of
+  # unvalidated retrieval_query poc1b/poc1c's method exists to avoid.
+  - id: q0_relevance
+    kind: actor
+    question: >-
+      Given why this actor is being looked at (see the note above the
+      sources, if one is given) and what its own sources say, one sentence
+      on WHY it matters here — not what the org/person does in general
+      (that is `one_line`'s job), but the specific thing that makes it
+      relevant to whatever surfaced it. If neither the note nor the
+      sources make that apparent, do not answer this question at all —
+      never restate `one_line` or say "no reason given" as the answer;
+      an absent answer here still leaves the hint itself as the floor
+      (`worker.py`'s backfill), which is strictly more honest than a
+      sentence manufactured to fill the field.
+    claim_field: context
+    multi: false
+    retrieval: false
+    retrieval_note: >-
+      No AUC measurement exists for this question — added 2026-09-19,
+      after poc1b/poc1c's sweep. Unlike q2/q3/q5/q7/q13, this is not a
+      whole-record enum inference either: it is answered from the same
+      passed-in source set every other question sees, anchored on the
+      candidate's `hint` rather than a retrieval-ranked subset. Do not
+      wire in an unmeasured retrieval_query for it later without running
+      the same sweep the other buckets went through.
+    bucket: null
+    depth_tier: registry
+
   - id: q2_type
     kind: actor
     question: "Org or individual?"

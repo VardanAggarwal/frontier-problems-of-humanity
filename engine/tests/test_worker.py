@@ -823,6 +823,117 @@ def test_channel_claim_is_not_reinserted_on_a_handle_only_rerun(conn):
     assert rows[0]["handle"] == "@mlpc_org" and rows[0]["url"] is None
 
 
+def test_write_detected_channels_inserts_one_row_per_platform(conn):
+    actor(conn, "ncml")
+    detected = [{"kind": "linkedin", "url": "https://in.linkedin.com/company/ncml"},
+               {"kind": "twitter", "url": "https://twitter.com/ncml_official"}]
+    worker._write_detected_channels(conn, "ncml", detected, by="test")
+    rows = conn.execute(
+        "SELECT kind, url, status FROM channel WHERE actor_id='ncml' "
+        "ORDER BY kind").fetchall()
+    assert [(r["kind"], r["url"], r["status"]) for r in rows] == [
+        ("linkedin", "https://in.linkedin.com/company/ncml", "unconfirmed"),
+        ("twitter", "https://twitter.com/ncml_official", "unconfirmed"),
+    ]
+
+
+def test_write_detected_channels_does_not_duplicate_an_existing_kind(conn):
+    """A `channel:twitter` claim the LLM already wrote (or an earlier run's
+    detection) must not gain a second row when the deterministic pass finds
+    a platform match too — first recorded, either path, stands."""
+    actor(conn, "ncml")
+    worker._apply_other_claims(
+        conn, "actor", "ncml",
+        [{"field": "channel:twitter", "value": "https://twitter.com/from_llm"}],
+        by="test")
+    worker._write_detected_channels(
+        conn, "ncml",
+        [{"kind": "twitter", "url": "https://twitter.com/from_detection"}],
+        by="test")
+    rows = conn.execute(
+        "SELECT url FROM channel WHERE actor_id='ncml' AND kind='twitter'").fetchall()
+    assert [r["url"] for r in rows] == ["https://twitter.com/from_llm"]
+
+
+def test_ecosystem_role_tag_claim_mirrors_into_the_actor_column(conn):
+    """arjun-subedi/globus-warehousing/lt-foods/ncml, 2026-09-18 run:
+    `finding.answer == "operator"` for q5_ecosystem_role on all four, the
+    `tag` table has the row (claim_field is `tag:ecosystem_role`, so it gets
+    `tag_validate_ins`'s closed-enum check), but `actor.ecosystem_role` —
+    the bare JSON column `src/lib/corpus.mjs:251` actually renders — stayed
+    `[]` for every one of them, tripping corpus.mjs's own "attaches to
+    nothing" warning even though the actor plainly has a role. Mirrored in
+    `_apply_other_claims` rather than retyping q5's claim_field, to keep the
+    enum check."""
+    actor(conn, "ncml")
+    claim = [{"field": "tag:ecosystem_role", "value": "operator"}]
+    worker._apply_other_claims(conn, "actor", "ncml", claim, by="test")
+    tag_row = conn.execute(
+        "SELECT * FROM tag WHERE entity_kind='actor' AND entity_id='ncml' "
+        "AND ns='ecosystem_role'").fetchone()
+    assert tag_row["value"] == "operator"
+    actor_row = conn.execute(
+        "SELECT ecosystem_role FROM actor WHERE id='ncml'").fetchone()
+    assert json.loads(actor_row["ecosystem_role"]) == ["operator"]
+
+
+def test_invalid_ecosystem_role_tag_is_not_mirrored(conn):
+    """A value `tag_validate_ins` rejects (not in the closed enum) must not
+    reach `actor.ecosystem_role` either — the mirror follows what was
+    actually accepted into `tag`, not the raw claim."""
+    actor(conn, "ncml")
+    claim = [{"field": "tag:ecosystem_role", "value": "not-a-real-role"}]
+    worker._apply_other_claims(conn, "actor", "ncml", claim, by="test",
+                               log=lambda *a: None)
+    actor_row = conn.execute(
+        "SELECT ecosystem_role FROM actor WHERE id='ncml'").fetchone()
+    assert json.loads(actor_row["ecosystem_role"]) == []
+
+
+def test_write_entity_backfills_context_from_hint_on_a_new_actor(conn, tmp_path):
+    """globus-warehousing/lt-foods, 2026-09-18 run: `one_line` reads as
+    generic company boilerplate and says nothing about why the actor was
+    minted. `hint` (the emitting candidate's `evidence.hint`) is a floor for
+    `context` when the model's own q0_relevance answer doesn't supply one."""
+    decision = resolve.ResolveResult(decision="new", entity_id=None,
+                                     shortlist=[], reason="")
+    claims = [{"field": "title", "value": "LT Foods"}]
+    entity_id = worker._write_entity(
+        conn, tmp_path, "actor", "LT Foods", decision, claims, by="test",
+        log=lambda *a: None,
+        hint="Key private company in warehousing and logistics")
+    row = conn.execute("SELECT context FROM actor WHERE id = ?", (entity_id,)).fetchone()
+    assert row["context"] == "Key private company in warehousing and logistics"
+
+
+def test_write_entity_prefers_the_models_own_context_over_the_hint(conn, tmp_path):
+    decision = resolve.ResolveResult(decision="new", entity_id=None,
+                                     shortlist=[], reason="")
+    claims = [{"field": "title", "value": "LT Foods"},
+             {"field": "context", "value": "Cited for its rice-mill effluent discharge."}]
+    entity_id = worker._write_entity(
+        conn, tmp_path, "actor", "LT Foods", decision, claims, by="test",
+        log=lambda *a: None, hint="Key private company in warehousing and logistics")
+    row = conn.execute("SELECT context FROM actor WHERE id = ?", (entity_id,)).fetchone()
+    assert row["context"] == "Cited for its rice-mill effluent discharge."
+
+
+def test_write_entity_does_not_backfill_context_on_an_existing_actor(conn, tmp_path):
+    """An existing actor's `context` may already hold a real q0_relevance
+    answer from an earlier run that this run's claims don't repeat (the
+    verify pass doesn't always ask every question) — backfilling from
+    `hint` here would silently downgrade it on every re-run."""
+    actor(conn, "lt-foods", context="Cited for its rice-mill effluent discharge.")
+    decision = resolve.ResolveResult(decision="exact", entity_id="lt-foods",
+                                     shortlist=[], reason="")
+    claims = [{"field": "title", "value": "LT Foods"}]
+    worker._write_entity(
+        conn, tmp_path, "actor", "LT Foods", decision, claims, by="test",
+        log=lambda *a: None, hint="Key private company in warehousing and logistics")
+    row = conn.execute("SELECT context FROM actor WHERE id = 'lt-foods'").fetchone()
+    assert row["context"] == "Cited for its rice-mill effluent discharge."
+
+
 def test_shortlist_top_resolution_caches_an_alias(conn):
     """A shortlist hit paid for an encode + kNN. Without caching it as an
     alias, the same name variant pays that cost again on every future

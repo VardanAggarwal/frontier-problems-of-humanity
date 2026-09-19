@@ -21,7 +21,7 @@ vec = pytest.importorskip("sqlite_vec")
 
 from embed import index
 from embed.model import EMBED_DIM, MODEL_NAME
-from search.provider import ReplayProvider, SearchResponse
+from search.provider import ReplayProvider as _StrictReplayProvider, SearchResponse
 from store import db
 from worker import gate1, resolve, worker
 
@@ -32,6 +32,29 @@ needs_model = pytest.mark.skipif(
     reason=f"{MODEL_NAME} not downloaded")
 
 POC0B = pathlib.Path(__file__).resolve().parents[1] / "poc" / "poc0b-responses"
+
+
+class ReplayProvider(_StrictReplayProvider):
+    """Shadows the real `ReplayProvider` for this module only: tolerant of a
+    family with no recorded fixture. The `channel_linkedin`/`channel_twitter`/
+    `channel_facebook`/`channel_instagram`/`channel_website` families
+    (2026-09-19, families.yaml) postdate the frozen PoC-0b recording set in
+    `poc/poc0b-responses/` — no matching `{slug}__channel_*.json` was ever
+    going to exist. Every test below goes through the FULL retrievable
+    family list incidentally (`worker.run_batch` -> `search_stage.
+    search_sources` -> `render_queries`, one provider call per family), not
+    because it is testing the family registry — an unrecorded family should
+    behave like "no data", the way a live SearxngProvider would for a very
+    specific `site:` query on an obscure entity, not crash every test that
+    happens to touch search."""
+    def query(self, slug, family):
+        try:
+            return super().query(slug, family)
+        except FileNotFoundError:
+            return SearchResponse(results=[], unresponsive_engines=[],
+                                  engines_seen_in_results=[],
+                                  configured_engines=self.configured_engines,
+                                  silently_absent_engines=[], raw_results=[])
 
 
 @pytest.fixture
