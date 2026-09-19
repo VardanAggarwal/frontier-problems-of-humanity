@@ -217,8 +217,19 @@ export function loadCorpus() {
   for (const row of g.prepare('SELECT * FROM actor').all()) {
     const id = row.id;
     const leafRefs = [], nodeRefs = [];
-    for (const e of edgesOut(g, 'actor', id, 'works_on')) {
-      if (e.dst_kind !== 'problem') continue;
+    // `works_on` is documented actor -> problem, but a handful of rows were
+    // written problem -> actor by a leaf-side extraction pass (13/305 as of
+    // 2026-09-19). Read both directions so those actors' "Working on"
+    // section isn't silently empty; normalise to {dst_id, relevance}.
+    const workedProblems = [
+      ...edgesOut(g, 'actor', id, 'works_on')
+        .filter((e) => e.dst_kind === 'problem')
+        .map((e) => ({ dst_id: e.dst_id, relevance: e.relevance })),
+      ...edgesIn(g, 'actor', id, 'works_on')
+        .filter((e) => e.src_kind === 'problem')
+        .map((e) => ({ dst_id: e.src_id, relevance: e.relevance })),
+    ];
+    for (const e of workedProblems) {
       const k = tagValue(g, 'problem', e.dst_id, 'kind');
       if (k === 'leaf') leafRefs.push({ id: e.dst_id, role: e.relevance === 3 ? 'primary' : 'supporting' });
       else if (k === 'node') nodeRefs.push(e.dst_id);
