@@ -165,10 +165,21 @@ const feeds = a.sources
 
   <h2 id="reach">How to reach them</h2>
   <p>{kind ? `Reachable ${channel[kind] ?? 'by another route'}.` : 'No route recorded.'}</p>
-  <ul>{a.sources.map((s) => (
-    <li>{s.url ? <a href={s.url}>{s.kind}</a> : <>{s.kind}</>} {s.handle && <code>{s.handle}</code>}
-      <span class={`tag ${s.status === 'none-found' ? 'warn' : s.status === 'dead' ? 'alarm' : ''}`}>{s.status}</span></li>
-  ))}</ul>
+  {(() => {
+    const withUrl = a.sources.filter((s) => s.url);
+    const noUrl = a.sources.filter((s) => !s.url && s.status !== 'none-found');
+    return <>
+      <ul>{withUrl.map((s) => (
+        <li><a href={s.url}>{s.kind}</a> {s.handle && <code>{s.handle}</code>}
+          <span class={`tag ${s.status === 'dead' ? 'alarm' : ''}`}>{s.status}</span></li>
+      ))}
+      {withUrl.length === 0 && <li class="empty">No confirmed channel — none of the {a.sources.length} checked had a resolvable URL.</li>}
+      </ul>
+      {noUrl.length > 0 && (
+        <p class="note">Also flagged, unconfirmed: {noUrl.map((s) => s.kind).join(', ')} — no working link found, not shown as a channel.</p>
+      )}
+    </>;
+  })()}
 
   {sec('updates') && <div class="ai-prose"><h2>Recent updates</h2><div class="prose" set:html={md(sec('updates').markdown)} /></div>}
   <p class="recpath">Updated {a.updated}</p>
