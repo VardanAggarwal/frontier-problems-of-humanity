@@ -119,14 +119,52 @@ def render_queries(name: str, families_path=None, kind: str = "actor",
     return queries
 
 
-# Domain patterns for the deterministic channel classifier below. Order is
-# the check order per source, not a priority order across sources — see
-# `channels_from_confirmed`'s docstring for how ties across sources resolve.
+# Domain+path patterns for the deterministic channel classifier below. A bare
+# domain match (linkedin.com/*, twitter.com/*, ...) accepted ANYTHING under
+# that domain — LinkedIn `/pulse/<article>` posts, Facebook `/posts/`,
+# `/photo.php`, `/watch/` links, Instagram `/p/<post>` and `/reel/<reel>`
+# permalinks all matched and got written as the actor's "channel", when none
+# of them is a page to follow. Each pattern below is anchored to end right
+# after the profile identifier (optional trailing slash/query/fragment), so
+# a URL with a further path segment — the shape every one of those non-
+# profile cases has — fails to match instead of falling through to "closest
+# domain wins". Order is the check order per source, not a priority order
+# across sources — see `channels_from_confirmed`'s docstring for how ties
+# across sources resolve.
 _CHANNEL_URL_PATTERNS: tuple[tuple[str, "re.Pattern"], ...] = (
-    ("linkedin", re.compile(r"^https?://(?:[\w-]+\.)?linkedin\.com/", re.I)),
-    ("twitter", re.compile(r"^https?://(?:[\w-]+\.)?(?:twitter|x)\.com/", re.I)),
-    ("facebook", re.compile(r"^https?://(?:[\w-]+\.)?facebook\.com/", re.I)),
-    ("instagram", re.compile(r"^https?://(?:[\w-]+\.)?instagram\.com/", re.I)),
+    # Personal (`/in/<slug>`), company and school profile URLs only —
+    # `/pulse/...` (articles), `/posts/...`, `/feed/...` etc. all have a
+    # different top-level segment and never match.
+    ("linkedin", re.compile(
+        r"^https?://(?:[\w-]+\.)?linkedin\.com/(?:in|company|school)/"
+        r"[^/?#]+/?(?:[?#].*)?$", re.I)),
+    # A single path segment right after the domain, restricted to legal
+    # handle characters. Reserved non-profile top-levels (i, hashtag,
+    # search, explore, home, notifications, messages, settings) are
+    # excluded by name since they'd otherwise match the same shape as a
+    # handle. A tweet permalink (`/<handle>/status/<id>`) has a second path
+    # segment and fails the end anchor before the exclusion list even runs.
+    ("twitter", re.compile(
+        r"^https?://(?:[\w-]+\.)?(?:twitter|x)\.com/"
+        r"(?!i/|hashtag/|search|explore|home|notifications|messages|settings)"
+        r"[A-Za-z0-9_]{1,15}/?(?:[?#].*)?$", re.I)),
+    # Page/profile URL (`/<slug>` or the legacy `/profile.php?id=...`) —
+    # excludes `/posts/`, `/photo(.php)`, `/story.php`, `/watch`, `/videos`,
+    # `/photos`, `/groups`, `/events`, all of which are content permalinks
+    # or hubs on the domain, not the actor's own page.
+    ("facebook", re.compile(
+        r"^https?://(?:[\w-]+\.)?facebook\.com/"
+        r"(?:profile\.php\?id=\d+"
+        r"|(?!posts/|photo(?:\.php)?|story\.php|watch|videos|photos|groups|"
+        r"events|marketplace|gaming|ads|help|policies|legal)"
+        r"[^/?#]+/?)$", re.I)),
+    # Username page only — excludes `/p/<post>`, `/reel(s)/`, `/tv/`,
+    # `/stories/`, `/explore/`, `/accounts/`, `/directory/` post/feature
+    # permalinks.
+    ("instagram", re.compile(
+        r"^https?://(?:[\w-]+\.)?instagram\.com/"
+        r"(?!p/|reel/|reels/|tv/|stories/|explore/|accounts/|directory/)"
+        r"[^/?#]+/?(?:[?#].*)?$", re.I)),
 )
 
 # A share/intent/embed link is never a page to follow — it is another site

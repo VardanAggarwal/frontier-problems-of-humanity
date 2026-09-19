@@ -233,6 +233,50 @@ def test_channels_from_confirmed_has_no_website_entry():
     assert channels == []
 
 
+def test_channels_from_confirmed_rejects_linkedin_articles():
+    """`/pulse/<article>` is a LinkedIn post, not a profile — only `/in/`,
+    `/company/` and `/school/` count."""
+    channels = channels_from_confirmed([
+        _cs("https://www.linkedin.com/pulse/some-article-about-the-actor"),
+    ])
+    assert channels == []
+
+
+def test_channels_from_confirmed_rejects_tweet_permalinks():
+    """A `/status/<id>` URL is one tweet, not the actor's own timeline."""
+    channels = channels_from_confirmed([
+        _cs("https://twitter.com/CeetleHero/status/1234567890"),
+    ])
+    assert channels == []
+
+
+def test_channels_from_confirmed_rejects_facebook_post_and_photo_permalinks():
+    channels = channels_from_confirmed([
+        _cs("https://www.facebook.com/ncmlindia/posts/123456"),
+        _cs("https://www.facebook.com/photo.php?fbid=123"),
+        _cs("https://www.facebook.com/watch/?v=123"),
+    ])
+    assert channels == []
+
+
+def test_channels_from_confirmed_accepts_facebook_profile_php_id():
+    channels = channels_from_confirmed([
+        _cs("https://www.facebook.com/profile.php?id=100012345678"),
+    ])
+    assert channels == [{
+        "kind": "facebook",
+        "url": "https://www.facebook.com/profile.php?id=100012345678",
+    }]
+
+
+def test_channels_from_confirmed_rejects_instagram_post_and_reel_permalinks():
+    channels = channels_from_confirmed([
+        _cs("https://www.instagram.com/p/CabcXYZ/"),
+        _cs("https://www.instagram.com/reel/CabcXYZ/"),
+    ])
+    assert channels == []
+
+
 def test_search_sources_hint_query_reaches_the_provider():
     """End to end: a candidate's `evidence` JSON hint must show up as an
     actual query string handed to the provider, not just as gate2's
